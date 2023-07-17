@@ -30,7 +30,7 @@ const MyLeagues = () => {
     return (
         <div>
             <PageTitle button="Create League">My Leagues</PageTitle>
-            <div className='body overflow-auto'>
+            <div className='body overflow-auto mt-[20px]'>
                 <div className='search flex justify-between space-x-2'>
                     <Input icon={search} className="flex-grow" placeholder="Search Leagues"/>
                     <Select className='w-[144px]' options={options}/>
