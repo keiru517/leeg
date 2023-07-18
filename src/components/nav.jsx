@@ -18,7 +18,7 @@ const Nav = () => {
                 <img src={line}></img>
                 <div className='greeting'>
                     <p className='text-white text-lg font-semibold text-left'>Hello George!</p>
-                    <p className='text-white text-sm gray-font text-left'>Welcome to your dashboard</p>
+                    <p className='text-white text-sm font-gray text-left'>Welcome to your dashboard</p>
                 </div>
             </div>
             <div className='profile flex items-center justify-between space-x-2'>

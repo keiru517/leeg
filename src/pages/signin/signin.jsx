@@ -8,9 +8,11 @@ import PageTitle from '../../components/PageTitle/pageTitle';
 import logo from '../../assets/img/logo.png';
 import hrLine from '../../assets/img/hr-line.png';
 import Button from '../../components/Button';
+import gmail from '../../assets/img/gmail.png';
+import lock from '../../assets/img/lock.png';
+import eyeDisable from '../../assets/img/eye-disable.png';
 
-
-const Signin1 = () => {
+const Signin = () => {
 
     const leagues = [
         1,
@@ -37,19 +39,23 @@ const Signin1 = () => {
                     <p className='text-[#BBBBBB] text-sm text-center'>LEEG.IO</p>
 
                 </div>
-                <div className='bg-nav w-full h-48 mt-16 rounded-main p-[26px] flex flex-col'>
+                <div className='bg-nav w-full h-[358px] mt-16 rounded-main p-[26px] flex flex-col'>
                     <div>
                         <p className='text-white text-2xl font-bold'>Sign in</p>
                         <p className='text-[#BBBBBB] mt-3'>Sign in to access your account</p>
                     </div>
-                    <div className='flex justify-between mt-auto'>
-                        <Button className='w-[180px] h-[53px] bg-primary'>Admin</Button>
-                        <Button className='w-[180px] h-[53px] bg-primary'>Player</Button>
+                    <div className='my-6 space-y-4'>
+                        <Input className='bg-[#272B30]' icon={gmail} placeholder="Email Address"></Input>
+                        <Input className='bg-[#272B30]' icon={lock} type='password' placeholder="Password"  option={eyeDisable}></Input>
                     </div>
+                    <div className='flex justify-between mb-4'>
+                        <Button className='w-[377px] h-[53px] bg-primary'>Login</Button>
+                    </div>
+                    <p className='font-gray text-center'>Don't have an account?<span className='text-sky-500'> Sing Up</span></p>
                 </div>
             </div>
         </div>
     );
 };
 
-export default Signin1
+export default Signin

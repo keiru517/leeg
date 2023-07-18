@@ -75,7 +75,7 @@ const Schedule = () => {
     return (
         <div>
             <PageTitle backIcon={leftarrowIcon} logo={mark} editIcon={editIcon} deleteIcon={deleteIcon} button="Create Match">2023 TABC Summer League</PageTitle>
-            <p className='gray-font my-[20px]'>2023 TABC Summer League<span className='text-sky-500'> &gt; Schedule</span></p>
+            <p className='font-gray my-[20px]'>2023 TABC Summer League<span className='text-sky-500'> &gt; Schedule</span></p>
             <div className='body overflow-auto'>
             <div className="w-full px-2 sm:px-0">
                 <Tab.Group>
