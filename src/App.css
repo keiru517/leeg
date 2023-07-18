@@ -48,20 +48,20 @@
   border-radius: 14px;
 
   height: 99px;
-  background-color: #1A1D1F;
+  background-color: #1a1d1f;
   padding: 26px;
 }
 
-.title{
+.title {
   height: 47px;
 }
 
 .logo {
-  height: 28px
+  height: 28px;
 }
 
-.font-gray{
-  color: #6F767E;
+.font-gray {
+  color: #6f767e;
 }
 
 .greeting {
@@ -69,15 +69,15 @@
 }
 
 .divider {
- border-left: 1px solid #6F767E;
- height: 47px; 
+  border-left: 1px solid #6f767e;
+  height: 47px;
 }
 
 .profile {
   height: 44px;
-  background-color: #272B30;
+  background-color: #272b30;
   border-radius: 10px;
-  padding:12px;
+  padding: 12px;
 }
 
 .profile-name {
@@ -85,7 +85,7 @@
 }
 
 .page-title {
-  background-color: #272B30;
+  background-color: #272b30;
   height: 132px;
   margin-top: 20px;
   border-radius: 14px;
@@ -93,24 +93,24 @@
 }
 
 .page-title button {
-  background-color: #00AFFF;
+  background-color: #00afff;
   border-radius: 10px;
-  height: 53px
+  height: 53px;
 }
 
 .body {
-  background-color: #1A1D1F;
+  background-color: #1a1d1f;
   /* margin-top:20px; */
   height: 519px;
   border-radius: 14px;
-  padding:26px;
+  padding: 26px;
 }
 
 .league {
   height: 181px;
-  background-color: #272B30;
+  background-color: #272b30;
   border-radius: 14px;
-  padding: 26px
+  padding: 26px;
 }
 
 .league-description {
@@ -120,13 +120,13 @@
 
 .date-info {
   font-size: 10px;
-  color: #6F767E;
+  color: #6f767e;
 }
 
 .league-content {
   height: 54px;
   font-size: 12px;
-  color: #C6C6C6;
+  color: #c6c6c6;
 }
 
 .search {
@@ -136,17 +136,23 @@
 .search-league-bar {
   height: 45px;
   border-radius: 10px;
-  border-color: #272B30;
+  border-color: #272b30;
   border-width: 1px;
-  padding: 10px
+  padding: 10px;
 }
 
 .sort-by {
   height: 45px;
   border-radius: 10px;
-  border-color: #272B30;
+  border-color: #272b30;
   border-width: 1px;
   /* padding-top: 12px; */
   padding-right: 16px;
-  padding-left: 16px
+  padding-left: 16px;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }

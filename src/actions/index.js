@@ -1,4 +1,6 @@
-const getUserInfo = () =>
+export const getUserInfo = () =>
   new Promise((resolve, reject) => {
-    resolve(true);
+    setTimeout(() => {
+      resolve(true);
+    }, 1000);
   });
