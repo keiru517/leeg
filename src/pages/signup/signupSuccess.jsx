@@ -8,9 +8,6 @@ import PageTitle from '../../components/PageTitle/pageTitle';
 import logo from '../../assets/img/logo.png';
 import hrLine from '../../assets/img/hr-line.png';
 import Button from '../../components/Button';
-import gmail from '../../assets/img/gmail.png';
-import lock from '../../assets/img/lock.png';
-import eyeDisable from '../../assets/img/eye-disable.png';
 import otpLine from '../../assets/img/otp-line.png';
 
 const SignupSuccess = () => {
