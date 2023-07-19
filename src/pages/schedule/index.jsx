@@ -81,7 +81,6 @@ const Schedule = () => {
         <div className="w-full px-2 sm:px-0 h-full flex flex-col">
           <Tab.Group>
             <Tab.List className="flex space-x-1 rounded-xl bg-transparent p-1">
-              {/* {Object.keys(categories).map((category) => ( */}
               {categories.map((category) => (
                 <Tab
                   key={category}
@@ -101,6 +100,18 @@ const Schedule = () => {
             </Tab.List>
             <Tab.Panels className="mt-2 flex-grow flex items-center ">
               <Tab.Panel
+                key={0}
+                className={classNames("rounded-xl p-3 flex flex-col justify-between w-full h-full")}
+              >
+                <Input icon={search} placeholder="Search Schedules"/>
+                {/* <Table columns={columns} data={data} icon={actionIcon}/> */}
+                <div className="flex items-center flex-grow">
+                    <p className="text-2xl text-white w-full text-center">
+                    No Matches to show!
+                    </p>
+                </div>
+              </Tab.Panel>
+              <Tab.Panel
                 key={1}
                 className={classNames("rounded-xl p-3 flex flex-col justify-between w-full h-full")}
               >
@@ -108,43 +119,35 @@ const Schedule = () => {
                 {/* <Table columns={columns} data={data} icon={actionIcon}/> */}
                 <div className="flex items-center flex-grow">
                     <p className="text-2xl text-white w-full text-center">
-                    No matches to show!
+                    No Standings to show!
                     </p>
                 </div>
               </Tab.Panel>
               <Tab.Panel
                 key={2}
-                className={classNames("rounded-xl p-3 flex", "")}
+                className={classNames("rounded-xl p-3 flex flex-col justify-between w-full h-full")}
               >
-                <Input
-                  icon={search}
-                  className="flex-grow"
-                  placeholder="Search Standings"
-                />
-                <Table columns={columns} data={data} />
-              </Tab.Panel>
-              <Tab.Panel key={2} className={classNames("rounded-xl  p-3")}>
-                <Input
-                  icon={search}
-                  className="flex-grow"
-                  placeholder="Search Teams"
-                />
-                <p className="text-white">tab3</p>
+                <Input icon={search} placeholder="Search Schedules"/>
+                {/* <Table columns={columns} data={data} icon={actionIcon}/> */}
+                <div className="flex items-center flex-grow">
+                    <p className="text-2xl text-white w-full text-center">
+                    No Teams to show!
+                    </p>
+                </div>
               </Tab.Panel>
               <Tab.Panel
-                key={2}
-                className={classNames(
-                  "rounded-xl  p-3",
-                  "ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2"
-                )}
+                key={3}
+                className={classNames("rounded-xl p-3 flex flex-col justify-between w-full h-full")}
               >
-                <Input
-                  icon={search}
-                  className="flex-grow"
-                  placeholder="Search Rosters"
-                />
-                <p className="text-white">tab4</p>
+                <Input icon={search} placeholder="Search Schedules"/>
+                {/* <Table columns={columns} data={data} icon={actionIcon}/> */}
+                <div className="flex items-center flex-grow">
+                    <p className="text-2xl text-white w-full text-center">
+                    roster page
+                    </p>
+                </div>
               </Tab.Panel>
+
             </Tab.Panels>
           </Tab.Group>
         </div>
