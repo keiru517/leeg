@@ -15,10 +15,7 @@ const PlayerProfile = () => {
 
   return (
     <div>
-      <ProfileTitle
-        backIcon={leftarrowIcon}
-        avatar={player}
-      >
+      <ProfileTitle backIcon={leftarrowIcon} avatar={player}>
         <div>
           <p className="text-[32px]">Tornike Shengelia</p>
           <span className="text-xs font-normal">Tornike@gmail.com</span>
@@ -26,9 +23,32 @@ const PlayerProfile = () => {
       </ProfileTitle>
 
       <p className="font-gray my-[20px]">
-        2023 TABC Summer League &gt; Schedule &gt; Standings &gt; ManageRosters &gt; 
+        2023 TABC Summer League &gt; Schedule &gt; Standings &gt; ManageRosters
+        &gt;
         <span className="text-sky-500"> Tornike Shengelia</span>
       </p>
+      <div className="flex w-full h-[78px] bg-[#1A1D1F] rounded-[10px]">
+        <div className="w-1/5 items-center border border-[#5B5E65] rounded-l-[10px]">
+                <p className="text-white text-base text-center">Height</p>
+                <p className="text-white text-base text-center">6"9"(2.06m)</p>
+        </div>
+        <div className="w-1/5 items-center border border-[#5B5E65]">
+                <p className="text-white text-base text-center">Weight</p>
+                <p className="text-white text-base text-center">255lb (116kg)</p>
+        </div>
+        <div className="w-1/5 items-center border border-[#5B5E65]">
+                <p className="text-white text-base text-center">Country</p>
+                <p className="text-white text-base text-center">Georgia</p>
+        </div>
+        <div className="w-1/5 items-center border border-[#5B5E65]">
+                <p className="text-white text-base text-center">Age</p>
+                <p className="text-white text-base text-center">25 Years</p>
+        </div>
+        <div className="w-1/5 items-center border border-[#5B5E65] rounded-r-[10px]">
+                <p className="text-white text-base text-center">Birthdate</p>
+                <p className="text-white text-base text-center">July 18, 1977</p>
+        </div>
+      </div>        
 
       <div className="body overflow-auto mt-[20px]">
         <div className="search flex justify-between space-x-2">

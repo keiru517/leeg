@@ -23,7 +23,7 @@ function App() {
           <Route exact path='/otp' element={<OTP />}></Route>
           <Route exact path='/myleagues' element={<MyLeagues />}></Route>
           <Route exact path='/schedule' element={<Schedule />}></Route>
-          <Route exact path='/player_profile' element={<PlayerProfile />}></Route>
+          <Route exact path='/player-profile' element={<PlayerProfile />}></Route>
         </Routes>
       </AuthLayout>
     </Router>
