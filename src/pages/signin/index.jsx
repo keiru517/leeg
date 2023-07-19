@@ -1,10 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import League from '../../components/league';
-import search from '../../assets/img/search.png';
 import Input from '../../components/Input';
-import Select from '../../components/Select';
-import Modal from '../../components/Modal';
-import PageTitle from '../../components/PageTitle/pageTitle';
 import logo from '../../assets/img/logo.png';
 import hrLine from '../../assets/img/hr-line.png';
 import Button from '../../components/Button';
