@@ -62,6 +62,13 @@ const Schedule = () => {
     return classes.filter(Boolean).join(" ");
   }
 
+  const [breadcrum, setBreadcrum] = useState("Schedule");
+
+  const handleClick = (data) => {
+    setBreadcrum(data);
+  };
+
+
   return (
     <div>
       <PageTitle
@@ -75,7 +82,7 @@ const Schedule = () => {
       </PageTitle>
       <p className="font-gray my-[20px]">
         2023 TABC Summer League
-        <span className="text-sky-500"> &gt; Schedule</span>
+        <span className="text-sky-500"> &gt; {breadcrum}</span>
       </p>
       <div className="body overflow-auto">
         <div className="w-full px-2 sm:px-0 h-full flex flex-col">
@@ -93,6 +100,7 @@ const Schedule = () => {
                         : " rounded-lg hover:bg-white/[0.12] hover:text-white"
                     )
                   }
+                  onClick={() => handleClick(category)}
                 >
                   {category}
                 </Tab>
@@ -101,53 +109,62 @@ const Schedule = () => {
             <Tab.Panels className="mt-2 flex-grow flex items-center ">
               <Tab.Panel
                 key={0}
-                className={classNames("rounded-xl p-3 flex flex-col justify-between w-full h-full")}
+                className={classNames(
+                  "rounded-xl p-3 flex flex-col justify-between w-full h-full"
+                )}
+                
               >
-                <Input icon={search} placeholder="Search Schedules"/>
+                <Input icon={search} placeholder="Search Schedules" />
                 {/* <Table columns={columns} data={data} icon={actionIcon}/> */}
                 <div className="flex items-center flex-grow">
-                    <p className="text-2xl text-white w-full text-center">
+                  <p className="text-2xl text-white w-full text-center">
                     No Matches to show!
-                    </p>
+                  </p>
                 </div>
               </Tab.Panel>
               <Tab.Panel
                 key={1}
-                className={classNames("rounded-xl p-3 flex flex-col justify-between w-full h-full")}
+                className={classNames(
+                  "rounded-xl p-3 flex flex-col justify-between w-full h-full"
+                )}
+                // onClick={handleClick("Standings")}
               >
-                <Input icon={search} placeholder="Search Schedules"/>
+                <Input icon={search} placeholder="Search Schedules" />
                 {/* <Table columns={columns} data={data} icon={actionIcon}/> */}
                 <div className="flex items-center flex-grow">
-                    <p className="text-2xl text-white w-full text-center">
+                  <p className="text-2xl text-white w-full text-center">
                     No Standings to show!
-                    </p>
+                  </p>
                 </div>
               </Tab.Panel>
               <Tab.Panel
                 key={2}
-                className={classNames("rounded-xl p-3 flex flex-col justify-between w-full h-full")}
+                className={classNames(
+                  "rounded-xl p-3 flex flex-col justify-between w-full h-full"
+                )}
               >
-                <Input icon={search} placeholder="Search Schedules"/>
+                <Input icon={search} placeholder="Search Schedules" />
                 {/* <Table columns={columns} data={data} icon={actionIcon}/> */}
                 <div className="flex items-center flex-grow">
-                    <p className="text-2xl text-white w-full text-center">
+                  <p className="text-2xl text-white w-full text-center">
                     No Teams to show!
-                    </p>
+                  </p>
                 </div>
               </Tab.Panel>
               <Tab.Panel
                 key={3}
-                className={classNames("rounded-xl p-3 flex flex-col justify-between w-full h-full")}
+                className={classNames(
+                  "rounded-xl p-3 flex flex-col justify-between w-full h-full"
+                )}
               >
-                <Input icon={search} placeholder="Search Schedules"/>
+                <Input icon={search} placeholder="Search Schedules" />
                 {/* <Table columns={columns} data={data} icon={actionIcon}/> */}
                 <div className="flex items-center flex-grow">
-                    <p className="text-2xl text-white w-full text-center">
+                  <p className="text-2xl text-white w-full text-center">
                     roster page
-                    </p>
+                  </p>
                 </div>
               </Tab.Panel>
-
             </Tab.Panels>
           </Tab.Group>
         </div>
