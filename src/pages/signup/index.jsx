@@ -42,7 +42,6 @@ const Signup = () => {
                                 <Input className='bg-[#272B30]' icon={user} placeholder="First Name"></Input>
                                 <Input className='bg-[#272B30]' icon={user} placeholder="Last Name"></Input>
                             </div>
-                            <Input className='bg-[#272B30]' icon={gmail} placeholder='Email address'></Input>
                             <Input className='bg-[#272B30]' icon={lock} type='password' placeholder="Password"  option={eyeDisable}></Input>
                             <Input className='bg-[#272B30]' icon={calendar} type='date' placeholder="Enter Date of Birth"  option={updown}></Input>
                         </div>

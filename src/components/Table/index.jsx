@@ -7,12 +7,12 @@ const Table = (props) => {
     } = props;
 
     return (
-        <table className="border-collapse border border-slate-500 rounded-lg">
+        <table className="border border-slate-500 rounded-lg border-separate border-spacing-0 text-white">
             <thead>
                 <tr>
                     {
                         columns.map((column) => (
-                            <th className="border border-slate-500 text-white">
+                            <th className="">
                                 Date
                             </th>
                         ))
