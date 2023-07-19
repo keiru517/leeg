@@ -10,6 +10,7 @@ import OTP from './pages/otp';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Nav from './components/nav';
 import AuthLayout from './components/Layouts/AuthLayout';
+import PlayerProfile from './pages/profile/playerProfile';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route exact path='/otp' element={<OTP />}></Route>
           <Route exact path='/myleagues' element={<MyLeagues />}></Route>
           <Route exact path='/schedule' element={<Schedule />}></Route>
+          <Route exact path='/player_profile' element={<PlayerProfile />}></Route>
         </Routes>
       </AuthLayout>
     </Router>

@@ -38,7 +38,7 @@ const PageTitle = (props) => {
         }
       </div>
       {
-        button ? <Button className="w-[169px]">
+        button ? <Button className="w-[169px] h-[53px] bg-primary">
           {button}</Button> :
           ""
       }
