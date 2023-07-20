@@ -101,13 +101,13 @@ const League = () => {
       <div className="rounded-main bg-nav flex-grow p-[26px]">
         <div className="w-full px-2 sm:px-0 h-full flex flex-col">
           <Tab.Group>
-            <Tab.List className="flex space-x-1 rounded-xl bg-transparent p-1">
+            <Tab.List className="flex w-[483px] space-x-5 rounded-xl bg-transparent p-1 ">
               {categories.map((category) => (
                 <Tab
                   key={category}
                   className={({ selected }) =>
                     classNames(
-                      "w-full py-2.5 text-sm font-medium leading-5 text-gray-300",
+                      "w-1/3 py-2.5 text-sm font-medium leading-5 text-gray-300",
                       " focus:outline-none ",
                       selected
                         ? "divide-[bg-sky-500] text-white border-b-2 border-sky-500"
@@ -120,15 +120,16 @@ const League = () => {
                 </Tab>
               ))}
             </Tab.List>
-            <Tab.Panels className="mt-2 flex-grow flex items-center ">
+            <hr className="h-px my-4 bg-default border-0" />
+            <Tab.Panels className="flex-grow flex items-center ">
               <Tab.Panel
                 key={0}
                 className={classNames(
-                  "rounded-xl p-3 flex flex-col justify-between w-full h-full"
+                  "rounded-xl flex flex-col justify-between w-full h-full"
                 )}
                 
               >
-                <Input icon={search} placeholder="Search Schedules" />
+                <Input className='rounded-lg' icon={search} placeholder="Search Schedules" />
                 {/* <Table columns={columns} data={data} icon={actionIcon}/> */}
                 <div className="flex items-center flex-grow">
                   <p className="text-2xl text-white w-full text-center">
@@ -139,11 +140,11 @@ const League = () => {
               <Tab.Panel
                 key={1}
                 className={classNames(
-                  "rounded-xl p-3 flex flex-col justify-between w-full h-full"
+                  "rounded-xl flex flex-col justify-between w-full h-full"
                 )}
                 // onClick={handleClick("Standings")}
               >
-                <Input icon={search} placeholder="Search Schedules" />
+                <Input className='rounded-lg' icon={search} placeholder="Search Schedules" />
                 {/* <Table columns={columns} data={data} icon={actionIcon}/> */}
                 <div className="flex items-center flex-grow">
                   <p className="text-2xl text-white w-full text-center">
@@ -154,10 +155,10 @@ const League = () => {
               <Tab.Panel
                 key={2}
                 className={classNames(
-                  "rounded-xl p-3 flex flex-col justify-between w-full h-full"
+                  "rounded-xl flex flex-col justify-between w-full h-full"
                 )}
               >
-                <Input icon={search} placeholder="Search Schedules" />
+                <Input className='rounded-lg' icon={search} placeholder="Search Schedules" />
                 {/* <Table columns={columns} data={data} icon={actionIcon}/> */}
                 <div className="flex items-center flex-grow">
                   <p className="text-2xl text-white w-full text-center">
@@ -168,7 +169,7 @@ const League = () => {
               <Tab.Panel
                 key={3}
                 className={classNames(
-                  "rounded-xl p-3 flex flex-col justify-between w-full h-full"
+                  "rounded-xl flex flex-col justify-between w-full h-full"
                 )}
               >
                 {/* <Table columns={columns} data={data} icon={actionIcon}/> */}

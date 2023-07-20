@@ -9,7 +9,6 @@ module.exports = {
                 'main': '#111315',
                 'nav': '#1A1D1F',
                 'default': '#272b30',
-                "border-main": '#272B30',
                 'primary': '#00AFFF',
                 'light-gray': '#353A41',
                 'success': '#34A853',
