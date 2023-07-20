@@ -28,7 +28,7 @@ const MyLeagues = () => {
         <div>
             <PageTitle button="Create League">My Leagues</PageTitle>
             <div className='rounded-main bg-nav overflow-auto mt-[20px] p-[26px]'>
-                <div className='search flex justify-between space-x-2'>
+                <div className='search flex justify-between space-x-3'>
                     <Input icon={search} className="flex-grow rounded-lg" placeholder="Search Leagues"/>
                     <Select className='w-[144px] rounded-lg' options={options}/>
                 </div>

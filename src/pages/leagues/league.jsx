@@ -14,6 +14,7 @@ import PageTitle from "../../components/PageTitle/pageTitle";
 import Table from "../../components/Table";
 import { Tab } from "@headlessui/react";
 import avatar from "../../assets/img/player.png";
+import actionIcon from "../../assets/img/action.png";
 
 const League = () => {
   const leagues = [1, 2, 3, 4, 5, 6];
@@ -42,17 +43,70 @@ const League = () => {
     setBreadcrum(data);
   };
 
-  // const schedules = [
-  //   {'date':'Monday June 19th', 'location':'TABC New gym', 'time':'8:00 PM', 'home':'Bucks', 'away':'Bucks', 'results': '41-62'},
-  //   {'date':'Monday June 19th', 'location':'TABC New gym', 'time':'8:00 PM', 'home':'Bucks', 'away':'Bucks', 'results': '41-62'},
-  //   {'date':'Monday June 19th', 'location':'TABC New gym', 'time':'8:00 PM', 'home':'Bucks', 'away':'Bucks', 'results': '41-62'},
-  //   {'date':'Monday June 19th', 'location':'TABC New gym', 'time':'8:00 PM', 'home':'Bucks', 'away':'Bucks', 'results': '41-62'},
-  //   {'date':'Monday June 19th', 'location':'TABC New gym', 'time':'8:00 PM', 'home':'Bucks', 'away':'Bucks', 'results': '41-62'},
-  //   {'date':'Monday June 19th', 'location':'TABC New gym', 'time':'8:00 PM', 'home':'Bucks', 'away':'Bucks', 'results': '41-62'},
-  //   {'date':'Monday June 19th', 'location':'TABC New gym', 'time':'8:00 PM', 'home':'Bucks', 'away':'Bucks', 'results': '41-62'},
-  // ]
+  const schedules = [
+    {
+      date: "Monday June 19th",
+      location: "TABC New gym",
+      time: "8:00 PM",
+      home: "Bucks",
+      away: "Bucks",
+      results: "41-62",
+    },
+    {
+      date: "Monday June 19th",
+      location: "TABC New gym",
+      time: "8:00 PM",
+      home: "Bucks",
+      away: "Bucks",
+      results: "41-62",
+    },
+    {
+      date: "Monday June 19th",
+      location: "TABC New gym",
+      time: "8:00 PM",
+      home: "Bucks",
+      away: "Bucks",
+      results: "41-62",
+    },
+    {
+      date: "Monday June 19th",
+      location: "TABC New gym",
+      time: "8:00 PM",
+      home: "Bucks",
+      away: "Bucks",
+      results: "41-62",
+    },
+    {
+      date: "Monday June 19th",
+      location: "TABC New gym",
+      time: "8:00 PM",
+      home: "Bucks",
+      away: "Bucks",
+      results: "41-62",
+    },
+    {
+      date: "Monday June 19th",
+      location: "TABC New gym",
+      time: "8:00 PM",
+      home: "Bucks",
+      away: "Bucks",
+      results: "41-62",
+    },
+    {
+      date: "Monday June 19th",
+      location: "TABC New gym",
+      time: "8:00 PM",
+      home: "Bucks",
+      away: "Bucks",
+      results: "41-62",
+    },
+  ];
 
-  const schdules = [];
+  // const schedules = [];
+
+  const standings = [];
+  
+  const teams = [];
 
   const players = [
     {
@@ -145,14 +199,12 @@ const League = () => {
               ))}
             </Tab.List>
             <Tab.Panels className="flex-grow flex items-center ">
+              {/* Schedule */}
               <Tab.Panel
                 key={0}
-                className={classNames(
-                  "rounded-xl flex flex-col justify-between w-full h-full"
-                  )}
+                className={classNames("rounded-xl flex flex-col w-full h-full")}
               >
-                {
-                  schdules.length > 0 ? 
+                {schedules.length > 0 ? (
                   <>
                     <hr className="h-px my-4 bg-default border-0" />
                     <Input
@@ -160,24 +212,25 @@ const League = () => {
                       icon={search}
                       placeholder="Search Schedules"
                     />
-                  </> : ""
-                }
-                {/* <Table columns={columns} data={data} icon={actionIcon}/> */}
-                <div className="flex items-center flex-grow">
-                  <p className="text-2xl text-white w-full text-center">
-                    No Matches to show!
-                  </p>
-                </div>
+                  </>
+                ) : (
+                  <div className="flex items-center flex-grow">
+                    <p className="text-2xl text-white w-full text-center">
+                      No Matches to show!
+                    </p>
+                  </div>
+                )}
+                <Table columns={columns} data={schedules} icon={actionIcon} />
               </Tab.Panel>
+
+              {/* Standings */}
               <Tab.Panel
                 key={1}
                 className={classNames(
-                  "rounded-xl flex flex-col justify-between w-full h-full"
-                  )}
-                // onClick={handleClick("Standings")}
+                  "rounded-xl flex flex-col w-full h-full"
+                )}
               >
-                {
-                  schdules.length > 0 ? 
+                {standings.length > 0 ? (
                   <>
                     <hr className="h-px my-4 bg-default border-0" />
                     <Input
@@ -185,23 +238,25 @@ const League = () => {
                       icon={search}
                       placeholder="Search Schedules"
                     />
-                  </> : ""
-                }
+                  </>
+                ) : (
+                  <div className="flex items-center flex-grow">
+                    <p className="text-2xl text-white w-full text-center">
+                      No Standings to show!
+                    </p>
+                  </div>
+                )}
                 {/* <Table columns={columns} data={data} icon={actionIcon}/> */}
-                <div className="flex items-center flex-grow">
-                  <p className="text-2xl text-white w-full text-center">
-                    No Standings to show!
-                  </p>
-                </div>
               </Tab.Panel>
+
+              {/* Teams */}
               <Tab.Panel
                 key={2}
                 className={classNames(
                   "rounded-xl flex flex-col justify-between w-full h-full"
-                  )}
+                )}
               >
-                {
-                  schdules.length > 0 ? 
+                {teams.length > 0 ? (
                   <>
                     <hr className="h-px my-4 bg-default border-0" />
                     <Input
@@ -209,8 +264,10 @@ const League = () => {
                       icon={search}
                       placeholder="Search Schedules"
                     />
-                  </> : ""
-                }
+                  </>
+                ) : (
+                  ""
+                )}
                 {/* <Table columns={columns} data={data} icon={actionIcon}/> */}
                 <div className="flex items-center flex-grow">
                   <p className="text-2xl text-white w-full text-center">
@@ -218,13 +275,13 @@ const League = () => {
                   </p>
                 </div>
               </Tab.Panel>
+              {/* Rosters */}
               <Tab.Panel
                 key={3}
                 className={classNames(
                   "rounded-xl flex flex-col justify-between w-full h-full"
-                  )}
+                )}
               >
-                {/* <Table columns={columns} data={data} icon={actionIcon}/> */}
                 <hr className="h-px my-4 bg-default border-0" />
                 <div className="flex items-center h-full space-x-4">
                   <div className="w-1/2 bg-default h-[420px] p-[26px] rounded-main">
@@ -255,8 +312,8 @@ const League = () => {
                     <div className="overflow-y-scroll overflow-hidden h-4/6">
                       {players.map((player) => (
                         <ListItem
-                        className="mb-5"
-                        avatar={avatar}
+                          className="mb-5"
+                          avatar={avatar}
                           name={player.name}
                           email={player.email}
                           date={player.created_at}
