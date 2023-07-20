@@ -6,7 +6,7 @@ import Select from "../../components/Select";
 import Modal from "../../components/Modal";
 import ProfileTitle from "../../components/ProfileTitle";
 import leftarrowIcon from "../../assets/img/left-arrow.png";
-import player from "../../assets/img/player.png";
+import avatar from "../../assets/img/player.png";
 
 const PlayerProfile = () => {
   const leagues = [1, 2, 3, 4, 5, 6];
@@ -15,7 +15,7 @@ const PlayerProfile = () => {
 
   return (
     <div>
-      <ProfileTitle backIcon={leftarrowIcon} avatar={player}>
+      <ProfileTitle backIcon={leftarrowIcon} avatar={avatar}>
         <div>
           <p className="text-[32px]">Tornike Shengelia</p>
           <span className="text-xs font-normal">Tornike@gmail.com</span>

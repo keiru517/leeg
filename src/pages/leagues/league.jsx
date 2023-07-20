@@ -6,13 +6,14 @@ import editIcon from "../../assets/img/edit.png";
 import deleteIcon from "../../assets/img/delete.png";
 // import delete from '../../assets/img/delete.png';
 import Input from "../../components/Input";
-import List from "../../components/List";
+import ListItem from "../../components/ListItem";
 import Select from "../../components/Select";
 import Button from '../../components/Button';
 import Modal from "../../components/Modal";
 import PageTitle from "../../components/PageTitle/pageTitle";
 import Table from "../../components/Table";
 import { Tab } from "@headlessui/react";
+import avatar from '../../assets/img/player.png';
 
 const League = () => {
   const leagues = [1, 2, 3, 4, 5, 6];
@@ -68,6 +69,19 @@ const League = () => {
     setBreadcrum(data);
   };
 
+  const players = [
+    {'name': 'Tornike Shengelia', 'email':'James@gmail.com', 'created_at': 'June 26, 2023, 10:00PM'},
+    {'name': 'Tornike Shengelia', 'email':'James@gmail.com', 'created_at': 'June 26, 2023, 10:00PM'},
+    {'name': 'Tornike Shengelia', 'email':'James@gmail.com', 'created_at': 'June 26, 2023, 10:00PM'},
+    {'name': 'Tornike Shengelia', 'email':'James@gmail.com', 'created_at': 'June 26, 2023, 10:00PM'},
+    {'name': 'Tornike Shengelia', 'email':'James@gmail.com', 'created_at': 'June 26, 2023, 10:00PM'},
+    {'name': 'Tornike Shengelia', 'email':'James@gmail.com', 'created_at': 'June 26, 2023, 10:00PM'},
+    {'name': 'Tornike Shengelia', 'email':'James@gmail.com', 'created_at': 'June 26, 2023, 10:00PM'},
+    {'name': 'Tornike Shengelia', 'email':'James@gmail.com', 'created_at': 'June 26, 2023, 10:00PM'},
+    {'name': 'Tornike Shengelia', 'email':'James@gmail.com', 'created_at': 'June 26, 2023, 10:00PM'},
+    {'name': 'Tornike Shengelia', 'email':'James@gmail.com', 'created_at': 'June 26, 2023, 10:00PM'}
+  ]
+
 
   return (
     <div>
@@ -84,7 +98,7 @@ const League = () => {
         2023 TABC Summer League
         <span className="text-sky-500"> &gt; {breadcrum}</span>
       </p>
-      <div className="body bg-nav overflow-auto">
+      <div className="body bg-nav">
         <div className="w-full px-2 sm:px-0 h-full flex flex-col">
           <Tab.Group>
             <Tab.List className="flex space-x-1 rounded-xl bg-transparent p-1">
@@ -173,7 +187,14 @@ const League = () => {
                         <Button className='text-sm bg-success w-18 h-[38px]'>Accept</Button>
                       </div>
                     </div>
-                    <List></List>
+                    <div className="overflow-auto">
+                      {
+                        players.map(player=>(
+                          <ListItem className='mb-5' avatar={avatar} name={player.name} email={player.email} date={player.created_at}></ListItem>
+
+                        ))
+                      }
+                    </div>
                   </div>
 
                 </div>
