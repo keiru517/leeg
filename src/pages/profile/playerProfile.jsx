@@ -11,7 +11,8 @@ import avatar from "../../assets/img/player.png";
 const PlayerProfile = () => {
   const leagues = [1, 2, 3, 4, 5, 6];
 
-  const options = ["Sort by", "Ascend", "Descend", "Recent"];
+  const seasons = ["Season Type", "Ascend", "Descend", "Recent"];
+  const mode = ["Per Mode", "Ascend", "Descend", "Recent"];
 
   return (
     <div>
@@ -52,8 +53,8 @@ const PlayerProfile = () => {
 
       <div className="body overflow-auto mt-[20px]">
         <div className="search flex justify-between space-x-2">
-          <Select className='w-1/2 rounded-lg' options={options} /> 
-          <Select className="w-1/2 rounded-lg" options={options} />
+          <Select className='w-1/2 rounded-lg' options={seasons} /> 
+          <Select className="w-1/2 rounded-lg" options={mode} />
         </div>
         <br></br>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
