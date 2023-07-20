@@ -84,7 +84,7 @@ const League = () => {
 
 
   return (
-    <div>
+    <div className="flex flex-col flex-grow">
       <PageTitle
         backIcon={leftarrowIcon}
         logo={mark}
@@ -98,7 +98,7 @@ const League = () => {
         2023 TABC Summer League
         <span className="text-sky-500"> &gt; {breadcrum}</span>
       </p>
-      <div className="body bg-nav">
+      <div className="body bg-nav flex-grow">
         <div className="w-full px-2 sm:px-0 h-full flex flex-col">
           <Tab.Group>
             <Tab.List className="flex space-x-1 rounded-xl bg-transparent p-1">
@@ -173,21 +173,44 @@ const League = () => {
               >
                 {/* <Table columns={columns} data={data} icon={actionIcon}/> */}
                 <div className="flex items-center h-full space-x-4">
-                  <div className="w-1/2 bg-default h-full p-[26px] rounded-main">
+                  <div className="w-1/2 bg-default h-[420px] p-[26px] rounded-main">
                     <div className="flex justify-between w-full">
                       <p className="text-white text-xl font-semibold">Waitlisted Players</p>
                       <p className="text-white text-xl font-semibold">120</p>
                     </div>
                     <div className="flex w-full justify-between space-x-10 my-5">
                       <div className="flex flex-grow space-x-3 ">
-                        <Input className='flex-grow rounded-lg h-[38px]' icon={search} placeholder="Search Schedules" />
+                        <Input className='flex-grow rounded-lg h-[38px]' icon={search} placeholder="Search Players" />
                         <Select className='w-[144px] rounded-lg' options={options}/>
                       </div>
                       <div>
                         <Button className='text-sm bg-success w-18 h-[38px]'>Accept</Button>
                       </div>
                     </div>
-                    <div className="overflow-auto">
+                    <div className="overflow-y-scroll overflow-hidden h-4/6">
+                      {
+                        players.map(player=>(
+                          <ListItem className='mb-5' avatar={avatar} name={player.name} email={player.email} date={player.created_at}></ListItem>
+
+                        ))
+                      }
+                    </div>
+                  </div>
+                  <div className="w-1/2 bg-default h-[420px] p-[26px] rounded-main">
+                    <div className="flex justify-between w-full">
+                      <p className="text-white text-xl font-semibold">Accepted Players</p>
+                      <p className="text-white text-xl font-semibold">120</p>
+                    </div>
+                    <div className="flex w-full justify-between space-x-10 my-5">
+                      <div className="flex flex-grow space-x-3 ">
+                        <Input className='flex-grow rounded-lg h-[38px]' icon={search} placeholder="Search Players" />
+                        <Select className='w-[144px] rounded-lg' options={options}/>
+                      </div>
+                      <div>
+                        <Button className='text-sm bg-danger w-18 h-[38px]'>Remove</Button>
+                      </div>
+                    </div>
+                    <div className="overflow-y-scroll h-4/6">
                       {
                         players.map(player=>(
                           <ListItem className='mb-5' avatar={avatar} name={player.name} email={player.email} date={player.created_at}></ListItem>

@@ -11,7 +11,7 @@ const Input = (props) => {
         }>
             {
                 icon ? <div>
-                    <img src={icon}
+                    <img src={icon} className="w-3.5 h-3.5"
                         alt="" />
                 </div> : ""
             }

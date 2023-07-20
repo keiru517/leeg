@@ -27,24 +27,24 @@ const PlayerProfile = () => {
         &gt;
         <span className="text-sky-500"> Tornike Shengelia</span>
       </p>
-      <div className="flex w-full h-[78px] bg-[#1A1D1F] rounded-[10px]">
-        <div className="w-1/5 items-center border border-[#5B5E65] rounded-l-[10px]">
+      <div className="flex w-full h-[78px] bg-nav rounded-[10px] ">
+        <div className="w-1/5 border border-[#5B5E65] rounded-l-[10px] flex flex-col justify-center">
                 <p className="text-white text-base text-center">Height</p>
                 <p className="text-white text-base text-center">6"9"(2.06m)</p>
         </div>
-        <div className="w-1/5 items-center border border-[#5B5E65]">
+        <div className="w-1/5 border border-[#5B5E65]  flex flex-col justify-center">
                 <p className="text-white text-base text-center">Weight</p>
                 <p className="text-white text-base text-center">255lb (116kg)</p>
         </div>
-        <div className="w-1/5 items-center border border-[#5B5E65]">
+        <div className="w-1/5 border border-[#5B5E65] flex flex-col justify-center">
                 <p className="text-white text-base text-center">Country</p>
                 <p className="text-white text-base text-center">Georgia</p>
         </div>
-        <div className="w-1/5 items-center border border-[#5B5E65]">
+        <div className="w-1/5 border border-[#5B5E65] flex flex-col justify-center">
                 <p className="text-white text-base text-center">Age</p>
                 <p className="text-white text-base text-center">25 Years</p>
         </div>
-        <div className="w-1/5 items-center border border-[#5B5E65] rounded-r-[10px]">
+        <div className="w-1/5 border border-[#5B5E65] rounded-r-[10px] flex flex-col justify-center">
                 <p className="text-white text-base text-center">Birthdate</p>
                 <p className="text-white text-base text-center">July 18, 1977</p>
         </div>
@@ -52,8 +52,8 @@ const PlayerProfile = () => {
 
       <div className="body overflow-auto mt-[20px]">
         <div className="search flex justify-between space-x-2">
-          <Select className='w-1/2' options={options} /> 
-          <Select className="w-1/2" options={options} />
+          <Select className='w-1/2 rounded-lg' options={options} /> 
+          <Select className="w-1/2 rounded-lg" options={options} />
         </div>
         <br></br>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

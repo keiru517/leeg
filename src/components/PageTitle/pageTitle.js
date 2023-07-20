@@ -27,12 +27,12 @@ const PageTitle = (props) => {
         }
         <p className='text-3xl text-white text-left font-black'>{children}</p>
         {
-          editIcon ? <img src={editIcon} alt="" className='w-6 h-6 mr-[14px]' />
+          editIcon ? <img src={editIcon} alt="" className='w-6 h-6 ml-6 mr-3.5 mt-1' />
             :
             ""
         }
         {
-          deleteIcon ? <img src={deleteIcon} alt="" className='w-6 h-6' />
+          deleteIcon ? <img src={deleteIcon} alt="" className='w-6 h-6 mt-1' />
             :
             ""
         }

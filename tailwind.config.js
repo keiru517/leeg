@@ -12,7 +12,8 @@ module.exports = {
                 "border-main": '#272B30',
                 'primary': '#00AFFF',
                 'light-gray': '#353A41',
-                'success': '#34A853'
+                'success': '#34A853',
+                'danger': '#E7112D'
 
             },
             spacing: {
