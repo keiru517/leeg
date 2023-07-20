@@ -12,7 +12,7 @@ import PageTitle from "../../components/PageTitle/pageTitle";
 import Table from "../../components/Table";
 import { Tab } from "@headlessui/react";
 
-const Schedule = () => {
+const League = () => {
   const leagues = [1, 2, 3, 4, 5, 6];
 
   const options = ["Sort by", "Ascend", "Descend", "Recent"];
@@ -172,4 +172,4 @@ const Schedule = () => {
   );
 };
 
-export default Schedule;
+export default League;

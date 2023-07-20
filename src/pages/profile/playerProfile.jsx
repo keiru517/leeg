@@ -52,12 +52,8 @@ const PlayerProfile = () => {
 
       <div className="body overflow-auto mt-[20px]">
         <div className="search flex justify-between space-x-2">
-          <Input
-            icon={search}
-            className="flex-grow"
-            placeholder="Search Leagues"
-          />
-          <Select className="w-[144px]" options={options} />
+          <Select className='w-1/2' options={options} /> 
+          <Select className="w-1/2" options={options} />
         </div>
         <br></br>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
