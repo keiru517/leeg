@@ -8,12 +8,12 @@ import deleteIcon from "../../assets/img/delete.png";
 import Input from "../../components/Input";
 import ListItem from "../../components/ListItem";
 import Select from "../../components/Select";
-import Button from '../../components/Button';
+import Button from "../../components/Button";
 import Modal from "../../components/Modal";
 import PageTitle from "../../components/PageTitle/pageTitle";
 import Table from "../../components/Table";
 import { Tab } from "@headlessui/react";
-import avatar from '../../assets/img/player.png';
+import avatar from "../../assets/img/player.png";
 
 const League = () => {
   const leagues = [1, 2, 3, 4, 5, 6];
@@ -32,33 +32,6 @@ const League = () => {
     "Action",
   ];
 
-  const data = [
-    {
-      date: "Monday",
-      location: "TABC New gym",
-      time: "8:00PM",
-      home: "Bucks",
-      away: "Bucks",
-      results: "41:62",
-    },
-    {
-      date: "Monday",
-      location: "TABC New gym",
-      time: "8:00PM",
-      home: "Bucks",
-      away: "Bucks",
-      results: "41:62",
-    },
-    {
-      date: "Monday",
-      location: "TABC New gym",
-      time: "8:00PM",
-      home: "Bucks",
-      away: "Bucks",
-      results: "41:62",
-    },
-  ];
-
   function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
   }
@@ -69,19 +42,70 @@ const League = () => {
     setBreadcrum(data);
   };
 
-  const players = [
-    {'name': 'Tornike Shengelia', 'email':'James@gmail.com', 'created_at': 'June 26, 2023, 10:00PM'},
-    {'name': 'Tornike Shengelia', 'email':'James@gmail.com', 'created_at': 'June 26, 2023, 10:00PM'},
-    {'name': 'Tornike Shengelia', 'email':'James@gmail.com', 'created_at': 'June 26, 2023, 10:00PM'},
-    {'name': 'Tornike Shengelia', 'email':'James@gmail.com', 'created_at': 'June 26, 2023, 10:00PM'},
-    {'name': 'Tornike Shengelia', 'email':'James@gmail.com', 'created_at': 'June 26, 2023, 10:00PM'},
-    {'name': 'Tornike Shengelia', 'email':'James@gmail.com', 'created_at': 'June 26, 2023, 10:00PM'},
-    {'name': 'Tornike Shengelia', 'email':'James@gmail.com', 'created_at': 'June 26, 2023, 10:00PM'},
-    {'name': 'Tornike Shengelia', 'email':'James@gmail.com', 'created_at': 'June 26, 2023, 10:00PM'},
-    {'name': 'Tornike Shengelia', 'email':'James@gmail.com', 'created_at': 'June 26, 2023, 10:00PM'},
-    {'name': 'Tornike Shengelia', 'email':'James@gmail.com', 'created_at': 'June 26, 2023, 10:00PM'}
-  ]
+  // const schedules = [
+  //   {'date':'Monday June 19th', 'location':'TABC New gym', 'time':'8:00 PM', 'home':'Bucks', 'away':'Bucks', 'results': '41-62'},
+  //   {'date':'Monday June 19th', 'location':'TABC New gym', 'time':'8:00 PM', 'home':'Bucks', 'away':'Bucks', 'results': '41-62'},
+  //   {'date':'Monday June 19th', 'location':'TABC New gym', 'time':'8:00 PM', 'home':'Bucks', 'away':'Bucks', 'results': '41-62'},
+  //   {'date':'Monday June 19th', 'location':'TABC New gym', 'time':'8:00 PM', 'home':'Bucks', 'away':'Bucks', 'results': '41-62'},
+  //   {'date':'Monday June 19th', 'location':'TABC New gym', 'time':'8:00 PM', 'home':'Bucks', 'away':'Bucks', 'results': '41-62'},
+  //   {'date':'Monday June 19th', 'location':'TABC New gym', 'time':'8:00 PM', 'home':'Bucks', 'away':'Bucks', 'results': '41-62'},
+  //   {'date':'Monday June 19th', 'location':'TABC New gym', 'time':'8:00 PM', 'home':'Bucks', 'away':'Bucks', 'results': '41-62'},
+  // ]
 
+  const schdules = [];
+
+  const players = [
+    {
+      name: "Tornike Shengelia",
+      email: "James@gmail.com",
+      created_at: "June 26, 2023, 10:00PM",
+    },
+    {
+      name: "Tornike Shengelia",
+      email: "James@gmail.com",
+      created_at: "June 26, 2023, 10:00PM",
+    },
+    {
+      name: "Tornike Shengelia",
+      email: "James@gmail.com",
+      created_at: "June 26, 2023, 10:00PM",
+    },
+    {
+      name: "Tornike Shengelia",
+      email: "James@gmail.com",
+      created_at: "June 26, 2023, 10:00PM",
+    },
+    {
+      name: "Tornike Shengelia",
+      email: "James@gmail.com",
+      created_at: "June 26, 2023, 10:00PM",
+    },
+    {
+      name: "Tornike Shengelia",
+      email: "James@gmail.com",
+      created_at: "June 26, 2023, 10:00PM",
+    },
+    {
+      name: "Tornike Shengelia",
+      email: "James@gmail.com",
+      created_at: "June 26, 2023, 10:00PM",
+    },
+    {
+      name: "Tornike Shengelia",
+      email: "James@gmail.com",
+      created_at: "June 26, 2023, 10:00PM",
+    },
+    {
+      name: "Tornike Shengelia",
+      email: "James@gmail.com",
+      created_at: "June 26, 2023, 10:00PM",
+    },
+    {
+      name: "Tornike Shengelia",
+      email: "James@gmail.com",
+      created_at: "June 26, 2023, 10:00PM",
+    },
+  ];
 
   return (
     <div className="flex flex-col flex-grow">
@@ -120,16 +144,24 @@ const League = () => {
                 </Tab>
               ))}
             </Tab.List>
-            <hr className="h-px my-4 bg-default border-0" />
             <Tab.Panels className="flex-grow flex items-center ">
               <Tab.Panel
                 key={0}
                 className={classNames(
                   "rounded-xl flex flex-col justify-between w-full h-full"
-                )}
-                
+                  )}
               >
-                <Input className='rounded-lg' icon={search} placeholder="Search Schedules" />
+                {
+                  schdules.length > 0 ? 
+                  <>
+                    <hr className="h-px my-4 bg-default border-0" />
+                    <Input
+                      className="rounded-lg"
+                      icon={search}
+                      placeholder="Search Schedules"
+                    />
+                  </> : ""
+                }
                 {/* <Table columns={columns} data={data} icon={actionIcon}/> */}
                 <div className="flex items-center flex-grow">
                   <p className="text-2xl text-white w-full text-center">
@@ -141,10 +173,20 @@ const League = () => {
                 key={1}
                 className={classNames(
                   "rounded-xl flex flex-col justify-between w-full h-full"
-                )}
+                  )}
                 // onClick={handleClick("Standings")}
               >
-                <Input className='rounded-lg' icon={search} placeholder="Search Schedules" />
+                {
+                  schdules.length > 0 ? 
+                  <>
+                    <hr className="h-px my-4 bg-default border-0" />
+                    <Input
+                      className="rounded-lg"
+                      icon={search}
+                      placeholder="Search Schedules"
+                    />
+                  </> : ""
+                }
                 {/* <Table columns={columns} data={data} icon={actionIcon}/> */}
                 <div className="flex items-center flex-grow">
                   <p className="text-2xl text-white w-full text-center">
@@ -156,9 +198,19 @@ const League = () => {
                 key={2}
                 className={classNames(
                   "rounded-xl flex flex-col justify-between w-full h-full"
-                )}
+                  )}
               >
-                <Input className='rounded-lg' icon={search} placeholder="Search Schedules" />
+                {
+                  schdules.length > 0 ? 
+                  <>
+                    <hr className="h-px my-4 bg-default border-0" />
+                    <Input
+                      className="rounded-lg"
+                      icon={search}
+                      placeholder="Search Schedules"
+                    />
+                  </> : ""
+                }
                 {/* <Table columns={columns} data={data} icon={actionIcon}/> */}
                 <div className="flex items-center flex-grow">
                   <p className="text-2xl text-white w-full text-center">
@@ -170,57 +222,85 @@ const League = () => {
                 key={3}
                 className={classNames(
                   "rounded-xl flex flex-col justify-between w-full h-full"
-                )}
+                  )}
               >
                 {/* <Table columns={columns} data={data} icon={actionIcon}/> */}
+                <hr className="h-px my-4 bg-default border-0" />
                 <div className="flex items-center h-full space-x-4">
                   <div className="w-1/2 bg-default h-[420px] p-[26px] rounded-main">
                     <div className="flex justify-between w-full">
-                      <p className="text-white text-xl font-semibold">Waitlisted Players</p>
+                      <p className="text-white text-xl font-semibold">
+                        Waitlisted Players
+                      </p>
                       <p className="text-white text-xl font-semibold">120</p>
                     </div>
                     <div className="flex w-full justify-between space-x-10 my-5">
                       <div className="flex flex-grow space-x-3 ">
-                        <Input className='flex-grow rounded-lg h-[38px]' icon={search} placeholder="Search Players" />
-                        <Select className='w-[144px] rounded-lg' options={options}/>
+                        <Input
+                          className="flex-grow rounded-lg h-[38px]"
+                          icon={search}
+                          placeholder="Search Players"
+                        />
+                        <Select
+                          className="w-[144px] rounded-lg"
+                          options={options}
+                        />
                       </div>
                       <div>
-                        <Button className='text-sm bg-success w-18 h-[38px]'>Accept</Button>
+                        <Button className="text-sm bg-success w-18 h-[38px]">
+                          Accept
+                        </Button>
                       </div>
                     </div>
                     <div className="overflow-y-scroll overflow-hidden h-4/6">
-                      {
-                        players.map(player=>(
-                          <ListItem className='mb-5' avatar={avatar} name={player.name} email={player.email} date={player.created_at}></ListItem>
-
-                        ))
-                      }
+                      {players.map((player) => (
+                        <ListItem
+                        className="mb-5"
+                        avatar={avatar}
+                          name={player.name}
+                          email={player.email}
+                          date={player.created_at}
+                        ></ListItem>
+                      ))}
                     </div>
                   </div>
                   <div className="w-1/2 bg-default h-[420px] p-[26px] rounded-main">
                     <div className="flex justify-between w-full">
-                      <p className="text-white text-xl font-semibold">Accepted Players</p>
+                      <p className="text-white text-xl font-semibold">
+                        Accepted Players
+                      </p>
                       <p className="text-white text-xl font-semibold">120</p>
                     </div>
                     <div className="flex w-full justify-between space-x-10 my-5">
                       <div className="flex flex-grow space-x-3 ">
-                        <Input className='flex-grow rounded-lg h-[38px]' icon={search} placeholder="Search Players" />
-                        <Select className='w-[144px] rounded-lg' options={options}/>
+                        <Input
+                          className="flex-grow rounded-lg h-[38px]"
+                          icon={search}
+                          placeholder="Search Players"
+                        />
+                        <Select
+                          className="w-[144px] rounded-lg"
+                          options={options}
+                        />
                       </div>
                       <div>
-                        <Button className='text-sm bg-danger w-18 h-[38px]'>Remove</Button>
+                        <Button className="text-sm bg-danger w-18 h-[38px]">
+                          Remove
+                        </Button>
                       </div>
                     </div>
                     <div className="overflow-y-scroll h-4/6">
-                      {
-                        players.map(player=>(
-                          <ListItem className='mb-5' avatar={avatar} name={player.name} email={player.email} date={player.created_at}></ListItem>
-
-                        ))
-                      }
+                      {players.map((player) => (
+                        <ListItem
+                          className="mb-5"
+                          avatar={avatar}
+                          name={player.name}
+                          email={player.email}
+                          date={player.created_at}
+                        ></ListItem>
+                      ))}
                     </div>
                   </div>
-
                 </div>
               </Tab.Panel>
             </Tab.Panels>
