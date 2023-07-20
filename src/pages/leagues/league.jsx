@@ -98,7 +98,7 @@ const League = () => {
         2023 TABC Summer League
         <span className="text-sky-500"> &gt; {breadcrum}</span>
       </p>
-      <div className="body bg-nav flex-grow">
+      <div className="rounded-main bg-nav flex-grow p-[26px]">
         <div className="w-full px-2 sm:px-0 h-full flex flex-col">
           <Tab.Group>
             <Tab.List className="flex space-x-1 rounded-xl bg-transparent p-1">

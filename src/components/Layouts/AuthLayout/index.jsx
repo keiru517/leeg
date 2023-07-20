@@ -16,7 +16,7 @@ const AuthLayout = (props) => {
   return (
     <div className="p-[20px_26px_51px_26px] bg-main justify-center h-screen flex flex-col">
       {isLoading ? (
-        <div>Page is loading.</div>
+        <div className="text-white text-3xl">Page is loading.</div>
       ) : isLoggedIn ? (
         <>
           <Nav />
