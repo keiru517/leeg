@@ -85,17 +85,14 @@
 }
 
 .page-title {
-  background-color: #272b30;
   height: 132px;
   margin-top: 20px;
   border-radius: 14px;
   padding: 26px;
 }
 
-
-
 .body {
-  background-color: #1a1d1f;
+  /* background-color: #1a1d1f; */
   /* margin-top:20px; */
   height: 519px;
   border-radius: 14px;

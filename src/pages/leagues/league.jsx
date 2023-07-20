@@ -6,7 +6,9 @@ import editIcon from "../../assets/img/edit.png";
 import deleteIcon from "../../assets/img/delete.png";
 // import delete from '../../assets/img/delete.png';
 import Input from "../../components/Input";
+import List from "../../components/List";
 import Select from "../../components/Select";
+import Button from '../../components/Button';
 import Modal from "../../components/Modal";
 import PageTitle from "../../components/PageTitle/pageTitle";
 import Table from "../../components/Table";
@@ -82,7 +84,7 @@ const League = () => {
         2023 TABC Summer League
         <span className="text-sky-500"> &gt; {breadcrum}</span>
       </p>
-      <div className="body overflow-auto">
+      <div className="body bg-nav overflow-auto">
         <div className="w-full px-2 sm:px-0 h-full flex flex-col">
           <Tab.Group>
             <Tab.List className="flex space-x-1 rounded-xl bg-transparent p-1">
@@ -155,12 +157,25 @@ const League = () => {
                   "rounded-xl p-3 flex flex-col justify-between w-full h-full"
                 )}
               >
-                <Input icon={search} placeholder="Search Schedules" />
                 {/* <Table columns={columns} data={data} icon={actionIcon}/> */}
-                <div className="flex items-center flex-grow">
-                  <p className="text-2xl text-white w-full text-center">
-                    roster page
-                  </p>
+                <div className="flex items-center h-full space-x-4">
+                  <div className="w-1/2 bg-default h-full p-[26px] rounded-main">
+                    <div className="flex justify-between w-full">
+                      <p className="text-white text-xl font-semibold">Waitlisted Players</p>
+                      <p className="text-white text-xl font-semibold">120</p>
+                    </div>
+                    <div className="flex w-full justify-between space-x-10 my-5">
+                      <div className="flex flex-grow space-x-3 ">
+                        <Input className='flex-grow rounded-lg h-[38px]' icon={search} placeholder="Search Schedules" />
+                        <Select className='w-[144px] rounded-lg' options={options}/>
+                      </div>
+                      <div>
+                        <Button className='text-sm bg-success w-18 h-[38px]'>Accept</Button>
+                      </div>
+                    </div>
+                    <List></List>
+                  </div>
+
                 </div>
               </Tab.Panel>
             </Tab.Panels>

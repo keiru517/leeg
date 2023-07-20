@@ -7,7 +7,7 @@ const Select = (props) => {
     } = props;
 
     return (
-        <div className={`${className} flex border border-border-main rounded-xl px-3`}>
+        <div className={`${className} bg-nav flex border border-border-main px-3`}>
             {
                 icon? <div>
                         <img src={icon} alt="" />

@@ -8,8 +8,12 @@ module.exports = {
             colors: {
                 'main': '#111315',
                 'nav': '#1A1D1F',
+                'default': '#272b30',
                 "border-main": '#272B30',
-                'primary': '#00AFFF'
+                'primary': '#00AFFF',
+                'light-gray': '#6F767E',
+                'success': '#34A853'
+
             },
             spacing: {
                 'nav-width': '1388px',
