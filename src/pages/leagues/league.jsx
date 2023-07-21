@@ -12,6 +12,7 @@ import Button from "../../components/Button";
 import Modal from "../../components/Modal";
 import PageTitle from "../../components/PageTitle/pageTitle";
 import Table from "../../components/Table";
+import Tb from '../../components/Table/table';
 import { Tab } from "@headlessui/react";
 import avatar from "../../assets/img/player.png";
 import actionIcon from "../../assets/img/action.png";
@@ -220,7 +221,8 @@ const League = () => {
                     </p>
                   </div>
                 )}
-                <Table columns={columns} data={schedules} icon={actionIcon} />
+                {/* <Table columns={columns} data={schedules} icon={actionIcon} /> */}
+                <Tb></Tb>
               </Tab.Panel>
 
               {/* Standings */}
