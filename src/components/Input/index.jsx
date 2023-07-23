@@ -7,7 +7,7 @@ const Input = (props) => {
     } = props;
     return (
         <div className={
-            `${className} bg-nav flex space-x-2 border border-default items-center px-3 h-[45px]`
+            `${className} bg-slate flex space-x-2 border border-charcoal items-center px-3 h-[45px]`
         }>
             {
                 icon ? <div>

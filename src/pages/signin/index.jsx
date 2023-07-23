@@ -34,7 +34,7 @@ const Signin = () => {
                     <p className='text-[#BBBBBB] text-sm text-center'>LEEG.IO</p>
 
                 </div>
-                <div className='bg-nav w-full h-[358px] mt-16 rounded-main p-[26px] flex flex-col'>
+                <div className='bg-slate w-full h-[358px] mt-16 rounded-main p-[26px] flex flex-col'>
                     <div>
                         <p className='text-white text-2xl font-bold'>Sign in</p>
                         <p className='text-[#BBBBBB] mt-3'>Sign in to access your account</p>

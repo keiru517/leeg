@@ -1,10 +1,4 @@
 import React, {useState, useEffect} from 'react';
-import League from '../../components/league';
-import search from '../../assets/img/search.png';
-import Input from '../../components/Input';
-import Select from '../../components/Select';
-import Modal from '../../components/Modal';
-import PageTitle from '../../components/PageTitle/pageTitle';
 import logo from '../../assets/img/logo.png';
 import hrLine from '../../assets/img/hr-line.png';
 import Button from '../../components/Button';
@@ -37,7 +31,7 @@ const Signin1 = () => {
                     <p className='text-[#BBBBBB] text-sm text-center'>LEEG.IO</p>
 
                 </div>
-                <div className='bg-nav w-full h-48 mt-16 rounded-main p-[26px] flex flex-col'>
+                <div className='bg-slate w-full h-48 mt-16 rounded-main p-[26px] flex flex-col'>
                     <div>
                         <p className='text-white text-2xl font-bold'>Sign in</p>
                         <p className='text-[#BBBBBB] mt-3'>Sign in to access your account</p>

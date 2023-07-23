@@ -1,7 +1,7 @@
-import mark from '../assets/img/mark.png';
-import rightarrow from '../assets/img/right-arrow.png';
+import mark from '../../assets/img/mark.png';
+import rightarrow from '../../assets/img/right-arrow.png';
 
-const League = () => {
+const Card = (props) => {
     return (
         <div className="league">
             <div className='flex justify-between'>
@@ -21,4 +21,4 @@ const League = () => {
     );
 }
 
-export default League;
+export default Card;

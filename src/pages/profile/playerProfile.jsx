@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import League from "../../components/league";
+import Card from "../../components/Card";
 import search from "../../assets/img/search.png";
 import Input from "../../components/Input";
 import Select from "../../components/Select";
@@ -28,7 +28,7 @@ const PlayerProfile = () => {
         &gt;
         <span className="text-sky-500"> Tornike Shengelia</span>
       </p>
-      <div className="flex w-full h-[78px] bg-nav rounded-[10px] ">
+      <div className="flex w-full h-[78px] bg-slate rounded-[10px] ">
         <div className="w-1/5 border border-[#5B5E65] rounded-l-[10px] flex flex-col justify-center">
                 <p className="text-white text-base text-center">Height</p>
                 <p className="text-white text-base text-center">6"9"(2.06m)</p>
@@ -51,7 +51,7 @@ const PlayerProfile = () => {
         </div>
       </div>        
 
-      <div className="rounded-main bg-nav overflow-auto mt-5 p-[26px]">
+      <div className="rounded-main bg-slate overflow-auto mt-5 p-[26px]">
         <div className="search flex justify-between space-x-6">
           <Select className='w-1/2 rounded-lg' options={seasons} /> 
           <Select className="w-1/2 rounded-lg" options={mode} />
@@ -59,7 +59,7 @@ const PlayerProfile = () => {
         <br></br>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {leagues?.map((lg) => (
-            <League />
+            <Card />
           ))}{" "}
         </div>
       </div>

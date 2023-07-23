@@ -6,13 +6,14 @@ module.exports = {
     theme: {
         extend: {
             colors: {
-                'main': '#111315',
-                'nav': '#1A1D1F',
-                'default': '#272b30',
+                'black': '#111315',
+                'slate': '#1A1D1F',
+                'charcoal': '#272b30',
                 'primary': '#00AFFF',
-                'light-gray': '#353A41',
+                'dark-gray': '#353A41',
                 'success': '#34A853',
-                'danger': '#E7112D'
+                'danger': '#E7112D',
+                'table-border': '#6F767E',
 
             },
             spacing: {

@@ -22,7 +22,7 @@ const Signup = () => {
                     <p className='text-[#ADADAD] text-sm text-center'>LEEG.IO</p>
 
                 </div>
-                <div className='bg-nav w-full h-[535px] mt-16 rounded-main p-[26px] flex flex-col'>
+                <div className='bg-slate w-full h-[535px] mt-16 rounded-main p-[26px] flex flex-col'>
                     <div>
                         <p className='text-white text-2xl font-bold'>Personal Details</p>
                         <p className='text-[#BBBBBB] mt-3'>Sign up to access our admin account.</p>

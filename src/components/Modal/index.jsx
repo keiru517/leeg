@@ -47,7 +47,7 @@ export default function Example() {
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative transform overflow-hidden rounded-main pb-4 text-left shadow-xl transition-all sm:my-8 bg-nav h-[609px] md:w-[735px] mx-3">
+              <Dialog.Panel className="relative transform overflow-hidden rounded-main pb-4 text-left shadow-xl transition-all sm:my-8 bg-slate h-[609px] md:w-[735px] mx-3">
                 <div className='divide-y divide-solid divide-[#3A3A3A]'>
                   <div className="flex items-center text-left h-[88px] justify-between px-[26px]">
                     <p className="text-2xl text-white font-bold">Create League</p>

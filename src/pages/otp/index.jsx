@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import League from "../../components/league";
 import search from "../../assets/img/search.png";
 import Input from "../../components/Input";
 import Select from "../../components/Select";
@@ -26,7 +25,7 @@ const OTP = () => {
           <img src={hrLine} alt="" className="my-7" />
           <p className="font-gray text-sm text-center">LEEG.IO</p>
         </div>
-        <div className="bg-nav w-full h-[305px] mt-16 rounded-main p-[26px] flex flex-col">
+        <div className="bg-slate w-full h-[305px] mt-16 rounded-main p-[26px] flex flex-col">
           <div>
             <p className="text-white text-2xl font-bold">
               Verify Email Address

@@ -177,7 +177,7 @@ const League = () => {
         2023 TABC Summer League
         <span className="text-sky-500"> &gt; {breadcrum}</span>
       </p>
-      <div className="rounded-main bg-nav flex-grow p-[26px]">
+      <div className="rounded-main bg-slate flex-grow p-[26px]">
         <div className="w-full px-2 sm:px-0 h-full flex flex-col">
           <Tab.Group>
             <Tab.List className="flex w-[483px] space-x-5 rounded-xl bg-transparent p-1 ">
@@ -207,7 +207,7 @@ const League = () => {
               >
                 {schedules.length > 0 ? (
                   <>
-                    <hr className="h-px my-4 bg-default border-0" />
+                    <hr className="h-px my-4 bg-charcoal border-0" />
                     <Input
                       className="rounded-lg"
                       icon={search}
@@ -234,7 +234,7 @@ const League = () => {
               >
                 {standings.length > 0 ? (
                   <>
-                    <hr className="h-px my-4 bg-default border-0" />
+                    <hr className="h-px my-4 bg-charcoal border-0" />
                     <Input
                       className="rounded-lg"
                       icon={search}
@@ -260,7 +260,7 @@ const League = () => {
               >
                 {teams.length > 0 ? (
                   <>
-                    <hr className="h-px my-4 bg-default border-0" />
+                    <hr className="h-px my-4 bg-charcoal border-0" />
                     <Input
                       className="rounded-lg"
                       icon={search}
@@ -284,9 +284,9 @@ const League = () => {
                   "rounded-xl flex flex-col justify-between w-full h-full"
                 )}
               >
-                <hr className="h-px my-4 bg-default border-0" />
+                <hr className="h-px my-4 bg-charcoal border-0" />
                 <div className="flex items-center h-full space-x-4">
-                  <div className="w-1/2 bg-default h-[420px] p-[26px] rounded-main">
+                  <div className="w-1/2 bg-charcoal h-[420px] p-[26px] rounded-main">
                     <div className="flex justify-between w-full">
                       <p className="text-white text-xl font-semibold">
                         Waitlisted Players
@@ -323,7 +323,7 @@ const League = () => {
                       ))}
                     </div>
                   </div>
-                  <div className="w-1/2 bg-default h-[420px] p-[26px] rounded-main">
+                  <div className="w-1/2 bg-charcoal h-[420px] p-[26px] rounded-main">
                     <div className="flex justify-between w-full">
                       <p className="text-white text-xl font-semibold">
                         Accepted Players
