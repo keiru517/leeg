@@ -1,36 +1,8 @@
 import { Card, Typography } from "@material-tailwind/react";
 import mark from '../../assets/img/mark.png';
-const TABLE_HEAD = ["Name", "Job", "Employed", ""];
 
-const TABLE_ROWS = [
-  {
-    name: "John Michael",
-    job: "Manager",
-    date: "23/04/18",
-  },
-  {
-    name: "Alexa Liras",
-    job: "Developer",
-    date: "23/04/18",
-  },
-  {
-    name: "Laurent Perrier",
-    job: "Executive",
-    date: "19/09/17",
-  },
-  {
-    name: "Michael Levi",
-    job: "Developer",
-    date: "24/12/08",
-  },
-  {
-    name: "Richard Gran",
-    job: "Manager",
-    date: "04/10/21",
-  },
-];
 
-const Table = (props) => {
+const StandingsTable = (props) => {
   const { columns, data } = props;
 
   return (
@@ -52,7 +24,7 @@ const Table = (props) => {
           </tr>
         </thead>
         <tbody className="text-center">
-          {data.map(({ date, location, time, home, away, results }, index) => (
+          {data.map(({ team, w, l, scored, against, diff}, index) => (
             <tr key={index} className="even:bg-dark-gray odd:bg-charcoal">
               <td>
                 <Typography
@@ -60,7 +32,7 @@ const Table = (props) => {
                   color="blue-gray"
                   className="font-normal"
                 >
-                  {date}
+                  {index + 1}
                 </Typography>
               </td>
               <td>
@@ -69,7 +41,7 @@ const Table = (props) => {
                   color="blue-gray"
                   className="font-normal"
                 >
-                  {location}
+                  {team}
                 </Typography>
               </td>
               <td>
@@ -78,7 +50,7 @@ const Table = (props) => {
                   color="blue-gray"
                   className="font-normal"
                 >
-                  {time}
+                  {w}
                 </Typography>
               </td>
               <td className="">
@@ -88,7 +60,7 @@ const Table = (props) => {
                   color="blue-gray"
                   className="font-normal"
                 >
-                  {home}
+                  {l}
                 </Typography>
               </td>
               <td>
@@ -97,7 +69,7 @@ const Table = (props) => {
                   color="blue-gray"
                   className="font-normal"
                 >
-                  {away}
+                  {scored}
                 </Typography>
               </td>
               <td>
@@ -106,18 +78,16 @@ const Table = (props) => {
                   color="blue-gray"
                   className="font-normal"
                 >
-                  {results}
+                  {against}
                 </Typography>
               </td>
               <td>
                 <Typography
-                  as="a"
-                  href="#"
                   variant="small"
-                  color="blue"
-                  className="font-medium"
+                  color="blue-gray"
+                  className="font-normal"
                 >
-                  Edit
+                  {diff}
                 </Typography>
               </td>
             </tr>
@@ -128,4 +98,4 @@ const Table = (props) => {
   );
 };
 
-export default Table;
+export default StandingsTable;

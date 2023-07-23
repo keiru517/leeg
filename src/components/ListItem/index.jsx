@@ -13,7 +13,7 @@ function Checkbox1({ label, name, checked, onChange, disabled }) {
           name={name}
           disabled={disabled}
           className={`
-            relative flex h-6 w-6 items-center justify-center transition-all duration-200 outline-none ring-1 w-5 h-5 
+            relative flex h-6 w-6 items-center justify-center transition-all duration-200 outline-none ring-1 
             ${!checked && !disabled ? "ring-gray-400" : ""}
             ${checked && !disabled ? "ring-red-400" : ""} 
             ${disabled ? "bg-gray-200 ring-gray-200" : ""}  
@@ -41,7 +41,7 @@ const ListItem = (props) => {
   const { className, avatar, name, email, date, children } = props;
   return (
     <div className={`${className} w-full`}>
-      <div className="flex items-center justify-between bg-light-gray w-full h-14 rounded-[10px] py-1.5 px-4">
+      <div className="flex items-center justify-between bg-dark-gray w-full h-14 rounded-[10px] py-1.5 px-4">
         <div className="flex">
           <img src={avatar} className="w-10 h-10 mr-3" alt="" />
           <div>

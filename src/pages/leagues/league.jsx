@@ -11,8 +11,8 @@ import Select from "../../components/Select";
 import Button from "../../components/Button";
 import Modal from "../../components/Modal";
 import PageTitle from "../../components/PageTitle/pageTitle";
-import Table from "../../components/Table";
-import Tb from '../../components/Table/table';
+import ScheduleTable from '../../components/Table/schedule';
+import StandingsTable from '../../components/Table/standings';
 import { Tab } from "@headlessui/react";
 import avatar from "../../assets/img/player.png";
 import actionIcon from "../../assets/img/action.png";
@@ -24,7 +24,7 @@ const League = () => {
 
   const categories = ["Schedule", "Standings", "Teams", "Manage Rosters"];
 
-  const columns = [
+  const schedule_columns = [
     "Date",
     "Location",
     "Time",
@@ -32,6 +32,16 @@ const League = () => {
     "Away",
     "Results",
     "Action",
+  ];
+
+  const standing_columns = [
+    "Position",
+    "Team",
+    "W",
+    "L",
+    "Point Scored",
+    "Point Against",
+    "Diff",
   ];
 
   function classNames(...classes) {
@@ -52,6 +62,7 @@ const League = () => {
       home: "Bucks",
       away: "Bucks",
       results: "41-62",
+      mark: {mark}
     },
     {
       date: "Monday June 19th",
@@ -105,7 +116,21 @@ const League = () => {
 
   // const schedules = [];
 
-  const standings = [];
+  const standings = [
+    {team: 'Bucks', w:12, l:6, scored:167, against:142, diff:27},
+    {team: 'FC inter', w:12, l:6, scored:167, against:142, diff:27},
+    {team: 'AC Milan', w:12, l:6, scored:167, against:142, diff:27},
+    {team: 'Juventus', w:12, l:6, scored:167, against:142, diff:27},
+    {team: 'Real madrid', w:12, l:6, scored:167, against:142, diff:27},
+    {team: 'FC Barcelona', w:12, l:6, scored:167, against:142, diff:27},
+    {team: 'Rayo Vallecano', w:12, l:6, scored:167, against:142, diff:27},
+    {team: 'Fenerbahche', w:12, l:6, scored:167, against:142, diff:27},
+    {team: 'Fenerbahche', w:12, l:6, scored:167, against:142, diff:27},
+    {team: 'Fenerbahche', w:12, l:6, scored:167, against:142, diff:27},
+    {team: 'Fenerbahche', w:12, l:6, scored:167, against:142, diff:27},
+    {team: 'Fenerbahche', w:12, l:6, scored:167, against:142, diff:27},
+    {team: 'Fenerbahche', w:12, l:6, scored:167, against:142, diff:27},
+  ];
   
   const teams = [];
 
@@ -221,8 +246,7 @@ const League = () => {
                     </p>
                   </div>
                 )}
-                {/* <Table columns={columns} data={schedules} icon={actionIcon} /> */}
-                <Tb></Tb>
+                <ScheduleTable columns={schedule_columns} data={schedules} icon={actionIcon} />
               </Tab.Panel>
 
               {/* Standings */}
@@ -248,7 +272,7 @@ const League = () => {
                     </p>
                   </div>
                 )}
-                {/* <Table columns={columns} data={data} icon={actionIcon}/> */}
+                <StandingsTable columns={standing_columns} data={standings} icon={actionIcon}/>
               </Tab.Panel>
 
               {/* Teams */}

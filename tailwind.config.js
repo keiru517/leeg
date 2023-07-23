@@ -14,6 +14,7 @@ module.exports = {
                 'success': '#34A853',
                 'danger': '#E7112D',
                 'table-border': '#6F767E',
+                'light-gray': '#585E65'
 
             },
             spacing: {
