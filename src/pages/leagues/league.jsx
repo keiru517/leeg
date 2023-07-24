@@ -13,9 +13,11 @@ import Modal from "../../components/Modal";
 import PageTitle from "../../components/PageTitle/pageTitle";
 import ScheduleTable from '../../components/Table/schedule';
 import StandingsTable from '../../components/Table/standings';
+import TeamsTable from '../../components/Table/teams';
 import { Tab } from "@headlessui/react";
 import avatar from "../../assets/img/player.png";
-import actionIcon from "../../assets/img/action.png";
+import edit from "../../assets/img/edit.png";
+import userAdd from "../../assets/img/user-add.png";
 
 const League = () => {
   const leagues = [1, 2, 3, 4, 5, 6];
@@ -132,7 +134,39 @@ const League = () => {
     {team: 'Fenerbahche', w:12, l:6, scored:167, against:142, diff:27},
   ];
   
-  const teams = [];
+  const teams = [
+    {
+      name:'Bucks',
+      status: '10/12',
+      players: [
+        {name: 'George Chichua', avatar: avatar},
+        {name: 'George Chichua', avatar: avatar},
+        {name: 'George Chichua', avatar: avatar},
+        {name: 'George Chichua', avatar: avatar},
+      ]
+    },
+    {
+      name:'Real Madrid',
+      status: '10/12',
+      players: [
+        {name: 'George Chichua', avatar: avatar},
+        {name: 'George Chichua', avatar: avatar},
+        {name: 'George Chichua', avatar: avatar},
+        {name: 'George Chichua', avatar: avatar},
+      ]
+    },
+    {
+      name:'Real Madrid',
+      status: '10/12',
+      players: [
+        {name: 'George Chichua', avatar: avatar},
+        {name: 'George Chichua', avatar: avatar},
+        {name: 'George Chichua', avatar: avatar},
+        {name: 'George Chichua', avatar: avatar},
+      ]
+    },
+
+  ];
 
   const players = [
     {
@@ -246,7 +280,7 @@ const League = () => {
                     </p>
                   </div>
                 )}
-                <ScheduleTable columns={schedule_columns} data={schedules} icon={actionIcon} />
+                <ScheduleTable columns={schedule_columns} data={schedules}/>
               </Tab.Panel>
 
               {/* Standings */}
@@ -272,7 +306,7 @@ const League = () => {
                     </p>
                   </div>
                 )}
-                <StandingsTable columns={standing_columns} data={standings} icon={actionIcon}/>
+                <StandingsTable columns={standing_columns} data={standings}/>
               </Tab.Panel>
 
               {/* Teams */}
@@ -292,14 +326,33 @@ const League = () => {
                     />
                   </>
                 ) : (
-                  ""
-                )}
-                {/* <Table columns={columns} data={data} icon={actionIcon}/> */}
                 <div className="flex items-center flex-grow">
                   <p className="text-2xl text-white w-full text-center">
                     No Teams to show!
                   </p>
                 </div>
+                )}
+                <div className="grid grid-cols-3 gap-4">
+
+                  {
+                    teams.map(team=>(
+                      <div>
+                        <div className="flex justify-between bg-charcoal h-[53px] mt-4 rounded-tl-lg rounded-tr-lg p-4">
+                          <div className="flex items-center">
+                            <img src={mark} alt="" />
+                            <p className="text-sm text-white underline mx-2">{team.name}</p>
+                            <p className="text-[10px] text-white">{team.status}</p>
+                          </div>
+                          <div className="flex">
+                            <img src={userAdd} alt="" className="mr-2"/>
+                            <img src={edit} alt="" />
+                          </div>
+                        </div>
+                        <TeamsTable players={team.players}></TeamsTable>
+                      </div>
+                    ))
+                  }
+                </div>                
               </Tab.Panel>
               {/* Rosters */}
               <Tab.Panel
@@ -336,8 +389,9 @@ const League = () => {
                       </div>
                     </div>
                     <div className="overflow-y-scroll overflow-hidden h-4/6">
-                      {players.map((player) => (
+                      {players.map((player, idx) => (
                         <ListItem
+                        key={idx}
                           className="mb-5"
                           avatar={avatar}
                           name={player.name}

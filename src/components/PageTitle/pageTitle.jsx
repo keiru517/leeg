@@ -11,6 +11,7 @@ const PageTitle = (props) => {
     button,
     className,
     children,
+    action,
     ...rest
   } = props;
 
@@ -38,7 +39,7 @@ const PageTitle = (props) => {
         }
       </div>
       {
-        button ? <Button className="w-[169px] h-[53px] bg-primary">
+        button ? <Button action={action} className="w-[169px] h-[53px] bg-primary">
           {button}</Button> :
           ""
       }

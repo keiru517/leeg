@@ -7,10 +7,15 @@ import btn2 from '../../assets/img/btn2.png';
 import btn3 from '../../assets/img/btn3.png';
 import Button from '../Button';
 import Select from '../Select';
+import { useSelector } from 'react-redux';
 
-export default function Example() {
-  const [open, setOpen] = useState(true)
+const Modal = (props) => {
+  // const {
+  //   status
+  // } = props
 
+  const [open, setOpen] = useState(false)
+  
   const cancelButtonRef = useRef(null)
   
   const sportOptions = [
@@ -19,10 +24,12 @@ export default function Example() {
     'Hockey',
     'Baseball'
   ]
+  const status = useSelector(state=>state.leagues.league_dialog_open)
+  console.log('modal status', status)
 
 
   return (
-    <Transition.Root show={open} as={Fragment}>
+    <Transition.Root show={status} as={Fragment}>
       <Dialog as="div" className="relative z-10" initialFocus={cancelButtonRef} onClose={setOpen}>
         <Transition.Child
           as={Fragment}
@@ -102,3 +109,5 @@ export default function Example() {
     </Transition.Root>
   )
 }
+
+export default Modal

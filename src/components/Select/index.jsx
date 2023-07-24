@@ -15,8 +15,8 @@ const Select = (props) => {
             }
             <select {...rest} className={`w-full bg-transparent outline-none text-gray-400`}>
                 {
-                    options?.map(opt=>
-                        <option value="2" className="w-[214px] bg-[#39424F]">{opt}</option>
+                    options?.map((opt, idx)=>
+                        <option key={idx} value={idx} className="w-[214px] bg-[#39424F]">{opt}</option>
                     )
                 }
 

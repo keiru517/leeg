@@ -3,7 +3,16 @@ import mark from '../../assets/img/mark.png';
 
 
 const StandingsTable = (props) => {
-  const { columns, data } = props;
+  const { data } = props;
+  const columns = [
+    'Position',
+    'Team',
+    'W',
+    'L',
+    'Point Scored',
+    'Point Against',
+    'Diff'
+  ]
 
   return (
     <div className="text-white h-full w-full mt-4">

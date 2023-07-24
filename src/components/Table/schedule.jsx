@@ -3,7 +3,16 @@ import mark from '../../assets/img/mark.png';
 import actionIcon from '../../assets/img/action.png';
 
 const ScheduleTable = (props) => {
-  const { columns, data } = props;
+  const { data } = props;
+  const columns = [
+    "Date",
+    "Location",
+    "Time",
+    "Home",
+    "Away",
+    "Results",
+    "Action",
+  ];
 
   return (
     <div className="text-white h-full w-full mt-4">

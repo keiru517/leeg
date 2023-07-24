@@ -1,28 +1,26 @@
-import React from 'react';
+import React from "react";
+import * as actions from '../../actions';
+import { useDispatch } from "react-redux";
 
 const Button = (props) => {
-    const {
-        icon,
-        className,
-        children,
-        ...rest
-    } = props;
+  const { icon, className, children, onClick, ...rest } = props;
+  const dispatch = useDispatch()
 
-    return (
-        <button className={
-            `${className} rounded-lg text-white`
-        }>
-            <div className={`flex h-full w-full px-2 py-2 space-x-2 items-center`}>
-                 {
-                    icon ? <img src={icon} alt="" /> : ""
-                }
-                <span className={`${icon ? "" : "flex-grow text-center"}`}>
-                    {children}
-                </span>
-            </div>
-        </button>
-    );
-}
-
+  const handleClick = () => {
+    console.log("clicked button")
+    dispatch({type:actions.OPEN_CREATE_LEAGUE, payload: true})
+    
+  }
+  return (
+    <button onClick={handleClick} className={`${className} rounded-lg text-white`} {...rest}>
+      <div className={`flex h-full w-full px-2 py-2 space-x-2 items-center`}>
+        {icon ? <img src={icon} alt="" /> : ""}
+        <span className={`${icon ? "" : "flex-grow text-center"}`}>
+          {children}
+        </span>
+      </div>
+    </button>
+  );
+};
 
 export default Button;
