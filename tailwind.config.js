@@ -27,6 +27,7 @@ module.exports = {
             },
             borderRadius: {
                 'background': '20px',
+                'default': '10px',
                 'main': '14px',
             },
             screens: {

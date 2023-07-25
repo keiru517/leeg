@@ -41,7 +41,7 @@ const ListItem = (props) => {
   const { className, avatar, name, email, date, children } = props;
   return (
     <div className={`${className} w-full`}>
-      <div className="flex items-center justify-between bg-dark-gray w-full h-14 rounded-[10px] py-1.5 px-4">
+      <div className="flex items-center justify-between bg-dark-gray w-full h-14 rounded-default py-1.5 px-4">
         <div className="flex">
           <img src={avatar} className="w-10 h-10 mr-3" alt="" />
           <div>

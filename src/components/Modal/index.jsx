@@ -132,7 +132,7 @@ const Modal = (props) => {
                       {step == 1 ? (
                         <>
                           <Select
-                            className="w-full h-[48px] rounded-lg"
+                            className="w-full h-[48px] rounded-default"
                             options={sportOptions}
                           ></Select>
                           <button
@@ -145,7 +145,7 @@ const Modal = (props) => {
                       ) : step == 2 ? (
                         <>
                           <div>
-                            <div className="flex w-full h-[86px] bg-charcoal rounded-[10px] items-center">
+                            <div className="flex w-full h-[86px] bg-charcoal rounded-default items-center">
                               <img
                                 src={uploadCircle}
                                 alt=""
@@ -156,7 +156,7 @@ const Modal = (props) => {
                               </p>
                             </div>
                             <Input
-                              className="rounded-[10px] text-xs my-5"
+                              className="rounded-default text-xs my-5"
                               placeholder="Type League Name*"
                             ></Input>
 
@@ -186,8 +186,8 @@ const Modal = (props) => {
                       ) : (
                         <>
                           <div className="w-full h-29">
-                            <Input className='text-sm rounded-[10px] mb-5' option={calendar} placeholder='Enter Season Start Date*'></Input>
-                            <Input className='text-sm rounded-[10px]' option={calendar} placeholder='Enter Season End Date*'></Input>
+                            <Input className='text-xs rounded-default mb-5' option={calendar} placeholder='Enter Season Start Date*'></Input>
+                            <Input className='text-xs rounded-default' option={calendar} placeholder='Enter Season End Date*'></Input>
                           </div>
                           <div className="flex mt-auto w-full justify-between">
                             <button

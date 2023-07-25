@@ -25,7 +25,7 @@ const PlayerProfile = () => {
         &gt;
         <span className="text-sky-500"> Tornike Shengelia</span>
       </p>
-      <div className="flex w-full h-[78px] bg-slate rounded-[10px] ">
+      <div className="flex w-full h-[78px] bg-slate rounded-default ">
         <div className="w-1/5 border border-light-gray rounded-l-[10px] flex flex-col justify-center">
                 <p className="text-white text-base text-center">Height</p>
                 <p className="text-white text-base text-center">6"9"(2.06m)</p>
