@@ -1,15 +1,14 @@
 import React, {useState, useEffect} from 'react';
 import Input from '../../components/Input';
-import logo from '../../assets/img/logo.png';
-import hrLine from '../../assets/img/hr-line.png';
+import logo from '../../assets/img/dark_mode/logo.png';
+import hrLine from '../../assets/img/dark_mode/hr-line.png';
 import Button from '../../components/Button';
-import gmail from '../../assets/img/gmail.png';
-import lock from '../../assets/img/lock.png';
-import eyeDisable from '../../assets/img/eye-disable.png';
-import upload from '../../assets/img/upload_photo.png';
-import calendar from '../../assets/img/calendar.png';
-import updown from '../../assets/img/updown.png';
-import user from '../../assets/img/user.png';
+import lock from '../../assets/img/dark_mode/lock.png';
+import eyeDisable from '../../assets/img/dark_mode/eye-disable.png';
+import upload from '../../assets/img/dark_mode/upload_photo.png';
+import calendar from '../../assets/img/dark_mode/calendar.png';
+import updown from '../../assets/img/dark_mode/updown.png';
+import user from '../../assets/img/dark_mode/user.png';
 
 const Signup = () => {
 

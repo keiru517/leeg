@@ -1,5 +1,5 @@
 import { Card, Typography } from "@material-tailwind/react";
-import actionIcon from '../../assets/img/action.png';
+import actionIcon from '../../assets/img/dark_mode/action.png';
 
 
 const StandingsTable = (props) => {

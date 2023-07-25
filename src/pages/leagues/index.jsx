@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { useSelector } from 'react-redux';
 import Card from '../../components/Card';
-import search from '../../assets/img/search.png';
+import search from '../../assets/img/dark_mode/search.png';
 import Input from '../../components/Input';
 import Select from '../../components/Select';
 import Modal from '../../components/Modal';
@@ -11,6 +11,7 @@ import * as actions from '../../actions';
 const MyLeagues = () => {
 
     const modal_status = useSelector(state=>state.leagues.league_dialog_open)
+    const create_step = useSelector(state=>state.leagues.create_step)
 
     const leagues = [
         1,
@@ -41,7 +42,7 @@ const MyLeagues = () => {
                     {
                     leagues?.map((lg, idx) => <Card key={idx}/>)
                 } </div>
-                <Modal status={modal_status}/>
+                <Modal status={modal_status} create_step={create_step}/>
             </div>
         </div>
     );

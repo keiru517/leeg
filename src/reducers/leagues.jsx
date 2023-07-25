@@ -2,7 +2,7 @@
 import * as actions from '../actions';
 
 const initialState = {
-    league_dialog_open: false
+    league_dialog_open: false,
 }
 
 const leagues = (state=initialState, action) => {

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Button from "../../components/Button";
-import line from '../../assets/img/point-line.png';
+import line from '../../assets/img/dark_mode/point-line.png';
 
 const PageTitle = (props) => {
   const {

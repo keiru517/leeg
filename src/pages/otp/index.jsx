@@ -1,16 +1,8 @@
 import React, { useState, useEffect } from "react";
-import search from "../../assets/img/search.png";
-import Input from "../../components/Input";
-import Select from "../../components/Select";
-import Modal from "../../components/Modal";
-import PageTitle from "../../components/PageTitle/pageTitle";
-import logo from "../../assets/img/logo.png";
-import hrLine from "../../assets/img/hr-line.png";
+import logo from "../../assets/img/dark_mode/logo.png";
+import hrLine from "../../assets/img/dark_mode/hr-line.png";
 import Button from "../../components/Button";
-import gmail from "../../assets/img/gmail.png";
-import lock from "../../assets/img/lock.png";
-import eyeDisable from "../../assets/img/eye-disable.png";
-import otpLine from "../../assets/img/otp-line.png";
+import otpLine from "../../assets/img/dark_mode/otp-line.png";
 
 const OTP = () => {
   const leagues = [1, 2, 3, 4, 5, 6];

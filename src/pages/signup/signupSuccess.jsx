@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react';
-import logo from '../../assets/img/logo.png';
-import hrLine from '../../assets/img/hr-line.png';
+import logo from '../../assets/img/dark_mode/logo.png';
+import hrLine from '../../assets/img/dark_mode/hr-line.png';
 import Button from '../../components/Button';
-import otpLine from '../../assets/img/otp-line.png';
+import otpLine from '../../assets/img/dark_mode/otp-line.png';
 
 const SignupSuccess = () => {
 

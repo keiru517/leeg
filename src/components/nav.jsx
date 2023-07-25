@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
-import logo from '../assets/img/Avatar.png';
-import profile from '../assets/img/profile.png';
-import downarrow from '../assets/img/down-arrow.png';
-import line from '../assets/img/line.png';
+import logo from '../assets/img/dark_mode/Avatar.png';
+import profile from '../assets/img/dark_mode/profile.png';
+import downarrow from '../assets/img/dark_mode/down-arrow.png';
+import line from '../assets/img/dark_mode/line.png';
 
 const Nav = () => {
 

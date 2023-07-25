@@ -1,6 +1,5 @@
 import { Card, Typography } from "@material-tailwind/react";
-import mark from '../../assets/img/mark.png';
-import actionIcon from '../../assets/img/action.png';
+import actionIcon from '../../assets/img/dark_mode/action.png';
 
 const ScheduleTable = (props) => {
   const { data } = props;

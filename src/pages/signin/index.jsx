@@ -1,11 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import Input from '../../components/Input';
-import logo from '../../assets/img/logo.png';
-import hrLine from '../../assets/img/hr-line.png';
+import logo from '../../assets/img/dark_mode/logo.png';
+import hrLine from '../../assets/img/dark_mode/hr-line.png';
 import Button from '../../components/Button';
-import gmail from '../../assets/img/gmail.png';
-import lock from '../../assets/img/lock.png';
-import eyeDisable from '../../assets/img/eye-disable.png';
+import gmail from '../../assets/img/dark_mode/gmail.png';
+import lock from '../../assets/img/dark_mode/lock.png';
+import eyeDisable from '../../assets/img/dark_mode/eye-disable.png';
 
 const Signin = () => {
 
@@ -40,8 +40,8 @@ const Signin = () => {
                         <p className='text-[#BBBBBB] mt-3'>Sign in to access your account</p>
                     </div>
                     <div className='my-6 space-y-4'>
-                        <Input className='bg-[#272B30]' icon={gmail} placeholder="Email Address"></Input>
-                        <Input className='bg-[#272B30]' icon={lock} type='password' placeholder="Password"  option={eyeDisable}></Input>
+                        <Input className='bg-[#272B30] rounded-lg' icon={gmail} placeholder="Email Address"></Input>
+                        <Input className='bg-[#272B30] rounded-lg' icon={lock} type='password' placeholder="Password"  option={eyeDisable}></Input>
                     </div>
                     <div className='flex justify-between mb-4'>
                         <Button className='w-[377px] h-[53px] bg-primary'>Login</Button>

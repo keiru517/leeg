@@ -1,5 +1,4 @@
 import { Card, Typography } from "@material-tailwind/react";
-import mark from '../../assets/img/mark.png';
 
 
 const StandingsTable = (props) => {

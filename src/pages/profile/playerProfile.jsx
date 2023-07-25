@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Card from "../../components/Card";
-import search from "../../assets/img/search.png";
-import Input from "../../components/Input";
 import Select from "../../components/Select";
-import Modal from "../../components/Modal";
 import ProfileTitle from "../../components/ProfileTitle";
-import leftarrowIcon from "../../assets/img/left-arrow.png";
-import avatar from "../../assets/img/player.png";
+import leftarrowIcon from "../../assets/img/dark_mode/left-arrow.png";
+import avatar from "../../assets/img/dark_mode/player.png";
 
 const PlayerProfile = () => {
   const leagues = [1, 2, 3, 4, 5, 6];

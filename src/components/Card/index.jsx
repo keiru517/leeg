@@ -1,5 +1,5 @@
-import mark from '../../assets/img/mark.png';
-import rightarrow from '../../assets/img/right-arrow.png';
+import mark from '../../assets/img/dark_mode/mark.png';
+import rightarrow from '../../assets/img/dark_mode/right-arrow.png';
 
 const Card = (props) => {
     return (

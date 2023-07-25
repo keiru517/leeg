@@ -1,9 +1,9 @@
 import React, { useState, useEffect, Children } from "react";
-import search from "../../assets/img/search.png";
-import leftarrowIcon from "../../assets/img/left-arrow.png";
-import mark from "../../assets/img/mark.png";
-import editIcon from "../../assets/img/edit.png";
-import deleteIcon from "../../assets/img/delete.png";
+import search from "../../assets/img/dark_mode/search.png";
+import leftarrowIcon from "../../assets/img/dark_mode/left-arrow.png";
+import mark from "../../assets/img/dark_mode/mark.png";
+import editIcon from "../../assets/img/dark_mode/edit.png";
+import deleteIcon from "../../assets/img/dark_mode/delete.png";
 // import delete from '../../assets/img/delete.png';
 import Input from "../../components/Input";
 import ListItem from "../../components/ListItem";
@@ -15,9 +15,9 @@ import ScheduleTable from '../../components/Table/schedule';
 import StandingsTable from '../../components/Table/standings';
 import TeamsTable from '../../components/Table/teams';
 import { Tab } from "@headlessui/react";
-import avatar from "../../assets/img/player.png";
-import edit from "../../assets/img/edit.png";
-import userAdd from "../../assets/img/user-add.png";
+import avatar from "../../assets/img/dark_mode/player.png";
+import edit from "../../assets/img/dark_mode/edit.png";
+import userAdd from "../../assets/img/dark_mode/user-add.png";
 
 const League = () => {
   const leagues = [1, 2, 3, 4, 5, 6];
