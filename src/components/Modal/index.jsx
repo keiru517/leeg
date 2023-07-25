@@ -13,8 +13,9 @@ const Modal = (props) => {
   // const {
   //   status
   // } = props
+  const status = useSelector(state=>state.leagues.league_dialog_open)
 
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(status)
   
   const cancelButtonRef = useRef(null)
   
@@ -24,7 +25,7 @@ const Modal = (props) => {
     'Hockey',
     'Baseball'
   ]
-  const status = useSelector(state=>state.leagues.league_dialog_open)
+  
   console.log('modal status', status)
 
 
