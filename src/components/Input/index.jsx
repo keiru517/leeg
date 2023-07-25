@@ -15,7 +15,7 @@ const Input = (props) => {
                         alt="" />
                 </div> : ""
             }
-            <input {...rest} className="bg-transparent outline-none text-white flex-grow" />
+            <input {...rest} className="bg-transparent outline-none text-white flex-grow " />
             {
                 option ? <div>
                     <img src={option} alt="" />
