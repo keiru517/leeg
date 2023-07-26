@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import logo from '../assets/img/dark_mode/Avatar.png';
 import profile from '../assets/img/dark_mode/profile.png';
-import downarrow from '../assets/img/dark_mode/down-arrow.png';
+import downArrow from '../assets/img/dark_mode/down-arrow.png';
 import line from '../assets/img/dark_mode/line.png';
 
 const Nav = () => {
@@ -18,13 +18,13 @@ const Nav = () => {
                 <img src={line}></img>
                 <div className='greeting'>
                     <p className='text-white text-lg font-semibold text-left'>Hello George!</p>
-                    <p className='text-white text-sm font-gray text-left'>Welcome to your dashboard</p>
+                    <p className='text-white text-sm font-dark-gray text-left'>Welcome to your dashboard</p>
                 </div>
             </div>
             <div className='profile flex items-center justify-between space-x-2'>
                 <img src={profile} className=''></img>
                 <p className='profile-name text-sm text-white'>George Chichua</p>
-                <img src={downarrow} className='mt-1'></img>
+                <img src={downArrow} className='mt-1'></img>
             </div>
 
         </div>

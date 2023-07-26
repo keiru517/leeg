@@ -232,7 +232,7 @@ const League = () => {
       >
         2023 TABC Summer League
       </PageTitle>
-      <p className="font-gray my-[20px]">
+      <p className="font-dark-gray my-[20px]">
         2023 TABC Summer League
         <span className="text-sky-500"> &gt; {breadcrum}</span>
       </p>

@@ -13,8 +13,10 @@ module.exports = {
                 'dark-gray': '#353A41',
                 'success': '#34A853',
                 'danger': '#E7112D',
-                'table-border': '#6F767E',
-                'light-gray': '#585E65'
+                'light-gray': '#585E65',
+                'middle-gray': '#494e54',
+                'font-dark-gray': '#6F767E',
+                'font-light-gray': '#99A1B4'
 
             },
             spacing: {
@@ -32,6 +34,9 @@ module.exports = {
             },
             screens: {
                 '3xl': '1440px'
+            },
+            width: {
+                auth:'429px'
             }
         }
         // margin: {

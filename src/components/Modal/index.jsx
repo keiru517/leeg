@@ -8,7 +8,7 @@ import btn2 from "../../assets/img/dark_mode/btn2.png";
 import btn2Selected from "../../assets/img/dark_mode/btn2-selected.png";
 import btn3 from "../../assets/img/dark_mode/btn3.png";
 import uploadCircle from "../../assets/img/dark_mode/upload-circle.png";
-import calendar from "../../assets/img/dark_mode/calendar-blank.png";
+import calendar from "../../assets/img/dark_mode/calendar.png";
 import Button from "../Button";
 import Select from "../Select";
 import Input from "../Input";
@@ -83,7 +83,7 @@ const Modal = (props) => {
                     <p className="text-2xl text-white font-bold">
                       Create League
                     </p>
-                    <img src={close} onClick={closeDialog}></img>
+                    <img src={close} onClick={closeDialog} className="cursor-pointer hover:opacity-70"></img>
                   </div>
                   <div className="flex divide-x divide-solid divide-[#3A3A3A]">
                     <div className="flex flex-col space-y-8 w-[290px] h-[521px] p-[26px]">
@@ -107,7 +107,7 @@ const Modal = (props) => {
                             ? "flex w-[238px] h-12 bg-primary rounded-full items-center text-white text-sm font-medium"
                             : step == 3
                             ? "flex w-[238px] h-12 rounded-full items-center text-white text-sm font-bold"
-                            : "flex w-[238px] h-12 rounded-full items-center text-table-border text-sm font-bold"
+                            : "flex w-[238px] h-12 rounded-full items-center text-font-dark-gray text-sm font-bold"
                         }
                       >
                         {step == 3 ? (
@@ -121,7 +121,7 @@ const Modal = (props) => {
                         className={
                           step == 3
                             ? "flex w-[238px] h-12 bg-primary rounded-full items-center text-white text-sm font-medium"
-                            : "flex w-[238px] h-12 rounded-full items-center text-table-border text-sm font-bold"
+                            : "flex w-[238px] h-12 rounded-full items-center text-font-dark-gray text-sm font-bold"
                         }
                       >
                         <img src={btn3} alt="" className="px-2" />
@@ -134,7 +134,7 @@ const Modal = (props) => {
                           <Select
                             className="w-full h-[48px] rounded-default"
                             options={sportOptions}
-                          ></Select>
+                          >Select Sport*</Select>
                           <button
                             onClick={goToStep2}
                             className="bg-primary w-full h-[53px] rounded-xl mt-auto text-white font-bold text-sm hover:bg-sky-600 focus:ring-2"

@@ -19,7 +19,7 @@ const StandingsTable = (props) => {
         <thead>
           <tr>
             {columns.map((head, idx) => (
-              <th key={idx} className="h-[53px] text-center font-table-border">
+              <th key={idx} className="h-[53px] text-center font-font-dark-gray">
                 <Typography
                   variant="small"
                   color="blue-gray"

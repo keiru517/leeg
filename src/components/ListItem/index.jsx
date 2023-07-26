@@ -47,8 +47,8 @@ const ListItem = (props) => {
           <div>
             <p className="text-white text-base underline">{name}</p>
             <div className="flex">
-              <p className="text-white text-xs font-gray">{email}</p>
-              <p className="text-white text-xs font-gray">{date}</p>
+              <p className="text-white text-xs font-dark-gray">{email}</p>
+              <p className="text-white text-xs font-dark-gray">{date}</p>
             </div>
           </div>
         </div>

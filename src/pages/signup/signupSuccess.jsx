@@ -8,11 +8,11 @@ const SignupSuccess = () => {
 
     return (
         <div className=''>
-            <div className='w-[430px] h-[441px] mx-auto mt-32'>
+            <div className='w-auth mx-auto mt-32'>
                 <div className='w-[164px] h-[185px] mx-auto'>
                     <img src={logo} alt="logo" className='mx-auto' />
                     <img src={hrLine} alt="" className='my-7'/>
-                    <p className='font-gray text-sm text-center'>LEEG.IO</p>
+                    <p className='font-dark-gray text-sm text-center'>LEEG.IO</p>
 
                 </div>
                 <div className='bg-slate w-full h-[305px] mt-16 rounded-main p-[26px] flex flex-col'>
@@ -41,7 +41,7 @@ const SignupSuccess = () => {
                     <div className='flex justify-between mb-4'>
                         <Button className='w-[377px] h-[53px] bg-primary'>Verify</Button>
                     </div>
-                    <p className='font-gray text-center'>Don't receive the Email?<span className='text-primary font-semibold'> Resend Email</span></p>
+                    <p className='font-dark-gray text-center'>Don't receive the Email?<span className='text-primary font-semibold'> Resend Email</span></p>
                 </div>
             </div>
         </div>

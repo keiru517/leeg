@@ -11,28 +11,30 @@ const OTP = () => {
 
   return (
     <div className="">
-      <div className="w-[430px] h-[441px] mx-auto mt-32">
+      <div className="w-auth mx-auto mt-32">
         <div className="w-[164px] h-[185px] mx-auto">
           <img src={logo} alt="logo" className="mx-auto" />
           <img src={hrLine} alt="" className="my-7" />
-          <p className="font-gray text-sm text-center">LEEG.IO</p>
+          <p className="font-dark-gray text-sm text-center">LEEG.IO</p>
         </div>
         <div className="bg-slate w-full h-[305px] mt-16 rounded-main p-[26px] flex flex-col">
           <div>
             <p className="text-white text-2xl font-bold">
               Verify Email Address
             </p>
-            <p className="text-[#BBBBBB] text-base mt-3">
-              Enter the SMS sent to{" "}
+            <p className="text-font-light-gray text-base mt-3">
+              Enter the Code sent to{" "}
               <span className="text-white">Gio.chichua9@gmail.com</span>
             </p>
           </div>
           <div className="flex mb-5 mt-2 space-x-[26px]">
             <div>
               <input
-                type="text"
+                type="number"
                 className="bg-transparent outline-none text-white text-[52px] w-[75px] text-center h-16 mb-4"
                 pattern="^\d{0-9}$"
+                maxLength={1}
+                max={9}
               />
               <img src={otpLine} alt="" />
             </div>
@@ -67,9 +69,9 @@ const OTP = () => {
           <div className="flex justify-between mb-4">
             <Button className="w-[377px] h-[53px] bg-primary">Verify</Button>
           </div>
-          <p className="font-gray text-center">
-            Don't receive the Email?
-            <span className="text-primary font-semibold"> Resend Email</span>
+          <p className="font-dark-gray text-center">
+            Don't receive the Code?
+            <span className="text-primary font-semibold"> Resend Code</span>
           </p>
         </div>
       </div>

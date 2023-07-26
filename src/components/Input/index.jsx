@@ -18,7 +18,7 @@ const Input = (props) => {
             <input {...rest} className="bg-transparent outline-none text-white flex-grow " />
             {
                 option ? <div>
-                    <img src={option} alt="" />
+                    <img src={option} alt="" className="hover:cursor-pointer"/>
                 </div>
                     : ""
             }

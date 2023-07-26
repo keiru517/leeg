@@ -20,7 +20,7 @@ const PlayerProfile = () => {
         </div>
       </ProfileTitle>
 
-      <p className="font-gray my-[20px]">
+      <p className="font-dark-gray my-[20px]">
         2023 TABC Summer League &gt; Schedule &gt; Standings &gt; ManageRosters
         &gt;
         <span className="text-sky-500"> Tornike Shengelia</span>
