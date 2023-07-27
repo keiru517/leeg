@@ -9,7 +9,6 @@ import Input from "../../components/Input";
 import ListItem from "../../components/ListItem";
 import Select from "../../components/Select";
 import Button from "../../components/Button";
-import Modal from "../../components/Modal";
 import PageTitle from "../../components/PageTitle/PageTitle";
 import ScheduleTable from '../../components/Table/Schedule';
 import StandingsTable from '../../components/Table/Standings';
@@ -24,7 +23,7 @@ const League = () => {
 
   const options = ["Sort by", "Ascend", "Descend", "Recent"];
 
-  const categories = ["Schedule", "Standings", "Teams", "Manage Rosters"];
+  const categories = ["Manage Rosters", "Teams", "Matches", "Standings", "All Playerlist"];
 
   const schedule_columns = [
     "Date",
@@ -239,13 +238,13 @@ const League = () => {
       <div className="rounded-main bg-slate flex-grow p-default">
         <div className="w-full px-2 sm:px-0 h-full flex flex-col">
           <Tab.Group>
-            <Tab.List className="flex w-[483px] space-x-5 rounded-xl bg-transparent p-1 ">
+            <Tab.List className="flex justify-start space-x-5 rounded-xl bg-transparent p-1 ">
               {categories.map((category) => (
                 <Tab
                   key={category}
                   className={({ selected }) =>
                     classNames(
-                      "w-1/3 py-2.5 text-sm font-medium leading-5 text-gray-300",
+                      "py-2.5 text-sm font-medium leading-5 text-gray-300 px-3",
                       " focus:outline-none ",
                       selected
                         ? "divide-[bg-sky-500] text-white border-b-2 border-sky-500"
@@ -259,6 +258,93 @@ const League = () => {
               ))}
             </Tab.List>
             <Tab.Panels className="flex-grow flex items-center ">
+              {/* Rosters */}
+              <Tab.Panel
+                key={3}
+                className={classNames(
+                  "rounded-xl flex flex-col justify-between w-full h-full"
+                )}
+              >
+                <hr className="h-px my-4 bg-charcoal border-0" />
+                <div className="flex items-center h-full space-x-4">
+                  <div className="w-1/2 bg-charcoal h-[420px] p-default rounded-main">
+                    <div className="flex justify-between w-full">
+                      <p className="text-white text-xl font-semibold">
+                        Waitlisted Players
+                      </p>
+                      <p className="text-white text-xl font-semibold">120</p>
+                    </div>
+                    <div className="flex w-full justify-between space-x-10 my-5">
+                      <div className="flex flex-grow space-x-3 ">
+                        <Input
+                          className="flex-grow rounded-lg h-[38px] "
+                          icon={search}
+                          placeholder="Search Players"
+                        />
+                        <Select
+                          className="w-[144px] rounded-lg"
+                          options={options}
+                        />
+                      </div>
+                      <div>
+                        <Button className="text-sm bg-success w-18 h-[38px]">
+                          Accept
+                        </Button>
+                      </div>
+                    </div>
+                    <div className="overflow-y-scroll overflow-hidden h-4/6">
+                      {players.map((player, idx) => (
+                        <ListItem
+                        key={idx}
+                          className="mb-5"
+                          avatar={avatar}
+                          name={player.name}
+                          email={player.email}
+                          date={player.created_at}
+                        ></ListItem>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="w-1/2 bg-charcoal h-[420px] p-default rounded-main">
+                    <div className="flex justify-between w-full">
+                      <p className="text-white text-xl font-semibold">
+                        Accepted Players
+                      </p>
+                      <p className="text-white text-xl font-semibold">120</p>
+                    </div>
+                    <div className="flex w-full justify-between space-x-10 my-5">
+                      <div className="flex flex-grow space-x-3 ">
+                        <Input
+                          className="flex-grow rounded-lg h-[38px]"
+                          icon={search}
+                          placeholder="Search Players"
+                        />
+                        <Select
+                          className="w-[144px] rounded-lg"
+                          options={options}
+                        />
+                      </div>
+                      <div>
+                        <Button className="text-sm bg-danger w-18 h-[38px]">
+                          Remove
+                        </Button>
+                      </div>
+                    </div>
+                    <div className="overflow-y-scroll h-4/6">
+                      {players.map((player) => (
+                        <ListItem
+                          className="mb-5"
+                          avatar={avatar}
+                          name={player.name}
+                          email={player.email}
+                          date={player.created_at}
+                        ></ListItem>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </Tab.Panel>
+
               {/* Schedule */}
               <Tab.Panel
                 key={0}
@@ -354,92 +440,8 @@ const League = () => {
                   }
                 </div>                
               </Tab.Panel>
-              {/* Rosters */}
-              <Tab.Panel
-                key={3}
-                className={classNames(
-                  "rounded-xl flex flex-col justify-between w-full h-full"
-                )}
-              >
-                <hr className="h-px my-4 bg-charcoal border-0" />
-                <div className="flex items-center h-full space-x-4">
-                  <div className="w-1/2 bg-charcoal h-[420px] p-default rounded-main">
-                    <div className="flex justify-between w-full">
-                      <p className="text-white text-xl font-semibold">
-                        Waitlisted Players
-                      </p>
-                      <p className="text-white text-xl font-semibold">120</p>
-                    </div>
-                    <div className="flex w-full justify-between space-x-10 my-5">
-                      <div className="flex flex-grow space-x-3 ">
-                        <Input
-                          className="flex-grow rounded-lg h-[38px]"
-                          icon={search}
-                          placeholder="Search Players"
-                        />
-                        <Select
-                          className="w-[144px] rounded-lg"
-                          options={options}
-                        />
-                      </div>
-                      <div>
-                        <Button className="text-sm bg-success w-18 h-[38px]">
-                          Accept
-                        </Button>
-                      </div>
-                    </div>
-                    <div className="overflow-y-scroll overflow-hidden h-4/6">
-                      {players.map((player, idx) => (
-                        <ListItem
-                        key={idx}
-                          className="mb-5"
-                          avatar={avatar}
-                          name={player.name}
-                          email={player.email}
-                          date={player.created_at}
-                        ></ListItem>
-                      ))}
-                    </div>
-                  </div>
-                  <div className="w-1/2 bg-charcoal h-[420px] p-default rounded-main">
-                    <div className="flex justify-between w-full">
-                      <p className="text-white text-xl font-semibold">
-                        Accepted Players
-                      </p>
-                      <p className="text-white text-xl font-semibold">120</p>
-                    </div>
-                    <div className="flex w-full justify-between space-x-10 my-5">
-                      <div className="flex flex-grow space-x-3 ">
-                        <Input
-                          className="flex-grow rounded-lg h-[38px]"
-                          icon={search}
-                          placeholder="Search Players"
-                        />
-                        <Select
-                          className="w-[144px] rounded-lg"
-                          options={options}
-                        />
-                      </div>
-                      <div>
-                        <Button className="text-sm bg-danger w-18 h-[38px]">
-                          Remove
-                        </Button>
-                      </div>
-                    </div>
-                    <div className="overflow-y-scroll h-4/6">
-                      {players.map((player) => (
-                        <ListItem
-                          className="mb-5"
-                          avatar={avatar}
-                          name={player.name}
-                          email={player.email}
-                          date={player.created_at}
-                        ></ListItem>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </Tab.Panel>
+              
+
             </Tab.Panels>
           </Tab.Group>
         </div>

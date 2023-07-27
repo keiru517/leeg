@@ -15,7 +15,7 @@ const Home = () => {
   const create_step = useSelector((state) => state.leagues.create_step);
 
   const leagues = [
-    1
+    // 1
   ];
 
   const options = ["Ascend", "Descend", "Recent"];
@@ -50,11 +50,11 @@ const Home = () => {
   }, []);
 
   return (
-    <div>
+    <div className="flex flex-col flex-grow">
       <PageTitle action={actions.OPEN_CREATE_LEAGUE} button="Create League">
         My Leagues
       </PageTitle>
-      <div className="rounded-main bg-slate overflow-auto mt-[20px] p-default">
+      <div className="flex flex-col flex-grow rounded-main bg-slate overflow-auto mt-[20px] p-default">
         <div className="search flex justify-between space-x-3">
           <Input
             icon={search}
@@ -78,9 +78,9 @@ const Home = () => {
             ))}
           </div>
         ) : (
-          <p className="dark:text-white text-2xl text-center">
-            No Leagues to show!
-          </p>
+          <div className="dark:text-white text-2xl flex items-center flex-grow justify-center">
+            <p>No Leagues to show!</p> 
+          </div>
         )}{" "}
       </div>
       <Modal status={modal_status} create_step={create_step} />
