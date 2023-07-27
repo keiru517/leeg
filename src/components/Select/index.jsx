@@ -3,38 +3,39 @@ import downArrowFilled from "../../../src/assets/img/dark_mode/down-arrow-filled
 import downArrow from "../../../src/assets/img/dark_mode/down-arrow.png";
 
 const Select = (props) => {
-  const { icon, className, options, children, ...rest } = props;
+  const { icon, className, value, handleClick, options, children, ...rest } = props;
 
   const [sort, setSort] = useState(children);
   const [expand, setExpand] = useState(false);
 
-  const handleClick = (data) => {
+  const toggle = () => {
+    setExpand(!expand);
+  };
+
+  const handleButtonClick = (data) => {
     setExpand(false);
-    setSort(data);
+    handleClick(data);
   };
 
   return (
     <div
-      class={`${className} flex justify-between z-10 text-font-dark-gray rounded-lg shadow w-44 dark:bg-transparent border border-charcoal relative items-center cursor-pointer`}
-    //   onClick={() => {
-    //     setExpand(true)
-    //   }}
+      class={`${className} flex justify-between z-10 text-font-dark-gray rounded-lg shadow w-44 dark:bg-transparent border border-charcoal relative items-center cursor-pointer select-none`}
+      //   onClick={() => {
+      //     setExpand(true)
+      //   }}
     >
-      <span className="ml-4">{sort}</span>
-        <img
-          src={downArrowFilled}
-          alt=""
-          className="mr-4 "
-          onClick={() => {
-            setExpand(true);
-          }}
-        />
+      <img src={icon} alt="" />
+      <div
+        className="w-full h-full flex justify-between items-center"
+        onClick={toggle}
+      >
+        <span className="ml-4">{value}</span>
+        <img src={downArrowFilled} alt="" className="mr-4 " />
+      </div>
       <ul
-        class={
-          expand
-            ? "py-2 text-sm text-gray-700 dark:text-gray-200 absolute top-14 bg-dark-gray w-full rounded-default"
-            : "py-2 text-sm text-gray-700 dark:text-gray-200 absolute top-14 bg-dark-gray w-full rounded-default hidden"
-        }
+        className={`py-2 text-sm text-gray-700 dark:text-gray-200 absolute top-14 bg-dark-gray w-full rounded-default${
+          expand ? `` : " hidden"
+        }`}
         aria-labelledby="states-button"
       >
         {options.map((option) => {
@@ -43,7 +44,7 @@ const Select = (props) => {
               <button
                 type="button"
                 class="inline-flex w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-middle-gray dark:hover:text-white"
-                onClick={() => handleClick(option)}
+                onClick={() => handleButtonClick(option)}
               >
                 <div class="inline-flex items-center">{option}</div>
               </button>

@@ -45,6 +45,13 @@ const Modal = (props) => {
   const goToStep3 = () => {
     setStep(3);
   };
+  
+  const [value, setValue] = useState('Select Sport*');
+
+  const handleSport = () => {
+    console.log("selected sport")
+  }
+
 
   return (
     <Transition.Root show={status} as={Fragment}>
@@ -134,7 +141,9 @@ const Modal = (props) => {
                           <Select
                             className="w-full h-[48px] rounded-default"
                             options={sportOptions}
-                          >Select Sport*</Select>
+                            handleClick={(e) => setValue(e)}
+                            value={value}
+                          >{value}</Select>
                           <button
                             onClick={goToStep2}
                             className="bg-primary w-full h-[53px] rounded-xl mt-auto text-white font-bold text-sm hover:bg-sky-600 focus:ring-2"
