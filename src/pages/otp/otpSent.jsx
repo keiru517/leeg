@@ -17,7 +17,7 @@ const OTPSent = () => {
           <img src={hrLine} alt="" className="my-7" />
           <p className="font-dark-gray text-sm text-center">LEEG.IO</p>
         </div>
-        <div className="bg-slate w-full h-[251px] mt-16 rounded-main p-[26px] flex flex-col">
+        <div className="bg-slate w-full h-[251px] mt-16 rounded-main p-default flex flex-col">
           <div>
             <p className="text-white text-2xl font-bold">
               Email Sent

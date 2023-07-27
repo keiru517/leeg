@@ -48,7 +48,7 @@ const PlayerProfile = () => {
         </div>
       </div>        
 
-      <div className="rounded-main bg-slate overflow-auto mt-5 p-[26px]">
+      <div className="rounded-main bg-slate overflow-auto mt-5 p-default">
         <div className="search flex justify-between space-x-6">
           <Select className='w-1/2 rounded-lg' options={seasons} /> 
           <Select className="w-1/2 rounded-lg" options={mode} />

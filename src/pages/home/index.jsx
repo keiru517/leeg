@@ -65,7 +65,7 @@ const Home = () => {
     return (
         <div>
             <PageTitle action={actions.OPEN_CREATE_LEAGUE} button="Create League">My Leagues</PageTitle>
-            <div className='rounded-main bg-slate overflow-auto mt-[20px] p-[26px]'>
+            <div className='rounded-main bg-slate overflow-auto mt-[20px] p-default'>
                 <div className='search flex justify-between space-x-3'>
                     <Input icon={search} className="flex-grow rounded-lg" placeholder="Search Leagues"/>
                     <Select className='w-[144px] rounded-lg' options={options} handleClick={(e)=> setValue(e)} value={value}>{value}</Select>

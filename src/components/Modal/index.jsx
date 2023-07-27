@@ -99,7 +99,7 @@ const Modal = (props) => {
                     ></img>
                   </div>
                   <div className="flex divide-x divide-solid divide-[#3A3A3A]">
-                    <div className="flex flex-col space-y-8 w-[290px] h-[521px] p-[26px]">
+                    <div className="flex flex-col space-y-8 w-[290px] h-[521px] p-default">
                       <div
                         className={
                           step == 1
@@ -141,7 +141,7 @@ const Modal = (props) => {
                         Schedule
                       </div>
                     </div>
-                    <div className="flex flex-col w-[444px] p-[26px]">
+                    <div className="flex flex-col w-[444px] p-default">
                       {step == 1 ? (
                         <>
                           <Select

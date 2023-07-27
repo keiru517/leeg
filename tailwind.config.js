@@ -38,6 +38,9 @@ module.exports = {
             },
             width: {
                 auth:'429px'
+            },
+            padding: {
+                default: '26px'
             }
         }
         // margin: {

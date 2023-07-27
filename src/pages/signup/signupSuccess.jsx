@@ -15,7 +15,7 @@ const SignupSuccess = () => {
                     <p className='font-dark-gray text-sm text-center'>LEEG.IO</p>
 
                 </div>
-                <div className='bg-slate w-full h-[305px] mt-16 rounded-main p-[26px] flex flex-col'>
+                <div className='bg-slate w-full h-[305px] mt-16 rounded-main p-default flex flex-col'>
                     <div>
                         <p className='text-white text-2xl font-bold'>Verify Email Address</p>
                         <p className='text-[#BBBBBB] text-base mt-3'>Enter the SMS sent to <span className='text-white'>Gio.chichua9@gmail.com</span></p>
