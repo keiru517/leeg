@@ -5,7 +5,6 @@ import downArrow from "../../../src/assets/img/dark_mode/down-arrow.png";
 const Select = (props) => {
   const { icon, className, value, handleClick, options, children, ...rest } = props;
 
-  const [sort, setSort] = useState(children);
   const [expand, setExpand] = useState(false);
 
   const toggle = () => {

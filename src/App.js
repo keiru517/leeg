@@ -1,6 +1,6 @@
 import './App.css';
-import MyLeagues from './pages/leagues';
-import League from './pages/leagues/league';
+import Home from './pages/home';
+import League from './pages/home/league';
 import SigninOption from './pages/signin/signinOption';
 import Signin from './pages/signin';
 import Signup from './pages/signup';
@@ -24,7 +24,7 @@ function App() {
           <Route exact path='/otp' element={<OTP />}></Route>
           <Route exact path='/otpsent' element={<OTPSent />}></Route>
           <Route exact path='/forgotpwd' element={<ForgotPwd />}></Route>
-          <Route exact path='/myleagues' element={<MyLeagues />}></Route>
+          <Route exact path='/' element={<Home />}></Route>
           <Route exact path='/league' element={<League />}></Route>
           <Route exact path='/player-profile' element={<PlayerProfile />}></Route>
         </Routes>

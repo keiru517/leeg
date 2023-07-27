@@ -14,13 +14,14 @@ import Select from "../Select";
 import Input from "../Input";
 import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../actions";
+import Datepicker from "react-tailwindcss-datepicker";
 
 const Modal = (props) => {
   const dispatch = useDispatch();
 
   const status = useSelector((state) => state.leagues.league_dialog_open);
 
-  const [open, setOpen] = useState(false);
+  // const [open, setOpen] = useState(false);
   const [step, setStep] = useState(1);
 
   const cancelButtonRef = useRef(null);
@@ -45,13 +46,14 @@ const Modal = (props) => {
   const goToStep3 = () => {
     setStep(3);
   };
+
+  const [sport, setSport] = useState("Select Sport*");
+  const [leagueName, setLeagueName] = useState("");
+  const [leagueDescription, setLeagueDescription] = useState("");
   
-  const [value, setValue] = useState('Select Sport*');
+  const createLeague = () => {
 
-  const handleSport = () => {
-    console.log("selected sport")
   }
-
 
   return (
     <Transition.Root show={status} as={Fragment}>
@@ -90,7 +92,11 @@ const Modal = (props) => {
                     <p className="text-2xl text-white font-bold">
                       Create League
                     </p>
-                    <img src={close} onClick={closeDialog} className="cursor-pointer hover:opacity-70"></img>
+                    <img
+                      src={close}
+                      onClick={closeDialog}
+                      className="cursor-pointer hover:opacity-70"
+                    ></img>
                   </div>
                   <div className="flex divide-x divide-solid divide-[#3A3A3A]">
                     <div className="flex flex-col space-y-8 w-[290px] h-[521px] p-[26px]">
@@ -141,9 +147,11 @@ const Modal = (props) => {
                           <Select
                             className="w-full h-[48px] rounded-default"
                             options={sportOptions}
-                            handleClick={(e) => setValue(e)}
-                            value={value}
-                          >{value}</Select>
+                            handleClick={(e) => setSport(e)}
+                            value={sport}
+                          >
+                            {sport}
+                          </Select>
                           <button
                             onClick={goToStep2}
                             className="bg-primary w-full h-[53px] rounded-xl mt-auto text-white font-bold text-sm hover:bg-sky-600 focus:ring-2"
@@ -167,14 +175,19 @@ const Modal = (props) => {
                             <Input
                               className="rounded-default text-xs my-5"
                               placeholder="Type League Name*"
+                              value={leagueName}
+                              onChange={(e) => setLeagueName(e.target.value)}
                             ></Input>
 
                             <textarea
                               id="message"
                               rows="6"
                               class="block p-2.5 w-full text-xs text-gray-900 rounded-lg border border-charcoal focus:ring-blue-500 focus:border-blue-500 dark:bg-transparent dark:border-charcoal dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 resize-none outline-none"
-                              placeholder="Describe yur League*"
-                              
+                              placeholder="Describe your League*"
+                              value={leagueDescription}
+                              onChange={(e) =>
+                                setLeagueDescription(e.target.value)
+                              }
                             ></textarea>
                           </div>
                           <div className="flex mt-auto w-full justify-between">
@@ -195,8 +208,17 @@ const Modal = (props) => {
                       ) : (
                         <>
                           <div className="w-full h-29">
-                            <Input className='text-xs rounded-default mb-5' option={calendar} placeholder='Enter Season Start Date*'></Input>
-                            <Input className='text-xs rounded-default' option={calendar} placeholder='Enter Season End Date*'></Input>
+                            <Input
+                              datepicker
+                              className="text-xs rounded-default mb-5"
+                              option={calendar}
+                              placeholder="Enter Season Start Date*"
+                            />
+                            <Input
+                              className="text-xs rounded-default"
+                              option={calendar}
+                              placeholder="Enter Season End Date*"
+                            />
                           </div>
                           <div className="flex mt-auto w-full justify-between">
                             <button
@@ -206,7 +228,7 @@ const Modal = (props) => {
                               Back to Step 2
                             </button>
                             <button
-                              onClick={goToStep3}
+                              onClick={createLeague}
                               className="bg-primary w-[169px] h-[53px] rounded-xl mt-auto text-white font-semibold text-sm hover:bg-sky-600 focus:ring-2"
                             >
                               Create League

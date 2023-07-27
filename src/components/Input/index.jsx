@@ -3,6 +3,7 @@ const Input = (props) => {
         icon,
         className,
         option,
+        value,
         ...rest
     } = props;
     return (
@@ -15,7 +16,7 @@ const Input = (props) => {
                         alt="" />
                 </div> : ""
             }
-            <input {...rest} className="bg-transparent outline-none text-white flex-grow " />
+            <input datepicker {...rest} className="bg-transparent outline-none text-white flex-grow " value={value}/>
             {
                 option ? <div>
                     <img src={option} alt="" className="hover:cursor-pointer"/>
