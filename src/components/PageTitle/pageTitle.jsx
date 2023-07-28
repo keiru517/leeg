@@ -39,7 +39,7 @@ const PageTitle = (props) => {
         }
       </div>
       {
-        button ? <Button action={action} className="w-[169px] h-[53px] bg-primary hover:bg-sky-600">
+        button ? <Button action={action} className="w-[169px] h-[53px] bg-primary hover:bg-sky-600 rounded-default">
           {button}</Button> :
           ""
       }

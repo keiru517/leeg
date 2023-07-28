@@ -171,58 +171,61 @@ const League = () => {
 
   ];
 
-  const players = [
-    {
-      name: "Tornike Shengelia",
-      email: "James@gmail.com",
-      created_at: "June 26, 2023, 10:00PM",
-    },
-    {
-      name: "Tornike Shengelia",
-      email: "James@gmail.com",
-      created_at: "June 26, 2023, 10:00PM",
-    },
-    {
-      name: "Tornike Shengelia",
-      email: "James@gmail.com",
-      created_at: "June 26, 2023, 10:00PM",
-    },
-    {
-      name: "Tornike Shengelia",
-      email: "James@gmail.com",
-      created_at: "June 26, 2023, 10:00PM",
-    },
-    {
-      name: "Tornike Shengelia",
-      email: "James@gmail.com",
-      created_at: "June 26, 2023, 10:00PM",
-    },
-    {
-      name: "Tornike Shengelia",
-      email: "James@gmail.com",
-      created_at: "June 26, 2023, 10:00PM",
-    },
-    {
-      name: "Tornike Shengelia",
-      email: "James@gmail.com",
-      created_at: "June 26, 2023, 10:00PM",
-    },
-    {
-      name: "Tornike Shengelia",
-      email: "James@gmail.com",
-      created_at: "June 26, 2023, 10:00PM",
-    },
-    {
-      name: "Tornike Shengelia",
-      email: "James@gmail.com",
-      created_at: "June 26, 2023, 10:00PM",
-    },
-    {
-      name: "Tornike Shengelia",
-      email: "James@gmail.com",
-      created_at: "June 26, 2023, 10:00PM",
-    },
-  ];
+
+  // const players = [
+  //   {
+  //     name: "Tornike Shengelia",
+  //     email: "James@gmail.com",
+  //     created_at: "June 26, 2023, 10:00PM",
+  //   },
+  //   {
+  //     name: "Tornike Shengelia",
+  //     email: "James@gmail.com",
+  //     created_at: "June 26, 2023, 10:00PM",
+  //   },
+  //   {
+  //     name: "Tornike Shengelia",
+  //     email: "James@gmail.com",
+  //     created_at: "June 26, 2023, 10:00PM",
+  //   },
+  //   {
+  //     name: "Tornike Shengelia",
+  //     email: "James@gmail.com",
+  //     created_at: "June 26, 2023, 10:00PM",
+  //   },
+  //   {
+  //     name: "Tornike Shengelia",
+  //     email: "James@gmail.com",
+  //     created_at: "June 26, 2023, 10:00PM",
+  //   },
+  //   {
+  //     name: "Tornike Shengelia",
+  //     email: "James@gmail.com",
+  //     created_at: "June 26, 2023, 10:00PM",
+  //   },
+  //   {
+  //     name: "Tornike Shengelia",
+  //     email: "James@gmail.com",
+  //     created_at: "June 26, 2023, 10:00PM",
+  //   },
+  //   {
+  //     name: "Tornike Shengelia",
+  //     email: "James@gmail.com",
+  //     created_at: "June 26, 2023, 10:00PM",
+  //   },
+  //   {
+  //     name: "Tornike Shengelia",
+  //     email: "James@gmail.com",
+  //     created_at: "June 26, 2023, 10:00PM",
+  //   },
+  //   {
+  //     name: "Tornike Shengelia",
+  //     email: "James@gmail.com",
+  //     created_at: "June 26, 2023, 10:00PM",
+  //   },
+  // ];
+
+  const players = []
 
   return (
     <div className="flex flex-col flex-grow">
@@ -276,12 +279,13 @@ const League = () => {
                       <p className="text-white text-xl font-semibold">
                         Waitlisted Players
                       </p>
-                      <p className="text-white text-xl font-semibold">120</p>
+                      <p className="text-white text-xl font-semibold">{players.length}</p>
                     </div>
+                    <hr className="h-px my-5 bg-gray-200 border-0 dark:bg-dark-gray"/>
                     <div className="flex w-full justify-between space-x-10 my-5">
                       <div className="flex flex-grow space-x-3 ">
                         <Input
-                          className="flex-grow rounded-lg h-[38px] "
+                          className="flex-grow rounded-lg h-[38px] bg-transparent"
                           icon={search}
                           placeholder="Search Players"
                         />
@@ -291,13 +295,13 @@ const League = () => {
                         />
                       </div>
                       <div>
-                        <Button className="text-sm bg-success w-18 h-[38px]">
+                        <Button className="text-sm bg-success w-[72px] h-[38px] rounded-lg">
                           Accept
                         </Button>
                       </div>
                     </div>
-                    <div className="overflow-y-scroll overflow-hidden h-4/6">
-                      {players.map((player, idx) => (
+                    <div className="overflow-y-scroll h-4/6 flex items-center flex-grow justify-center">
+                      {players.length>1?players.map((player, idx) => (
                         <ListItem
                         key={idx}
                           className="mb-5"
@@ -306,7 +310,9 @@ const League = () => {
                           email={player.email}
                           date={player.created_at}
                         ></ListItem>
-                      ))}
+                      )):
+                      <p className="text-white font-medium text-sm">No waitlisted Players to show!</p>
+                    }
                     </div>
                   </div>
                   <div className="w-1/2 bg-charcoal h-[420px] p-default rounded-main">
@@ -314,12 +320,13 @@ const League = () => {
                       <p className="text-white text-xl font-semibold">
                         Accepted Players
                       </p>
-                      <p className="text-white text-xl font-semibold">120</p>
+                      <p className="text-white text-xl font-semibold">{players.length}</p>
                     </div>
+                    <hr className="h-px my-5 bg-gray-200 border-0 dark:bg-dark-gray"/>
                     <div className="flex w-full justify-between space-x-10 my-5">
                       <div className="flex flex-grow space-x-3 ">
                         <Input
-                          className="flex-grow rounded-lg h-[38px]"
+                          className="flex-grow rounded-lg h-[38px] bg-transparent"
                           icon={search}
                           placeholder="Search Players"
                         />
@@ -329,21 +336,24 @@ const League = () => {
                         />
                       </div>
                       <div>
-                        <Button className="text-sm bg-danger w-18 h-[38px]">
+                        <Button className="text-sm bg-danger w-[72px] h-[38px] rounded-lg">
                           Remove
                         </Button>
                       </div>
                     </div>
-                    <div className="overflow-y-scroll h-4/6">
-                      {players.map((player) => (
+                    <div className="overflow-y-scroll h-4/6 flex items-center flex-grow justify-center">
+                      {players.length?players.map((player, idx) => (
                         <ListItem
+                          key={idx}
                           className="mb-5"
                           avatar={avatar}
                           name={player.name}
                           email={player.email}
                           date={player.created_at}
                         ></ListItem>
-                      ))}
+                      )):
+                      <p className="text-white font-medium text-sm">No Accepted Players to show!</p>
+                    }
                     </div>
                   </div>
                 </div>

@@ -18,7 +18,7 @@ const Select = (props) => {
 
   return (
     <div
-      class={`${className} flex justify-between z-10 text-font-dark-gray rounded-lg shadow w-44 dark:bg-transparent border border-charcoal relative items-center cursor-pointer select-none`}
+      class={`${className} flex justify-between z-10 text-font-dark-gray rounded-lg shadow w-44 dark:bg-transparent border border-dark-gray relative items-center cursor-pointer select-none`}
       //   onClick={() => {
       //     setExpand(true)
       //   }}
