@@ -9,13 +9,15 @@ import Modal from "../../components/Modal";
 import PageTitle from "../../components/PageTitle/PageTitle";
 import * as actions from "../../actions";
 import apis from "../../utils/apis";
+import logo from '../../assets/img/dark_mode/team-logo.png';
 
 const Home = () => {
   const modal_status = useSelector((state) => state.leagues.league_dialog_open);
   const create_step = useSelector((state) => state.leagues.create_step);
 
   const leagues = [
-    // 1
+    {'id': 1, 'logo': logo, 'name': '2023 TABC Summer League', 'start_date': 'Firday, July 2023', 'end_date': 'N/A', 'description': 'introducing the "Gravity Hoops League" - where hardwood battles and soaring dunks collide in a symphony of athleticism and teamwork.'},
+    {'id': 2, 'logo': logo, 'name': '2024 TABC Winter League', 'start_date': 'Firday, July 2023', 'end_date': 'N/A', 'description': 'introducing the "Gravity Hoops League" - where hardwood battles and soaring dunks collide in a symphony of athleticism and teamwork.'}
   ];
 
   const options = ["Ascend", "Descend", "Recent"];
@@ -74,7 +76,7 @@ const Home = () => {
         {leagues.length ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {leagues.map((lg, idx) => (
-              <Card key={idx} />
+              <Card league={lg} key={idx} />
             ))}
           </div>
         ) : (

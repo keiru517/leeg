@@ -25,7 +25,8 @@ function App() {
           <Route exact path='/otpsent' element={<OTPSent />}></Route>
           <Route exact path='/forgotpwd' element={<ForgotPwd />}></Route>
           <Route exact path='/' element={<Home />}></Route>
-          <Route exact path='/league' element={<League />}></Route>
+          <Route exact path='/league/:id' element={<League />}></Route>
+          {/* <Route exact path='/league' element={<League />}></Route> */}
           <Route exact path='/player-profile' element={<PlayerProfile />}></Route>
         </Routes>
       </AuthLayout>

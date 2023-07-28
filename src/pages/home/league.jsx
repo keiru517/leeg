@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Children } from "react";
 import search from "../../assets/img/dark_mode/search.png";
 import leftarrowIcon from "../../assets/img/dark_mode/left-arrow.png";
-import mark from "../../assets/img/dark_mode/mark.png";
+import logo from "../../assets/img/dark_mode/team-logo.png";
 import editIcon from "../../assets/img/dark_mode/edit.png";
 import deleteIcon from "../../assets/img/dark_mode/delete.png";
 // import delete from '../../assets/img/delete.png';
@@ -63,7 +63,7 @@ const League = () => {
       home: "Bucks",
       away: "Bucks",
       results: "41-62",
-      mark: {mark}
+      logo: {logo}
     },
     {
       date: "Monday June 19th",
@@ -224,7 +224,7 @@ const League = () => {
     <div className="flex flex-col flex-grow">
       <PageTitle
         backIcon={leftarrowIcon}
-        logo={mark}
+        logo={logo}
         editIcon={editIcon}
         deleteIcon={deleteIcon}
         button="Create Match"
@@ -425,7 +425,7 @@ const League = () => {
                       <div>
                         <div className="flex justify-between bg-charcoal h-[53px] mt-4 rounded-tl-lg rounded-tr-lg p-4">
                           <div className="flex items-center">
-                            <img src={mark} alt="" />
+                            <img src={logo} alt="" />
                             <p className="text-sm text-white underline mx-2">{team.name}</p>
                             <p className="text-[10px] text-white">{team.status}</p>
                           </div>

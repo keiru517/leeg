@@ -193,7 +193,7 @@ const Modal = (props) => {
                           <div className="flex mt-auto w-full justify-between">
                             <button
                               onClick={goToStep1}
-                              className="bg-[#3A3A3A] w-[169px] h-[53px] rounded-xl mt-auto text-white font-semibold text-sm hover:bg-gray-700 focus:ring-2"
+                              className="bg-[#3A3A3A] w-[169px] h-[53px] rounded-xl mt-auto text-white font-semibold text-sm dark:hover:bg-middle-gray focus:ring-2"
                             >
                               Back to Step 1
                             </button>
