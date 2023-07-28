@@ -17,10 +17,14 @@ import { Tab } from "@headlessui/react";
 import avatar from "../../assets/img/dark_mode/player.png";
 import edit from "../../assets/img/dark_mode/edit.png";
 import userAdd from "../../assets/img/dark_mode/user-add.png";
+import { useParams } from 'react-router';
+import { useSelector } from "react-redux";
 
 const League = () => {
-  const leagues = [1, 2, 3, 4, 5, 6];
 
+  let {id} = useParams();
+  const league = useSelector((state) => state.home.leagues).find(league => league.id == id)
+  
   const options = ["Sort by", "Ascend", "Descend", "Recent"];
 
   const categories = ["Manage Rosters", "Teams", "Matches", "Standings", "All Playerlist"];
@@ -229,11 +233,11 @@ const League = () => {
         deleteIcon={deleteIcon}
         button="Create Match"
       >
-        2023 TABC Summer League
+        {league.name}
       </PageTitle>
       <p className="font-dark-gray my-[20px]">
-        2023 TABC Summer League
-        <span className="text-sky-500"> &gt; {breadcrum}</span>
+        <span className="underline">My Leagues</span>
+        <span className="text-sky-500"> &gt; {league.name}</span>
       </p>
       <div className="rounded-main bg-slate flex-grow p-default">
         <div className="w-full px-2 sm:px-0 h-full flex flex-col">

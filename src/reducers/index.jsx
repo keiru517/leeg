@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
-import leagues from './leagues';
+import home from './home';
 
-const leeg = combineReducers({leagues})
+const leeg = combineReducers({home})
 
 export default leeg;

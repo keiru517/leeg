@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import React, { useState, useEffect} from "react";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import Card from "../../components/Card";
 import search from "../../assets/img/dark_mode/search.png";
@@ -12,27 +12,34 @@ import apis from "../../utils/apis";
 import logo from '../../assets/img/dark_mode/team-logo.png';
 
 const Home = () => {
-  const modal_status = useSelector((state) => state.leagues.league_dialog_open);
-  const create_step = useSelector((state) => state.leagues.create_step);
-
-  const leagues = [
-    {'id': 1, 'logo': logo, 'name': '2023 TABC Summer League', 'start_date': 'Firday, July 2023', 'end_date': 'N/A', 'description': 'introducing the "Gravity Hoops League" - where hardwood battles and soaring dunks collide in a symphony of athleticism and teamwork.'},
-    {'id': 2, 'logo': logo, 'name': '2024 TABC Winter League', 'start_date': 'Firday, July 2023', 'end_date': 'N/A', 'description': 'introducing the "Gravity Hoops League" - where hardwood battles and soaring dunks collide in a symphony of athleticism and teamwork.'}
-  ];
+  const modal_status = useSelector((state) => state.home.league_dialog_open);
+  const create_step = useSelector((state) => state.home.create_step);
+  const leagues = useSelector((state) => state.home.leagues);
+//   const leagues = [
+//     {'id': 1, 'logo': logo, 'name': '2023 TABC Summer League', 'start_date': 'Firday, July 2023', 'end_date': 'N/A', 'description': 'introducing the "Gravity Hoops League" - where hardwood battles and soaring dunks collide in a symphony of athleticism and teamwork.'},
+//     {'id': 2, 'logo': logo, 'name': '2024 TABC Winter League', 'start_date': 'Firday, July 2023', 'end_date': 'N/A', 'description': 'introducing the "Gravity Hoops League" - where hardwood battles and soaring dunks collide in a symphony of athleticism and teamwork.'}
+//   ];
 
   const options = ["Ascend", "Descend", "Recent"];
   const [value, setValue] = useState("Sort by");
 
+  const dispatch = useDispatch()
   // create a league
   const createLeague = () => {
     console.log("create_league");
   };
 
   // read leagues
-  const readLeagues = () => {
+  const getLeagues = () => {
+
     // axios.get(apis.read_leagues)
     // .then(res=>{
-    //     console.log('response arrived')
+    //    get leagues from server
+    const leagues = [
+        {'id': 1, 'logo': logo, 'name': '2023 TABC Summer League', 'start_date': 'Firday, July 2023', 'end_date': 'N/A', 'description': 'introducing the "Gravity Hoops League" - where hardwood battles and soaring dunks collide in a symphony of athleticism and teamwork.'},
+        {'id': 2, 'logo': logo, 'name': '2024 TABC Winter League', 'start_date': 'Firday, July 2023', 'end_date': 'N/A', 'description': 'introducing the "Gravity Hoops League" - where hardwood battles and soaring dunks collide in a symphony of athleticism and teamwork.'}
+      ];
+      dispatch({type: actions.GET_LEAGUES, payload: leagues})
     // })
     // console.log(apis.read_leagues)
   };
@@ -48,7 +55,7 @@ const Home = () => {
   };
 
   useEffect(() => {
-    readLeagues();
+    getLeagues();
   }, []);
 
   return (
