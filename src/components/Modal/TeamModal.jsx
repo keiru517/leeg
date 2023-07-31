@@ -16,24 +16,28 @@ import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../actions";
 import Datepicker from "react-tailwindcss-datepicker";
 
-const PlayerModal = (props) => {
+const TeamModal = (props) => {
   const dispatch = useDispatch();
 
   const status = useSelector((state) => state.home.league_dialog_open);
-
-  // const [open, setOpen] = useState(false);
-  const [step, setStep] = useState(1);
-
-  const cancelButtonRef = useRef(null);
-
-  const sportOptions = ["Basketball", "Rugby", "Hockey", "Baseball"];
-
-  console.log("modal status", status);
 
   const closeDialog = () => {
     setStep(1);
     dispatch({ type: actions.OPEN_CREATE_LEAGUE, payload: false });
   };
+
+  const type = "delete";
+
+
+  // const [open, setOpen] = useState(false);
+  const [step, setStep] = useState(1);
+  
+  const cancelButtonRef = useRef(null);
+
+  const sportOptions = ["Basketball", "Rugby", "Hockey", "Baseball"];
+
+
+
 
   const goToStep1 = () => {
     setStep(1);
@@ -50,10 +54,8 @@ const PlayerModal = (props) => {
   const [sport, setSport] = useState("Select Sport*");
   const [leagueName, setLeagueName] = useState("");
   const [leagueDescription, setLeagueDescription] = useState("");
-  
-  const createLeague = () => {
 
-  }
+  const createLeague = () => {};
 
   return (
     <Transition.Root show={status} as={Fragment}>
@@ -89,9 +91,9 @@ const PlayerModal = (props) => {
               <Dialog.Panel className="relative transform overflow-hidden rounded-main text-left shadow-xl transition-all sm:my-8 bg-slate h-[609px] md:w-[735px] mx-3 flex flex-col">
                 <div className="divide-y divide-solid divide-[#3A3A3A] flex flex-col flex-grow">
                   <div className="flex items-center text-left h-[88px] justify-between px-default">
-                    <p className="text-2xl text-white font-bold">
-                      Invite Player
-                    </p>
+                    <p className="text-2xl text-white font-bold">{
+                      type=='create'? "Create Team": type =="edit"? "Edit Team" : "Delete Team"
+                    }</p>
                     <img
                       src={close}
                       onClick={closeDialog}
@@ -99,8 +101,31 @@ const PlayerModal = (props) => {
                     ></img>
                   </div>
                   <div className="flex-col p-default flex flex-grow justify-between">
-                      <Input className='rounded-default text-xs' placeholder='Copy Link'></Input>
-                      <Button className='bg-primary rounded-xl w-full hover:bg-sky-600'>Copy Link</Button>
+                    <div>
+                      {
+                        type != 'delete' ? 
+                      <div className="flex w-full h-[86px] bg-charcoal rounded-default items-center">
+                        <img src={uploadCircle} alt="" className="px-[14px]" />
+                        <p className="text-white font-bold text-sm">
+                          Upload League Logo
+                        </p>
+                      </div>
+                      :
+                      ""
+                      }
+                      <div className="">
+                        <Input
+                          className="rounded-default text-xs"
+                          placeholder="Type Team Name*"
+                        ></Input>
+                      </div>
+
+                    </div>
+                    <Button className="bg-primary rounded-xl w-full hover:bg-sky-600">
+                      {
+                        type=='create'? "Create Team": type=='edit'? "Edit Team" : "Delete Team"
+                      }
+                    </Button>
                   </div>
                 </div>
               </Dialog.Panel>
@@ -112,4 +137,4 @@ const PlayerModal = (props) => {
   );
 };
 
-export default PlayerModal;
+export default TeamModal;

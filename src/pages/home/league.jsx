@@ -20,6 +20,7 @@ import avatar from "../../assets/img/dark_mode/player.png";
 import edit from "../../assets/img/dark_mode/edit.png";
 import userAdd from "../../assets/img/dark_mode/user-add.png";
 import PlayerModal from "../../components/Modal/PlayerModal";
+import TeamModal from "../../components/Modal/TeamModal";
 
 const League = () => {
 
@@ -59,7 +60,7 @@ const League = () => {
   const buttons = {"Manage Rosters": "Invite Player", "Teams": "Create Team", "Matches": "Create Match", "Standings": "Create Match", "All Playerlist": "Create Match"}
 
   console.log(buttons[breadcrum])
-  const handleClick = (data) => {
+  const handleCategory = (data) => {
     setBreadcrum(data);
   };
 
@@ -176,60 +177,60 @@ const League = () => {
   ];
 
 
-  // const players = [
-  //   {
-  //     name: "Tornike Shengelia",
-  //     email: "James@gmail.com",
-  //     created_at: "June 26, 2023, 10:00PM",
-  //   },
-  //   {
-  //     name: "Tornike Shengelia",
-  //     email: "James@gmail.com",
-  //     created_at: "June 26, 2023, 10:00PM",
-  //   },
-  //   {
-  //     name: "Tornike Shengelia",
-  //     email: "James@gmail.com",
-  //     created_at: "June 26, 2023, 10:00PM",
-  //   },
-  //   {
-  //     name: "Tornike Shengelia",
-  //     email: "James@gmail.com",
-  //     created_at: "June 26, 2023, 10:00PM",
-  //   },
-  //   {
-  //     name: "Tornike Shengelia",
-  //     email: "James@gmail.com",
-  //     created_at: "June 26, 2023, 10:00PM",
-  //   },
-  //   {
-  //     name: "Tornike Shengelia",
-  //     email: "James@gmail.com",
-  //     created_at: "June 26, 2023, 10:00PM",
-  //   },
-  //   {
-  //     name: "Tornike Shengelia",
-  //     email: "James@gmail.com",
-  //     created_at: "June 26, 2023, 10:00PM",
-  //   },
-  //   {
-  //     name: "Tornike Shengelia",
-  //     email: "James@gmail.com",
-  //     created_at: "June 26, 2023, 10:00PM",
-  //   },
-  //   {
-  //     name: "Tornike Shengelia",
-  //     email: "James@gmail.com",
-  //     created_at: "June 26, 2023, 10:00PM",
-  //   },
-  //   {
-  //     name: "Tornike Shengelia",
-  //     email: "James@gmail.com",
-  //     created_at: "June 26, 2023, 10:00PM",
-  //   },
-  // ];
+  const players = [
+    {
+      name: "Tornike Shengelia",
+      email: "James@gmail.com",
+      created_at: "June 26, 2023, 10:00PM",
+    },
+    {
+      name: "Tornike Shengelia",
+      email: "James@gmail.com",
+      created_at: "June 26, 2023, 10:00PM",
+    },
+    {
+      name: "Tornike Shengelia",
+      email: "James@gmail.com",
+      created_at: "June 26, 2023, 10:00PM",
+    },
+    {
+      name: "Tornike Shengelia",
+      email: "James@gmail.com",
+      created_at: "June 26, 2023, 10:00PM",
+    },
+    {
+      name: "Tornike Shengelia",
+      email: "James@gmail.com",
+      created_at: "June 26, 2023, 10:00PM",
+    },
+    {
+      name: "Tornike Shengelia",
+      email: "James@gmail.com",
+      created_at: "June 26, 2023, 10:00PM",
+    },
+    {
+      name: "Tornike Shengelia",
+      email: "James@gmail.com",
+      created_at: "June 26, 2023, 10:00PM",
+    },
+    {
+      name: "Tornike Shengelia",
+      email: "James@gmail.com",
+      created_at: "June 26, 2023, 10:00PM",
+    },
+    {
+      name: "Tornike Shengelia",
+      email: "James@gmail.com",
+      created_at: "June 26, 2023, 10:00PM",
+    },
+    {
+      name: "Tornike Shengelia",
+      email: "James@gmail.com",
+      created_at: "June 26, 2023, 10:00PM",
+    },
+  ];
 
-  const players = []
+  // const players = []
 
   return (
     <div className="flex flex-col flex-grow">
@@ -239,6 +240,7 @@ const League = () => {
         editIcon={editIcon}
         deleteIcon={deleteIcon}
         button={buttons[breadcrum]}
+        
       >
         {league.name}
       </PageTitle>
@@ -262,7 +264,7 @@ const League = () => {
                         : " rounded-lg hover:bg-white/[0.12] hover:text-white"
                     )
                   }
-                  onClick={() => handleClick(category)}
+                  onClick={() => handleCategory(category)}
                 >
                   {category}
                 </Tab>
@@ -289,14 +291,16 @@ const League = () => {
                     <div className="flex w-full justify-between space-x-10 my-5">
                       <div className="flex flex-grow space-x-3 ">
                         <Input
-                          className="flex-grow rounded-lg h-[38px] bg-transparent"
+                          className="flex-grow rounded-lg h-[38px] bg-transparent text-xs"
                           icon={search}
-                          placeholder="Search Players"
+                          placeholder="Search"
                         />
                         <Select
-                          className="w-[144px] rounded-lg"
+                          className="w-[144px] rounded-lg text-xs"
                           options={options}
+                          value="Sort by"
                         />
+                        
                       </div>
                       <div>
                         <Button className="text-sm bg-success w-[72px] h-[38px] rounded-lg">
@@ -330,14 +334,16 @@ const League = () => {
                     <div className="flex w-full justify-between space-x-10 my-5">
                       <div className="flex flex-grow space-x-3 ">
                         <Input
-                          className="flex-grow rounded-lg h-[38px] bg-transparent"
+                          className="flex-grow rounded-lg h-[38px] bg-transparent text-xs"
                           icon={search}
-                          placeholder="Search Players"
+                          placeholder="Search"
                         />
                         <Select
-                          className="w-[144px] rounded-lg"
+                          className="w-[144px] rounded-lg text-xs"
                           options={options}
-                        />
+                          value="Sort by"
+                        >
+                        </Select>
                       </div>
                       <div>
                         <Button className="text-sm bg-danger w-[72px] h-[38px] rounded-lg">
@@ -463,7 +469,8 @@ const League = () => {
             </Tab.Panels>
           </Tab.Group>
         </div>
-        <PlayerModal />
+        {/* <PlayerModal /> */}
+        <TeamModal />
       </div>
     </div>
   );
