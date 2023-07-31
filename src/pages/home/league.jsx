@@ -1,4 +1,6 @@
-import React, { useState, useEffect, Children } from "react";
+import React, { useState, useEffect } from "react";
+import { useParams } from 'react-router';
+import { useSelector } from "react-redux";
 import search from "../../assets/img/dark_mode/search.png";
 import leftarrowIcon from "../../assets/img/dark_mode/left-arrow.png";
 import logo from "../../assets/img/dark_mode/team-logo.png";
@@ -17,8 +19,7 @@ import { Tab } from "@headlessui/react";
 import avatar from "../../assets/img/dark_mode/player.png";
 import edit from "../../assets/img/dark_mode/edit.png";
 import userAdd from "../../assets/img/dark_mode/user-add.png";
-import { useParams } from 'react-router';
-import { useSelector } from "react-redux";
+import PlayerModal from "../../components/Modal/PlayerModal";
 
 const League = () => {
 
@@ -53,8 +54,11 @@ const League = () => {
     return classes.filter(Boolean).join(" ");
   }
 
-  const [breadcrum, setBreadcrum] = useState("Schedule");
+  const [breadcrum, setBreadcrum] = useState("Manage Rosters");
 
+  const buttons = {"Manage Rosters": "Invite Player", "Teams": "Create Team", "Matches": "Create Match", "Standings": "Create Match", "All Playerlist": "Create Match"}
+
+  console.log(buttons[breadcrum])
   const handleClick = (data) => {
     setBreadcrum(data);
   };
@@ -234,7 +238,7 @@ const League = () => {
         logo={logo}
         editIcon={editIcon}
         deleteIcon={deleteIcon}
-        button="Create Match"
+        button={buttons[breadcrum]}
       >
         {league.name}
       </PageTitle>
@@ -300,7 +304,7 @@ const League = () => {
                         </Button>
                       </div>
                     </div>
-                    <div className="overflow-y-scroll h-4/6 flex items-center flex-grow justify-center">
+                    <div className={`overflow-y-scroll h-4/6 flex flex-col items-center flex-grow justify-center ${players.length>1? "":"bg-dark-gray"} rounded-default`}>
                       {players.length>1?players.map((player, idx) => (
                         <ListItem
                         key={idx}
@@ -341,7 +345,7 @@ const League = () => {
                         </Button>
                       </div>
                     </div>
-                    <div className="overflow-y-scroll h-4/6 flex items-center flex-grow justify-center">
+                    <div className={`overflow-y-scroll h-4/6 flex flex-col items-center flex-grow justify-center ${players.length>1? "":"bg-dark-gray"} rounded-default`}>
                       {players.length?players.map((player, idx) => (
                         <ListItem
                           key={idx}
@@ -459,7 +463,7 @@ const League = () => {
             </Tab.Panels>
           </Tab.Group>
         </div>
-        {/* <Modal /> */}
+        <PlayerModal />
       </div>
     </div>
   );
