@@ -13,12 +13,12 @@ module.exports = {
                 'primary': '#00AFFF',
                 'dark-gray': '#353A41',
                 'success': '#34A853',
-                'danger': '#E7112D',
+                'danger': '#F70628',
                 'light-gray': '#585E65',
                 'middle-gray': '#494e54',
                 'font-dark-gray': '#6F767E',
-                'font-light-gray': '#99A1B4'
-
+                'font-light-gray': '#99A1B4',
+                'red-opacity-10': 'rgb(255 0 0 / 10%)'
             },
             spacing: {
                 'nav-width': '1388px',

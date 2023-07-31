@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Button from '../Button';
 import { Link } from "react-router-dom";
+import * as actions from '../../actions';
 
 const PageTitle = (props) => {
 
@@ -16,6 +17,8 @@ const PageTitle = (props) => {
     ...rest
   } = props;
 
+
+  
   return (
     <div className='page-title bg-charcoal flex items-center justify-between'>
       <div className='flex items-center'>
@@ -33,7 +36,7 @@ const PageTitle = (props) => {
         <p className='text-3xl text-white text-left font-black mr-6'>{children}</p>
         {
           editIcon ?
-            <img src={editIcon} alt="" className='w-[38px] h-[38px] cursor-pointer' />
+            <img src={editIcon} alt="" className='w-5 h-5 cursor-pointer' />
             :
             ""
         }

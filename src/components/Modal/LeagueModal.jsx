@@ -19,8 +19,7 @@ import Datepicker from "react-tailwindcss-datepicker";
 const PlayerModal = (props) => {
   const dispatch = useDispatch();
 
-  const status = useSelector((state) => state.league.dialog_open);
-
+  const status = useSelector((state) => state.home.league_dialog_open);
 
   // const [open, setOpen] = useState(false);
   const [step, setStep] = useState(1);
@@ -33,7 +32,7 @@ const PlayerModal = (props) => {
 
   const closeDialog = () => {
     setStep(1);
-    dispatch({ type: actions.OPEN_ROSTER_DIALOG, payload: false });
+    dispatch({ type: actions.OPEN_CREATE_LEAGUE, payload: false });
   };
 
   const goToStep1 = () => {

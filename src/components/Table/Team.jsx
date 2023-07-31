@@ -1,14 +1,14 @@
 import { Card, Typography } from "@material-tailwind/react";
-import actionIcon from '../../assets/img/dark_mode/action.png';
+import actionIcon from "../../assets/img/dark_mode/action.png";
+import avatar from '../../assets/img/dark_mode/player.png';
 
-
-const StandingsTable = (props) => {
+const TeamTable = (props) => {
   const { players } = props;
 
   return (
     <div className="text-white h-full w-full">
       <table className="w-full min-w-max table-auto text-left">
-        <thead>
+        {/* <thead>
           <tr>
               <th key='1' className="h-[53px] text-center font-font-dark-gray w-1/2">
                 <Typography
@@ -29,14 +29,21 @@ const StandingsTable = (props) => {
                 </Typography>
               </th>
           </tr>
-        </thead>
+        </thead> */}
         <tbody className="text-center">
+          <tr>
+            <td className="w-1/2 bg-slate text-left text-font-dark-gray text-sm">
+              Player
+            </td>
+            <td className="w-1/2 bg-slate text-left text-font-dark-gray text-sm">
+              Action
+            </td>
+          </tr>
           {players.map((player, index) => (
             <tr key={index} className="even:bg-dark-gray odd:bg-charcoal">
               <td className="">
                 <div className="flex items-center">
-
-                  <img src={player.avatar} alt="" className="w-8 h-8 mr-2" />
+                  <img src={avatar} alt="" className="w-8 h-8 mr-2" />
                   <Typography
                     variant="small"
                     color="blue-gray"
@@ -47,13 +54,7 @@ const StandingsTable = (props) => {
                 </div>
               </td>
               <td>
-                <Typography
-                  variant="small"
-                  color="blue-gray"
-                  className="font-normal"
-                >
-                  <img src={actionIcon} alt="" />
-                </Typography>
+                <img src={actionIcon} alt="" className="mx-auto" />
               </td>
             </tr>
           ))}
@@ -63,4 +64,4 @@ const StandingsTable = (props) => {
   );
 };
 
-export default StandingsTable;
+export default TeamTable;

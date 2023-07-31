@@ -19,25 +19,22 @@ import Datepicker from "react-tailwindcss-datepicker";
 const TeamModal = (props) => {
   const dispatch = useDispatch();
 
-  const status = useSelector((state) => state.home.league_dialog_open);
+  const status = useSelector((state) => state.league.dialog_open);
+  const type = useSelector((state) => state.league.dialog_type);
 
   const closeDialog = () => {
     setStep(1);
-    dispatch({ type: actions.OPEN_CREATE_LEAGUE, payload: false });
+    dispatch({ type: actions.OPEN_TEAM_DIALOG, payload: false });
   };
 
-  const type = "delete";
-
+  // const type = "delete";
 
   // const [open, setOpen] = useState(false);
   const [step, setStep] = useState(1);
-  
+
   const cancelButtonRef = useRef(null);
 
   const sportOptions = ["Basketball", "Rugby", "Hockey", "Baseball"];
-
-
-
 
   const goToStep1 = () => {
     setStep(1);
@@ -91,9 +88,13 @@ const TeamModal = (props) => {
               <Dialog.Panel className="relative transform overflow-hidden rounded-main text-left shadow-xl transition-all sm:my-8 bg-slate h-[609px] md:w-[735px] mx-3 flex flex-col">
                 <div className="divide-y divide-solid divide-[#3A3A3A] flex flex-col flex-grow">
                   <div className="flex items-center text-left h-[88px] justify-between px-default">
-                    <p className="text-2xl text-white font-bold">{
-                      type=='create'? "Create Team": type =="edit"? "Edit Team" : "Delete Team"
-                    }</p>
+                    <p className="text-2xl text-white font-bold">
+                      {type == "create"
+                        ? "Create Team"
+                        : type == "edit"
+                        ? "Edit Team"
+                        : "Delete Team"}
+                    </p>
                     <img
                       src={close}
                       onClick={closeDialog}
@@ -102,30 +103,39 @@ const TeamModal = (props) => {
                   </div>
                   <div className="flex-col p-default flex flex-grow justify-between">
                     <div>
-                      {
-                        type != 'delete' ? 
-                      <div className="flex w-full h-[86px] bg-charcoal rounded-default items-center">
-                        <img src={uploadCircle} alt="" className="px-[14px]" />
-                        <p className="text-white font-bold text-sm">
-                          Upload League Logo
-                        </p>
-                      </div>
-                      :
-                      ""
-                      }
-                      <div className="">
+                      {type != "delete" ? (
+                        <>
+                          <div className="flex w-full h-[86px] bg-charcoal rounded-default items-center">
+                            <img
+                              src={uploadCircle}
+                              alt=""
+                              className="px-[14px]"
+                            />
+                            <p className="text-white font-bold text-sm">
+                              Upload League Logo
+                            </p>
+                          </div>
+                          <Input
+                            className="rounded-default text-xs mt-5"
+                            placeholder="Type Team Name*"
+                          ></Input>
+                        </>
+                      ) : (
                         <Input
                           className="rounded-default text-xs"
                           placeholder="Type Team Name*"
                         ></Input>
-                      </div>
-
+                      )}
                     </div>
-                    <Button className="bg-primary rounded-xl w-full hover:bg-sky-600">
-                      {
-                        type=='create'? "Create Team": type=='edit'? "Edit Team" : "Delete Team"
-                      }
-                    </Button>
+                    {
+                      type === 'create'?
+                      <Button className="bg-primary rounded-xl w-full hover:bg-sky-600">Create Team</Button>
+                      :
+                      type === 'edit'?
+                      <Button className="bg-primary rounded-xl w-full hover:bg-sky-600">Edit Team</Button>
+                      :
+                      <button className="bg-danger bg-opacity-10 rounded-xl w-full h-12 text-danger font-semibold">Delete Team</button>
+                    }
                   </div>
                 </div>
               </Dialog.Panel>

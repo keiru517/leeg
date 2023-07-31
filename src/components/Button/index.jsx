@@ -3,12 +3,13 @@ import * as actions from '../../actions';
 import { useDispatch } from "react-redux";
 
 const Button = (props) => {
-  const { icon, className, children, onClick, ...rest } = props;
+  const { icon, className, children, onClick, action, ...rest } = props;
   const dispatch = useDispatch()
 
   const handleClick = () => {
     console.log("clicked button")
-    dispatch({type:actions.OPEN_CREATE_LEAGUE, payload: true})
+    dispatch({type:actions.UPDATE_DIALOG_TYPE, payload: 'delete'})
+    dispatch({type:action, payload: true})
     
   }
   return (
