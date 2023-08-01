@@ -12,10 +12,13 @@ import calendar from "../../assets/img/dark_mode/calendar.png";
 import Button from "../Button";
 import Select from "../Select";
 import Input from "../Input";
+import ListItem from "../ListItem";
 import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../actions";
 import Datepicker from "react-tailwindcss-datepicker";
 import logo from "../../assets/img/dark_mode/team-logo.png";
+import avatar from "../../assets/img/dark_mode/player.png";
+import PlayerList from "../ListItem/PlayerList";
 
 const TeamModal = (props) => {
   const dispatch = useDispatch();
@@ -58,6 +61,80 @@ const TeamModal = (props) => {
   const goToStep3 = () => {
     setStep(3);
   };
+
+  const players = [
+    {
+      name: "Tornike Shengelia",
+      avatar: avatar,
+      email: "James@gmail.com",
+      created_at: "June 26, 2023, 10:00PM",
+      team_id: 2
+    },
+    {
+      name: "Tornike Shengelia",
+      avatar: avatar,
+      email: "James@gmail.com",
+      created_at: "June 26, 2023, 10:00PM",
+      team_id: 1
+    },
+    {
+      name: "Tornike Shengelia",
+      avatar: avatar,
+      email: "James@gmail.com",
+      created_at: "June 26, 2023, 10:00PM",
+      team_id: 2
+    },
+    {
+      name: "Tornike Shengelia",
+      avatar: avatar,
+      email: "James@gmail.com",
+      created_at: "June 26, 2023, 10:00PM",
+      team_id: 1
+    },
+    {
+      name: "Tornike Shengelia",
+      avatar: avatar,
+      email: "James@gmail.com",
+      created_at: "June 26, 2023, 10:00PM",
+      team_id: 1
+    },
+    {
+      name: "Tornike Shengelia",
+      avatar: avatar,
+      email: "James@gmail.com",
+      created_at: "June 26, 2023, 10:00PM",
+      team_id: 1
+    },
+    {
+      name: "Tornike Shengelia",
+      avatar: avatar,
+      email: "James@gmail.com",
+      created_at: "June 26, 2023, 10:00PM",
+      team_id: 1
+    },
+    {
+      name: "Tornike Shengelia",
+      avatar: avatar,
+      email: "James@gmail.com",
+      created_at: "June 26, 2023, 10:00PM",
+      team_id: 1
+    },
+    {
+      name: "Tornike Shengelia",
+      avatar: avatar,
+      email: "James@gmail.com",
+      created_at: "June 26, 2023, 10:00PM",
+      team_id: 1
+    },
+    {
+      name: "Tornike Shengelia",
+      avatar: avatar,
+      email: "James@gmail.com",
+      created_at: "June 26, 2023, 10:00PM",
+      team_id: 1
+    },
+  ];
+
 
   const [sport, setSport] = useState("Select Sport*");
   const [leagueName, setLeagueName] = useState("");
@@ -156,15 +233,29 @@ const TeamModal = (props) => {
                         ""
                       ) : type === "addPlayer" ? (
                         <>
-                          <div className="flex bg-[#4A5462] h-[66px] rounded-default p-4">
+                          <div className="flex bg-[#4A5462] h-[66px] rounded-default p-4 items-center">
                             <img src={logo} alt="" />
-                            <p className="text-white underline">Bucks</p>
+                            <p className="text-white underline mx-2 text-sm">Bucks</p>
+                            <p className="text-white text-[10px]">10/12</p>
                           </div>
                           <Input
                             className="rounded-lg my-[10px]"
                             icon={search}
                             placeholder="Search Players"
                           />
+                          <div className="overflow-y-auto">
+                            {
+                              players.map((player, idx)=>(
+                                <PlayerList
+                                key={idx}
+                                className="mb-5"
+                                player={player}
+                                team_id={1}
+                              ></PlayerList>
+                              
+                              ))
+                            }
+                          </div>
                         </>
                       ) : (
                         ""
