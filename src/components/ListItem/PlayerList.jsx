@@ -3,6 +3,8 @@ import { useState } from "react";
 import { AiOutlineCheck } from "react-icons/ai";
 import addIcon from '../../assets/img/dark_mode/circle-add.png';
 import addedIcon from '../../assets/img/dark_mode/circle-added.png';
+import * as actions from '../../actions';
+import { useDispatch } from "react-redux"; 
 
 const PlayerList = ({className, player, team_id}) => {
   const [itemOnechecked, setItemOneChecked] = useState(false);
@@ -10,13 +12,20 @@ const PlayerList = ({className, player, team_id}) => {
   const [itemThreechecked, setItemThreeChecked] = useState(false);
   const [itemFourchecked, setItemFourChecked] = useState(true);
 
+  const dispatch = useDispatch();
+
   const [status, setStatus] = useState(team_id == player.team_id?addedIcon:addIcon)
-  const handleClick = () => {
-    if (status == addedIcon)
+  const handleClick = (id) => {
+    if (status == addedIcon){
       setStatus(addIcon)
-      // dispatch
-    else
+      dispatch({type:actions.AddPlayer(id)})
+      console.log(id)
+    }
+    else{
       setStatus(addedIcon)
+      dispatch({type:actions.ADD_PLAYER, payload:id})
+      console.log(id)
+    }
       // dispatch
   }
 
@@ -33,7 +42,7 @@ const PlayerList = ({className, player, team_id}) => {
             </div>
           </div>
         </div>
-        <img src={status} alt="" className="cursor-pointer" onClick={handleClick}/>
+        <img src={status} alt="" className="cursor-pointer" onClick={()=>handleClick(player.id)}/>
       </div>
     </div>
   );

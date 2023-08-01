@@ -64,6 +64,7 @@ const TeamModal = (props) => {
 
   const players = [
     {
+      id:1,
       name: "Tornike Shengelia",
       avatar: avatar,
       email: "James@gmail.com",
@@ -71,6 +72,7 @@ const TeamModal = (props) => {
       team_id: 2
     },
     {
+      id:2,
       name: "Tornike Shengelia",
       avatar: avatar,
       email: "James@gmail.com",
@@ -78,6 +80,7 @@ const TeamModal = (props) => {
       team_id: 1
     },
     {
+      id:3,
       name: "Tornike Shengelia",
       avatar: avatar,
       email: "James@gmail.com",
@@ -85,6 +88,7 @@ const TeamModal = (props) => {
       team_id: 2
     },
     {
+      id:4,
       name: "Tornike Shengelia",
       avatar: avatar,
       email: "James@gmail.com",
@@ -92,6 +96,7 @@ const TeamModal = (props) => {
       team_id: 1
     },
     {
+      id:5,
       name: "Tornike Shengelia",
       avatar: avatar,
       email: "James@gmail.com",
@@ -99,6 +104,7 @@ const TeamModal = (props) => {
       team_id: 1
     },
     {
+      id:6,
       name: "Tornike Shengelia",
       avatar: avatar,
       email: "James@gmail.com",
@@ -106,6 +112,7 @@ const TeamModal = (props) => {
       team_id: 1
     },
     {
+      id:7,
       name: "Tornike Shengelia",
       avatar: avatar,
       email: "James@gmail.com",
@@ -113,6 +120,7 @@ const TeamModal = (props) => {
       team_id: 1
     },
     {
+      id:8,
       name: "Tornike Shengelia",
       avatar: avatar,
       email: "James@gmail.com",
@@ -120,6 +128,7 @@ const TeamModal = (props) => {
       team_id: 1
     },
     {
+      id:9,
       name: "Tornike Shengelia",
       avatar: avatar,
       email: "James@gmail.com",
@@ -127,6 +136,7 @@ const TeamModal = (props) => {
       team_id: 1
     },
     {
+      id:10,
       name: "Tornike Shengelia",
       avatar: avatar,
       email: "James@gmail.com",

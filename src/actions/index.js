@@ -7,6 +7,9 @@ export const OPEN_ROSTER_DIALOG = 'OPEN_ROSTER_DIALOG';
 export const OPEN_TEAM_DIALOG = 'OPEN_TEAM_DIALOG'; 
 export const OPEN_MATCH_DIALOG = 'OPEN_MATCH_DIALOG'; 
 export const OPEN_STANDING_DIALOG = 'OPEN_STANDING_DIALOG'; 
+
+export const ADD_PLAYER = 'ADD_PLAYER';
+export const REMOVE_PLAYER = 'REMOVE_PLAYER';
 // league actions----------------------------------
 // Open Create League Dialog
 export const openCreateLeague = () => ({
@@ -42,6 +45,17 @@ export const OpenMatchDialog = (payload) => ({
 export const OpenStandingDialog = (payload) => ({
   type: OPEN_STANDING_DIALOG,
   payload: payload
+})
+
+// player action
+export const AddPlayer = (payload) => ({
+  type: ADD_PLAYER,
+  payload:payload
+})
+
+export const RemovePlayer = (payload) => ({
+  type: REMOVE_PLAYER,
+  payload:payload
 })
 
 export const getUserInfo = () =>
