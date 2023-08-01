@@ -8,7 +8,7 @@ const Button = (props) => {
 
   const handleClick = () => {
     console.log("clicked button")
-    dispatch({type:actions.UPDATE_DIALOG_TYPE, payload: 'delete'})
+    dispatch({type:actions.UPDATE_DIALOG_TYPE, payload: 'create'})
     dispatch({type:action, payload: true})
     
   }

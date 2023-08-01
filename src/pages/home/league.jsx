@@ -166,7 +166,7 @@ const League = () => {
   ];
 
   const teams = [
-    {
+    {  
       id: 1,
       logo: logo,
       name: "2023 TABC Summer League",
@@ -460,8 +460,8 @@ const League = () => {
                     </p>
                   </div>
                 )}
-                <IndexTable></IndexTable>
-                <StandingsTable columns={standing_columns} data={standings} />
+                {/* <IndexTable></IndexTable>
+                <StandingsTable columns={standing_columns} data={standings} /> */}
               </Tab.Panel>
 
               {/* Teams */}
@@ -487,7 +487,7 @@ const League = () => {
                     </p>
                   </div>
                 )}
-                <div className="grid grid-cols-3 gap-4">
+                {/* <div className="grid grid-cols-3 gap-4">
                   {matches.map((team) => (
                     <div>
                       <div className="flex justify-between bg-charcoal h-[53px] mt-4 rounded-tl-lg rounded-tr-lg p-4">
@@ -507,7 +507,7 @@ const League = () => {
                       </div>
                     </div>
                   ))}
-                </div>
+                </div> */}
               </Tab.Panel>
             </Tab.Panels>
           </Tab.Group>

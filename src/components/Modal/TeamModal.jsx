@@ -3,9 +3,9 @@ import { Dialog, Transition } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/24/outline";
 import close from "../../assets/img/dark_mode/close.png";
 import btn1 from "../../assets/img/dark_mode/btn1.png";
-import btn1Selected from "../../assets/img/dark_mode/btn1-selected.png";
-import btn2 from "../../assets/img/dark_mode/btn2.png";
-import btn2Selected from "../../assets/img/dark_mode/btn2-selected.png";
+import deleteIcon from "../../assets/img/dark_mode/delete.png";
+import editIcon from "../../assets/img/dark_mode/edit.png";
+import search from "../../assets/img/dark_mode/search.png";
 import btn3 from "../../assets/img/dark_mode/btn3.png";
 import uploadCircle from "../../assets/img/dark_mode/upload-circle.png";
 import calendar from "../../assets/img/dark_mode/calendar.png";
@@ -15,6 +15,7 @@ import Input from "../Input";
 import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../actions";
 import Datepicker from "react-tailwindcss-datepicker";
+import logo from "../../assets/img/dark_mode/team-logo.png";
 
 const TeamModal = (props) => {
   const dispatch = useDispatch();
@@ -25,6 +26,16 @@ const TeamModal = (props) => {
   const closeDialog = () => {
     setStep(1);
     dispatch({ type: actions.OPEN_TEAM_DIALOG, payload: false });
+  };
+
+  const openDeleteDialog = () => {
+    dispatch({ type: actions.UPDATE_DIALOG_TYPE, payload: "delete" });
+    dispatch({ type: actions.OPEN_TEAM_DIALOG, payload: true });
+  };
+
+  const openEditDialog = () => {
+    dispatch({ type: actions.UPDATE_DIALOG_TYPE, payload: "edit" });
+    dispatch({ type: actions.OPEN_TEAM_DIALOG, payload: true });
   };
 
   // const type = "delete";
@@ -93,17 +104,38 @@ const TeamModal = (props) => {
                         ? "Create Team"
                         : type == "edit"
                         ? "Edit Team"
-                        : "Delete Team"}
+                        : type === "delete"
+                        ? "Delete Team"
+                        : "Add Players To Team"}
                     </p>
-                    <img
-                      src={close}
-                      onClick={closeDialog}
-                      className="cursor-pointer hover:opacity-70"
-                    ></img>
+                    <div className="flex items-center">
+                      {type === "edit" ? (
+                        <img
+                          src={deleteIcon}
+                          alt=""
+                          className="w-[18px] h-[18px] mr-5 cursor-pointer"
+                          onClick={openDeleteDialog}
+                        />
+                      ) : type === "delete" ? (
+                        <img
+                          src={editIcon}
+                          alt="sdf"
+                          className="w-[18px] h-[18px] mr-5 cursor-pointer"
+                          onClick={openEditDialog}
+                        />
+                      ) : (
+                        ""
+                      )}
+                      <img
+                        src={close}
+                        onClick={closeDialog}
+                        className="cursor-pointer hover:opacity-70"
+                      ></img>
+                    </div>
                   </div>
                   <div className="flex-col p-default flex flex-grow justify-between">
                     <div>
-                      {type != "delete" ? (
+                      {type === "create" || type === "edit" ? (
                         <>
                           <div className="flex w-full h-[86px] bg-charcoal rounded-default items-center">
                             <img
@@ -120,22 +152,39 @@ const TeamModal = (props) => {
                             placeholder="Type Team Name*"
                           ></Input>
                         </>
+                      ) : type === "delete" ? (
+                        ""
+                      ) : type === "addPlayer" ? (
+                        <>
+                          <div className="flex bg-[#4A5462] h-[66px] rounded-default p-4">
+                            <img src={logo} alt="" />
+                            <p className="text-white underline">Bucks</p>
+                          </div>
+                          <Input
+                            className="rounded-lg my-[10px]"
+                            icon={search}
+                            placeholder="Search Players"
+                          />
+                        </>
                       ) : (
-                        <Input
-                          className="rounded-default text-xs"
-                          placeholder="Type Team Name*"
-                        ></Input>
+                        ""
                       )}
                     </div>
-                    {
-                      type === 'create'?
-                      <Button className="bg-primary rounded-xl w-full hover:bg-sky-600">Create Team</Button>
-                      :
-                      type === 'edit'?
-                      <Button className="bg-primary rounded-xl w-full hover:bg-sky-600">Edit Team</Button>
-                      :
-                      <button className="bg-danger bg-opacity-10 rounded-xl w-full h-12 text-danger font-semibold">Delete Team</button>
-                    }
+                    {type === "create" ? (
+                      <Button className="bg-primary rounded-xl w-full hover:bg-sky-600">
+                        Create Team
+                      </Button>
+                    ) : type === "edit" ? (
+                      <Button className="bg-primary rounded-xl w-full hover:bg-sky-600">
+                        Edit Team
+                      </Button>
+                    ) : type === "delete" ? (
+                      <button className="bg-danger bg-opacity-10 rounded-xl w-full h-12 text-danger font-semibold">
+                        Delete Team
+                      </button>
+                    ) : (
+                      ""
+                    )}
                   </div>
                 </div>
               </Dialog.Panel>
