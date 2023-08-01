@@ -26,7 +26,7 @@ import PlayerModal from "../../components/Modal/PlayerModal";
 import TeamModal from "../../components/Modal/TeamModal";
 
 import * as actions from "../../actions";
-const League = () => {
+const Team = () => {
   let { id } = useParams();
   const league = useSelector((state) => state.home.leagues).find(
     (league) => league.id == id
@@ -518,4 +518,4 @@ const League = () => {
   );
 };
 
-export default League;
+export default Team;

@@ -2,6 +2,9 @@
 export const OPEN_CREATE_LEAGUE = 'OPEN_CREATE_LEAGUE';
 export const GET_LEAGUES = 'GET_LEAGUES';
 
+export const OPEN_LEAGUE_DIALOG = 'OPEN_LEAGUE_DIALOG';
+export const UPDATE_LEAGUE_DIALOG_TYPE = 'UPDATE_LEAGUE_DIALOG_TYPE';
+
 export const UPDATE_DIALOG_TYPE = 'UPDATE_DIALOG_TYPE'
 export const OPEN_ROSTER_DIALOG = 'OPEN_ROSTER_DIALOG'; 
 export const OPEN_TEAM_DIALOG = 'OPEN_TEAM_DIALOG'; 
@@ -21,6 +24,16 @@ export const openCreateLeague = () => ({
 export const getLeagues = (payload) => ({
   type: GET_LEAGUES,
   payload: payload 
+})
+
+export const openLeagueDialog = (payload) => ({
+  type: OPEN_LEAGUE_DIALOG,
+  payload: payload 
+})
+
+export const UpdateLeagueDialogType = (payload) => ({
+  type: UPDATE_DIALOG_TYPE,
+  payload: payload
 })
 
 // Open Team dialogue

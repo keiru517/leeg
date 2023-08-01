@@ -16,7 +16,7 @@ import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../actions";
 import Datepicker from "react-tailwindcss-datepicker";
 
-const PlayerModal = (props) => {
+const LeagueModal = (props) => {
   const dispatch = useDispatch();
 
   const status = useSelector((state) => state.home.league_dialog_open);
@@ -112,4 +112,4 @@ const PlayerModal = (props) => {
   );
 };
 
-export default PlayerModal;
+export default LeagueModal;

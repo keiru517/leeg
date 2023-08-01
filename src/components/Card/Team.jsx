@@ -55,17 +55,18 @@ const Team = (props) => {
     }
     
     const handleEdit = () => {
-        dispatch({type:actions.UPDATE_DIALOG_TYPE, payload:"edit"})
+        dispatch({type:actions.UPDATE_DIALOG_TYPE, payload:{type:"edit", id:item}})
         dispatch({type:actions.OPEN_TEAM_DIALOG, payload:true})
     }
 
     return (
-        // <Link to = {`/${route}/${item.id}`}>
-        <div className="flex flex-col overflow-y-auto rounded-default h-[350px] bg-dark-gray transition ease-in-out delay-150 hover:bg-dark-gray duration-200">
+      <div className="flex flex-col overflow-y-auto rounded-default h-[350px] bg-dark-gray transition ease-in-out delay-150 hover:bg-dark-gray duration-200">
             <div className="flex justify-between h-[53px] bg-charcoal rounded-t-default p-4">
                 <div className="flex items-center">
                     <img src={logo} className="w-8 h-8"></img>
-                    <p className='text-white text-sm mx-2 underline'>Bucks</p>
+                    <Link to = {`/team/${item.id}`}>
+                      <p className='text-white text-sm mx-2 underline'>Bucks</p>
+                    </Link>
                     <p className="text-white text-[10px]">10/12</p>
                 </div>
                 <div className="flex items-center space-x-2">
@@ -87,7 +88,6 @@ const Team = (props) => {
                 }
             </div>
         </div>
-        // </Link>
     );
 }
 

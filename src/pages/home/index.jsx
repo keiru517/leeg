@@ -75,7 +75,7 @@ const Home = () => {
 
   return (
     <div className="flex flex-col flex-grow">
-      <PageTitle action={actions.OPEN_CREATE_LEAGUE} button="Create League">
+      <PageTitle createAction={actions.OPEN_CREATE_LEAGUE} button="Create League">
         My Leagues
       </PageTitle>
       <div className="flex flex-col flex-grow rounded-main bg-slate overflow-auto mt-[20px] p-default">

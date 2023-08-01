@@ -3,13 +3,13 @@ import * as actions from '../../actions';
 import { useDispatch } from "react-redux";
 
 const Button = (props) => {
-  const { icon, className, children, onClick, action, ...rest } = props;
+  const { icon, className, children, onClick, createAction, ...rest } = props;
   const dispatch = useDispatch()
 
   const handleClick = () => {
     console.log("clicked button")
     dispatch({type:actions.UPDATE_DIALOG_TYPE, payload: 'create'})
-    dispatch({type:action, payload: true})
+    dispatch({type:createAction, payload: true})
     
   }
   return (

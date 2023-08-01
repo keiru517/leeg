@@ -4,6 +4,7 @@ import Select from "../../components/Select";
 import ProfileTitle from "../../components/ProfileTitle";
 import leftarrowIcon from "../../assets/img/dark_mode/left-arrow.png";
 import avatar from "../../assets/img/dark_mode/player.png";
+import * as actions from '../../actions';
 
 const PlayerProfile = () => {
   const leagues = [1, 2, 3, 4, 5, 6];
@@ -13,7 +14,7 @@ const PlayerProfile = () => {
 
   return (
     <div>
-      <ProfileTitle backIcon={leftarrowIcon} avatar={avatar}>
+      <ProfileTitle createAction={actions.OPEN_CREATE_LEAGUE} backIcon={leftarrowIcon} avatar={avatar}>
         <div>
           <p className="text-[32px]">Tornike Shengelia</p>
           <span className="text-xs font-normal">Tornike@gmail.com</span>
