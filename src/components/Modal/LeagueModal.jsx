@@ -59,6 +59,10 @@ const LeagueModal = (props) => {
     setLeagueName(league.description);
   };
 
+  const editLeague = () => {
+    console.log("Clicked edit");
+  }
+
   return (
     <Transition.Root show={status} as={Fragment}>
       <Dialog
@@ -163,9 +167,9 @@ const LeagueModal = (props) => {
                             option={calendar}
                           ></Input>
                         </div>
-                        <Button className="bg-primary rounded-xl w-full h-[53px] hover:bg-sky-600">
+                        <button onClick={editLeague} className="bg-primary rounded-xl w-full h-[53px] hover:opacity-70 text-white">
                           Edit League
-                        </Button>
+                        </button>
                       </>
                     ) : (
                       <div className="flex flex-col justify-between h-full">
@@ -173,7 +177,7 @@ const LeagueModal = (props) => {
                           className="rounded-default text-xs"
                           placeholder="Type League Name*"
                         ></Input>
-                        <button className="bg-danger bg-opacity-10 rounded-xl w-full h-12 text-danger font-semibold">
+                        <button className="bg-danger bg-opacity-10 rounded-xl w-full h-12 text-danger font-semibold hover:opacity-70">
                           Delete Team
                         </button>
                       </div>
