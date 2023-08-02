@@ -36,7 +36,9 @@ const LeagueModal = (props) => {
   const sportOptions = ["Basketball", "Rugby", "Hockey", "Baseball"];
 
   const [leagueName, setLeagueName] = useState(league.name);
-  const [leagueDescription, setLeagueDescription] = useState(league.description);
+  const [leagueDescription, setLeagueDescription] = useState(
+    league.description
+  );
 
   console.log("modal status", status);
 
@@ -53,8 +55,8 @@ const LeagueModal = (props) => {
   const closeDialog = () => {
     setStep(1);
     dispatch({ type: actions.OPEN_LEAGUE_DIALOG, payload: false });
-    setLeagueName(league.name)
-    setLeagueName(league.description)
+    setLeagueName(league.name);
+    setLeagueName(league.description);
   };
 
   return (
@@ -154,23 +156,27 @@ const LeagueModal = (props) => {
                             className="rounded-default text-xs"
                             placeholder="Start Date: Friday, July 2023"
                             option={calendar}
-                            ></Input>
+                          ></Input>
                           <Input
                             className="rounded-default text-xs"
                             placeholder="End Date: Friday, July 2023"
                             option={calendar}
                           ></Input>
-
                         </div>
                         <Button className="bg-primary rounded-xl w-full h-[53px] hover:bg-sky-600">
                           Edit League
                         </Button>
                       </>
                     ) : (
-                      <Input
-                        className="rounded-default text-xs"
-                        placeholder="Type League Name*"
-                      ></Input>
+                      <div className="flex flex-col justify-between h-full">
+                        <Input
+                          className="rounded-default text-xs"
+                          placeholder="Type League Name*"
+                        ></Input>
+                        <button className="bg-danger bg-opacity-10 rounded-xl w-full h-12 text-danger font-semibold">
+                          Delete Team
+                        </button>
+                      </div>
                     )}
                   </div>
                 </div>
