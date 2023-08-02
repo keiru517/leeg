@@ -16,7 +16,7 @@ const Input = (props) => {
                         alt="" />
                 </div> : ""
             }
-            <input datepicker {...rest} className="bg-transparent outline-none text-white flex-grow " value={value}/>
+            <input {...rest} className="bg-transparent outline-none text-white flex-grow " value={value}/>
             {
                 option ? <div>
                     <img src={option} alt="" className="hover:cursor-pointer"/>

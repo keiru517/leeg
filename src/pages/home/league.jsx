@@ -22,6 +22,7 @@ import { Tab } from "@headlessui/react";
 import avatar from "../../assets/img/dark_mode/player.png";
 import edit from "../../assets/img/dark_mode/edit.png";
 import userAdd from "../../assets/img/dark_mode/user-add.png";
+import LeagueModal from "../../components/Modal/LeagueModal";
 import PlayerModal from "../../components/Modal/PlayerModal";
 import TeamModal from "../../components/Modal/TeamModal";
 
@@ -32,7 +33,9 @@ const League = () => {
     (league) => league.id == id
   );
 
-  const options = ["Sort by", "Ascend", "Descend", "Recent"];
+  
+  const options = ["Ascend", "Descend", "Recent"];
+  const [value, setValue] = useState("Sort by");
 
   const categories = [
     "Manage Rosters",
@@ -320,8 +323,11 @@ const League = () => {
                         <Select
                           className="w-[144px] rounded-lg text-xs"
                           options={options}
-                          value="Sort by"
-                        />
+                          handleClick={(e)=> setValue(e)}
+                          value={value}
+                        >
+                          {value}
+                          </Select>
                       </div>
                       <div>
                         <Button className="text-sm bg-success w-[72px] h-[38px] rounded-lg">
@@ -372,8 +378,11 @@ const League = () => {
                         <Select
                           className="w-[144px] rounded-lg text-xs"
                           options={options}
-                          value="Sort by"
-                        ></Select>
+                          handleClick={(e)=> setValue(e)}
+                          value={value}
+                        >
+                          {value}
+                          </Select>
                       </div>
                       <div>
                         <Button className="text-sm bg-danger w-[72px] h-[38px] rounded-lg">
@@ -512,8 +521,8 @@ const League = () => {
             </Tab.Panels>
           </Tab.Group>
         </div>
-        {/* <PlayerModal /> */}
       </div>
+        <LeagueModal />
     </div>
   );
 };
