@@ -12,8 +12,40 @@ import ForgotPwd from './pages/password';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import AuthLayout from './components/Layouts/AuthLayout';
 import PlayerProfile from './pages/profile/playerProfile';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import * as actions from './actions';
+import logo from "./assets/img/dark_mode/team-logo.png";
 
 function App() {
+
+  const dispatch = useDispatch();
+
+  useEffect(()=>{
+    const leagues = [
+      {
+        id: 1,
+        logo: logo,
+        name: "2023 TABC Summer League",
+        start_date: "Firday, July 2023",
+        end_date: "N/A",
+        description:
+          'introducing the "Gravity Hoops League" - where hardwood battles and soaring dunks collide in a symphony of athleticism and teamwork.',
+      },
+      {
+        id: 2,
+        logo: logo,
+        name: "2024 TABC Winter League",
+        start_date: "Firday, July 2023",
+        end_date: "N/A",
+        description:
+          'introducing the "Gravity Hoops League" - where hardwood battles and soaring dunks collide in a symphony of athleticism and teamwork.',
+      },
+    ];
+
+    dispatch({type: actions.GET_LEAGUES, payload:leagues})
+  }, [])
+
   return (
     <Router>
       <AuthLayout>

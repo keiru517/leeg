@@ -32,7 +32,7 @@ const DeleteLeagueModal = (props) => {
 
   const closeDialog = () => {
     setStep(1);
-    dispatch({ type: actions.OPEN_CREATE_LEAGUE, payload: false });
+    dispatch({ type: actions.OPEN_CREATE_LEAGUE_DIALOG, payload: false });
   };
 
   const goToStep1 = () => {

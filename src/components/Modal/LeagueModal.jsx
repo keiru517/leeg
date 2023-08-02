@@ -1,22 +1,15 @@
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router";
 import { Fragment, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { CheckIcon } from "@heroicons/react/24/outline";
+import * as actions from "../../actions";
 import close from "../../assets/img/dark_mode/close.png";
-import btn1 from "../../assets/img/dark_mode/btn1.png";
-import btn1Selected from "../../assets/img/dark_mode/btn1-selected.png";
-import btn2 from "../../assets/img/dark_mode/btn2.png";
-import btn2Selected from "../../assets/img/dark_mode/btn2-selected.png";
-import btn3 from "../../assets/img/dark_mode/btn3.png";
 import uploadCircle from "../../assets/img/dark_mode/upload-circle.png";
 import calendar from "../../assets/img/dark_mode/calendar.png";
-import { useParams } from "react-router";
-import Button from "../Button";
-import Select from "../Select";
 import Input from "../Input";
-import { useDispatch, useSelector } from "react-redux";
-import * as actions from "../../actions";
 import deleteIcon from "../../assets/img/dark_mode/delete.png";
 import editIcon from "../../assets/img/dark_mode/edit.png";
+
 const LeagueModal = (props) => {
   const dispatch = useDispatch();
 
@@ -40,8 +33,6 @@ const LeagueModal = (props) => {
     league.description
   );
 
-  console.log("modal status", status);
-
   const handleEdit = () => {
     dispatch({ type: actions.UPDATE_LEAGUE_DIALOG_TYPE, payload: "edit" });
     dispatch({ type: actions.OPEN_LEAGUE_DIALOG, payload: true });
@@ -61,6 +52,10 @@ const LeagueModal = (props) => {
 
   const editLeague = () => {
     console.log("Clicked edit");
+  }
+  
+  const deleteLeague = () => {
+    console.log("Clicked delete");
   }
 
   return (
@@ -177,7 +172,7 @@ const LeagueModal = (props) => {
                           className="rounded-default text-xs"
                           placeholder="Type League Name*"
                         ></Input>
-                        <button className="bg-danger bg-opacity-10 rounded-xl w-full h-12 text-danger font-semibold hover:opacity-70">
+                        <button onClick={deleteLeague} className="bg-danger bg-opacity-10 rounded-xl w-full h-12 text-danger font-semibold hover:opacity-70">
                           Delete Team
                         </button>
                       </div>

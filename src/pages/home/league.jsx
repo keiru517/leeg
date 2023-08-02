@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import search from "../../assets/img/dark_mode/search.png";
 import leftarrowIcon from "../../assets/img/dark_mode/left-arrow.png";
 import logo from "../../assets/img/dark_mode/team-logo.png";
@@ -25,13 +25,17 @@ import userAdd from "../../assets/img/dark_mode/user-add.png";
 import LeagueModal from "../../components/Modal/LeagueModal";
 import PlayerModal from "../../components/Modal/PlayerModal";
 import TeamModal from "../../components/Modal/TeamModal";
-
 import * as actions from "../../actions";
+
 const League = () => {
   let { id } = useParams();
+  const dispatch = useDispatch();
+
   const league = useSelector((state) => state.home.leagues).find(
     (league) => league.id == id
   );
+
+  const teams = useSelector((state)=> state.league.teams);
 
   
   const options = ["Ascend", "Descend", "Recent"];
@@ -168,26 +172,30 @@ const League = () => {
     { team: "Fenerbahche", w: 12, l: 6, scored: 167, against: 142, diff: 27 },
   ];
 
-  const teams = [
-    {  
-      id: 1,
-      logo: logo,
-      name: "2023 TABC Summer League",
-      start_date: "Firday, July 2023",
-      end_date: "N/A",
-      description:
-        'introducing the "Gravity Hoops League" - where hardwood battles and soaring dunks collide in a symphony of athleticism and teamwork.',
-    },
-    {
-      id: 2,
-      logo: logo,
-      name: "2024 TABC Winter League",
-      start_date: "Firday, July 2023",
-      end_date: "N/A",
-      description:
-        'introducing the "Gravity Hoops League" - where hardwood battles and soaring dunks collide in a symphony of athleticism and teamwork.',
-    },
-  ];
+  
+  const getTeams = () => {
+    const teams = [
+      {  
+        id: 1,
+        league_id:1,
+        logo: logo,
+        name: "Real Madrid",
+        max:12,
+        min:3,
+        waitlist:10
+      },
+      {
+        id: 2,
+        logo: logo,
+        name: "FC Barcelona",
+        max:12,
+        min:3,
+        waitlist:9
+      },
+    ];
+
+    dispatch({type:actions.GET_TEAMS, payload:teams})
+  }
 
   const players = [
     {
@@ -246,6 +254,9 @@ const League = () => {
 
   const matches = [];
 
+  useEffect (()=>{
+    getTeams();
+  }, [])
 
   return (
     <div className="flex flex-col flex-grow">
@@ -262,7 +273,7 @@ const League = () => {
             ? actions.OPEN_TEAM_DIALOG
             : breadcrum == "Matches"
             ? actions.OPEN_MATCH_DIALOG
-            : actions.OPEN_CREATE_LEAGUE
+            : actions.OPEN_CREATE_LEAGUE_DIALOG
         }
       >
         {league.name}
@@ -443,9 +454,7 @@ const League = () => {
                     </p>
                   </div>
                 )}
-
-                {/* <ScheduleTable columns={schedule_columns} data={schedules} /> */}
-                <TeamModal />
+                <TeamModal/>
               </Tab.Panel>
 
               {/* Standings */}

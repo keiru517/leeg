@@ -12,8 +12,6 @@ import apis from "../../utils/apis";
 import logo from "../../assets/img/dark_mode/team-logo.png";
 
 const Home = () => {
-  const modal_status = useSelector((state) => state.home.league_dialog_open);
-  const create_step = useSelector((state) => state.home.create_step);
   const leagues = useSelector((state) => state.home.leagues);
   //   const leagues = [
   //     {'id': 1, 'logo': logo, 'name': '2023 TABC Summer League', 'start_date': 'Firday, July 2023', 'end_date': 'N/A', 'description': 'introducing the "Gravity Hoops League" - where hardwood battles and soaring dunks collide in a symphony of athleticism and teamwork.'},
@@ -30,34 +28,30 @@ const Home = () => {
   };
 
   // read leagues
-  const getLeagues = () => {
-    // axios.get(apis.read_leagues)
-    // .then(res=>{
-    //    get leagues from server
-    const leagues = [
-      {
-        id: 1,
-        logo: logo,
-        name: "2023 TABC Summer League",
-        start_date: "Firday, July 2023",
-        end_date: "N/A",
-        description:
-          'introducing the "Gravity Hoops League" - where hardwood battles and soaring dunks collide in a symphony of athleticism and teamwork.',
-      },
-      {
-        id: 2,
-        logo: logo,
-        name: "2024 TABC Winter League",
-        start_date: "Firday, July 2023",
-        end_date: "N/A",
-        description:
-          'introducing the "Gravity Hoops League" - where hardwood battles and soaring dunks collide in a symphony of athleticism and teamwork.',
-      },
-    ];
-    dispatch({ type: actions.GET_LEAGUES, payload: leagues });
-    // })
-    // console.log(apis.read_leagues)
-  };
+  // const getLeagues = () => {
+  //   const leagues = [
+  //     {
+  //       id: 1,
+  //       logo: logo,
+  //       name: "2023 TABC Summer League",
+  //       start_date: "Firday, July 2023",
+  //       end_date: "N/A",
+  //       description:
+  //         'introducing the "Gravity Hoops League" - where hardwood battles and soaring dunks collide in a symphony of athleticism and teamwork.',
+  //     },
+  //     {
+  //       id: 2,
+  //       logo: logo,
+  //       name: "2024 TABC Winter League",
+  //       start_date: "Firday, July 2023",
+  //       end_date: "N/A",
+  //       description:
+  //         'introducing the "Gravity Hoops League" - where hardwood battles and soaring dunks collide in a symphony of athleticism and teamwork.',
+  //     },
+  //   ];
+
+  //   dispatch({ type: actions.GET_LEAGUES, payload: leagues });
+  // };
 
   // update a league
   const updateLeague = () => {
@@ -70,12 +64,12 @@ const Home = () => {
   };
 
   useEffect(() => {
-    getLeagues();
+    // getLeagues();
   }, []);
 
   return (
     <div className="flex flex-col flex-grow">
-      <PageTitle createAction={actions.OPEN_CREATE_LEAGUE} button="Create League">
+      <PageTitle createAction={actions.OPEN_CREATE_LEAGUE_DIALOG} button="Create League">
         My Leagues
       </PageTitle>
       <div className="flex flex-col flex-grow rounded-main bg-slate overflow-auto mt-[20px] p-default">
@@ -107,7 +101,7 @@ const Home = () => {
           </div>
         )}{" "}
       </div>
-      <Modal status={modal_status} create_step={create_step} />
+      <Modal />
     </div>
     // </div>
   );

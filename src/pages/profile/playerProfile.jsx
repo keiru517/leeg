@@ -14,7 +14,7 @@ const PlayerProfile = () => {
 
   return (
     <div>
-      <ProfileTitle createAction={actions.OPEN_CREATE_LEAGUE} backIcon={leftarrowIcon} avatar={avatar}>
+      <ProfileTitle createAction={actions.OPEN_CREATE_LEAGUE_DIALOG} backIcon={leftarrowIcon} avatar={avatar}>
         <div>
           <p className="text-[32px]">Tornike Shengelia</p>
           <span className="text-xs font-normal">Tornike@gmail.com</span>

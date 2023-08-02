@@ -1,28 +1,43 @@
-// const OPEN_CREATE_LEAGUE = 'OPEN_CREATE_LEAGUE'
-import * as actions from '../actions';
+// const OPEN_CREATE_LEAGUE_DIALOG = 'OPEN_CREATE_LEAGUE_DIALOG'
+import * as actions from "../actions";
 
 const initialState = {
-    league_dialog_open: false,
-    leagues: []
-}
+  leagues: [],
+  league_dialog: {
+    open: false,
+    type: "create",
+    league: [],
+  },
+  team_dialog: {
+    open: false,
+    type: "create",
+    team: [],
+  },
+};
 
-const home = (state=initialState, action) => {
-    switch (action.type){
-        case actions.OPEN_CREATE_LEAGUE:
-            return {...state,
-                league_dialog_open: action.payload
-                }
-        case actions.GET_LEAGUES:
-            return {...state, 
-                leagues: action.payload
-            }
-        default:
-            return state;
-
-    }
-
-}
-
-
+const home = (state = initialState, action) => {
+  switch (action.type) {
+    case actions.OPEN_CREATE_LEAGUE_DIALOG:
+      return {
+        ...state,
+        league_dialog: {
+          open: action.payload,
+        },
+      };
+    case actions.OPEN_EDIT_LEAGUE_DIALOG:
+      return {
+        ...state,
+        league_dialog: {
+          open: true,
+          type:"edit",
+          league: action.payload
+        },
+      };
+    case actions.GET_LEAGUES:
+      return { ...state, leagues: action.payload };
+    default:
+      return state;
+  }
+};
 
 export default home;

@@ -23,11 +23,17 @@ const PageTitle = (props) => {
   let { id } = useParams();
   const dispatch = useDispatch();
 
+  const handleClick = () => {
+    dispatch({type: createAction, payload:true})
+  }
+
   const handleEdit = () => {
-    dispatch({type: actions.OPEN_LEAGUE_DIALOG, payload:true});
-    dispatch({type: actions.UPDATE_LEAGUE_DIALOG_TYPE, payload:'edit'});
+    // dispatch({type: actions.OPEN_CREATE_LEAGUE_DIALOG, payload:true});
+    // dispatch({type: actions.UPDATE_LEAGUE_DIALOG_TYPE, payload:'edit'});
 
   }
+
+
 
   return (
     <div className='page-title bg-charcoal flex items-center justify-between'>
@@ -52,8 +58,9 @@ const PageTitle = (props) => {
         }
       </div>
       {
-        button ? <Button createAction={createAction} className="w-[169px] h-[53px] bg-primary hover:bg-sky-600 rounded-default">
-          {button}</Button> :
+        button ? 
+        <button onClick={handleClick} className="w-[169px] h-[53px] bg-primary hover:bg-sky-600 rounded-default text-white">
+          {button}</button> :
           ""
       }
 

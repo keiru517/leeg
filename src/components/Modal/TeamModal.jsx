@@ -20,7 +20,12 @@ import logo from "../../assets/img/dark_mode/team-logo.png";
 import avatar from "../../assets/img/dark_mode/player.png";
 import PlayerList from "../ListItem/PlayerList";
 
-const TeamModal = (props) => {
+const TeamModal = ({id}) => {
+
+  const team = useSelector((state) => state.league.teams).find(
+    (team) => team.id == id
+  );
+
   const dispatch = useDispatch();
 
   const status = useSelector((state) => state.league.dialog_open);
@@ -28,17 +33,17 @@ const TeamModal = (props) => {
 
   const closeDialog = () => {
     setStep(1);
-    dispatch({ type: actions.OPEN_TEAM_DIALOG, payload: false });
+    // dispatch({ type: actions.OPEN_TEAM_DIALOG, payload: false });
   };
 
   const openDeleteDialog = () => {
-    dispatch({ type: actions.UPDATE_DIALOG_TYPE, payload: "delete" });
-    dispatch({ type: actions.OPEN_TEAM_DIALOG, payload: true });
+    // dispatch({ type: actions.UPDATE_DIALOG_TYPE, payload: "delete" });
+    // dispatch({ type: actions.OPEN_TEAM_DIALOG, payload: true });
   };
 
   const openEditDialog = () => {
-    dispatch({ type: actions.UPDATE_DIALOG_TYPE, payload: "edit" });
-    dispatch({ type: actions.OPEN_TEAM_DIALOG, payload: true });
+    // dispatch({ type: actions.UPDATE_DIALOG_TYPE, payload: "edit" });
+    // dispatch({ type: actions.OPEN_TEAM_DIALOG, payload: true });
   };
 
   // const type = "delete";
@@ -147,7 +152,7 @@ const TeamModal = (props) => {
 
 
   const [sport, setSport] = useState("Select Sport*");
-  const [leagueName, setLeagueName] = useState("");
+  const [teamName, setTeamName] = useState(team.name);
   const [leagueDescription, setLeagueDescription] = useState("");
 
   const createLeague = () => {};
@@ -237,6 +242,8 @@ const TeamModal = (props) => {
                           <Input
                             className="rounded-default text-xs mt-5"
                             placeholder="Type Team Name*"
+                            value={teamName}
+                            onChange={(e) => setTeamName(e.target.value)}
                           ></Input>
                         </>
                       ) : type === "delete" ? (

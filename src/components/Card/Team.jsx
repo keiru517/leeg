@@ -8,6 +8,7 @@ import editIcon from '../../assets/img/dark_mode/edit.png';
 import avatar from '../../assets/img/dark_mode/player.png';
 import * as actions from '../../actions';
 import { useDispatch } from "react-redux";
+import TeamModal from "../Modal/TeamModal";
 
 const Team = (props) => {
     const { route, item} = props;
@@ -50,13 +51,12 @@ const Team = (props) => {
     // const players = []
 
     const handleAddPlayer = () => {
-        dispatch({type:actions.UPDATE_DIALOG_TYPE, payload:"addPlayer"})
-        dispatch({type:actions.OPEN_TEAM_DIALOG, payload:true})
+        // dispatch({type:actions.UPDATE_DIALOG_TYPE, payload:"addPlayer"})
+        // dispatch({type:actions.OPEN_TEAM_DIALOG, payload:true})
     }
     
     const handleEdit = () => {
-        dispatch({type:actions.UPDATE_DIALOG_TYPE, payload:{type:"edit", id:item}})
-        dispatch({type:actions.OPEN_TEAM_DIALOG, payload:true})
+        // dispatch({type: actions.OPEN_TEAM_EDIT_DIALOG, payload:{open:true, team:item}})
     }
 
     return (
@@ -65,9 +65,9 @@ const Team = (props) => {
                 <div className="flex items-center">
                     <img src={logo} className="w-8 h-8"></img>
                     <Link to = {`/team/${item.id}`}>
-                      <p className='text-white text-sm mx-2 underline'>Bucks</p>
+                      <p className='text-white text-sm mx-2 underline'>{item.name}</p>
                     </Link>
-                    <p className="text-white text-[10px]">10/12</p>
+                    <p className="text-white text-[10px]">{item.waitlist}/{item.max}</p>
                 </div>
                 <div className="flex items-center space-x-2">
                     <img src={userIcon} className="w-3.5 h-3.5 cursor-pointer" onClick={handleAddPlayer}></img>
@@ -87,6 +87,7 @@ const Team = (props) => {
                   </div>
                 }
             </div>
+            {/* <TeamModal id={item.id}></TeamModal> */}
         </div>
     );
 }

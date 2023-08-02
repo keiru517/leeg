@@ -259,7 +259,7 @@ const Team = () => {
             ? actions.OPEN_TEAM_DIALOG
             : breadcrum == "Matches"
             ? actions.OPEN_MATCH_DIALOG
-            : actions.OPEN_CREATE_LEAGUE
+            : actions.OPEN_CREATE_LEAGUE_DIALOG
         }
       >
         {league.name}
