@@ -200,14 +200,14 @@ const TeamModal = (props) => {
                         <img
                           src={deleteIcon}
                           alt=""
-                          className="w-[18px] h-[18px] mr-5 cursor-pointer"
+                          className="w-[18px] h-[18px] mr-5 hover:opacity-70 cursor-pointer"
                           onClick={openDeleteDialog}
                         />
                       ) : type === "delete" ? (
                         <img
                           src={editIcon}
                           alt="sdf"
-                          className="w-[18px] h-[18px] mr-5 cursor-pointer"
+                          className="w-[18px] h-[18px] mr-5 hover:opacity-70 cursor-pointer"
                           onClick={openEditDialog}
                         />
                       ) : (
