@@ -4,7 +4,7 @@ import { useParams } from "react-router";
 import Button from '../Button';
 import { Link } from "react-router-dom";
 import * as actions from '../../actions';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 const PageTitle = (props) => {
 
@@ -21,6 +21,10 @@ const PageTitle = (props) => {
   } = props;
 
   let { id } = useParams();
+  const league = useSelector((state) => state.home.leagues).find(
+    (league) => league.id == id
+  );
+
   const dispatch = useDispatch();
 
   const handleClick = () => {
@@ -28,6 +32,7 @@ const PageTitle = (props) => {
   }
 
   const handleEdit = () => {
+    dispatch({type: actions.OPEN_EDIT_LEAGUE_DIALOG, payload:league})
     // dispatch({type: actions.OPEN_CREATE_LEAGUE_DIALOG, payload:true});
     // dispatch({type: actions.UPDATE_LEAGUE_DIALOG_TYPE, payload:'edit'});
 

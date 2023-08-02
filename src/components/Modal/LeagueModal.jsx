@@ -13,8 +13,8 @@ import editIcon from "../../assets/img/dark_mode/edit.png";
 const LeagueModal = (props) => {
   const dispatch = useDispatch();
 
-  const status = useSelector((state) => state.league.league_dialog_open);
-  const type = useSelector((state) => state.league.league_dialog_type);
+  const status = useSelector(state => state.home.league_dialog.open)
+  const type = "create"
 
   let { id } = useParams();
   const league = useSelector((state) => state.home.leagues).find(

@@ -3,6 +3,7 @@ import * as actions from "../actions";
 
 const initialState = {
   leagues: [],
+  teams: [],
   league_dialog: {
     open: false,
     type: "create",
@@ -17,6 +18,9 @@ const initialState = {
 
 const home = (state = initialState, action) => {
   switch (action.type) {
+    case actions.GET_LEAGUES:
+      return { ...state, leagues: action.payload };
+
     case actions.OPEN_CREATE_LEAGUE_DIALOG:
       return {
         ...state,
@@ -24,17 +28,19 @@ const home = (state = initialState, action) => {
           open: action.payload,
         },
       };
+
     case actions.OPEN_EDIT_LEAGUE_DIALOG:
       return {
         ...state,
         league_dialog: {
           open: true,
-          type:"edit",
-          league: action.payload
+          type: "edit",
+          league: action.payload,
         },
       };
-    case actions.GET_LEAGUES:
-      return { ...state, leagues: action.payload };
+
+    case actions.GET_TEAMS:
+      return { ...state, teams: action.payload };
     default:
       return state;
   }

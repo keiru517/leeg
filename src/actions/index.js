@@ -1,9 +1,10 @@
 // league
+export const GET_LEAGUES = 'GET_LEAGUES';
 export const OPEN_CREATE_LEAGUE_DIALOG = 'OPEN_CREATE_LEAGUE_DIALOG';
-export const OPEN_EDIT_LEAGUE_DIALOG = 'OPEN_CREATE_LEAGUE_DIALOG';
+export const OPEN_EDIT_LEAGUE_DIALOG = 'OPEN_EDIT_LEAGUE_DIALOG';
 export const OPEN_DELETE_LEAGUE_DIALOG = 'OPEN_DELETE_LEAGUE_DIALOG';
 
-export const GET_LEAGUES = 'GET_LEAGUES';
+export const GET_TEAMS = 'GET_TEAMS';
 
 export const OPEN_LEAGUE_DIALOG = 'OPEN_LEAGUE_DIALOG';
 export const UPDATE_LEAGUE_DIALOG_TYPE = 'UPDATE_LEAGUE_DIALOG_TYPE';
@@ -21,9 +22,14 @@ export const OPEN_STANDING_DIALOG = 'OPEN_STANDING_DIALOG';
 export const ADD_PLAYER = 'ADD_PLAYER';
 export const REMOVE_PLAYER = 'REMOVE_PLAYER';
 
-export const GET_TEAMS = 'GET_TEAMS';
 
 // league actions----------------------------------
+
+// Get leagues from the server
+export const getLeagues = (payload) => ({
+  type: GET_LEAGUES,
+  payload: payload 
+})
 
 // create
 export const openCreateLeagueDialog = (payload) => ({
@@ -38,11 +44,12 @@ export const openEditLeagueDialog = (payload) => ({
 
 
 
-// Get leagues from the server
-export const getLeagues = (payload) => ({
-  type: GET_LEAGUES,
+// Team actions -----------------------------------
+export const getTeams = (payload) => ({
+  type: GET_TEAMS,
   payload: payload 
 })
+
 
 export const openLeagueDialog = (payload) => ({
   type: OPEN_LEAGUE_DIALOG,
@@ -95,10 +102,6 @@ export const RemovePlayer = (payload) => ({
 //   payload:payload
 // })
 
-export const getTeams = (payload) => ({
-  type: GET_TEAMS,
-  payload: payload 
-})
 
 
 export const getUserInfo = () =>

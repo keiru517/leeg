@@ -35,7 +35,7 @@ const League = () => {
     (league) => league.id == id
   );
 
-  const teams = useSelector((state)=> state.league.teams);
+  const teams = useSelector((state)=> state.home.teams);
 
   
   const options = ["Ascend", "Descend", "Recent"];
@@ -402,7 +402,7 @@ const League = () => {
                       </div>
                     </div>
                     <div
-                      className={`overflow-y-scroll h-4/6 flex flex-col items-center flex-grow justify-center ${
+                      className={`overflow-y-scroll h-4/6 flex flex-col items-center flex-grow justify-center space-y-5 ${
                         players.length > 1 ? "" : "bg-dark-gray"
                       } rounded-default`}
                     >
@@ -410,7 +410,6 @@ const League = () => {
                         players.map((player, idx) => (
                           <ListItem
                             key={idx}
-                            className="mb-5"
                             avatar={avatar}
                             name={player.name}
                             email={player.email}
