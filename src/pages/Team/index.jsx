@@ -47,21 +47,6 @@ const Team = () => {
     return classes.filter(Boolean).join(" ");
   }
 
-  // const [breadcrum, setBreadcrum] = useState("Manage Rosters");
-
-  // const buttons = {
-  //   "Matches": " ",
-  //   Teams: "Create Team",
-  //   Matches: "Create Match",
-  //   Standings: "Create Match",
-  //   "All Playerlist": "Create Match",
-  // };
-
-  // const handleCategory = (data) => {
-  //   setBreadcrum(data);
-  // };
-
-  // const schedules = [];
 
   const standings = [
     { team: "Bucks", w: 12, l: 6, scored: 167, against: 142, diff: 27 },
@@ -86,61 +71,6 @@ const Team = () => {
     { team: "Fenerbahche", w: 12, l: 6, scored: 167, against: 142, diff: 27 },
   ];
 
-  // const players = [
-  //   {
-  //     name: "Tornike Shengelia",
-  //     email: "James@gmail.com",
-  //     created_at: "June 26, 2023, 10:00PM",
-  //   },
-  //   {
-  //     name: "Tornike Shengelia",
-  //     email: "James@gmail.com",
-  //     created_at: "June 26, 2023, 10:00PM",
-  //   },
-  //   {
-  //     name: "Tornike Shengelia",
-  //     email: "James@gmail.com",
-  //     created_at: "June 26, 2023, 10:00PM",
-  //   },
-  //   {
-  //     name: "Tornike Shengelia",
-  //     email: "James@gmail.com",
-  //     created_at: "June 26, 2023, 10:00PM",
-  //   },
-  //   {
-  //     name: "Tornike Shengelia",
-  //     email: "James@gmail.com",
-  //     created_at: "June 26, 2023, 10:00PM",
-  //   },
-  //   {
-  //     name: "Tornike Shengelia",
-  //     email: "James@gmail.com",
-  //     created_at: "June 26, 2023, 10:00PM",
-  //   },
-  //   {
-  //     name: "Tornike Shengelia",
-  //     email: "James@gmail.com",
-  //     created_at: "June 26, 2023, 10:00PM",
-  //   },
-  //   {
-  //     name: "Tornike Shengelia",
-  //     email: "James@gmail.com",
-  //     created_at: "June 26, 2023, 10:00PM",
-  //   },
-  //   {
-  //     name: "Tornike Shengelia",
-  //     email: "James@gmail.com",
-  //     created_at: "June 26, 2023, 10:00PM",
-  //   },
-  //   {
-  //     name: "Tornike Shengelia",
-  //     email: "James@gmail.com",
-  //     created_at: "June 26, 2023, 10:00PM",
-  //   },
-  // ];
-
-  // const matches = ['a'];
-
   const columns = [
     "Date",
     "Location",
@@ -152,9 +82,9 @@ const Team = () => {
   ];
   
   const matches = [
-    {id:1, 'date': '123', 'location': 'New york', 'time': '8:00', 'home': 'real', 'away': 'bacel', 'results':'41-62'},
-    {id:1, 'date': '123', 'location': 'New york', 'time': '8:00', 'home': 'real', 'away': 'bacel', 'results':'41-62'},
-    {id:1, 'date': '123', 'location': 'New york', 'time': '8:00', 'home': 'real', 'away': 'bacel', 'results':'41-62'},
+    {id:1, 'date': 'Thursday, July, 2023', 'location': 'New York', 'time': '8:00 PM', 'home': 'Real Madrid', 'away': 'FC Barcelona', 'results':'41-74'},
+    {id:2, 'date': 'Friday, August, 2023', 'location': 'TABC New gym', 'time': '3:00 PM', 'home': 'Juventus', 'away': 'Real Madrid', 'results':'71-62'},
+    {id:3, 'date': 'Saturday, July, 2023', 'location': '4 Peace', 'time': '10:00 AM', 'home': 'Liverpool', 'away': 'Real Madrid', 'results':'51-42'},
   ];
 
   return (

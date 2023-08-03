@@ -1,5 +1,6 @@
 import { Card, Typography } from "@material-tailwind/react";
 import actionIcon from '../../assets/img/dark_mode/action.png';
+import teamLogo from '../../assets/img/dark_mode/team-logo.png';
 
 const MatchTable = (props) => {
   const { matches, columns } = props;
@@ -66,8 +67,9 @@ const MatchTable = (props) => {
                 <Typography
                   variant="small"
                   color="blue-gray"
-                  className="font-normal"
+                  className="font-normal underline flex items-center"
                 >
+                  <img src={teamLogo} alt="" className="h-8 w-8 mr-2" />
                   {home}
                 </Typography>
               </td>
@@ -75,8 +77,9 @@ const MatchTable = (props) => {
                 <Typography
                   variant="small"
                   color="blue-gray"
-                  className="font-normal"
+                  className="font-normal underline flex items-center"
                 >
+                  <img src={teamLogo} alt="" className="h-8 w-8 mr-2" />
                   {away}
                 </Typography>
               </td>
