@@ -160,7 +160,7 @@ const LeagueModal = (props) => {
                             option={calendar}
                           ></Input>
                         </div>
-                        <button onClick={editSubmit} className="bg-primary rounded-xl w-full h-[53px] hover:opacity-70 text-white">
+                        <button onClick={editSubmit} className="bg-primary rounded-xl w-full h-button hover:opacity-70 text-white">
                           Edit League
                         </button>
                       </>

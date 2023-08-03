@@ -39,6 +39,9 @@ module.exports = {
             width: {
                 auth:'429px'
             },
+            height: {
+                button: '53px'
+            },
             padding: {
                 default: '26px'
             }

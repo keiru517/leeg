@@ -30,7 +30,7 @@ const PageTitle = (props) => {
   const handleClick = () => {
     dispatch({type: createAction, payload:true})
   }
-
+  
   const handleEdit = () => {
     dispatch({type: actions.OPEN_EDIT_LEAGUE_DIALOG, payload:league})
     // dispatch({type: actions.OPEN_CREATE_LEAGUE_DIALOG, payload:true});
@@ -64,7 +64,7 @@ const PageTitle = (props) => {
       </div>
       {
         button ? 
-        <button onClick={handleClick} className="w-[169px] h-[53px] bg-primary hover:bg-sky-600 rounded-default text-white">
+        <button onClick={handleClick} className="w-[169px] h-button bg-primary hover:bg-sky-600 rounded-default text-white">
           {button}</button> :
           ""
       }

@@ -490,7 +490,7 @@ const Team = () => {
                 {/* <div className="grid grid-cols-3 gap-4">
                   {matches.map((team) => (
                     <div>
-                      <div className="flex justify-between bg-charcoal h-[53px] mt-4 rounded-tl-lg rounded-tr-lg p-4">
+                      <div className="flex justify-between bg-charcoal h-button mt-4 rounded-tl-lg rounded-tr-lg p-4">
                         <div className="flex items-center">
                           <img src={logo} alt="" />
                           <p className="text-sm text-white underline mx-2">

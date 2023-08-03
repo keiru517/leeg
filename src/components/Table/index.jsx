@@ -38,7 +38,7 @@ const Table = (props) => {
         <thead>
           <tr>
             {columns.map((head, idx) => (
-              <th key={idx} className="h-[53px] text-center font-font-dark-gray">
+              <th key={idx} className="h-button text-center font-font-dark-gray">
                 <Typography
                   variant="small"
                   color="blue-gray"

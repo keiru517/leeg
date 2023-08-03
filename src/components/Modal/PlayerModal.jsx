@@ -19,41 +19,20 @@ import Datepicker from "react-tailwindcss-datepicker";
 const PlayerModal = (props) => {
   const dispatch = useDispatch();
 
-  const status = false;
+  const status = useSelector(state => state.home.player_dialog.open);
 
 
   // const [open, setOpen] = useState(false);
-  const [step, setStep] = useState(1);
 
   const cancelButtonRef = useRef(null);
 
-  const sportOptions = ["Basketball", "Rugby", "Hockey", "Baseball"];
-
-  console.log("modal status", status);
-
   const closeDialog = () => {
-    setStep(1);
-    dispatch({ type: actions.OPEN_ROSTER_DIALOG, payload: false });
+    dispatch({ type: actions.OPEN_INVITE_PLAYER_DIALOG, payload: false });
   };
 
-  const goToStep1 = () => {
-    setStep(1);
-  };
 
-  const goToStep2 = () => {
-    setStep(2);
-  };
-
-  const goToStep3 = () => {
-    setStep(3);
-  };
-
-  const [sport, setSport] = useState("Select Sport*");
-  const [leagueName, setLeagueName] = useState("");
-  const [leagueDescription, setLeagueDescription] = useState("");
-  
-  const createLeague = () => {
-
+  const invitePlayer = () => {
+    console.log("invite player")
   }
 
   return (
@@ -101,7 +80,7 @@ const PlayerModal = (props) => {
                   </div>
                   <div className="flex-col p-default flex flex-grow justify-between">
                       <Input className='rounded-default text-xs' placeholder='Copy Link'></Input>
-                      <Button className='bg-primary rounded-xl w-full hover:bg-sky-600'>Copy Link</Button>
+                      <button onClick={invitePlayer} className='bg-primary rounded-xl w-full hover:bg-sky-600 text-white h-button'>Copy Link</button>
                   </div>
                 </div>
               </Dialog.Panel>

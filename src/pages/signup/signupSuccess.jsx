@@ -39,7 +39,7 @@ const SignupSuccess = () => {
                             </div>
                     </div>
                     <div className='flex justify-between mb-4'>
-                        <Button className='w-[377px] h-[53px] bg-primary'>Verify</Button>
+                        <Button className='w-[377px] h-button bg-primary'>Verify</Button>
                     </div>
                     <p className='font-dark-gray text-center'>Don't receive the Email?<span className='text-primary font-semibold'> Resend Email</span></p>
                 </div>

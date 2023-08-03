@@ -44,7 +44,7 @@ const Signin = () => {
           </div>
           <div>
             <div className="flex justify-between mb-4">
-              <Button className="w-[377px] h-[53px] bg-primary">Login</Button>
+              <Button className="w-[377px] h-button bg-primary">Login</Button>
             </div>
             <p className="font-dark-gray text-center">
               Don't have an account?

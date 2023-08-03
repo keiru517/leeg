@@ -35,9 +35,8 @@ const League = () => {
     (league) => league.id == id
   );
 
-  const teams = useSelector((state)=> state.home.teams);
+  const teams = useSelector((state) => state.home.teams);
 
-  
   const options = ["Ascend", "Descend", "Recent"];
   const [value, setValue] = useState("Sort by");
 
@@ -77,9 +76,9 @@ const League = () => {
 
   const buttons = {
     "Manage Rosters": "Invite Player",
-    Teams: "Create Team",
-    Matches: "Create Match",
-    Standings: "Create Match",
+    "Teams": "Create Team",
+    "Matches": "Create Match",
+    "Standings": "Create Match",
     "All Playerlist": "Create Match",
   };
 
@@ -172,30 +171,29 @@ const League = () => {
     { team: "Fenerbahche", w: 12, l: 6, scored: 167, against: 142, diff: 27 },
   ];
 
-  
   const getTeams = () => {
     const teams = [
-      {  
+      {
         id: 1,
-        league_id:1,
+        league_id: 1,
         logo: logo,
         name: "Real Madrid",
-        max:12,
-        min:3,
-        waitlist:10
+        max: 12,
+        min: 3,
+        waitlist: 10,
       },
       {
         id: 2,
         logo: logo,
         name: "FC Barcelona",
-        max:12,
-        min:3,
-        waitlist:9
+        max: 12,
+        min: 3,
+        waitlist: 9,
       },
     ];
 
-    dispatch({type:actions.GET_TEAMS, payload:teams})
-  }
+    dispatch({ type: actions.GET_TEAMS, payload: teams });
+  };
 
   const players = [
     {
@@ -254,9 +252,9 @@ const League = () => {
 
   const matches = [];
 
-  useEffect (()=>{
+  useEffect(() => {
     getTeams();
-  }, [])
+  }, []);
 
   return (
     <div className="flex flex-col flex-grow">
@@ -267,13 +265,7 @@ const League = () => {
         deleteIcon={deleteIcon}
         button={buttons[breadcrum]}
         createAction={
-          breadcrum == "Manage Rosters"
-            ? actions.OPEN_ROSTER_DIALOG
-            : breadcrum == "Teams"
-            ? actions.OPEN_TEAM_DIALOG
-            : breadcrum == "Matches"
-            ? actions.OPEN_MATCH_DIALOG
-            : actions.OPEN_CREATE_LEAGUE_DIALOG
+          breadcrum == "Manage Rosters" ? actions.OPEN_INVITE_PLAYER_DIALOG : actions.OPEN_INVITE_PLAYER_DIALOG
         }
       >
         {league.name}
@@ -334,11 +326,11 @@ const League = () => {
                         <Select
                           className="w-[144px] rounded-lg text-xs"
                           options={options}
-                          handleClick={(e)=> setValue(e)}
+                          handleClick={(e) => setValue(e)}
                           value={value}
                         >
                           {value}
-                          </Select>
+                        </Select>
                       </div>
                       <div>
                         <Button className="text-sm bg-success w-[72px] h-[38px] rounded-lg">
@@ -389,11 +381,11 @@ const League = () => {
                         <Select
                           className="w-[144px] rounded-lg text-xs"
                           options={options}
-                          handleClick={(e)=> setValue(e)}
+                          handleClick={(e) => setValue(e)}
                           value={value}
                         >
                           {value}
-                          </Select>
+                        </Select>
                       </div>
                       <div>
                         <Button className="text-sm bg-danger w-[72px] h-[38px] rounded-lg">
@@ -453,7 +445,7 @@ const League = () => {
                     </p>
                   </div>
                 )}
-                <TeamModal/>
+                <TeamModal />
               </Tab.Panel>
 
               {/* Standings */}
@@ -507,7 +499,7 @@ const League = () => {
                 {/* <div className="grid grid-cols-3 gap-4">
                   {matches.map((team) => (
                     <div>
-                      <div className="flex justify-between bg-charcoal h-[53px] mt-4 rounded-tl-lg rounded-tr-lg p-4">
+                      <div className="flex justify-between bg-charcoal h-button mt-4 rounded-tl-lg rounded-tr-lg p-4">
                         <div className="flex items-center">
                           <img src={logo} alt="" />
                           <p className="text-sm text-white underline mx-2">
@@ -530,7 +522,7 @@ const League = () => {
           </Tab.Group>
         </div>
       </div>
-        <LeagueModal />
+      <LeagueModal />
     </div>
   );
 };

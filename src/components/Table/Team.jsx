@@ -10,7 +10,7 @@ const TeamTable = (props) => {
       <table className="w-full min-w-max table-auto text-left">
         {/* <thead>
           <tr>
-              <th key='1' className="h-[53px] text-center font-font-dark-gray w-1/2">
+              <th key='1' className="h-button text-center font-font-dark-gray w-1/2">
                 <Typography
                   variant="small"
                   color="blue-gray"
@@ -19,7 +19,7 @@ const TeamTable = (props) => {
                   Player
                 </Typography>
               </th>
-              <th key='2' className="h-[53px] text-center font-font-dark-gray w-1/2">
+              <th key='2' className="h-button text-center font-font-dark-gray w-1/2">
                 <Typography
                   variant="small"
                   color="blue-gray"

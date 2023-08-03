@@ -154,7 +154,7 @@ const Modal = (props) => {
                           </Select>
                           <button
                             onClick={goToStep2}
-                            className="bg-primary w-full h-[53px] rounded-xl mt-auto text-white font-bold text-sm hover:bg-sky-600 focus:ring-2"
+                            className="bg-primary w-full h-button rounded-xl mt-auto text-white font-bold text-sm hover:bg-sky-600 focus:ring-2"
                           >
                             Next: Basic Details
                           </button>
@@ -193,13 +193,13 @@ const Modal = (props) => {
                           <div className="flex mt-auto w-full justify-between">
                             <button
                               onClick={goToStep1}
-                              className="bg-[#3A3A3A] w-[169px] h-[53px] rounded-xl mt-auto text-white font-semibold text-sm dark:hover:bg-middle-gray focus:ring-2"
+                              className="bg-[#3A3A3A] w-[169px] h-button rounded-xl mt-auto text-white font-semibold text-sm dark:hover:bg-middle-gray focus:ring-2"
                             >
                               Back to Step 1
                             </button>
                             <button
                               onClick={goToStep3}
-                              className="bg-primary w-[169px] h-[53px] rounded-xl mt-auto text-white font-semibold text-sm hover:bg-sky-600 focus:ring-2"
+                              className="bg-primary w-[169px] h-button rounded-xl mt-auto text-white font-semibold text-sm hover:bg-sky-600 focus:ring-2"
                             >
                               Next: Schedule
                             </button>
@@ -223,13 +223,13 @@ const Modal = (props) => {
                           <div className="flex mt-auto w-full justify-between">
                             <button
                               onClick={goToStep2}
-                              className="bg-[#3A3A3A] w-[169px] h-[53px] rounded-xl mt-auto text-white font-semibold text-sm hover:bg-gray-700 focus:ring-2"
+                              className="bg-[#3A3A3A] w-[169px] h-button rounded-xl mt-auto text-white font-semibold text-sm hover:bg-gray-700 focus:ring-2"
                             >
                               Back to Step 2
                             </button>
                             <button
                               onClick={createLeague}
-                              className="bg-primary w-[169px] h-[53px] rounded-xl mt-auto text-white font-semibold text-sm hover:bg-sky-600 focus:ring-2"
+                              className="bg-primary w-[169px] h-button rounded-xl mt-auto text-white font-semibold text-sm hover:bg-sky-600 focus:ring-2"
                             >
                               Create League
                             </button>

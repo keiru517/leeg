@@ -9,6 +9,9 @@ const initialState = {
     type: "create",
     league: [],
   },
+  player_dialog: {
+    open: false,
+  },
   team_dialog: {
     open: false,
     type: "create",
@@ -39,19 +42,29 @@ const home = (state = initialState, action) => {
           league: action.payload,
         },
       };
-    
+
     case actions.OPEN_DELETE_LEAGUE_DIALOG:
       return {
         ...state,
         league_dialog: {
-          open:true,
+          open: true,
           type: "delete",
-          league: action.payload
-        }
-      }
+          league: action.payload,
+        },
+      };
 
     case actions.GET_TEAMS:
       return { ...state, teams: action.payload };
+
+    case actions.OPEN_INVITE_PLAYER_DIALOG:
+      return {
+        ...state,
+        player_dialog: {
+          ...state.player_dialog,
+          open: action.payload,
+        },
+      };
+
     default:
       return state;
   }
