@@ -47,12 +47,14 @@ const LeagueModal = (props) => {
     setLeagueName(league.name);
     setLeagueName(league.description);
   };
-
+  
   const editSubmit = () => {
+    dispatch({ type: actions.OPEN_CREATE_LEAGUE_DIALOG, payload: false });
     console.log("Clicked edit");
   }
   
   const deleteSubmit = () => {
+    dispatch({ type: actions.OPEN_CREATE_LEAGUE_DIALOG, payload: false });
     console.log("Clicked delete");
   }
 

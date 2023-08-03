@@ -29,10 +29,11 @@ const PlayerModal = (props) => {
   const closeDialog = () => {
     dispatch({ type: actions.OPEN_INVITE_PLAYER_DIALOG, payload: false });
   };
-
-
+  
+  
   const invitePlayer = () => {
     console.log("invite player")
+    dispatch({ type: actions.OPEN_INVITE_PLAYER_DIALOG, payload: false });
   }
 
   return (
