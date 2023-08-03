@@ -1,33 +1,4 @@
 import { Card, Typography } from "@material-tailwind/react";
-const TABLE_HEAD = ["Name", "Job", "Employed", ""];
-
-const TABLE_ROWS = [
-  {
-    name: "John Michael",
-    job: "Manager",
-    date: "23/04/18",
-  },
-  {
-    name: "Alexa Liras",
-    job: "Developer",
-    date: "23/04/18",
-  },
-  {
-    name: "Laurent Perrier",
-    job: "Executive",
-    date: "19/09/17",
-  },
-  {
-    name: "Michael Levi",
-    job: "Developer",
-    date: "24/12/08",
-  },
-  {
-    name: "Richard Gran",
-    job: "Manager",
-    date: "04/10/21",
-  },
-];
 
 const Table = (props) => {
   const { columns, data } = props;
@@ -38,7 +9,10 @@ const Table = (props) => {
         <thead>
           <tr>
             {columns.map((head, idx) => (
-              <th key={idx} className="h-button text-center font-font-dark-gray">
+              <th
+                key={idx}
+                className="h-button text-center font-font-dark-gray"
+              >
                 <Typography
                   variant="small"
                   color="blue-gray"
@@ -51,63 +25,20 @@ const Table = (props) => {
           </tr>
         </thead>
         <tbody className="text-center">
-          {data.map(({ date, location, time, home, away, results }, index) => (
+          {data.map((d, index) => (
             <tr key={index} className="even:bg-dark-gray odd:bg-charcoal">
-              <td>
-                <Typography
-                  variant="small"
-                  color="blue-gray"
-                  className="font-normal"
-                >
-                  {date}
-                </Typography>
-              </td>
-              <td>
-                <Typography
-                  variant="small"
-                  color="blue-gray"
-                  className="font-normal"
-                >
-                  {location}
-                </Typography>
-              </td>
-              <td>
-                <Typography
-                  variant="small"
-                  color="blue-gray"
-                  className="font-normal"
-                >
-                  {time}
-                </Typography>
-              </td>
-              <td className="">
-                {/* <img src={mark} alt="" className="mr-3"/> */}
-                <Typography
-                  variant="small"
-                  color="blue-gray"
-                  className="font-normal"
-                >
-                  {home}
-                </Typography>
-              </td>
-              <td>
-                <Typography
-                  variant="small"
-                  color="blue-gray"
-                  className="font-normal"
-                >
-                  {away}
-                </Typography>
-              </td>
-              <td>
-                <Typography
-                  variant="small"
-                  color="blue-gray"
-                  className="font-normal"
-                >
-                  {results}
-                </Typography>
-              </td>
+              {columns.map((column) => (
+                <td>
+                  <Typography
+                    variant="small"
+                    color="blue-gray"
+                    className="font-normal"
+                  >
+                    {d.column}
+                  </Typography>
+                </td>
+              ))}
+     
               <td>
                 <Typography
                   as="a"

@@ -47,7 +47,7 @@ const League = () => {
     "Location",
     "Time",
     "Home",
-    "Away",
+    "Away",     
     "Results",
     "Action",
   ];
@@ -70,9 +70,9 @@ const League = () => {
 
   const buttons = {
     "Manage Rosters": "Invite Player",
-    Teams: "Create Team",
-    Matches: "Create Match",
-    Standings: "Create Match",
+    "Teams": "Create Team",
+    "Matches": "Create Match",
+    "Standings": "Create Match",
     "All Playerlist": "Create Match",
   };
 
@@ -198,7 +198,6 @@ const League = () => {
         backIcon={leftarrowIcon}
         logo={leagueLogo}
         editIcon={editIcon}
-        deleteIcon={deleteIcon}
         button={buttons[breadcrum]}
         createAction={
           breadcrum == "Manage Rosters"

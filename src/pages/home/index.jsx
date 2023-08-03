@@ -10,7 +10,6 @@ import PageTitle from "../../components/PageTitle/PageTitle";
 import * as actions from "../../actions";
 import apis from "../../utils/apis";
 
-
 const Home = () => {
   const leagues = useSelector((state) => state.home.leagues);
   //   const leagues = [
@@ -43,7 +42,10 @@ const Home = () => {
 
   return (
     <div className="flex flex-col flex-grow">
-      <PageTitle createAction={actions.OPEN_CREATE_LEAGUE_DIALOG} button="Create League">
+      <PageTitle
+        createAction={actions.OPEN_CREATE_LEAGUE_DIALOG}
+        button="Create League"
+      >
         My Leagues
       </PageTitle>
       <div className="flex flex-col flex-grow rounded-main bg-slate overflow-auto mt-[20px] p-default">

@@ -1,17 +1,17 @@
 import { Card, Typography } from "@material-tailwind/react";
+import actionIcon from '../../assets/img/dark_mode/action.png';
 
-
-const StandingsTable = (props) => {
-  const { data } = props;
-  const columns = [
-    'Position',
-    'Team',
-    'W',
-    'L',
-    'Point Scored',
-    'Point Against',
-    'Diff'
-  ]
+const MatchTable = (props) => {
+  const { matches, columns } = props;
+  // const columns = [
+  //   "Date",
+  //   "Location",
+  //   "Time",
+  //   "Home",
+  //   "Away",
+  //   "Results",
+  //   "Action",
+  // ];
 
   return (
     <div className="text-white h-full w-full mt-4">
@@ -32,7 +32,7 @@ const StandingsTable = (props) => {
           </tr>
         </thead>
         <tbody className="text-center">
-          {data.map(({ team, w, l, scored, against, diff}, index) => (
+          {matches.map(({ date, location, time, home, away, results }, index) => (
             <tr key={index} className="even:bg-dark-gray odd:bg-charcoal">
               <td>
                 <Typography
@@ -40,7 +40,7 @@ const StandingsTable = (props) => {
                   color="blue-gray"
                   className="font-normal"
                 >
-                  {index + 1}
+                  {date}
                 </Typography>
               </td>
               <td>
@@ -49,7 +49,7 @@ const StandingsTable = (props) => {
                   color="blue-gray"
                   className="font-normal"
                 >
-                  {team}
+                  {location}
                 </Typography>
               </td>
               <td>
@@ -58,7 +58,7 @@ const StandingsTable = (props) => {
                   color="blue-gray"
                   className="font-normal"
                 >
-                  {w}
+                  {time}
                 </Typography>
               </td>
               <td className="">
@@ -68,7 +68,7 @@ const StandingsTable = (props) => {
                   color="blue-gray"
                   className="font-normal"
                 >
-                  {l}
+                  {home}
                 </Typography>
               </td>
               <td>
@@ -77,7 +77,7 @@ const StandingsTable = (props) => {
                   color="blue-gray"
                   className="font-normal"
                 >
-                  {scored}
+                  {away}
                 </Typography>
               </td>
               <td>
@@ -86,16 +86,18 @@ const StandingsTable = (props) => {
                   color="blue-gray"
                   className="font-normal"
                 >
-                  {against}
+                  {results}
                 </Typography>
               </td>
-              <td>
+              <td className="">
                 <Typography
+                  as="a"
+                  href="#"
                   variant="small"
-                  color="blue-gray"
-                  className="font-normal"
+                  color="blue"
+                  className="font-medium justify-between "
                 >
-                  {diff}
+                  <img src={actionIcon} alt="" className="mx-auto"/>
                 </Typography>
               </td>
             </tr>
@@ -106,4 +108,4 @@ const StandingsTable = (props) => {
   );
 };
 
-export default StandingsTable;
+export default MatchTable;
