@@ -14,7 +14,7 @@ const LeagueModal = (props) => {
   const dispatch = useDispatch();
 
   const status = useSelector(state => state.home.league_dialog.open)
-  const type = "create"
+  const type = useSelector(state => state.home.league_dialog.type)
 
   let { id } = useParams();
   const league = useSelector((state) => state.home.leagues).find(
@@ -34,27 +34,25 @@ const LeagueModal = (props) => {
   );
 
   const handleEdit = () => {
-    dispatch({ type: actions.UPDATE_LEAGUE_DIALOG_TYPE, payload: "edit" });
-    dispatch({ type: actions.OPEN_LEAGUE_DIALOG, payload: true });
+    dispatch({ type: actions.OPEN_EDIT_LEAGUE_DIALOG, payload: league });
   };
 
   const handleDelete = () => {
-    dispatch({ type: actions.UPDATE_LEAGUE_DIALOG_TYPE, payload: "delete" });
-    dispatch({ type: actions.OPEN_LEAGUE_DIALOG, payload: true });
+    dispatch({ type: actions.OPEN_DELETE_LEAGUE_DIALOG, payload: league});
   };
 
   const closeDialog = () => {
     setStep(1);
-    dispatch({ type: actions.OPEN_LEAGUE_DIALOG, payload: false });
+    dispatch({ type: actions.OPEN_CREATE_LEAGUE_DIALOG, payload: false });
     setLeagueName(league.name);
     setLeagueName(league.description);
   };
 
-  const editLeague = () => {
+  const editSubmit = () => {
     console.log("Clicked edit");
   }
   
-  const deleteLeague = () => {
+  const deleteSubmit = () => {
     console.log("Clicked delete");
   }
 
@@ -162,7 +160,7 @@ const LeagueModal = (props) => {
                             option={calendar}
                           ></Input>
                         </div>
-                        <button onClick={editLeague} className="bg-primary rounded-xl w-full h-[53px] hover:opacity-70 text-white">
+                        <button onClick={editSubmit} className="bg-primary rounded-xl w-full h-[53px] hover:opacity-70 text-white">
                           Edit League
                         </button>
                       </>
@@ -172,7 +170,7 @@ const LeagueModal = (props) => {
                           className="rounded-default text-xs"
                           placeholder="Type League Name*"
                         ></Input>
-                        <button onClick={deleteLeague} className="bg-danger bg-opacity-10 rounded-xl w-full h-12 text-danger font-semibold hover:opacity-70">
+                        <button onClick={deleteSubmit} className="bg-danger bg-opacity-10 rounded-xl w-full h-12 text-danger font-semibold hover:opacity-70">
                           Delete Team
                         </button>
                       </div>

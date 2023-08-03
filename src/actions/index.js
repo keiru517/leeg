@@ -42,6 +42,11 @@ export const openEditLeagueDialog = (payload) => ({
   payload:payload
 })
 
+export const openDeleteLeagueDialog = (payload) => ({
+  type: OPEN_DELETE_LEAGUE_DIALOG,
+  payload:payload
+})
+
 
 
 // Team actions -----------------------------------

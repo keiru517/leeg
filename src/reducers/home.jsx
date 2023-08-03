@@ -25,6 +25,7 @@ const home = (state = initialState, action) => {
       return {
         ...state,
         league_dialog: {
+          ...state.league_dialog,
           open: action.payload,
         },
       };
@@ -38,6 +39,16 @@ const home = (state = initialState, action) => {
           league: action.payload,
         },
       };
+    
+    case actions.OPEN_DELETE_LEAGUE_DIALOG:
+      return {
+        ...state,
+        league_dialog: {
+          open:true,
+          type: "delete",
+          league: action.payload
+        }
+      }
 
     case actions.GET_TEAMS:
       return { ...state, teams: action.payload };
