@@ -5,6 +5,10 @@ export const OPEN_EDIT_LEAGUE_DIALOG = 'OPEN_EDIT_LEAGUE_DIALOG';
 export const OPEN_DELETE_LEAGUE_DIALOG = 'OPEN_DELETE_LEAGUE_DIALOG';
 
 export const GET_TEAMS = 'GET_TEAMS';
+export const OPEN_CREATE_TEAM_DIALOG = 'OPEN_CREATE_TEAM_DIALOG'
+export const OPEN_EDIT_TEAM_DIALOG = 'OPEN_EDIT_TEAM_DIALOG'
+export const OPEN_DELETE_TEAM_DIALOG = 'OPEN_DELETE_TEAM_DIALOG'
+export const OPEN_ADD_PLAYER_DIALOG = 'OPEN_ADD_PLAYER_DIALOG'
 
 // player
 export const OPEN_INVITE_PLAYER_DIALOG = 'OPEN_INVITE_PLAYER_DIALOG';
@@ -51,7 +55,25 @@ export const getTeams = (payload) => ({
   payload: payload 
 })
 
+export const openCreateTeamDialog = (payload) => ({
+  type: OPEN_CREATE_TEAM_DIALOG,
+  payload: payload
+})
 
+export const openEditTeamDialog = (payload) => ({
+  type: OPEN_EDIT_TEAM_DIALOG,
+  payload: payload
+})
+
+export const openDeleteTeamDialog = (payload) => ({
+  type: OPEN_DELETE_TEAM_DIALOG,
+  payload: payload
+})
+
+export const openAddPlayerDialgo = (payload) => ({
+  type: OPEN_ADD_PLAYER_DIALOG,
+  payload:payload
+})
 
 // player action
 export const AddPlayer = (payload) => ({

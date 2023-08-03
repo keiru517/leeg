@@ -11,7 +11,8 @@ import { useDispatch } from "react-redux";
 import TeamModal from "../Modal/TeamModal";
 
 const Team = (props) => {
-    const { route, item} = props;
+    const {item} = props;
+
 
     const dispatch = useDispatch()
 
@@ -51,12 +52,12 @@ const Team = (props) => {
     // const players = []
 
     const handleAddPlayer = () => {
-        // dispatch({type:actions.UPDATE_DIALOG_TYPE, payload:"addPlayer"})
+        dispatch({type:actions.OPEN_ADD_PLAYER_DIALOG, payload:item})
         // dispatch({type:actions.OPEN_TEAM_DIALOG, payload:true})
     }
     
     const handleEdit = () => {
-        // dispatch({type: actions.OPEN_TEAM_EDIT_DIALOG, payload:{open:true, team:item}})
+        dispatch({type: actions.OPEN_EDIT_TEAM_DIALOG, payload:item})
     }
 
     return (

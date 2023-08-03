@@ -20,29 +20,30 @@ import logo from "../../assets/img/dark_mode/team-logo.png";
 import avatar from "../../assets/img/dark_mode/player.png";
 import PlayerList from "../ListItem/PlayerList";
 
-const TeamModal = ({id}) => {
+const TeamModal = () => {
 
-  const team = useSelector((state) => state.league.teams).find(
-    (team) => team.id == id
-  );
-
+  
   const dispatch = useDispatch();
+  
+  const status = useSelector((state) => state.home.team_dialog.open);
+  const type = useSelector((state) => state.home.team_dialog.type);
+  
+  const team = useSelector((state) => state.home.team_dialog.team);
+  // if (type != 'create') {
 
-  const status = useSelector((state) => state.league.dialog_open);
-  const type = useSelector((state) => state.league.dialog_type);
-
+  // }
   const closeDialog = () => {
     setStep(1);
-    // dispatch({ type: actions.OPEN_TEAM_DIALOG, payload: false });
+    dispatch({ type: actions.OPEN_CREATE_TEAM_DIALOG, payload: false });
   };
 
   const openDeleteDialog = () => {
-    // dispatch({ type: actions.UPDATE_DIALOG_TYPE, payload: "delete" });
+    // dispatch({ type: actions.OPEN_EDIT_TEAM_DIALOG, payload: "delete" });
     // dispatch({ type: actions.OPEN_TEAM_DIALOG, payload: true });
   };
 
   const openEditDialog = () => {
-    // dispatch({ type: actions.UPDATE_DIALOG_TYPE, payload: "edit" });
+    // dispatch({ type: actions.OPEN_EDIT_TEAM_DIALOG, payload: {open:true, type:'edit', team:team} });
     // dispatch({ type: actions.OPEN_TEAM_DIALOG, payload: true });
   };
 

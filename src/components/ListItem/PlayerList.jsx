@@ -18,7 +18,7 @@ const PlayerList = ({className, player, team_id}) => {
   const handleClick = (id) => {
     if (status == addedIcon){
       setStatus(addIcon)
-      dispatch({type:actions.AddPlayer(id)})
+      dispatch({type:actions.REMOVE_PLAYER, payload:id})
       console.log(id)
     }
     else{

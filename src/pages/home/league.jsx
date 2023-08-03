@@ -76,9 +76,9 @@ const League = () => {
 
   const buttons = {
     "Manage Rosters": "Invite Player",
-    "Teams": "Create Team",
-    "Matches": "Create Match",
-    "Standings": "Create Match",
+    Teams: "Create Team",
+    Matches: "Create Match",
+    Standings: "Create Match",
     "All Playerlist": "Create Match",
   };
 
@@ -184,6 +184,7 @@ const League = () => {
       },
       {
         id: 2,
+        league_id: 1,
         logo: logo,
         name: "FC Barcelona",
         max: 12,
@@ -265,7 +266,11 @@ const League = () => {
         deleteIcon={deleteIcon}
         button={buttons[breadcrum]}
         createAction={
-          breadcrum == "Manage Rosters" ? actions.OPEN_INVITE_PLAYER_DIALOG : actions.OPEN_INVITE_PLAYER_DIALOG
+          breadcrum == "Manage Rosters"
+            ? actions.OPEN_INVITE_PLAYER_DIALOG
+            : breadcrum == "Teams"
+            ? actions.OPEN_CREATE_TEAM_DIALOG
+            : ""
         }
       >
         {league.name}
@@ -434,7 +439,7 @@ const League = () => {
                     />
                     <div className="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
                       {teams.map((team, idx) => (
-                        <Team route="league" item={team} key={idx}></Team>
+                        <Team item={team} key={idx}></Team>
                       ))}
                     </div>
                   </>
