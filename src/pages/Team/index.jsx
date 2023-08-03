@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import search from "../../assets/img/dark_mode/search.png";
 import leftarrowIcon from "../../assets/img/dark_mode/left-arrow.png";
-import logo from "../../assets/img/dark_mode/team-logo.png";
+import logo from "../../assets/img/dark_mode/league-logo.png";
 import editIcon from "../../assets/img/dark_mode/edit.png";
 import deleteIcon from "../../assets/img/dark_mode/delete.png";
 // import delete from '../../assets/img/delete.png';
@@ -12,27 +12,26 @@ import ListItem from "../../components/ListItem";
 import Select from "../../components/Select";
 import Button from "../../components/Button";
 import PageTitle from "../../components/PageTitle/PageTitle";
-import ScheduleTable from "../../components/Table/Schedule";
-import StandingsTable from "../../components/Table/Standings";
-import TeamsTable from "../../components/Table/Team";
-import IndexTable from "../../components/Table";
-import Card from "../../components/Card";
-import Team from "../../components/Card/Team";
+import TeamCard from "../../components/Card/Team";
 import { Tab } from "@headlessui/react";
 import avatar from "../../assets/img/dark_mode/player.png";
-import edit from "../../assets/img/dark_mode/edit.png";
-import userAdd from "../../assets/img/dark_mode/user-add.png";
+import LeagueModal from "../../components/Modal/LeagueModal";
 import PlayerModal from "../../components/Modal/PlayerModal";
 import TeamModal from "../../components/Modal/TeamModal";
-
 import * as actions from "../../actions";
+
 const Team = () => {
   let { id } = useParams();
+  const dispatch = useDispatch();
+
   const league = useSelector((state) => state.home.leagues).find(
     (league) => league.id == id
   );
 
-  const options = ["Sort by", "Ascend", "Descend", "Recent"];
+  const teams = useSelector((state) => state.home.teams);
+
+  const options = ["Ascend", "Descend", "Recent"];
+  const [value, setValue] = useState("Sort by");
 
   const categories = [
     "Manage Rosters",
@@ -165,26 +164,30 @@ const Team = () => {
     { team: "Fenerbahche", w: 12, l: 6, scored: 167, against: 142, diff: 27 },
   ];
 
-  const teams = [
-    {  
-      id: 1,
-      logo: logo,
-      name: "2023 TABC Summer League",
-      start_date: "Firday, July 2023",
-      end_date: "N/A",
-      description:
-        'introducing the "Gravity Hoops League" - where hardwood battles and soaring dunks collide in a symphony of athleticism and teamwork.',
-    },
-    {
-      id: 2,
-      logo: logo,
-      name: "2024 TABC Winter League",
-      start_date: "Firday, July 2023",
-      end_date: "N/A",
-      description:
-        'introducing the "Gravity Hoops League" - where hardwood battles and soaring dunks collide in a symphony of athleticism and teamwork.',
-    },
-  ];
+  const getTeams = () => {
+    const teams = [
+      {
+        id: 1,
+        league_id: 1,
+        logo: logo,
+        name: "Real Madrid",
+        max: 12,
+        min: 3,
+        waitlist: 10,
+      },
+      {
+        id: 2,
+        league_id: 1,
+        logo: logo,
+        name: "FC Barcelona",
+        max: 12,
+        min: 3,
+        waitlist: 9,
+      },
+    ];
+
+    dispatch({ type: actions.GET_TEAMS, payload: teams });
+  };
 
   const players = [
     {
@@ -243,6 +246,9 @@ const Team = () => {
 
   const matches = [];
 
+  useEffect(() => {
+    getTeams();
+  }, []);
 
   return (
     <div className="flex flex-col flex-grow">
@@ -254,12 +260,10 @@ const Team = () => {
         button={buttons[breadcrum]}
         createAction={
           breadcrum == "Manage Rosters"
-            ? actions.OPEN_ROSTER_DIALOG
+            ? actions.OPEN_INVITE_PLAYER_DIALOG
             : breadcrum == "Teams"
-            ? actions.OPEN_TEAM_DIALOG
-            : breadcrum == "Matches"
-            ? actions.OPEN_MATCH_DIALOG
-            : actions.OPEN_CREATE_LEAGUE_DIALOG
+            ? actions.OPEN_CREATE_TEAM_DIALOG
+            : ""
         }
       >
         {league.name}
@@ -320,8 +324,11 @@ const Team = () => {
                         <Select
                           className="w-[144px] rounded-lg text-xs"
                           options={options}
-                          value="Sort by"
-                        />
+                          handleClick={(e) => setValue(e)}
+                          value={value}
+                        >
+                          {value}
+                        </Select>
                       </div>
                       <div>
                         <Button className="text-sm bg-success w-[72px] h-[38px] rounded-lg">
@@ -372,8 +379,11 @@ const Team = () => {
                         <Select
                           className="w-[144px] rounded-lg text-xs"
                           options={options}
-                          value="Sort by"
-                        ></Select>
+                          handleClick={(e) => setValue(e)}
+                          value={value}
+                        >
+                          {value}
+                        </Select>
                       </div>
                       <div>
                         <Button className="text-sm bg-danger w-[72px] h-[38px] rounded-lg">
@@ -382,7 +392,7 @@ const Team = () => {
                       </div>
                     </div>
                     <div
-                      className={`overflow-y-scroll h-4/6 flex flex-col items-center flex-grow justify-center ${
+                      className={`overflow-y-scroll h-4/6 flex flex-col items-center flex-grow justify-center space-y-5 ${
                         players.length > 1 ? "" : "bg-dark-gray"
                       } rounded-default`}
                     >
@@ -390,7 +400,6 @@ const Team = () => {
                         players.map((player, idx) => (
                           <ListItem
                             key={idx}
-                            className="mb-5"
                             avatar={avatar}
                             name={player.name}
                             email={player.email}
@@ -423,7 +432,7 @@ const Team = () => {
                     />
                     <div className="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
                       {teams.map((team, idx) => (
-                        <Team route="league" item={team} key={idx}></Team>
+                        <TeamCard item={team} key={idx}></TeamCard>
                       ))}
                     </div>
                   </>
@@ -434,8 +443,6 @@ const Team = () => {
                     </p>
                   </div>
                 )}
-
-                {/* <ScheduleTable columns={schedule_columns} data={schedules} /> */}
                 <TeamModal />
               </Tab.Panel>
 
@@ -512,8 +519,8 @@ const Team = () => {
             </Tab.Panels>
           </Tab.Group>
         </div>
-        {/* <PlayerModal /> */}
       </div>
+      <LeagueModal />
     </div>
   );
 };

@@ -1,6 +1,10 @@
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import './App.css';
 import Home from './pages/home';
 import League from './pages/home/league';
+import Team from './pages/Team';
 import SigninOption from './pages/signin/signinOption';
 import Signin from './pages/signin';
 import Signup from './pages/signup';
@@ -9,13 +13,10 @@ import OTPSent from './pages/otp/otpSent';
 import ForgotPwd from './pages/password';
 // import SignupSuccess from './pages/signup/signupSuccess';
 
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import AuthLayout from './components/Layouts/AuthLayout';
 import PlayerProfile from './pages/profile/playerProfile';
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 import * as actions from './actions';
-import logo from "./assets/img/dark_mode/team-logo.png";
+import leagueLogo from "./assets/img/dark_mode/league-logo.png";
 
 function App() {
 
@@ -25,7 +26,7 @@ function App() {
     const leagues = [
       {
         id: 1,
-        logo: logo,
+        logo: leagueLogo,
         name: "2023 TABC Summer League",
         start_date: "Firday, July 2023",
         end_date: "N/A",
@@ -34,7 +35,7 @@ function App() {
       },
       {
         id: 2,
-        logo: logo,
+        logo: leagueLogo,
         name: "2024 TABC Winter League",
         start_date: "Firday, July 2023",
         end_date: "N/A",
@@ -58,7 +59,7 @@ function App() {
           <Route exact path='/forgotpwd' element={<ForgotPwd />}></Route>
           <Route exact path='/' element={<Home />}></Route>
           <Route exact path='/league/:id' element={<League />}></Route>
-          {/* <Route exact path='/league' element={<League />}></Route> */}
+          <Route exact path='/team/:id' element={<Team />}></Route>
           <Route exact path='/player-profile' element={<PlayerProfile />}></Route>
         </Routes>
       </AuthLayout>

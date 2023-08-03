@@ -3,7 +3,8 @@ import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import search from "../../assets/img/dark_mode/search.png";
 import leftarrowIcon from "../../assets/img/dark_mode/left-arrow.png";
-import logo from "../../assets/img/dark_mode/team-logo.png";
+import leagueLogo from "../../assets/img/dark_mode/league-logo.png";
+import teamLogo from "../../assets/img/dark_mode/team-logo.png";
 import editIcon from "../../assets/img/dark_mode/edit.png";
 import deleteIcon from "../../assets/img/dark_mode/delete.png";
 // import delete from '../../assets/img/delete.png';
@@ -12,16 +13,9 @@ import ListItem from "../../components/ListItem";
 import Select from "../../components/Select";
 import Button from "../../components/Button";
 import PageTitle from "../../components/PageTitle/PageTitle";
-import ScheduleTable from "../../components/Table/Schedule";
-import StandingsTable from "../../components/Table/Standings";
-import TeamsTable from "../../components/Table/Team";
-import IndexTable from "../../components/Table";
-import Card from "../../components/Card";
-import Team from "../../components/Card/Team";
+import TeamCard from "../../components/Card/Team";
 import { Tab } from "@headlessui/react";
 import avatar from "../../assets/img/dark_mode/player.png";
-import edit from "../../assets/img/dark_mode/edit.png";
-import userAdd from "../../assets/img/dark_mode/user-add.png";
 import LeagueModal from "../../components/Modal/LeagueModal";
 import PlayerModal from "../../components/Modal/PlayerModal";
 import TeamModal from "../../components/Modal/TeamModal";
@@ -86,65 +80,6 @@ const League = () => {
     setBreadcrum(data);
   };
 
-  const schedules = [
-    {
-      date: "Monday June 19th",
-      location: "TABC New gym",
-      time: "8:00 PM",
-      home: "Bucks",
-      away: "Bucks",
-      results: "41-62",
-      logo: { logo },
-    },
-    {
-      date: "Monday June 19th",
-      location: "TABC New gym",
-      time: "8:00 PM",
-      home: "Bucks",
-      away: "Bucks",
-      results: "41-62",
-    },
-    {
-      date: "Monday June 19th",
-      location: "TABC New gym",
-      time: "8:00 PM",
-      home: "Bucks",
-      away: "Bucks",
-      results: "41-62",
-    },
-    {
-      date: "Monday June 19th",
-      location: "TABC New gym",
-      time: "8:00 PM",
-      home: "Bucks",
-      away: "Bucks",
-      results: "41-62",
-    },
-    {
-      date: "Monday June 19th",
-      location: "TABC New gym",
-      time: "8:00 PM",
-      home: "Bucks",
-      away: "Bucks",
-      results: "41-62",
-    },
-    {
-      date: "Monday June 19th",
-      location: "TABC New gym",
-      time: "8:00 PM",
-      home: "Bucks",
-      away: "Bucks",
-      results: "41-62",
-    },
-    {
-      date: "Monday June 19th",
-      location: "TABC New gym",
-      time: "8:00 PM",
-      home: "Bucks",
-      away: "Bucks",
-      results: "41-62",
-    },
-  ];
 
   // const schedules = [];
 
@@ -176,7 +111,7 @@ const League = () => {
       {
         id: 1,
         league_id: 1,
-        logo: logo,
+        logo: teamLogo,
         name: "Real Madrid",
         max: 12,
         min: 3,
@@ -185,7 +120,7 @@ const League = () => {
       {
         id: 2,
         league_id: 1,
-        logo: logo,
+        logo: teamLogo,
         name: "FC Barcelona",
         max: 12,
         min: 3,
@@ -261,7 +196,7 @@ const League = () => {
     <div className="flex flex-col flex-grow">
       <PageTitle
         backIcon={leftarrowIcon}
-        logo={logo}
+        logo={leagueLogo}
         editIcon={editIcon}
         deleteIcon={deleteIcon}
         button={buttons[breadcrum]}
@@ -439,7 +374,7 @@ const League = () => {
                     />
                     <div className="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
                       {teams.map((team, idx) => (
-                        <Team item={team} key={idx}></Team>
+                        <TeamCard item={team} key={idx}></TeamCard>
                       ))}
                     </div>
                   </>

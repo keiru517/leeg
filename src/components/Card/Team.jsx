@@ -1,8 +1,6 @@
 
 import { Link } from "react-router-dom";
 import TeamTable from "../Table/Team";
-import Table from '../Table';
-import logo from '../../assets/img/dark_mode/team-logo.png';
 import userIcon from '../../assets/img/dark_mode/user-add.png';
 import editIcon from '../../assets/img/dark_mode/edit.png';
 import avatar from '../../assets/img/dark_mode/player.png';
@@ -10,7 +8,7 @@ import * as actions from '../../actions';
 import { useDispatch } from "react-redux";
 import TeamModal from "../Modal/TeamModal";
 
-const Team = (props) => {
+const TeamCard = (props) => {
     const {item} = props;
 
 
@@ -64,7 +62,7 @@ const Team = (props) => {
       <div className="flex flex-col overflow-y-auto rounded-default h-[350px] bg-dark-gray transition ease-in-out delay-150 hover:bg-dark-gray duration-200">
             <div className="flex justify-between h-button bg-charcoal rounded-t-default p-4">
                 <div className="flex items-center">
-                    <img src={logo} className="w-8 h-8"></img>
+                    <img src={item.logo} className="w-8 h-8"></img>
                     <Link to = {`/team/${item.id}`}>
                       <p className='text-white text-sm mx-2 underline'>{item.name}</p>
                     </Link>
@@ -93,4 +91,4 @@ const Team = (props) => {
     );
 }
 
-export default Team;
+export default TeamCard;

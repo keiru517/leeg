@@ -9,7 +9,7 @@ import Modal from "../../components/Modal";
 import PageTitle from "../../components/PageTitle/PageTitle";
 import * as actions from "../../actions";
 import apis from "../../utils/apis";
-import logo from "../../assets/img/dark_mode/team-logo.png";
+
 
 const Home = () => {
   const leagues = useSelector((state) => state.home.leagues);
@@ -26,32 +26,6 @@ const Home = () => {
   const createLeague = () => {
     console.log("create_league");
   };
-
-  // read leagues
-  // const getLeagues = () => {
-  //   const leagues = [
-  //     {
-  //       id: 1,
-  //       logo: logo,
-  //       name: "2023 TABC Summer League",
-  //       start_date: "Firday, July 2023",
-  //       end_date: "N/A",
-  //       description:
-  //         'introducing the "Gravity Hoops League" - where hardwood battles and soaring dunks collide in a symphony of athleticism and teamwork.',
-  //     },
-  //     {
-  //       id: 2,
-  //       logo: logo,
-  //       name: "2024 TABC Winter League",
-  //       start_date: "Firday, July 2023",
-  //       end_date: "N/A",
-  //       description:
-  //         'introducing the "Gravity Hoops League" - where hardwood battles and soaring dunks collide in a symphony of athleticism and teamwork.',
-  //     },
-  //   ];
-
-  //   dispatch({ type: actions.GET_LEAGUES, payload: leagues });
-  // };
 
   // update a league
   const updateLeague = () => {
