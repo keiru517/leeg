@@ -43,7 +43,7 @@ const LeagueModal = (props) => {
 
   const closeDialog = () => {
     setStep(1);
-    dispatch({ type: actions.OPEN_CREATE_LEAGUE_DIALOG, payload: false });
+    dispatch({ type: actions.CLOSE_LEAGUE_DIALOG });
     setLeagueName(league.name);
     setLeagueName(league.description);
   };

@@ -64,7 +64,7 @@ const PageTitle = (props) => {
       </div>
       {
         button ? 
-        <button onClick={handleClick} className="w-[169px] h-button bg-primary hover:bg-sky-600 rounded-default text-white">
+        <button onClick={handleClick} className="w-[169px] h-button bg-primary hover:bg-opacity-70 rounded-default text-white">
           {button}</button> :
           ""
       }

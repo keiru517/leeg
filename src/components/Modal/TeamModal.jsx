@@ -21,32 +21,45 @@ import avatar from "../../assets/img/dark_mode/player.png";
 import PlayerList from "../ListItem/PlayerList";
 
 const TeamModal = () => {
-
-  
   const dispatch = useDispatch();
-  
+
   const status = useSelector((state) => state.home.team_dialog.open);
   const type = useSelector((state) => state.home.team_dialog.type);
-  
+
   const team = useSelector((state) => state.home.team_dialog.team);
   // if (type != 'create') {
 
   // }
   const closeDialog = () => {
     setStep(1);
-    dispatch({ type: actions.OPEN_CREATE_TEAM_DIALOG, payload: false });
+    // dispatch({ type: actions.OPEN_CREATE_TEAM_DIALOG, payload: false });
+    dispatch({ type: actions.CLOSE_TEAM_DIALOG });
   };
 
-  const openDeleteDialog = () => {
-    // dispatch({ type: actions.OPEN_EDIT_TEAM_DIALOG, payload: "delete" });
+  const handleDelete = () => {
+    dispatch({ type: actions.OPEN_DELETE_TEAM_DIALOG, payload: team });
     // dispatch({ type: actions.OPEN_TEAM_DIALOG, payload: true });
   };
 
-  const openEditDialog = () => {
-    // dispatch({ type: actions.OPEN_EDIT_TEAM_DIALOG, payload: {open:true, type:'edit', team:team} });
+  const handleEdit = () => {
+    dispatch({ type: actions.OPEN_EDIT_TEAM_DIALOG, payload: {open:true, type:'edit', team:team} });
     // dispatch({ type: actions.OPEN_TEAM_DIALOG, payload: true });
   };
 
+  const createSubmit = () => {
+    dispatch({ type: actions.CLOSE_TEAM_DIALOG });
+    console.log("Clicked create");
+  };
+
+  const editSubmit = () => {
+    dispatch({ type: actions.CLOSE_TEAM_DIALOG });
+    console.log("Clicked edit");
+  };
+
+  const deleteSubmit = () => {
+    dispatch({ type: actions.CLOSE_TEAM_DIALOG });
+    console.log("Clicked delete");
+  };
   // const type = "delete";
 
   // const [open, setOpen] = useState(false);
@@ -70,87 +83,86 @@ const TeamModal = () => {
 
   const players = [
     {
-      id:1,
+      id: 1,
       name: "Tornike Shengelia",
       avatar: avatar,
       email: "James@gmail.com",
       created_at: "June 26, 2023, 10:00PM",
-      team_id: 2
+      team_id: 2,
     },
     {
-      id:2,
+      id: 2,
       name: "Tornike Shengelia",
       avatar: avatar,
       email: "James@gmail.com",
       created_at: "June 26, 2023, 10:00PM",
-      team_id: 1
+      team_id: 1,
     },
     {
-      id:3,
+      id: 3,
       name: "Tornike Shengelia",
       avatar: avatar,
       email: "James@gmail.com",
       created_at: "June 26, 2023, 10:00PM",
-      team_id: 2
+      team_id: 2,
     },
     {
-      id:4,
+      id: 4,
       name: "Tornike Shengelia",
       avatar: avatar,
       email: "James@gmail.com",
       created_at: "June 26, 2023, 10:00PM",
-      team_id: 1
+      team_id: 1,
     },
     {
-      id:5,
+      id: 5,
       name: "Tornike Shengelia",
       avatar: avatar,
       email: "James@gmail.com",
       created_at: "June 26, 2023, 10:00PM",
-      team_id: 1
+      team_id: 1,
     },
     {
-      id:6,
+      id: 6,
       name: "Tornike Shengelia",
       avatar: avatar,
       email: "James@gmail.com",
       created_at: "June 26, 2023, 10:00PM",
-      team_id: 1
+      team_id: 1,
     },
     {
-      id:7,
+      id: 7,
       name: "Tornike Shengelia",
       avatar: avatar,
       email: "James@gmail.com",
       created_at: "June 26, 2023, 10:00PM",
-      team_id: 1
+      team_id: 1,
     },
     {
-      id:8,
+      id: 8,
       name: "Tornike Shengelia",
       avatar: avatar,
       email: "James@gmail.com",
       created_at: "June 26, 2023, 10:00PM",
-      team_id: 1
+      team_id: 1,
     },
     {
-      id:9,
+      id: 9,
       name: "Tornike Shengelia",
       avatar: avatar,
       email: "James@gmail.com",
       created_at: "June 26, 2023, 10:00PM",
-      team_id: 1
+      team_id: 1,
     },
     {
-      id:10,
+      id: 10,
       name: "Tornike Shengelia",
       avatar: avatar,
       email: "James@gmail.com",
       created_at: "June 26, 2023, 10:00PM",
-      team_id: 1
+      team_id: 1,
     },
   ];
-
 
   const [sport, setSport] = useState("Select Sport*");
   const [teamName, setTeamName] = useState(team.name);
@@ -199,7 +211,9 @@ const TeamModal = () => {
                         ? "Edit Team"
                         : type === "delete"
                         ? "Delete Team"
-                        : "Add Players To Team"}
+                        : type === "addPlayer"
+                        ? "Add Players To Team"
+                        : ""}
                     </p>
                     <div className="flex items-center">
                       {type === "edit" ? (
@@ -207,14 +221,14 @@ const TeamModal = () => {
                           src={deleteIcon}
                           alt=""
                           className="w-[18px] h-[18px] mr-5 hover:opacity-70 cursor-pointer"
-                          onClick={openDeleteDialog}
+                          onClick={handleDelete}
                         />
                       ) : type === "delete" ? (
                         <img
                           src={editIcon}
                           alt="sdf"
                           className="w-[18px] h-[18px] mr-5 hover:opacity-70 cursor-pointer"
-                          onClick={openEditDialog}
+                          onClick={handleEdit}
                         />
                       ) : (
                         ""
@@ -248,13 +262,22 @@ const TeamModal = () => {
                           ></Input>
                         </>
                       ) : type === "delete" ? (
-                        ""
+                        <Input
+                          className="rounded-default text-xs "
+                          placeholder="Type Team Name*"
+                          // value={team.name}
+                          // onChange={(e) => setTeamName(e.target.value)}
+                        ></Input>
                       ) : type === "addPlayer" ? (
                         <>
                           <div className="flex bg-[#4A5462] h-[66px] rounded-default p-4 items-center">
                             <img src={logo} alt="" />
-                            <p className="text-white underline mx-2 text-sm">Bucks</p>
-                            <p className="text-white text-[10px]">10/12</p>
+                            <p className="text-white underline mx-2 text-sm">
+                              {team.name}
+                            </p>
+                            <p className="text-white text-[10px]">
+                              {team.waitlist}/{team.max}
+                            </p>
                           </div>
                           <Input
                             className="rounded-lg my-[10px]"
@@ -262,17 +285,14 @@ const TeamModal = () => {
                             placeholder="Search Players"
                           />
                           <div className="overflow-y-auto h-[469px]">
-                            {
-                              players.map((player, idx)=>(
-                                <PlayerList
+                            {players.map((player, idx) => (
+                              <PlayerList
                                 key={idx}
                                 className="mb-5"
                                 player={player}
                                 team_id={1}
                               ></PlayerList>
-                              
-                              ))
-                            }
+                            ))}
                           </div>
                         </>
                       ) : (
@@ -280,15 +300,24 @@ const TeamModal = () => {
                       )}
                     </div>
                     {type === "create" ? (
-                      <Button className="bg-primary rounded-xl w-full hover:bg-sky-600">
+                      <button
+                        onClick={createSubmit}
+                        className="bg-primary rounded-xl w-full hover:bg-opacity-70 h-button text-white"
+                      >
                         Create Team
-                      </Button>
+                      </button>
                     ) : type === "edit" ? (
-                      <Button className="bg-primary rounded-xl w-full hover:bg-sky-600">
+                      <button
+                        onClick={editSubmit}
+                        className="bg-primary rounded-xl w-full hover:bg-opacity-70 h-button text-white"
+                      >
                         Edit Team
-                      </Button>
+                      </button>
                     ) : type === "delete" ? (
-                      <button className="bg-danger bg-opacity-10 rounded-xl w-full h-12 text-danger font-semibold">
+                      <button
+                        onClick={deleteSubmit}
+                        className="bg-danger bg-opacity-10 rounded-xl w-full h-12 text-danger font-semibold hover:bg-opacity-5"
+                      >
                         Delete Team
                       </button>
                     ) : (

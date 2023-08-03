@@ -29,8 +29,18 @@ const home = (state = initialState, action) => {
         ...state,
         league_dialog: {
           open: action.payload,
-          type:"create",
-          league:[]
+          type: "create",
+          league: [],
+        },
+      };
+
+    case actions.CLOSE_LEAGUE_DIALOG:
+      return {
+        ...state,
+        league_dialog: {
+          open: false,
+          type: "",
+          league: [],
         },
       };
 
@@ -71,8 +81,18 @@ const home = (state = initialState, action) => {
         ...state,
         team_dialog: {
           open: action.payload,
-          type:'create',
-          team:[]
+          type: "create",
+          team: [],
+        },
+      };
+
+    case actions.CLOSE_TEAM_DIALOG:
+      return {
+        ...state,
+        team_dialog: {
+          open: false,
+          type: "",
+          team: [],
         },
       };
 
@@ -86,12 +106,22 @@ const home = (state = initialState, action) => {
         },
       };
 
-      case actions.OPEN_ADD_PLAYER_DIALOG:
+    case actions.OPEN_ADD_PLAYER_DIALOG:
       return {
         ...state,
         team_dialog: {
           open: true,
           type: "addPlayer",
+          team: action.payload,
+        },
+      };
+
+    case actions.OPEN_DELETE_TEAM_DIALOG:
+      return {
+        ...state,
+        team_dialog: {
+          open: true,
+          type: "delete",
           team: action.payload
         },
       };
