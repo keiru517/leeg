@@ -2,20 +2,18 @@ import { Card, Typography } from "@material-tailwind/react";
 import actionIcon from '../../assets/img/dark_mode/action.png';
 import teamLogo from '../../assets/img/dark_mode/team-logo.png';
 
-const MatchTable = (props) => {
+const TeamStatistics = (props) => {
   const { data } = props;
   const columns = [
-    "Date",
-    "Location",
-    "Time",
-    "Home",
-    "Away",
-    "Results",
-    "Action",
+    "W",
+    "L",
+    "Point Scored",
+    "Point Against",
+    "Diff",
   ];
 
   return (
-    <div className="text-white h-full w-full mt-4">
+    <div className="text-white mt-5 w-full">
       <table className="w-full min-w-max table-auto text-left">
         <thead>
           <tr>
@@ -33,82 +31,60 @@ const MatchTable = (props) => {
           </tr>
         </thead>
         <tbody className="text-center">
-          {data.map(({ date, location, time, home, away, results }, index) => (
-            <tr key={index} className="odd:bg-dark-gray even:bg-charcoal">
-              <td className="w-1/6">
+          {/* {data.map(({ w, l, ps, pa, diff}, index) => ( */}
+            <tr className="odd:bg-dark-gray even:bg-charcoal h-[53px]">
+              <td className="w-1/5">
                 <Typography
                   variant="small"
                   color="blue-gray"
                   className="font-normal"
                 >
-                  {date}
+                  {data.w}
                 </Typography>
               </td>
-              <td className="w-1/6">
+              <td className="w-1/5">
                 <Typography
                   variant="small"
                   color="blue-gray"
                   className="font-normal"
                 >
-                  {location}
+                  {data.l}
                 </Typography>
               </td>
-              <td className="">
+              <td className="w-1/5">
                 <Typography
                   variant="small"
                   color="blue-gray"
                   className="font-normal"
                 >
-                  {time}
+                  {data.ps}
                 </Typography>
               </td>
-              <td  className="w-1/6">
+              <td className="w-1/5">
                 {/* <img src={mark} alt="" className="mr-3"/> */}
                 <Typography
                   variant="small"
                   color="blue-gray"
-                  className="font-normal underline flex items-center"
+                  className="font-normal"
                 >
-                  <img src={teamLogo} alt="" className="h-8 w-8 mr-2" />
-                  {home}
+                  {data.ps}
                 </Typography>
               </td>
-              <td className="w-1/6">
-                <Typography
-                  variant="small"
-                  color="blue-gray"
-                  className="font-normal underline flex items-center"
-                >
-                  <img src={teamLogo} alt="" className="h-8 w-8 mr-2" />
-                  {away}
-                </Typography>
-              </td>
-              <td className="">
+              <td className="w-1/5">
                 <Typography
                   variant="small"
                   color="blue-gray"
                   className="font-normal"
                 >
-                  {results}
-                </Typography>
-              </td>
-              <td className="">
-                <Typography
-                  as="a"
-                  href="#"
-                  variant="small"
-                  color="blue"
-                  className="font-medium justify-between "
-                >
-                  <img src={actionIcon} alt="" className="mx-auto"/>
+                  {data.diff}
                 </Typography>
               </td>
             </tr>
-          ))}
+          {/* ))} */}
         </tbody>
       </table>
     </div>
   );
 };
 
-export default MatchTable;
+export default TeamStatistics;

@@ -3,14 +3,14 @@ import actionIcon from "../../assets/img/dark_mode/action.png";
 import avatar from '../../assets/img/dark_mode/player.png';
 
 const TeamTable = (props) => {
-  const { players } = props;
+  const { data } = props;
 
   return (
     <div className="text-white h-full w-full">
       <table className="w-full min-w-max table-auto text-left">
-        {/* <thead>
+        <thead>
           <tr>
-              <th key='1' className="h-button text-center font-font-dark-gray w-1/2">
+              <th key='1' className="h-button bg-slate text-center font-font-dark-gray w-1/2">
                 <Typography
                   variant="small"
                   color="blue-gray"
@@ -19,7 +19,7 @@ const TeamTable = (props) => {
                   Player
                 </Typography>
               </th>
-              <th key='2' className="h-button text-center font-font-dark-gray w-1/2">
+              <th key='2' className="h-button bg-slate text-center font-font-dark-gray w-1/2">
                 <Typography
                   variant="small"
                   color="blue-gray"
@@ -29,17 +29,17 @@ const TeamTable = (props) => {
                 </Typography>
               </th>
           </tr>
-        </thead> */}
+        </thead>
         <tbody className="text-center">
-          <tr>
+          {/* <tr>
             <td className="w-1/2 bg-slate text-left text-font-dark-gray text-sm">
               Player
             </td>
             <td className="w-1/2 bg-slate text-left text-font-dark-gray text-sm">
               Action
             </td>
-          </tr>
-          {players.map((player, index) => (
+          </tr> */}
+          {data.map((player, index) => (
             <tr key={index} className="even:bg-dark-gray odd:bg-charcoal">
               <td className="">
                 <div className="flex items-center">

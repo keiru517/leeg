@@ -1,17 +1,17 @@
 import { Card, Typography } from "@material-tailwind/react";
 import actionIcon from '../../assets/img/dark_mode/action.png';
-import teamLogo from '../../assets/img/dark_mode/team-logo.png';
+import avatar from '../../assets/img/dark_mode/player.png';
 
-const MatchTable = (props) => {
-  const { data } = props;
+const PlayerStatistics = (props) => {
+  const {data } = props;
+
   const columns = [
-    "Date",
-    "Location",
-    "Time",
-    "Home",
-    "Away",
-    "Results",
-    "Action",
+    "Position",
+    "Player",
+    "Jersey Number",
+    "Points",
+    "PPG",
+    "Games Played",
   ];
 
   return (
@@ -33,15 +33,25 @@ const MatchTable = (props) => {
           </tr>
         </thead>
         <tbody className="text-center">
-          {data.map(({ date, location, time, home, away, results }, index) => (
-            <tr key={index} className="odd:bg-dark-gray even:bg-charcoal">
+          {data.map(({ position, name, number, points, ppg, gp }, index) => (
+            <tr key={index} className="even:bg-dark-gray odd:bg-charcoal">
               <td className="w-1/6">
                 <Typography
                   variant="small"
                   color="blue-gray"
                   className="font-normal"
                 >
-                  {date}
+                  {index+1}
+                </Typography>
+              </td>
+              <td className="w-1/6">
+                <Typography
+                  variant="small"
+                  color="blue-gray"
+                  className="font-normal flex items-center"
+                >
+                <img src={avatar} alt="" className="mr-3 w-8 h-8"/>
+                  {name}
                 </Typography>
               </td>
               <td className="w-1/6">
@@ -50,57 +60,34 @@ const MatchTable = (props) => {
                   color="blue-gray"
                   className="font-normal"
                 >
-                  {location}
-                </Typography>
-              </td>
-              <td className="">
-                <Typography
-                  variant="small"
-                  color="blue-gray"
-                  className="font-normal"
-                >
-                  {time}
-                </Typography>
-              </td>
-              <td  className="w-1/6">
-                {/* <img src={mark} alt="" className="mr-3"/> */}
-                <Typography
-                  variant="small"
-                  color="blue-gray"
-                  className="font-normal underline flex items-center"
-                >
-                  <img src={teamLogo} alt="" className="h-8 w-8 mr-2" />
-                  {home}
+                  {number}
                 </Typography>
               </td>
               <td className="w-1/6">
                 <Typography
                   variant="small"
                   color="blue-gray"
-                  className="font-normal underline flex items-center"
+                  className="font-normal"
                 >
-                  <img src={teamLogo} alt="" className="h-8 w-8 mr-2" />
-                  {away}
+                  {points}
                 </Typography>
               </td>
-              <td className="">
+              <td>
                 <Typography
                   variant="small"
                   color="blue-gray"
                   className="font-normal"
                 >
-                  {results}
+                  {ppg}
                 </Typography>
               </td>
-              <td className="">
+              <td className="w-1/6">
                 <Typography
-                  as="a"
-                  href="#"
                   variant="small"
-                  color="blue"
-                  className="font-medium justify-between "
+                  color="blue-gray"
+                  className="font-normal"
                 >
-                  <img src={actionIcon} alt="" className="mx-auto"/>
+                  {gp}
                 </Typography>
               </td>
             </tr>
@@ -111,4 +98,4 @@ const MatchTable = (props) => {
   );
 };
 
-export default MatchTable;
+export default PlayerStatistics;

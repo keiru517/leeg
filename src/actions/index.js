@@ -4,7 +4,7 @@ export const OPEN_CREATE_LEAGUE_DIALOG = 'OPEN_CREATE_LEAGUE_DIALOG';
 export const CLOSE_LEAGUE_DIALOG = 'CLOSE_LEAGUE_DIALOG'
 export const OPEN_EDIT_LEAGUE_DIALOG = 'OPEN_EDIT_LEAGUE_DIALOG';
 export const OPEN_DELETE_LEAGUE_DIALOG = 'OPEN_DELETE_LEAGUE_DIALOG';
-
+// Teams
 export const GET_TEAMS = 'GET_TEAMS';
 export const OPEN_CREATE_TEAM_DIALOG = 'OPEN_CREATE_TEAM_DIALOG'
 export const OPEN_EDIT_TEAM_DIALOG = 'OPEN_EDIT_TEAM_DIALOG'
@@ -12,6 +12,10 @@ export const OPEN_DELETE_TEAM_DIALOG = 'OPEN_DELETE_TEAM_DIALOG'
 export const CLOSE_TEAM_DIALOG = 'CLOSE_TEAM_DIALOG'
 export const OPEN_ADD_PLAYER_DIALOG = 'OPEN_ADD_PLAYER_DIALOG'
 
+// Matches 
+export const GET_MATCHES = 'GET_MATCHES';
+export const OPEN_CREATE_MATCH_DIALOG = 'OPEN_CREATE_MATCH_DIALOG';
+export const CLOSE_MATCH_DIALOG = 'CLOSE_MATCH_DIALOG';
 // player
 export const OPEN_INVITE_PLAYER_DIALOG = 'OPEN_INVITE_PLAYER_DIALOG';
 export const ADD_PLAYER = 'ADD_PLAYER';
@@ -83,6 +87,16 @@ export const openDeleteTeamDialog = (payload) => ({
 export const openAddPlayerDialgo = (payload) => ({
   type: OPEN_ADD_PLAYER_DIALOG,
   payload:payload
+})
+
+// Matches Action
+export const getMatches = (payload) =>({ 
+  type: GET_MATCHES,
+  payload: payload
+})
+
+export const closeMatchDialog = () => ({
+  type: CLOSE_MATCH_DIALOG
 })
 
 // player action

@@ -8,7 +8,7 @@ const Input = (props) => {
     } = props;
     return (
         <div className={
-            `${className} bg-slate flex space-x-2 border border-dark-gray items-center px-3 h-[45px]`
+            `${className} bg-slate flex space-x-2 border border-dark-gray items-center px-3`
         }>
             {
                 icon ? <div>
@@ -16,7 +16,7 @@ const Input = (props) => {
                         alt="" />
                 </div> : ""
             }
-            <input {...rest} className="bg-transparent outline-none text-white flex-grow " value={value}/>
+            <input {...rest} className="bg-transparent outline-none text-white flex-grow h-[42px]" value={value}/>
             {
                 option ? <div>
                     <img src={option} alt="" className="hover:cursor-pointer"/>

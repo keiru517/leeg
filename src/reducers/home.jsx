@@ -4,6 +4,7 @@ import * as actions from "../actions";
 const initialState = {
   leagues: [],
   teams: [],
+  matches: [],
   league_dialog: {
     open: false,
     type: "create",
@@ -16,6 +17,11 @@ const initialState = {
     open: false,
     type: "create",
     team: [],
+  },
+  match_dialog: {
+    open: false,
+    type: "",
+    match: [],
   },
 };
 
@@ -86,6 +92,16 @@ const home = (state = initialState, action) => {
         },
       };
 
+    case actions.OPEN_EDIT_TEAM_DIALOG:
+      return {
+        ...state,
+        team_dialog: {
+          open: true,
+          type: "edit",
+          team: action.payload,
+        },
+      };
+
     case actions.CLOSE_TEAM_DIALOG:
       return {
         ...state,
@@ -96,13 +112,30 @@ const home = (state = initialState, action) => {
         },
       };
 
-    case actions.OPEN_EDIT_TEAM_DIALOG:
+    // match
+    case actions.GET_MATCHES:
       return {
         ...state,
-        team_dialog: {
+        matches: action.payload,
+      };
+
+    case actions.OPEN_CREATE_MATCH_DIALOG:
+      return {
+        ...state,
+        match_dialog: {
           open: true,
-          type: "edit",
-          team: action.payload,
+          type: "create",
+          team: [],
+        },
+      };
+
+      case actions.CLOSE_MATCH_DIALOG:
+      return {
+        ...state,
+        match_dialog: {
+          open: false,
+          type: "",
+          team: [],
         },
       };
 
@@ -122,7 +155,7 @@ const home = (state = initialState, action) => {
         team_dialog: {
           open: true,
           type: "delete",
-          team: action.payload
+          team: action.payload,
         },
       };
     default:

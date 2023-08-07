@@ -59,7 +59,7 @@ const TeamCard = (props) => {
     }
 
     return (
-      <div className="flex flex-col overflow-y-auto rounded-default h-[350px] bg-dark-gray transition ease-in-out delay-150 hover:bg-dark-gray duration-200">
+      <div className="flex flex-col overflow-y-auto rounded-default h-[350px] bg-dark-gray transition ease-in-out delay-150 hover:bg-dark-gray duration-200 w-full">
             <div className="flex justify-between h-button bg-charcoal rounded-t-default p-4">
                 <div className="flex items-center">
                     <img src={item.logo} className="w-8 h-8"></img>
@@ -77,7 +77,7 @@ const TeamCard = (props) => {
             <div className="flex flex-grow items-center">
                 {
                     players.length > 1?
-                    <TeamTable players={players}/>
+                    <TeamTable data={players}/>
                     :
                     <div className="flex items-center flex-grow">
                     <p className="text-2xl text-white w-full text-center">

@@ -19,7 +19,9 @@ import avatar from "../../assets/img/dark_mode/player.png";
 import LeagueModal from "../../components/Modal/LeagueModal";
 import PlayerModal from "../../components/Modal/PlayerModal";
 import TeamModal from "../../components/Modal/TeamModal";
+import MatchModal from "../../components/Modal/MatchModal";
 import * as actions from "../../actions";
+import MatchTable from "../../components/Table/Match";
 
 const League = () => {
   let { id } = useParams();
@@ -30,6 +32,7 @@ const League = () => {
   );
 
   const teams = useSelector((state) => state.home.teams);
+  const matches = useSelector((state) => state.home.matches);
 
   const options = ["Ascend", "Descend", "Recent"];
   const [value, setValue] = useState("Sort by");
@@ -42,26 +45,6 @@ const League = () => {
     "All Playerlist",
   ];
 
-  const schedule_columns = [
-    "Date",
-    "Location",
-    "Time",
-    "Home",
-    "Away",     
-    "Results",
-    "Action",
-  ];
-
-  const standing_columns = [
-    "Position",
-    "Team",
-    "W",
-    "L",
-    "Point Scored",
-    "Point Against",
-    "Diff",
-  ];
-
   function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
   }
@@ -70,16 +53,15 @@ const League = () => {
 
   const buttons = {
     "Manage Rosters": "Invite Player",
-    "Teams": "Create Team",
-    "Matches": "Create Match",
-    "Standings": "Create Match",
+    Teams: "Create Team",
+    Matches: "Create Match",
+    Standings: "Create Match",
     "All Playerlist": "Create Match",
   };
 
   const handleCategory = (data) => {
     setBreadcrum(data);
   };
-
 
   // const schedules = [];
 
@@ -116,6 +98,13 @@ const League = () => {
         max: 12,
         min: 3,
         waitlist: 10,
+        statistics: {
+          w: 12,
+          l: 6,
+          ps: 167,
+          pa: 142,
+          diff: 27,
+        },
       },
       {
         id: 2,
@@ -125,10 +114,48 @@ const League = () => {
         max: 12,
         min: 3,
         waitlist: 9,
+        statistics: {
+          w: 10,
+          l: 8,
+          ps: 142,
+          pa: 127,
+          diff: 15,
+        },
       },
     ];
 
     dispatch({ type: actions.GET_TEAMS, payload: teams });
+  };
+
+  const getMatches = () => {
+    const matches = [
+      {
+        id: 1,
+        league_id: 1,
+        date: "Monday, June 19th 2023",
+        location: "Etihad Stadium",
+        time: "8:00 PM",
+        home: "Manchester City",
+        home_logo: teamLogo,
+        away: "Real Madrid",
+        away_logo: teamLogo,
+        results: "--",
+      },
+      {
+        id: 2,
+        league_id: 1,
+        date: "Monday, June 19th 2023",
+        location: "Anfield",
+        time: "8:00 PM",
+        home: "Liverpool",
+        home_logo: teamLogo,
+        away: "Manchester United",
+        away_logo: teamLogo,
+        results: "--",
+      },
+    ];
+
+    dispatch({ type: actions.GET_MATCHES, payload: matches });
   };
 
   const players = [
@@ -186,10 +213,9 @@ const League = () => {
 
   // const players = []
 
-  const matches = [];
-
   useEffect(() => {
     getTeams();
+    getMatches();
   }, []);
 
   return (
@@ -204,6 +230,8 @@ const League = () => {
             ? actions.OPEN_INVITE_PLAYER_DIALOG
             : breadcrum == "Teams"
             ? actions.OPEN_CREATE_TEAM_DIALOG
+            : breadcrum == "Matches"
+            ? actions.OPEN_CREATE_MATCH_DIALOG
             : ""
         }
       >
@@ -367,7 +395,7 @@ const League = () => {
                   <>
                     <hr className="h-px my-4 bg-charcoal border-0" />
                     <Input
-                      className="rounded-lg"
+                      className="rounded-lg h-[42px] text-xs"
                       icon={search}
                       placeholder="Search Schedules"
                     />
@@ -387,7 +415,7 @@ const League = () => {
                 <TeamModal />
               </Tab.Panel>
 
-              {/* Standings */}
+              {/* Matches */}
               <Tab.Panel
                 key={2}
                 className={classNames("rounded-xl flex flex-col w-full h-full")}
@@ -396,23 +424,23 @@ const League = () => {
                   <>
                     <hr className="h-px my-4 bg-charcoal border-0" />
                     <Input
-                      className="rounded-lg"
+                      className="rounded-lg text-xs"
                       icon={search}
                       placeholder="Search Schedules"
                     />
+                    <MatchTable data={matches}></MatchTable>
                   </>
                 ) : (
                   <div className="flex items-center flex-grow">
                     <p className="text-2xl text-white w-full text-center">
-                      No Standings to show!
+                      No Matches to show!
                     </p>
                   </div>
                 )}
-                {/* <IndexTable></IndexTable>
-                <StandingsTable columns={standing_columns} data={standings} /> */}
+                <MatchModal></MatchModal>
               </Tab.Panel>
 
-              {/* Teams */}
+              {/*  */}
               <Tab.Panel
                 key={3}
                 className={classNames(
@@ -427,6 +455,7 @@ const League = () => {
                       icon={search}
                       placeholder="Search Schedules"
                     />
+                    <MatchTable data={matches}></MatchTable>
                   </>
                 ) : (
                   <div className="flex items-center flex-grow">
@@ -435,27 +464,6 @@ const League = () => {
                     </p>
                   </div>
                 )}
-                {/* <div className="grid grid-cols-3 gap-4">
-                  {matches.map((team) => (
-                    <div>
-                      <div className="flex justify-between bg-charcoal h-button mt-4 rounded-tl-lg rounded-tr-lg p-4">
-                        <div className="flex items-center">
-                          <img src={logo} alt="" />
-                          <p className="text-sm text-white underline mx-2">
-                            {team.name}
-                          </p>
-                          <p className="text-[10px] text-white">
-                            {team.status}
-                          </p>
-                        </div>
-                        <div className="flex">
-                          <img src={userAdd} alt="" className="mr-2" />
-                          <img src={edit} alt="" />
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div> */}
               </Tab.Panel>
             </Tab.Panels>
           </Tab.Group>

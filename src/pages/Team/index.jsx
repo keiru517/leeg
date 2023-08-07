@@ -19,8 +19,10 @@ import LeagueModal from "../../components/Modal/LeagueModal";
 import PlayerModal from "../../components/Modal/PlayerModal";
 import TeamModal from "../../components/Modal/TeamModal";
 import * as actions from "../../actions";
-import Table from '../../components/Table';
-import MatchTable from '../../components/Table/Match';
+import MatchTable from "../../components/Table/Match";
+import TeamStatisticsTable from "../../components/Table/TeamStatistics";
+import PlayerStatisticsTable from "../../components/Table/PlayerStatistics";
+import TeamTable from '../../components/Table/Team';
 
 const Team = () => {
   let { id } = useParams();
@@ -41,12 +43,11 @@ const Team = () => {
   const options = ["Ascend", "Descend", "Recent"];
   const [value, setValue] = useState("Sort by");
 
-  const categories = ["Matches", "Statistics"];
+  const categories = ["Matches", "Statistics", "Players"];
 
   function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
   }
-
 
   const standings = [
     { team: "Bucks", w: 12, l: 6, scored: 167, against: 142, diff: 27 },
@@ -71,22 +72,109 @@ const Team = () => {
     { team: "Fenerbahche", w: 12, l: 6, scored: 167, against: 142, diff: 27 },
   ];
 
-  const columns = [
-    "Date",
-    "Location",
-    "Time",
-    "Home",
-    "Away",     
-    "Results",
-    "Action",
-  ];
-  
+
   const matches = [
-    {id:1, 'date': 'Thursday, July, 2023', 'location': 'New York', 'time': '8:00 PM', 'home': 'Real Madrid', 'away': 'FC Barcelona', 'results':'41-74'},
-    {id:2, 'date': 'Friday, August, 2023', 'location': 'TABC New gym', 'time': '3:00 PM', 'home': 'Juventus', 'away': 'Real Madrid', 'results':'71-62'},
-    {id:3, 'date': 'Saturday, July, 2023', 'location': '4 Peace', 'time': '10:00 AM', 'home': 'Liverpool', 'away': 'Real Madrid', 'results':'51-42'},
+    {
+      id: 1,
+      date: "Thursday, July, 2023",
+      location: "New York",
+      time: "8:00 PM",
+      home: "Real Madrid",
+      away: "FC Barcelona",
+      results: "41-74",
+    },
+    {
+      id: 2,
+      date: "Friday, August, 2023",
+      location: "TABC New gym",
+      time: "3:00 PM",
+      home: "Juventus",
+      away: "Real Madrid",
+      results: "71-62",
+    },
+    {
+      id: 3,
+      date: "Saturday, July, 2023",
+      location: "4 Peace",
+      time: "10:00 AM",
+      home: "Liverpool",
+      away: "Real Madrid",
+      results: "51-42",
+    },
   ];
 
+  // const getPlayers = () => {
+  const players_statistics = [
+    {
+      id: 1,
+      league_id: 1,
+      team_id: 1,
+      name: "George Anderson",
+      number: 0,
+      points: 167,
+      ppg: 142,
+      gp: 27,
+    },
+    {
+      id: 1,
+      league_id: 1,
+      team_id: 1,
+      name: "George Anderson",
+      number: 0,
+      points: 167,
+      ppg: 142,
+      gp: 27,
+    },
+    {
+      id: 1,
+      league_id: 1,
+      team_id: 1,
+      name: "George Anderson",
+      number: 0,
+      points: 167,
+      ppg: 142,
+      gp: 27,
+    },
+  ];
+
+  const players = [
+    {
+      id: 1,
+      logo: avatar,
+      name: "Christiano Ronaldo",
+    },
+    {
+      id: 2,
+      logo: avatar,
+      name: "Lionel Messi",
+    },
+    {
+      id: 3,
+      logo: avatar,
+      name: "Karim Benzema",
+    },
+    {
+      id: 4,
+      logo: avatar,
+      name: "Kiran Mbappe",
+    },
+    {
+      id: 5,
+      logo: avatar,
+      name: "Erling Holand",
+    },
+    {
+      id: 6,
+      logo: avatar,
+      name: "Sabi Alonso",
+    },
+  ];
+  // }
+  // dispatch({type:actions.GET_PLAYERS})
+
+  // useEffect(()=>{
+  //   getPlayers();
+  // }, [])
   return (
     <div className="flex flex-col flex-grow">
       <PageTitle backIcon={leftarrowIcon} logo={team.logo}>
@@ -132,11 +220,11 @@ const Team = () => {
                 <div className="search flex justify-between space-x-3">
                   <Input
                     icon={search}
-                    className="flex-grow rounded-lg"
+                    className="flex-grow rounded-lg text-xs h-[42px]"
                     placeholder="Search Leagues"
                   />
                   <Select
-                    className="w-[144px] rounded-lg"
+                    className="w-[144px] rounded-lg text-xs"
                     options={options}
                     handleClick={(e) => setValue(e)}
                     value={value}
@@ -146,41 +234,82 @@ const Team = () => {
                 </div>
                 {matches.length > 0 ? (
                   <>
-                   {/* <StandingsTable columns={columns} data={data}></StandingsTable> */}
-                   <MatchTable columns={columns} matches={matches}></MatchTable>
-                   {/* <Table columns={columns} data={data}></Table> */}
+                    <MatchTable
+                      data={matches}
+                    ></MatchTable>
                   </>
                 ) : (
                   <div className="flex items-center flex-grow">
                     <p className="text-2xl text-white w-full text-center">
-                      No Standings to show!
+                      No Matches To Show!
                     </p>
                   </div>
                 )}
-                {/* <IndexTable></IndexTable>
-                <StandingsTable columns={standing_columns} data={standings} /> */}
               </Tab.Panel>
 
-              {/* Teams */}
+              {/* Statitics */}
               <Tab.Panel
-                key={3}
+                key={1}
                 className={classNames(
-                  "rounded-xl flex flex-col justify-between w-full h-full"
+                  "rounded-xl flex flex-col w-full h-full "
                 )}
               >
                 {matches.length > 0 ? (
                   <>
                     <hr className="h-px my-4 bg-charcoal border-0" />
-                    <Input
-                      className="rounded-lg"
-                      icon={search}
-                      placeholder="Search Schedules"
-                    />
+                    <div className=" flex flex-col space-y-5">
+                      <p className="text-white text-sm font-mediim">
+                        Team Statistics
+                      </p>
+                      <TeamStatisticsTable
+                        data={team.statistics}
+                      ></TeamStatisticsTable>
+                      <p className="text-white text-sm font-mediim">
+                        Player Statistics
+                      </p>
+                      <Input
+                        className="rounded-lg"
+                        icon={search}
+                        placeholder="Search Schedules"
+                      />
+                      <PlayerStatisticsTable
+                        data={players_statistics}
+                      ></PlayerStatisticsTable>
+                    </div>
                   </>
                 ) : (
                   <div className="flex items-center flex-grow">
                     <p className="text-2xl text-white w-full text-center">
-                      No Teams to show!
+                      No Statistics To Show!
+                    </p>
+                  </div>
+                )}
+              </Tab.Panel>
+              {/* Players */}
+              <Tab.Panel
+                key={2}
+                className={classNames(
+                  "rounded-xl flex flex-col w-full h-full "
+                )}
+              >
+                {matches.length > 0 ? (
+                  <>
+                    <hr className="h-px my-4 bg-charcoal border-0" />
+                    <div className=" flex flex-col space-y-5">
+                      <Input
+                        className="rounded-lg"
+                        icon={search}
+                        placeholder="Search Schedules"
+                      />
+                      <div className="flex flex-grow items-center">
+                        <TeamTable data={players}></TeamTable>:
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  <div className="flex items-center flex-grow">
+                    <p className="text-2xl text-white w-full text-center">
+                      No Statistics To Show!
                     </p>
                   </div>
                 )}
