@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useParams } from "react-router";
 
-import Button from '../Button';
 import { Link } from "react-router-dom";
 import * as actions from '../../actions';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 const PageTitle = (props) => {
 
@@ -38,6 +38,8 @@ const PageTitle = (props) => {
 
   }
 
+  const navigate = useNavigate()
+
 
 
   return (
@@ -45,9 +47,9 @@ const PageTitle = (props) => {
       <div className='flex items-center'>
         {
           backIcon ? 
-          <Link to='/'>
-            <img src={backIcon} alt="" className='w-[34px] h-[34px] dark:hover:bg-middle-gray rounded-default cursor-pointer' />
-          </Link>
+          // <Link to='/'>
+            <img onClick={()=> navigate(-1)} src={backIcon} alt="" className='w-[34px] h-[34px] dark:hover:bg-middle-gray rounded-default cursor-pointer' />
+          // </Link>
             : ""
         }
         {

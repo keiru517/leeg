@@ -36,8 +36,6 @@ const Team = () => {
     (league) => league.id == team.league_id
   );
 
-  console.log(team, league);
-
   const teams = useSelector((state) => state.home.teams);
 
   const options = ["Ascend", "Descend", "Recent"];
@@ -235,7 +233,7 @@ const Team = () => {
                 {matches.length > 0 ? (
                   <>
                     <MatchTable
-                      data={matches}
+                      data  ={matches}
                     ></MatchTable>
                   </>
                 ) : (

@@ -28,8 +28,6 @@ const Modal = (props) => {
 
   const sportOptions = ["Basketball", "Rugby", "Hockey", "Baseball"];
 
-  console.log("modal status", status);
-
   const closeDialog = () => {
     setStep(1);
     dispatch({ type: actions.OPEN_CREATE_LEAGUE_DIALOG, payload: false });

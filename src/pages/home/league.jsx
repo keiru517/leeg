@@ -5,6 +5,8 @@ import search from "../../assets/img/dark_mode/search.png";
 import leftarrowIcon from "../../assets/img/dark_mode/left-arrow.png";
 import leagueLogo from "../../assets/img/dark_mode/league-logo.png";
 import teamLogo from "../../assets/img/dark_mode/team-logo.png";
+import realMadrid from "../../assets/img/dark_mode/real-madrid.png";
+import FCBarcelona from "../../assets/img/dark_mode/fc-barcelona.jpg";
 import editIcon from "../../assets/img/dark_mode/edit.png";
 import deleteIcon from "../../assets/img/dark_mode/delete.png";
 // import delete from '../../assets/img/delete.png';
@@ -22,6 +24,8 @@ import TeamModal from "../../components/Modal/TeamModal";
 import MatchModal from "../../components/Modal/MatchModal";
 import * as actions from "../../actions";
 import MatchTable from "../../components/Table/Match";
+import StandingTable from "../../components/Table/Standing";
+import PlayerTable from "../../components/Table/Player";
 
 const League = () => {
   let { id } = useParams();
@@ -65,36 +69,15 @@ const League = () => {
 
   // const schedules = [];
 
-  const standings = [
-    { team: "Bucks", w: 12, l: 6, scored: 167, against: 142, diff: 27 },
-    { team: "FC inter", w: 12, l: 6, scored: 167, against: 142, diff: 27 },
-    { team: "AC Milan", w: 12, l: 6, scored: 167, against: 142, diff: 27 },
-    { team: "Juventus", w: 12, l: 6, scored: 167, against: 142, diff: 27 },
-    { team: "Real madrid", w: 12, l: 6, scored: 167, against: 142, diff: 27 },
-    { team: "FC Barcelona", w: 12, l: 6, scored: 167, against: 142, diff: 27 },
-    {
-      team: "Rayo Vallecano",
-      w: 12,
-      l: 6,
-      scored: 167,
-      against: 142,
-      diff: 27,
-    },
-    { team: "Fenerbahche", w: 12, l: 6, scored: 167, against: 142, diff: 27 },
-    { team: "Fenerbahche", w: 12, l: 6, scored: 167, against: 142, diff: 27 },
-    { team: "Fenerbahche", w: 12, l: 6, scored: 167, against: 142, diff: 27 },
-    { team: "Fenerbahche", w: 12, l: 6, scored: 167, against: 142, diff: 27 },
-    { team: "Fenerbahche", w: 12, l: 6, scored: 167, against: 142, diff: 27 },
-    { team: "Fenerbahche", w: 12, l: 6, scored: 167, against: 142, diff: 27 },
-  ];
-
   const getTeams = () => {
+    // axios.get WHERE league_id=id
     const teams = [
       {
         id: 1,
         league_id: 1,
-        logo: teamLogo,
+        logo: realMadrid,
         name: "Real Madrid",
+        position: 2,
         max: 12,
         min: 3,
         waitlist: 10,
@@ -105,12 +88,57 @@ const League = () => {
           pa: 142,
           diff: 27,
         },
+        players: [
+          {
+            id: 1,
+            logo: avatar,
+            name:"Christiano Ronaldo",
+            pts:12,
+            jersey_number:7 
+          },
+          {
+            id: 2,
+            logo: avatar,
+            name: "Skenandoa Giiwedinokwe",
+            pts:12,
+            jersey_number:5 
+          },
+          {
+            id: 3,
+            logo: avatar,
+            name: "2024 TABC Winter League",
+            pts:12,
+            jersey_number:147 
+          },
+          {
+            id: 4,
+            logo: avatar,
+            name: "2024 TABC Winter League",
+            pts:12,
+            jersey_number:147 
+          },
+          {
+            id: 5,
+            logo: avatar,
+            name: "2024 TABC Winter League",
+            pts:12,
+            jersey_number:147 
+          },
+          {
+            id: 6,
+            logo: avatar,
+            name: "2024 TABC Winter League",
+            pts:12,
+            jersey_number:147 
+          },
+        ]
       },
       {
         id: 2,
         league_id: 1,
-        logo: teamLogo,
+        logo: FCBarcelona,
         name: "FC Barcelona",
+        position: 1,
         max: 12,
         min: 3,
         waitlist: 9,
@@ -121,6 +149,111 @@ const League = () => {
           pa: 127,
           diff: 15,
         },
+        players: [
+          {
+            id: 1,
+            logo: avatar,
+            name:"Lionel Messi",
+            pts:12,
+            jersey_number:10 
+          },
+          {
+            id: 2,
+            logo: avatar,
+            name: "2024 TABC Winter League",
+            pts:12,
+            jersey_number:147 
+          },
+          {
+            id: 3,
+            logo: avatar,
+            name: "2024 TABC Winter League",
+            pts:12,
+            jersey_number:147 
+          },
+          {
+            id: 4,
+            logo: avatar,
+            name: "2024 TABC Winter League",
+            pts:12,
+            jersey_number:147 
+          },
+          {
+            id: 5,
+            logo: avatar,
+            name: "2024 TABC Winter League",
+            pts:12,
+            jersey_number:147 
+          },
+          {
+            id: 6,
+            logo: avatar,
+            name: "2024 TABC Winter League",
+            pts:12,
+            jersey_number:147 
+          },
+        ]
+      },
+      {
+        id: 3,
+        league_id: 1,
+        logo: teamLogo,
+        name: "Manchester City",
+        position: 3,
+        max: 12,
+        min: 3,
+        waitlist: 9,
+        statistics: {
+          w: 10,
+          l: 8,
+          ps: 142,
+          pa: 127,
+          diff: 15,
+        },
+        players: [
+          {
+            id: 1,
+            logo: avatar,
+            name:"Christiano Ronaldo",
+            pts:12,
+            jersey_number:147 
+          },
+          {
+            id: 2,
+            logo: avatar,
+            name: "2024 TABC Winter League",
+            pts:12,
+            jersey_number:147 
+          },
+          {
+            id: 3,
+            logo: avatar,
+            name: "2024 TABC Winter League",
+            pts:12,
+            jersey_number:147 
+          },
+          {
+            id: 4,
+            logo: avatar,
+            name: "2024 TABC Winter League",
+            pts:12,
+            jersey_number:147 
+          },
+          {
+            id: 5,
+            logo: avatar,
+            name: "2024 TABC Winter League",
+            pts:12,
+            jersey_number:147 
+          },
+          {
+            id: 6,
+            logo: avatar,
+            name: "2024 TABC Winter League",
+            pts:12,
+            jersey_number:147 
+          },
+        ]
       },
     ];
 
@@ -158,7 +291,7 @@ const League = () => {
     dispatch({ type: actions.GET_MATCHES, payload: matches });
   };
 
-  const players = [
+  const rosters = [
     {
       name: "Tornike Shengelia",
       email: "James@gmail.com",
@@ -211,7 +344,7 @@ const League = () => {
     },
   ];
 
-  // const players = []
+  // const rosters = []
 
   useEffect(() => {
     getTeams();
@@ -279,7 +412,7 @@ const League = () => {
                         Waitlisted Players
                       </p>
                       <p className="text-white text-xl font-semibold">
-                        {players.length}
+                        {rosters.length}
                       </p>
                     </div>
                     <hr className="h-px my-5 bg-gray-200 border-0 dark:bg-dark-gray" />
@@ -307,11 +440,11 @@ const League = () => {
                     </div>
                     <div
                       className={`overflow-y-scroll h-4/6 flex flex-col items-center flex-grow justify-center ${
-                        players.length > 1 ? "" : "bg-dark-gray"
+                        rosters.length > 1 ? "" : "bg-dark-gray"
                       } rounded-default`}
                     >
-                      {players.length > 1 ? (
-                        players.map((player, idx) => (
+                      {rosters.length > 1 ? (
+                        rosters.map((player, idx) => (
                           <ListItem
                             key={idx}
                             className="mb-5"
@@ -334,7 +467,7 @@ const League = () => {
                         Accepted Players
                       </p>
                       <p className="text-white text-xl font-semibold">
-                        {players.length}
+                        {rosters.length}
                       </p>
                     </div>
                     <hr className="h-px my-5 bg-gray-200 border-0 dark:bg-dark-gray" />
@@ -362,11 +495,11 @@ const League = () => {
                     </div>
                     <div
                       className={`overflow-y-scroll h-4/6 flex flex-col items-center flex-grow justify-center space-y-5 ${
-                        players.length > 1 ? "" : "bg-dark-gray"
+                        rosters.length > 1 ? "" : "bg-dark-gray"
                       } rounded-default`}
                     >
-                      {players.length ? (
-                        players.map((player, idx) => (
+                      {rosters.length ? (
+                        rosters.map((player, idx) => (
                           <ListItem
                             key={idx}
                             avatar={avatar}
@@ -408,7 +541,7 @@ const League = () => {
                 ) : (
                   <div className="flex items-center flex-grow">
                     <p className="text-2xl text-white w-full text-center">
-                      No Matches to show!
+                      No Teams to show!
                     </p>
                   </div>
                 )}
@@ -420,7 +553,7 @@ const League = () => {
                 key={2}
                 className={classNames("rounded-xl flex flex-col w-full h-full")}
               >
-                {standings.length > 0 ? (
+                {matches.length > 0 ? (
                   <>
                     <hr className="h-px my-4 bg-charcoal border-0" />
                     <Input
@@ -440,27 +573,73 @@ const League = () => {
                 <MatchModal></MatchModal>
               </Tab.Panel>
 
-              {/*  */}
+              {/* Standings */}
               <Tab.Panel
                 key={3}
                 className={classNames(
                   "rounded-xl flex flex-col justify-between w-full h-full"
                 )}
               >
-                {matches.length > 0 ? (
+                {teams.length > 0 ? (
                   <>
                     <hr className="h-px my-4 bg-charcoal border-0" />
-                    <Input
-                      className="rounded-lg"
-                      icon={search}
-                      placeholder="Search Schedules"
-                    />
-                    <MatchTable data={matches}></MatchTable>
+                    <div className="flex space-x-3">
+                      <Input
+                        className="rounded-lg flex-grow text-xs"
+                        icon={search}
+                        placeholder="Search Standings"
+                      />
+                      <Select
+                      className="text-xs"
+                        options={options}
+                        handleClick={(e) => setValue(e)}
+                        value={value}
+                      >
+                        {value}
+                      </Select>
+                    </div>
+                    <StandingTable data={teams}></StandingTable>
                   </>
                 ) : (
                   <div className="flex items-center flex-grow">
                     <p className="text-2xl text-white w-full text-center">
-                      No Teams to show!
+                      No Standings to show!
+                    </p>
+                  </div>
+                )}
+              </Tab.Panel>
+
+              {/* All Playerlist */}
+              <Tab.Panel
+                key={3}
+                className={classNames(
+                  "rounded-xl flex flex-col justify-between w-full h-full"
+                )}
+              >
+                {teams.length > 0 ? (
+                  <>
+                    <hr className="h-px my-4 bg-charcoal border-0" />
+                    <div className="flex space-x-3">
+                      <Input
+                        className="rounded-lg flex-grow text-xs"
+                        icon={search}
+                        placeholder="Search Standings"
+                      />
+                      <Select
+                      className="text-xs"
+                        options={options}
+                        handleClick={(e) => setValue(e)}
+                        value={value}
+                      >
+                        {value}
+                      </Select>
+                    </div>
+                    <PlayerTable data={teams}></PlayerTable>
+                  </>
+                ) : (
+                  <div className="flex items-center flex-grow">
+                    <p className="text-2xl text-white w-full text-center">
+                      No Standings to show!
                     </p>
                   </div>
                 )}

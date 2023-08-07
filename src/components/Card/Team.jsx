@@ -6,46 +6,12 @@ import editIcon from '../../assets/img/dark_mode/edit.png';
 import avatar from '../../assets/img/dark_mode/player.png';
 import * as actions from '../../actions';
 import { useDispatch } from "react-redux";
-import TeamModal from "../Modal/TeamModal";
 
 const TeamCard = (props) => {
     const {item} = props;
 
 
     const dispatch = useDispatch()
-
-    const players = [
-        {
-          id: 1,
-          logo: avatar,
-          name:"Christiano Ronaldo"
-        },
-        {
-          id: 2,
-          logo: avatar,
-          name: "2024 TABC Winter League",
-        },
-        {
-          id: 3,
-          logo: avatar,
-          name: "2024 TABC Winter League",
-        },
-        {
-          id: 4,
-          logo: avatar,
-          name: "2024 TABC Winter League",
-        },
-        {
-          id: 5,
-          logo: avatar,
-          name: "2024 TABC Winter League",
-        },
-        {
-          id: 6,
-          logo: avatar,
-          name: "2024 TABC Winter League",
-        },
-      ];
     
     // const players = []
 
@@ -76,8 +42,8 @@ const TeamCard = (props) => {
 
             <div className="flex flex-grow items-center">
                 {
-                    players.length > 1?
-                    <TeamTable data={players}/>
+                    item.players.length > 1?
+                    <TeamTable data={item.players}/>
                     :
                     <div className="flex items-center flex-grow">
                     <p className="text-2xl text-white w-full text-center">
