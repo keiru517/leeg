@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import search from "../../assets/img/dark_mode/search.png";
 import leftarrowIcon from "../../assets/img/dark_mode/left-arrow.png";
 // import logo from "../../assets/img/dark_mode/league-logo.png";
@@ -32,9 +33,7 @@ const Team = () => {
     (team) => team.id == id
   );
 
-  const league = useSelector((state) => state.home.leagues).find(
-    (league) => league.id == team.league_id
-  );
+  const league = useSelector((state) => state.home.selected_league);
 
   const teams = useSelector((state) => state.home.teams);
 
@@ -179,11 +178,15 @@ const Team = () => {
         {team.name}
       </PageTitle>
       <p className="font-dark-gray my-[20px]">
-        <span className="underline">My Leagues</span>
+        <Link to='/'>
+          <span className="underline">My Leagues</span>
+        </Link>
         <span className="text-sky-500"> &gt; </span>
         <span className="underline">{league.name}</span>
         <span className="text-sky-500"> &gt; </span>
-        <span className="underline">Teams</span>
+        <Link to={`/league/${league.id}`}>
+          <span className="underline">Teams</span>
+        </Link>
         <span className="text-sky-500"> &gt; {team.name}</span>
       </p>
       <div className="rounded-main bg-slate flex-grow p-default">

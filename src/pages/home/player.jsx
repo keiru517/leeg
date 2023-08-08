@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Card from "../../components/Card";
 import Select from "../../components/Select";
@@ -16,35 +17,51 @@ const Player = () => {
 
   const [value, setValue] = useState("Sort by");
 
-  const teams = useSelector((state) => state.home.teams);
+  
   const players = useSelector((state) => state.home.players);
-
   const player = players.find((player) => player.id == id);
+  
+  const teams = useSelector((state) => state.home.teams);
+  const team = teams.find((team) => team.id == player.team_id);
+
+  const league = useSelector(state=> state.home.selected_league);
+
   const statistics = player.statistics;
 
   return (
     <div className="flex flex-col flex-grow">
       <ProfileTitle
-        createAction={actions.OPEN_CREATE_LEAGUE_DIALOG}
-        backIcon={leftarrowIcon}
-        avatar={avatar}
+        avatar={player.logo}
+        team={team}
       >
         <div>
-          <p className="text-[32px]">{player.name}</p>
-          <span className="text-xs font-normal">Tornike@gmail.com</span>
+          <div className="flex items-center">
+            <p className="text-[28px]">{player.name}</p>
+            <span className="text-xs font-normal mt-2 text-font-dark-gray">/ Tornike@gmail.com</span>
+          </div>
+          <div className="flex items-center space-x-2 mt-2">
+            <img src={team.logo} alt="" className="w-6 h-6 rounded-default"/>
+            <p className="text-white text-xs font-medium">{team.name} | #{player.jersey_number}</p>
+          </div>
         </div>
       </ProfileTitle>
 
       <p className="font-dark-gray my-[20px]">
-        <span className="underline">My Leagues</span>
+        <Link to='/'>
+          <span className="underline">My Leagues</span>
+        </Link>
         <span className=""> &gt; </span>
-        <span className="underline">LEague</span>
+        <span className="underline">{league.name}</span>
 
         <span className=""> &gt; </span>
-        <span className="underline">Teams</span>
+        <Link to={`/league/${league.id}`}>
+          <span className="underline">Teams</span>
+        </Link>
         <span className=""> &gt; </span>
         <span className="underline">
-          {teams.find((team) => team.id == player.team_id).name}
+          <Link to={`/team/${team.id}`}>
+            {team.name}
+          </Link>
         </span>
         <span className=""> &gt; </span>
         <span className="text-sky-500">{player.name} </span>

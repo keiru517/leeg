@@ -4,6 +4,7 @@ export const OPEN_CREATE_LEAGUE_DIALOG = 'OPEN_CREATE_LEAGUE_DIALOG';
 export const CLOSE_LEAGUE_DIALOG = 'CLOSE_LEAGUE_DIALOG'
 export const OPEN_EDIT_LEAGUE_DIALOG = 'OPEN_EDIT_LEAGUE_DIALOG';
 export const OPEN_DELETE_LEAGUE_DIALOG = 'OPEN_DELETE_LEAGUE_DIALOG';
+export const SET_SELECTED_LEAGUE = 'SET_SELECTED_LEAGUE';
 // Teams
 export const GET_TEAMS = 'GET_TEAMS';
 export const OPEN_CREATE_TEAM_DIALOG = 'OPEN_CREATE_TEAM_DIALOG'
@@ -48,6 +49,11 @@ export const openEditLeagueDialog = (payload) => ({
 
 export const openDeleteLeagueDialog = (payload) => ({
   type: OPEN_DELETE_LEAGUE_DIALOG,
+  payload:payload
+})
+
+export const setSelectedLeague = (payload) => ({
+  type: SET_SELECTED_LEAGUE,
   payload:payload
 })
 

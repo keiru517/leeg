@@ -1,15 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import search from "../../assets/img/dark_mode/search.png";
 import leftarrowIcon from "../../assets/img/dark_mode/left-arrow.png";
 import leagueLogo from "../../assets/img/dark_mode/league-logo.png";
-import teamLogo from "../../assets/img/dark_mode/team-logo.png";
-import realMadrid from "../../assets/img/dark_mode/real-madrid.png";
-import FCBarcelona from "../../assets/img/dark_mode/fc-barcelona.jpg";
 import editIcon from "../../assets/img/dark_mode/edit.png";
-import deleteIcon from "../../assets/img/dark_mode/delete.png";
-// import delete from '../../assets/img/delete.png';
 import Input from "../../components/Input";
 import ListItem from "../../components/ListItem";
 import Select from "../../components/Select";
@@ -121,6 +117,9 @@ const League = () => {
     },
   ];
 
+  useEffect(()=>{
+    dispatch({type:actions.SET_SELECTED_LEAGUE, payload:league});
+  }, [])
   return (
     <div className="flex flex-col flex-grow">
       <PageTitle
@@ -141,7 +140,9 @@ const League = () => {
         {league.name}
       </PageTitle>
       <p className="font-dark-gray my-[20px]">
-        <span className="underline">My Leagues</span>
+        <Link to='/'>
+          <span className="underline">My Leagues</span>
+        </Link>
         <span className="text-sky-500"> &gt; {league.name}</span>
       </p>
       <div className="rounded-main bg-slate flex-grow p-default">

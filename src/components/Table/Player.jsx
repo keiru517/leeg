@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const Player = (props) => {
-  const { data } = props;
+  const { data, } = props;
   const columns = ["Team", "Player", "Jersey number"];
 
   const players = useSelector(state=>state.home.players);
@@ -55,7 +55,7 @@ const Player = (props) => {
                     className="font-normal flex items-center underline"
                   >
                     <img src={player.logo} alt="" className="h-8 w-8 mr-2" />
-                    <Link to={`/player/${player.id}`}>{player.name}</Link>
+                    <Link to={`player/${player.id}`}>{player.name}</Link>
                   </Typography>
                 </td>
                 <td className="w-1/5">

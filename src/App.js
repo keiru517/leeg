@@ -678,7 +678,7 @@ function App() {
           <Route exact path="/" element={<Home />}></Route>
           <Route exact path="/league/:id" element={<League />}></Route>
           <Route exact path="/team/:id" element={<Team />}></Route>
-          <Route exact path="/player/:id" element={<Player />}></Route>
+          <Route exact path="/league/:league_id/player/:id" element={<Player />}></Route>
         </Routes>
       </AuthLayout>
     </Router>

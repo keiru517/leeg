@@ -6,6 +6,7 @@ const initialState = {
   teams: [],
   matches: [],
   players: [],
+  selected_league: [],
   league_dialog: {
     open: false,
     type: "create",
@@ -69,6 +70,12 @@ const home = (state = initialState, action) => {
           type: "delete",
           league: action.payload,
         },
+      };
+
+    case actions.SET_SELECTED_LEAGUE:
+      return {
+        ...state,
+        selected_league: action.payload,
       };
 
     case actions.GET_TEAMS:
