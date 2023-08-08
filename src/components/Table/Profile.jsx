@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const Profile = (props) => {
-  const { data } = props;
+  const { data, league_id } = props;
   const columns = [
     "Game Date",
     "Matchup",
@@ -61,21 +61,41 @@ const Profile = (props) => {
                     className="font-normal flex items-center space-x-2"
                   >
                     <img
-                      src={teams.find((team) => team.id == player.home_id).logo}
+                      src={
+                        teams.find((team) => team.id == player.home_team_id)
+                          .logo
+                      }
                       alt=""
-                      className="w-8 h-8 mr-2"
+                      className="w-8 h-8 "
                     />
                     <p className="underline">
-                      {teams.find((team) => team.id == player.home_id).name}
+                      <Link
+                        to={`/league/${league_id}/team/${player.home_team_id}`}
+                      >
+                        {
+                          teams.find((team) => team.id == player.home_team_id)
+                            .name
+                        }
+                      </Link>
                     </p>
                     <p className="text-font-dark-gray">VS</p>
                     <img
-                      src={teams.find((team) => team.id == player.away_id).logo}
+                      src={
+                        teams.find((team) => team.id == player.away_team_id)
+                          .logo
+                      }
                       alt=""
                       className="w-8 h-8 mr-2"
                     />
                     <p className="underline">
-                      {teams.find((team) => team.id == player.away_id).name}
+                      <Link
+                        to={`/league/${league_id}/team/${player.away_team_id}`}
+                      >
+                        {
+                          teams.find((team) => team.id == player.away_team_id)
+                            .name
+                        }
+                      </Link>
                     </p>
                   </Typography>
                 </td>

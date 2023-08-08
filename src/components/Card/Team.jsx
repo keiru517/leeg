@@ -30,7 +30,7 @@ const TeamCard = (props) => {
             <div className="flex justify-between h-button bg-charcoal rounded-t-default p-4">
                 <div className="flex items-center">
                     <img src={item.logo} className="w-8 h-8"></img>
-                    <Link to = {`/team/${item.id}`}>
+                    <Link to = {`team/${item.id}`}>
                       <p className='text-white text-sm mx-2 underline'>{item.name}</p>
                     </Link>
                     <p className="text-white text-[10px]">{item.waitlist}/{item.max}</p>

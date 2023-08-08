@@ -26,14 +26,14 @@ import PlayerStatisticsTable from "../../components/Table/PlayerStatistics";
 import TeamTable from '../../components/Table/Team';
 
 const Team = () => {
-  let { id } = useParams();
+  let { league_id, id } = useParams();
   const dispatch = useDispatch();
 
   const team = useSelector((state) => state.home.teams).find(
     (team) => team.id == id
   );
 
-  const league = useSelector((state) => state.home.selected_league);
+  const league = useSelector((state) => state.home.leagues).find(league=>league.id==league_id);
 
   const teams = useSelector((state) => state.home.teams);
 
@@ -46,59 +46,8 @@ const Team = () => {
     return classes.filter(Boolean).join(" ");
   }
 
-  const standings = [
-    { team: "Bucks", w: 12, l: 6, scored: 167, against: 142, diff: 27 },
-    { team: "FC inter", w: 12, l: 6, scored: 167, against: 142, diff: 27 },
-    { team: "AC Milan", w: 12, l: 6, scored: 167, against: 142, diff: 27 },
-    { team: "Juventus", w: 12, l: 6, scored: 167, against: 142, diff: 27 },
-    { team: "Real madrid", w: 12, l: 6, scored: 167, against: 142, diff: 27 },
-    { team: "FC Barcelona", w: 12, l: 6, scored: 167, against: 142, diff: 27 },
-    {
-      team: "Rayo Vallecano",
-      w: 12,
-      l: 6,
-      scored: 167,
-      against: 142,
-      diff: 27,
-    },
-    { team: "Fenerbahche", w: 12, l: 6, scored: 167, against: 142, diff: 27 },
-    { team: "Fenerbahche", w: 12, l: 6, scored: 167, against: 142, diff: 27 },
-    { team: "Fenerbahche", w: 12, l: 6, scored: 167, against: 142, diff: 27 },
-    { team: "Fenerbahche", w: 12, l: 6, scored: 167, against: 142, diff: 27 },
-    { team: "Fenerbahche", w: 12, l: 6, scored: 167, against: 142, diff: 27 },
-    { team: "Fenerbahche", w: 12, l: 6, scored: 167, against: 142, diff: 27 },
-  ];
 
-
-  const matches = [
-    {
-      id: 1,
-      date: "Thursday, July, 2023",
-      location: "New York",
-      time: "8:00 PM",
-      home: "Real Madrid",
-      away: "FC Barcelona",
-      results: "41-74",
-    },
-    {
-      id: 2,
-      date: "Friday, August, 2023",
-      location: "TABC New gym",
-      time: "3:00 PM",
-      home: "Juventus",
-      away: "Real Madrid",
-      results: "71-62",
-    },
-    {
-      id: 3,
-      date: "Saturday, July, 2023",
-      location: "4 Peace",
-      time: "10:00 AM",
-      home: "Liverpool",
-      away: "Real Madrid",
-      results: "51-42",
-    },
-  ];
+  const matches = useSelector(state=>state.home.matches);
 
   // const getPlayers = () => {
   const players_statistics = [
@@ -134,44 +83,8 @@ const Team = () => {
     },
   ];
 
-  const players = [
-    {
-      id: 1,
-      logo: avatar,
-      name: "Christiano Ronaldo",
-    },
-    {
-      id: 2,
-      logo: avatar,
-      name: "Lionel Messi",
-    },
-    {
-      id: 3,
-      logo: avatar,
-      name: "Karim Benzema",
-    },
-    {
-      id: 4,
-      logo: avatar,
-      name: "Kiran Mbappe",
-    },
-    {
-      id: 5,
-      logo: avatar,
-      name: "Erling Holand",
-    },
-    {
-      id: 6,
-      logo: avatar,
-      name: "Sabi Alonso",
-    },
-  ];
-  // }
-  // dispatch({type:actions.GET_PLAYERS})
+  const players = useSelector(state=>state.home.players).filter(player=>player.team_id==id);
 
-  // useEffect(()=>{
-  //   getPlayers();
-  // }, [])
   return (
     <div className="flex flex-col flex-grow">
       <PageTitle backIcon={leftarrowIcon} logo={team.logo}>
@@ -236,7 +149,8 @@ const Team = () => {
                 {matches.length > 0 ? (
                   <>
                     <MatchTable
-                      data  ={matches}
+                      data={matches}
+                      league_id={league_id}
                     ></MatchTable>
                   </>
                 ) : (
@@ -293,7 +207,7 @@ const Team = () => {
                   "rounded-xl flex flex-col w-full h-full "
                 )}
               >
-                {matches.length > 0 ? (
+                {players.length > 0 ? (
                   <>
                     <hr className="h-px my-4 bg-charcoal border-0" />
                     <div className=" flex flex-col space-y-5">
@@ -310,7 +224,7 @@ const Team = () => {
                 ) : (
                   <div className="flex items-center flex-grow">
                     <p className="text-2xl text-white w-full text-center">
-                      No Statistics To Show!
+                      No Players To Show!
                     </p>
                   </div>
                 )}
@@ -319,7 +233,7 @@ const Team = () => {
           </Tab.Group>
         </div>
       </div>
-      <LeagueModal />
+      {/* <LeagueModal /> */}
     </div>
   );
 };

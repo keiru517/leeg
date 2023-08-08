@@ -117,10 +117,12 @@ function App() {
         date: "Monday, June 19th 2023",
         location: "Etihad Stadium",
         time: "8:00 PM",
-        home: "Manchester City",
-        home_logo: teamLogo,
-        away: "Real Madrid",
-        away_logo: teamLogo,
+        home: "Real Madrid",
+        home_team_logo: realMadrid,
+        home_team_id:1,
+        away: "FC Barcelona",
+        away_team_logo: FCBarcelona,
+        away_team_id:2,
         results: "--",
       },
       {
@@ -129,10 +131,12 @@ function App() {
         date: "Monday, June 19th 2023",
         location: "Anfield",
         time: "8:00 PM",
-        home: "Liverpool",
-        home_logo: teamLogo,
-        away: "Manchester United",
-        away_logo: teamLogo,
+        home: "Manchester City",
+        home_team_logo: teamLogo,
+        home_team_id:3,
+        away: "Real Madrid",
+        away_team_logo: realMadrid,
+        away_team_id:1,
         results: "--",
       },
     ];
@@ -146,7 +150,7 @@ function App() {
       {
         id: 17,
         team_id: 1,
-        logo: avatar,
+        avatar: avatar,
         name: "Christiano Ronaldo",
         pts: 12,
         jersey_number: 147,
@@ -155,12 +159,12 @@ function App() {
         country: "Georgia",
         age: "25",
         birthdate: "May 17, 1997",
-        statistics: [
+        matchups: [
           {
             id: 1,
             game_date: "Thursday, July 13, 2023",
-            home_id: 1,
-            away_id: 2,
+            home_team_id: 1,
+            away_team_id: 2,
             ps: 17,
             gp: 12,
             ppg: 127,
@@ -168,8 +172,8 @@ function App() {
           {
             id: 2,
             game_date: "Thursday, July 13, 2023",
-            home_id: 1,
-            away_id: 2,
+            home_team_id: 2,
+            away_team_id: 1,
             ps: 17,
             gp: 12,
             ppg: 127,
@@ -177,8 +181,8 @@ function App() {
           {
             id: 3,
             game_date: "Thursday, July 13, 2023",
-            home_id: 1,
-            away_id: 2,
+            home_team_id: 1,
+            away_team_id: 3,
             ps: 17,
             gp: 12,
             ppg: 127,
@@ -186,8 +190,8 @@ function App() {
           {
             id: 4,
             game_date: "Thursday, July 13, 2023",
-            home_id: 1,
-            away_id: 2,
+            home_team_id: 3,
+            away_team_id: 1,
             ps: 17,
             gp: 12,
             ppg: 127,
@@ -197,7 +201,7 @@ function App() {
       {
         id: 18,
         team_id: 1,
-        logo: avatar,
+        avatar: avatar,
         name: "2024 TABC Winter League",
         pts: 12,
         jersey_number: 147,
@@ -206,12 +210,12 @@ function App() {
         country: "Georgia",
         age: "25",
         birthdate: "May 17, 1997",
-        statistics: [
+        matchups: [
           {
             id: 1,
             game_date: "Thursday, July 13, 2023",
-            home_id: 1,
-            away_id: 2,
+            home_team_id: 1,
+            away_team_id: 2,
             ps: 17,
             gp: 12,
             ppg: 127,
@@ -219,8 +223,8 @@ function App() {
           {
             id: 2,
             game_date: "Thursday, July 13, 2023",
-            home_id: 1,
-            away_id: 2,
+            home_team_id: 1,
+            away_team_id: 2,
             ps: 17,
             gp: 12,
             ppg: 127,
@@ -228,8 +232,8 @@ function App() {
           {
             id: 3,
             game_date: "Thursday, July 13, 2023",
-            home_id: 1,
-            away_id: 2,
+            home_team_id: 1,
+            away_team_id: 2,
             ps: 17,
             gp: 12,
             ppg: 127,
@@ -237,8 +241,8 @@ function App() {
           {
             id: 4,
             game_date: "Thursday, July 13, 2023",
-            home_id: 1,
-            away_id: 2,
+            home_team_id: 1,
+            away_team_id: 2,
             ps: 17,
             gp: 12,
             ppg: 127,
@@ -248,7 +252,7 @@ function App() {
       {
         id: 19,
         team_id: 1,
-        logo: avatar,
+        avatar: avatar,
         name: "2024 TABC Winter League",
         pts: 12,
         jersey_number: 147,
@@ -257,12 +261,12 @@ function App() {
         country: "Georgia",
         age: "25",
         birthdate: "May 17, 1997",
-        statistics: [
+        matchups: [
           {
             id: 1,
             game_date: "Thursday, July 13, 2023",
-            home_id: 1,
-            away_id: 2,
+            home_team_id: 1,
+            away_team_id: 2,
             ps: 17,
             gp: 12,
             ppg: 127,
@@ -270,8 +274,8 @@ function App() {
           {
             id: 2,
             game_date: "Thursday, July 13, 2023",
-            home_id: 1,
-            away_id: 2,
+            home_team_id: 1,
+            away_team_id: 2,
             ps: 17,
             gp: 12,
             ppg: 127,
@@ -279,8 +283,8 @@ function App() {
           {
             id: 3,
             game_date: "Thursday, July 13, 2023",
-            home_id: 1,
-            away_id: 2,
+            home_team_id: 1,
+            away_team_id: 2,
             ps: 17,
             gp: 12,
             ppg: 127,
@@ -288,8 +292,8 @@ function App() {
           {
             id: 4,
             game_date: "Thursday, July 13, 2023",
-            home_id: 1,
-            away_id: 2,
+            home_team_id: 1,
+            away_team_id: 2,
             ps: 17,
             gp: 12,
             ppg: 127,
@@ -299,7 +303,7 @@ function App() {
       {
         id: 110,
         team_id: 2,
-        logo: avatar,
+        avatar: avatar,
         name: "2024 TABC Winter League",
         pts: 12,
         jersey_number: 147,
@@ -308,12 +312,12 @@ function App() {
         country: "Georgia",
         age: "25",
         birthdate: "May 17, 1997",
-        statistics: [
+        matchups: [
           {
             id: 1,
             game_date: "Thursday, July 13, 2023",
-            home_id: 1,
-            away_id: 2,
+            home_team_id: 1,
+            away_team_id: 2,
             ps: 17,
             gp: 12,
             ppg: 127,
@@ -321,8 +325,8 @@ function App() {
           {
             id: 2,
             game_date: "Thursday, July 13, 2023",
-            home_id: 1,
-            away_id: 2,
+            home_team_id: 1,
+            away_team_id: 2,
             ps: 17,
             gp: 12,
             ppg: 127,
@@ -330,8 +334,8 @@ function App() {
           {
             id: 3,
             game_date: "Thursday, July 13, 2023",
-            home_id: 1,
-            away_id: 2,
+            home_team_id: 1,
+            away_team_id: 2,
             ps: 17,
             gp: 12,
             ppg: 127,
@@ -339,8 +343,8 @@ function App() {
           {
             id: 4,
             game_date: "Thursday, July 13, 2023",
-            home_id: 1,
-            away_id: 2,
+            home_team_id: 1,
+            away_team_id: 2,
             ps: 17,
             gp: 12,
             ppg: 127,
@@ -350,7 +354,7 @@ function App() {
       {
         id: 111,
         team_id: 2,
-        logo: avatar,
+        avatar: avatar,
         name: "2024 TABC Winter League",
         pts: 12,
         jersey_number: 147,
@@ -359,12 +363,12 @@ function App() {
         country: "Georgia",
         age: "25",
         birthdate: "May 17, 1997",
-        statistics: [
+        matchups: [
           {
             id: 1,
             game_date: "Thursday, July 13, 2023",
-            home_id: 1,
-            away_id: 2,
+            home_team_id: 1,
+            away_team_id: 2,
             ps: 17,
             gp: 12,
             ppg: 127,
@@ -372,8 +376,8 @@ function App() {
           {
             id: 2,
             game_date: "Thursday, July 13, 2023",
-            home_id: 1,
-            away_id: 2,
+            home_team_id: 1,
+            away_team_id: 2,
             ps: 17,
             gp: 12,
             ppg: 127,
@@ -381,8 +385,8 @@ function App() {
           {
             id: 3,
             game_date: "Thursday, July 13, 2023",
-            home_id: 1,
-            away_id: 2,
+            home_team_id: 1,
+            away_team_id: 2,
             ps: 17,
             gp: 12,
             ppg: 127,
@@ -390,8 +394,8 @@ function App() {
           {
             id: 4,
             game_date: "Thursday, July 13, 2023",
-            home_id: 1,
-            away_id: 2,
+            home_team_id: 1,
+            away_team_id: 2,
             ps: 17,
             gp: 12,
             ppg: 127,
@@ -401,7 +405,7 @@ function App() {
       {
         id: 112,
         team_id: 1,
-        logo: avatar,
+        avatar: avatar,
         name: "2024 TABC Winter League",
         pts: 12,
         jersey_number: 147,
@@ -410,12 +414,12 @@ function App() {
         country: "Georgia",
         age: "25",
         birthdate: "May 17, 1997",
-        statistics: [
+        matchups: [
           {
             id: 1,
             game_date: "Thursday, July 13, 2023",
-            home_id: 1,
-            away_id: 2,
+            home_team_id: 1,
+            away_team_id: 2,
             ps: 17,
             gp: 12,
             ppg: 127,
@@ -423,8 +427,8 @@ function App() {
           {
             id: 2,
             game_date: "Thursday, July 13, 2023",
-            home_id: 1,
-            away_id: 2,
+            home_team_id: 1,
+            away_team_id: 2,
             ps: 17,
             gp: 12,
             ppg: 127,
@@ -432,8 +436,8 @@ function App() {
           {
             id: 3,
             game_date: "Thursday, July 13, 2023",
-            home_id: 1,
-            away_id: 2,
+            home_team_id: 1,
+            away_team_id: 2,
             ps: 17,
             gp: 12,
             ppg: 127,
@@ -441,8 +445,8 @@ function App() {
           {
             id: 4,
             game_date: "Thursday, July 13, 2023",
-            home_id: 1,
-            away_id: 2,
+            home_team_id: 1,
+            away_team_id: 2,
             ps: 17,
             gp: 12,
             ppg: 127,
@@ -452,7 +456,7 @@ function App() {
       {
         id: 113,
         team_id: 1,
-        logo: avatar,
+        avatar: avatar,
         name: "2024 TABC Winter League",
         pts: 12,
         jersey_number: 147,
@@ -461,12 +465,12 @@ function App() {
         country: "Georgia",
         age: "25",
         birthdate: "May 17, 1997",
-        statistics: [
+        matchups: [
           {
             id: 1,
             game_date: "Thursday, July 13, 2023",
-            home_id: 1,
-            away_id: 2,
+            home_team_id: 1,
+            away_team_id: 2,
             ps: 17,
             gp: 12,
             ppg: 127,
@@ -474,8 +478,8 @@ function App() {
           {
             id: 2,
             game_date: "Thursday, July 13, 2023",
-            home_id: 1,
-            away_id: 2,
+            home_team_id: 1,
+            away_team_id: 2,
             ps: 17,
             gp: 12,
             ppg: 127,
@@ -483,8 +487,8 @@ function App() {
           {
             id: 3,
             game_date: "Thursday, July 13, 2023",
-            home_id: 1,
-            away_id: 2,
+            home_team_id: 1,
+            away_team_id: 2,
             ps: 17,
             gp: 12,
             ppg: 127,
@@ -492,8 +496,8 @@ function App() {
           {
             id: 4,
             game_date: "Thursday, July 13, 2023",
-            home_id: 1,
-            away_id: 2,
+            home_team_id: 1,
+            away_team_id: 2,
             ps: 17,
             gp: 12,
             ppg: 127,
@@ -503,7 +507,7 @@ function App() {
       {
         id: 114,
         team_id: 1,
-        logo: avatar,
+        avatar: avatar,
         name: "2024 TABC Winter League",
         pts: 12,
         jersey_number: 147,
@@ -512,12 +516,12 @@ function App() {
         country: "Georgia",
         age: "25",
         birthdate: "May 17, 1997",
-        statistics: [
+        matchups: [
           {
             id: 1,
             game_date: "Thursday, July 13, 2023",
-            home_id: 1,
-            away_id: 2,
+            home_team_id: 1,
+            away_team_id: 2,
             ps: 17,
             gp: 12,
             ppg: 127,
@@ -525,8 +529,8 @@ function App() {
           {
             id: 2,
             game_date: "Thursday, July 13, 2023",
-            home_id: 1,
-            away_id: 2,
+            home_team_id: 1,
+            away_team_id: 2,
             ps: 17,
             gp: 12,
             ppg: 127,
@@ -534,8 +538,8 @@ function App() {
           {
             id: 3,
             game_date: "Thursday, July 13, 2023",
-            home_id: 1,
-            away_id: 2,
+            home_team_id: 1,
+            away_team_id: 2,
             ps: 17,
             gp: 12,
             ppg: 127,
@@ -543,8 +547,8 @@ function App() {
           {
             id: 4,
             game_date: "Thursday, July 13, 2023",
-            home_id: 1,
-            away_id: 2,
+            home_team_id: 1,
+            away_team_id: 2,
             ps: 17,
             gp: 12,
             ppg: 127,
@@ -554,7 +558,7 @@ function App() {
       {
         id: 115,
         team_id: 2,
-        logo: avatar,
+        avatar: avatar,
         name: "2024 TABC Winter League",
         pts: 12,
         jersey_number: 147,
@@ -563,12 +567,12 @@ function App() {
         country: "Georgia",
         age: "25",
         birthdate: "May 17, 1997",
-        statistics: [
+        matchups: [
           {
             id: 1,
             game_date: "Thursday, July 13, 2023",
-            home_id: 1,
-            away_id: 2,
+            home_team_id: 1,
+            away_team_id: 2,
             ps: 17,
             gp: 12,
             ppg: 127,
@@ -576,8 +580,8 @@ function App() {
           {
             id: 2,
             game_date: "Thursday, July 13, 2023",
-            home_id: 1,
-            away_id: 2,
+            home_team_id: 2,
+            away_team_id: 1,
             ps: 17,
             gp: 12,
             ppg: 127,
@@ -585,8 +589,8 @@ function App() {
           {
             id: 3,
             game_date: "Thursday, July 13, 2023",
-            home_id: 1,
-            away_id: 2,
+            home_team_id: 1,
+            away_team_id: 3,
             ps: 17,
             gp: 12,
             ppg: 127,
@@ -594,8 +598,8 @@ function App() {
           {
             id: 4,
             game_date: "Thursday, July 13, 2023",
-            home_id: 1,
-            away_id: 2,
+            home_team_id: 3,
+            away_team_id: 1,
             ps: 17,
             gp: 12,
             ppg: 127,
@@ -605,7 +609,7 @@ function App() {
       {
         id: 116,
         team_id: 1,
-        logo: avatar,
+        avatar: avatar,
         name: "2024 TABC Winter League",
         pts: 12,
         jersey_number: 147,
@@ -614,12 +618,12 @@ function App() {
         country: "Georgia",
         age: "25",
         birthdate: "May 17, 1997",
-        statistics: [
+        matchups: [
           {
             id: 1,
             game_date: "Thursday, July 13, 2023",
-            home_id: 1,
-            away_id: 2,
+            home_team_id: 1,
+            away_team_id: 2,
             ps: 17,
             gp: 12,
             ppg: 127,
@@ -627,8 +631,8 @@ function App() {
           {
             id: 2,
             game_date: "Thursday, July 13, 2023",
-            home_id: 1,
-            away_id: 2,
+            home_team_id: 2,
+            away_team_id: 1,
             ps: 17,
             gp: 12,
             ppg: 127,
@@ -636,8 +640,8 @@ function App() {
           {
             id: 3,
             game_date: "Thursday, July 13, 2023",
-            home_id: 1,
-            away_id: 2,
+            home_team_id: 3,
+            away_team_id: 1,
             ps: 17,
             gp: 12,
             ppg: 127,
@@ -645,8 +649,8 @@ function App() {
           {
             id: 4,
             game_date: "Thursday, July 13, 2023",
-            home_id: 1,
-            away_id: 2,
+            home_team_id: 1,
+            away_team_id: 3,
             ps: 17,
             gp: 12,
             ppg: 127,
@@ -677,7 +681,7 @@ function App() {
           <Route exact path="/forgotpwd" element={<ForgotPwd />}></Route>
           <Route exact path="/" element={<Home />}></Route>
           <Route exact path="/league/:id" element={<League />}></Route>
-          <Route exact path="/team/:id" element={<Team />}></Route>
+          <Route exact path="league/:league_id/team/:id" element={<Team />}></Route>
           <Route exact path="/league/:league_id/player/:id" element={<Player />}></Route>
         </Routes>
       </AuthLayout>

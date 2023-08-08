@@ -11,7 +11,7 @@ import * as actions from "../../actions";
 import ProfileTable from '../../components/Table/Profile';
 
 const Player = () => {
-  let { id } = useParams();
+  let { league_id, id } = useParams();
 
   const options = ["Ascend", "Descend", "Recent"];
 
@@ -24,14 +24,14 @@ const Player = () => {
   const teams = useSelector((state) => state.home.teams);
   const team = teams.find((team) => team.id == player.team_id);
 
-  const league = useSelector(state=> state.home.selected_league);
+  const league = useSelector(state=> state.home.leagues).find(league=>league.id==league.id);
 
-  const statistics = player.statistics;
+  const matchups = player.matchups;
 
   return (
     <div className="flex flex-col flex-grow">
       <ProfileTitle
-        avatar={player.logo}
+        avatar={player.avatar}
         team={team}
       >
         <div>
@@ -59,7 +59,7 @@ const Player = () => {
         </Link>
         <span className=""> &gt; </span>
         <span className="underline">
-          <Link to={`/team/${team.id}`}>
+          <Link to={`/league/${league_id}/team/${team.id}`}>
             {team.name}
           </Link>
         </span>
@@ -101,8 +101,8 @@ const Player = () => {
           </Select>
         </div>
             {
-              statistics.length < 0?
-              <ProfileTable data={statistics}/>
+              matchups.length > 0?
+              <ProfileTable data={matchups} league_id={league_id}/>
               :
               <div className="flex flex-grow items-center ">
                 <p className="text-2xl text-white font-bold w-full text-center">No Statistics To Show!</p>

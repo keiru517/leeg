@@ -1,5 +1,6 @@
 import { Fragment, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
+import { useParams } from "react-router";
 import { CheckIcon } from "@heroicons/react/24/outline";
 import close from "../../assets/img/dark_mode/close.png";
 import btn1 from "../../assets/img/dark_mode/btn1.png";
@@ -21,6 +22,7 @@ import avatar from "../../assets/img/dark_mode/player.png";
 import PlayerList from "../ListItem/PlayerList";
 
 const TeamModal = () => {
+  let { id } = useParams();
   const dispatch = useDispatch();
 
   const status = useSelector((state) => state.home.team_dialog.open);
@@ -81,88 +83,7 @@ const TeamModal = () => {
     setStep(3);
   };
 
-  const players = [
-    {
-      id: 1,
-      name: "Tornike Shengelia",
-      avatar: avatar,
-      email: "James@gmail.com",
-      created_at: "June 26, 2023, 10:00PM",
-      team_id: 2,
-    },
-    {
-      id: 2,
-      name: "Tornike Shengelia",
-      avatar: avatar,
-      email: "James@gmail.com",
-      created_at: "June 26, 2023, 10:00PM",
-      team_id: 1,
-    },
-    {
-      id: 3,
-      name: "Tornike Shengelia",
-      avatar: avatar,
-      email: "James@gmail.com",
-      created_at: "June 26, 2023, 10:00PM",
-      team_id: 2,
-    },
-    {
-      id: 4,
-      name: "Tornike Shengelia",
-      avatar: avatar,
-      email: "James@gmail.com",
-      created_at: "June 26, 2023, 10:00PM",
-      team_id: 1,
-    },
-    {
-      id: 5,
-      name: "Tornike Shengelia",
-      avatar: avatar,
-      email: "James@gmail.com",
-      created_at: "June 26, 2023, 10:00PM",
-      team_id: 1,
-    },
-    {
-      id: 6,
-      name: "Tornike Shengelia",
-      avatar: avatar,
-      email: "James@gmail.com",
-      created_at: "June 26, 2023, 10:00PM",
-      team_id: 1,
-    },
-    {
-      id: 7,
-      name: "Tornike Shengelia",
-      avatar: avatar,
-      email: "James@gmail.com",
-      created_at: "June 26, 2023, 10:00PM",
-      team_id: 1,
-    },
-    {
-      id: 8,
-      name: "Tornike Shengelia",
-      avatar: avatar,
-      email: "James@gmail.com",
-      created_at: "June 26, 2023, 10:00PM",
-      team_id: 1,
-    },
-    {
-      id: 9,
-      name: "Tornike Shengelia",
-      avatar: avatar,
-      email: "James@gmail.com",
-      created_at: "June 26, 2023, 10:00PM",
-      team_id: 1,
-    },
-    {
-      id: 10,
-      name: "Tornike Shengelia",
-      avatar: avatar,
-      email: "James@gmail.com",
-      created_at: "June 26, 2023, 10:00PM",
-      team_id: 1,
-    },
-  ];
+  const players = useSelector(state=>state.home.players).find(player=>player.team_id==id)
 
   const [sport, setSport] = useState("Select Sport*");
   const [teamName, setTeamName] = useState(team.name);

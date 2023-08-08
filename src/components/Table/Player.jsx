@@ -54,7 +54,7 @@ const Player = (props) => {
                     color="blue-gray"
                     className="font-normal flex items-center underline"
                   >
-                    <img src={player.logo} alt="" className="h-8 w-8 mr-2" />
+                    <img src={player.avatar} alt="" className="h-8 w-8 mr-2" />
                     <Link to={`player/${player.id}`}>{player.name}</Link>
                   </Typography>
                 </td>

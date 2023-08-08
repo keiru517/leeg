@@ -332,7 +332,7 @@ const League = () => {
                       icon={search}
                       placeholder="Search Schedules"
                     />
-                    <MatchTable data={matches}></MatchTable>
+                    <MatchTable data={matches}  league_id={id}></MatchTable>
                   </>
                 ) : (
                   <div className="flex items-center flex-grow">

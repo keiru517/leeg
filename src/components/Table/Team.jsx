@@ -1,6 +1,5 @@
 import { Card, Typography } from "@material-tailwind/react";
 import actionIcon from "../../assets/img/dark_mode/action.png";
-import avatar from '../../assets/img/dark_mode/player.png';
 
 const TeamTable = (props) => {
   const { data } = props;
@@ -43,7 +42,7 @@ const TeamTable = (props) => {
             <tr key={index} className="even:bg-dark-gray odd:bg-charcoal">
               <td className="">
                 <div className="flex items-center">
-                  <img src={avatar} alt="" className="w-8 h-8 mr-2" />
+                  <img src={player.avatar} alt="" className="w-8 h-8 mr-2" />
                   <Typography
                     variant="small"
                     color="blue-gray"

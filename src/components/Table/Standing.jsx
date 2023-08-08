@@ -4,7 +4,6 @@ import teamLogo from '../../assets/img/dark_mode/team-logo.png';
 
 const StandingTable = (props) => {
   const { data } = props;
-  console.log(data)
 
   const columns = [
     "Position",
