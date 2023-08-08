@@ -5,7 +5,7 @@ import Card from "../../components/Card";
 import Select from "../../components/Select";
 import ProfileTitle from "../../components/ProfileTitle";
 import leftarrowIcon from "../../assets/img/dark_mode/left-arrow.png";
-import avatar from "../../assets/img/dark_mode/player.png";
+import avatar from "../../assets/img/dark_mode/ronaldo.jpg";
 import * as actions from "../../actions";
 import ProfileTable from '../../components/Table/Profile';
 
@@ -72,7 +72,7 @@ const Player = () => {
         </div>
       </div>
 
-      <div className="flex-grow rounded-main bg-slate overflow-auto mt-5 p-default">
+      <div className="flex flex-col flex-grow rounded-main bg-slate overflow-auto mt-5 p-default">
         <div className="search flex justify-between space-x-6">
           <Select
             className="w-full rounded-lg text-xs h-[42px]"
@@ -83,10 +83,15 @@ const Player = () => {
             {value}
           </Select>
         </div>
-        <br></br>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            <ProfileTable data={statistics}/>
-        </div>
+            {
+              statistics.length < 0?
+              <ProfileTable data={statistics}/>
+              :
+              <div className="flex flex-grow items-center ">
+                <p className="text-2xl text-white font-bold w-full text-center">No Statistics To Show!</p>
+              </div>
+
+            }
       </div>
     </div>
   );

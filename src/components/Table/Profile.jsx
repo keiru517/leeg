@@ -40,8 +40,11 @@ const Profile = (props) => {
         <tbody className="text-center">
           {
             // data.map(({ logo, name}, index) =>
-            data.map((player) => (
-              <tr className="odd:bg-dark-gray even:bg-charcoal h-[53px]">
+            data.map((player, idx) => (
+              <tr
+                key={idx}
+                className="odd:bg-dark-gray even:bg-charcoal h-[53px]"
+              >
                 <td className="">
                   <Typography
                     variant="small"
@@ -55,21 +58,25 @@ const Profile = (props) => {
                   <Typography
                     variant="small"
                     color="blue-gray"
-                    className="font-normal flex items-center underline space-x-2"
+                    className="font-normal flex items-center space-x-2"
                   >
                     <img
                       src={teams.find((team) => team.id == player.home_id).logo}
                       alt=""
-                      className="w-8 h-8"
+                      className="w-8 h-8 mr-2"
                     />
-                    {teams.find((team) => team.id == player.home_id).name}
-                    VS
+                    <p className="underline">
+                      {teams.find((team) => team.id == player.home_id).name}
+                    </p>
+                    <p className="text-font-dark-gray">VS</p>
                     <img
                       src={teams.find((team) => team.id == player.away_id).logo}
                       alt=""
-                      className="w-8 h-8"
+                      className="w-8 h-8 mr-2"
                     />
-                    {teams.find((team) => team.id == player.away_id).name}
+                    <p className="underline">
+                      {teams.find((team) => team.id == player.away_id).name}
+                    </p>
                   </Typography>
                 </td>
                 <td className="w-1/5">
