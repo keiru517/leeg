@@ -4,11 +4,18 @@ import teamLogo from "../../assets/img/dark_mode/team-logo.png";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-const Player = (props) => {
+const Profile = (props) => {
   const { data } = props;
-  const columns = ["Team", "Player", "Jersey number"];
+  const columns = [
+    "Game Date",
+    "Matchup",
+    "Points Scored",
+    "Games Played",
+    "PPG",
+  ];
 
-  const players = useSelector(state=>state.home.players);
+  const teams = useSelector((state) => state.home.teams);
+  const players = useSelector((state) => state.home.players);
   return (
     <div className="text-white mt-5 w-full">
       <table className="w-full min-w-max table-auto text-left">
@@ -32,30 +39,37 @@ const Player = (props) => {
         </thead>
         <tbody className="text-center">
           {
-          // data.map(({ logo, name}, index) =>
-            players.map((player) => (
+            // data.map(({ logo, name}, index) =>
+            data.map((player) => (
               <tr className="odd:bg-dark-gray even:bg-charcoal h-[53px]">
-                <td className="w-1/5">
+                <td className="">
                   <Typography
                     variant="small"
                     color="blue-gray"
-                    className="font-normal flex items-center underline"
+                    className="font-normal"
                   >
-                    <img src={data.find(team=>team.id==player.team_id).logo} alt="" className="w-8 h-8 mr-2" />
-                    {
-                      data.find(team=>team.id==player.team_id).name
-                    }
-                    {/* {name} */}
+                    {player.game_date}
                   </Typography>
                 </td>
-                <td className="w-1/5">
+                <td className="">
                   <Typography
                     variant="small"
                     color="blue-gray"
-                    className="font-normal flex items-center underline"
+                    className="font-normal flex items-center underline space-x-2"
                   >
-                    <img src={player.logo} alt="" className="h-8 w-8 mr-2" />
-                    <Link to={`/player/${player.id}`}>{player.name}</Link>
+                    <img
+                      src={teams.find((team) => team.id == player.home_id).logo}
+                      alt=""
+                      className="w-8 h-8"
+                    />
+                    {teams.find((team) => team.id == player.home_id).name}
+                    VS
+                    <img
+                      src={teams.find((team) => team.id == player.away_id).logo}
+                      alt=""
+                      className="w-8 h-8"
+                    />
+                    {teams.find((team) => team.id == player.away_id).name}
                   </Typography>
                 </td>
                 <td className="w-1/5">
@@ -64,12 +78,30 @@ const Player = (props) => {
                     color="blue-gray"
                     className="font-normal"
                   >
-                    {player.jersey_number}
+                    {player.ps}
+                  </Typography>
+                </td>
+                <td className="w-1/5">
+                  <Typography
+                    variant="small"
+                    color="blue-gray"
+                    className="font-normal"
+                  >
+                    {player.gp}
+                  </Typography>
+                </td>
+                <td className="w-1/5">
+                  <Typography
+                    variant="small"
+                    color="blue-gray"
+                    className="font-normal"
+                  >
+                    {player.ppg}
                   </Typography>
                 </td>
               </tr>
             ))
-          // )
+            // )
           }
         </tbody>
       </table>
@@ -77,4 +109,4 @@ const Player = (props) => {
   );
 };
 
-export default Player;
+export default Profile;

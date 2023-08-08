@@ -67,229 +67,6 @@ const League = () => {
     setBreadcrum(data);
   };
 
-  // const schedules = [];
-
-  const getTeams = () => {
-    // axios.get WHERE league_id=id
-    const teams = [
-      {
-        id: 1,
-        league_id: 1,
-        logo: realMadrid,
-        name: "Real Madrid",
-        position: 2,
-        max: 12,
-        min: 3,
-        waitlist: 10,
-        statistics: {
-          w: 12,
-          l: 6,
-          ps: 167,
-          pa: 142,
-          diff: 27,
-        },
-        players: [
-          {
-            id: 1,
-            logo: avatar,
-            name:"Christiano Ronaldo",
-            pts:12,
-            jersey_number:7 
-          },
-          {
-            id: 2,
-            logo: avatar,
-            name: "Skenandoa Giiwedinokwe",
-            pts:12,
-            jersey_number:5 
-          },
-          {
-            id: 3,
-            logo: avatar,
-            name: "2024 TABC Winter League",
-            pts:12,
-            jersey_number:147 
-          },
-          {
-            id: 4,
-            logo: avatar,
-            name: "2024 TABC Winter League",
-            pts:12,
-            jersey_number:147 
-          },
-          {
-            id: 5,
-            logo: avatar,
-            name: "2024 TABC Winter League",
-            pts:12,
-            jersey_number:147 
-          },
-          {
-            id: 6,
-            logo: avatar,
-            name: "2024 TABC Winter League",
-            pts:12,
-            jersey_number:147 
-          },
-        ]
-      },
-      {
-        id: 2,
-        league_id: 1,
-        logo: FCBarcelona,
-        name: "FC Barcelona",
-        position: 1,
-        max: 12,
-        min: 3,
-        waitlist: 9,
-        statistics: {
-          w: 10,
-          l: 8,
-          ps: 142,
-          pa: 127,
-          diff: 15,
-        },
-        players: [
-          {
-            id: 1,
-            logo: avatar,
-            name:"Lionel Messi",
-            pts:12,
-            jersey_number:10 
-          },
-          {
-            id: 2,
-            logo: avatar,
-            name: "2024 TABC Winter League",
-            pts:12,
-            jersey_number:147 
-          },
-          {
-            id: 3,
-            logo: avatar,
-            name: "2024 TABC Winter League",
-            pts:12,
-            jersey_number:147 
-          },
-          {
-            id: 4,
-            logo: avatar,
-            name: "2024 TABC Winter League",
-            pts:12,
-            jersey_number:147 
-          },
-          {
-            id: 5,
-            logo: avatar,
-            name: "2024 TABC Winter League",
-            pts:12,
-            jersey_number:147 
-          },
-          {
-            id: 6,
-            logo: avatar,
-            name: "2024 TABC Winter League",
-            pts:12,
-            jersey_number:147 
-          },
-        ]
-      },
-      {
-        id: 3,
-        league_id: 1,
-        logo: teamLogo,
-        name: "Manchester City",
-        position: 3,
-        max: 12,
-        min: 3,
-        waitlist: 9,
-        statistics: {
-          w: 10,
-          l: 8,
-          ps: 142,
-          pa: 127,
-          diff: 15,
-        },
-        players: [
-          {
-            id: 1,
-            logo: avatar,
-            name:"Christiano Ronaldo",
-            pts:12,
-            jersey_number:147 
-          },
-          {
-            id: 2,
-            logo: avatar,
-            name: "2024 TABC Winter League",
-            pts:12,
-            jersey_number:147 
-          },
-          {
-            id: 3,
-            logo: avatar,
-            name: "2024 TABC Winter League",
-            pts:12,
-            jersey_number:147 
-          },
-          {
-            id: 4,
-            logo: avatar,
-            name: "2024 TABC Winter League",
-            pts:12,
-            jersey_number:147 
-          },
-          {
-            id: 5,
-            logo: avatar,
-            name: "2024 TABC Winter League",
-            pts:12,
-            jersey_number:147 
-          },
-          {
-            id: 6,
-            logo: avatar,
-            name: "2024 TABC Winter League",
-            pts:12,
-            jersey_number:147 
-          },
-        ]
-      },
-    ];
-
-    dispatch({ type: actions.GET_TEAMS, payload: teams });
-  };
-
-  const getMatches = () => {
-    const matches = [
-      {
-        id: 1,
-        league_id: 1,
-        date: "Monday, June 19th 2023",
-        location: "Etihad Stadium",
-        time: "8:00 PM",
-        home: "Manchester City",
-        home_logo: teamLogo,
-        away: "Real Madrid",
-        away_logo: teamLogo,
-        results: "--",
-      },
-      {
-        id: 2,
-        league_id: 1,
-        date: "Monday, June 19th 2023",
-        location: "Anfield",
-        time: "8:00 PM",
-        home: "Liverpool",
-        home_logo: teamLogo,
-        away: "Manchester United",
-        away_logo: teamLogo,
-        results: "--",
-      },
-    ];
-
-    dispatch({ type: actions.GET_MATCHES, payload: matches });
-  };
 
   const rosters = [
     {
@@ -343,13 +120,6 @@ const League = () => {
       created_at: "June 26, 2023, 10:00PM",
     },
   ];
-
-  // const rosters = []
-
-  useEffect(() => {
-    getTeams();
-    getMatches();
-  }, []);
 
   return (
     <div className="flex flex-col flex-grow">
@@ -590,7 +360,7 @@ const League = () => {
                         placeholder="Search Standings"
                       />
                       <Select
-                      className="text-xs"
+                        className="text-xs"
                         options={options}
                         handleClick={(e) => setValue(e)}
                         value={value}
@@ -611,7 +381,7 @@ const League = () => {
 
               {/* All Playerlist */}
               <Tab.Panel
-                key={3}
+                key={4}
                 className={classNames(
                   "rounded-xl flex flex-col justify-between w-full h-full"
                 )}
@@ -626,7 +396,7 @@ const League = () => {
                         placeholder="Search Standings"
                       />
                       <Select
-                      className="text-xs"
+                        className="text-xs"
                         options={options}
                         handleClick={(e) => setValue(e)}
                         value={value}
@@ -639,7 +409,7 @@ const League = () => {
                 ) : (
                   <div className="flex items-center flex-grow">
                     <p className="text-2xl text-white w-full text-center">
-                      No Standings to show!
+                      No Players To Show!
                     </p>
                   </div>
                 )}

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Button from "../../components/Button";
 import line from '../../assets/img/dark_mode/point-line.png';
+import { useNavigate } from "react-router-dom";
 
 const PageTitle = (props) => {
   const {
@@ -14,11 +15,13 @@ const PageTitle = (props) => {
     ...rest
   } = props;
 
+  const navigate = useNavigate();
+
   return (
     <div className="page-title bg-charcoal flex items-center justify-between">
       <div className="flex items-center">
         {backIcon ? (
-          <img src={backIcon} alt="" className="w-[34px] h-[34px]" />
+          <img src={backIcon} onClick={()=>navigate(-1)} alt="" className="w-[34px] h-[34px] dark:hover:bg-middle-gray rounded-default cursor-pointer" />
         ) : (
           ""
         )}
@@ -31,7 +34,7 @@ const PageTitle = (props) => {
         )}
         {deleteIcon ? <img src={deleteIcon} alt="" className="w-6 h-6" /> : ""}
       </div>
-      <Button className="w-[377px] h-[102px] bg-primary">
+      <button className="w-[377px] h-[102px] bg-primary rounded-default hover:opacity-70 text-white">
         <div className="w-[297px] mx-auto">
             <p className="text-xl font-semibold">Season Averages</p>
             <div className="flex full h-[35px]">
@@ -63,7 +66,7 @@ const PageTitle = (props) => {
 
             </div>
         </div>
-      </Button>
+      </button>
     </div>
   );
 };

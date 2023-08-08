@@ -18,7 +18,7 @@ const Select = (props) => {
 
   return (
     <div
-      class={`${className} flex justify-between z-10 text-font-dark-gray rounded-lg shadow w-44 dark:bg-transparent border border-dark-gray relative items-center cursor-pointer select-none`}
+      className={`${className} flex justify-between z-10 text-font-dark-gray rounded-lg shadow w-44 dark:bg-transparent border border-dark-gray relative items-center cursor-pointer select-none`}
       //   onClick={() => {
       //     setExpand(true)
       //   }}
@@ -37,15 +37,15 @@ const Select = (props) => {
         }`}
         aria-labelledby="states-button"
       >
-        {options.map((option) => {
+        {options.map((option, idx) => {
           return (
-            <li>
+            <li key={idx}>
               <button
                 type="button"
-                class="inline-flex w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-middle-gray dark:hover:text-white"
+                className="inline-flex w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-middle-gray dark:hover:text-white"
                 onClick={() => handleButtonClick(option)}
               >
-                <div class="inline-flex items-center">{option}</div>
+                <div className="inline-flex items-center">{option}</div>
               </button>
             </li>
           );

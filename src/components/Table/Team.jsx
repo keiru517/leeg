@@ -8,7 +8,7 @@ const TeamTable = (props) => {
   return (
     <div className="text-white h-full w-full">
       <table className="w-full min-w-max table-auto text-left">
-        <thead>
+        <thead className="sticky">
           <tr>
               <th key='1' className="h-button bg-slate text-center font-font-dark-gray w-1/2">
                 <Typography

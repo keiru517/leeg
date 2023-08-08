@@ -5,10 +5,11 @@ import userIcon from '../../assets/img/dark_mode/user-add.png';
 import editIcon from '../../assets/img/dark_mode/edit.png';
 import avatar from '../../assets/img/dark_mode/player.png';
 import * as actions from '../../actions';
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const TeamCard = (props) => {
     const {item} = props;
+    const players = useSelector(state=>state.home.players).filter(player=>player.team_id == item.id);
 
 
     const dispatch = useDispatch()
@@ -42,8 +43,8 @@ const TeamCard = (props) => {
 
             <div className="flex flex-grow items-center">
                 {
-                    item.players.length > 1?
-                    <TeamTable data={item.players}/>
+                    players.length > 1?
+                    <TeamTable data={players}/>
                     :
                     <div className="flex items-center flex-grow">
                     <p className="text-2xl text-white w-full text-center">

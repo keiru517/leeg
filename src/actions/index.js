@@ -17,6 +17,7 @@ export const GET_MATCHES = 'GET_MATCHES';
 export const OPEN_CREATE_MATCH_DIALOG = 'OPEN_CREATE_MATCH_DIALOG';
 export const CLOSE_MATCH_DIALOG = 'CLOSE_MATCH_DIALOG';
 // player
+export const GET_PLAYERS = 'GET_PLAYERS';
 export const OPEN_INVITE_PLAYER_DIALOG = 'OPEN_INVITE_PLAYER_DIALOG';
 export const ADD_PLAYER = 'ADD_PLAYER';
 export const REMOVE_PLAYER = 'REMOVE_PLAYER';
@@ -100,6 +101,10 @@ export const closeMatchDialog = () => ({
 })
 
 // player action
+export const getPlayers = (payload) => ({
+  type: GET_PLAYERS,
+  payload:payload
+})
 export const AddPlayer = (payload) => ({
   type: ADD_PLAYER,
   payload:payload

@@ -5,6 +5,7 @@ const initialState = {
   leagues: [],
   teams: [],
   matches: [],
+  players: [],
   league_dialog: {
     open: false,
     type: "create",
@@ -129,7 +130,7 @@ const home = (state = initialState, action) => {
         },
       };
 
-      case actions.CLOSE_MATCH_DIALOG:
+    case actions.CLOSE_MATCH_DIALOG:
       return {
         ...state,
         match_dialog: {
@@ -157,6 +158,12 @@ const home = (state = initialState, action) => {
           type: "delete",
           team: action.payload,
         },
+      };
+
+    case actions.GET_PLAYERS:
+      return {
+        ...state,
+        players: action.payload,
       };
     default:
       return state;
