@@ -16,9 +16,9 @@ const LeagueModal = (props) => {
   const status = useSelector(state => state.home.league_dialog.open)
   const type = useSelector(state => state.home.league_dialog.type)
 
-  let { id } = useParams();
+  let { league_id } = useParams();
   const league = useSelector((state) => state.home.leagues).find(
-    (league) => league.id == id
+    (league) => league.id == league_id
   );
 
   // const [open, setOpen] = useState(false);

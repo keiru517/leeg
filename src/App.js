@@ -5,6 +5,7 @@ import "./App.css";
 import Home from "./pages/home";
 import League from "./pages/home/league";
 import Team from "./pages/Team";
+import Matchup from "./pages/home/matchup";
 import SigninOption from "./pages/signin/signinOption";
 import Signin from "./pages/signin";
 import Signup from "./pages/signup";
@@ -117,13 +118,10 @@ function App() {
         date: "Monday, June 19th 2023",
         location: "Etihad Stadium",
         time: "8:00 PM",
-        home: "Real Madrid",
-        home_team_logo: realMadrid,
         home_team_id:1,
-        away: "FC Barcelona",
-        away_team_logo: FCBarcelona,
         away_team_id:2,
-        results: "--",
+        result: "--",
+        status:"In Progress"
       },
       {
         id: 2,
@@ -131,13 +129,10 @@ function App() {
         date: "Monday, June 19th 2023",
         location: "Anfield",
         time: "8:00 PM",
-        home: "Manchester City",
-        home_team_logo: teamLogo,
         home_team_id:3,
-        away: "Real Madrid",
-        away_team_logo: realMadrid,
         away_team_id:1,
-        results: "--",
+        result: "65 - 77",
+        status:"Ended"
       },
     ];
 
@@ -680,9 +675,10 @@ function App() {
           <Route exact path="/otpsent" element={<OTPSent />}></Route>
           <Route exact path="/forgotpwd" element={<ForgotPwd />}></Route>
           <Route exact path="/" element={<Home />}></Route>
-          <Route exact path="/league/:id" element={<League />}></Route>
+          <Route exact path="/league/:league_id" element={<League />}></Route>
           <Route exact path="league/:league_id/team/:id" element={<Team />}></Route>
           <Route exact path="/league/:league_id/player/:id" element={<Player />}></Route>
+          <Route exact path="/league/:league_id/matchup/:match_id" element={<Matchup />}></Route>
         </Routes>
       </AuthLayout>
     </Router>

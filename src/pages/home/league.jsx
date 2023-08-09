@@ -24,11 +24,11 @@ import StandingTable from "../../components/Table/Standing";
 import PlayerTable from "../../components/Table/Player";
 
 const League = () => {
-  let { id } = useParams();
+  let { league_id } = useParams();
   const dispatch = useDispatch();
 
   const league = useSelector((state) => state.home.leagues).find(
-    (league) => league.id == id
+    (league) => league.id == league_id
   );
 
   const teams = useSelector((state) => state.home.teams);
@@ -332,7 +332,7 @@ const League = () => {
                       icon={search}
                       placeholder="Search Schedules"
                     />
-                    <MatchTable data={matches}  league_id={id}></MatchTable>
+                    <MatchTable data={matches}  league_id={league_id}></MatchTable>
                   </>
                 ) : (
                   <div className="flex items-center flex-grow">

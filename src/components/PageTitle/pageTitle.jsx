@@ -53,10 +53,10 @@ const PageTitle = (props) => {
             : ""
         }
         {
-          logo ? <img src={logo} alt="" className='w-20 h-20 mx-6' />
+          logo ? <img src={logo} alt="" className='w-20 h-20 ml-6' />
             : ""
         }
-        <p className='text-3xl text-white text-left font-black mr-6'>{children}</p>
+        <p className='text-3xl text-white text-left font-black mx-6'>{children}</p>
         {
           editIcon ?
             <img src={editIcon} alt="" className='w-5 h-5 cursor-pointer' onClick={handleEdit}/>

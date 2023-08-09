@@ -46,6 +46,7 @@ const MatchTable = (props) => {
           {data.map(
             (
               {
+                id,
                 date,
                 location,
                 home_team_logo,
@@ -59,93 +60,99 @@ const MatchTable = (props) => {
               },
               index
             ) => (
-              <tr key={index} className="odd:bg-dark-gray even:bg-charcoal">
-                <td className="w-1/6">
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal"
-                  >
-                    {date}
-                  </Typography>
-                </td>
-                <td className="w-1/6">
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal"
-                  >
-                    {location}
-                  </Typography>
-                </td>
-                <td className="">
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal"
-                  >
-                    {time}
-                  </Typography>
-                </td>
-                <td className="w-1/6">
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal underline flex items-center"
-                  >
-                    <Link
-                      className="flex items-center"
-                      to={`/league/${league_id}/team/${home_team_id}`}
+              // <Link to={`matchup/${id}`}>
+                <tr key={index} className="odd:bg-dark-gray even:bg-charcoal">
+                  <td className="w-1/6">
+                    <Typography
+                      variant="small"
+                      color="blue-gray"
+                      className="font-normal"
                     >
-                      <img
-                        src={teams.find((team) => team.id == home_team_id).logo}
-                        alt=""
-                        className="h-8 w-8 mr-2"
-                      />
-                      {teams.find((team) => team.id == home_team_id).name}
-                    </Link>
-                  </Typography>
-                </td>
-                <td className="w-1/6">
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal underline flex items-center"
-                  >
-                    <Link
-                      className="flex items-center"
-                      to={`/league/${league_id}/team/${away_team_id}`}
+                      {date}
+                    </Typography>
+                  </td>
+                  <td className="w-1/6">
+                    <Typography
+                      variant="small"
+                      color="blue-gray"
+                      className="font-normal"
                     >
-                      <img
-                        src={teams.find((team) => team.id == away_team_id).logo}
-                        alt=""
-                        className="h-8 w-8 mr-2"
-                      />
-                      {teams.find((team) => team.id == away_team_id).name}
-                    </Link>
-                  </Typography>
-                </td>
-                <td className="">
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal"
-                  >
-                    {results}
-                  </Typography>
-                </td>
-                <td className="">
-                  <Typography
-                    as="a"
-                    href="#"
-                    variant="small"
-                    color="blue"
-                    className="font-medium justify-between "
-                  >
-                    <img src={actionIcon} alt="" className="mx-auto" />
-                  </Typography>
-                </td>
-              </tr>
+                      {location}
+                    </Typography>
+                  </td>
+                  <td className="">
+                    <Typography
+                      variant="small"
+                      color="blue-gray"
+                      className="font-normal"
+                    >
+                      {time}
+                    </Typography>
+                  </td>
+                  <td className="w-1/6">
+                    <Typography
+                      variant="small"
+                      color="blue-gray"
+                      className="font-normal underline flex items-center"
+                    >
+                      <Link
+                        className="flex items-center"
+                        to={`/league/${league_id}/team/${home_team_id}`}
+                      >
+                        <img
+                          src={
+                            teams.find((team) => team.id == home_team_id).logo
+                          }
+                          alt=""
+                          className="h-8 w-8 mr-2"
+                        />
+                        {teams.find((team) => team.id == home_team_id).name}
+                      </Link>
+                    </Typography>
+                  </td>
+                  <td className="w-1/6">
+                    <Typography
+                      variant="small"
+                      color="blue-gray"
+                      className="font-normal underline flex items-center"
+                    >
+                      <Link
+                        className="flex items-center"
+                        to={`/league/${league_id}/team/${away_team_id}`}
+                      >
+                        <img
+                          src={
+                            teams.find((team) => team.id == away_team_id).logo
+                          }
+                          alt=""
+                          className="h-8 w-8 mr-2"
+                        />
+                        {teams.find((team) => team.id == away_team_id).name}
+                      </Link>
+                    </Typography>
+                  </td>
+                  <td className="">
+                    <Typography
+                      variant="small"
+                      color="blue-gray"
+                      className="font-normal"
+                    >
+                      {results}
+                    </Typography>
+                  </td>
+                  <td className="">
+                    <Typography
+                      as="a"
+                      href="#"
+                      variant="small"
+                      color="blue"
+                      className="font-medium justify-between "
+                    >
+                      <img src={actionIcon} alt="" className="mx-auto" />
+                    </Typography>
+                  </td>
+                </tr>
+              // </Link>
             )
           )}
         </tbody>
