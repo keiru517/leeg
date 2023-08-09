@@ -9,6 +9,7 @@ import avatar from '../../assets/img/dark_mode/player.png';
 import * as actions from '../../actions';
 import { useDispatch, useSelector } from "react-redux";
 import Input from '../Input';
+import deleteIcon from '../../assets/img/dark_mode/delete.png';
 
 const MatchCard = (props) => {
   let {league_id} = useParams();
@@ -42,10 +43,8 @@ const MatchCard = (props) => {
                     </Link>
                     <p className="text-white text-[10px]">{team.waitlist}/{team.max}</p>
                 </div>
-                <div className="flex items-center space-x-2 text-sky-500 text-sm">
-                    {/* <img src={userIcon} className="w-3.5 h-3.5 cursor-pointer" onClick={handleAddPlayer}></img> */}
-                    <img src={blueEditIcon} className="w-6 h-6 cursor-pointer mr-[6px]" onClick={handleEdit}></img>
-                    Edit Lineup
+                <div className="flex items-center space-x-2 text-sky-500 text-sm cursor-pointer hover:opacity-70">
+                    + Substitute
                 </div>
             </div>
 
@@ -56,7 +55,16 @@ const MatchCard = (props) => {
                     <table className="w-full min-w-max table-auto text-left">
                       <thead className="sticky">
                         <tr>
-                            <th key='1' className="h-button bg-slate text-center font-font-dark-gray w-1/2">
+                            {/* <th key='1' className="h-button bg-slate text-center font-font-dark-gray w-1/2">
+                              <Typography
+                                variant="small"
+                                color="blue-gray"
+                                className="font-normal leading-none opacity-70"
+                              >
+                                #
+                              </Typography>
+                            </th> */}
+                            <th key='2' className="h-button bg-slate text-center font-font-dark-gray w-1/2">
                               <Typography
                                 variant="small"
                                 color="blue-gray"
@@ -65,7 +73,7 @@ const MatchCard = (props) => {
                                 Player
                               </Typography>
                             </th>
-                            <th key='2' className="h-button bg-slate text-center font-font-dark-gray w-1/2">
+                            <th key='3' className="h-button bg-slate text-center font-font-dark-gray w-1/2">
                               <Typography
                                 variant="small"
                                 color="blue-gray"
@@ -87,16 +95,20 @@ const MatchCard = (props) => {
                         </tr> */}
                         {players.map((player, index) => (
                           <tr key={index} className="even:bg-dark-gray odd:bg-charcoal">
-                            <td className="">
-                              <div className="flex items-center">
-                                <img src={player.avatar} alt="" className="w-8 h-8 mr-2" />
-                                <Typography
+                            {/* <td>
+                            <Typography
                                   variant="small"
                                   color="blue-gray"
                                   className="font-normal"
                                 >
+                              1
+                                  </Typography>
+                            </td> */}
+                            <td className="">
+                              <div className="flex items-center justify-between">
+                                <img src={player.avatar} alt="" className="w-8 h-8 mr-2" />
                                   {player.name}
-                                </Typography>
+                                  <img src={deleteIcon} alt="" className="text-right"/>
                               </div>
                             </td>
                             <td className="">

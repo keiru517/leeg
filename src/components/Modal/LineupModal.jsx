@@ -20,7 +20,6 @@ import Datepicker from "react-tailwindcss-datepicker";
 import logo from "../../assets/img/dark_mode/league-logo.png";
 import avatar from "../../assets/img/dark_mode/player.png";
 import PlayerList from "../ListItem/PlayerList";
-import LineupTable from "../Table/Lineup";
 
 const LineupModal = () => {
   let { id } = useParams();
@@ -93,7 +92,7 @@ const LineupModal = () => {
   const createLeague = () => {};
 
   return (
-    <Transition.Root show={true} as={Fragment}>
+    <Transition.Root show={false} as={Fragment}>
       <Dialog
         as="div"
         className="relative z-10"
@@ -138,7 +137,6 @@ const LineupModal = () => {
                     </div>
                   </div>
                   <div className="flex-col p-default flex flex-grow justify-between h-[521px]">
-                      <LineupTable></LineupTable>
                       <button
                         onClick={createSubmit}
                         className="bg-primary rounded-xl w-full hover:bg-opacity-70 h-button text-white"
