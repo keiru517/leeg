@@ -12,6 +12,7 @@ import Signup from "./pages/signup";
 import OTP from "./pages/otp";
 import OTPSent from "./pages/otp/otpSent";
 import ForgotPwd from "./pages/password";
+import Profile from "./pages/profile";
 // import SignupSuccess from './pages/signup/signupSuccess';
 
 import AuthLayout from "./components/Layouts/AuthLayout";
@@ -679,6 +680,7 @@ function App() {
           <Route exact path="league/:league_id/team/:id" element={<Team />}></Route>
           <Route exact path="/league/:league_id/player/:id" element={<Player />}></Route>
           <Route exact path="/league/:league_id/matchup/:match_id" element={<Matchup />}></Route>
+          <Route exact path="/settings" element={<Profile />}></Route>
         </Routes>
       </AuthLayout>
     </Router>

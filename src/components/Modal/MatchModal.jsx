@@ -21,16 +21,9 @@ import avatar from "../../assets/img/dark_mode/player.png";
 import PlayerList from "../ListItem/PlayerList";
 
 const MatchModal = () => {
-
-  
   const cancelButtonRef = useRef(null);
 
-
-  const options = [
-    'Real Madrid',
-    'Manchester City',
-    'FC Barcelona'
-  ]
+  const options = ["Real Madrid", "Manchester City", "FC Barcelona"];
   const dispatch = useDispatch();
 
   const status = useSelector((state) => state.home.match_dialog.open);
@@ -51,7 +44,10 @@ const MatchModal = () => {
   };
 
   const handleEdit = () => {
-    dispatch({ type: actions.OPEN_EDIT_TEAM_DIALOG, payload: {open:true, type:'edit', team:team} });
+    dispatch({
+      type: actions.OPEN_EDIT_TEAM_DIALOG,
+      payload: { open: true, type: "edit", team: team },
+    });
     // dispatch({ type: actions.OPEN_TEAM_DIALOG, payload: true });
   };
 
@@ -70,10 +66,8 @@ const MatchModal = () => {
     console.log("Clicked delete");
   };
 
-
   const [sport, setSport] = useState("Select Sport*");
   // const [teamName, setTeamName] = useState(team.name);
-
 
   return (
     <Transition.Root show={status} as={Fragment}>
@@ -123,19 +117,38 @@ const MatchModal = () => {
                   <div className="flex-col p-default flex flex-grow justify-between ">
                     <div>
                       <div className="grid grid-cols-2 gap-[10px]">
-                        <Select options={options} className="rounded-default w-full h-12 text-xs">Select Home Team*</Select>
-                        <Select options={options} className="rounded-default w-full h-12 text-xs">Select Away Team*</Select>
-                        <Input className="rounded-default text-xs h-12" placeholder="Enter Date*"></Input>
-                        <Input className="rounded-default text-xs h-12" placeholder="Select Time*"></Input>
-                        <Input className="rounded-default col-span-2 text-xs h-12" placeholder="Enter Location"></Input>
+                        <Select
+                          options={options}
+                          className="rounded-default w-full h-12 text-xs"
+                        >
+                          Select Home Team*
+                        </Select>
+                        <Select
+                          options={options}
+                          className="rounded-default w-full h-12 text-xs"
+                        >
+                          Select Away Team*
+                        </Select>
+                        <Input
+                          className="rounded-default text-xs h-12"
+                          placeholder="Enter Date*"
+                        ></Input>
+                        <Input
+                          className="rounded-default text-xs h-12"
+                          placeholder="Select Time*"
+                        ></Input>
+                        <Input
+                          className="rounded-default col-span-2 text-xs h-12"
+                          placeholder="Enter Location"
+                        ></Input>
                       </div>
                     </div>
-                      <button
-                        onClick={createSubmit}
-                        className="bg-primary rounded-xl w-full hover:bg-opacity-70 h-button text-white"
-                      >
-                        Create Match
-                      </button>
+                    <button
+                      onClick={createSubmit}
+                      className="bg-primary rounded-xl w-full hover:bg-opacity-70 h-button text-white"
+                    >
+                      Create Match
+                    </button>
                   </div>
                 </div>
               </Dialog.Panel>

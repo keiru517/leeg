@@ -24,8 +24,8 @@ const MatchCard = (props) => {
     
     // const players = []
 
-    const handleAddPlayer = () => {
-        dispatch({type:actions.OPEN_ADD_PLAYER_DIALOG, payload:team})
+    const handleAddSubstitute = () => {
+        dispatch({type:actions.OPEN_ADD_SUBSTITUTE_DIALOG})
         // dispatch({type:actions.OPEN_TEAM_DIALOG, payload:true})
     }
     
@@ -43,7 +43,7 @@ const MatchCard = (props) => {
                     </Link>
                     <p className="text-white text-[10px]">{team.waitlist}/{team.max}</p>
                 </div>
-                <div className="flex items-center space-x-2 text-sky-500 text-sm cursor-pointer hover:opacity-70">
+                <div onClick={handleAddSubstitute} className="flex items-center space-x-2 text-sky-500 text-sm cursor-pointer hover:opacity-70">
                     + Substitute
                 </div>
             </div>

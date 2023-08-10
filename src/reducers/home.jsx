@@ -25,6 +25,10 @@ const initialState = {
     type: "",
     match: [],
   },
+  substitute_dialog: {
+    open: false,
+    type: "",
+  },
 };
 
 const home = (state = initialState, action) => {
@@ -172,6 +176,23 @@ const home = (state = initialState, action) => {
         ...state,
         players: action.payload,
       };
+
+    case actions.OPEN_ADD_SUBSTITUTE_DIALOG:
+      return {
+        ...state,
+        substitute_dialog: {
+          open: true,
+        },
+      };
+
+    case actions.CLOSE_ADD_SUBSTITUTE_DIALOG:
+      return {
+        ...state,
+        substitute_dialog: {
+          open: false,
+        },
+      };
+
     default:
       return state;
   }

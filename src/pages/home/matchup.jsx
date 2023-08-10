@@ -12,7 +12,7 @@ import PageTitle from "../../components/PageTitle/PageTitle";
 import leftarrowIcon from "../../assets/img/dark_mode/left-arrow.png";
 import * as actions from "../../actions";
 import apis from "../../utils/apis";
-import LineupModal from "../../components/Modal/LineupModal";
+import SubstituteModal from "../../components/Modal/SubstituteModal";
 
 const Matchup = () => {
   let { league_id, match_id } = useParams();
@@ -26,8 +26,6 @@ const Matchup = () => {
 
   const home_team = useSelector(state=>state.home.teams).find(team=>team.id == match.home_team_id);
   const away_team = useSelector(state=>state.home.teams).find(team=>team.id == match.away_team_id);
-
-  console.log("DFSDFSDF", home_team, away_team)
 
   const options = ["Ascend", "Descend", "Recent"];
   const [value, setValue] = useState("Sort by");
@@ -120,7 +118,7 @@ const Matchup = () => {
           </div>
         )}{" "} */}
       </div>
-      <LineupModal />
+      <SubstituteModal />
     </div>
     // </div>
   );

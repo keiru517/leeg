@@ -23,6 +23,8 @@ export const OPEN_INVITE_PLAYER_DIALOG = 'OPEN_INVITE_PLAYER_DIALOG';
 export const ADD_PLAYER = 'ADD_PLAYER';
 export const REMOVE_PLAYER = 'REMOVE_PLAYER';
 
+export const OPEN_ADD_SUBSTITUTE_DIALOG = 'OPEN_ADD_SUBSTITUTE_DIALOG';
+export const CLOSE_ADD_SUBSTITUTE_DIALOG = 'CLOSE_ADD_SUBSTITUTE_DIALOG';
 
 // league actions----------------------------------
 
@@ -121,11 +123,13 @@ export const RemovePlayer = (payload) => ({
   payload:payload
 })
 
-// // Team
-// export const openTeamEditDialog = (payload) => ({
-//   type: OPEN_TEAM_EDIT_DIALOG,
-//   payload:payload
-// })
+export const openAddSubstitueDialog = () => ({
+  type: OPEN_ADD_SUBSTITUTE_DIALOG
+})
+
+export const closeAddSubstitueDialog = () => ({
+  type: CLOSE_ADD_SUBSTITUTE_DIALOG
+})
 
 
 
