@@ -658,11 +658,21 @@ function App() {
     dispatch({ type: actions.GET_PLAYERS, payload: players });
   };
 
+  const getAdmins = () => {
+    const admins = [
+      {id:1, player_id:17},
+      {id:2, player_id:19},
+    ]
+
+    dispatch({type:actions.GET_ADMINS, payload:admins})
+  }
+
   useEffect(() => {
     getLeagues();
     getTeams();
     getMatches();
     getPlayers();
+    getAdmins();
   }, []);
 
   return (
@@ -680,7 +690,7 @@ function App() {
           <Route exact path="league/:league_id/team/:id" element={<Team />}></Route>
           <Route exact path="/league/:league_id/player/:id" element={<Player />}></Route>
           <Route exact path="/league/:league_id/matchup/:match_id" element={<Matchup />}></Route>
-          <Route exact path="/settings" element={<Profile />}></Route>
+          <Route exact path="/profile" element={<Profile />}></Route>
         </Routes>
       </AuthLayout>
     </Router>

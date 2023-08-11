@@ -26,6 +26,8 @@ export const REMOVE_PLAYER = 'REMOVE_PLAYER';
 export const OPEN_ADD_SUBSTITUTE_DIALOG = 'OPEN_ADD_SUBSTITUTE_DIALOG';
 export const CLOSE_ADD_SUBSTITUTE_DIALOG = 'CLOSE_ADD_SUBSTITUTE_DIALOG';
 
+// Admin
+export const GET_ADMINS = 'GET_ADMINS';
 // league actions----------------------------------
 
 // Get leagues from the server
@@ -131,6 +133,11 @@ export const closeAddSubstitueDialog = () => ({
   type: CLOSE_ADD_SUBSTITUTE_DIALOG
 })
 
+// Admin
+export const getAdmins = (payload) => ({
+  type: GET_ADMINS,
+  payload: payload
+})
 
 
 export const getUserInfo = () =>

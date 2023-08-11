@@ -6,6 +6,7 @@ const initialState = {
   teams: [],
   matches: [],
   players: [],
+  admins: [],
   selected_league: [],
   league_dialog: {
     open: false,
@@ -175,6 +176,12 @@ const home = (state = initialState, action) => {
       return {
         ...state,
         players: action.payload,
+      };
+
+    case actions.GET_ADMINS:
+      return {
+        ...state,
+        admins: action.payload,
       };
 
     case actions.OPEN_ADD_SUBSTITUTE_DIALOG:

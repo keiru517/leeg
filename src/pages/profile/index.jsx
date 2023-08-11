@@ -11,31 +11,60 @@ import * as actions from "../../actions";
 import apis from "../../utils/apis";
 import leftarrowIcon from "../../assets/img/dark_mode/left-arrow.png";
 import verticalLine from "../../assets/img/dark_mode/vertical-line.png";
-import profileImage from '../../assets/img/dark_mode/profile.png';
+import horizontalLine  from "../../assets/img/dark_mode/horizontal-line.png";
+import profileImage from "../../assets/img/dark_mode/profile.png";
+import eyeDisable from "../../assets/img/dark_mode/eye-disable.png";
+import AdminTable from '../../components/Table/Admin';
 
 const Profile = () => {
   const leagues = useSelector((state) => state.home.leagues);
 
   const options = ["Ascend", "Descend", "Recent"];
+  const breadcrumList = [
+    "Personal Information",
+    "Admin Access",
+    "Stats Tracking",
+  ];
   const [value, setValue] = useState("Sort by");
 
-  const [step, setStep] = useState(2);
+  const [status, setStatus] = useState("information");
+  const goToPassword = () => {
+    setStatus("password");
+  };
 
-  useEffect(() => {
-    // getLeagues();
-  }, []);
+  const goToInformation = () => {
+    setStatus("information");
+  };
+
+  const [step, setStep] = useState(1);
+  const [breadcrum, setBreadcrum] = useState(breadcrumList[0]);
 
   const goToStep1 = () => {
     setStep(1);
+    setBreadcrum(breadcrumList[0]);
   };
 
   const goToStep2 = () => {
     setStep(2);
+    setBreadcrum(breadcrumList[1]);
   };
 
   const goToStep3 = () => {
     setStep(3);
+    setBreadcrum(breadcrumList[2]);
   };
+
+  const updateInformation = () => {
+    console.log("clicked update information");
+  };
+
+  const updatePassword = () => {
+    console.log("clicked update Password");
+  };
+
+  useEffect(() => {
+    // getLeagues();
+  }, []);
 
   return (
     <div className="flex flex-col flex-grow">
@@ -46,8 +75,8 @@ const Profile = () => {
         Settings
       </PageTitle>
       <p className="text-sm text-font-dark-gray my-[20px]">
-        Settings
-        <span className="text-sky-500"> &gt; Personal Information</span>
+        <span className="underline">Settings</span>
+        <span className="text-sky-500"> &gt; {breadcrum}</span>
       </p>
       <div className="flex flex-grow rounded-main bg-slate overflow-auto p-default">
         <div className="flex flex-col space-y-3">
@@ -69,7 +98,7 @@ const Profile = () => {
                 : "text-font-dark-gray font-medium"
             } rounded-default h-button text-sm w-[180px]`}
           >
-            Personal Information
+            Admin Access
           </button>
           <button
             onClick={goToStep3}
@@ -79,16 +108,105 @@ const Profile = () => {
                 : "text-font-dark-gray font-medium"
             } rounded-default h-button text-sm w-[180px]`}
           >
-            Personal Information
+            Stats Tracking
           </button>
         </div>
-        <img src={verticalLine} alt="" className="mx-5"/>
+        <img src={verticalLine} alt="" className="mx-5" />
 
-        <div className="">
-            <div className="flex">
-              <img src={profileImage} alt="" />
+        {step == 1 ? (
+          <div className="flex flex-col flex-grow">
+            <div className="flex flex-col flex-grow space-y-5">
+              <div className="flex items-center">
+                <img src={profileImage} alt="" className="mr-8" />
+                <button className="bg-primary rounded-default w-[180px] h-button text-white font-bold text-sm mr-3 hover:opacity-70">
+                  Upload new picture
+                </button>
+                <button className="bg-[#313435] rounded-default w-[103px] h-button text-white font-bold text-sm hover:opacity-70">
+                  Remove
+                </button>
+              </div>
+              {status == "information" ? (
+                <>
+                  <Input
+                    className="text-font-dark-gray text-xs rounded-default"
+                    placeholder="Type Email Address*"
+                  ></Input>
+                  <div className="grid grid-cols-2 space-x-3">
+                    <Input
+                      className="text-font-dark-gray text-xs rounded-default"
+                      placeholder="Type Your First Name"
+                    ></Input>
+                    <Input
+                      className="text-font-dark-gray text-xs rounded-default"
+                      placeholder="Type Your Last Name"
+                    ></Input>
+                  </div>
+                  <Input
+                    className="text-font-dark-gray text-xs rounded-default"
+                    placeholder="Select Location*"
+                  ></Input>
+                </>
+              ) : (
+                <>
+                  <Input
+                    type="password"
+                    className="text-xs rounded-default"
+                    placeholder="Type Your Old Password"
+                  ></Input>
+                  <div className="grid grid-cols-2 space-x-3">
+                    <Input
+                      type="password"
+                      className="text-xs rounded-default"
+                      placeholder="Type Your New Passowrd"
+                      option={eyeDisable}
+                    ></Input>
+                    <Input
+                      type="password"
+                      className="text-xs rounded-default"
+                      placeholder="Retype Your New Passowrd"
+                      option={eyeDisable}
+                    ></Input>
+                  </div>
+                </>
+              )}
+              <div className="space-y-5">
+                <p
+                  onClick={
+                    status === "information" ? goToPassword : goToInformation
+                  }
+                  className="text-white font-medium text-sm cursor-pointer hover:opacity-70"
+                >
+                  {status === "information"
+                    ? "Update Password"
+                    : "Update Information"}
+                </p>
+                <button
+                  onClick={
+                    status === "information"
+                      ? updateInformation
+                      : updatePassword
+                  }
+                  className="bg-primary h-12 text-white font-bold text-sm w-[76px] rounded-default hover:opacity-70"
+                >
+                  Save
+                </button>
+              </div>
             </div>
-        </div>
+          </div>
+        ) : (
+          step === 2?
+          <div className="flex flex-col flex-grow">
+            <AdminTable></AdminTable>
+            <img src={horizontalLine} alt="" className="my-5"/>
+            <div className="flex space-x-3">
+              <Input className='flex flex grow rounded-default text-xs' placeholder="Type Admin Email Address"></Input>
+              <button className="text-white bg-primary font-bold text-sm w-[78px] h-12 rounded-default">Invite</button>
+            </div>
+          </div>
+          :
+          <>
+          </>
+        )}
       </div>
       <Modal />
     </div>
