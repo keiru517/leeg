@@ -28,8 +28,9 @@ const League = () => {
   const dispatch = useDispatch();
 
   const league = useSelector((state) => state.home.leagues).find(
-    (league) => league.id === league_id
+    (league) => league.id == league_id
   );
+
 
   const teams = useSelector((state) => state.home.teams);
   const matches = useSelector((state) => state.home.matches);
