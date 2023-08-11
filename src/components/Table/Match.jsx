@@ -66,7 +66,7 @@ const MatchTable = (props) => {
               index
             ) => (
               // <Link to={`matchup/${id}`}>
-                <tr onClick={()=>goToMatchup(id)} key={index} className="odd:bg-dark-gray even:bg-charcoal cursor-pointer">
+                <tr onClick={()=>goToMatchup(id)} key={index} className="odd:bg-dark-gray even:bg-charcoal cursor-pointer hover:opacity-70">
                   <td className="w-1/6">
                     <Typography
                       variant="small"
