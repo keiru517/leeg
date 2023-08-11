@@ -70,6 +70,13 @@ const Profile = () => {
     setValue("")
   }
 
+  const [showUpload, setShowUpload] = useState('none');
+
+  const show = () => {
+    console.log("clicked")
+    setShowUpload('block');
+  }
+
   useEffect(() => {
     // getLeagues();
   }, []);
@@ -126,10 +133,14 @@ const Profile = () => {
             <div className="flex flex-col flex-grow space-y-5">
               <div className="flex items-center">
                 <img src={profileImage} alt="" className="mr-8" />
-                <button className="bg-primary rounded-default w-[180px] h-button text-white font-bold text-sm mr-3 hover:opacity-70">
-                  Upload new picture
-                </button>
-                <button className="bg-[#313435] rounded-default w-[103px] h-button text-white font-bold text-sm hover:opacity-70">
+                <div className="bg-primary h-button rounded-default text-white font-bold text-sm mr-3 w-[180px] hover:opacity-70 cursor-pointer flex justify-center items-center">
+                  {/* <input style={{display:'none'}} type='file' className=" rounded-default w-[180px] h-input text-white font-bold text-sm mr-3 hover:opacity-70 ">
+                    
+                  </input> */}
+                  <input className="hidden" type='file'/>
+                  Upload New Picture
+                </div>
+               <button className="bg-[#313435] rounded-default w-[103px] h-button text-white font-bold text-sm hover:opacity-70">
                   Remove
                 </button>
               </div>
