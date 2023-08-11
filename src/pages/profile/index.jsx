@@ -13,11 +13,13 @@ import leftarrowIcon from "../../assets/img/dark_mode/left-arrow.png";
 import verticalLine from "../../assets/img/dark_mode/vertical-line.png";
 import horizontalLine  from "../../assets/img/dark_mode/horizontal-line.png";
 import profileImage from "../../assets/img/dark_mode/profile.png";
-import eyeDisable from "../../assets/img/dark_mode/eye-disable.png";
 import AdminTable from '../../components/Table/Admin';
+import eyeDisable from "../../assets/img/dark_mode/eye-disable.png";
+import toggleOn from '../../assets/img/dark_mode/toggle-on.png';
 
 const Profile = () => {
-  const leagues = useSelector((state) => state.home.leagues);
+  const admins = useSelector(state=>state.home.admins);
+  const players = useSelector(state=>state.home.players);
 
   const options = ["Ascend", "Descend", "Recent"];
   const breadcrumList = [
@@ -202,7 +204,7 @@ const Profile = () => {
         ) : (
           step === 2?
           <div className="flex flex-col flex-grow">
-            <AdminTable></AdminTable>
+            <AdminTable ></AdminTable>
             <img src={horizontalLine} alt="" className="my-5"/>
             <div className="flex space-x-3">
               <Input value={value} onChange={(e)=> setValue(e.target.value)} className='flex flex grow rounded-default text-xs' placeholder="Type Admin Email Address"></Input>
@@ -210,8 +212,22 @@ const Profile = () => {
             </div>
           </div>
           :
-          <>
-          </>
+          <div className="flex flex-col flex-grow">
+            {
+              admins.map((admin, idx)=>(
+                <>
+                  <div className="flex justify-between">  
+                    <p className="text-white font-semibold text-sm">Stats tracking {idx + 1}</p>
+                    <img src={toggleOn} alt="" className="w-[50px]"/>
+
+                  </div>
+
+                  <hr className="h-px my-4 bg-charcoal border-0" />
+                
+                </>
+              ))
+            }
+          </div>
         )}
       </div>
       <Modal />
