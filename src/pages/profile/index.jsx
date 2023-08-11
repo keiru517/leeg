@@ -1,14 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
-import Card from "../../components/Card";
-import search from "../../assets/img/dark_mode/search.png";
+import { useSelector } from "react-redux";
+
 import Input from "../../components/Input";
-import Select from "../../components/Select";
 import Modal from "../../components/Modal";
 import PageTitle from "../../components/PageTitle/PageTitle";
 import * as actions from "../../actions";
-import apis from "../../utils/apis";
 import leftarrowIcon from "../../assets/img/dark_mode/left-arrow.png";
 import verticalLine from "../../assets/img/dark_mode/vertical-line.png";
 import horizontalLine  from "../../assets/img/dark_mode/horizontal-line.png";
@@ -19,9 +15,7 @@ import toggleOn from '../../assets/img/dark_mode/toggle-on.png';
 
 const Profile = () => {
   const admins = useSelector(state=>state.home.admins);
-  const players = useSelector(state=>state.home.players);
 
-  const options = ["Ascend", "Descend", "Recent"];
   const breadcrumList = [
     "Personal Information",
     "Admin Access",
@@ -70,13 +64,6 @@ const Profile = () => {
     setValue("")
   }
 
-  const [showUpload, setShowUpload] = useState('none');
-
-  const show = () => {
-    console.log("clicked")
-    setShowUpload('block');
-  }
-
   useEffect(() => {
     // getLeagues();
   }, []);
@@ -98,7 +85,7 @@ const Profile = () => {
           <button
             onClick={goToStep1}
             className={`${
-              step == 1
+              step === 1
                 ? "bg-primary text-white font-bold"
                 : "text-font-dark-gray font-medium"
             } rounded-default h-button text-sm w-[180px]`}
@@ -108,7 +95,7 @@ const Profile = () => {
           <button
             onClick={goToStep2}
             className={`${
-              step == 2
+              step === 2
                 ? "bg-primary text-white font-bold"
                 : "text-font-dark-gray font-medium"
             } rounded-default h-button text-sm w-[180px]`}
@@ -118,7 +105,7 @@ const Profile = () => {
           <button
             onClick={goToStep3}
             className={`${
-              step == 3
+              step === 3
                 ? "bg-primary text-white font-bold"
                 : "text-font-dark-gray font-medium"
             } rounded-default h-button text-sm w-[180px]`}
@@ -128,7 +115,7 @@ const Profile = () => {
         </div>
         <img src={verticalLine} alt="" className="mx-5" />
 
-        {step == 1 ? (
+        {step === 1 ? (
           <div className="flex flex-col flex-grow">
             <div className="flex flex-col flex-grow space-y-5">
               <div className="flex items-center">
@@ -144,7 +131,7 @@ const Profile = () => {
                   Remove
                 </button>
               </div>
-              {status == "information" ? (
+              {status === "information" ? (
                 <>
                   <Input
                     className="text-font-dark-gray text-xs rounded-default"

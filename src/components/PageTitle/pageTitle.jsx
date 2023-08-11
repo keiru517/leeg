@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useParams } from "react-router";
 
-import { Link } from "react-router-dom";
 import * as actions from '../../actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -12,17 +11,14 @@ const PageTitle = (props) => {
     backIcon,
     logo,
     editIcon,
-    deleteIcon,
     button,
-    className,
     children,
     createAction,
-    ...rest
   } = props;
 
   let { id } = useParams();
   const league = useSelector((state) => state.home.leagues).find(
-    (league) => league.id == id
+    (league) => league.id === id
   );
 
   const dispatch = useDispatch();
@@ -33,9 +29,6 @@ const PageTitle = (props) => {
   
   const handleEdit = () => {
     dispatch({type: actions.OPEN_EDIT_LEAGUE_DIALOG, payload:league})
-    // dispatch({type: actions.OPEN_CREATE_LEAGUE_DIALOG, payload:true});
-    // dispatch({type: actions.UPDATE_LEAGUE_DIALOG_TYPE, payload:'edit'});
-
   }
 
   const navigate = useNavigate()
@@ -47,9 +40,7 @@ const PageTitle = (props) => {
       <div className='flex items-center'>
         {
           backIcon ? 
-          // <Link to='/'>
             <img onClick={()=> navigate(-1)} src={backIcon} alt="" className='w-[34px] h-[34px] dark:hover:bg-middle-gray rounded-default cursor-pointer' />
-          // </Link>
             : ""
         }
         {
