@@ -25,7 +25,7 @@ const Profile = () => {
     "Admin Access",
     "Stats Tracking",
   ];
-  const [value, setValue] = useState("Sort by");
+  const [value, setValue] = useState("");
 
   const [status, setStatus] = useState("information");
   const goToPassword = () => {
@@ -61,6 +61,12 @@ const Profile = () => {
   const updatePassword = () => {
     console.log("clicked update Password");
   };
+
+  const inviteAdmin = () => {
+
+    console.log("invite Admin clicked! The admin email is:", value);
+    setValue("")
+  }
 
   useEffect(() => {
     // getLeagues();
@@ -199,8 +205,8 @@ const Profile = () => {
             <AdminTable></AdminTable>
             <img src={horizontalLine} alt="" className="my-5"/>
             <div className="flex space-x-3">
-              <Input className='flex flex grow rounded-default text-xs' placeholder="Type Admin Email Address"></Input>
-              <button className="text-white bg-primary font-bold text-sm w-[78px] h-12 rounded-default">Invite</button>
+              <Input value={value} onChange={(e)=> setValue(e.target.value)} className='flex flex grow rounded-default text-xs' placeholder="Type Admin Email Address"></Input>
+              <button onClick={inviteAdmin} className="text-white bg-primary font-bold text-sm w-[78px] h-12 rounded-default">Invite</button>
             </div>
           </div>
           :
