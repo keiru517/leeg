@@ -6,6 +6,7 @@ import line from '../assets/img/dark_mode/line.png';
 import darkMode from '../assets/img/dark-mode.png';
 import lightMode from '../assets/img/light-mode.png';
 import Select from '../components/Select';
+import { Link } from 'react-router-dom';
 
 const Nav = () => {
 
@@ -39,11 +40,13 @@ const Nav = () => {
                 {/* <Select options={options}>George Chichua</Select> */}
 
                 <img src={mode?darkMode:lightMode} alt="" className='w-6 h-6 rounded-full dark:hover:bg-dark-gray cursor-pointer' onClick={toggle}/>
-                <div className='profile flex items-center justify-between space-x-2'>
-                    <img src={profile} className='w-8 h-8 rounded-lg'></img>
-                    <p className='profile-name text-sm text-white'>George Chichua</p>
-                    <img src={downArrow} className='mt-1'></img>
-                </div>
+                <Link to='/profile'>
+                    <div className='profile flex items-center justify-between space-x-2 cursor-pointer'>
+                        <img src={profile} className='w-8 h-8 rounded-lg'></img>
+                        <p className='profile-name text-sm text-white'>George Chichua</p>
+                        <img src={downArrow} className='mt-1'></img>
+                    </div>
+                </Link>
             </div>
 
         </div>
