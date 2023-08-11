@@ -15,11 +15,11 @@ const Matchup = () => {
   let {  match_id } = useParams();
 
   const match = useSelector((state) => state.home.matches).find(
-    (match) => match.id === match_id
+    (match) => match.id == match_id
   );
 
-  const home_team = useSelector(state=>state.home.teams).find(team=>team.id === match.home_team_id);
-  const away_team = useSelector(state=>state.home.teams).find(team=>team.id === match.away_team_id);
+  const home_team = useSelector(state=>state.home.teams).find(team=>team.id == match.home_team_id);
+  const away_team = useSelector(state=>state.home.teams).find(team=>team.id == match.away_team_id);
 
   const options = ["Ascend", "Descend", "Recent"];
   const [value, setValue] = useState("Sort by");
