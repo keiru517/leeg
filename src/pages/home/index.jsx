@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
+import { useSelector } from "react-redux";
 import Card from "../../components/Card";
 import search from "../../assets/img/dark_mode/search.png";
 import Input from "../../components/Input";
@@ -8,7 +7,6 @@ import Select from "../../components/Select";
 import Modal from "../../components/Modal";
 import PageTitle from "../../components/PageTitle/PageTitle";
 import * as actions from "../../actions";
-import apis from "../../utils/apis";
 
 const Home = () => {
   const leagues = useSelector((state) => state.home.leagues);
@@ -20,21 +18,20 @@ const Home = () => {
   const options = ["Ascend", "Descend", "Recent"];
   const [value, setValue] = useState("Sort by");
 
-  const dispatch = useDispatch();
-  // create a league
-  const createLeague = () => {
-    console.log("create_league");
-  };
+  // // create a league
+  // const createLeague = () => {
+  //   console.log("create_league");
+  // };
 
-  // update a league
-  const updateLeague = () => {
-    console.log("update_league");
-  };
+  // // update a league
+  // const updateLeague = () => {
+  //   console.log("update_league");
+  // };
 
-  // delete a league
-  const deleteLeague = () => {
-    console.log("delete_league");
-  };
+  // // delete a league
+  // const deleteLeague = () => {
+  //   console.log("delete_league");
+  // };
 
   useEffect(() => {
     // getLeagues();
