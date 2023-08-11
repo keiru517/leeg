@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Card, Typography } from "@material-tailwind/react";
 import actionIcon from "../../assets/img/dark_mode/action.png";
 import { useParams } from "react-router";
@@ -6,6 +6,7 @@ import teamLogo from "../../assets/img/dark_mode/team-logo.png";
 import { useSelector } from "react-redux";
 
 const MatchTable = (props) => {
+  const naviage = useNavigate();
   const { data, league_id } = props;
 
   // let { league_id} = useParams();
@@ -20,6 +21,10 @@ const MatchTable = (props) => {
   ];
 
   const teams = useSelector((state) => state.home.teams);
+
+  const goToMatchup = (id) => {
+    naviage(`matchup/${id}`)
+  }
 
   return (
     <div className="text-white h-full w-full mt-4">
@@ -61,7 +66,7 @@ const MatchTable = (props) => {
               index
             ) => (
               // <Link to={`matchup/${id}`}>
-                <tr key={index} className="odd:bg-dark-gray even:bg-charcoal">
+                <tr onClick={()=>goToMatchup(id)} key={index} className="odd:bg-dark-gray even:bg-charcoal cursor-pointer">
                   <td className="w-1/6">
                     <Typography
                       variant="small"
