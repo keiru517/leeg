@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 
 import Input from "../../components/Input";
 import Modal from "../../components/Modal";
-import PageTitle from "../../components/PageTitle/PageTitle";
+import PageTitle from "../../components/PageTitle";
 import * as actions from "../../actions";
 import leftarrowIcon from "../../assets/img/dark_mode/left-arrow.png";
 import verticalLine from "../../assets/img/dark_mode/vertical-line.png";

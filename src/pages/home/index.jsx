@@ -5,7 +5,7 @@ import search from "../../assets/img/dark_mode/search.png";
 import Input from "../../components/Input";
 import Select from "../../components/Select";
 import Modal from "../../components/Modal";
-import PageTitle from "../../components/PageTitle/PageTitle";
+import PageTitle from "../../components/PageTitle";
 import * as actions from "../../actions";
 
 const Home = () => {

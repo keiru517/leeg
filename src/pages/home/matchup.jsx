@@ -1,31 +1,25 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router";
-import axios from "axios";
 import MatchCard from "../../components/Card/Match";
 import search from "../../assets/img/dark_mode/search.png";
 import Input from "../../components/Input";
 import Select from "../../components/Select";
-import Modal from "../../components/Modal";
-import PageTitle from "../../components/PageTitle/PageTitle";
+import PageTitle from "../../components/PageTitle";
 import leftarrowIcon from "../../assets/img/dark_mode/left-arrow.png";
 import * as actions from "../../actions";
-import apis from "../../utils/apis";
 import SubstituteModal from "../../components/Modal/SubstituteModal";
 
 const Matchup = () => {
-  let { league_id, match_id } = useParams();
+  let {  match_id } = useParams();
 
-  const league = useSelector((state) => state.home.leagues).find(
-    (league) => league.id == league_id
-  );
   const match = useSelector((state) => state.home.matches).find(
-    (match) => match.id == match_id
+    (match) => match.id === match_id
   );
 
-  const home_team = useSelector(state=>state.home.teams).find(team=>team.id == match.home_team_id);
-  const away_team = useSelector(state=>state.home.teams).find(team=>team.id == match.away_team_id);
+  const home_team = useSelector(state=>state.home.teams).find(team=>team.id === match.home_team_id);
+  const away_team = useSelector(state=>state.home.teams).find(team=>team.id === match.away_team_id);
 
   const options = ["Ascend", "Descend", "Recent"];
   const [value, setValue] = useState("Sort by");

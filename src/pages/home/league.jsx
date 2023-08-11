@@ -10,7 +10,7 @@ import Input from "../../components/Input";
 import ListItem from "../../components/ListItem";
 import Select from "../../components/Select";
 import Button from "../../components/Button";
-import PageTitle from "../../components/PageTitle/PageTitle";
+import PageTitle from "../../components/PageTitle";
 import TeamCard from "../../components/Card/Team";
 import { Tab } from "@headlessui/react";
 import avatar from "../../assets/img/dark_mode/player.png";
@@ -28,7 +28,7 @@ const League = () => {
   const dispatch = useDispatch();
 
   const league = useSelector((state) => state.home.leagues).find(
-    (league) => league.id == league_id
+    (league) => league.id === league_id
   );
 
   const teams = useSelector((state) => state.home.teams);
