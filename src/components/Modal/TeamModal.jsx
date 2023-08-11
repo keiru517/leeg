@@ -16,7 +16,6 @@ import Input from "../Input";
 import ListItem from "../ListItem";
 import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../actions";
-import Datepicker from "react-tailwindcss-datepicker";
 import logo from "../../assets/img/dark_mode/league-logo.png";
 import avatar from "../../assets/img/dark_mode/player.png";
 import PlayerList from "../ListItem/PlayerList";

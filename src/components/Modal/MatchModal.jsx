@@ -1,24 +1,10 @@
 import { Fragment, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { CheckIcon } from "@heroicons/react/24/outline";
 import close from "../../assets/img/dark_mode/close.png";
-import btn1 from "../../assets/img/dark_mode/btn1.png";
-import deleteIcon from "../../assets/img/dark_mode/delete.png";
-import editIcon from "../../assets/img/dark_mode/edit.png";
-import search from "../../assets/img/dark_mode/search.png";
-import btn3 from "../../assets/img/dark_mode/btn3.png";
-import uploadCircle from "../../assets/img/dark_mode/upload-circle.png";
-import calendar from "../../assets/img/dark_mode/calendar.png";
-import Button from "../Button";
 import Select from "../Select";
 import Input from "../Input";
-import ListItem from "../ListItem";
 import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../actions";
-import Datepicker from "react-tailwindcss-datepicker";
-import logo from "../../assets/img/dark_mode/league-logo.png";
-import avatar from "../../assets/img/dark_mode/player.png";
-import PlayerList from "../ListItem/PlayerList";
 
 const MatchModal = () => {
   const cancelButtonRef = useRef(null);

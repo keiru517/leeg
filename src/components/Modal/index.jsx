@@ -14,7 +14,6 @@ import Select from "../Select";
 import Input from "../Input";
 import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../actions";
-import Datepicker from "react-tailwindcss-datepicker";
 
 const Modal = (props) => {
   const dispatch = useDispatch();
@@ -207,7 +206,6 @@ const Modal = (props) => {
                         <>
                           <div className="w-full h-29">
                             <Input
-                              datepicker
                               className="text-xs rounded-default mb-5"
                               option={calendar}
                               placeholder="Enter Season Start Date*"
