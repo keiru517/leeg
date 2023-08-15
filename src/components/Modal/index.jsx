@@ -1,4 +1,4 @@
- import { Fragment, useRef, useState } from "react";
+import { Fragment, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/24/outline";
 import close from "../../assets/img/dark_mode/close.png";
@@ -14,6 +14,8 @@ import Select from "../Select";
 import Input from "../Input";
 import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../actions";
+import axios from "axios";
+import { Navigate } from "react-router-dom";
 
 const Modal = (props) => {
   const dispatch = useDispatch();
@@ -44,13 +46,44 @@ const Modal = (props) => {
     setStep(3);
   };
 
+  const currentDate = new Date().toLocaleDateString("en-US", {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  });
+
   const [sport, setSport] = useState("Select Sport*");
   const [leagueName, setLeagueName] = useState("");
   const [leagueDescription, setLeagueDescription] = useState("");
-  
-  const createLeague = () => {
+  const [startDate, setStartDate] = useState(currentDate);
+  const [endDate, setEndDate] = useState(currentDate);
 
-  }
+  const createLeague = () => {
+    axios
+      .post("/league/create", {
+        sport: sport,
+        name: leagueName,
+        description: leagueDescription,
+        startDate: startDate,
+        endDate: endDate,
+      })
+      .then((res) => {
+        // dispatch({type:actions.GET_LEAGUES})
+        actions.fetchLeagues(dispatch)
+        dispatch({type: actions.CLOSE_LEAGUE_DIALOG})
+        setSport("Select Sport*");
+        setLeagueName("");
+        setLeagueDescription("");
+        setStartDate(currentDate);
+        setEndDate(currentDate);
+        goToStep1()
+        alert(res.data.message);
+
+        // Navigate(-1);
+      })
+      .catch((err) => console.log(err.data));
+  };
 
   return (
     <Transition.Root show={status} as={Fragment}>
@@ -209,11 +242,15 @@ const Modal = (props) => {
                               className="text-xs rounded-default mb-5"
                               option={calendar}
                               placeholder="Enter Season Start Date*"
+                              value={startDate}
+                              onChange={(e) => setStartDate(e.target.value)}
                             />
                             <Input
                               className="text-xs rounded-default"
                               option={calendar}
                               placeholder="Enter Season End Date*"
+                              value={endDate}
+                              onChange={(e) => setEndDate(e.target.value)}
                             />
                           </div>
                           <div className="flex mt-auto w-full justify-between">

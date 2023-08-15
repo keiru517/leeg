@@ -54,13 +54,9 @@ const MatchTable = (props) => {
                 id,
                 date,
                 location,
-                home_team_logo,
                 home_team_id,
                 away_team_id,
-                away_team_logo,
                 time,
-                home,
-                away,
                 results,
               },
               index

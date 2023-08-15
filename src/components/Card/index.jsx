@@ -16,7 +16,7 @@ const Card = (props) => {
                 </div> */}
             </div>
             <div className="h-[75px] mt-4">
-                <p className='dark:text-font-dark-gray text-[10px] text-left'>Start Date: {item.start_date}  End Date: {item.end_date}</p>
+                <p className='dark:text-font-dark-gray text-[10px] text-left'>Start Date: {item.startDate}  End Date: {item.endDate}</p>
                 <p className='dark: text-[#c6c6c6] text-left text-xs h-[54px] mt-2'>{item.description}</p>
             </div>
         </div>

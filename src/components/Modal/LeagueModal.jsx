@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import { Fragment, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
+import { useNavigate } from 'react-router-dom';
 import * as actions from "../../actions";
 import close from "../../assets/img/dark_mode/close.png";
 import uploadCircle from "../../assets/img/dark_mode/upload-circle.png";
@@ -9,12 +10,14 @@ import calendar from "../../assets/img/dark_mode/calendar.png";
 import Input from "../Input";
 import deleteIcon from "../../assets/img/dark_mode/delete.png";
 import editIcon from "../../assets/img/dark_mode/edit.png";
+import axios from "axios";
 
 const LeagueModal = (props) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate()
 
-  const status = useSelector(state => state.home.league_dialog.open)
-  const type = useSelector(state => state.home.league_dialog.type)
+  const status = useSelector((state) => state.home.league_dialog.open);
+  const type = useSelector((state) => state.home.league_dialog.type);
 
   let { league_id } = useParams();
   const league = useSelector((state) => state.home.leagues).find(
@@ -38,7 +41,17 @@ const LeagueModal = (props) => {
   };
 
   const handleDelete = () => {
-    dispatch({ type: actions.OPEN_DELETE_LEAGUE_DIALOG, payload: league});
+    axios
+      .delete(`/league/remove/${league.id}`)
+      .then((res) => {
+        alert(res.data.message)
+        dispatch({type: actions.GET_LEAGUES, payload:res.data.leagues})
+        navigate(-1);
+      })
+      .catch((res) => alert(res));
+
+    dispatch({ type: actions.CLOSE_LEAGUE_DIALOG});
+    // dispatch({ type: actions.OPEN_DELETE_LEAGUE_DIALOG, payload: league });
   };
 
   const closeDialog = () => {
@@ -47,16 +60,16 @@ const LeagueModal = (props) => {
     setLeagueName(league.name);
     setLeagueName(league.description);
   };
-  
+
   const editSubmit = () => {
     dispatch({ type: actions.OPEN_CREATE_LEAGUE_DIALOG, payload: false });
     console.log("Clicked edit");
-  }
-  
+  };
+
   const deleteSubmit = () => {
     dispatch({ type: actions.OPEN_CREATE_LEAGUE_DIALOG, payload: false });
     console.log("Clicked delete");
-  }
+  };
 
   return (
     <Transition.Root show={status} as={Fragment}>
@@ -145,7 +158,7 @@ const LeagueModal = (props) => {
                         <textarea
                           id="message"
                           rows="6"
-                          class="block p-2.5 w-full text-xs text-gray-900 rounded-lg border border-charcoal focus:ring-blue-500 focus:border-blue-500 dark:bg-transparent dark:border-charcoal dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 resize-none outline-none"
+                          className="block p-2.5 w-full text-xs text-gray-900 rounded-lg border border-charcoal focus:ring-blue-500 focus:border-blue-500 dark:bg-transparent dark:border-charcoal dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 resize-none outline-none"
                           placeholder="Describe your League*"
                           value={leagueDescription}
                           onChange={(e) => setLeagueDescription(e.target.value)}
@@ -162,7 +175,10 @@ const LeagueModal = (props) => {
                             option={calendar}
                           ></Input>
                         </div>
-                        <button onClick={editSubmit} className="bg-primary rounded-xl w-full h-button hover:opacity-70 text-white">
+                        <button
+                          onClick={editSubmit}
+                          className="bg-primary rounded-xl w-full h-button hover:opacity-70 text-white"
+                        >
                           Edit League
                         </button>
                       </>
@@ -172,7 +188,10 @@ const LeagueModal = (props) => {
                           className="rounded-default text-xs"
                           placeholder="Type League Name*"
                         ></Input>
-                        <button onClick={deleteSubmit} className="bg-danger bg-opacity-10 rounded-xl w-full h-12 text-danger font-semibold hover:opacity-70">
+                        <button
+                          onClick={deleteSubmit}
+                          className="bg-danger bg-opacity-10 rounded-xl w-full h-12 text-danger font-semibold hover:opacity-70"
+                        >
                           Delete Team
                         </button>
                       </div>

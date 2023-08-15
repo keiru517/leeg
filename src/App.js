@@ -1,7 +1,9 @@
+import axios from "axios";
+import "./App.css";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import "./App.css";
+import * as actions from "./actions";
 import Home from "./pages/home";
 import League from "./pages/home/league";
 import Team from "./pages/Team";
@@ -17,40 +19,16 @@ import Profile from "./pages/profile";
 
 import AuthLayout from "./components/Layouts/AuthLayout";
 import Player from "./pages/home/player";
-import * as actions from "./actions";
-import leagueLogo from "./assets/img/dark_mode/league-logo.png";
-import avatar from './assets/img/dark_mode/ronaldo.jpg';
-import realMadrid from './assets/img/dark_mode/real-madrid.png';
-import FCBarcelona from './assets/img/dark_mode/fc-barcelona.jpg';
-import teamLogo from './assets/img/dark_mode/team-logo.png';
+import avatar from "./assets/img/dark_mode/ronaldo.jpg";
+import realMadrid from "./assets/img/dark_mode/real-madrid.png";
+import FCBarcelona from "./assets/img/dark_mode/fc-barcelona.jpg";
+import teamLogo from "./assets/img/dark_mode/team-logo.png";
+
+axios.defaults.baseURL = "http://localhost:3001/api";
 
 function App() {
   const dispatch = useDispatch();
-
-  const getLeagues = () => {
-    const leagues = [
-      {
-        id: 1,
-        logo: leagueLogo,
-        name: "2023 TABC Summer League",
-        start_date: "Firday, July 2023",
-        end_date: "N/A",
-        description:
-          'introducing the "Gravity Hoops League" - where hardwood battles and soaring dunks collide in a symphony of athleticism and teamwork.',
-      },
-      {
-        id: 2,
-        logo: leagueLogo,
-        name: "2024 TABC Winter League",
-        start_date: "Firday, July 2023",
-        end_date: "N/A",
-        description:
-          'introducing the "Gravity Hoops League" - where hardwood battles and soaring dunks collide in a symphony of athleticism and teamwork.',
-      },
-    ];
-
-    dispatch({ type: actions.GET_LEAGUES, payload: leagues });
-  };
+  actions.fetchLeagues(dispatch);
 
   const getTeams = () => {
     // axios.get WHERE league_id=id
@@ -119,10 +97,10 @@ function App() {
         date: "Monday, June 19th 2023",
         location: "Etihad Stadium",
         time: "8:00 PM",
-        home_team_id:1,
-        away_team_id:2,
+        home_team_id: 1,
+        away_team_id: 2,
         result: "--",
-        status:"In Progress"
+        status: "In Progress",
       },
       {
         id: 2,
@@ -130,16 +108,15 @@ function App() {
         date: "Monday, June 19th 2023",
         location: "Anfield",
         time: "8:00 PM",
-        home_team_id:3,
-        away_team_id:1,
+        home_team_id: 3,
+        away_team_id: 1,
         result: "65 - 77",
-        status:"Ended"
+        status: "Ended",
       },
     ];
 
     dispatch({ type: actions.GET_MATCHES, payload: matches });
   };
-
 
   const getPlayers = () => {
     const players = [
@@ -660,15 +637,15 @@ function App() {
 
   const getAdmins = () => {
     const admins = [
-      {id:1, player_id:17},
-      {id:2, player_id:19},
-    ]
+      { id: 1, player_id: 17 },
+      { id: 2, player_id: 19 },
+    ];
 
-    dispatch({type:actions.GET_ADMINS, payload:admins})
-  }
+    dispatch({ type: actions.GET_ADMINS, payload: admins });
+  };
 
   useEffect(() => {
-    getLeagues();
+    // getLeagues();
     getTeams();
     getMatches();
     getPlayers();
@@ -687,9 +664,21 @@ function App() {
           <Route exact path="/forgotpwd" element={<ForgotPwd />}></Route>
           <Route exact path="/" element={<Home />}></Route>
           <Route exact path="/league/:league_id" element={<League />}></Route>
-          <Route exact path="league/:league_id/team/:id" element={<Team />}></Route>
-          <Route exact path="/league/:league_id/player/:id" element={<Player />}></Route>
-          <Route exact path="/league/:league_id/matchup/:match_id" element={<Matchup />}></Route>
+          <Route
+            exact
+            path="league/:league_id/team/:id"
+            element={<Team />}
+          ></Route>
+          <Route
+            exact
+            path="/league/:league_id/player/:id"
+            element={<Player />}
+          ></Route>
+          <Route
+            exact
+            path="/league/:league_id/matchup/:match_id"
+            element={<Matchup />}
+          ></Route>
           <Route exact path="/profile" element={<Profile />}></Route>
         </Routes>
       </AuthLayout>
