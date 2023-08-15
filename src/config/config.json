@@ -1,0 +1,1 @@
+{"development":{"username":"root","database":"leeg","host":"127.0.0.1","dialect":"mysql"},"test":{"username":"root","database":"react-node-typescript","host":"127.0.0.1","dialect":"mysql"},"production":{"username":"root","database":"react-node-typescript","host":"127.0.0.1","dialect":"mysql"}}
