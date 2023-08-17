@@ -1,3 +1,6 @@
 import userRouter from './user';
 import leagueRouter from './league';
-export { userRouter, leagueRouter };
+import teamRouter from './team';
+import playerRouter from './player';
+
+export { userRouter, leagueRouter, teamRouter, playerRouter };

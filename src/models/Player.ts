@@ -1,4 +1,4 @@
-import { Model, DataTypes, Optional, CreationOptional, INTEGER } from 'sequelize';
+import { Model, DataTypes, Optional, CreationOptional, ForeignKey } from 'sequelize';
 import sequelize from '.';
 import { Types } from '../types';
 
@@ -12,8 +12,16 @@ export default class Player extends Model<
   PlayerCreationAttribute
 > {
   declare id: CreationOptional<number>;
+  declare teamId: ForeignKey<number>;
   declare name: string;
-  declare logo: string;
+  declare avatar: string;
+  declare pts: number;
+  declare jerseyNumber: number;
+  declare height: string;
+  declare weight: string;
+  declare country: string;
+  declare age: number;
+  declare birthDate: string;
   static modelName = 'Player';
 }
 Player.init(

@@ -1,4 +1,4 @@
-import { Model, DataTypes, Optional, CreationOptional, INTEGER } from 'sequelize';
+import { Model, DataTypes, Optional, CreationOptional, ForeignKey} from 'sequelize';
 import sequelize from '.';
 import { Types } from '../types';
 
@@ -12,8 +12,14 @@ export default class Match extends Model<
   MatchCreationAttribute
 > {
   declare id: CreationOptional<number>;
-  declare name: string;
-  declare logo: string;
+  declare leagueId: ForeignKey<number>;
+  declare homeTeamId: ForeignKey<number>;
+  declare awayTeamId: ForeignKey<number>;
+  declare date: string;
+  declare time: string;
+  declare location: string;
+  declare result: string;
+  declare status: string;
   static modelName = 'Match';
 }
 Match.init(

@@ -1,4 +1,4 @@
-import { Model, DataTypes, Optional, CreationOptional } from 'sequelize';
+import { Model, DataTypes, Optional, CreationOptional, ForeignKey } from 'sequelize';
 import sequelize from '.';
 import { Types } from '../types';
 
@@ -12,8 +12,13 @@ export default class Team extends Model<
   TeamCreationAttribute
 > {
   declare id: CreationOptional<number>;
+  declare teamId: ForeignKey<number>;
   declare name: string;
   declare logo: string;
+  declare position: number;
+  declare max: number;
+  declare min: number;
+
   static modelName = 'Team';
 }
 Team.init(

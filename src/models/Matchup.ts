@@ -1,4 +1,4 @@
-import { Model, DataTypes, Optional, CreationOptional, INTEGER } from 'sequelize';
+import { Model, DataTypes, Optional, CreationOptional, ForeignKey } from 'sequelize';
 import sequelize from '.';
 import { Types } from '../types';
 
@@ -12,8 +12,13 @@ export default class Matchup extends Model<
   MatchupCreationAttribute
 > {
   declare id: CreationOptional<number>;
-  declare name: string;
-  declare logo: string;
+  declare playerId: ForeignKey<number>;
+  declare homeTeamId: ForeignKey<number>;
+  declare awayTeamId: ForeignKey<number>;
+  declare date: string;
+  declare ps: number;
+  declare gp: number;
+  declare ppg: number;
   static modelName = 'Matchup';
 }
 Matchup.init(

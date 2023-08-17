@@ -21,3 +21,5 @@ teamRouter.post('/remove/:id', TeamController.remove);
 // get a team
 // SERVER_URL/api/team/info/1
 teamRouter.get('/info/:id', TeamController.info);
+
+export default teamRouter;

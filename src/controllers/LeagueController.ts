@@ -19,17 +19,17 @@ export const create: RequestHandler = async (req, res) => {
 // POST SERVER_URL/api/league/update/1
 export const update: RequestHandler = async (req, res) => {
 
-  const data = {
-    name: req.body.name,
-    description: req.body.description,
-    logo: req.body.logo,
-    startDate: req.body.startDate,
-    endDate: req.body.endDate
-  };
+  // const data = {
+  //   name: req.body.name,
+  //   description: req.body.description,
+  //   logo: req.body.logo,
+  //   startDate: req.body.startDate,
+  //   endDate: req.body.endDate
+  // };
 
   const league = await League.findByPk(req.body.id);
   if (league) {
-    await league.update(data);
+    await league.update(req.body);
     res.json({ league });
   } else {
     res.status(404).json({ message: 'league not found' });

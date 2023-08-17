@@ -27,7 +27,7 @@ export namespace Types {
     min: number;
   }
   export interface T_Match extends T_DB {
-    leagueId:number,
+    leagueId: number;
     homeTeamId: number;
     awayTeamId: number;
     date: string;
@@ -37,25 +37,25 @@ export namespace Types {
     status: string;
   }
   export interface T_Matchup extends T_DB {
-    playerId:number,
+    playerId: number;
     homeTeamId: number;
     awayTeamId: number;
     date: string;
-    ps:number;
-    gp:number;
+    ps: number;
+    gp: number;
     ppg: number;
   }
   export interface T_PLAYER extends T_DB {
-    teamId:number,
-    name: string,
-    avatar: string,
-    pts: number,
-    jerseyNumber: number
-    height: string
-    weight: string
-    country: string
-    age: number
-    birthDate: string
+    teamId: number;
+    name: string;
+    avatar: string;
+    pts: number;
+    jerseyNumber: number;
+    height: string;
+    weight: string;
+    country: string;
+    age: number;
+    birthDate: string;
   }
   export interface T_ResponseData<T> {
     data: T;
