@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express';
 import League from '../models/League';
-// import { Types } from '../types';
+import { Types } from '../types';
 
 // GET SERVER_URL/api/league/all
 export const all: RequestHandler = async (req, res) => {
@@ -10,22 +10,14 @@ export const all: RequestHandler = async (req, res) => {
 
 // POST SERVER_URL/api/league/create
 export const create: RequestHandler = async (req, res) => {
-  // const json: Types.T_League = req.body;
-  const data = {
-    name: req.body.name,
-    description: req.body.description,
-    logo: req.body.logo,
-    startDate: req.body.startDate,
-    endDate: req.body.endDate
-  };
+  const data: Types.T_League = req.body;
 
-  const league = await League.create(data);
-  res.json({ league });
+  await League.create(data);
+  res.status(200).json({message:'A League Created Successfully!'});
 };
 
 // POST SERVER_URL/api/league/update/1
 export const update: RequestHandler = async (req, res) => {
-  // const id = Number(req.params.id);
 
   const data = {
     name: req.body.name,
@@ -51,12 +43,15 @@ export const remove: RequestHandler = async (req, res) => {
   const league = await League.findByPk(id);
   if (league) {
     await league.destroy();
-    res.json({ message: 'deleted successfully!' });
+    const leagues = await League.findAll();
+
+    res.json({ message: 'deleted successfully!', leagues:leagues });
   } else {
     res.status(404).json({ message: 'league not found' });
   }
 };
 
+// GET SERVER_URL/api/league/info/1
 export const info: RequestHandler = async (req, res) => {
   const id = Number(req.params.id);
   const league = await League.findOne({
