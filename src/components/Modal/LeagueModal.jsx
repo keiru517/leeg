@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import { Fragment, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import * as actions from "../../actions";
 import close from "../../assets/img/dark_mode/close.png";
 import uploadCircle from "../../assets/img/dark_mode/upload-circle.png";
@@ -14,7 +14,7 @@ import axios from "axios";
 
 const LeagueModal = (props) => {
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const status = useSelector((state) => state.home.league_dialog.open);
   const type = useSelector((state) => state.home.league_dialog.type);
@@ -47,13 +47,12 @@ const LeagueModal = (props) => {
     axios
       .delete(`/league/remove/${league.id}`)
       .then((res) => {
-        alert(res.data.message)
+        alert(res.data.message);
         actions.getLeagues(dispatch);
         navigate(-1);
       })
       .catch((res) => alert(res));
-
-    dispatch({ type: actions.CLOSE_LEAGUE_DIALOG});
+    dispatch({ type: actions.CLOSE_LEAGUE_DIALOG });
   };
 
   const closeDialog = () => {
@@ -65,17 +64,19 @@ const LeagueModal = (props) => {
 
   const editSubmit = () => {
     dispatch({ type: actions.CLOSE_LEAGUE_DIALOG });
-    axios.post(`/league/update`, {
-      id:league_id,
-      name: leagueName,
-      description:leagueDescription,
-      logo: "updated logo",
-      startDate: startDate,
-      endDate: endDate
-    }).then((res)=>{
-      actions.getLeagues(dispatch);
-      alert(res.data.message);
-    })
+    axios
+      .post(`/league/update`, {
+        id: league_id,
+        name: leagueName,
+        description: leagueDescription,
+        logo: "updated logo",
+        startDate: startDate,
+        endDate: endDate,
+      })
+      .then((res) => {
+        actions.getLeagues(dispatch);
+        alert(res.data.message);
+      });
     console.log("Clicked edit");
   };
 
@@ -175,7 +176,7 @@ const LeagueModal = (props) => {
                           placeholder="Describe your League*"
                           value={leagueDescription}
                           onChange={(e) => setLeagueDescription(e.target.value)}
-                          ></textarea>
+                        ></textarea>
                         <div className="grid grid-cols-2 gap-4">
                           <Input
                             className="rounded-default text-xs"
@@ -183,7 +184,7 @@ const LeagueModal = (props) => {
                             option={calendar}
                             value={startDate}
                             onChange={(e) => setStartDate(e.target.value)}
-                            ></Input>
+                          ></Input>
                           <Input
                             className="rounded-default text-xs"
                             placeholder="End Date: Friday, July 2023"

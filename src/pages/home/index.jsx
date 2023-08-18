@@ -49,7 +49,7 @@ const Home = () => {
         <div className="search flex justify-between space-x-3">
           <Input
             icon={search}
-            className="flex-grow rounded-lg"
+            className="flex-grow rounded-lg text-xs"
             placeholder="Search Leagues"
           />
           <Select
