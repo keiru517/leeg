@@ -22,7 +22,7 @@ export const update: RequestHandler = async (req, res) => {
   const league = await League.findByPk(req.body.id);
   if (league) {
     await league.update(req.body);
-    res.json({ league });
+    res.status(200).json({ message:'league has updated successfully!' });
   } else {
     res.status(404).json({ message: 'league not found' });
   }
