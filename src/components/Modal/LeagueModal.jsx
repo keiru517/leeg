@@ -36,6 +36,9 @@ const LeagueModal = (props) => {
     league.description
   );
 
+  const [startDate, setStartDate] = useState(league.startDate);
+  const [endDate, setEndDate] = useState(league.endDate);
+
   const handleEdit = () => {
     dispatch({ type: actions.OPEN_EDIT_LEAGUE_DIALOG, payload: league });
   };
@@ -45,13 +48,12 @@ const LeagueModal = (props) => {
       .delete(`/league/remove/${league.id}`)
       .then((res) => {
         alert(res.data.message)
-        dispatch({type: actions.GET_LEAGUES, payload:res.data.leagues})
+        actions.getLeagues(dispatch);
         navigate(-1);
       })
       .catch((res) => alert(res));
 
     dispatch({ type: actions.CLOSE_LEAGUE_DIALOG});
-    // dispatch({ type: actions.OPEN_DELETE_LEAGUE_DIALOG, payload: league });
   };
 
   const closeDialog = () => {
@@ -62,7 +64,18 @@ const LeagueModal = (props) => {
   };
 
   const editSubmit = () => {
-    dispatch({ type: actions.OPEN_CREATE_LEAGUE_DIALOG, payload: false });
+    dispatch({ type: actions.CLOSE_LEAGUE_DIALOG });
+    axios.post(`/league/update`, {
+      id:league_id,
+      name: leagueName,
+      description:leagueDescription,
+      logo: "updated logo",
+      startDate: startDate,
+      endDate: endDate
+    }).then((res)=>{
+      actions.getLeagues(dispatch);
+      alert(res.data.message);
+    })
     console.log("Clicked edit");
   };
 
@@ -162,17 +175,21 @@ const LeagueModal = (props) => {
                           placeholder="Describe your League*"
                           value={leagueDescription}
                           onChange={(e) => setLeagueDescription(e.target.value)}
-                        ></textarea>
+                          ></textarea>
                         <div className="grid grid-cols-2 gap-4">
                           <Input
                             className="rounded-default text-xs"
                             placeholder="Start Date: Friday, July 2023"
                             option={calendar}
-                          ></Input>
+                            value={startDate}
+                            onChange={(e) => setStartDate(e.target.value)}
+                            ></Input>
                           <Input
                             className="rounded-default text-xs"
                             placeholder="End Date: Friday, July 2023"
                             option={calendar}
+                            value={endDate}
+                            onChange={(e) => setEndDate(e.target.value)}
                           ></Input>
                         </div>
                         <button

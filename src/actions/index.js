@@ -32,7 +32,8 @@ export const GET_ADMINS = "GET_ADMINS";
 // league actions----------------------------------
 
 
-export const fetchLeagues = async (dispatch) => {
+// Get leagues from the server
+export const getLeagues = async (dispatch) => {
   try {
     const response = await axios.get(`/league/all`);
     const leagues = response.data.leagues;
@@ -47,11 +48,6 @@ export const fetchLeagues = async (dispatch) => {
     });
   }
 };
-// Get leagues from the server
-export const getLeagues = (payload) => ({
-  type: GET_LEAGUES,
-  payload: payload,
-});
 
 // create
 export const openCreateLeagueDialog = (payload) => ({

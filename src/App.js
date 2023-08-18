@@ -28,7 +28,7 @@ axios.defaults.baseURL = "http://localhost:3001/api";
 
 function App() {
   const dispatch = useDispatch();
-  actions.fetchLeagues(dispatch);
+  actions.getLeagues(dispatch);
 
   const getTeams = () => {
     // axios.get WHERE league_id=id

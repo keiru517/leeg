@@ -69,8 +69,7 @@ const Modal = (props) => {
         endDate: endDate,
       })
       .then((res) => {
-        // dispatch({type:actions.GET_LEAGUES})
-        actions.fetchLeagues(dispatch)
+        actions.getLeagues(dispatch)
         dispatch({type: actions.CLOSE_LEAGUE_DIALOG})
         setSport("Select Sport*");
         setLeagueName("");
