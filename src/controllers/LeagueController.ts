@@ -16,16 +16,8 @@ export const create: RequestHandler = async (req, res) => {
   res.status(200).json({message:'A League Created Successfully!'});
 };
 
-// POST SERVER_URL/api/league/update/1
+// POST SERVER_URL/api/league/update
 export const update: RequestHandler = async (req, res) => {
-
-  // const data = {
-  //   name: req.body.name,
-  //   description: req.body.description,
-  //   logo: req.body.logo,
-  //   startDate: req.body.startDate,
-  //   endDate: req.body.endDate
-  // };
 
   const league = await League.findByPk(req.body.id);
   if (league) {
