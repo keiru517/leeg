@@ -14,14 +14,14 @@ import PlayerStatisticsTable from "../../components/Table/PlayerStatistics";
 import TeamTable from '../../components/Table/Team';
 
 const Team = () => {
-  let { league_id, id } = useParams();
+  let { leagueId, id } = useParams();
   const dispatch = useDispatch();
 
   const team = useSelector((state) => state.home.teams).find(
     (team) => team.id == id
   );
 
-  const league = useSelector((state) => state.home.leagues).find(league=>league.id==league_id);
+  const league = useSelector((state) => state.home.leagues).find(league=>league.id==leagueId);
 
   const teams = useSelector((state) => state.home.teams);
 
@@ -41,7 +41,7 @@ const Team = () => {
   const players_statistics = [
     {
       id: 1,
-      league_id: 1,
+      leagueId: 1,
       team_id: 1,
       name: "George Anderson",
       number: 0,
@@ -51,7 +51,7 @@ const Team = () => {
     },
     {
       id: 1,
-      league_id: 1,
+      leagueId: 1,
       team_id: 1,
       name: "George Anderson",
       number: 0,
@@ -61,7 +61,7 @@ const Team = () => {
     },
     {
       id: 1,
-      league_id: 1,
+      leagueId: 1,
       team_id: 1,
       name: "George Anderson",
       number: 0,
@@ -138,7 +138,7 @@ const Team = () => {
                   <>
                     <MatchTable
                       data={matches}
-                      league_id={league_id}
+                      leagueId={leagueId}
                     ></MatchTable>
                   </>
                 ) : (

@@ -12,16 +12,16 @@ import deleteIcon from "../../assets/img/dark_mode/delete.png";
 import editIcon from "../../assets/img/dark_mode/edit.png";
 import axios from "axios";
 
-const LeagueModal = (props) => {
+const LeagueModal = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const status = useSelector((state) => state.home.league_dialog.open);
   const type = useSelector((state) => state.home.league_dialog.type);
 
-  let { league_id } = useParams();
+  let { leagueId } = useParams();
   const league = useSelector((state) => state.home.leagues).find(
-    (league) => league.id == league_id
+    (league) => league.id == leagueId
   );
 
   // const [open, setOpen] = useState(false);
@@ -29,7 +29,6 @@ const LeagueModal = (props) => {
 
   const cancelButtonRef = useRef(null);
 
-  const sportOptions = ["Basketball", "Rugby", "Hockey", "Baseball"];
 
   const [leagueName, setLeagueName] = useState(league.name);
   const [leagueDescription, setLeagueDescription] = useState(
@@ -51,7 +50,7 @@ const LeagueModal = (props) => {
         actions.getLeagues(dispatch);
         navigate(-1);
       })
-      .catch((res) => alert(res));
+      .catch((err) => alert(err.data.message));
     dispatch({ type: actions.CLOSE_LEAGUE_DIALOG });
   };
 
@@ -66,7 +65,7 @@ const LeagueModal = (props) => {
     dispatch({ type: actions.CLOSE_LEAGUE_DIALOG });
     axios
       .post(`/league/update`, {
-        id: league_id,
+        id: leagueId,
         name: leagueName,
         description: leagueDescription,
         logo: "updated logo",

@@ -58,6 +58,9 @@ const Modal = (props) => {
   const [leagueDescription, setLeagueDescription] = useState("");
   const [startDate, setStartDate] = useState(currentDate);
   const [endDate, setEndDate] = useState(currentDate);
+  const fileUploadRef = useRef(undefined);
+
+  const [chosenFile, setChosenFile] = useState('');
 
   const createLeague = () => {
     axios
@@ -69,14 +72,14 @@ const Modal = (props) => {
         endDate: endDate,
       })
       .then((res) => {
-        actions.getLeagues(dispatch)
-        dispatch({type: actions.CLOSE_LEAGUE_DIALOG})
+        actions.getLeagues(dispatch);
+        dispatch({ type: actions.CLOSE_LEAGUE_DIALOG });
         setSport("Select Sport*");
         setLeagueName("");
         setLeagueDescription("");
         setStartDate(currentDate);
         setEndDate(currentDate);
-        goToStep1()
+        goToStep1();
         alert(res.data.message);
 
         // Navigate(-1);
@@ -191,11 +194,35 @@ const Modal = (props) => {
                       ) : step == 2 ? (
                         <>
                           <div>
-                            <div className="flex w-full h-[86px] bg-charcoal rounded-default items-center">
+                            <div
+                              className="flex w-full h-[86px] cursor-pointer bg-charcoal rounded-default items-center"
+                              onClick={() => {
+                                fileUploadRef.current?.click();
+                              }}
+                            >
                               <img
                                 src={uploadCircle}
                                 alt=""
                                 className="px-[14px]"
+                              />
+                              <input
+                                type="file"
+                                ref={fileUploadRef}
+                                hidden
+                                onChange={(e) => {
+                                  setChosenFile(e.target.files[0])
+                                  // const files = e.target.files;
+                                  // if (files.length) {
+                                  //   const file = files[0];
+                                  //   const formData = new FormData();
+                                  //   formData.append("file", file);
+                                  //   fetch(`upload-url`, {
+                                  //     method: "post",
+                                  //     body: formData,
+                                  //   });
+                                  // }
+                                  // console.log(e.target.files);
+                                }}
                               />
                               <p className="text-white font-bold text-sm">
                                 Upload League Logo

@@ -7,8 +7,8 @@ import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../actions";
 
 const SubstituteModal = () => {
-  let { league_id, match_id } = useParams();
-  console.log(league_id, match_id)
+  let { leagueId, match_id } = useParams();
+  console.log(leagueId, match_id)
   const dispatch = useDispatch();
 
   const status = useSelector((state) => state.home.substitute_dialog.open);

@@ -23,93 +23,36 @@ import avatar from "./assets/img/dark_mode/ronaldo.jpg";
 import realMadrid from "./assets/img/dark_mode/real-madrid.png";
 import FCBarcelona from "./assets/img/dark_mode/fc-barcelona.jpg";
 import teamLogo from "./assets/img/dark_mode/team-logo.png";
+import React from "react";
 
 axios.defaults.baseURL = "http://localhost:3001/api";
 
 function App() {
   const dispatch = useDispatch();
   actions.getLeagues(dispatch);
-
-  const getTeams = () => {
-    // axios.get WHERE league_id=id
-    const teams = [
-      {
-        id: 1,
-        league_id: 1,
-        logo: realMadrid,
-        name: "Real Madrid",
-        position: 2,
-        max: 12,
-        min: 3,
-        waitlist: 10,
-        statistics: {
-          w: 12,
-          l: 6,
-          ps: 167,
-          pa: 142,
-          diff: 27,
-        },
-      },
-      {
-        id: 2,
-        league_id: 1,
-        logo: FCBarcelona,
-        name: "FC Barcelona",
-        position: 1,
-        max: 12,
-        min: 3,
-        waitlist: 9,
-        statistics: {
-          w: 10,
-          l: 8,
-          ps: 142,
-          pa: 127,
-          diff: 15,
-        },
-      },
-      {
-        id: 3,
-        league_id: 1,
-        logo: teamLogo,
-        name: "Manchester City",
-        position: 3,
-        max: 12,
-        min: 3,
-        waitlist: 9,
-        statistics: {
-          w: 10,
-          l: 8,
-          ps: 142,
-          pa: 127,
-          diff: 15,
-        },
-      },
-    ];
-
-    dispatch({ type: actions.GET_TEAMS, payload: teams });
-  };
+  actions.getTeams(dispatch);
 
   const getMatches = () => {
     const matches = [
       {
         id: 1,
-        league_id: 1,
+        leagueId: 1,
         date: "Monday, June 19th 2023",
         location: "Etihad Stadium",
         time: "8:00 PM",
-        home_team_id: 1,
-        away_team_id: 2,
+        home_team_id: 7,
+        away_team_id: 8,
         result: "--",
         status: "In Progress",
       },
       {
         id: 2,
-        league_id: 1,
+        leagueId: 1,
         date: "Monday, June 19th 2023",
         location: "Anfield",
         time: "8:00 PM",
-        home_team_id: 3,
-        away_team_id: 1,
+        home_team_id: 8,
+        away_team_id: 7,
         result: "65 - 77",
         status: "Ended",
       },
@@ -646,7 +589,7 @@ function App() {
 
   useEffect(() => {
     // getLeagues();
-    getTeams();
+    // getTeams();
     getMatches();
     getPlayers();
     getAdmins();
@@ -663,20 +606,20 @@ function App() {
           <Route exact path="/otpsent" element={<OTPSent />}></Route>
           <Route exact path="/forgotpwd" element={<ForgotPwd />}></Route>
           <Route exact path="/" element={<Home />}></Route>
-          <Route exact path="/league/:league_id" element={<League />}></Route>
+          <Route exact path="/league/:leagueId" element={<League />}></Route>
           <Route
             exact
-            path="league/:league_id/team/:id"
+            path="league/:leagueId/team/:id"
             element={<Team />}
           ></Route>
           <Route
             exact
-            path="/league/:league_id/player/:id"
+            path="/league/:leagueId/player/:id"
             element={<Player />}
           ></Route>
           <Route
             exact
-            path="/league/:league_id/matchup/:match_id"
+            path="/league/:leagueId/matchup/:match_id"
             element={<Matchup />}
           ></Route>
           <Route exact path="/profile" element={<Profile />}></Route>

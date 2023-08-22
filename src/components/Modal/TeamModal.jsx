@@ -1,6 +1,7 @@
 import { Fragment, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { useParams } from "react-router";
+import axios from "axios";
 import { CheckIcon } from "@heroicons/react/24/outline";
 import close from "../../assets/img/dark_mode/close.png";
 import btn1 from "../../assets/img/dark_mode/btn1.png";
@@ -21,24 +22,36 @@ import avatar from "../../assets/img/dark_mode/player.png";
 import PlayerList from "../ListItem/PlayerList";
 
 const TeamModal = () => {
-  let { id } = useParams();
+  let { leagueId } = useParams();
   const dispatch = useDispatch();
 
   const status = useSelector((state) => state.home.team_dialog.open);
   const type = useSelector((state) => state.home.team_dialog.type);
 
   const team = useSelector((state) => state.home.team_dialog.team);
-  // if (type != 'create') {
 
-  // }
+  const cancelButtonRef = useRef(null);
+
+
+  const players = useSelector(state=>state.home.players)
+
+  const [teamName, setTeamName] = useState(team.name);
+
   const closeDialog = () => {
-    setStep(1);
+    // setStep(1);
     // dispatch({ type: actions.OPEN_CREATE_TEAM_DIALOG, payload: false });
     dispatch({ type: actions.CLOSE_TEAM_DIALOG });
   };
 
   const handleDelete = () => {
-    dispatch({ type: actions.OPEN_DELETE_TEAM_DIALOG, payload: team });
+    console.log("teamid", team.id)
+    axios.delete(`/team/remove/${team.id}`).then(res=>{
+      dispatch({ type: actions.CLOSE_TEAM_DIALOG})
+      actions.getTeams(dispatch);
+      alert(res.data.message);
+    })
+    .catch(err=>alert(err.data.message))
+    // dispatch({ type: actions.OPEN_DELETE_TEAM_DIALOG, payload: team });
     // dispatch({ type: actions.OPEN_TEAM_DIALOG, payload: true });
   };
 
@@ -48,12 +61,37 @@ const TeamModal = () => {
   };
 
   const createSubmit = () => {
-    dispatch({ type: actions.CLOSE_TEAM_DIALOG });
-    console.log("Clicked create");
+    setTeamName("")
+    axios.post("/team/create", {
+      leagueId: leagueId,
+      name: teamName,
+      logo: "logo",
+      position: 0,
+      max: 0,
+      min: 0
+    })
+    .then((res) => {
+      actions.getTeams(dispatch)
+      dispatch({ type: actions.CLOSE_TEAM_DIALOG });
+    })
+
   };
 
   const editSubmit = () => {
+    
     dispatch({ type: actions.CLOSE_TEAM_DIALOG });
+    axios.post('/team/update', {
+      id:team.id,
+      name: teamName,
+      logo: 'updated logo'
+    })
+    .then((res)=>{
+      actions.getTeams(dispatch);
+      alert(res.data.message);
+    })
+    .catch((err)=>{
+      alert(err.data.message)
+    })
     console.log("Clicked edit");
   };
 
@@ -61,34 +99,8 @@ const TeamModal = () => {
     dispatch({ type: actions.CLOSE_TEAM_DIALOG });
     console.log("Clicked delete");
   };
-  // const type = "delete";
 
-  // const [open, setOpen] = useState(false);
-  const [step, setStep] = useState(1);
 
-  const cancelButtonRef = useRef(null);
-
-  const sportOptions = ["Basketball", "Rugby", "Hockey", "Baseball"];
-
-  const goToStep1 = () => {
-    setStep(1);
-  };
-
-  const goToStep2 = () => {
-    setStep(2);
-  };
-
-  const goToStep3 = () => {
-    setStep(3);
-  };
-
-  const players = useSelector(state=>state.home.players).find(player=>player.team_id==id)
-
-  const [sport, setSport] = useState("Select Sport*");
-  const [teamName, setTeamName] = useState(team.name);
-  const [leagueDescription, setLeagueDescription] = useState("");
-
-  const createLeague = () => {};
 
   return (
     <Transition.Root show={status} as={Fragment}>

@@ -11,7 +11,7 @@ import * as actions from "../../actions";
 import ProfileTable from '../../components/Table/Profile';
 
 const Player = () => {
-  let { league_id, id } = useParams();
+  let { leagueId, id } = useParams();
 
   const options = ["Ascend", "Descend", "Recent"];
 
@@ -59,7 +59,7 @@ const Player = () => {
         </Link>
         <span className=""> &gt; </span>
         <span className="underline">
-          <Link to={`/league/${league_id}/team/${team.id}`}>
+          <Link to={`/league/${leagueId}/team/${team.id}`}>
             {team.name}
           </Link>
         </span>
@@ -102,7 +102,7 @@ const Player = () => {
         </div>
             {
               matchups.length > 0?
-              <ProfileTable data={matchups} league_id={league_id}/>
+              <ProfileTable data={matchups} leagueId={leagueId}/>
               :
               <div className="flex flex-grow items-center ">
                 <p className="text-2xl text-white font-bold w-full text-center">No Statistics To Show!</p>

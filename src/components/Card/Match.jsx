@@ -12,7 +12,7 @@ import Input from '../Input';
 import deleteIcon from '../../assets/img/dark_mode/delete.png';
 
 const MatchCard = (props) => {
-  let {league_id} = useParams();
+  let {leagueId} = useParams();
 
     const {team_id} = props;
     const team = useSelector(state=> state.home.teams).find(team=>team.id==team_id);
@@ -38,7 +38,7 @@ const MatchCard = (props) => {
             <div className="flex justify-between h-button bg-charcoal rounded-t-default p-4">
                 <div className="flex items-center">
                     <img src={team.logo} className="w-8 h-8"></img>
-                    <Link to = {`/league/${league_id}/team/${team_id}`}>
+                    <Link to = {`/league/${leagueId}/team/${team_id}`}>
                       <p className='text-white text-sm mx-2 underline'>{team.name}</p>
                     </Link>
                     <p className="text-white text-[10px]">{team.waitlist}/{team.max}</p>

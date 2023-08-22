@@ -7,9 +7,9 @@ import { useSelector } from "react-redux";
 
 const MatchTable = (props) => {
   const naviage = useNavigate();
-  const { data, league_id } = props;
+  const { matches, leagueId } = props;
 
-  // let { league_id} = useParams();
+  // let { leagueId} = useParams();
   const columns = [
     "Date",
     "Location",
@@ -48,7 +48,7 @@ const MatchTable = (props) => {
           </tr>
         </thead>
         <tbody className="text-center">
-          {data.map(
+          {matches.map(
             (
               {
                 id,
@@ -98,7 +98,7 @@ const MatchTable = (props) => {
                     >
                       <Link
                         className="flex items-center"
-                        to={`/league/${league_id}/team/${home_team_id}`}
+                        to={`/league/${leagueId}/team/${home_team_id}`}
                       >
                         <img
                           src={
@@ -119,7 +119,7 @@ const MatchTable = (props) => {
                     >
                       <Link
                         className="flex items-center"
-                        to={`/league/${league_id}/team/${away_team_id}`}
+                        to={`/league/${leagueId}/team/${away_team_id}`}
                       >
                         <img
                           src={

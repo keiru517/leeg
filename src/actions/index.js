@@ -81,10 +81,26 @@ export const openInvitePlayerDialog = (payload) => ({
 });
 
 // Team actions -----------------------------------
-export const getTeams = (payload) => ({
-  type: GET_TEAMS,
-  payload: payload,
-});
+export const getTeams = async (dispatch) => {
+  try {
+    const response = await axios.get(`/team/all`);
+    const teams = response.data.teams;
+    dispatch({
+      type: GET_TEAMS,
+      payload: teams,
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_TEAMS,
+      payload: [],
+    });
+  }
+};
+
+// export const getTeams = (payload) => ({
+//   type: GET_TEAMS,
+//   payload: payload,
+// });
 
 export const openCreateTeamDialog = (payload) => ({
   type: OPEN_CREATE_TEAM_DIALOG,
@@ -111,10 +127,27 @@ export const openAddPlayerDialgo = (payload) => ({
 });
 
 // Matches Action
-export const getMatches = (payload) => ({
-  type: GET_MATCHES,
-  payload: payload,
-});
+// export const getMatches = (payload) => ({
+//   type: GET_MATCHES,
+//   payload: payload,
+// });
+export const getMatches = async (dispatch) =>{
+  try {
+    const response = await axios.get('/matches/all');
+    const matches = response.data.matches;
+    dispatch ({
+      type: GET_MATCHES,
+      payload: matches
+    });
+  }
+  catch (error) {
+    dispatch ({
+      type: GET_LEAGUES,
+      payload: []
+    })
+  }
+}
+
 
 export const closeMatchDialog = () => ({
   type: CLOSE_MATCH_DIALOG,

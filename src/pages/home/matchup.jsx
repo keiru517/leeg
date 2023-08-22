@@ -51,7 +51,7 @@ const Matchup = () => {
         </Link>
         <span className=""> &gt; </span>
         <span className="text-sky-500">
-          {/* <Link to={`/league/${league_id}/team/${team.id}`}> */}
+          {/* <Link to={`/league/${leagueId}/team/${team.id}`}> */}
           {home_team.name} Vs {away_team.name}
           {/* </Link> */}
         </span>

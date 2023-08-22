@@ -24,15 +24,15 @@ import StandingTable from "../../components/Table/Standing";
 import PlayerTable from "../../components/Table/Player";
 
 const League = () => {
-  let { league_id } = useParams();
+  let { leagueId } = useParams();
   const dispatch = useDispatch();
 
   const league = useSelector((state) => state.home.leagues).find(
-    (league) => league.id == league_id
+    (league) => league.id == leagueId
   );
 
 
-  const teams = useSelector((state) => state.home.teams);
+  const teams = useSelector((state) => state.home.teams).filter(team=>team.leagueId==leagueId);
   const matches = useSelector((state) => state.home.matches);
 
   const options = ["Ascend", "Descend", "Recent"];
@@ -54,9 +54,9 @@ const League = () => {
 
   const buttons = {
     "Manage Rosters": "Invite Player",
-    Teams: "Create Team",
-    Matches: "Create Match",
-    Standings: "Create Match",
+    "Teams": "Create Team",
+    "Matches": "Create Match",
+    "Standings": "Create Match",
     "All Playerlist": "Create Match",
   };
 
@@ -306,7 +306,7 @@ const League = () => {
                     />
                     <div className="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
                       {teams.map((team, idx) => (
-                        <TeamCard item={team} key={idx}></TeamCard>
+                        <TeamCard team={team} key={idx}></TeamCard>
                       ))}
                     </div>
                   </>
@@ -333,7 +333,7 @@ const League = () => {
                       icon={search}
                       placeholder="Search Schedules"
                     />
-                    <MatchTable data={matches}  league_id={league_id}></MatchTable>
+                    <MatchTable matches={matches}  leagueId={leagueId}></MatchTable>
                   </>
                 ) : (
                   <div className="flex items-center flex-grow">

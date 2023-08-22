@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const Profile = (props) => {
-  const { data, league_id } = props;
+  const { data, leagueId } = props;
   const columns = [
     "Game Date",
     "Matchup",
@@ -70,7 +70,7 @@ const Profile = (props) => {
                     />
                     <p className="underline">
                       <Link
-                        to={`/league/${league_id}/team/${player.home_team_id}`}
+                        to={`/league/${leagueId}/team/${player.home_team_id}`}
                       >
                         {
                           teams.find((team) => team.id == player.home_team_id)
@@ -89,7 +89,7 @@ const Profile = (props) => {
                     />
                     <p className="underline">
                       <Link
-                        to={`/league/${league_id}/team/${player.away_team_id}`}
+                        to={`/league/${leagueId}/team/${player.away_team_id}`}
                       >
                         {
                           teams.find((team) => team.id == player.away_team_id)
