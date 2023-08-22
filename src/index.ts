@@ -1,6 +1,6 @@
 import express from 'express';
 import { config } from 'dotenv';
-import { userRouter, leagueRouter } from './routers';
+import { userRouter, leagueRouter, teamRouter } from './routers';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 
@@ -12,6 +12,7 @@ app.use(bodyParser.json());
 
 app.use('/api/user', userRouter);
 app.use('/api/league', leagueRouter);
+app.use('/api/team', teamRouter);
 
 const port = Number(process.env.PORT || '3000');
 app.listen(port, () => console.log(`App listening on port ${port}!`));

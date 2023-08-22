@@ -16,7 +16,7 @@ playerRouter.post('/update', PlayerController.update);
 
 // delete a player
 // SERVER_URL/api/player/remove/1
-playerRouter.post('/remove/:id', PlayerController.remove);
+playerRouter.delete('/remove/:id', PlayerController.remove);
 
 // get a player
 // SERVER_URL/api/player/info/1

@@ -16,7 +16,7 @@ matchupRouter.post('/update', MatchupController.update);
 
 // delete a matchup
 // SERVER_URL/api/matchup/remove/1
-matchupRouter.post('/remove/:id', MatchupController.remove);
+matchupRouter.delete('/remove/:id', MatchupController.remove);
 
 // get a matchup
 // SERVER_URL/api/matchup/info/1

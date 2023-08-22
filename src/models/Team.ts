@@ -12,12 +12,13 @@ export default class Team extends Model<
   TeamCreationAttribute
 > {
   declare id: CreationOptional<number>;
-  declare teamId: ForeignKey<number>;
+  declare leagueId: ForeignKey<number>;
   declare name: string;
   declare logo: string;
   declare position: number;
   declare max: number;
   declare min: number;
+  declare waitlist: number;
 
   static modelName = 'Team';
 }
@@ -35,7 +36,8 @@ Team.init(
     logo: DataTypes.STRING,
     position: DataTypes.INTEGER,
     max: DataTypes.INTEGER,
-    min: DataTypes.INTEGER
+    min: DataTypes.INTEGER,
+    // waitlist: DataTypes.INTEGER,
   },
   {
     sequelize,

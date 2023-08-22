@@ -18,6 +18,11 @@ export namespace Types {
     startDate: string;
     endDate: string;
   }
+  export interface T_UserLeague extends T_DB {
+    userId: number;
+    leagueId: number;
+    role: number;
+  }
   export interface T_Team extends T_DB {
     leagueId: number;
     name: string;
@@ -25,6 +30,7 @@ export namespace Types {
     position: number;
     max: number;
     min: number;
+    // waitlist: number;
   }
   export interface T_Match extends T_DB {
     leagueId: number;

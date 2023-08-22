@@ -16,7 +16,7 @@ matchRouter.post('/update', MatchController.update);
 
 // delete a match
 // SERVER_URL/api/match/remove/1
-matchRouter.post('/remove/:id', MatchController.remove);
+matchRouter.delete('/remove/:id', MatchController.remove);
 
 // get a match
 // SERVER_URL/api/match/info/1

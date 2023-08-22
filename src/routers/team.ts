@@ -16,7 +16,7 @@ teamRouter.post('/update', TeamController.update);
 
 // delete a team
 // SERVER_URL/api/team/remove/1
-teamRouter.post('/remove/:id', TeamController.remove);
+teamRouter.delete('/remove/:id', TeamController.remove);
 
 // get a team
 // SERVER_URL/api/team/info/1

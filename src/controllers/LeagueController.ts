@@ -35,9 +35,8 @@ export const remove: RequestHandler = async (req, res) => {
   const league = await League.findByPk(id);
   if (league) {
     await league.destroy();
-    const leagues = await League.findAll();
 
-    res.json({ message: 'deleted successfully!', leagues:leagues });
+    res.json({ message: 'deleted successfully!'});
   } else {
     res.status(404).json({ message: 'league not found' });
   }

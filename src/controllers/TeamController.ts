@@ -16,7 +16,7 @@ export const create: RequestHandler = async (req, res) => {
   res.status(200).json({message:'A Team Created Successfully!'});
 };
 
-// POST SERVER_URL/api/team/update/1
+// POST SERVER_URL/api/team/update
 export const update: RequestHandler = async (req, res) => {
   const data = {
     name: req.body.name,
@@ -32,18 +32,18 @@ export const update: RequestHandler = async (req, res) => {
   }
 };
 
-// DELETE SERVER_URL/api/league/remove/1
+// DELETE SERVER_URL/api/team/remove/1
 export const remove: RequestHandler = async (req, res) => {
   const id = Number(req.params.id);
 
-  const league = await Team.findByPk(id);
-  if (league) {
-    await league.destroy();
-    const leagues = await Team.findAll();
+  const team = await Team.findByPk(id);
+  if (team) {
+    await team.destroy();
+    // const teams = await Team.findAll();
 
-    res.json({ message: 'deleted successfully!', leagues:leagues });
+    res.json({ message: 'deleted successfully!'});
   } else {
-    res.status(404).json({ message: 'league not found' });
+    res.status(404).json({ message: 'team not found' });
   }
 };
 
