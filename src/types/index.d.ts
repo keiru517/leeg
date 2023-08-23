@@ -57,6 +57,7 @@ export namespace Types {
     ppg: number;
   }
   export interface T_PLAYER extends T_DB {
+    leagueId: number;
     teamId: number;
     name: string;
     avatar: string;

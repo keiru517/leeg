@@ -19,14 +19,6 @@ export const create: RequestHandler = async (req, res) => {
 // POST SERVER_URL/api/player/update/1
 export const update: RequestHandler = async (req, res) => {
 
-  // const data = {
-  //   name: req.body.name,
-  //   description: req.body.description,
-  //   logo: req.body.logo,
-  //   startDate: req.body.startDate,
-  //   endDate: req.body.endDate
-  // };
-
   const player = await Player.findByPk(req.body.id);
   if (player) {
     await player.update(req.body);

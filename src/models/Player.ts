@@ -1,4 +1,4 @@
-import { Model, DataTypes, Optional, CreationOptional, ForeignKey } from 'sequelize';
+import { Model, DataTypes, Optional, CreationOptional } from 'sequelize';
 import sequelize from '.';
 import { Types } from '../types';
 
@@ -12,7 +12,8 @@ export default class Player extends Model<
   PlayerCreationAttribute
 > {
   declare id: CreationOptional<number>;
-  declare teamId: ForeignKey<number>;
+  declare leagueId: number;
+  declare teamId: number;
   declare name: string;
   declare avatar: string;
   declare points: number;
@@ -26,17 +27,14 @@ export default class Player extends Model<
 }
 Player.init(
   {
-    teamId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: 'Team',
-        key: 'id'
-      }
-    },
+    leagueId: DataTypes.INTEGER,
+    teamId: DataTypes.INTEGER,
     name: DataTypes.STRING,
     avatar: DataTypes.STRING,
-    points: DataTypes.INTEGER,
+    points: {
+      type:DataTypes.INTEGER,
+      defaultValue:0
+    },
     jerseyNumber: DataTypes.INTEGER,
     height: DataTypes.STRING,
     weight: DataTypes.STRING,

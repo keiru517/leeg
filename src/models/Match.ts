@@ -1,4 +1,4 @@
-import { Model, DataTypes, Optional, CreationOptional, ForeignKey} from 'sequelize';
+      import { Model, DataTypes, Optional, CreationOptional, ForeignKey} from 'sequelize';
 import sequelize from '.';
 import { Types } from '../types';
 

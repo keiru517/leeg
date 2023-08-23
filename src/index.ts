@@ -1,6 +1,6 @@
 import express from 'express';
 import { config } from 'dotenv';
-import { userRouter, leagueRouter, teamRouter, matchRouter } from './routers';
+import { userRouter, leagueRouter, teamRouter, playerRouter, matchRouter } from './routers';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 
@@ -13,6 +13,7 @@ app.use(bodyParser.json());
 app.use('/api/user', userRouter);
 app.use('/api/league', leagueRouter);
 app.use('/api/team', teamRouter);
+app.use('/api/player', playerRouter);
 app.use('/api/match', matchRouter);
 
 const port = Number(process.env.PORT || '3000');
