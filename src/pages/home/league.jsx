@@ -33,7 +33,7 @@ const League = () => {
 
 
   const teams = useSelector((state) => state.home.teams).filter(team=>team.leagueId==leagueId);
-  const matches = useSelector((state) => state.home.matches);
+  const matches = useSelector((state) => state.home.matches).filter(match=>match.leagueId == leagueId);
 
   const options = ["Ascend", "Descend", "Recent"];
   const [value, setValue] = useState("Sort by");
@@ -370,7 +370,7 @@ const League = () => {
                         {value}
                       </Select>
                     </div>
-                    <StandingTable data={teams}></StandingTable>
+                    <StandingTable teams={teams}></StandingTable>
                   </>
                 ) : (
                   <div className="flex items-center flex-grow">

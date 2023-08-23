@@ -54,10 +54,10 @@ const MatchTable = (props) => {
                 id,
                 date,
                 location,
-                home_team_id,
-                away_team_id,
+                homeTeamId,
+                awayTeamId,
                 time,
-                results,
+                result,
               },
               index
             ) => (
@@ -98,16 +98,16 @@ const MatchTable = (props) => {
                     >
                       <Link
                         className="flex items-center"
-                        to={`/league/${leagueId}/team/${home_team_id}`}
+                        to={`/league/${leagueId}/team/${homeTeamId}`}
                       >
                         <img
-                          src={
-                            teams.find((team) => team.id == home_team_id).logo
-                          }
+                          // src={
+                          //   teams.find((team) => team.id == homeTeamId).logo
+                          // }
                           alt=""
                           className="h-8 w-8 mr-2"
                         />
-                        {teams.find((team) => team.id == home_team_id).name}
+                        {teams.find((team) => team.id == homeTeamId).name}
                       </Link>
                     </Typography>
                   </td>
@@ -119,16 +119,16 @@ const MatchTable = (props) => {
                     >
                       <Link
                         className="flex items-center"
-                        to={`/league/${leagueId}/team/${away_team_id}`}
+                        to={`/league/${leagueId}/team/${awayTeamId}`}
                       >
                         <img
-                          src={
-                            teams.find((team) => team.id == away_team_id).logo
-                          }
+                          // src={
+                          //   teams.find((team) => team.id == awayTeamId).logo
+                          // }
                           alt=""
                           className="h-8 w-8 mr-2"
                         />
-                        {teams.find((team) => team.id == away_team_id).name}
+                        {teams.find((team) => team.id == awayTeamId).name}
                       </Link>
                     </Typography>
                   </td>
@@ -138,7 +138,7 @@ const MatchTable = (props) => {
                       color="blue-gray"
                       className="font-normal"
                     >
-                      {results}
+                      {result}
                     </Typography>
                   </td>
                   <td className="">

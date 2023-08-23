@@ -133,7 +133,7 @@ export const openAddPlayerDialgo = (payload) => ({
 // });
 export const getMatches = async (dispatch) =>{
   try {
-    const response = await axios.get('/matches/all');
+    const response = await axios.get('/match/all');
     const matches = response.data.matches;
     dispatch ({
       type: GET_MATCHES,

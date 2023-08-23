@@ -45,6 +45,7 @@ const TeamModal = () => {
 
   const handleDelete = () => {
     console.log("teamid", team.id)
+    // confirm("HI");
     axios.delete(`/team/remove/${team.id}`).then(res=>{
       dispatch({ type: actions.CLOSE_TEAM_DIALOG})
       actions.getTeams(dispatch);

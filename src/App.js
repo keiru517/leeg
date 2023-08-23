@@ -29,37 +29,36 @@ axios.defaults.baseURL = "http://localhost:3001/api";
 
 function App() {
   const dispatch = useDispatch();
-  actions.getLeagues(dispatch);
-  actions.getTeams(dispatch);
 
-  const getMatches = () => {
-    const matches = [
-      {
-        id: 1,
-        leagueId: 1,
-        date: "Monday, June 19th 2023",
-        location: "Etihad Stadium",
-        time: "8:00 PM",
-        home_team_id: 7,
-        away_team_id: 8,
-        result: "--",
-        status: "In Progress",
-      },
-      {
-        id: 2,
-        leagueId: 1,
-        date: "Monday, June 19th 2023",
-        location: "Anfield",
-        time: "8:00 PM",
-        home_team_id: 8,
-        away_team_id: 7,
-        result: "65 - 77",
-        status: "Ended",
-      },
-    ];
 
-    dispatch({ type: actions.GET_MATCHES, payload: matches });
-  };
+  // const getMatches = () => {
+  //   const matches = [
+  //     {
+  //       id: 1,
+  //       leagueId: 1,
+  //       date: "Monday, June 19th 2023",
+  //       location: "Etihad Stadium",
+  //       time: "8:00 PM",
+  //       home_team_id: 7,
+  //       away_team_id: 8,
+  //       result: "--",
+  //       status: "In Progress",
+  //     },
+  //     {
+  //       id: 2,
+  //       leagueId: 1,
+  //       date: "Monday, June 19th 2023",
+  //       location: "Anfield",
+  //       time: "8:00 PM",
+  //       home_team_id: 8,
+  //       away_team_id: 7,
+  //       result: "65 - 77",
+  //       status: "Ended",
+  //     },
+  //   ];
+
+  //   dispatch({ type: actions.GET_MATCHES, payload: matches });
+  // };
 
   const getPlayers = () => {
     const players = [
@@ -588,9 +587,12 @@ function App() {
   };
 
   useEffect(() => {
+    actions.getLeagues(dispatch);
+    actions.getTeams(dispatch);
+    actions.getMatches(dispatch);
     // getLeagues();
     // getTeams();
-    getMatches();
+    // getMatches();
     getPlayers();
     getAdmins();
   }, []);

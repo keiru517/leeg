@@ -3,7 +3,7 @@ import actionIcon from '../../assets/img/dark_mode/action.png';
 import teamLogo from '../../assets/img/dark_mode/team-logo.png';
 
 const StandingTable = (props) => {
-  const { data } = props;
+  const { teams } = props;
 
   const columns = [
     "Position",
@@ -33,7 +33,7 @@ const StandingTable = (props) => {
           </tr>
         </thead>
         <tbody className="text-center">
-          {data.sort((a, b)=>a.position-b.position).map(({ position, name, statistics }, index) => (
+          {teams.sort((a, b)=>a.position-b.position).map(({ position, name, statistics }, index) => (
             <tr key={index} className="odd:bg-dark-gray even:bg-charcoal">
               <td className="w-1/6">
                 <Typography
