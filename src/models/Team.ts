@@ -40,14 +40,38 @@ Team.init(
     name: DataTypes.STRING,
     logo: DataTypes.STRING,
     position: DataTypes.INTEGER,
-    max: DataTypes.INTEGER,
-    min: DataTypes.INTEGER,
-    waitlist: DataTypes.INTEGER,
-    win: DataTypes.INTEGER,
-    lose: DataTypes.INTEGER,
-    pointScored: DataTypes.INTEGER,
-    pointAgainst: DataTypes.INTEGER,
-    diff: DataTypes.INTEGER,
+    max: {
+      type:DataTypes.INTEGER,
+      defaultValue: 0
+    },
+    min: {
+      type:DataTypes.INTEGER,
+      defaultValue: 0
+    },
+    waitlist: {
+      type:DataTypes.INTEGER,
+      defaultValue: 0
+    },
+    win: {
+      type:DataTypes.INTEGER,
+      defaultValue: 0
+    },
+    lose: {
+      type:DataTypes.INTEGER,
+      defaultValue: 0
+    },
+    pointScored: {
+      type:DataTypes.INTEGER,
+      defaultValue: 0
+    },
+    pointAgainst: {
+      type:DataTypes.INTEGER,
+      defaultValue: 0
+    },
+    diff: {
+      type:DataTypes.INTEGER,
+      defaultValue: 0
+    },
   },
   {
     sequelize,

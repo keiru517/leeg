@@ -51,8 +51,14 @@ Match.init(
     date: DataTypes.STRING,
     time: DataTypes.STRING,
     location: DataTypes.STRING,
-    result: DataTypes.STRING,
-    status: DataTypes.STRING
+    result: {
+      type:DataTypes.STRING,
+      defaultValue: '--'
+    },
+    status: {
+      type: DataTypes.STRING,
+      defaultValue: ''
+    }
   },
   {
     sequelize,
