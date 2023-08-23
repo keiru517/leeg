@@ -15,7 +15,7 @@ export default class Player extends Model<
   declare teamId: ForeignKey<number>;
   declare name: string;
   declare avatar: string;
-  declare pts: number;
+  declare points: number;
   declare jerseyNumber: number;
   declare height: string;
   declare weight: string;
@@ -36,7 +36,7 @@ Player.init(
     },
     name: DataTypes.STRING,
     avatar: DataTypes.STRING,
-    pts: DataTypes.INTEGER,
+    points: DataTypes.INTEGER,
     jerseyNumber: DataTypes.INTEGER,
     height: DataTypes.STRING,
     weight: DataTypes.STRING,

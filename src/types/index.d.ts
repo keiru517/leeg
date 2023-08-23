@@ -30,7 +30,12 @@ export namespace Types {
     position: number;
     max: number;
     min: number;
-    // waitlist: number;
+    waitlist: number;
+    win: number;
+    lose: number;
+    pointScored: number;
+    pointAgainst: number;
+    diff: number;
   }
   export interface T_Match extends T_DB {
     leagueId: number;
@@ -55,7 +60,7 @@ export namespace Types {
     teamId: number;
     name: string;
     avatar: string;
-    pts: number;
+    points: number;
     jerseyNumber: number;
     height: string;
     weight: string;

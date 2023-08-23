@@ -34,6 +34,24 @@ module.exports = {
       min: {
         type: Sequelize.INTEGER
       },
+      waitlist: {
+        type: Sequelize.INTEGER
+      },
+      win: {
+        type: Sequelize.INTEGER
+      },
+      lose: {
+        type: Sequelize.INTEGER
+      },
+      pointScored: {
+        type: Sequelize.INTEGER
+      },
+      pointAgainst: {
+        type: Sequelize.INTEGER
+      },
+      diff: {
+        type: Sequelize.INTEGER
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

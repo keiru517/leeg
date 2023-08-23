@@ -19,6 +19,11 @@ export default class Team extends Model<
   declare max: number;
   declare min: number;
   declare waitlist: number;
+  declare win: number;
+  declare lose: number;
+  declare pointScored: number;
+  declare pointAgainst: number;
+  declare diff: number;
 
   static modelName = 'Team';
 }
@@ -37,7 +42,12 @@ Team.init(
     position: DataTypes.INTEGER,
     max: DataTypes.INTEGER,
     min: DataTypes.INTEGER,
-    // waitlist: DataTypes.INTEGER,
+    waitlist: DataTypes.INTEGER,
+    win: DataTypes.INTEGER,
+    lose: DataTypes.INTEGER,
+    pointScored: DataTypes.INTEGER,
+    pointAgainst: DataTypes.INTEGER,
+    diff: DataTypes.INTEGER,
   },
   {
     sequelize,
