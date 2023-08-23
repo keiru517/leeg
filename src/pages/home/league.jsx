@@ -35,8 +35,11 @@ const League = () => {
   const teams = useSelector((state) => state.home.teams).filter(team=>team.leagueId==leagueId);
   const matches = useSelector((state) => state.home.matches).filter(match=>match.leagueId == leagueId);
 
-  const options = ["Ascend", "Descend", "Recent"];
+  const options = [{id:0, name:"Ascend"},{id:1, name:"Descend"}, {id:2, name:"Recent"}];
+  
   const [value, setValue] = useState("Sort by");
+  const [waitSortValue, setWaitSortValue] = useState("Sort by");
+  const [acceptSortValue, setAcceptSortValue] = useState("Sort by");
 
   const categories = [
     "Manage Rosters",
@@ -198,10 +201,10 @@ const League = () => {
                         <Select
                           className="w-[144px] rounded-lg text-xs"
                           options={options}
-                          handleClick={(e) => setValue(e)}
-                          value={value}
+                          handleClick={(e) => setWaitSortValue(e.name)}
+                          value={waitSortValue}
                         >
-                          {value}
+                          {waitSortValue}
                         </Select>
                       </div>
                       <div>
@@ -253,10 +256,10 @@ const League = () => {
                         <Select
                           className="w-[144px] rounded-lg text-xs"
                           options={options}
-                          handleClick={(e) => setValue(e)}
-                          value={value}
+                          handleClick={(e) => setAcceptSortValue(e.name)}
+                          value={acceptSortValue}
                         >
-                          {value}
+                          {acceptSortValue}
                         </Select>
                       </div>
                       <div>
@@ -364,7 +367,7 @@ const League = () => {
                       <Select
                         className="text-xs"
                         options={options}
-                        handleClick={(e) => setValue(e)}
+                        handleClick={(e) => setValue(e.name)}
                         value={value}
                       >
                         {value}
@@ -400,7 +403,7 @@ const League = () => {
                       <Select
                         className="text-xs"
                         options={options}
-                        handleClick={(e) => setValue(e)}
+                        handleClick={(e) => setValue(e.name)}
                         value={value}
                       >
                         {value}

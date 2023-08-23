@@ -13,6 +13,7 @@ const Select = (props) => {
 
   const handleButtonClick = (data) => {
     setExpand(false);
+    console.log(data)
     handleClick(data);
   };
 

@@ -41,7 +41,7 @@ const Home = () => {
           <Select
             className="w-[144px] rounded-lg text-xs"
             options={options}
-            handleClick={(e) => setValue(options[e].name)}
+            handleClick={(e) => setValue(e.name)}
             value={value}
           >
             {value}
