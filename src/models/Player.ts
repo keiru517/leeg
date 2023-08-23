@@ -43,6 +43,10 @@ Player.init(
     country: DataTypes.STRING,
     age: DataTypes.INTEGER,
     birthDate: DataTypes.STRING,
+    status: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0 // 0 is waitlist, 1 is accepted
+    }
   },
   {
     sequelize,

@@ -52,8 +52,8 @@ export namespace Types {
     homeTeamId: number;
     awayTeamId: number;
     date: string;
-    ps: number;
-    gp: number;
+    points: number;
+    gamesPlayed: number;
     ppg: number;
   }
   export interface T_PLAYER extends T_DB {
@@ -67,6 +67,7 @@ export namespace Types {
     country: string;
     age: number;
     birthDate: string;
+    status: number;
   }
   export interface T_ResponseData<T> {
     data: T;

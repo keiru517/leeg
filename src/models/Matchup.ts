@@ -16,8 +16,8 @@ export default class Matchup extends Model<
   declare homeTeamId: ForeignKey<number>;
   declare awayTeamId: ForeignKey<number>;
   declare date: string;
-  declare ps: number;
-  declare gp: number;
+  declare points: number;
+  declare gamesPlayed: number;
   declare ppg: number;
   static modelName = 'Matchup';
 }
@@ -48,8 +48,8 @@ Matchup.init(
       }
     },
     date: DataTypes.STRING,
-    ps: DataTypes.INTEGER,
-    gp: DataTypes.INTEGER,
+    points: DataTypes.INTEGER,
+    gamesPlayed: DataTypes.INTEGER,
     ppg: DataTypes.FLOAT,
   },
   {
