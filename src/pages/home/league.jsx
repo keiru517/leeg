@@ -68,58 +68,9 @@ const League = () => {
   };
 
 
-  const rosters = [
-    {
-      name: "Tornike Shengelia",
-      email: "James@gmail.com",
-      created_at: "June 26, 2023, 10:00PM",
-    },
-    {
-      name: "Tornike Shengelia",
-      email: "James@gmail.com",
-      created_at: "June 26, 2023, 10:00PM",
-    },
-    {
-      name: "Tornike Shengelia",
-      email: "James@gmail.com",
-      created_at: "June 26, 2023, 10:00PM",
-    },
-    {
-      name: "Tornike Shengelia",
-      email: "James@gmail.com",
-      created_at: "June 26, 2023, 10:00PM",
-    },
-    {
-      name: "Tornike Shengelia",
-      email: "James@gmail.com",
-      created_at: "June 26, 2023, 10:00PM",
-    },
-    {
-      name: "Tornike Shengelia",
-      email: "James@gmail.com",
-      created_at: "June 26, 2023, 10:00PM",
-    },
-    {
-      name: "Tornike Shengelia",
-      email: "James@gmail.com",
-      created_at: "June 26, 2023, 10:00PM",
-    },
-    {
-      name: "Tornike Shengelia",
-      email: "James@gmail.com",
-      created_at: "June 26, 2023, 10:00PM",
-    },
-    {
-      name: "Tornike Shengelia",
-      email: "James@gmail.com",
-      created_at: "June 26, 2023, 10:00PM",
-    },
-    {
-      name: "Tornike Shengelia",
-      email: "James@gmail.com",
-      created_at: "June 26, 2023, 10:00PM",
-    },
-  ];
+  const players = useSelector(state => state.home.players).filter(player=>player.leagueId ==  2);
+  const waitListPlayers = useSelector(state => state.home.players).filter(player=>player.leagueId ==  leagueId & player.status == 0)
+  const acceptedPlayers = useSelector(state => state.home.players).filter(player=>player.leagueId ==  leagueId & player.status == 1)
 
   useEffect(()=>{
     dispatch({type:actions.SET_SELECTED_LEAGUE, payload:league});
@@ -187,7 +138,7 @@ const League = () => {
                         Waitlisted Players
                       </p>
                       <p className="text-white text-xl font-semibold">
-                        {rosters.length}
+                        {players.length}
                       </p>
                     </div>
                     <hr className="h-px my-5 bg-gray-200 border-0 dark:bg-dark-gray" />
@@ -214,12 +165,12 @@ const League = () => {
                       </div>
                     </div>
                     <div
-                      className={`overflow-y-scroll h-4/6 flex flex-col items-center flex-grow justify-center ${
-                        rosters.length > 1 ? "" : "bg-dark-gray"
+                      className={`overflow-y-scroll h-4/6 flex flex-col items-center flex-grow ${
+                        waitListPlayers.length ? "" : "bg-dark-gray justify-center"
                       } rounded-default`}
                     >
-                      {rosters.length > 1 ? (
-                        rosters.map((player, idx) => (
+                      {waitListPlayers.length ? (
+                        waitListPlayers.map((player, idx) => (
                           <ListItem
                             key={idx}
                             className="mb-5"
@@ -242,7 +193,7 @@ const League = () => {
                         Accepted Players
                       </p>
                       <p className="text-white text-xl font-semibold">
-                        {rosters.length}
+                        {players.length}
                       </p>
                     </div>
                     <hr className="h-px my-5 bg-gray-200 border-0 dark:bg-dark-gray" />
@@ -269,12 +220,12 @@ const League = () => {
                       </div>
                     </div>
                     <div
-                      className={`overflow-y-scroll h-4/6 flex flex-col items-center flex-grow justify-center space-y-5 ${
-                        rosters.length > 1 ? "" : "bg-dark-gray"
+                      className={`overflow-y-scroll h-4/6 flex flex-col items-center flex-grow space-y-5 ${
+                        acceptedPlayers.length ? "" : "bg-dark-gray justify-center"
                       } rounded-default`}
                     >
-                      {rosters.length ? (
-                        rosters.map((player, idx) => (
+                      {acceptedPlayers.length ? (
+                        acceptedPlayers.map((player, idx) => (
                           <ListItem
                             key={idx}
                             avatar={avatar}

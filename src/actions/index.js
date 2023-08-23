@@ -97,11 +97,6 @@ export const getTeams = async (dispatch) => {
   }
 };
 
-// export const getTeams = (payload) => ({
-//   type: GET_TEAMS,
-//   payload: payload,
-// });
-
 export const openCreateTeamDialog = (payload) => ({
   type: OPEN_CREATE_TEAM_DIALOG,
   payload: payload,
@@ -127,10 +122,6 @@ export const openAddPlayerDialgo = (payload) => ({
 });
 
 // Matches Action
-// export const getMatches = (payload) => ({
-//   type: GET_MATCHES,
-//   payload: payload,
-// });
 export const getMatches = async (dispatch) =>{
   try {
     const response = await axios.get('/match/all');
@@ -154,10 +145,24 @@ export const closeMatchDialog = () => ({
 });
 
 // player action
-export const getPlayers = (payload) => ({
-  type: GET_PLAYERS,
-  payload: payload,
-});
+export const getPlayers = async (dispatch) => {
+  try {
+    const response = await axios.get('/player/all');
+    const players = response.data.players;
+    dispatch ({
+      type: GET_PLAYERS,
+      payload: players
+    })
+  }
+  catch (error) {
+    dispatch ({
+      type: GET_PLAYERS,
+      payload: []
+    })
+
+  }
+}
+
 export const AddPlayer = (payload) => ({
   type: ADD_PLAYER,
   payload: payload,
