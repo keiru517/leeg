@@ -205,7 +205,7 @@ const League = () => {
                         </Select>
                       </div>
                       <div>
-                        <Button className="text-sm bg-success w-[72px] h-[38px] rounded-lg">
+                        <Button className="text-sm bg-success w-[72px] h-[38px] rounded-lg hover:opacity-70">
                           Accept
                         </Button>
                       </div>
@@ -260,7 +260,7 @@ const League = () => {
                         </Select>
                       </div>
                       <div>
-                        <Button className="text-sm bg-danger w-[72px] h-[38px] rounded-lg">
+                        <Button className="text-sm bg-danger w-[72px] h-[38px] rounded-lg hover:opacity-70">
                           Remove
                         </Button>
                       </div>

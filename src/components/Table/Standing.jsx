@@ -33,7 +33,7 @@ const StandingTable = (props) => {
           </tr>
         </thead>
         <tbody className="text-center">
-          {teams.sort((a, b)=>a.position-b.position).map(({ position, name, statistics }, index) => (
+          {teams.sort((a, b)=>a.position-b.position).map(({ position, name, win, lose, pointScored, pointAgainst, diff }, index) => (
             <tr key={index} className="odd:bg-dark-gray even:bg-charcoal">
               <td className="w-1/6">
                 <Typography
@@ -57,7 +57,7 @@ const StandingTable = (props) => {
                   variant="small"
                   className="font-normal"
                 >
-                  {statistics.w}
+                  {win}
                 </Typography>
               </td>
               <td  className="w-1/6">
@@ -66,7 +66,7 @@ const StandingTable = (props) => {
                   variant="small"
                   className="font-normal"
                 >
-                  {statistics.l}
+                  {lose}
                 </Typography>
               </td>
               <td className="w-1/6">
@@ -74,7 +74,7 @@ const StandingTable = (props) => {
                   variant="small"
                   className="font-normal"
                 >
-                  {statistics.ps}
+                  {pointScored}
                 </Typography>
               </td>
               <td className="">
@@ -82,7 +82,7 @@ const StandingTable = (props) => {
                   variant="small"
                   className="font-normal"
                 >
-                  {statistics.pa}
+                  {pointAgainst}
                 </Typography>
               </td>
               <td className="">
@@ -92,7 +92,7 @@ const StandingTable = (props) => {
                   variant="small"
                   className="font-normal"
                 >
-                  {statistics.diff}
+                  {diff}
                 </Typography>
               </td>
             </tr>

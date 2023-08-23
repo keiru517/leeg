@@ -15,23 +15,9 @@ const Home = () => {
   //     {'id': 2, 'logo': logo, 'name': '2024 TABC Winter League', 'start_date': 'Firday, July 2023', 'end_date': 'N/A', 'description': 'introducing the "Gravity Hoops League" - where hardwood battles and soaring dunks collide in a symphony of athleticism and teamwork.'}
   //   ];
 
-  const options = ["Ascend", "Descend", "Recent"];
+  const options = [{id:0, name: "Ascend"}, {id:1, name:"Descend"}, {id:2, name:"Recent"}];
   const [value, setValue] = useState("Sort by");
 
-  // // create a league
-  // const createLeague = () => {
-  //   console.log("create_league");
-  // };
-
-  // // update a league
-  // const updateLeague = () => {
-  //   console.log("update_league");
-  // };
-
-  // // delete a league
-  // const deleteLeague = () => {
-  //   console.log("delete_league");
-  // };
 
   useEffect(() => {
     // getLeagues();
@@ -53,9 +39,9 @@ const Home = () => {
             placeholder="Search Leagues"
           />
           <Select
-            className="w-[144px] rounded-lg"
+            className="w-[144px] rounded-lg text-xs"
             options={options}
-            handleClick={(e) => setValue(e)}
+            handleClick={(e) => setValue(options[e].name)}
             value={value}
           >
             {value}

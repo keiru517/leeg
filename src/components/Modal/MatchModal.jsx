@@ -5,20 +5,42 @@ import Select from "../Select";
 import Input from "../Input";
 import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../actions";
+import { useParams } from "react-router-dom";
+import axios from "axios";
 
 const MatchModal = () => {
+  let {leagueId} = useParams();
   const cancelButtonRef = useRef(null);
 
-  const options = ["Real Madrid", "Manchester City", "FC Barcelona"];
   const dispatch = useDispatch();
 
   const status = useSelector((state) => state.home.match_dialog.open);
   const type = useSelector((state) => state.home.match_dialog.type);
-
+  
   const team = useSelector((state) => state.home.match_dialog.match);
-  // if (type != 'create') {
+  const teams = useSelector(state=> state.home.teams).filter(team=>team.leagueId == leagueId)
+  
+  // const options = ["Real Madrid", "Manchester City", "FC Barcelona"];
+  const options = teams;
+  const [homeValue, setHomeValue] = useState({name:'Select Home Team*'});
+  const [awayValue, setAwayValue] = useState({name: "Select Away Team*"});
 
-  // }
+  const currentDate = new Date()
+  const formattedDate = currentDate.toLocaleDateString("en-US", {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  });
+
+  const currentTime = currentDate.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+
+  const formattedTime = currentDate.getHours() >= 12 ? `${currentTime}` : `${currentTime}`;
+  
+  const [date, setDate] = useState(formattedDate)
+  const [time, setTime] = useState(formattedTime)
+  const [location, setLocation] = useState("")
+
   const closeDialog = () => {
     // dispatch({ type: actions.OPEN_CREATE_TEAM_DIALOG, payload: false });
     dispatch({ type: actions.CLOSE_MATCH_DIALOG });
@@ -38,7 +60,19 @@ const MatchModal = () => {
   };
 
   const createSubmit = () => {
-    dispatch({ type: actions.CLOSE_TEAM_DIALOG });
+    axios.post('/match/create', {
+      leagueId: leagueId,
+      homeTeamId: homeValue.id,
+      awayTeamId: awayValue.id,
+      date,
+      time,
+      location,
+    }).then(res=>{
+      dispatch({ type: actions.CLOSE_TEAM_DIALOG });
+      alert(res.data.message);
+      dispatch({type: actions.GET_MATCHES})
+    }).catch(error=>alert(error.data.message))
+    
     console.log("Clicked create");
   };
 
@@ -105,12 +139,16 @@ const MatchModal = () => {
                       <div className="grid grid-cols-2 gap-[10px]">
                         <Select
                           options={options}
+                          handleClick={(e)=>setHomeValue(e)}
+                          value={homeValue.name}
                           className="rounded-default w-full h-12 text-xs"
                         >
                           Select Home Team*
                         </Select>
                         <Select
                           options={options}
+                          handleClick={(e)=>setAwayValue(e)}
+                          value={awayValue.name}
                           className="rounded-default w-full h-12 text-xs"
                         >
                           Select Away Team*
@@ -118,14 +156,20 @@ const MatchModal = () => {
                         <Input
                           className="rounded-default text-xs h-12"
                           placeholder="Enter Date*"
-                        ></Input>
+                          value={date}
+                          onChange={(e) => setDate(e.target.value)}
+                          ></Input>
                         <Input
                           className="rounded-default text-xs h-12"
                           placeholder="Select Time*"
+                          value={time}
+                          onChange={(e) => setTime(e.target.value)}
                         ></Input>
                         <Input
                           className="rounded-default col-span-2 text-xs h-12"
                           placeholder="Enter Location"
+                          value={location}
+                          onChange={(e) => setLocation(e.target.value)}
                         ></Input>
                       </div>
                     </div>

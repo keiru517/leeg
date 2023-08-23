@@ -45,7 +45,7 @@ const Select = (props) => {
                 className="inline-flex w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-middle-gray dark:hover:text-white"
                 onClick={() => handleButtonClick(option)}
               >
-                <div className="inline-flex items-center">{option}</div>
+                <div className="inline-flex items-center">{option.name}</div>
               </button>
             </li>
           );
