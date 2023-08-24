@@ -8,9 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 const TeamCard = (props) => {
     const {team} = props;
-    // const players = useSelector(state=>state.home.players)
-    const players = useSelector(state=>state.home.players).filter(player=>player.team_id == team.id);
-
+    const players = useSelector(state=>state.home.players).filter(player=>player.teamId == team.id);
 
     const dispatch = useDispatch()
     
@@ -43,7 +41,7 @@ const TeamCard = (props) => {
 
             <div className="flex flex-grow items-center">
                 {
-                    players.length > 1?
+                    players.length ?
                     <TeamTable data={players}/>
                     :
                     <div className="flex items-center flex-grow">

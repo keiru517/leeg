@@ -360,7 +360,7 @@ const League = () => {
                         {value}
                       </Select>
                     </div>
-                    <PlayerTable data={teams}></PlayerTable>
+                    <PlayerTable teams={teams}></PlayerTable>
                   </>
                 ) : (
                   <div className="flex items-center flex-grow">

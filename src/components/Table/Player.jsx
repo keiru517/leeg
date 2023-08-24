@@ -5,10 +5,11 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const Player = (props) => {
-  const { data, } = props;
+  const { teams, } = props;
   const columns = ["Team", "Player", "Jersey number"];
 
-  const players = useSelector(state=>state.home.players);
+  const players = useSelector(state=>state.home.players).filter(player=>player.status == 2);
+  
   return (
     <div className="text-white mt-5 w-full">
       <table className="w-full min-w-max table-auto text-left">
@@ -32,18 +33,18 @@ const Player = (props) => {
         </thead>
         <tbody className="text-center">
           {
-          // data.map(({ logo, name}, index) =>
-            players.map((player) => (
-              <tr className="odd:bg-dark-gray even:bg-charcoal h-[53px]">
+          // teams.map(({ logo, name}, index) =>
+            players.map((player, idx) => (
+              <tr key={idx} className="odd:bg-dark-gray even:bg-charcoal h-[53px]">
                 <td className="w-1/5">
                   <Typography
                     variant="small"
                     color="blue-gray"
                     className="font-normal flex items-center underline"
                   >
-                    <img src={data.find(team=>team.id==player.team_id).logo} alt="" className="w-8 h-8 mr-2" />
+                    <img src={teams.find(team=>team.id==player.teamId).logo} alt="" className="w-8 h-8 mr-2" />
                     {
-                      data.find(team=>team.id==player.team_id).name
+                      teams.find(team=>team.id==player.teamId).name
                     }
                     {/* {name} */}
                   </Typography>
@@ -64,7 +65,7 @@ const Player = (props) => {
                     color="blue-gray"
                     className="font-normal"
                   >
-                    {player.jersey_number}
+                    {player.jerseyNumber}
                   </Typography>
                 </td>
               </tr>
