@@ -592,7 +592,7 @@ function App() {
           ></Route>
           <Route
             exact
-            path="/league/:leagueId/matchup/:match_id"
+            path="/league/:leagueId/matchup/:matchId"
             element={<Matchup />}
           ></Route>
           <Route exact path="/profile" element={<Profile />}></Route>

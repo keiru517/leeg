@@ -3,7 +3,8 @@ import actionIcon from '../../assets/img/dark_mode/action.png';
 import avatar from '../../assets/img/dark_mode/player.png';
 
 const PlayerStatistics = (props) => {
-  const {data } = props;
+  const {players } = props;
+
 
   const columns = [
     "Position",
@@ -33,7 +34,7 @@ const PlayerStatistics = (props) => {
           </tr>
         </thead>
         <tbody className="text-center">
-          {data.map(({ position, name, number, points, ppg, gp }, index) => (
+          {players.map(({ position, name, jerseyNumber, points, ppg, gp }, index) => (
             <tr key={index} className="even:bg-dark-gray odd:bg-charcoal">
               <td className="w-1/6">
                 <Typography
@@ -60,7 +61,7 @@ const PlayerStatistics = (props) => {
                   color="blue-gray"
                   className="font-normal"
                 >
-                  {number}
+                  {jerseyNumber}
                 </Typography>
               </td>
               <td className="w-1/6">
@@ -69,7 +70,7 @@ const PlayerStatistics = (props) => {
                   color="blue-gray"
                   className="font-normal"
                 >
-                  {points}
+                  points
                 </Typography>
               </td>
               <td>
@@ -78,7 +79,7 @@ const PlayerStatistics = (props) => {
                   color="blue-gray"
                   className="font-normal"
                 >
-                  {ppg}
+                  PPG
                 </Typography>
               </td>
               <td className="w-1/6">
@@ -87,7 +88,7 @@ const PlayerStatistics = (props) => {
                   color="blue-gray"
                   className="font-normal"
                 >
-                  {gp}
+                  Games Played
                 </Typography>
               </td>
             </tr>

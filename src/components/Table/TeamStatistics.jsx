@@ -1,9 +1,16 @@
 import { Card, Typography } from "@material-tailwind/react";
 import actionIcon from '../../assets/img/dark_mode/action.png';
 import teamLogo from '../../assets/img/dark_mode/team-logo.png';
+import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-const TeamStatistics = (props) => {
-  const { data } = props;
+const TeamStatistics = () => {
+  let { id } = useParams();
+  console.log(id)
+  const team = useSelector(state=>state.home.teams).find(team=>team.id == id);
+  
+
+  // const { data } = props;
   const columns = [
     "W",
     "L",
@@ -39,7 +46,7 @@ const TeamStatistics = (props) => {
                   color="blue-gray"
                   className="font-normal"
                 >
-                  {data.w}
+                  {team.win}
                 </Typography>
               </td>
               <td className="w-1/5">
@@ -48,7 +55,7 @@ const TeamStatistics = (props) => {
                   color="blue-gray"
                   className="font-normal"
                 >
-                  {data.l}
+                  {team.lose}
                 </Typography>
               </td>
               <td className="w-1/5">
@@ -57,7 +64,7 @@ const TeamStatistics = (props) => {
                   color="blue-gray"
                   className="font-normal"
                 >
-                  {data.ps}
+                  {team.pointScored}
                 </Typography>
               </td>
               <td className="w-1/5">
@@ -67,7 +74,7 @@ const TeamStatistics = (props) => {
                   color="blue-gray"
                   className="font-normal"
                 >
-                  {data.ps}
+                  {team.pointAgainst}
                 </Typography>
               </td>
               <td className="w-1/5">
@@ -76,7 +83,7 @@ const TeamStatistics = (props) => {
                   color="blue-gray"
                   className="font-normal"
                 >
-                  {data.diff}
+                  {team.diff}
                 </Typography>
               </td>
             </tr>

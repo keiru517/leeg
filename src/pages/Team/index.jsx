@@ -11,7 +11,7 @@ import { Tab } from "@headlessui/react";
 import MatchTable from "../../components/Table/Match";
 import TeamStatisticsTable from "../../components/Table/TeamStatistics";
 import PlayerStatisticsTable from "../../components/Table/PlayerStatistics";
-import TeamTable from '../../components/Table/Team';
+import TeamTable from "../../components/Table/Team";
 
 const Team = () => {
   let { leagueId, id } = useParams();
@@ -21,9 +21,11 @@ const Team = () => {
     (team) => team.id == id
   );
 
-  const league = useSelector((state) => state.home.leagues).find(league=>league.id==leagueId);
+  const league = useSelector((state) => state.home.leagues).find(
+    (league) => league.id == leagueId
+  );
 
-  const teams = useSelector((state) => state.home.teams);
+  // const teams = useSelector((state) => state.home.teams);
 
   const options = ["Ascend", "Descend", "Recent"];
   const [value, setValue] = useState("Sort by");
@@ -34,8 +36,11 @@ const Team = () => {
     return classes.filter(Boolean).join(" ");
   }
 
-
-  const matches = useSelector(state=>state.home.matches);
+  const matches = useSelector((state) => state.home.matches).filter(
+    (match) =>
+      (match.leagueId == leagueId) &
+      ((match.homeTeamId == id) | (match.awayTeamId == id))
+  );
 
   // const getPlayers = () => {
   const players_statistics = [
@@ -71,7 +76,7 @@ const Team = () => {
     },
   ];
 
-  const players = useSelector(state=>state.home.players).filter(player=>player.team_id==id);
+  const players = useSelector(state=>state.home.players).filter(player=>player.teamId==id)
 
   return (
     <div className="flex flex-col flex-grow">
@@ -79,7 +84,7 @@ const Team = () => {
         {team.name}
       </PageTitle>
       <p className="font-dark-gray my-[20px]">
-        <Link to='/'>
+        <Link to="/">
           <span className="underline">My Leagues</span>
         </Link>
         <span className="text-sky-500"> &gt; </span>
@@ -137,7 +142,7 @@ const Team = () => {
                 {matches.length > 0 ? (
                   <>
                     <MatchTable
-                      data={matches}
+                      matches={matches}
                       leagueId={leagueId}
                     ></MatchTable>
                   </>
@@ -157,26 +162,24 @@ const Team = () => {
                   "rounded-xl flex flex-col w-full h-full "
                 )}
               >
-                {matches.length > 0 ? (
+                {players.length > 0 ? (
                   <>
                     <hr className="h-px my-4 bg-charcoal border-0" />
                     <div className=" flex flex-col space-y-5">
                       <p className="text-white text-sm font-mediim">
                         Team Statistics
                       </p>
-                      <TeamStatisticsTable
-                        data={team.statistics}
-                      ></TeamStatisticsTable>
+                      <TeamStatisticsTable />
                       <p className="text-white text-sm font-mediim">
                         Player Statistics
                       </p>
                       <Input
-                        className="rounded-lg"
+                        className="rounded-lg text-xs"
                         icon={search}
                         placeholder="Search Schedules"
                       />
                       <PlayerStatisticsTable
-                        data={players_statistics}
+                        players={players}
                       ></PlayerStatisticsTable>
                     </div>
                   </>

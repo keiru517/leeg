@@ -138,7 +138,7 @@ const League = () => {
                         Waitlisted Players
                       </p>
                       <p className="text-white text-xl font-semibold">
-                        {players.length}
+                        {waitListPlayers.length}
                       </p>
                     </div>
                     <hr className="h-px my-5 bg-gray-200 border-0 dark:bg-dark-gray" />
@@ -193,7 +193,7 @@ const League = () => {
                         Accepted Players
                       </p>
                       <p className="text-white text-xl font-semibold">
-                        {players.length}
+                        {acceptedPlayers.length}
                       </p>
                     </div>
                     <hr className="h-px my-5 bg-gray-200 border-0 dark:bg-dark-gray" />

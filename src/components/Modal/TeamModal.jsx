@@ -32,8 +32,9 @@ const TeamModal = () => {
 
   const cancelButtonRef = useRef(null);
 
-
-  const players = useSelector(state=>state.home.players)
+  const players = useSelector((state) => state.home.players).filter(
+    (player) => (player.leagueId == leagueId) & (player.status == 1)
+  );
 
   const [teamName, setTeamName] = useState(team.name);
 
@@ -44,55 +45,60 @@ const TeamModal = () => {
   };
 
   const handleDelete = () => {
-    console.log("teamid", team.id)
+    console.log("teamid", team.id);
     // confirm("HI");
-    axios.delete(`/team/remove/${team.id}`).then(res=>{
-      dispatch({ type: actions.CLOSE_TEAM_DIALOG})
-      actions.getTeams(dispatch);
-      alert(res.data.message);
-    })
-    .catch(err=>alert(err.data.message))
+    axios
+      .delete(`/team/remove/${team.id}`)
+      .then((res) => {
+        dispatch({ type: actions.CLOSE_TEAM_DIALOG });
+        actions.getTeams(dispatch);
+        alert(res.data.message);
+      })
+      .catch((err) => alert(err.data.message));
     // dispatch({ type: actions.OPEN_DELETE_TEAM_DIALOG, payload: team });
     // dispatch({ type: actions.OPEN_TEAM_DIALOG, payload: true });
   };
 
   const handleEdit = () => {
-    dispatch({ type: actions.OPEN_EDIT_TEAM_DIALOG, payload: {open:true, type:'edit', team:team} });
+    dispatch({
+      type: actions.OPEN_EDIT_TEAM_DIALOG,
+      payload: { open: true, type: "edit", team: team },
+    });
     // dispatch({ type: actions.OPEN_TEAM_DIALOG, payload: true });
   };
 
   const createSubmit = () => {
-    setTeamName("")
-    axios.post("/team/create", {
-      leagueId: leagueId,
-      name: teamName,
-      logo: "logo",
-      position: 0,
-      max: 0,
-      min: 0
-    })
-    .then((res) => {
-      actions.getTeams(dispatch)
-      dispatch({ type: actions.CLOSE_TEAM_DIALOG });
-    })
-
+    setTeamName("");
+    axios
+      .post("/team/create", {
+        leagueId: leagueId,
+        name: teamName,
+        logo: "logo",
+        position: 0,
+        max: 0,
+        min: 0,
+      })
+      .then((res) => {
+        actions.getTeams(dispatch);
+        dispatch({ type: actions.CLOSE_TEAM_DIALOG });
+      });
   };
 
   const editSubmit = () => {
-    
     dispatch({ type: actions.CLOSE_TEAM_DIALOG });
-    axios.post('/team/update', {
-      id:team.id,
-      name: teamName,
-      logo: 'updated logo'
-    })
-    .then((res)=>{
-      actions.getTeams(dispatch);
-      alert(res.data.message);
-    })
-    .catch((err)=>{
-      alert(err.data.message)
-    })
+    axios
+      .post("/team/update", {
+        id: team.id,
+        name: teamName,
+        logo: "updated logo",
+      })
+      .then((res) => {
+        actions.getTeams(dispatch);
+        alert(res.data.message);
+      })
+      .catch((err) => {
+        alert(err.data.message);
+      });
     console.log("Clicked edit");
   };
 
@@ -100,8 +106,6 @@ const TeamModal = () => {
     dispatch({ type: actions.CLOSE_TEAM_DIALOG });
     console.log("Clicked delete");
   };
-
-
 
   return (
     <Transition.Root show={status} as={Fragment}>
@@ -213,11 +217,11 @@ const TeamModal = () => {
                             </p>
                           </div>
                           <Input
-                            className="rounded-lg my-[10px]"
+                            className="rounded-lg my-[10px] text-xs"
                             icon={search}
                             placeholder="Search Players"
                           />
-                          <div className="overflow-y-auto h-[469px]">
+                          <div className="overflow-y-auto">
                             {players.map((player, idx) => (
                               <PlayerList
                                 key={idx}
@@ -252,6 +256,13 @@ const TeamModal = () => {
                         className="bg-danger bg-opacity-10 rounded-xl w-full h-12 text-danger font-semibold hover:bg-opacity-5"
                       >
                         Delete Team
+                      </button>
+                    ) : type === "addPlayer" ? (
+                      <button
+                        onClick={editSubmit}
+                        className="bg-primary rounded-xl w-full hover:bg-opacity-70 h-button text-white"
+                      >
+                        Confirm
                       </button>
                     ) : (
                       ""

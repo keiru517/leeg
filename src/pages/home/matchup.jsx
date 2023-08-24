@@ -12,10 +12,10 @@ import * as actions from "../../actions";
 import SubstituteModal from "../../components/Modal/SubstituteModal";
 
 const Matchup = () => {
-  let {  match_id } = useParams();
+  let { matchId } = useParams();
 
   const match = useSelector((state) => state.home.matches).find(
-    (match) => match.id == match_id
+    (match) => match.id == matchId
   );
     
   const home_team = useSelector(state=>state.home.teams).find(team=>team.id == match.homeTeamId);
