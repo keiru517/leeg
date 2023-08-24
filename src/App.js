@@ -549,8 +549,8 @@ function App() {
 
   const getAdmins = () => {
     const admins = [
-      { id: 1, player_id: 17 },
-      { id: 2, player_id: 19 },
+      { id: 1, playerId: 2 },
+      { id: 2, playerId: 3 },
     ];
 
     dispatch({ type: actions.GET_ADMINS, payload: admins });

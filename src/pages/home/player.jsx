@@ -31,7 +31,7 @@ const Player = () => {
   return (
     <div className="flex flex-col flex-grow">
       <ProfileTitle
-        avatar={player.avatar}
+        avatar={avatar}
         team={team}
       >
         <div>
