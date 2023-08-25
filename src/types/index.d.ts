@@ -60,6 +60,7 @@ export namespace Types {
     leagueId: number;
     teamId: number;
     name: string;
+    email: string;
     avatar: string;
     points: number;
     jerseyNumber: number;

@@ -15,6 +15,7 @@ export default class Player extends Model<
   declare leagueId: number;
   declare teamId: number;
   declare name: string;
+  declare email: string;
   declare avatar: string;
   declare points: number;
   declare jerseyNumber: number;
@@ -30,6 +31,7 @@ Player.init(
     leagueId: DataTypes.INTEGER,
     teamId: DataTypes.INTEGER,
     name: DataTypes.STRING,
+    email: DataTypes.STRING,
     avatar: DataTypes.STRING,
     points: {
       type:DataTypes.INTEGER,
