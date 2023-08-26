@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const Player = (props) => {
-  const { teams, } = props;
+  const { teams} = props;
   const columns = ["Team", "Player", "Jersey number"];
 
   const players = useSelector(state=>state.home.players).filter(player=>player.status == 2);

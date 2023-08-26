@@ -2,7 +2,7 @@ import { Switch } from "@headlessui/react";
 import { useState } from "react";
 import { AiOutlineCheck } from "react-icons/ai";
 
-function Checkbox1({ label, name, checked, onChange, disabled }) {
+function Checkbox({ label, name, checked, onChange, disabled }) {
   return (
     <Switch.Group>
       <div className="flex items-center justify-between">
@@ -33,12 +33,21 @@ function Checkbox1({ label, name, checked, onChange, disabled }) {
 }
 
 const ListItem = (props) => {
-  const [itemOnechecked, setItemOneChecked] = useState(false);
   const [itemTwochecked, setItemTwoChecked] = useState(false);
   const [itemThreechecked, setItemThreeChecked] = useState(false);
   const [itemFourchecked, setItemFourChecked] = useState(true);
 
-  const { className, avatar, name, email, date, children } = props;
+  const {
+    className,
+    avatar,
+    name,
+    email,
+    date,
+    children,
+    itemChecked,
+    setItemChecked,
+  } = props;
+
   return (
     <div className={`${className} w-full`}>
       <div className="flex items-center justify-between bg-dark-gray w-full h-14 rounded-default py-1.5 px-4">
@@ -52,10 +61,10 @@ const ListItem = (props) => {
             </div>
           </div>
         </div>
-        <Checkbox1
+        <Checkbox
           name="name"
-          checked={itemOnechecked}
-          onChange={setItemOneChecked}
+          checked={!!itemChecked}
+          onChange={setItemChecked}
         />
       </div>
     </div>

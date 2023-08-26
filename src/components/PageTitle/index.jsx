@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from "react-router";
 
 import * as actions from '../../actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const PageTitle = (props) => {
 
@@ -16,10 +17,12 @@ const PageTitle = (props) => {
     createAction,
   } = props;
 
-  let { id } = useParams();
+  let { leagueId } = useParams();
+  console.log(leagueId)
   const league = useSelector((state) => state.home.leagues).find(
-    (league) => league.id === id
+    (league) => league.id == leagueId
   );
+  console.log(league)
 
   const dispatch = useDispatch();
 
@@ -33,6 +36,17 @@ const PageTitle = (props) => {
 
   const navigate = useNavigate()
 
+//   const [logo, setLogo] = useState('');
+
+//   useEffect(() => {
+//     axios.get(`/league/logo/${leagueId}`, {responseType: "arraybuffer"}).then(res=>{
+//         const logoUrl = URL.createObjectURL(
+//             new Blob([res.data], {type: "image/jpeg"})
+//         );
+//         setLogo(logoUrl);
+//     })
+
+// }, [leagueId]);
 
 
   return (
@@ -44,7 +58,7 @@ const PageTitle = (props) => {
             : ""
         }
         {
-          logo ? <img src={logo} alt="" className='w-20 h-20 ml-6' />
+          logo ? <img src={league.logo} alt="" className='w-20 h-20 ml-6' />
             : ""
         }
         <p className='text-3xl text-white text-left font-black mx-6'>{children}</p>

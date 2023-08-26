@@ -31,12 +31,19 @@ const League = () => {
     (league) => league.id == leagueId
   );
 
+  const teams = useSelector((state) => state.home.teams).filter(
+    (team) => team.leagueId == leagueId
+  );
+  const matches = useSelector((state) => state.home.matches).filter(
+    (match) => match.leagueId == leagueId
+  );
 
-  const teams = useSelector((state) => state.home.teams).filter(team=>team.leagueId==leagueId);
-  const matches = useSelector((state) => state.home.matches).filter(match=>match.leagueId == leagueId);
+  const options = [
+    { id: 0, name: "Ascend" },
+    { id: 1, name: "Descend" },
+    { id: 2, name: "Recent" },
+  ];
 
-  const options = [{id:0, name:"Ascend"},{id:1, name:"Descend"}, {id:2, name:"Recent"}];
-  
   const [value, setValue] = useState("Sort by");
   const [waitSortValue, setWaitSortValue] = useState("Sort by");
   const [acceptSortValue, setAcceptSortValue] = useState("Sort by");
@@ -54,12 +61,14 @@ const League = () => {
   }
 
   const [breadcrum, setBreadcrum] = useState("Manage Rosters");
+  const [waitItemChecked, setWaitItemChecked] = useState([]);
+  const [acceptedItemChecked, setAcceptedItemChecked] = useState([]);
 
   const buttons = {
     "Manage Rosters": "Invite Player",
-    "Teams": "Create Team",
-    "Matches": "Create Match",
-    "Standings": "Create Match",
+    Teams: "Create Team",
+    Matches: "Create Match",
+    Standings: "Create Match",
     "All Playerlist": "Create Match",
   };
 
@@ -67,14 +76,34 @@ const League = () => {
     setBreadcrum(data);
   };
 
+  const players = useSelector((state) => state.home.players).filter(
+    (player) => player.leagueId == 2
+  );
+  const waitListPlayers = useSelector((state) => state.home.players).filter(
+    (player) => (player.leagueId == leagueId) & (player.status == 0)
+  );
+  const acceptedPlayers = useSelector((state) => state.home.players).filter(
+    (player) => (player.leagueId == leagueId) & (player.status == 1)
+  );
 
-  const players = useSelector(state => state.home.players).filter(player=>player.leagueId ==  2);
-  const waitListPlayers = useSelector(state => state.home.players).filter(player=>player.leagueId ==  leagueId & player.status == 0)
-  const acceptedPlayers = useSelector(state => state.home.players).filter(player=>player.leagueId ==  leagueId & player.status == 1)
+  useEffect(() => {
+    dispatch({ type: actions.SET_SELECTED_LEAGUE, payload: league });
+  }, []);
 
-  useEffect(()=>{
-    dispatch({type:actions.SET_SELECTED_LEAGUE, payload:league});
-  }, [])
+  const setWaitListItemChecked = (index, checked) => {
+    waitItemChecked[index] = checked;
+    setWaitItemChecked([...waitItemChecked]);
+  };
+  const setAcceptedListItemChecked = (index, checked) => {
+    acceptedItemChecked[index] = checked;
+    setAcceptedItemChecked([...acceptedItemChecked]);
+  };
+
+  const handleAccept = () => {
+    console.log("Here")
+    console.log(waitItemChecked)
+  }
+
   return (
     <div className="flex flex-col flex-grow">
       <PageTitle
@@ -95,7 +124,7 @@ const League = () => {
         {league.name}
       </PageTitle>
       <p className="font-dark-gray my-[20px]">
-        <Link to='/'>
+        <Link to="/">
           <span className="underline">My Leagues</span>
         </Link>
         <span className="text-sky-500"> &gt; {league.name}</span>
@@ -159,14 +188,16 @@ const League = () => {
                         </Select>
                       </div>
                       <div>
-                        <Button className="text-sm bg-success w-[72px] h-[38px] rounded-lg hover:opacity-70">
+                        <Button onClick={handleAccept} className="text-sm bg-success w-[72px] h-[38px] rounded-lg hover:opacity-70">
                           Accept
                         </Button>
                       </div>
                     </div>
                     <div
                       className={`overflow-y-scroll h-4/6 flex flex-col items-center flex-grow ${
-                        waitListPlayers.length ? "" : "bg-dark-gray justify-center"
+                        waitListPlayers.length
+                          ? ""
+                          : "bg-dark-gray justify-center"
                       } rounded-default`}
                     >
                       {waitListPlayers.length ? (
@@ -177,7 +208,11 @@ const League = () => {
                             avatar={avatar}
                             name={player.name}
                             email={player.email}
-                            date={player.created_at}
+                            date={player.createdAt}
+                            itemChecked={!!waitItemChecked[idx]}
+                            setItemChecked={(checked) => {
+                              setWaitListItemChecked(idx, checked);
+                            }}
                           ></ListItem>
                         ))
                       ) : (
@@ -221,7 +256,9 @@ const League = () => {
                     </div>
                     <div
                       className={`overflow-y-scroll h-4/6 flex flex-col items-center flex-grow space-y-5 ${
-                        acceptedPlayers.length ? "" : "bg-dark-gray justify-center"
+                        acceptedPlayers.length
+                          ? ""
+                          : "bg-dark-gray justify-center"
                       } rounded-default`}
                     >
                       {acceptedPlayers.length ? (
@@ -232,6 +269,10 @@ const League = () => {
                             name={player.name}
                             email={player.email}
                             date={player.created_at}
+                            itemChecked={!!acceptedItemChecked[idx]}
+                            setItemChecked={(checked) => {
+                              setAcceptedListItemChecked(idx, checked);
+                            }}
                           ></ListItem>
                         ))
                       ) : (
@@ -287,7 +328,10 @@ const League = () => {
                       icon={search}
                       placeholder="Search Schedules"
                     />
-                    <MatchTable matches={matches}  leagueId={leagueId}></MatchTable>
+                    <MatchTable
+                      matches={matches}
+                      leagueId={leagueId}
+                    ></MatchTable>
                   </>
                 ) : (
                   <div className="flex items-center flex-grow">

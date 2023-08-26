@@ -83,6 +83,17 @@ const home = (state = initialState, action) => {
         selected_league: action.payload,
       };
 
+    case actions.SET_LOGO_URL:
+      return {
+        ...state,
+        leagues: state.leagues.map((league) =>
+          league.id == action.payload.id
+            ? { ...league, logo: action.payload.logoUrl }
+            : league
+        ),
+      };
+
+    // Team
     case actions.GET_TEAMS:
       return { ...state, teams: action.payload };
 

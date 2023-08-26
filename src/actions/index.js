@@ -6,6 +6,7 @@ export const CLOSE_LEAGUE_DIALOG = "CLOSE_LEAGUE_DIALOG";
 export const OPEN_EDIT_LEAGUE_DIALOG = "OPEN_EDIT_LEAGUE_DIALOG";
 export const OPEN_DELETE_LEAGUE_DIALOG = "OPEN_DELETE_LEAGUE_DIALOG";
 export const SET_SELECTED_LEAGUE = "SET_SELECTED_LEAGUE";
+export const SET_LOGO_URL = "SET_LOGO_URL";
 // Teams
 export const GET_TEAMS = "GET_TEAMS";
 export const OPEN_CREATE_TEAM_DIALOG = "OPEN_CREATE_TEAM_DIALOG";
@@ -37,6 +38,7 @@ export const getLeagues = async (dispatch) => {
   try {
     const response = await axios.get(`/league/all`);
     const leagues = response.data.leagues;
+    // logo
     dispatch({
       type: GET_LEAGUES,
       payload: leagues,
@@ -73,6 +75,11 @@ export const setSelectedLeague = (payload) => ({
   type: SET_SELECTED_LEAGUE,
   payload: payload,
 });
+
+export const setLogoUrl = (payload) => ({
+  type: SET_LOGO_URL,
+  payload: payload
+})
 
 // Players
 export const openInvitePlayerDialog = (payload) => ({

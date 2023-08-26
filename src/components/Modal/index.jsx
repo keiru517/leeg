@@ -60,17 +60,20 @@ const Modal = (props) => {
   const [endDate, setEndDate] = useState(currentDate);
   const fileUploadRef = useRef(undefined);
 
-  const [chosenFile, setChosenFile] = useState('');
+  const [chosenFile, setChosenFile] = useState();
 
   const createLeague = () => {
+
+    const formData = new FormData();
+    formData.append("sport", sport);
+    formData.append("name", leagueName);
+    formData.append("description", leagueDescription);
+    formData.append("startDate", startDate);
+    formData.append("endDate", endDate);
+    formData.append("logo", chosenFile);
+    
     axios
-      .post("/league/create", {
-        sport: sport,
-        name: leagueName,
-        description: leagueDescription,
-        startDate: startDate,
-        endDate: endDate,
-      })
+      .post("/league/create", formData)
       .then((res) => {
         actions.getLeagues(dispatch);
         dispatch({ type: actions.CLOSE_LEAGUE_DIALOG });
@@ -210,18 +213,11 @@ const Modal = (props) => {
                                 ref={fileUploadRef}
                                 hidden
                                 onChange={(e) => {
-                                  setChosenFile(e.target.files[0])
-                                  // const files = e.target.files;
-                                  // if (files.length) {
-                                  //   const file = files[0];
-                                  //   const formData = new FormData();
-                                  //   formData.append("file", file);
-                                  //   fetch(`upload-url`, {
-                                  //     method: "post",
-                                  //     body: formData,
-                                  //   });
-                                  // }
-                                  // console.log(e.target.files);
+                                  const files = e.target.files;
+                                  if (files.length) {
+                                    const file = files[0];
+                                    setChosenFile(file);
+                                  }
                                 }}
                               />
                               <p className="text-white font-bold text-sm">
