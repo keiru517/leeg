@@ -18,7 +18,7 @@ export namespace Types {
     startDate: string;
     endDate: string;
   }
-  export interface T_UserLeague extends T_DB {
+  export interface T_Admin extends T_DB {
     userId: number;
     leagueId: number;
     role: number;

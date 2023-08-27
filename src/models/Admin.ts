@@ -2,21 +2,21 @@ import { Model, DataTypes, Optional, CreationOptional, ForeignKey } from 'sequel
 import sequelize from '.';
 import { Types } from '../types';
 
-type UserLeagueCreationAttributes = Optional<
-  Types.T_UserLeague,
+type AdminCreationAttributes = Optional<
+  Types.T_Admin,
   'id' | 'createdAt' | 'updatedAt'
 >;
 
-export default class UserLeague extends Model<
-UserLeagueCreationAttributes,
-UserLeagueCreationAttributes
+export default class Admin extends Model<
+AdminCreationAttributes,
+AdminCreationAttributes
 > {
   declare id: CreationOptional<number>;
   declare userId: ForeignKey<number>;
   declare leagueId: ForeignKey<number>;
   declare role: number;
 }
-UserLeague.init(
+Admin.init(
   {
 
     userId: {
@@ -35,10 +35,13 @@ UserLeague.init(
         key: 'id'
       }
     },
-    role: DataTypes.INTEGER
+    role: {
+      type: DataTypes.INTEGER,
+      defaultValue: 1
+    }
   },
   {
     sequelize,
-    modelName: 'UserLeague'
+    modelName: 'Admin'
   }
 );

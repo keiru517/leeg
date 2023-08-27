@@ -1,6 +1,10 @@
 import { RequestHandler } from 'express';
+import { existsSync, mkdirSync, writeFileSync } from 'fs';
 import Team from '../models/Team';
 import { Types } from '../types';
+import path from 'path';
+import { absolutePath, FILE_NAME_DATE_TILE_FORMAT } from '../helpers';
+import moment from 'moment';
 
 // GET SERVER_URL/api/team/all
 export const all: RequestHandler = async (req, res) => {
@@ -11,7 +15,27 @@ export const all: RequestHandler = async (req, res) => {
 // POST SERVER_URL/api/team/create
 export const create: RequestHandler = async (req, res) => {
   const data: Types.T_Team = req.body;
+  const userId = 1;
+  if (req.file) {
+    const extension = path.extname(req.file.originalname);
+    const directoryPath = absolutePath(`public/upload/${userId}/teams`);
+    console.log('directory', directoryPath);
+    if (!existsSync(directoryPath)) {
+      mkdirSync(directoryPath, { recursive: true });
+    }
 
+    const fileName = `${moment().format(
+      FILE_NAME_DATE_TILE_FORMAT
+    )}${extension}`;
+    const filePath = path.join(directoryPath, fileName); // Use path.join to combine paths correctly
+
+    const buffer = req.file.buffer;
+    writeFileSync(filePath, buffer);
+    data.logo = filePath;
+    // data.logo = URL.createObjectURL(new Blob([buffer], {type: "image/jpeg"}));
+  }
+
+  
   await Team.create(data);
   res.status(200).json({message:'A Team Created Successfully!'});
 };

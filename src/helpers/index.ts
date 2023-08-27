@@ -1,8 +1,12 @@
-import { join } from 'path';
+import path, { join } from 'path';
 import { Types } from '../types';
 
 export const absolutePath = (path: string | undefined = undefined) => {
   return join(process.cwd(), path || '');
+};
+
+export const leagueLogoPath = (userId: number, fileName: string) => {
+  return path.join(UPLOAD_PATH, userId?.toString(), 'leagues', fileName);
 };
 
 export const rs = (
@@ -29,5 +33,6 @@ export const rf = (
   };
 };
 
-export const FILE_NAME_DATE_TILE_FORMAT = "YYYY-MM-DD-HH-mm-ss";
-export const DATE_TILE_FORMAT = "YYYY-MM-DD HH:mm:ss";
+export const FILE_NAME_DATE_TILE_FORMAT = 'YYYY-MM-DD-HH-mm-ss';
+export const DATE_TILE_FORMAT = 'YYYY-MM-DD HH:mm:ss';
+export const UPLOAD_PATH = absolutePath('public/upload');
