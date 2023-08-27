@@ -27,7 +27,7 @@ const Modal = (props) => {
 
   const cancelButtonRef = useRef(null);
 
-  const sportOptions = ["Basketball", "Rugby", "Hockey", "Baseball"];
+  const sportOptions = [{id:0, name:"Basketball"}, {id:1, name:"Rugby"}, {id:2, name:"Hockey"}, {id:3, name:"Baseball"}];
 
   const closeDialog = () => {
     setStep(1);
@@ -71,7 +71,7 @@ const Modal = (props) => {
     formData.append("startDate", startDate);
     formData.append("endDate", endDate);
     formData.append("logo", chosenFile);
-    
+
     axios
       .post("/league/create", formData)
       .then((res) => {
@@ -180,9 +180,9 @@ const Modal = (props) => {
                       {step == 1 ? (
                         <>
                           <Select
-                            className="w-full h-[48px] rounded-default"
+                            className="w-full h-[48px] rounded-default text-xs"
                             options={sportOptions}
-                            handleClick={(e) => setSport(e)}
+                            handleClick={(e) => setSport(e.name)}
                             value={sport}
                           >
                             {sport}

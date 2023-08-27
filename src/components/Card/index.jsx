@@ -3,25 +3,19 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import * as actions from "../../actions";
 import { useDispatch } from "react-redux";
+import { apis } from "../../utils/apis";
 
 const Card = (props) => {
   const { route, item } = props;
   const dispatch = useDispatch();
-//   const [logo, setLogo] = useState(null);
+  //   const [logo, setLogo] = useState(null);
 
   useEffect(() => {
-    axios
-      .get(`/league/logo/${item.id}`, { responseType: "arraybuffer" })
-      .then((res) => {
-        const logoUrl = URL.createObjectURL(
-          new Blob([res.data], { type: "image/jpeg" })
-        );
-        
-        dispatch({
-          type: actions.SET_LOGO_URL,
-          payload: { id: item.id, logoUrl: logoUrl },
-        });
-      });
+    const logoUrl = apis.leagueLogoURL(item.id);
+    dispatch({
+      type: actions.SET_LOGO_URL,
+      payload: { id: item.id, logoUrl: logoUrl },
+    });
   }, [item.id]);
 
   return (
