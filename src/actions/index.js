@@ -6,7 +6,7 @@ export const CLOSE_LEAGUE_DIALOG = "CLOSE_LEAGUE_DIALOG";
 export const OPEN_EDIT_LEAGUE_DIALOG = "OPEN_EDIT_LEAGUE_DIALOG";
 export const OPEN_DELETE_LEAGUE_DIALOG = "OPEN_DELETE_LEAGUE_DIALOG";
 export const SET_SELECTED_LEAGUE = "SET_SELECTED_LEAGUE";
-export const SET_LOGO_URL = "SET_LOGO_URL";
+export const SET_LEAGUE_LOGO_URL = "SET_LOGO_URL";
 // Teams
 export const GET_TEAMS = "GET_TEAMS";
 export const OPEN_CREATE_TEAM_DIALOG = "OPEN_CREATE_TEAM_DIALOG";
@@ -14,6 +14,7 @@ export const OPEN_EDIT_TEAM_DIALOG = "OPEN_EDIT_TEAM_DIALOG";
 export const OPEN_DELETE_TEAM_DIALOG = "OPEN_DELETE_TEAM_DIALOG";
 export const CLOSE_TEAM_DIALOG = "CLOSE_TEAM_DIALOG";
 export const OPEN_ADD_PLAYER_DIALOG = "OPEN_ADD_PLAYER_DIALOG";
+export const SET_TEAM_LOGO_URL = "SET_TEAM_LOGO_URL";
 
 // Matches
 export const GET_MATCHES = "GET_MATCHES";
@@ -31,7 +32,6 @@ export const CLOSE_ADD_SUBSTITUTE_DIALOG = "CLOSE_ADD_SUBSTITUTE_DIALOG";
 // Admin
 export const GET_ADMINS = "GET_ADMINS";
 // league actions----------------------------------
-
 
 // Get leagues from the server
 export const getLeagues = async (dispatch) => {
@@ -52,19 +52,19 @@ export const getLeagues = async (dispatch) => {
 };
 
 // create
-export const openCreateLeagueDialog = (payload) => ({
-  type: OPEN_CREATE_LEAGUE_DIALOG,
-  payload: payload,
-});
+// export const openCreateLeagueDialog = (payload) => ({
+//   type: OPEN_CREATE_LEAGUE_DIALOG,
+//   payload: payload,
+// });
 
-export const closeLeagueDialog = () => ({
-  type: CLOSE_LEAGUE_DIALOG,
-});
+// export const closeLeagueDialog = () => ({
+//   type: CLOSE_LEAGUE_DIALOG,
+// });
 
-export const openEditLeagueDialog = (payload) => ({
-  type: OPEN_EDIT_LEAGUE_DIALOG,
-  payload: payload,
-});
+// export const openEditLeagueDialog = (payload) => ({
+//   type: OPEN_EDIT_LEAGUE_DIALOG,
+//   payload: payload,
+// });
 
 export const openDeleteLeagueDialog = (payload) => ({
   type: OPEN_DELETE_LEAGUE_DIALOG,
@@ -76,10 +76,10 @@ export const setSelectedLeague = (payload) => ({
   payload: payload,
 });
 
-export const setLogoUrl = (payload) => ({
-  type: SET_LOGO_URL,
-  payload: payload
-})
+export const setLeagueLogoUrl = (payload) => ({
+  type: SET_LEAGUE_LOGO_URL,
+  payload: payload,
+});
 
 // Players
 export const openInvitePlayerDialog = (payload) => ({
@@ -129,23 +129,21 @@ export const openAddPlayerDialgo = (payload) => ({
 });
 
 // Matches Action
-export const getMatches = async (dispatch) =>{
+export const getMatches = async (dispatch) => {
   try {
-    const response = await axios.get('/match/all');
+    const response = await axios.get("/match/all");
     const matches = response.data.matches;
-    dispatch ({
+    dispatch({
       type: GET_MATCHES,
-      payload: matches
+      payload: matches,
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_LEAGUES,
+      payload: [],
     });
   }
-  catch (error) {
-    dispatch ({
-      type: GET_LEAGUES,
-      payload: []
-    })
-  }
-}
-
+};
 
 export const closeMatchDialog = () => ({
   type: CLOSE_MATCH_DIALOG,
@@ -154,21 +152,19 @@ export const closeMatchDialog = () => ({
 // player action
 export const getPlayers = async (dispatch) => {
   try {
-    const response = await axios.get('/player/all');
+    const response = await axios.get("/player/all");
     const players = response.data.players;
-    dispatch ({
+    dispatch({
       type: GET_PLAYERS,
-      payload: players
-    })
-  }
-  catch (error) {
-    dispatch ({
+      payload: players,
+    });
+  } catch (error) {
+    dispatch({
       type: GET_PLAYERS,
-      payload: []
-    })
-
+      payload: [],
+    });
   }
-}
+};
 
 export const AddPlayer = (payload) => ({
   type: ADD_PLAYER,

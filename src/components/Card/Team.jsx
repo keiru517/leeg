@@ -5,6 +5,8 @@ import userIcon from '../../assets/img/dark_mode/user-add.png';
 import editIcon from '../../assets/img/dark_mode/edit.png';
 import * as actions from '../../actions';
 import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import apis from "../../utils/apis";
 
 const TeamCard = (props) => {
     const {team} = props;
@@ -12,7 +14,7 @@ const TeamCard = (props) => {
 
     const dispatch = useDispatch()
     
-    // const players = []
+    
 
     const handleAddPlayer = () => {
         dispatch({type:actions.OPEN_ADD_PLAYER_DIALOG, payload:team})
@@ -22,6 +24,14 @@ const TeamCard = (props) => {
     const handleEdit = () => {
         dispatch({type: actions.OPEN_EDIT_TEAM_DIALOG, payload:team})
     }
+
+    useEffect(() => {
+        const logoUrl = apis.teamLogoURL(team.id);
+        dispatch({
+            type: actions.SET_TEAM_LOGO_URL,
+            payload: { id: team.id, logoUrl: logoUrl}
+        })
+    }, [team.id])
 
     return (
       <div className="flex flex-col overflow-y-auto rounded-default h-[350px] bg-dark-gray transition ease-in-out delay-150 hover:bg-dark-gray duration-200 w-full">

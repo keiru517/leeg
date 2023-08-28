@@ -8,12 +8,11 @@ import { apis } from "../../utils/apis";
 const Card = (props) => {
   const { route, item } = props;
   const dispatch = useDispatch();
-  //   const [logo, setLogo] = useState(null);
 
   useEffect(() => {
     const logoUrl = apis.leagueLogoURL(item.id);
     dispatch({
-      type: actions.SET_LOGO_URL,
+      type: actions.SET_LEAGUE_LOGO_URL,
       payload: { id: item.id, logoUrl: logoUrl },
     });
   }, [item.id]);

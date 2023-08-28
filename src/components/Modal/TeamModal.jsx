@@ -32,6 +32,9 @@ const TeamModal = () => {
 
   const cancelButtonRef = useRef(null);
 
+  const fileUploadRef = useRef(undefined);
+  const [chosenFile, setChosenFile] = useState();
+
   const players = useSelector((state) => state.home.players).filter(
     (player) => (player.leagueId == leagueId) & (player.status == 1)
   );
@@ -68,20 +71,16 @@ const TeamModal = () => {
   };
 
   const createSubmit = () => {
-    setTeamName("");
-    axios
-      .post("/team/create", {
-        leagueId: leagueId,
-        name: teamName,
-        logo: "logo",
-        position: 0,
-        max: 0,
-        min: 0,
-      })
-      .then((res) => {
-        actions.getTeams(dispatch);
-        dispatch({ type: actions.CLOSE_TEAM_DIALOG });
-      });
+    const formData = new FormData();
+    formData.append("leagueId", leagueId);
+    formData.append("logo", chosenFile);
+    formData.append("name", teamName);
+
+    axios.post("/team/create", formData).then((res) => {
+      actions.getTeams(dispatch);
+      dispatch({ type: actions.CLOSE_TEAM_DIALOG });
+      setTeamName("");
+    });
   };
 
   const editSubmit = () => {
@@ -181,11 +180,28 @@ const TeamModal = () => {
                     <div>
                       {type === "create" || type === "edit" ? (
                         <>
-                          <div className="flex w-full h-[86px] bg-charcoal rounded-default items-center">
+                          <div
+                            className="flex w-full h-[86px] bg-charcoal rounded-default items-center hover:opacity-70 cursor-pointer"
+                            onClick={() => {
+                              fileUploadRef.current?.click();
+                            }}
+                          >
                             <img
                               src={uploadCircle}
                               alt=""
                               className="px-[14px]"
+                            />
+                            <input
+                              type="file"
+                              ref={fileUploadRef}
+                              hidden
+                              onChange={(e) => {
+                                const files = e.target.files;
+                                if (files.length) {
+                                  const file = files[0];
+                                  setChosenFile(file);
+                                }
+                              }}
                             />
                             <p className="text-white font-bold text-sm">
                               Upload League Logo

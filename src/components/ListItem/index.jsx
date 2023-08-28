@@ -33,9 +33,6 @@ function Checkbox({ label, name, checked, onChange, disabled }) {
 }
 
 const ListItem = (props) => {
-  const [itemTwochecked, setItemTwoChecked] = useState(false);
-  const [itemThreechecked, setItemThreeChecked] = useState(false);
-  const [itemFourchecked, setItemFourChecked] = useState(true);
 
   const {
     className,
@@ -43,7 +40,6 @@ const ListItem = (props) => {
     name,
     email,
     date,
-    children,
     itemChecked,
     setItemChecked,
   } = props;

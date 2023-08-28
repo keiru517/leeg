@@ -4,7 +4,6 @@ import { useParams } from "react-router";
 import * as actions from "../../actions";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import apis from "../../utils/apis";
 
 const PageTitle = (props) => {
@@ -78,7 +77,7 @@ const PageTitle = (props) => {
       {button ? (
         <button
           onClick={handleClick}
-          className="w-[169px] h-button bg-primary hover:bg-opacity-70 rounded-default text-white"
+          className="w-[169px] h-button bg-primary hover:bg-opacity-70 rounded-default text-white focus:ring-2"
         >
           {button}
         </button>

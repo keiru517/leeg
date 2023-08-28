@@ -198,7 +198,7 @@ const Modal = (props) => {
                         <>
                           <div>
                             <div
-                              className="flex w-full h-[86px] cursor-pointer bg-charcoal rounded-default items-center"
+                              className="flex w-full h-[86px] bg-charcoal rounded-default items-center  hover:opacity-70 cursor-pointer"
                               onClick={() => {
                                 fileUploadRef.current?.click();
                               }}

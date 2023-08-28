@@ -24,7 +24,6 @@ const LeagueModal = () => {
     (league) => league.id == leagueId
   );
 
-  // const [open, setOpen] = useState(false);
   const [step, setStep] = useState(1);
 
   const cancelButtonRef = useRef(null);
