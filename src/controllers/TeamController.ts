@@ -3,7 +3,7 @@ import { existsSync, mkdirSync, writeFileSync } from 'fs';
 import Team from '../models/Team';
 import { Types } from '../types';
 import path from 'path';
-import { absolutePath, FILE_NAME_DATE_TILE_FORMAT } from '../helpers';
+import { absolutePath, FILE_NAME_DATE_TILE_FORMAT, teamLogoPath } from '../helpers';
 import moment from 'moment';
 
 // GET SERVER_URL/api/team/all
@@ -19,7 +19,7 @@ export const create: RequestHandler = async (req, res) => {
   if (req.file) {
     const extension = path.extname(req.file.originalname);
     const directoryPath = absolutePath(`public/upload/${userId}/teams`);
-    console.log('directory', directoryPath);
+    
     if (!existsSync(directoryPath)) {
       mkdirSync(directoryPath, { recursive: true });
     }
@@ -31,7 +31,7 @@ export const create: RequestHandler = async (req, res) => {
 
     const buffer = req.file.buffer;
     writeFileSync(filePath, buffer);
-    data.logo = filePath;
+    data.logo = fileName;
     // data.logo = URL.createObjectURL(new Blob([buffer], {type: "image/jpeg"}));
   }
 
@@ -71,15 +71,18 @@ export const remove: RequestHandler = async (req, res) => {
   }
 };
 
-// GET SERVER_URL/api/team/info/1
-export const info: RequestHandler = async (req, res) => {
+// GET SERVER_URL/api/team/logo/1
+export const logo: RequestHandler = async (req, res) => {
   const id = Number(req.params.id);
+  const userId = 1;
   const team = await Team.findOne({
     where: {
       id
     }
   });
-  if (team) res.json({ team });
+  if (team) {
+    res.sendFile(teamLogoPath(userId, team.logo))
+  }
   else {
     res.status(404).json({
       message: 'team not found'

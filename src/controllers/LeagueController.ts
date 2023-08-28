@@ -20,7 +20,7 @@ export const create: RequestHandler = async (req, res) => {
   if (req.file) {
     const extension = path.extname(req.file.originalname);
     const directoryPath = absolutePath(`public/upload/${userId}/leagues`);
-    console.log('directory', directoryPath);
+    
     if (!existsSync(directoryPath)) {
       mkdirSync(directoryPath, { recursive: true });
     }

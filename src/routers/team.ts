@@ -20,8 +20,8 @@ teamRouter.post('/update', TeamController.update);
 // SERVER_URL/api/team/remove/1
 teamRouter.delete('/remove/:id', TeamController.remove);
 
-// get a team
-// SERVER_URL/api/team/info/1
-teamRouter.get('/info/:id', TeamController.info);
+// send logo
+// SERVER_URL/api/team/logo/1
+teamRouter.get('/logo/:id', TeamController.logo);
 
 export default teamRouter;
