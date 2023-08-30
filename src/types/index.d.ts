@@ -69,7 +69,7 @@ export namespace Types {
     country: string;
     age: number;
     birthDate: string;
-    status: number;
+    role: number;
   }
   export interface T_ResponseData<T> {
     data: T;

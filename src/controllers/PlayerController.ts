@@ -13,12 +13,11 @@ export const create: RequestHandler = async (req, res) => {
   const data: Types.T_PLAYER = req.body;
 
   await Player.create(data);
-  res.status(200).json({message:'A Player Created Successfully!'});
+  res.status(200).json({ message: 'A Player Created Successfully!' });
 };
 
 // POST SERVER_URL/api/player/update/1
 export const update: RequestHandler = async (req, res) => {
-
   const player = await Player.findByPk(req.body.id);
   if (player) {
     await player.update(req.body);
@@ -37,11 +36,62 @@ export const remove: RequestHandler = async (req, res) => {
     await player.destroy();
     const players = await Player.findAll();
 
-    res.json({ message: 'deleted successfully!', players:players });
+    res.json({ message: 'deleted successfully!', players: players });
   } else {
     res.status(404).json({ message: 'player not found' });
   }
 };
+
+// POST SERVER_URL/api/player/accept
+export const accept: RequestHandler = async (req, res) => {
+  const data = req.body;
+  var playerFound = false;
+
+  const promises = Object.keys(data).map( async id => {
+    const player = await Player.findByPk(id);
+    if (player) {
+      if (data[id] == true) {
+        player.role = 1;
+        await player.save();
+      }
+      playerFound = true;
+    }
+  });
+
+  await Promise.all(promises);
+
+  if (playerFound) {
+    res.status(200).json({message: 'Accpeted successfully!'});
+  } else {
+    res.status(404).json({message: "Player not found"});
+  }
+};
+
+
+// POST SERVER_URL/api/player/unaccept
+export const unaccept: RequestHandler =async (req, res) => {
+  const data = req.body;
+  var playerFound = false;
+
+  const promises = Object.keys(data).map( async id => {
+    const player = await Player.findByPk(id);
+    if (player) {
+      if (data[id] == true) {
+        player.role = 0;
+        await player.save();
+      }
+      playerFound = true;
+    }
+  });
+
+  await Promise.all(promises);
+
+  if (playerFound) {
+    res.status(200).json({message: 'Unaccpeted successfully!'});
+  } else {
+    res.status(404).json({message: "Player not found"});
+  }
+}
 
 // GET SERVER_URL/api/player/info/1
 export const info: RequestHandler = async (req, res) => {

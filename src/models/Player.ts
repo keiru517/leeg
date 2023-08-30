@@ -24,6 +24,7 @@ export default class Player extends Model<
   declare country: string;
   declare age: number;
   declare birthDate: string;
+  declare role: number;
   static modelName = 'Player';
 }
 Player.init(
@@ -43,7 +44,7 @@ Player.init(
     country: DataTypes.STRING,
     age: DataTypes.INTEGER,
     birthDate: DataTypes.STRING,
-    status: {
+    role: {
       type: DataTypes.INTEGER,
       defaultValue: 0 // 0 is waitlist, 1 is accepted
     }
