@@ -18,8 +18,8 @@ const Matchup = () => {
     (match) => match.id == matchId
   );
     
-  const home_team = useSelector(state=>state.home.teams).find(team=>team.id == match.homeTeamId);
-  const away_team = useSelector(state=>state.home.teams).find(team=>team.id == match.awayTeamId);
+  const homeTeam = useSelector(state=>state.home.teams).find(team=>team.id == match.homeTeamId);
+  const awayTeam = useSelector(state=>state.home.teams).find(team=>team.id == match.awayTeamId);
 
   const options = ["Ascend", "Descend", "Recent"];
   const [value, setValue] = useState("Sort by");
@@ -52,7 +52,7 @@ const Matchup = () => {
         <span className=""> &gt; </span>
         <span className="text-sky-500">
           {/* <Link to={`/league/${leagueId}/team/${team.id}`}> */}
-          {home_team.name} Vs {away_team.name}
+          {homeTeam.name} Vs {awayTeam.name}
           {/* </Link> */}
         </span>
       </p>
@@ -60,11 +60,11 @@ const Matchup = () => {
         <div className="flex space-x-10">
           <div className="text-center w-[330px]">
             <img
-              src={home_team.logo}
+              src={homeTeam.logo}
               alt=""
               className="w-28 h-28 rounded-full mx-auto"
             />
-            <p className="text-white font-semibold text-2xl mt-5">{home_team.name}</p>
+            <p className="text-white font-semibold text-2xl mt-5">{homeTeam.name}</p>
             <p className="text-font-dark-gray font-semibold text-xl">Home</p>
           </div>
           <div className="text-center mt-3">
@@ -75,11 +75,11 @@ const Matchup = () => {
           </div>
           <div className="text-center w-[330px]">
             <img
-              src={away_team.logo}
+              src={awayTeam.logo}
               alt=""
               className="w-28 h-28 rounded-full mx-auto"
             />
-            <p className="text-white font-semibold text-2xl mt-5">{away_team.name}</p>
+            <p className="text-white font-semibold text-2xl mt-5">{awayTeam.name}</p>
             <p className="text-font-dark-gray font-semibold text-xl">Away</p>
           </div>
         </div>
@@ -102,8 +102,8 @@ const Matchup = () => {
         </div>
         <br></br>
         <div className="grid grid-cols-2 gap-4">
-          <MatchCard team_id={home_team.id}></MatchCard>
-          <MatchCard team_id={away_team.id}></MatchCard>
+          <MatchCard team_id={homeTeam.id}></MatchCard>
+          <MatchCard team_id={awayTeam.id}></MatchCard>
         </div>
         {/* {leagues.length ? (
         ) : (

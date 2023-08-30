@@ -108,7 +108,23 @@ const TeamModal = () => {
 
   const [playersList, setPlayersList] = useState({});
   const addPlayers = () => {
+    axios.post('/player/add', {
+      teamId: team.id,
+      playersList: playersList
+    }).then(res=>{
+      dispatch({type: actions.CLOSE_TEAM_DIALOG})
+      actions.getPlayers(dispatch)
+      setPlayersList({})
 
+    })
+    .catch(error=>console.log(error.message));
+    console.log("playersList", playersList);
+  }
+
+  const setCheckedList = (id, checked) => {
+    let temp = {...playersList};
+    temp[id] = checked;
+    setPlayersList(temp);
   }
 
   return (
@@ -249,6 +265,10 @@ const TeamModal = () => {
                                 className="mb-5"
                                 player={player}
                                 teamId={team.id}
+                                checked={playersList[player.id]}
+                                setChecked={(checked)=>{
+                                  setCheckedList(player.id, checked)
+                                }}
                               ></PlayerList>
                             ))}
                           </div>

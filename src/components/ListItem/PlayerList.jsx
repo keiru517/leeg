@@ -6,7 +6,7 @@ import addedIcon from '../../assets/img/dark_mode/circle-added.png';
 import * as actions from '../../actions';
 import { useDispatch } from "react-redux"; 
 
-const PlayerList = ({className, player, teamId}) => {
+const PlayerList = ({className, player, setChecked, checked}) => {
   const [itemOnechecked, setItemOneChecked] = useState(false);
   const [itemTwochecked, setItemTwoChecked] = useState(false);
   const [itemThreechecked, setItemThreeChecked] = useState(false);
@@ -14,16 +14,18 @@ const PlayerList = ({className, player, teamId}) => {
 
   const dispatch = useDispatch();
 
-  const [status, setStatus] = useState(teamId == player.teamId?addedIcon:addIcon)
+  const [status, setStatus] = useState(checked?addedIcon:addIcon)
   const handleClick = (id) => {
     if (status == addedIcon){
+      setChecked(false);
       setStatus(addIcon)
-      dispatch({type:actions.REMOVE_PLAYER, payload:id})
+      // dispatch({type:actions.REMOVE_PLAYER, payload:id})
       console.log(id)
     }
     else{
+      setChecked(true);
       setStatus(addedIcon)
-      dispatch({type:actions.ADD_PLAYER, payload:id})
+      // dispatch({type:actions.ADD_PLAYER, payload:id})
       console.log(id)
     }
       // dispatch

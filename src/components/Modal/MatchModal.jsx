@@ -68,9 +68,8 @@ const MatchModal = () => {
       time,
       location,
     }).then(res=>{
+      actions.getMatches(dispatch)
       dispatch({ type: actions.CLOSE_TEAM_DIALOG });
-      alert(res.data.message);
-      dispatch({type: actions.GET_MATCHES})
     }).catch(error=>alert(error.data.message))
     
     console.log("Clicked create");
