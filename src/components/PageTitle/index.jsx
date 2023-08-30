@@ -53,7 +53,8 @@ const PageTitle = (props) => {
         )}
         {logo ? (
           <img
-            src={apis.leagueLogoURL(leagueId)}
+            src={logo}
+            // src={apis.leagueLogoURL(leagueId)}
             alt=""
             className="w-20 h-20 ml-6"
           />

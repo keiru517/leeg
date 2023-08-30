@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import search from "../../assets/img/dark_mode/search.png";
 import leftarrowIcon from "../../assets/img/dark_mode/left-arrow.png";
-import leagueLogo from "../../assets/img/dark_mode/league-logo.png";
+
 import editIcon from "../../assets/img/dark_mode/edit.png";
 import Input from "../../components/Input";
 import ListItem from "../../components/ListItem";
@@ -22,6 +22,8 @@ import * as actions from "../../actions";
 import MatchTable from "../../components/Table/Match";
 import StandingTable from "../../components/Table/Standing";
 import PlayerTable from "../../components/Table/Player";
+import { wait } from "@testing-library/user-event/dist/utils";
+import axios from "axios";
 
 const League = () => {
   let { leagueId } = useParams();
@@ -61,8 +63,8 @@ const League = () => {
   }
 
   const [breadcrum, setBreadcrum] = useState("Manage Rosters");
-  const [waitItemChecked, setWaitItemChecked] = useState([]);
-  const [acceptedItemChecked, setAcceptedItemChecked] = useState([]);
+  const [waitItemChecked, setWaitItemChecked] = useState({});
+  const [acceptedItemChecked, setAcceptedItemChecked] = useState({});
 
   const buttons = {
     "Manage Rosters": "Invite Player",
@@ -75,40 +77,67 @@ const League = () => {
   const handleCategory = (data) => {
     setBreadcrum(data);
   };
+  const players = useSelector((state) => state.home.players);
 
-  const players = useSelector((state) => state.home.players).filter(
-    (player) => player.leagueId == 2
+  const waitListPlayers = players.filter(
+    (player) => (player.leagueId == leagueId) & (player.role == 0)
   );
-  const waitListPlayers = useSelector((state) => state.home.players).filter(
-    (player) => (player.leagueId == leagueId) & (player.status == 0)
-  );
-  const acceptedPlayers = useSelector((state) => state.home.players).filter(
-    (player) => (player.leagueId == leagueId) & (player.status == 1)
+
+  const acceptedPlayers = players.filter(
+    (player) => (player.leagueId == leagueId) & (player.role == 1)
   );
 
   useEffect(() => {
-    dispatch({ type: actions.SET_SELECTED_LEAGUE, payload: league });
+    actions.getTeams(dispatch);
+    actions.getMatches(dispatch);
+    actions.getPlayers(dispatch);
   }, []);
 
+  const [waitKeyword, setWaitKeyword] = useState('');
+  // const [filteredData, setFilteredData] = useState(waitListPlayers);
+
+  // useEffect(() => {
+  //   const filtered = waitListPlayers.filter(player=>player.name.toLowerCase().includes(waitKeyword.toLowerCase()))
+  //   setFilteredData(filtered);
+  //   console.log("filteredData", filteredData);
+  // }, [waitKeyword]);
+
   const setWaitListItemChecked = (index, checked) => {
-    waitItemChecked[index] = checked;
-    setWaitItemChecked([...waitItemChecked]);
+    let temp = { ...waitItemChecked };
+    temp[index] = checked;
+    setWaitItemChecked(temp);
   };
   const setAcceptedListItemChecked = (index, checked) => {
     acceptedItemChecked[index] = checked;
-    setAcceptedItemChecked([...acceptedItemChecked]);
+    setAcceptedItemChecked({ ...acceptedItemChecked });
   };
 
   const handleAccept = () => {
-    console.log("Here")
-    console.log(waitItemChecked)
-  }
+    axios
+      .post(`/player/accept`, waitItemChecked)
+      .then((res) => {
+        actions.getPlayers(dispatch);
+        setWaitItemChecked({});
+      })
+      .catch((error) => alert(error.data.message));
+  };
+
+  const handleRemove = () => {
+    console.log(acceptedItemChecked);
+    axios
+      .post(`/player/unaccept`, acceptedItemChecked)
+      .then((res) => {
+        actions.getPlayers(dispatch);
+        setAcceptedItemChecked({});
+      })
+      .catch((error) => alert(error.data.message));
+  };
 
   return (
     <div className="flex flex-col flex-grow">
       <PageTitle
         backIcon={leftarrowIcon}
-        logo={leagueLogo}
+        logo={league.logo}
         editIcon={editIcon}
         button={buttons[breadcrum]}
         createAction={
@@ -129,6 +158,7 @@ const League = () => {
         </Link>
         <span className="text-sky-500"> &gt; {league.name}</span>
       </p>
+
       <div className="rounded-main bg-slate flex-grow p-default">
         <div className="w-full px-2 sm:px-0 h-full flex flex-col">
           <Tab.Group>
@@ -177,6 +207,10 @@ const League = () => {
                           className="flex-grow rounded-lg h-[38px] bg-transparent text-xs"
                           icon={search}
                           placeholder="Search"
+                          value={waitKeyword}
+                          onChange={(e)=>{
+                            setWaitKeyword(e.target.value);
+                          }}
                         />
                         <Select
                           className="w-[144px] rounded-lg text-xs"
@@ -188,7 +222,10 @@ const League = () => {
                         </Select>
                       </div>
                       <div>
-                        <Button onClick={handleAccept} className="text-sm bg-success w-[72px] h-[38px] rounded-lg hover:opacity-70">
+                        <Button
+                          onClick={handleAccept}
+                          className="text-sm bg-success w-[72px] h-[38px] rounded-lg hover:opacity-70"
+                        >
                           Accept
                         </Button>
                       </div>
@@ -209,9 +246,9 @@ const League = () => {
                             name={player.name}
                             email={player.email}
                             date={player.createdAt}
-                            itemChecked={!!waitItemChecked[idx]}
+                            itemChecked={!!waitItemChecked[player.id]}
                             setItemChecked={(checked) => {
-                              setWaitListItemChecked(idx, checked);
+                              setWaitListItemChecked(player.id, checked);
                             }}
                           ></ListItem>
                         ))
@@ -249,7 +286,10 @@ const League = () => {
                         </Select>
                       </div>
                       <div>
-                        <Button className="text-sm bg-danger w-[72px] h-[38px] rounded-lg hover:opacity-70">
+                        <Button
+                          onClick={handleRemove}
+                          className="text-sm bg-danger w-[72px] h-[38px] rounded-lg hover:opacity-70"
+                        >
                           Remove
                         </Button>
                       </div>
@@ -269,9 +309,9 @@ const League = () => {
                             name={player.name}
                             email={player.email}
                             date={player.created_at}
-                            itemChecked={!!acceptedItemChecked[idx]}
+                            itemChecked={!!acceptedItemChecked[player.id]}
                             setItemChecked={(checked) => {
-                              setAcceptedListItemChecked(idx, checked);
+                              setAcceptedListItemChecked(player.id, checked);
                             }}
                           ></ListItem>
                         ))
@@ -418,6 +458,7 @@ const League = () => {
           </Tab.Group>
         </div>
       </div>
+
       <LeagueModal />
     </div>
   );

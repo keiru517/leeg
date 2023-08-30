@@ -36,7 +36,7 @@ const TeamModal = () => {
   const [chosenFile, setChosenFile] = useState();
 
   const players = useSelector((state) => state.home.players).filter(
-    (player) => (player.leagueId == leagueId) & (player.status == 1)
+    (player) => (player.leagueId == leagueId) & (player.role == 1)
   );
 
   const [teamName, setTeamName] = useState(team.name);
@@ -105,6 +105,11 @@ const TeamModal = () => {
     dispatch({ type: actions.CLOSE_TEAM_DIALOG });
     console.log("Clicked delete");
   };
+
+  const [playersList, setPlayersList] = useState({});
+  const addPlayers = () => {
+
+  }
 
   return (
     <Transition.Root show={status} as={Fragment}>
@@ -224,7 +229,7 @@ const TeamModal = () => {
                       ) : type === "addPlayer" ? (
                         <>
                           <div className="flex bg-[#4A5462] h-[66px] rounded-default p-4 items-center">
-                            <img src={logo} alt="" />
+                            <img src={team.logo} className="w-8 h-8 rounded" alt="" />
                             <p className="text-white underline mx-2 text-sm">
                               {team.name}
                             </p>
@@ -243,7 +248,7 @@ const TeamModal = () => {
                                 key={idx}
                                 className="mb-5"
                                 player={player}
-                                team_id={1}
+                                teamId={team.id}
                               ></PlayerList>
                             ))}
                           </div>
@@ -275,7 +280,7 @@ const TeamModal = () => {
                       </button>
                     ) : type === "addPlayer" ? (
                       <button
-                        onClick={editSubmit}
+                        onClick={addPlayers}
                         className="bg-primary rounded-xl w-full hover:bg-opacity-70 h-button text-white"
                       >
                         Confirm

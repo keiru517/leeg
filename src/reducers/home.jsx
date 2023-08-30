@@ -135,17 +135,19 @@ const home = (state = initialState, action) => {
           team: [],
         },
       };
-    
+
     case actions.SET_TEAM_LOGO_URL:
       return {
         ...state,
-        teams: state.teams.map(team=> team.id == action.payload.id ? {
-          ...team, 
-          logo: action.payload.logoUrl
-        }:
-        team
-        )
-      }
+        teams: state.teams.map((team) =>
+          team.id == action.payload.id
+            ? {
+                ...team,
+                logo: action.payload.logoUrl,
+              }
+            : team
+        ),
+      };
 
     // match
     case actions.GET_MATCHES:

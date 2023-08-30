@@ -10,10 +10,6 @@ import * as actions from "../../actions";
 
 const Home = () => {
   const leagues = useSelector((state) => state.home.leagues);
-  //   const leagues = [
-  //     {'id': 1, 'logo': logo, 'name': '2023 TABC Summer League', 'start_date': 'Firday, July 2023', 'end_date': 'N/A', 'description': 'introducing the "Gravity Hoops League" - where hardwood battles and soaring dunks collide in a symphony of athleticism and teamwork.'},
-  //     {'id': 2, 'logo': logo, 'name': '2024 TABC Winter League', 'start_date': 'Firday, July 2023', 'end_date': 'N/A', 'description': 'introducing the "Gravity Hoops League" - where hardwood battles and soaring dunks collide in a symphony of athleticism and teamwork.'}
-  //   ];
 
   const options = [{id:0, name: "Ascend"}, {id:1, name:"Descend"}, {id:2, name:"Recent"}];
   const [value, setValue] = useState("Sort by");

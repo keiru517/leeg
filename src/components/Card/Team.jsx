@@ -13,25 +13,14 @@ const TeamCard = (props) => {
     const players = useSelector(state=>state.home.players).filter(player=>player.teamId == team.id);
 
     const dispatch = useDispatch()
-    
-    
 
     const handleAddPlayer = () => {
         dispatch({type:actions.OPEN_ADD_PLAYER_DIALOG, payload:team})
-        // dispatch({type:actions.OPEN_TEAM_DIALOG, payload:true})
     }
     
     const handleEdit = () => {
         dispatch({type: actions.OPEN_EDIT_TEAM_DIALOG, payload:team})
     }
-
-    useEffect(() => {
-        const logoUrl = apis.teamLogoURL(team.id);
-        dispatch({
-            type: actions.SET_TEAM_LOGO_URL,
-            payload: { id: team.id, logoUrl: logoUrl}
-        })
-    }, [team.id])
 
     return (
       <div className="flex flex-col overflow-y-auto rounded-default h-[350px] bg-dark-gray transition ease-in-out delay-150 hover:bg-dark-gray duration-200 w-full">

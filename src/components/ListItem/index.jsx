@@ -44,6 +44,8 @@ const ListItem = (props) => {
     setItemChecked,
   } = props;
 
+  // const [itemChecked, setItemChecked] = useState();
+
   return (
     <div className={`${className} w-full`}>
       <div className="flex items-center justify-between bg-dark-gray w-full h-14 rounded-default py-1.5 px-4">

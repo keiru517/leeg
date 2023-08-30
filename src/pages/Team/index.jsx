@@ -42,40 +42,6 @@ const Team = () => {
       ((match.homeTeamId == id) | (match.awayTeamId == id))
   );
 
-  // const getPlayers = () => {
-  const players_statistics = [
-    {
-      id: 1,
-      leagueId: 1,
-      team_id: 1,
-      name: "George Anderson",
-      number: 0,
-      points: 167,
-      ppg: 142,
-      gp: 27,
-    },
-    {
-      id: 1,
-      leagueId: 1,
-      team_id: 1,
-      name: "George Anderson",
-      number: 0,
-      points: 167,
-      ppg: 142,
-      gp: 27,
-    },
-    {
-      id: 1,
-      leagueId: 1,
-      team_id: 1,
-      name: "George Anderson",
-      number: 0,
-      points: 167,
-      ppg: 142,
-      gp: 27,
-    },
-  ];
-
   const players = useSelector(state=>state.home.players).filter(player=>player.teamId==id)
 
   return (

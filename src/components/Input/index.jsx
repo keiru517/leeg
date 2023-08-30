@@ -15,7 +15,7 @@ const Input = (props) => {
                     <img src={icon} className="w-3.5 h-3.5"
                         alt="" />
                 </div> : ""
-            }
+            } 
             <input {...rest} className="bg-transparent outline-none text-white flex-grow h-[42px]" value={value}/>
             {
                 option ? <div>
@@ -26,5 +26,5 @@ const Input = (props) => {
         </div>
     )
 }
-
+ 
 export default Input;

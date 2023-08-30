@@ -1,4 +1,6 @@
 import axios from "axios";
+import apis from "../utils/apis";
+
 // league
 export const GET_LEAGUES = "GET_LEAGUES";
 export const OPEN_CREATE_LEAGUE_DIALOG = "OPEN_CREATE_LEAGUE_DIALOG";
@@ -23,6 +25,8 @@ export const CLOSE_MATCH_DIALOG = "CLOSE_MATCH_DIALOG";
 // player
 export const GET_PLAYERS = "GET_PLAYERS";
 export const OPEN_INVITE_PLAYER_DIALOG = "OPEN_INVITE_PLAYER_DIALOG";
+export const ACCEPT_PLAYER = "ACCEPT_PLAYER";
+export const UNACCEPT_PLAYER = "UNACCEPT_PLAYER";
 export const ADD_PLAYER = "ADD_PLAYER";
 export const REMOVE_PLAYER = "REMOVE_PLAYER";
 
@@ -43,6 +47,15 @@ export const getLeagues = async (dispatch) => {
       type: GET_LEAGUES,
       payload: leagues,
     });
+    
+    // set logo image to all leagues
+    leagues.map(league=>{
+      const logoUrl = apis.leagueLogoURL(league.id);
+      dispatch({
+        type: SET_LEAGUE_LOGO_URL,
+        payload: { id: league.id, logoUrl: logoUrl },
+      });
+    })
   } catch (error) {
     dispatch({
       type: GET_LEAGUES,
@@ -51,20 +64,6 @@ export const getLeagues = async (dispatch) => {
   }
 };
 
-// create
-// export const openCreateLeagueDialog = (payload) => ({
-//   type: OPEN_CREATE_LEAGUE_DIALOG,
-//   payload: payload,
-// });
-
-// export const closeLeagueDialog = () => ({
-//   type: CLOSE_LEAGUE_DIALOG,
-// });
-
-// export const openEditLeagueDialog = (payload) => ({
-//   type: OPEN_EDIT_LEAGUE_DIALOG,
-//   payload: payload,
-// });
 
 export const openDeleteLeagueDialog = (payload) => ({
   type: OPEN_DELETE_LEAGUE_DIALOG,
@@ -96,6 +95,15 @@ export const getTeams = async (dispatch) => {
       type: GET_TEAMS,
       payload: teams,
     });
+
+    teams.map(team=>{
+      const logoUrl = apis.teamLogoURL(team.id);
+      dispatch({
+          type: SET_TEAM_LOGO_URL,
+          payload: { id: team.id, logoUrl: logoUrl}
+      })
+    })
+
   } catch (error) {
     dispatch({
       type: GET_TEAMS,
@@ -153,6 +161,7 @@ export const closeMatchDialog = () => ({
 export const getPlayers = async (dispatch) => {
   try {
     const response = await axios.get("/player/all");
+    console.log("player action")
     const players = response.data.players;
     dispatch({
       type: GET_PLAYERS,
