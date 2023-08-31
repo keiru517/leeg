@@ -23,7 +23,7 @@ const MatchTable = (props) => {
   const teams = useSelector((state) => state.home.teams);
 
   const goToMatchup = (id) => {
-    naviage(`matchup/${id}`)
+    naviage(`/league/${leagueId}/matchup/${id}`)
   }
 
   return (
@@ -62,7 +62,7 @@ const MatchTable = (props) => {
               index
             ) => (
               // <Link to={`matchup/${id}`}>
-                <tr onClick={()=>goToMatchup(id)} key={index} className="odd:bg-dark-gray even:bg-charcoal cursor-pointer hover:opacity-70">
+                <tr onClick={()=>goToMatchup(id)} key={index} className="odd:bg-dark-gray even:bg-charcoal  hover:opacity-70">
                   <td className="w-1/6">
                     <Typography
                       variant="small"
@@ -101,9 +101,9 @@ const MatchTable = (props) => {
                         to={`/league/${leagueId}/team/${homeTeamId}`}
                       >
                         <img
-                          // src={
-                          //   teams.find((team) => team.id == homeTeamId).logo
-                          // }
+                          src={
+                            teams.find((team) => team.id == homeTeamId).logo
+                          }
                           alt=""
                           className="h-8 w-8 mr-2"
                         />
@@ -122,9 +122,9 @@ const MatchTable = (props) => {
                         to={`/league/${leagueId}/team/${awayTeamId}`}
                       >
                         <img
-                          // src={
-                          //   teams.find((team) => team.id == awayTeamId).logo
-                          // }
+                          src={
+                            teams.find((team) => team.id == awayTeamId).logo
+                          }
                           alt=""
                           className="h-8 w-8 mr-2"
                         />

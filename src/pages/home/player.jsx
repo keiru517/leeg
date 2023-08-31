@@ -11,7 +11,7 @@ import * as actions from "../../actions";
 import ProfileTable from '../../components/Table/Profile';
 
 const Player = () => {
-  let { leagueId, id } = useParams();
+  let { leagueId, playerId } = useParams();
 
   const options = ["Ascend", "Descend", "Recent"];
 
@@ -19,14 +19,14 @@ const Player = () => {
 
   
   const players = useSelector((state) => state.home.players);
-  const player = players.find((player) => player.id == id);
+  const player = players.find((player) => player.id == playerId);
   
   const teams = useSelector((state) => state.home.teams);
-  const team = teams.find((team) => team.id == player.team_id);
+  const team = teams.find((team) => team.id == player.teamId);
 
   const league = useSelector(state=> state.home.leagues).find(league=>league.id==league.id);
 
-  const matchups = player.matchups;
+  const matches = useSelector(state=>state.home.matches);
 
   return (
     <div className="flex flex-col flex-grow">
@@ -101,8 +101,8 @@ const Player = () => {
           </Select>
         </div>
             {
-              matchups.length > 0?
-              <ProfileTable data={matchups} leagueId={leagueId}/>
+              matches.length > 0?
+              <ProfileTable matches={matches} playerId={playerId} leagueId={leagueId}/>
               :
               <div className="flex flex-grow items-center ">
                 <p className="text-2xl text-white font-bold w-full text-center">No Statistics To Show!</p>

@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const Profile = (props) => {
-  const { data, leagueId } = props;
+  const { leagueId, playerId } = props;
   const columns = [
     "Game Date",
     "Matchup",
@@ -15,7 +15,9 @@ const Profile = (props) => {
   ];
 
   const teams = useSelector((state) => state.home.teams);
-  const players = useSelector((state) => state.home.players);
+  const player = useSelector((state) => state.home.players).find(player=>player.id == playerId);
+  const matches = useSelector(state=>state.home.matches).filter(match=>match.homeTeamId == player.teamId || match.awayTeamId == player.teamId);
+
   return (
     <div className="text-white mt-5 w-full">
       <table className="w-full min-w-max table-auto text-left">
@@ -39,8 +41,8 @@ const Profile = (props) => {
         </thead>
         <tbody className="text-center">
           {
-            // data.map(({ logo, name}, index) =>
-            data.map((player, idx) => (
+            // matches.map(({ logo, name}, index) =>
+            matches.map((player, idx) => (
               <tr
                 key={idx}
                 className="odd:bg-dark-gray even:bg-charcoal h-[53px]"
@@ -62,7 +64,7 @@ const Profile = (props) => {
                   >
                     <img
                       src={
-                        teams.find((team) => team.id == player.home_team_id)
+                        teams.find((team) => team.id == player.homeTeamId)
                           .logo
                       }
                       alt=""
@@ -70,10 +72,10 @@ const Profile = (props) => {
                     />
                     <p className="underline">
                       <Link
-                        to={`/league/${leagueId}/team/${player.home_team_id}`}
+                        to={`/league/${leagueId}/team/${player.homeTeamId}`}
                       >
                         {
-                          teams.find((team) => team.id == player.home_team_id)
+                          teams.find((team) => team.id == player.homeTeamId)
                             .name
                         }
                       </Link>
@@ -81,7 +83,7 @@ const Profile = (props) => {
                     <p className="text-font-dark-gray">VS</p>
                     <img
                       src={
-                        teams.find((team) => team.id == player.away_team_id)
+                        teams.find((team) => team.id == player.awayTeamId)
                           .logo
                       }
                       alt=""
@@ -89,10 +91,10 @@ const Profile = (props) => {
                     />
                     <p className="underline">
                       <Link
-                        to={`/league/${leagueId}/team/${player.away_team_id}`}
+                        to={`/league/${leagueId}/team/${player.awayTeamId}`}
                       >
                         {
-                          teams.find((team) => team.id == player.away_team_id)
+                          teams.find((team) => team.id == player.awayTeamId)
                             .name
                         }
                       </Link>

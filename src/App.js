@@ -32,8 +32,8 @@ function App() {
 
   const getAdmins = () => {
     const admins = [
-      { id: 1, playerId: 2 },
-      { id: 2, playerId: 3 },
+      { id: 1, playerId:5 },
+      { id: 2, playerId: 7 },
     ];
 
     dispatch({ type: actions.GET_ADMINS, payload: admins });
@@ -48,7 +48,7 @@ function App() {
     // dispatch(actions.getLeagues(dispatch))
 
   }, [])
-  //   getAdmins();
+    getAdmins();
   
   return (
     <Router>
@@ -69,7 +69,7 @@ function App() {
           ></Route>
           <Route
             exact
-            path="/league/:leagueId/player/:id"
+            path="/league/:leagueId/player/:playerId"
             element={<Player />}
           ></Route>
           <Route

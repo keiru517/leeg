@@ -5,10 +5,12 @@ import close from "../../assets/img/dark_mode/close.png";
 import Input from "../Input";
 import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../actions";
+import axios from "axios";
 
-const SubstituteModal = () => {
+const SubstituteModal = (props) => {
+  const { teamId } = props;
   let { leagueId, matchId } = useParams();
-  console.log(leagueId, matchId)
+  
   const dispatch = useDispatch();
 
   const status = useSelector((state) => state.home.substitute_dialog.open);
@@ -18,9 +20,21 @@ const SubstituteModal = () => {
     dispatch({ type: actions.CLOSE_ADD_SUBSTITUTE_DIALOG });
   };
 
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [jerseyNumber, setJerseyNumber] = useState('');
+
 
   const createSubmit = () => {
     console.log("Add Substitute to the match");
+    axios.post('/player/create', {
+      leagueId,
+      name: firstName + lastName,
+      jerseyNumber: jerseyNumber,
+      role:2,
+      teamId
+    }).then(res=>actions.getMatches(dispatch))
+    .catch(error=>console.log(error.data))
     dispatch({ type: actions.CLOSE_ADD_SUBSTITUTE_DIALOG });
   };
 
@@ -76,14 +90,20 @@ const SubstituteModal = () => {
                       <Input
                         className="rounded-default text-xs h-12"
                         placeholder="First Name*"
+                        value={firstName}
+                        onChange={(e)=>setFirstName(e.target.value)}
                       ></Input>
                       <Input
                         className="rounded-default text-xs h-12"
                         placeholder="Last Name*"
+                        value={lastName}
+                        onChange={(e)=>setLastName(e.target.value)}
                       ></Input>
                       <Input
                         className="rounded-default col-span-2 text-xs h-12"
                         placeholder="Jersey Number*"
+                        value={jerseyNumber}
+                        onChange={(e)=>setJerseyNumber(e.target.value)}
                       ></Input>
                     </div>
                     <button

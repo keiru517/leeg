@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { Typography } from "@material-tailwind/react";
 import { useParams } from "react-router";
 import MatchCard from "../../components/Card/Match";
 import search from "../../assets/img/dark_mode/search.png";
@@ -10,24 +11,64 @@ import PageTitle from "../../components/PageTitle";
 import leftarrowIcon from "../../assets/img/dark_mode/left-arrow.png";
 import * as actions from "../../actions";
 import SubstituteModal from "../../components/Modal/SubstituteModal";
+import deleteIcon from "../../assets/img/dark_mode/delete.png";
+import axios from "axios";
 
 const Matchup = () => {
-  let { matchId } = useParams();
+  let { leagueId, matchId } = useParams();
+  const dispatch = useDispatch();
 
   const match = useSelector((state) => state.home.matches).find(
     (match) => match.id == matchId
   );
-    
-  const homeTeam = useSelector(state=>state.home.teams).find(team=>team.id == match.homeTeamId);
-  const awayTeam = useSelector(state=>state.home.teams).find(team=>team.id == match.awayTeamId);
+
+  const homeTeam = useSelector((state) => state.home.teams).find(
+    (team) => team.id == match.homeTeamId
+  );
+
+  const homeTeamPlayers = useSelector((state) => state.home.players).filter(
+    (player) => player.teamId == match.homeTeamId && player.role == 2
+  );
+
+  const awayTeam = useSelector((state) => state.home.teams).find(
+    (team) => team.id == match.awayTeamId
+  );
+
+  const awayTeamPlayers = useSelector((state) => state.home.players).filter(
+    (player) => player.teamId == match.awayTeamId && player.role == 2
+  );
 
   const options = ["Ascend", "Descend", "Recent"];
   const [value, setValue] = useState("Sort by");
 
+  const handleAddSubstitute = () => {
+    dispatch({ type: actions.OPEN_ADD_SUBSTITUTE_DIALOG });
+  };
+
+  const [inputValues, setInputValues] = useState({});
+  const handleInputChange = (id, value) => {
+    let temp = { ...inputValues };
+    temp[id] = value;
+    setInputValues(temp);
+  };
 
   useEffect(() => {
-    // getLeagues();
-  }, []);
+    console.log(inputValues);
+  }, [inputValues]);
+
+  // handleSubmit = () => {
+  //   axios.post('/match/update', {
+  //     id:matchId,
+  //     leagueId,
+  //     homeTeamId: match.homeTeamId,
+  //     awayTeamId: match.awayTeamId,
+  //     date: match.date,
+  //     time: match.time,
+  //     location: match.location,
+  //     result: 
+
+  //   })
+  // }
 
   return (
     <div className="flex flex-col flex-grow">
@@ -64,7 +105,9 @@ const Matchup = () => {
               alt=""
               className="w-28 h-28 rounded-full mx-auto"
             />
-            <p className="text-white font-semibold text-2xl mt-5">{homeTeam.name}</p>
+            <p className="text-white font-semibold text-2xl mt-5">
+              {homeTeam.name}
+            </p>
             <p className="text-font-dark-gray font-semibold text-xl">Home</p>
           </div>
           <div className="text-center mt-3">
@@ -79,7 +122,9 @@ const Matchup = () => {
               alt=""
               className="w-28 h-28 rounded-full mx-auto"
             />
-            <p className="text-white font-semibold text-2xl mt-5">{awayTeam.name}</p>
+            <p className="text-white font-semibold text-2xl mt-5">
+              {awayTeam.name}
+            </p>
             <p className="text-font-dark-gray font-semibold text-xl">Away</p>
           </div>
         </div>
@@ -102,17 +147,224 @@ const Matchup = () => {
         </div>
         <br></br>
         <div className="grid grid-cols-2 gap-4">
-          <MatchCard team_id={homeTeam.id}></MatchCard>
-          <MatchCard team_id={awayTeam.id}></MatchCard>
-        </div>
-        {/* {leagues.length ? (
-        ) : (
-          <div className="dark:text-white text-2xl flex items-center flex-grow justify-center">
-            <p>No Leagues to show!</p>
+          <div className="flex flex-col overflow-y-auto rounded-default h-[350px] bg-dark-gray transition ease-in-out delay-150 hover:bg-dark-gray duration-200 w-full">
+            <div className="flex justify-between h-button bg-charcoal rounded-t-default p-4">
+              <div className="flex items-center">
+                <img src={homeTeam.logo} className="w-8 h-8"></img>
+                <Link to={`/league/${leagueId}/team/${match.homeTeamId}`}>
+                  <p className="text-white text-sm mx-2 underline">
+                    {homeTeam.name}
+                  </p>
+                </Link>
+                <p className="text-white text-[10px]">
+                  {homeTeam.waitlist}/{homeTeam.max}
+                </p>
+              </div>
+              <div
+                onClick={handleAddSubstitute}
+                className="flex items-center space-x-2 text-sky-500 text-sm cursor-pointer hover:opacity-70"
+              >
+                + Substitute
+              </div>
+            </div>
+
+            <div className="flex flex-grow items-center">
+              {homeTeamPlayers.length > 0 ? (
+                <div className="text-white h-full w-full">
+                  <table className="w-full min-w-max table-auto text-left">
+                    <thead className="sticky">
+                      <tr>
+                        <th
+                          key="2"
+                          className="h-button bg-slate text-center font-font-dark-gray w-1/2"
+                        >
+                          <Typography
+                            variant="small"
+                            color="blue-gray"
+                            className="font-normal leading-none opacity-70"
+                          >
+                            Player
+                          </Typography>
+                        </th>
+                        <th
+                          key="3"
+                          className="h-button bg-slate text-center font-font-dark-gray w-1/2"
+                        >
+                          <Typography
+                            variant="small"
+                            color="blue-gray"
+                            className="font-normal leading-none opacity-70"
+                          >
+                            Points
+                          </Typography>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="text-center">
+                      {homeTeamPlayers.map((player, index) => (
+                        <tr
+                          key={index}
+                          className="even:bg-dark-gray odd:bg-charcoal"
+                        >
+                          <td className="">
+                            <div className="flex items-center justify-between">
+                              <img
+                                src={player.avatar}
+                                alt=""
+                                className="w-8 h-8 mr-2"
+                              />
+                              {player.name}
+                              <img
+                                src={deleteIcon}
+                                alt=""
+                                className="text-right"
+                              />
+                            </div>
+                          </td>
+                          <td className="">
+                            <Typography
+                              variant="small"
+                              color="blue-gray"
+                              className="font-normal"
+                            >
+                              <Input
+                                key={index}
+                                className="rounded-default bg-transparent border-none text-center"
+                                type="number"
+                                value={inputValues[player.id]}
+                                onChange={(e) =>
+                                  handleInputChange(player.id, e.target.value)
+                                }
+                              ></Input>
+                            </Typography>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
+                <div className="flex items-center flex-grow">
+                  <p className="text-2xl text-white w-full text-center">
+                    No players to show!
+                  </p>
+                </div>
+              )}
+            </div>
+            <SubstituteModal id={match.homeTeamId}></SubstituteModal>
           </div>
-        )}{" "} */}
+          <div className="flex flex-col overflow-y-auto rounded-default h-[350px] bg-dark-gray transition ease-in-out delay-150 hover:bg-dark-gray duration-200 w-full">
+            <div className="flex justify-between h-button bg-charcoal rounded-t-default p-4">
+              <div className="flex items-center">
+                <img src={awayTeam.logo} className="w-8 h-8"></img>
+                <Link to={`/league/${leagueId}/team/${match.awayTeamId}`}>
+                  <p className="text-white text-sm mx-2 underline">
+                    {awayTeam.name}
+                  </p>
+                </Link>
+                <p className="text-white text-[10px]">
+                  {awayTeam.waitlist}/{awayTeam.max}
+                </p>
+              </div>
+              <div
+                onClick={handleAddSubstitute}
+                className="flex items-center space-x-2 text-sky-500 text-sm cursor-pointer hover:opacity-70"
+              >
+                + Substitute
+              </div>
+            </div>
+
+            <div className="flex flex-grow items-center">
+              {awayTeamPlayers.length > 0 ? (
+                <div className="text-white h-full w-full">
+                  <table className="w-full min-w-max table-auto text-left">
+                    <thead className="sticky">
+                      <tr>
+                        <th
+                          key="2"
+                          className="h-button bg-slate text-center font-font-dark-gray w-1/2"
+                        >
+                          <Typography
+                            variant="small"
+                            color="blue-gray"
+                            className="font-normal leading-none opacity-70"
+                          >
+                            Player
+                          </Typography>
+                        </th>
+                        <th
+                          key="3"
+                          className="h-button bg-slate text-center font-font-dark-gray w-1/2"
+                        >
+                          <Typography
+                            variant="small"
+                            color="blue-gray"
+                            className="font-normal leading-none opacity-70"
+                          >
+                            Points
+                          </Typography>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="text-center">
+                      {awayTeamPlayers.map((player, index) => (
+                        <tr
+                          key={index}
+                          className="even:bg-dark-gray odd:bg-charcoal"
+                        >
+                          <td className="">
+                            <div className="flex items-center justify-between">
+                              <img
+                                src={player.avatar}
+                                alt=""
+                                className="w-8 h-8 mr-2"
+                              />
+                              {player.name}
+                              <img
+                                src={deleteIcon}
+                                alt=""
+                                className="text-right"
+                              />
+                            </div>
+                          </td>
+                          <td className="">
+                            <Typography
+                              variant="small"
+                              color="blue-gray"
+                              className="font-normal"
+                            >
+                              <Input
+                                key={index}
+                                className="rounded-default bg-transparent border-none text-center"
+                                type="number"
+                                value={inputValues[player.id]}
+                                onChange={(e) =>
+                                  handleInputChange(player.id, e.target.value)
+                                }
+                              ></Input>
+                            </Typography>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
+                <div className="flex items-center flex-grow">
+                  <p className="text-2xl text-white w-full text-center">
+                    No players to show!
+                  </p>
+                </div>
+              )}
+            </div>
+            <SubstituteModal id={match.awayTeamId}></SubstituteModal>
+          </div>
+
+          {/* <MatchCard teamId={homeTeam.id} />
+          <MatchCard teamId={awayTeam.id} /> */}
+        </div>
       </div>
-      <SubstituteModal />
+      {/* <SubstituteModal /> */}
     </div>
     // </div>
   );

@@ -423,7 +423,7 @@ const League = () => {
               <Tab.Panel
                 key={4}
                 className={classNames(
-                  "rounded-xl flex flex-col justify-between w-full h-full"
+                  "rounded-xl flex flex-col w-full h-full"
                 )}
               >
                 {teams.length > 0 ? (
