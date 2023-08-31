@@ -6,4 +6,4 @@ import * as PlayerController from './PlayerController';
 import * as MatchupController from './MatchupController';
 import * as AdminController from './AdminController';
 
-export { UserController, LeagueController, TeamController, MatchController, PlayerController, MatchupController, AdminController };
+export { UserController, LeagueController, TeamController, MatchController, PlayerController, MatchupController, AdminController};

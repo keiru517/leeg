@@ -10,7 +10,7 @@ export const all: RequestHandler = async (req, res) => {
 
 // POST SERVER_URL/api/player/create
 export const create: RequestHandler = async (req, res) => {
-  const data: Types.T_PLAYER = req.body;
+  const data: Types.T_Player = req.body;
 
   await Player.create(data);
   res.status(200).json({ message: 'A Player Created Successfully!' });
@@ -42,6 +42,36 @@ export const remove: RequestHandler = async (req, res) => {
   }
 };
 
+// POST SERVER_URL/api/player/add
+export const add: RequestHandler =async (req, res) => {
+  const data = req.body;
+  const teamId = data['teamId']
+  const playersList = data['playersList']
+console.log(teamId, playersList)
+  var playerFound = false;
+  
+  const promises = Object.keys(playersList).map( async id => {
+    console.log(id)
+    const player = await Player.findByPk(id);
+    if (player) {
+      if (playersList[id] == true) {
+        player.role = 2;
+        player.teamId = teamId;
+        await player.save();
+      }
+      playerFound = true;
+    }
+  });
+  
+  await Promise.all(promises);
+  
+  if (playerFound) {
+    res.status(200).json({message: 'Added successfully!'});
+  } else {
+    res.status(404).json({message: "Players not found"});
+  }
+  
+}
 // POST SERVER_URL/api/player/accept
 export const accept: RequestHandler = async (req, res) => {
   const data = req.body;

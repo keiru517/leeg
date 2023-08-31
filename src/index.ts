@@ -1,6 +1,6 @@
 import express from 'express';
 import { config } from 'dotenv';
-import { userRouter, leagueRouter, teamRouter, playerRouter, matchRouter, adminRouter } from './routers';
+import { userRouter, leagueRouter, teamRouter, playerRouter, matchRouter, adminRouter} from './routers';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 

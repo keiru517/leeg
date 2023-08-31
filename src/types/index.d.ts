@@ -56,7 +56,7 @@ export namespace Types {
     gamesPlayed: number;
     ppg: number;
   }
-  export interface T_PLAYER extends T_DB {
+  export interface T_Player extends T_DB {
     leagueId: number;
     teamId: number;
     name: string;
@@ -70,6 +70,13 @@ export namespace Types {
     age: number;
     birthDate: string;
     role: number;
+  }
+  export interface T_Score extends T_DB {
+    playerId: number;
+    leagueId: number;
+    teamId: number;
+    matchId: number;
+    points: number;
   }
   export interface T_ResponseData<T> {
     data: T;

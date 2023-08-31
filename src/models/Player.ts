@@ -3,7 +3,7 @@ import sequelize from '.';
 import { Types } from '../types';
 
 type PlayerCreationAttribute = Optional<
-  Types.T_PLAYER,
+  Types.T_Player,
   'id' | 'createdAt' | 'updatedAt'
 >;
 

@@ -5,4 +5,4 @@ import playerRouter from './player';
 import matchRouter from './match';
 import adminRouter from './admin';
 
-export { userRouter, leagueRouter, teamRouter, playerRouter, matchRouter, adminRouter };
+export { userRouter, leagueRouter, teamRouter, playerRouter, matchRouter, adminRouter};
