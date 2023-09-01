@@ -51,7 +51,7 @@ const Home = () => {
             ))}
           </div>
         ) : (
-          <div className="dark:text-white text-2xl flex items-center flex-grow justify-center">
+          <div className="dark:text-white text-charcoal text-2xl flex items-center flex-grow justify-center">
             <p>No Leagues to show!</p>
           </div>
         )}{" "}
