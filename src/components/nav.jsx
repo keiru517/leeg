@@ -41,9 +41,9 @@ const Nav = () => {
 
                 <img src={mode?darkMode:lightMode} alt="" className='w-6 h-6 rounded-full dark:hover:bg-dark-gray cursor-pointer' onClick={toggle}/>
                 <Link to='/profile'>
-                    <div className='profile flex items-center justify-between space-x-2 cursor-pointer'>
+                    <div className='dark:bg-charcoal bg-[#EBEBEB] h-11 rounded-lg p-3 flex items-center justify-between space-x-2 cursor-pointer'>
                         <img src={profile} className='w-8 h-8 rounded-lg'></img>
-                        <p className='profile-name text-sm text-white'>George Chichua</p>
+                        <p className='h-4.5 text-sm text-white'>George Chichua</p>
                         <img src={downArrow} className='mt-1'></img>
                     </div>
                 </Link>
