@@ -16,7 +16,7 @@ const Nav = () => {
     ]
 
     // true if dark mode
-    const [mode, setMode] = useState(true);
+    const [mode, setMode] = useState(false);
 
     const toggle = () => {
         setMode(!mode);
