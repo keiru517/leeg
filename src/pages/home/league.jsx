@@ -205,7 +205,7 @@ const League = () => {
                     <div className="flex w-full justify-between space-x-10 my-5">
                       <div className="flex flex-grow space-x-3 ">
                         <Input
-                          className="flex-grow rounded-lg h-[38px] bg-transparent text-xs"
+                          className="flex-grow rounded-lg h-[38px] dark:bg-charcoal bg-white text-xs"
                           icon={search}
                           placeholder="Search"
                           value={waitKeyword}

@@ -33,7 +33,7 @@ const Nav = () => {
                 <img src={line}></img>
                 <div className='greeting'>
                     <p className='dark:text-white text-[#33383F] text-lg font-semibold text-left'>Hello George!</p>
-                    <p className='text-sm dark:font-dark-gray text-left'>Welcome to your dashboard</p>
+                    <p className='text-sm dark:text-font-dark-gray text-left'>Welcome to your dashboard</p>
                 </div>
             </div>
             <div className='flex space-x-2 items-center'>

@@ -8,7 +8,7 @@ const Input = (props) => {
     } = props;
     return (
         <div className={
-            `${className} dark:bg-slate bg-white flex space-x-2 border border-dark-gray items-center px-3`
+            `${className} flex space-x-2 border border-dark-gray items-center px-3`
         }>
             {
                 icon ? <div>
