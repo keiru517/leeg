@@ -91,6 +91,7 @@ const League = () => {
   useEffect(() => {
     actions.getTeams(dispatch);
     actions.getMatches(dispatch);
+
     actions.getPlayers(dispatch);
   }, []);
 

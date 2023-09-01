@@ -5,6 +5,7 @@ const initialState = {
   leagues: [],
   teams: [],
   matches: [],
+  matchups: [],
   players: [],
   admins: [],
   selected_league: [],
@@ -174,6 +175,13 @@ const home = (state = initialState, action) => {
           type: "",
           team: [],
         },
+      };
+
+    // matchups
+    case actions.GET_MATCHUPS:
+      return {
+        ...state,
+        matchups: action.payload,
       };
 
     case actions.OPEN_ADD_PLAYER_DIALOG:

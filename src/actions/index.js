@@ -22,6 +22,8 @@ export const SET_TEAM_LOGO_URL = "SET_TEAM_LOGO_URL";
 export const GET_MATCHES = "GET_MATCHES";
 export const OPEN_CREATE_MATCH_DIALOG = "OPEN_CREATE_MATCH_DIALOG";
 export const CLOSE_MATCH_DIALOG = "CLOSE_MATCH_DIALOG";
+// Matchups
+export const GET_MATCHUPS = "GET_MATCHUPS";
 // player
 export const GET_PLAYERS = "GET_PLAYERS";
 export const OPEN_INVITE_PLAYER_DIALOG = "OPEN_INVITE_PLAYER_DIALOG";
@@ -156,6 +158,23 @@ export const getMatches = async (dispatch) => {
 export const closeMatchDialog = () => ({
   type: CLOSE_MATCH_DIALOG,
 });
+// matchup action
+export const getMatchups = async (dispatch) => {
+  try{
+    const response = await axios.get(apis.getMatchups);
+    const matchups = response.data.matchups;
+    dispatch({
+      type: GET_MATCHUPS,
+      payload: matchups
+    })
+  } catch {
+    dispatch({
+      type: GET_MATCHUPS,
+      payload: []
+    })
+
+  }
+}
 
 // player action
 export const getPlayers = async (dispatch) => {

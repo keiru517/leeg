@@ -13,6 +13,7 @@ import * as actions from "../../actions";
 import SubstituteModal from "../../components/Modal/SubstituteModal";
 import deleteIcon from "../../assets/img/dark_mode/delete.png";
 import axios from "axios";
+import apis from "../../utils/apis";
 
 const Matchup = () => {
   let { leagueId, matchId } = useParams();
@@ -30,6 +31,10 @@ const Matchup = () => {
     (player) => player.teamId == match.homeTeamId && player.role == 2
   );
 
+  const homeTeamMatchups = useSelector((state) => state.home.matchups).filter(
+    (matchup) => matchup.matchId == matchId && matchup.teamId == homeTeam.id
+  );
+
   const awayTeam = useSelector((state) => state.home.teams).find(
     (team) => team.id == match.awayTeamId
   );
@@ -38,6 +43,10 @@ const Matchup = () => {
     (player) => player.teamId == match.awayTeamId && player.role == 2
   );
 
+  const awayTeamMatchups = useSelector((state) => state.home.matchups).filter(
+    (matchup) => matchup.matchId == matchId && matchup.teamId == awayTeam.id
+  );
+  
   const options = ["Ascend", "Descend", "Recent"];
   const [value, setValue] = useState("Sort by");
 
@@ -45,30 +54,48 @@ const Matchup = () => {
     dispatch({ type: actions.OPEN_ADD_SUBSTITUTE_DIALOG });
   };
 
-  const [inputValues, setInputValues] = useState({});
-  const handleInputChange = (id, value) => {
-    let temp = { ...inputValues };
-    temp[id] = value;
-    setInputValues(temp);
+  const [homeInputValues, setHomeInputValues] = useState(homeTeamMatchups);
+
+  const handleHomeInputChange = (index, playerId, matchId, teamId, points) => {
+    let temp = { ...homeInputValues };
+    temp[index] = { playerId, matchId, teamId, points };
+    setHomeInputValues(temp);
   };
 
+  const [awayInputValues, setAwayInputValues] = useState(awayTeamMatchups);
+
+  const handleAwayInputChange = (index, playerId, matchId, teamId, points) => {
+    let temp = { ...awayInputValues };
+    temp[index] = { playerId, matchId, teamId, points };
+    setAwayInputValues(temp);
+  };
+
+  const [matchupResult, setMatchupResult] = useState(["-", "-"]);
   useEffect(() => {
-    console.log(inputValues);
-  }, [inputValues]);
+    console.log(homeInputValues);
+    console.log(awayInputValues);
+    let homeTeamPoints = 0;
+    Object.keys(homeInputValues).map(id=>{
+      homeTeamPoints += Number(homeInputValues[id].points);
+    })
+    let awayTeamPoints = 0;
+    Object.keys(awayInputValues).map(id=>{
+      awayTeamPoints += Number(awayInputValues[id].points);
+    })
+    setMatchupResult([homeTeamPoints, awayTeamPoints]);
+    
+  }, [homeInputValues, awayInputValues]);
 
-  // handleSubmit = () => {
-  //   axios.post('/match/update', {
-  //     id:matchId,
-  //     leagueId,
-  //     homeTeamId: match.homeTeamId,
-  //     awayTeamId: match.awayTeamId,
-  //     date: match.date,
-  //     time: match.time,
-  //     location: match.location,
-  //     result: 
+  useEffect(() => {
 
-  //   })
-  // }
+    actions.getMatchups(dispatch);
+  }, []);
+
+  const handleSubmit = () => {
+    axios.post()
+    // axios.post('/matchup/create', {
+    // })
+  };
 
   return (
     <div className="flex flex-col flex-grow">
@@ -112,7 +139,7 @@ const Matchup = () => {
           </div>
           <div className="text-center mt-3">
             <p className="text-white text-sm mt-3">{match.status}</p>
-            <p className="text-white text-[56px] my-2">{match.result}</p>
+            <p className="text-white text-[56px] my-2">{matchupResult[0]}:{matchupResult[1]}</p>
             <p className="text-white text-sm">{match.date}</p>
             <p className="text-font-dark-gray text-sm mt-1">{match.location}</p>
           </div>
@@ -231,9 +258,15 @@ const Matchup = () => {
                                 key={index}
                                 className="rounded-default bg-transparent border-none text-center"
                                 type="number"
-                                value={inputValues[player.id]}
+                                value={homeInputValues[index]?.points}
                                 onChange={(e) =>
-                                  handleInputChange(player.id, e.target.value)
+                                  handleHomeInputChange(
+                                    index,
+                                    player.id,
+                                    matchId,
+                                    match.homeTeamId,
+                                    e.target.value
+                                  )
                                 }
                               ></Input>
                             </Typography>
@@ -337,9 +370,15 @@ const Matchup = () => {
                                 key={index}
                                 className="rounded-default bg-transparent border-none text-center"
                                 type="number"
-                                value={inputValues[player.id]}
+                                value={awayInputValues[index]?.points}
                                 onChange={(e) =>
-                                  handleInputChange(player.id, e.target.value)
+                                  handleAwayInputChange(
+                                    index,
+                                    player.id,
+                                    matchId,
+                                    match.awayTeamId,
+                                    e.target.value
+                                  )
                                 }
                               ></Input>
                             </Typography>

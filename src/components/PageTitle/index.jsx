@@ -26,18 +26,6 @@ const PageTitle = (props) => {
 
   const navigate = useNavigate();
 
-  //   const [logo, setLogo] = useState('');
-
-  //   useEffect(() => {
-  //     axios.get(`/league/logo/${leagueId}`, {responseType: "arraybuffer"}).then(res=>{
-  //         const logoUrl = URL.createObjectURL(
-  //             new Blob([res.data], {type: "image/jpeg"})
-  //         );
-  //         setLogo(logoUrl);
-  //     })
-
-  // }, [leagueId]);
-
   return (
     <div className="page-title dark:bg-charcoal bg-white flex items-center justify-between">
       <div className="flex items-center">

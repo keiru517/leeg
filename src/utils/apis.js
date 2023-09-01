@@ -23,11 +23,14 @@ export const apis = {
   deleteMatch: (id) => {
     return `${apiUrl}/match/remove/${id}`
   },
+  // matchup
+  getMatchups: apiUrl + '/matchup/all',
+  createMatchup: apiUrl + '/matchup/create',
   getPlayers: apiUrl + '/player/all',
   createPlayer: apiUrl + '/player/create',
   acceptPlayer: apiUrl + '/player/accept',
   unacceptPlayer: apiUrl + '/player/unaccept',
-  addPlayer: apiUrl + '/player/add'
+  addPlayer: apiUrl + '/player/add',
 };
 
 export default apis;
