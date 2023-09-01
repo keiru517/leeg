@@ -14,6 +14,7 @@ import SubstituteModal from "../../components/Modal/SubstituteModal";
 import deleteIcon from "../../assets/img/dark_mode/delete.png";
 import axios from "axios";
 import apis from "../../utils/apis";
+import MatchupTitle from "../../components/MatchupTitle";
 
 const Matchup = () => {
   let { leagueId, matchId } = useParams();
@@ -70,10 +71,8 @@ const Matchup = () => {
     setAwayInputValues(temp);
   };
 
-  const [matchupResult, setMatchupResult] = useState(["-", "-"]);
+  const [matchupResult, setMatchupResult] = useState([]);
   useEffect(() => {
-    console.log(homeInputValues);
-    console.log(awayInputValues);
     let homeTeamPoints = 0;
     Object.keys(homeInputValues).map(id=>{
       homeTeamPoints += Number(homeInputValues[id].points);
@@ -92,20 +91,23 @@ const Matchup = () => {
   }, []);
 
   const handleSubmit = () => {
-    axios.post()
-    // axios.post('/matchup/create', {
-    // })
+    axios.post(apis.updateMatchResult, {
+      matchId: matchId,
+      result: matchupResult
+    }).then(res=>{
+      alert(res.data.message)
+      actions.getMatches(dispatch);
+      actions.getMatchups(dispatch);
+    }).catch(error=>console.log(error.message))
   };
 
   return (
     <div className="flex flex-col flex-grow">
-      <PageTitle
-        backIcon={leftarrowIcon}
-        createAction={actions.OPEN_CREATE_LEAGUE_DIALOG}
-        button="Mark as Finished"
+      <MatchupTitle
+        handleClick={handleSubmit}
       >
         Matchup Page
-      </PageTitle>
+      </MatchupTitle>
       <p className="font-dark-gray my-[20px]">
         <Link to="/">
           <span className="underline">My Leagues</span>
@@ -258,7 +260,7 @@ const Matchup = () => {
                                 key={index}
                                 className="rounded-default bg-transparent border-none text-center"
                                 type="number"
-                                value={homeInputValues[index]?.points}
+                                value={homeInputValues[index]?.points || 0}
                                 onChange={(e) =>
                                   handleHomeInputChange(
                                     index,
@@ -370,7 +372,7 @@ const Matchup = () => {
                                 key={index}
                                 className="rounded-default bg-transparent border-none text-center"
                                 type="number"
-                                value={awayInputValues[index]?.points}
+                                value={awayInputValues[index]?.points || 0}
                                 onChange={(e) =>
                                   handleAwayInputChange(
                                     index,
