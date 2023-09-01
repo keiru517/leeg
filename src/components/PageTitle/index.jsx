@@ -61,7 +61,7 @@ const PageTitle = (props) => {
         ) : (
           ""
         )}
-        <p className="text-3xl text-white text-left font-black mx-6">
+        <p className="text-3xl dark:text-white text-charcoal text-left font-black mx-6">
           {children}
         </p>
         {editIcon ? (
