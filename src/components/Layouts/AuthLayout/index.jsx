@@ -14,7 +14,7 @@ const AuthLayout = (props) => {
     });
   }, []);
   return (
-    <div className="p-[20px_26px_51px_26px] bg-black justify-center flex flex-col flex-grow">
+    <div className="p-[20px_26px_51px_26px] dark:bg-black bg-[#f4f4f4] justify-center flex flex-col flex-grow">
       {isLoading ? (
         <div className="text-white text-3xl">Page is loading.</div>
       ) : isLoggedIn ? (
