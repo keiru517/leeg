@@ -39,7 +39,7 @@ const PageTitle = (props) => {
   // }, [leagueId]);
 
   return (
-    <div className="page-title bg-charcoal flex items-center justify-between">
+    <div className="page-title dark:bg-charcoal bg-white flex items-center justify-between">
       <div className="flex items-center">
         {backIcon ? (
           <img
