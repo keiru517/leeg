@@ -4,22 +4,15 @@ import { useParams } from "react-router";
 import axios from "axios";
 import { CheckIcon } from "@heroicons/react/24/outline";
 import close from "../../assets/img/dark_mode/close.png";
-import btn1 from "../../assets/img/dark_mode/btn1.png";
 import deleteIcon from "../../assets/img/dark_mode/delete.png";
 import editIcon from "../../assets/img/dark_mode/edit.png";
 import search from "../../assets/img/dark_mode/search.png";
-import btn3 from "../../assets/img/dark_mode/btn3.png";
 import uploadCircle from "../../assets/img/dark_mode/upload-circle.png";
-import calendar from "../../assets/img/dark_mode/calendar.png";
-import Button from "../Button";
-import Select from "../Select";
 import Input from "../Input";
-import ListItem from "../ListItem";
 import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../actions";
-import logo from "../../assets/img/dark_mode/league-logo.png";
-import avatar from "../../assets/img/dark_mode/player.png";
 import PlayerList from "../ListItem/PlayerList";
+import apis from "../../utils/apis";
 
 const TeamModal = () => {
   let { leagueId } = useParams();
@@ -49,17 +42,14 @@ const TeamModal = () => {
 
   const handleDelete = () => {
     console.log("teamid", team.id);
-    // confirm("HI");
     axios
-      .delete(`/team/remove/${team.id}`)
+      .delete(apis.deleteTeam(team.id))
       .then((res) => {
         dispatch({ type: actions.CLOSE_TEAM_DIALOG });
         actions.getTeams(dispatch);
         alert(res.data.message);
       })
       .catch((err) => alert(err.data.message));
-    // dispatch({ type: actions.OPEN_DELETE_TEAM_DIALOG, payload: team });
-    // dispatch({ type: actions.OPEN_TEAM_DIALOG, payload: true });
   };
 
   const handleEdit = () => {
@@ -67,7 +57,6 @@ const TeamModal = () => {
       type: actions.OPEN_EDIT_TEAM_DIALOG,
       payload: { open: true, type: "edit", team: team },
     });
-    // dispatch({ type: actions.OPEN_TEAM_DIALOG, payload: true });
   };
 
   const createSubmit = () => {
@@ -76,7 +65,7 @@ const TeamModal = () => {
     formData.append("logo", chosenFile);
     formData.append("name", teamName);
 
-    axios.post("/team/create", formData).then((res) => {
+    axios.post(apis.createTeam, formData).then((res) => {
       actions.getTeams(dispatch);
       dispatch({ type: actions.CLOSE_TEAM_DIALOG });
       setTeamName("");
@@ -86,7 +75,7 @@ const TeamModal = () => {
   const editSubmit = () => {
     dispatch({ type: actions.CLOSE_TEAM_DIALOG });
     axios
-      .post("/team/update", {
+      .post(apis.updateTeam, {
         id: team.id,
         name: teamName,
         logo: "updated logo",
@@ -108,7 +97,7 @@ const TeamModal = () => {
 
   const [playersList, setPlayersList] = useState({});
   const addPlayers = () => {
-    axios.post('/player/add', {
+    axios.post(apis.addPlayer, {
       teamId: team.id,
       playersList: playersList
     }).then(res=>{

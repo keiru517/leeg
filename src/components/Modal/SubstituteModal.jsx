@@ -6,6 +6,7 @@ import Input from "../Input";
 import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../actions";
 import axios from "axios";
+import apis from "../../utils/apis";
 
 const SubstituteModal = (props) => {
   const { teamId } = props;
@@ -27,7 +28,7 @@ const SubstituteModal = (props) => {
 
   const createSubmit = () => {
     console.log("Add Substitute to the match");
-    axios.post('/player/create', {
+    axios.post(apis.createPlayer, {
       leagueId,
       name: firstName + lastName,
       jerseyNumber: jerseyNumber,

@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../actions";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import apis from "../../utils/apis";
 
 const MatchModal = () => {
   let {leagueId} = useParams();
@@ -60,7 +61,7 @@ const MatchModal = () => {
   };
 
   const createSubmit = () => {
-    axios.post('/match/create', {
+    axios.post(apis.createMatch, {
       leagueId: leagueId,
       homeTeamId: homeValue.id,
       awayTeamId: awayValue.id,

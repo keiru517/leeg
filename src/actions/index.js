@@ -40,7 +40,7 @@ export const GET_ADMINS = "GET_ADMINS";
 // Get leagues from the server
 export const getLeagues = async (dispatch) => {
   try {
-    const response = await axios.get(`/league/all`);
+    const response = await axios.get(apis.getLeagues);
     const leagues = response.data.leagues;
     // logo
     dispatch({
@@ -89,7 +89,7 @@ export const openInvitePlayerDialog = (payload) => ({
 // Team actions -----------------------------------
 export const getTeams = async (dispatch) => {
   try {
-    const response = await axios.get(`/team/all`);
+    const response = await axios.get(apis.getTeams);
     const teams = response.data.teams;
     dispatch({
       type: GET_TEAMS,
@@ -139,7 +139,7 @@ export const openAddPlayerDialgo = (payload) => ({
 // Matches Action
 export const getMatches = async (dispatch) => {
   try {
-    const response = await axios.get("/match/all");
+    const response = await axios.get(apis.getMatchtes);
     const matches = response.data.matches;
     dispatch({
       type: GET_MATCHES,
@@ -160,7 +160,7 @@ export const closeMatchDialog = () => ({
 // player action
 export const getPlayers = async (dispatch) => {
   try {
-    const response = await axios.get("/player/all");
+    const response = await axios.get(apis.getPlayers);
     console.log("player action")
     const players = response.data.players;
     dispatch({

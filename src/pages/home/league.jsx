@@ -24,6 +24,7 @@ import StandingTable from "../../components/Table/Standing";
 import PlayerTable from "../../components/Table/Player";
 import { wait } from "@testing-library/user-event/dist/utils";
 import axios from "axios";
+import apis from "../../utils/apis";
 
 const League = () => {
   let { leagueId } = useParams();
@@ -114,7 +115,7 @@ const League = () => {
 
   const handleAccept = () => {
     axios
-      .post(`/player/accept`, waitItemChecked)
+      .post(apis.acceptPlayer, waitItemChecked)
       .then((res) => {
         actions.getPlayers(dispatch);
         setWaitItemChecked({});
@@ -125,7 +126,7 @@ const League = () => {
   const handleRemove = () => {
     console.log(acceptedItemChecked);
     axios
-      .post(`/player/unaccept`, acceptedItemChecked)
+      .post(apis.unacceptPlayer, acceptedItemChecked)
       .then((res) => {
         actions.getPlayers(dispatch);
         setAcceptedItemChecked({});

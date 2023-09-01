@@ -25,7 +25,7 @@ import FCBarcelona from "./assets/img/dark_mode/fc-barcelona.jpg";
 import teamLogo from "./assets/img/dark_mode/team-logo.png";
 import React from "react";
 
-axios.defaults.baseURL = "http://localhost:3001/api";
+// axios.defaults.baseURL = "http://localhost:3001/api";
 
 function App() {
   const dispatch = useDispatch();

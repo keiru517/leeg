@@ -16,6 +16,7 @@ import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../actions";
 import axios from "axios";
 import { Navigate } from "react-router-dom";
+import apis from '../../utils/apis';
 
 const Modal = (props) => {
   const dispatch = useDispatch();
@@ -73,7 +74,7 @@ const Modal = (props) => {
     formData.append("logo", chosenFile);
 
     axios
-      .post("/league/create", formData)
+      .post(apis.createLeague, formData)
       .then((res) => {
         actions.getLeagues(dispatch);
         dispatch({ type: actions.CLOSE_LEAGUE_DIALOG });

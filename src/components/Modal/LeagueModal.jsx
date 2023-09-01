@@ -11,6 +11,7 @@ import Input from "../Input";
 import deleteIcon from "../../assets/img/dark_mode/delete.png";
 import editIcon from "../../assets/img/dark_mode/edit.png";
 import axios from "axios";
+import apis from "../../utils/apis";
 
 const LeagueModal = () => {
   const dispatch = useDispatch();
@@ -43,7 +44,7 @@ const LeagueModal = () => {
 
   const handleDelete = () => {
     axios
-      .delete(`/league/remove/${league.id}`)
+    .delete(apis.deleteLeague(league.id))
       .then((res) => {
         alert(res.data.message);
         actions.getLeagues(dispatch);
@@ -63,7 +64,7 @@ const LeagueModal = () => {
   const editSubmit = () => {
     dispatch({ type: actions.CLOSE_LEAGUE_DIALOG });
     axios
-      .post(`/league/update`, {
+      .post(apis.updateLeague, {
         id: leagueId,
         name: leagueName,
         description: leagueDescription,
