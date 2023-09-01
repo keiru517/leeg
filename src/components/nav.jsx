@@ -22,7 +22,7 @@ const Nav = () => {
         setMode(!mode);
     }
   return (
-        <div className='dark:bg-slate p-default rounded-main h-[99px] flex items-center justify-between'>
+        <div className='dark:bg-slate bg-white p-default rounded-main h-[99px] flex items-center justify-between'>
             <div className='title flex items-center space-x-8'>
                 <div className='logo flex'>
                     <div className='flex'>
