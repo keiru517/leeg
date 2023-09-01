@@ -43,7 +43,7 @@ const Nav = () => {
                 <Link to='/profile'>
                     <div className='dark:bg-charcoal bg-[#EBEBEB] h-11 rounded-lg p-3 flex items-center justify-between space-x-2 cursor-pointer'>
                         <img src={profile} className='w-8 h-8 rounded-lg'></img>
-                        <p className='h-4.5 text-sm text-white'>George Chichua</p>
+                        <p className='h-4.5 text-sm dark:text-white text-[#33383F]'>George Chichua</p>
                         <img src={downArrow} className='mt-1'></img>
                     </div>
                 </Link>
