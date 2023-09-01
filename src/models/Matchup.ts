@@ -31,7 +31,15 @@ Matchup.init(
         key: 'id'
       }
     },
-    homeTeamId: {
+    matchId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'Match',
+        key: 'id'
+      }
+    },
+    teamId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
@@ -39,18 +47,7 @@ Matchup.init(
         key: 'id'
       }
     },
-    awayTeamId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: 'Team',
-        key: 'id'
-      }
-    },
-    date: DataTypes.STRING,
     points: DataTypes.INTEGER,
-    gamesPlayed: DataTypes.INTEGER,
-    ppg: DataTypes.FLOAT,
   },
   {
     sequelize,

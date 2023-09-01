@@ -16,13 +16,29 @@ export const create: RequestHandler = async (req, res) => {
   res.status(200).json({message:'A Match Created Successfully!'});
 };
  
-// POST SERVER_URL/api/match/update/1
+// POST SERVER_URL/api/match/update
 export const update: RequestHandler = async (req, res) => {
   const data: Types.T_Match = req.body;
 
   const match = await Match.findByPk(req.body.id);
   if (match) {
     await match.update(data);
+    res.status(200).json({ message: 'A match has updated successfully!' });
+  } else {
+    res.status(404).json({ message: 'match not found' });
+  }
+};
+
+// POST SERVER_URL/api/match/updateResult
+// update the result of the match when admin clicks "Mark As Finished"
+export const updateResult: RequestHandler = async (req, res) => {
+  const data = req.body;
+  console.log(data)
+
+  const match = await Match.findByPk(data.matchId);
+  if (match) {
+    match.result = `${data.result[0]}:${data.result[1]}`;
+    await match.save();
     res.status(200).json({ message: 'A match has updated successfully!' });
   } else {
     res.status(404).json({ message: 'match not found' });

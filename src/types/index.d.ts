@@ -49,12 +49,9 @@ export namespace Types {
   }
   export interface T_Matchup extends T_DB {
     playerId: number;
-    homeTeamId: number;
-    awayTeamId: number;
-    date: string;
+    matchId: string;
+    teamId: number;
     points: number;
-    gamesPlayed: number;
-    ppg: number;
   }
   export interface T_Player extends T_DB {
     leagueId: number;

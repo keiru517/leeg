@@ -1,6 +1,7 @@
 import { RequestHandler } from 'express';
 import Matchup from '../models/Matchup';
-import { Types } from '../types';
+// import Player from '../models/Player';
+// import { Types } from '../types';
 
 // GET SERVER_URL/api/matchup/all
 export const all: RequestHandler = async (req, res) => {
@@ -10,10 +11,26 @@ export const all: RequestHandler = async (req, res) => {
 
 // POST SERVER_URL/api/matchup/create
 export const create: RequestHandler = async (req, res) => {
-  const data: Types.T_Matchup = req.body;
+  const data = req.body.data;
+  var playerFound = false;
 
-  await Matchup.create(data);
-  res.status(200).json({message:'A Matchup Created Successfully!'});
+  const promises = Object.keys(data).map(async playerId=> {
+    await Matchup.create({
+      playerId: Number(playerId),
+      matchId: data[playerId]['matchId'],
+      teamId: data[playerId]['teamId'],
+      points: data[playerId]['points']
+    })
+    playerFound = true;
+  })
+
+  await Promise.all(promises);
+
+  if (playerFound) {
+    res.status(200).json({message: 'Saved successfully!'});
+  } else {
+    res.status(404).json({message: "Player not found"});
+  }
 };
 
 // POST SERVER_URL/api/matchup/update/1
