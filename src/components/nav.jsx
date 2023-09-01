@@ -22,18 +22,18 @@ const Nav = () => {
         setMode(!mode);
     }
   return (
-        <div className='dark:bg-slate bg-white p-default rounded-main h-[99px] flex items-center justify-between'>
+        <div className='dark:bg-slate  bg-white p-default rounded-main h-[99px] flex items-center justify-between'>
             <div className='title flex items-center space-x-8'>
                 <div className='logo flex'>
                     <div className='flex'>
                         <img src={logo}></img>
-                        <p className='text-white text-base text-left italic font-semibold mx-3'>Leeg.io</p>
+                        <p className='dark:text-white text-[#33383F] text-base text-left italic font-semibold mx-3'>Leeg.io</p>
                     </div>
                 </div>
                 <img src={line}></img>
                 <div className='greeting'>
-                    <p className='text-white text-lg font-semibold text-left'>Hello George!</p>
-                    <p className='text-white text-sm font-dark-gray text-left'>Welcome to your dashboard</p>
+                    <p className='dark:text-white text-[#33383F] text-lg font-semibold text-left'>Hello George!</p>
+                    <p className='text-sm dark:font-dark-gray text-left'>Welcome to your dashboard</p>
                 </div>
             </div>
             <div className='flex space-x-2 items-center'>
