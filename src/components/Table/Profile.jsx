@@ -10,13 +10,15 @@ const Profile = (props) => {
     "Game Date",
     "Matchup",
     "Points Scored",
-    "Games Played",
-    "PPG",
+    "Result",
+    // "PPG",
   ];
 
   const teams = useSelector((state) => state.home.teams);
   const player = useSelector((state) => state.home.players).find(player=>player.id == playerId);
   const matches = useSelector(state=>state.home.matches).filter(match=>match.homeTeamId == player.teamId || match.awayTeamId == player.teamId);
+  console.log(matches)
+  const matchups = useSelector(state=>state.home.matchups).filter(matchup=>matchup.playerId == playerId);
 
   return (
     <div className="text-white mt-5 w-full">
@@ -42,7 +44,7 @@ const Profile = (props) => {
         <tbody className="text-center">
           {
             // matches.map(({ logo, name}, index) =>
-            matches.map((player, idx) => (
+            matches.map((match, idx) => (
               <tr
                 key={idx}
                 className="odd:bg-dark-gray even:bg-charcoal h-[53px]"
@@ -53,7 +55,7 @@ const Profile = (props) => {
                     color="blue-gray"
                     className="font-normal"
                   >
-                    {player.gameDate}
+                    {match.date}
                   </Typography>
                 </td>
                 <td className="">
@@ -64,7 +66,7 @@ const Profile = (props) => {
                   >
                     <img
                       src={
-                        teams.find((team) => team.id == player.homeTeamId)
+                        teams.find((team) => team.id == match.homeTeamId)
                           .logo
                       }
                       alt=""
@@ -72,10 +74,10 @@ const Profile = (props) => {
                     />
                     <p className="underline">
                       <Link
-                        to={`/league/${leagueId}/team/${player.homeTeamId}`}
+                        to={`/league/${leagueId}/team/${match.homeTeamId}`}
                       >
                         {
-                          teams.find((team) => team.id == player.homeTeamId)
+                          teams.find((team) => team.id == match.homeTeamId)
                             .name
                         }
                       </Link>
@@ -83,7 +85,7 @@ const Profile = (props) => {
                     <p className="text-font-dark-gray">VS</p>
                     <img
                       src={
-                        teams.find((team) => team.id == player.awayTeamId)
+                        teams.find((team) => team.id == match.awayTeamId)
                           .logo
                       }
                       alt=""
@@ -91,10 +93,10 @@ const Profile = (props) => {
                     />
                     <p className="underline">
                       <Link
-                        to={`/league/${leagueId}/team/${player.awayTeamId}`}
+                        to={`/league/${leagueId}/team/${match.awayTeamId}`}
                       >
                         {
-                          teams.find((team) => team.id == player.awayTeamId)
+                          teams.find((team) => team.id == match.awayTeamId)
                             .name
                         }
                       </Link>
@@ -107,18 +109,19 @@ const Profile = (props) => {
                     color="blue-gray"
                     className="font-normal"
                   >
-                    {player.ps}
+                    {matchups.find(matchup=>matchup.matchId == match.id).points}
                   </Typography>
                 </td>
-                <td className="w-1/5">
+                 <td className="w-1/5">
                   <Typography
                     variant="small"
                     color="blue-gray"
                     className="font-normal"
                   >
-                    {player.gp}
+                    {match.result}
                   </Typography>
                 </td>
+                {/*
                 <td className="w-1/5">
                   <Typography
                     variant="small"
@@ -127,7 +130,7 @@ const Profile = (props) => {
                   >
                     {player.ppg}
                   </Typography>
-                </td>
+                </td> */}
               </tr>
             ))
             // )

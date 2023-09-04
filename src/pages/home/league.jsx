@@ -54,7 +54,7 @@ const League = () => {
   const categories = [
     "Manage Rosters",
     "Teams",
-    "Matches",
+    "Schedule",
     "Standings",
     "All Playerlist",
   ];
@@ -69,9 +69,9 @@ const League = () => {
 
   const buttons = {
     "Manage Rosters": "Invite Player",
-    Teams: "Create Team",
-    Matches: "Create Match",
-    Standings: "Create Match",
+    "Teams": "Create Team",
+    "Schedule": "Create Match",
+    "Standings": "Create Match",
     "All Playerlist": "Create Match",
   };
 
@@ -147,7 +147,7 @@ const League = () => {
             ? actions.OPEN_INVITE_PLAYER_DIALOG
             : breadcrum == "Teams"
             ? actions.OPEN_CREATE_TEAM_DIALOG
-            : breadcrum == "Matches"
+            : breadcrum == "Schedule"
             ? actions.OPEN_CREATE_MATCH_DIALOG
             : ""
         }
@@ -357,7 +357,7 @@ const League = () => {
                 <TeamModal />
               </Tab.Panel>
 
-              {/* Matches */}
+              {/* Schedule */}
               <Tab.Panel
                 key={2}
                 className={classNames("rounded-xl flex flex-col w-full h-full")}

@@ -33,7 +33,7 @@ const StandingTable = (props) => {
           </tr>
         </thead>
         <tbody className="text-center">
-          {teams.sort((a, b)=>a.position-b.position).map(({ position, name, win, lose, pointScored, pointAgainst, diff }, index) => (
+          {teams.sort((a, b)=>a.position-b.position).map(({ position, name, logo, win, lose, pointScored, pointAgainst, diff }, index) => (
             <tr key={index} className="odd:bg-dark-gray even:bg-charcoal">
               <td className="w-1/6">
                 <Typography
@@ -46,13 +46,13 @@ const StandingTable = (props) => {
               <td className="w-1/6">
                 <Typography
                   variant="small"
-                  className="font-normal flex items-center underline"
+                  className="font-normal flex items-center underline justify-center"
                 >
-                <img src={teamLogo} alt="" className="h-8 w-8 mr-2" />
+                <img src={logo} alt="" className="h-8 w-8 mr-2" />
                   {name}
                 </Typography>
               </td>
-              <td className="">
+              <td className="w-1/6">
                 <Typography
                   variant="small"
                   className="font-normal"
