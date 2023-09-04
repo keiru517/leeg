@@ -4,8 +4,7 @@ import avatar from '../../assets/img/dark_mode/player.png';
 
 const PlayerStatistics = (props) => {
   const {players } = props;
-
-
+  
   const columns = [
     "Position",
     "Player",

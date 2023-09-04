@@ -5,12 +5,10 @@ import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const TeamStatistics = () => {
-  let { id } = useParams();
-  console.log(id)
-  const team = useSelector(state=>state.home.teams).find(team=>team.id == id);
-  
+  let { teamId } = useParams();
 
-  // const { data } = props;
+  const team = useSelector(state=>state.home.teams).find(team=>team.id == teamId);
+  
   const columns = [
     "W",
     "L",

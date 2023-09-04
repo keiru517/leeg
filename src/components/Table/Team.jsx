@@ -1,32 +1,41 @@
 import { Card, Typography } from "@material-tailwind/react";
 import actionIcon from "../../assets/img/dark_mode/action.png";
+import { useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const TeamTable = (props) => {
   const { data } = props;
+  const { leagueId, teamId } = useParams();
 
   return (
     <div className="text-white h-full w-full">
       <table className="w-full min-w-max table-auto text-left">
         <thead className="sticky">
           <tr>
-              <th key='1' className="h-button bg-slate text-center font-font-dark-gray w-1/2">
-                <Typography
-                  variant="small"
-                  color="blue-gray"
-                  className="font-normal leading-none opacity-70"
-                >
-                  Player
-                </Typography>
-              </th>
-              <th key='2' className="h-button bg-slate text-center font-font-dark-gray w-1/2">
-                <Typography
-                  variant="small"
-                  color="blue-gray"
-                  className="font-normal leading-none opacity-70"
-                >
-                  Action
-                </Typography>
-              </th>
+            <th
+              key="1"
+              className="h-button bg-slate text-center font-font-dark-gray w-1/2"
+            >
+              <Typography
+                variant="small"
+                color="blue-gray"
+                className="font-normal leading-none opacity-70"
+              >
+                Player
+              </Typography>
+            </th>
+            <th
+              key="2"
+              className="h-button bg-slate text-center font-font-dark-gray w-1/2"
+            >
+              <Typography
+                variant="small"
+                color="blue-gray"
+                className="font-normal leading-none opacity-70"
+              >
+                Action
+              </Typography>
+            </th>
           </tr>
         </thead>
         <tbody className="text-center">
@@ -41,14 +50,16 @@ const TeamTable = (props) => {
           {data.map((player, index) => (
             <tr key={index} className="even:bg-dark-gray odd:bg-charcoal">
               <td className="">
-                <div className="flex items-center">
+                <div className="flex items-center justify-center">
                   <img src={player.avatar} alt="" className="w-8 h-8 mr-2" />
                   <Typography
                     variant="small"
                     color="blue-gray"
-                    className="font-normal"
+                    className="font-normal underline"
                   >
-                    {player.name}
+                    <Link to={`/league/${leagueId}/player/${player.id}`}>
+                      {player.name}
+                    </Link>
                   </Typography>
                 </div>
               </td>

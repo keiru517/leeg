@@ -8,7 +8,7 @@ import apis from "../../utils/apis";
 import backIcon from "../../assets/img/dark_mode/left-arrow.png";
 
 const MatchupTitle = (props) => {
-  const { children, handleClick } = props;
+  const { children, handleClick, result } = props;
   const navigate = useNavigate();
 
   return (
@@ -26,7 +26,8 @@ const MatchupTitle = (props) => {
       </div>
       <button
         onClick={handleClick}
-        className="w-[169px] h-button bg-primary hover:bg-opacity-70 rounded-default text-white focus:ring-2"
+        className="w-[169px] h-button bg-primary hover:bg-opacity-70 rounded-default text-white focus:ring-2 disabled:opacity-10"
+        disabled={result!=="-:-"}
       >
         Mark As Finished
       </button>

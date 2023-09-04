@@ -70,24 +70,11 @@ const MatchModal = () => {
       location,
     }).then(res=>{
       actions.getMatches(dispatch)
-      dispatch({ type: actions.CLOSE_TEAM_DIALOG });
+      dispatch({ type: actions.CLOSE_MATCH_DIALOG });
     }).catch(error=>alert(error.data.message))
     
     console.log("Clicked create");
   };
-
-  const editSubmit = () => {
-    dispatch({ type: actions.CLOSE_TEAM_DIALOG });
-    console.log("Clicked edit");
-  };
-
-  const deleteSubmit = () => {
-    dispatch({ type: actions.CLOSE_TEAM_DIALOG });
-    console.log("Clicked delete");
-  };
-
-  const [sport, setSport] = useState("Select Sport*");
-  // const [teamName, setTeamName] = useState(team.name);
 
   return (
     <Transition.Root show={status} as={Fragment}>

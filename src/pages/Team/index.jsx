@@ -14,11 +14,11 @@ import PlayerStatisticsTable from "../../components/Table/PlayerStatistics";
 import TeamTable from "../../components/Table/Team";
 
 const Team = () => {
-  let { leagueId, id } = useParams();
+  let { leagueId, teamId } = useParams();
   const dispatch = useDispatch();
 
   const team = useSelector((state) => state.home.teams).find(
-    (team) => team.id == id
+    (team) => team.id == teamId
   );
 
   const league = useSelector((state) => state.home.leagues).find(
@@ -39,10 +39,10 @@ const Team = () => {
   const matches = useSelector((state) => state.home.matches).filter(
     (match) =>
       (match.leagueId == leagueId) &
-      ((match.homeTeamId == id) | (match.awayTeamId == id))
+      ((match.homeTeamId == teamId) | (match.awayTeamId == teamId))
   );
 
-  const players = useSelector(state=>state.home.players).filter(player=>player.teamId==id)
+  const players = useSelector(state=>state.home.players).filter(player=>player.teamId==teamId)
 
   return (
     <div className="flex flex-col flex-grow">

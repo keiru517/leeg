@@ -64,7 +64,7 @@ function App() {
           <Route exact path="/league/:leagueId" element={<League />}></Route>
           <Route
             exact
-            path="league/:leagueId/team/:id"
+            path="league/:leagueId/team/:teamId"
             element={<Team />}
           ></Route>
           <Route

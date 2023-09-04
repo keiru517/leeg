@@ -47,7 +47,7 @@ const Matchup = () => {
   const awayTeamMatchups = useSelector((state) => state.home.matchups).filter(
     (matchup) => matchup.matchId == matchId && matchup.teamId == awayTeam.id
   );
-  
+
   const options = ["Ascend", "Descend", "Recent"];
   const [value, setValue] = useState("Sort by");
 
@@ -72,21 +72,25 @@ const Matchup = () => {
   };
 
   const [matchupResult, setMatchupResult] = useState([]);
+  // const [mergedObject, setMergedObject] = useState({});
+
   useEffect(() => {
+    console.log(homeInputValues);
+    console.log(awayInputValues);
+
     let homeTeamPoints = 0;
-    Object.keys(homeInputValues).map(id=>{
+    Object.keys(homeInputValues).map((id) => {
       homeTeamPoints += Number(homeInputValues[id].points);
-    })
+    });
     let awayTeamPoints = 0;
-    Object.keys(awayInputValues).map(id=>{
+    Object.keys(awayInputValues).map((id) => {
       awayTeamPoints += Number(awayInputValues[id].points);
-    })
+    });
     setMatchupResult([homeTeamPoints, awayTeamPoints]);
-    
+
   }, [homeInputValues, awayInputValues]);
 
   useEffect(() => {
-
     actions.getMatchups(dispatch);
   }, []);
 
@@ -95,17 +99,28 @@ const Matchup = () => {
       matchId: matchId,
       result: matchupResult
     }).then(res=>{
-      alert(res.data.message)
       actions.getMatches(dispatch);
       actions.getMatchups(dispatch);
     }).catch(error=>console.log(error.message))
+
+    axios
+      .post(apis.createMatchup, {
+        matchId: matchId,
+        // data: mergedObject,
+        homeInputValues:homeInputValues,
+        awayInputValues:awayInputValues
+      })
+      .then((res) => {
+        actions.getMatches(dispatch);
+        actions.getMatchups(dispatch);
+        alert(res.data.message)
+      })
+      .catch((error) => console.log(error.message));
   };
 
   return (
     <div className="flex flex-col flex-grow">
-      <MatchupTitle
-        handleClick={handleSubmit}
-      >
+      <MatchupTitle handleClick={handleSubmit} result={match.result}>
         Matchup Page
       </MatchupTitle>
       <p className="font-dark-gray my-[20px]">
@@ -141,7 +156,9 @@ const Matchup = () => {
           </div>
           <div className="text-center mt-3">
             <p className="text-white text-sm mt-3">{match.status}</p>
-            <p className="text-white text-[56px] my-2">{matchupResult[0]}:{matchupResult[1]}</p>
+            <p className="text-white text-[56px] my-2">
+              {matchupResult[0]}:{matchupResult[1]}
+            </p>
             <p className="text-white text-sm">{match.date}</p>
             <p className="text-font-dark-gray text-sm mt-1">{match.location}</p>
           </div>
@@ -236,18 +253,13 @@ const Matchup = () => {
                           className="even:bg-dark-gray odd:bg-charcoal"
                         >
                           <td className="">
-                            <div className="flex items-center justify-between">
+                            <div className="flex items-center justify-center">
                               <img
                                 src={player.avatar}
                                 alt=""
                                 className="w-8 h-8 mr-2"
                               />
                               {player.name}
-                              <img
-                                src={deleteIcon}
-                                alt=""
-                                className="text-right"
-                              />
                             </div>
                           </td>
                           <td className="">
@@ -348,26 +360,17 @@ const Matchup = () => {
                           className="even:bg-dark-gray odd:bg-charcoal"
                         >
                           <td className="">
-                            <div className="flex items-center justify-between">
+                            <div className="flex items-center justify-center">
                               <img
                                 src={player.avatar}
                                 alt=""
                                 className="w-8 h-8 mr-2"
                               />
                               {player.name}
-                              <img
-                                src={deleteIcon}
-                                alt=""
-                                className="text-right"
-                              />
                             </div>
                           </td>
-                          <td className="">
-                            <Typography
-                              variant="small"
-                              color="blue-gray"
-                              className="font-normal"
-                            >
+                          <td className=" justify-center">
+
                               <Input
                                 key={index}
                                 className="rounded-default bg-transparent border-none text-center"
@@ -383,7 +386,6 @@ const Matchup = () => {
                                   )
                                 }
                               ></Input>
-                            </Typography>
                           </td>
                         </tr>
                       ))}

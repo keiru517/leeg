@@ -53,14 +53,14 @@ const Profile = (props) => {
                     color="blue-gray"
                     className="font-normal"
                   >
-                    {player.game_date}
+                    {player.gameDate}
                   </Typography>
                 </td>
                 <td className="">
                   <Typography
                     variant="small"
                     color="blue-gray"
-                    className="font-normal flex items-center space-x-2"
+                    className="font-normal flex items-center space-x-2 justify-center"
                   >
                     <img
                       src={
