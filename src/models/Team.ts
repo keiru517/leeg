@@ -1,4 +1,10 @@
-import { Model, DataTypes, Optional, CreationOptional, ForeignKey } from 'sequelize';
+import {
+  Model,
+  DataTypes,
+  Optional,
+  CreationOptional,
+  ForeignKey
+} from 'sequelize';
 import sequelize from '.';
 import { Types } from '../types';
 
@@ -39,39 +45,42 @@ Team.init(
     },
     name: DataTypes.STRING,
     logo: DataTypes.STRING,
-    position: DataTypes.INTEGER,
+    position: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0
+    },
     max: {
-      type:DataTypes.INTEGER,
+      type: DataTypes.INTEGER,
       defaultValue: 0
     },
     min: {
-      type:DataTypes.INTEGER,
+      type: DataTypes.INTEGER,
       defaultValue: 0
     },
     waitlist: {
-      type:DataTypes.INTEGER,
+      type: DataTypes.INTEGER,
       defaultValue: 0
     },
     win: {
-      type:DataTypes.INTEGER,
+      type: DataTypes.INTEGER,
       defaultValue: 0
     },
     lose: {
-      type:DataTypes.INTEGER,
+      type: DataTypes.INTEGER,
       defaultValue: 0
     },
     pointScored: {
-      type:DataTypes.INTEGER,
+      type: DataTypes.INTEGER,
       defaultValue: 0
     },
     pointAgainst: {
-      type:DataTypes.INTEGER,
+      type: DataTypes.INTEGER,
       defaultValue: 0
     },
     diff: {
-      type:DataTypes.INTEGER,
+      type: DataTypes.INTEGER,
       defaultValue: 0
-    },
+    }
   },
   {
     sequelize,

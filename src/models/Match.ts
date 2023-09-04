@@ -54,7 +54,7 @@ Match.init(
     location: DataTypes.STRING,
     result: {
       type:DataTypes.STRING,
-      defaultValue: '--'
+      defaultValue: '-:-'
     },
     status: {
       type: DataTypes.STRING,

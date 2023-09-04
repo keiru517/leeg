@@ -1,5 +1,6 @@
 import { RequestHandler } from 'express';
 import Matchup from '../models/Matchup';
+
 // import Player from '../models/Player';
 // import { Types } from '../types';
 
@@ -11,20 +12,46 @@ export const all: RequestHandler = async (req, res) => {
 
 // POST SERVER_URL/api/matchup/create
 export const create: RequestHandler = async (req, res) => {
-  const data = req.body.data;
+  console.log(req.body)
+  const matchId = req.body.matchId;
+  // const data = req.body.data;
+  console.log(matchId)
+
   var playerFound = false;
+  const homeTeamPlayers = req.body.homeInputValues;
+  const awayTeamPlayers = req.body.awayInputValues;
 
-  const promises = Object.keys(data).map(async playerId=> {
-    await Matchup.create({
-      playerId: Number(playerId),
-      matchId: data[playerId]['matchId'],
-      teamId: data[playerId]['teamId'],
-      points: data[playerId]['points']
+  // const mergedObject = Object.values(homeTeamPlayers).concat(
+  //   Object.values(awayTeamPlayers).reduce((acc, obj, index) => {
+  //     return obj;
+  //   }, {}))
+
+    const promise1 = Object.keys(homeTeamPlayers).map( async id=>{
+      const player = homeTeamPlayers[id];
+
+      await Matchup.create({
+        playerId: player.playerId,
+        matchId: matchId,
+        teamId: player.teamId,
+        points: player.points
+      })
+      playerFound = true;
     })
-    playerFound = true;
-  })
 
-  await Promise.all(promises);
+    const promise2 = Object.keys(awayTeamPlayers).map( async id=>{
+      const player = awayTeamPlayers[id];
+
+      await Matchup.create({
+        playerId: player.playerId,
+        matchId: matchId,
+        teamId: player.teamId,
+        points: player.points
+      })
+      playerFound = true;
+    })
+    await Promise.all(promise1)
+    await Promise.all(promise2)
+
 
   if (playerFound) {
     res.status(200).json({message: 'Saved successfully!'});
