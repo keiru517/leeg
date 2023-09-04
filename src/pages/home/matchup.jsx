@@ -366,13 +366,13 @@ const Matchup = () => {
                           className="even:bg-dark-gray odd:bg-charcoal"
                         >
                           <td className="">
-                            <div className="flex items-center justify-center">
+                            <div className="flex items-center underline justify-center">
                               <img
                                 src={player.avatar}
                                 alt=""
                                 className="w-8 h-8 mr-2"
                               />
-                              {player.name}
+                              <Link to={`/league/${leagueId}/player/${player.id}`}>{player.name}</Link>
                             </div>
                           </td>
                           <td className=" justify-center">
