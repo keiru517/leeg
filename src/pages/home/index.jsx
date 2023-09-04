@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Card from "../../components/Card";
 import search from "../../assets/img/dark_mode/search.png";
 import Input from "../../components/Input";
@@ -14,10 +14,12 @@ const Home = () => {
   const options = [{id:0, name: "Ascend"}, {id:1, name:"Descend"}, {id:2, name:"Recent"}];
   const [value, setValue] = useState("Sort by");
 
+const dispatch = useDispatch();
 
   useEffect(() => {
-    // getLeagues();
-  }, []);
+    console.log("here")
+    dispatch({type: actions.SET_TAB_ID, payload:0})
+});
 
   return (
     <div className="flex flex-col flex-grow">

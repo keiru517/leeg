@@ -9,6 +9,7 @@ const initialState = {
   players: [],
   admins: [],
   selected_league: [],
+  tab: 0,
   league_dialog: {
     open: false,
     type: "create",
@@ -231,7 +232,12 @@ const home = (state = initialState, action) => {
           open: false,
         },
       };
-
+// Tab
+case actions.SET_TAB_ID:
+  return {
+    ...state,
+    tab: action.payload
+  }
     default:
       return state;
   }

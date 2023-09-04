@@ -9,6 +9,7 @@ import apis from "../../utils/apis";
 const PageTitle = (props) => {
   const { backIcon, logo, editIcon, button, children, createAction } = props;
 
+  console.log(button)
   let { leagueId } = useParams();
   const league = useSelector((state) => state.home.leagues).find(
     (league) => league.id == leagueId

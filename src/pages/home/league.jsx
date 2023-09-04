@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import search from "../../assets/img/dark_mode/search.png";
 import leftarrowIcon from "../../assets/img/dark_mode/left-arrow.png";
-
 import editIcon from "../../assets/img/dark_mode/edit.png";
 import Input from "../../components/Input";
 import ListItem from "../../components/ListItem";
@@ -18,13 +18,11 @@ import LeagueModal from "../../components/Modal/LeagueModal";
 import PlayerModal from "../../components/Modal/PlayerModal";
 import TeamModal from "../../components/Modal/TeamModal";
 import MatchModal from "../../components/Modal/MatchModal";
-import * as actions from "../../actions";
 import MatchTable from "../../components/Table/Match";
 import StandingTable from "../../components/Table/Standing";
 import PlayerTable from "../../components/Table/Player";
-import { wait } from "@testing-library/user-event/dist/utils";
-import axios from "axios";
 import apis from "../../utils/apis";
+import * as actions from "../../actions";
 
 const League = () => {
   let { leagueId } = useParams();
@@ -40,6 +38,8 @@ const League = () => {
   const matches = useSelector((state) => state.home.matches).filter(
     (match) => match.leagueId == leagueId
   );
+
+  const tabIndex = useSelector((state) => state.home.tab);
 
   const options = [
     { id: 0, name: "Ascend" },
@@ -67,15 +67,24 @@ const League = () => {
   const [waitItemChecked, setWaitItemChecked] = useState({});
   const [acceptedItemChecked, setAcceptedItemChecked] = useState({});
 
-  const buttons = {
-    "Manage Rosters": "Invite Player",
-    "Teams": "Create Team",
-    "Schedule": "Create Match",
-    "Standings": "Create Match",
-    "All Playerlist": "Create Match",
-  };
+  const buttons = [
+    "Invite Player",
+    "Create Team",
+    "Create Match",
+    "Create Match",
+    "Create Match",
+  ]
+  // const buttons = {
+  //   "Manage Rosters": "Invite Player",
+  //   "Teams": "Create Team",
+  //   "Schedule": "Create Match",
+  //   "Standings": "Create Match",
+  //   "All Playerlist": "Create Match",
+  // };
 
   const handleCategory = (data) => {
+    console.log(data);
+    dispatch({ type: actions.SET_TAB_ID, payload: data });
     setBreadcrum(data);
   };
   const players = useSelector((state) => state.home.players);
@@ -95,7 +104,7 @@ const League = () => {
     actions.getPlayers(dispatch);
   }, []);
 
-  const [waitKeyword, setWaitKeyword] = useState('');
+  const [waitKeyword, setWaitKeyword] = useState("");
 
   const setWaitListItemChecked = (index, checked) => {
     let temp = { ...waitItemChecked };
@@ -136,11 +145,11 @@ const League = () => {
         editIcon={editIcon}
         button={buttons[breadcrum]}
         createAction={
-          breadcrum == "Manage Rosters"
+          breadcrum == 0
             ? actions.OPEN_INVITE_PLAYER_DIALOG
-            : breadcrum == "Teams"
+            : breadcrum == 1
             ? actions.OPEN_CREATE_TEAM_DIALOG
-            : breadcrum == "Schedule"
+            : breadcrum == 2
             ? actions.OPEN_CREATE_MATCH_DIALOG
             : ""
         }
@@ -156,7 +165,7 @@ const League = () => {
 
       <div className="rounded-main bg-slate flex-grow p-default">
         <div className="w-full px-2 sm:px-0 h-full flex flex-col">
-          <Tab.Group>
+          <Tab.Group defaultIndex={tabIndex}>
             <Tab.List className="flex justify-start space-x-5 rounded-xl bg-transparent p-1 ">
               {categories.map((category, idx) => (
                 <Tab
@@ -170,7 +179,7 @@ const League = () => {
                         : " rounded-lg hover:bg-white/[0.12] hover:text-white"
                     )
                   }
-                  onClick={() => handleCategory(category)}
+                  onClick={() => handleCategory(idx)}
                 >
                   {category}
                 </Tab>
@@ -203,7 +212,7 @@ const League = () => {
                           icon={search}
                           placeholder="Search"
                           value={waitKeyword}
-                          onChange={(e)=>{
+                          onChange={(e) => {
                             setWaitKeyword(e.target.value);
                           }}
                         />
@@ -417,9 +426,7 @@ const League = () => {
               {/* All Playerlist */}
               <Tab.Panel
                 key={4}
-                className={classNames(
-                  "rounded-xl flex flex-col w-full h-full"
-                )}
+                className={classNames("rounded-xl flex flex-col w-full h-full")}
               >
                 {teams.length > 0 ? (
                   <>

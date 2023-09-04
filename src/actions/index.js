@@ -37,6 +37,9 @@ export const CLOSE_ADD_SUBSTITUTE_DIALOG = "CLOSE_ADD_SUBSTITUTE_DIALOG";
 
 // Admin
 export const GET_ADMINS = "GET_ADMINS";
+// Tab
+export const SET_TAB_ID = "SET_TAB_ID";
+
 // league actions----------------------------------
 
 // Get leagues from the server

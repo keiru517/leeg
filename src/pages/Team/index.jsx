@@ -42,8 +42,11 @@ const Team = () => {
       ((match.homeTeamId == teamId) | (match.awayTeamId == teamId))
   );
 
-  const players = useSelector(state=>state.home.players).filter(player=>player.teamId==teamId)
+  const players = useSelector((state) => state.home.players).filter(
+    (player) => player.teamId == teamId
+  );
 
+  const matchups = useSelector((state) => state.home.matchups);
   return (
     <div className="flex flex-col flex-grow">
       <PageTitle backIcon={leftarrowIcon} logo={team.logo}>
@@ -146,6 +149,7 @@ const Team = () => {
                       />
                       <PlayerStatisticsTable
                         players={players}
+                        matchups={matchups}
                       ></PlayerStatisticsTable>
                     </div>
                   </>
