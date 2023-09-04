@@ -13,7 +13,6 @@ const Select = (props) => {
 
   const handleButtonClick = (data) => {
     setExpand(false);
-    console.log(data)
     handleClick(data);
   };
 
@@ -33,7 +32,7 @@ const Select = (props) => {
         <img src={downArrowFilled} alt="" className="mr-4 " />
       </div>
       <ul
-        className={`py-2 text-sm text-gray-700 dark:text-gray-200 absolute top-14 bg-dark-gray w-full rounded-default${
+        className={`py-2 text-sm text-gray-700 dark:text-gray-200 absolute top-12 bg-light-gray w-full rounded-default${
           expand ? `` : " hidden"
         }`}
         aria-labelledby="states-button"
@@ -43,7 +42,7 @@ const Select = (props) => {
             <li key={idx}>
               <button
                 type="button"
-                className="inline-flex w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-middle-gray dark:hover:text-white"
+                className="inline-flex w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-middle-gray dark:hover:text-white rounded-default"
                 onClick={() => handleButtonClick(option)}
               >
                 <div className="inline-flex items-center">{option.name}</div>

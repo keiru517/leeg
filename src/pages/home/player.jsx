@@ -69,23 +69,23 @@ const Player = () => {
       <div className="flex w-full h-[78px] bg-slate rounded-default ">
         <div className="w-1/5 border border-light-gray rounded-l-[10px] flex flex-col justify-center">
           <p className="text-white text-base text-center">Height</p>
-          <p className="text-white text-base text-center">6"9"(2.06m)</p>
+          <p className="text-white text-base text-center">{player.height}</p>
         </div>
         <div className="w-1/5 border border-light-gray  flex flex-col justify-center">
           <p className="text-white text-base text-center">Weight</p>
-          <p className="text-white text-base text-center">255lb (116kg)</p>
+          <p className="text-white text-base text-center">{player.weight}</p>
         </div>
         <div className="w-1/5 border border-light-gray flex flex-col justify-center">
           <p className="text-white text-base text-center">Country</p>
-          <p className="text-white text-base text-center">Georgia</p>
+          <p className="text-white text-base text-center">{player.country}</p>
         </div>
         <div className="w-1/5 border border-light-gray flex flex-col justify-center">
           <p className="text-white text-base text-center">Age</p>
-          <p className="text-white text-base text-center">25 Years</p>
+          <p className="text-white text-base text-center">{player.age}</p>
         </div>
         <div className="w-1/5 border border-light-gray rounded-r-[10px] flex flex-col justify-center">
           <p className="text-white text-base text-center">Birthdate</p>
-          <p className="text-white text-base text-center">July 18, 1977</p>
+          <p className="text-white text-base text-center">{player.birthDate}</p>
         </div>
       </div>
 

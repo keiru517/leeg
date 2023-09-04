@@ -96,13 +96,6 @@ const League = () => {
   }, []);
 
   const [waitKeyword, setWaitKeyword] = useState('');
-  // const [filteredData, setFilteredData] = useState(waitListPlayers);
-
-  // useEffect(() => {
-  //   const filtered = waitListPlayers.filter(player=>player.name.toLowerCase().includes(waitKeyword.toLowerCase()))
-  //   setFilteredData(filtered);
-  //   console.log("filteredData", filteredData);
-  // }, [waitKeyword]);
 
   const setWaitListItemChecked = (index, checked) => {
     let temp = { ...waitItemChecked };

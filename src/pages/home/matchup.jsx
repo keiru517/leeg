@@ -375,7 +375,7 @@ const Matchup = () => {
                               <Link to={`/league/${leagueId}/player/${player.id}`}>{player.name}</Link>
                             </div>
                           </td>
-                          <td className=" justify-center">
+                          <td className="justify-center">
                             <Input
                               key={index}
                               className="rounded-default bg-transparent border-none text-center"
