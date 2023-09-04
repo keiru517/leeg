@@ -87,7 +87,6 @@ const Matchup = () => {
       awayTeamPoints += Number(awayInputValues[id].points);
     });
     setMatchupResult([homeTeamPoints, awayTeamPoints]);
-
   }, [homeInputValues, awayInputValues]);
 
   useEffect(() => {
@@ -95,25 +94,28 @@ const Matchup = () => {
   }, []);
 
   const handleSubmit = () => {
-    axios.post(apis.updateMatchResult, {
-      matchId: matchId,
-      result: matchupResult
-    }).then(res=>{
-      actions.getMatches(dispatch);
-      actions.getMatchups(dispatch);
-    }).catch(error=>console.log(error.message))
+    axios
+      .post(apis.updateMatchResult, {
+        matchId: matchId,
+        result: matchupResult,
+      })
+      .then((res) => {
+        actions.getMatches(dispatch);
+        actions.getMatchups(dispatch);
+      })
+      .catch((error) => console.log(error.message));
 
     axios
       .post(apis.createMatchup, {
         matchId: matchId,
         // data: mergedObject,
-        homeInputValues:homeInputValues,
-        awayInputValues:awayInputValues
+        homeInputValues: homeInputValues,
+        awayInputValues: awayInputValues,
       })
       .then((res) => {
         actions.getMatches(dispatch);
         actions.getMatchups(dispatch);
-        alert(res.data.message)
+        alert(res.data.message);
       })
       .catch((error) => console.log(error.message));
   };
@@ -253,13 +255,17 @@ const Matchup = () => {
                           className="even:bg-dark-gray odd:bg-charcoal"
                         >
                           <td className="">
-                            <div className="flex items-center justify-center">
+                            <div className="flex items-center underline justify-center">
                               <img
                                 src={player.avatar}
                                 alt=""
                                 className="w-8 h-8 mr-2"
                               />
-                              {player.name}
+                              <Link
+                                to={`/league/${leagueId}/player/${player.id}`}
+                              >
+                                {player.name}
+                              </Link>
                             </div>
                           </td>
                           <td className="">
@@ -370,22 +376,21 @@ const Matchup = () => {
                             </div>
                           </td>
                           <td className=" justify-center">
-
-                              <Input
-                                key={index}
-                                className="rounded-default bg-transparent border-none text-center"
-                                type="number"
-                                value={awayInputValues[index]?.points || 0}
-                                onChange={(e) =>
-                                  handleAwayInputChange(
-                                    index,
-                                    player.id,
-                                    matchId,
-                                    match.awayTeamId,
-                                    e.target.value
-                                  )
-                                }
-                              ></Input>
+                            <Input
+                              key={index}
+                              className="rounded-default bg-transparent border-none text-center"
+                              type="number"
+                              value={awayInputValues[index]?.points || 0}
+                              onChange={(e) =>
+                                handleAwayInputChange(
+                                  index,
+                                  player.id,
+                                  matchId,
+                                  match.awayTeamId,
+                                  e.target.value
+                                )
+                              }
+                            ></Input>
                           </td>
                         </tr>
                       ))}

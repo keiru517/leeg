@@ -94,7 +94,7 @@ const MatchTable = (props) => {
                     <Typography
                       variant="small"
                       color="blue-gray"
-                      className="font-normal underline flex items-center justify-center"
+                      className="font-normal flex items-center justify-center"
                     >
                       <Link
                         className="flex items-center"
@@ -115,7 +115,7 @@ const MatchTable = (props) => {
                     <Typography
                       variant="small"
                       color="blue-gray"
-                      className="font-normal underline flex items-center justify-center"
+                      className="font-normal flex items-center justify-center"
                     >
                       <Link
                         className="flex items-center"

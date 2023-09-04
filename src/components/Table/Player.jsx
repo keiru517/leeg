@@ -40,20 +40,21 @@ const Player = (props) => {
                   <Typography
                     variant="small"
                     color="blue-gray"
-                    className="font-normal flex items-center underline"
+                    className="font-normal flex items-center underline justify-center"
                   >
                     <img src={teams.find(team=>team.id==player.teamId).logo} alt="" className="w-8 h-8 mr-2" />
-                    {
-                      teams.find(team=>team.id==player.teamId).name
-                    }
-                    {/* {name} */}
+                    <Link to={`team/${player.teamId}`}>
+                      {
+                        teams.find(team=>team.id==player.teamId).name
+                      }
+                    </Link>
                   </Typography>
                 </td>
                 <td className="w-1/5">
                   <Typography
                     variant="small"
                     color="blue-gray"
-                    className="font-normal flex items-center underline"
+                    className="font-normal flex items-center underline justify-center"
                   >
                     <img src={player.avatar} alt="" className="h-8 w-8 mr-2" />
                     <Link to={`player/${player.id}`}>{player.name}</Link>
