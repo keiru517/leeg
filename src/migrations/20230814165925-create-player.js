@@ -45,7 +45,7 @@ module.exports = {
       birthDate: {
         type: Sequelize.STRING
       },
-      status: {
+      role: {
         type: Sequelize.INTEGER
       },
       createdAt: {
