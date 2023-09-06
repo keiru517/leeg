@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import search from "../../assets/img/dark_mode/search.png";
 import leftarrowIcon from "../../assets/img/dark_mode/left-arrow.png";
+import lightLeftarrowIcon from "../../assets/img/light_mode/left-arrow.png";
 import editIcon from "../../assets/img/dark_mode/edit.png";
 import Input from "../../components/Input";
 import ListItem from "../../components/ListItem";
@@ -140,7 +141,7 @@ const League = () => {
   return (
     <div className="flex flex-col flex-grow">
       <PageTitle
-        backIcon={leftarrowIcon}
+        backIcon={lightLeftarrowIcon}
         logo={league.logo}
         editIcon={editIcon}
         button={buttons[breadcrum]}

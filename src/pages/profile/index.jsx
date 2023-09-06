@@ -6,6 +6,7 @@ import Modal from "../../components/Modal";
 import PageTitle from "../../components/PageTitle";
 import * as actions from "../../actions";
 import leftarrowIcon from "../../assets/img/dark_mode/left-arrow.png";
+import lightLeftarrowIcon from "../../assets/img/light_mode/left-arrow.png";
 import verticalLine from "../../assets/img/dark_mode/vertical-line.png";
 import horizontalLine  from "../../assets/img/dark_mode/horizontal-line.png";
 import profileImage from "../../assets/img/dark_mode/profile.png";
@@ -71,7 +72,7 @@ const Profile = () => {
   return (
     <div className="flex flex-col flex-grow">
       <PageTitle
-        backIcon={leftarrowIcon}
+        backIcon={lightLeftarrowIcon}
         createAction={actions.OPEN_CREATE_LEAGUE_DIALOG}
       >
         Settings
