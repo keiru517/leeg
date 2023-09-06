@@ -63,7 +63,7 @@ const League = () => {
     return classes.filter(Boolean).join(" ");
   }
 
-  const [breadcrum, setBreadcrum] = useState("Manage Rosters");
+  const [breadcrum, setBreadcrum] = useState(0);
   const [waitItemChecked, setWaitItemChecked] = useState({});
   const [acceptedItemChecked, setAcceptedItemChecked] = useState({});
 
