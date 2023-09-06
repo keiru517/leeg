@@ -77,7 +77,7 @@ const Profile = () => {
         Settings
       </PageTitle>
       <p className="text-sm text-font-dark-gray my-[20px]">
-        <span className="underline">Settings</span>
+        <span className="">Settings</span>
         <span className="text-sky-500"> &gt; {breadcrum}</span>
       </p>
       <div className="flex flex-grow rounded-main bg-slate overflow-auto p-default">
@@ -205,25 +205,30 @@ const Profile = () => {
             <AdminTable ></AdminTable>
             <img src={horizontalLine} alt="" className="my-5"/>
             <div className="flex space-x-3">
-              <Input value={value} onChange={(e)=> setValue(e.target.value)} className='flex flex grow rounded-default text-xs' placeholder="Type Admin Email Address"></Input>
+              <Input value={value} onChange={(e)=> setValue(e.target.value)} className='flex flex-grow rounded-default text-xs' placeholder="Type Admin Email Address"></Input>
               <button onClick={inviteAdmin} className="text-white bg-primary font-bold text-sm w-[78px] h-12 rounded-default">Invite</button>
             </div>
           </div>
           :
           <div className="flex flex-col flex-grow">
             {
-              admins.map((admin, idx)=>(
-                <>
-                  <div className="flex justify-between">  
-                    <p className="text-white font-semibold text-sm">Stats tracking {idx + 1}</p>
-                    <img src={toggleOn} alt="" className="w-[50px]"/>
+              admins.length > 0? 
+              (
+                admins.map((admin, idx)=>(
+                  <>
+                    <div className="flex justify-between">  
+                      <p className="text-white font-semibold text-sm">Stats tracking {idx + 1}</p>
+                      <img src={toggleOn} alt="" className="w-[50px]"/>
+  
+                    </div>
+  
+                    <hr className="h-px my-4 bg-charcoal border-0" />
+                  
+                  </>
+                ))
 
-                  </div>
-
-                  <hr className="h-px my-4 bg-charcoal border-0" />
-                
-                </>
-              ))
+              ):
+              ""
             }
           </div>
         )}
