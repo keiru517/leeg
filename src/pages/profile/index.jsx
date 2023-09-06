@@ -212,23 +212,18 @@ const Profile = () => {
           :
           <div className="flex flex-col flex-grow">
             {
-              admins.length > 0? 
-              (
-                admins.map((admin, idx)=>(
-                  <>
-                    <div className="flex justify-between">  
-                      <p className="text-white font-semibold text-sm">Stats tracking {idx + 1}</p>
-                      <img src={toggleOn} alt="" className="w-[50px]"/>
-  
-                    </div>
-  
-                    <hr className="h-px my-4 bg-charcoal border-0" />
-                  
-                  </>
-                ))
+              admins.map((admin, idx)=>(
+                <>
+                  <div className="flex justify-between">  
+                    <p className="text-white font-semibold text-sm">Stats tracking {idx + 1}</p>
+                    <img src={toggleOn} alt="" className="w-[50px]"/>
 
-              ):
-              ""
+                  </div>
+
+                  <hr className="h-px my-4 bg-charcoal border-0" />
+                
+                </>
+              ))
             }
           </div>
         )}
