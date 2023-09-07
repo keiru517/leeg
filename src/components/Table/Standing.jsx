@@ -33,14 +33,14 @@ const StandingTable = (props) => {
           </tr>
         </thead>
         <tbody className="text-center">
-          {teams.sort((a, b)=>a.position-b.position).map(({ position, name, logo, win, lose, pointScored, pointAgainst, diff }, index) => (
+          {teams.sort((a, b)=>b.win-a.win).map(({ position, name, logo, win, lose, pointScored, pointAgainst, diff }, index) => (
             <tr key={index} className="odd:bg-dark-gray even:bg-charcoal">
               <td className="w-1/6">
                 <Typography
                   variant="small"
                   className="font-normal"
                 >
-                  {position}
+                  {index + 1}
                 </Typography>
               </td>
               <td className="w-1/6">

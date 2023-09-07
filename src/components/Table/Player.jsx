@@ -5,11 +5,13 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const Player = (props) => {
-  const { teams} = props;
-  const columns = ["Team", "Player", "Jersey number"];
+  const { teams } = props;
+  const columns = ["Player", "Team", "Jersey number"];
 
-  const players = useSelector(state=>state.home.players).filter(player=>player.role == 2);
-  
+  const players = useSelector((state) => state.home.players).filter(
+    (player) => player.role == 2
+  );
+
   return (
     <div className="text-white mt-5 w-full">
       <table className="w-full min-w-max table-auto text-left">
@@ -33,23 +35,12 @@ const Player = (props) => {
         </thead>
         <tbody className="text-center">
           {
-          // teams.map(({ logo, name}, index) =>
+            // teams.map(({ logo, name}, index) =>
             players.map((player, idx) => (
-              <tr key={idx} className="odd:bg-dark-gray even:bg-charcoal h-[53px]">
-                <td className="w-1/5">
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal flex items-center underline justify-center"
-                  >
-                    <img src={teams.find(team=>team.id==player.teamId).logo} alt="" className="w-8 h-8 mr-2" />
-                    <Link to={`team/${player.teamId}`}>
-                      {
-                        teams.find(team=>team.id==player.teamId).name
-                      }
-                    </Link>
-                  </Typography>
-                </td>
+              <tr
+                key={idx}
+                className="odd:bg-dark-gray even:bg-charcoal h-[53px]"
+              >
                 <td className="w-1/5">
                   <Typography
                     variant="small"
@@ -64,6 +55,23 @@ const Player = (props) => {
                   <Typography
                     variant="small"
                     color="blue-gray"
+                    className="font-normal flex items-center underline justify-center"
+                  >
+                    <img
+                      src={teams.find((team) => team.id == player.teamId).logo}
+                      alt=""
+                      className="w-8 h-8 mr-2"
+                    />
+                    <Link to={`team/${player.teamId}`}>
+                      {teams.find((team) => team.id == player.teamId).name}
+                    </Link>
+                  </Typography>
+                </td>
+
+                <td className="w-1/5">
+                  <Typography
+                    variant="small"
+                    color="blue-gray"
                     className="font-normal"
                   >
                     {player.jerseyNumber}
@@ -71,7 +79,7 @@ const Player = (props) => {
                 </td>
               </tr>
             ))
-          // )
+            // )
           }
         </tbody>
       </table>

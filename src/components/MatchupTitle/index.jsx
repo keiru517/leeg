@@ -26,10 +26,10 @@ const MatchupTitle = (props) => {
       </div>
       <button
         onClick={handleClick}
-        className="w-[169px] h-button bg-primary hover:bg-opacity-70 rounded-default text-white focus:ring-2 disabled:opacity-10"
+        className="w-32 h-button bg-primary hover:bg-opacity-70 rounded-default text-white focus:ring-2 disabled:opacity-10 font-bold"
         disabled={result!=="-:-"}
       >
-        Mark As Finished
+        Save
       </button>
     </div>
   );

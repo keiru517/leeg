@@ -73,7 +73,7 @@ const League = () => {
     "Create Match",
     "Create Match",
     "Create Match",
-  ]
+  ];
   // const buttons = {
   //   "Manage Rosters": "Invite Player",
   //   "Teams": "Create Team",
@@ -137,25 +137,25 @@ const League = () => {
       .catch((error) => alert(error.data.message));
   };
 
+  const handleInvitePlayer = () => {
+    dispatch({ type: actions.OPEN_INVITE_PLAYER_DIALOG, payload: true });
+  };
+  const handleCreateTeam = () => {
+    dispatch({ type: actions.OPEN_CREATE_TEAM_DIALOG, payload: true });
+  };
+  const handleCreateMatch = () => {
+    dispatch({ type: actions.OPEN_CREATE_MATCH_DIALOG, payload: true });
+  };
+
   return (
     <div className="flex flex-col flex-grow">
-      <PageTitle
+      {/* <PageTitle
         backIcon={leftarrowIcon}
         logo={league.logo}
         editIcon={editIcon}
-        button={buttons[breadcrum]}
-        createAction={
-          breadcrum == 0
-            ? actions.OPEN_INVITE_PLAYER_DIALOG
-            : breadcrum == 1
-            ? actions.OPEN_CREATE_TEAM_DIALOG
-            : breadcrum == 2
-            ? actions.OPEN_CREATE_MATCH_DIALOG
-            : ""
-        }
       >
         {league.name}
-      </PageTitle>
+      </PageTitle> */}
       <p className="font-dark-gray my-[20px]">
         <Link to="/">
           <span className="underline">My Leagues</span>
@@ -166,25 +166,51 @@ const League = () => {
       <div className="rounded-main bg-slate flex-grow p-default">
         <div className="w-full px-2 sm:px-0 h-full flex flex-col">
           <Tab.Group defaultIndex={tabIndex}>
-            <Tab.List className="flex justify-start space-x-5 rounded-xl bg-transparent p-1 ">
-              {categories.map((category, idx) => (
-                <Tab
-                  key={category}
-                  className={({ selected }) =>
-                    classNames(
-                      "py-2.5 text-sm font-medium leading-5 text-gray-300 px-3",
-                      " focus:outline-none ",
-                      selected
-                        ? "divide-[bg-sky-500] text-white border-b-2 border-sky-500"
-                        : " rounded-lg hover:bg-white/[0.12] hover:text-white"
-                    )
-                  }
-                  onClick={() => handleCategory(idx)}
+            <div className="flex justify-between">
+              <Tab.List className="flex justify-start space-x-5 rounded-xl bg-transparent p-1 ">
+                {categories.map((category, idx) => (
+                  <Tab
+                    key={category}
+                    className={({ selected }) =>
+                      classNames(
+                        "py-2.5 text-sm font-medium leading-5 text-gray-300 px-3",
+                        " focus:outline-none ",
+                        selected
+                          ? "divide-[bg-sky-500] text-white border-b-2 border-sky-500"
+                          : " rounded-lg hover:bg-white/[0.12] hover:text-white"
+                      )
+                    }
+                    onClick={() => handleCategory(idx)}
+                  >
+                    {category}
+                  </Tab>
+                ))}
+              </Tab.List>
+              {breadcrum == 0 ? (
+                <button
+                  onClick={handleInvitePlayer}
+                  className="w-36 h-[42px] bg-primary hover:bg-opacity-70 rounded-default text-white focus:ring-2 text-sm font-bold"
                 >
-                  {category}
-                </Tab>
-              ))}
-            </Tab.List>
+                  Invite Player
+                </button>
+              ) : breadcrum == 1 ? (
+                <button
+                  onClick={handleCreateTeam}
+                  className="w-36 h-[42px] bg-primary hover:bg-opacity-70 rounded-default text-white focus:ring-2 text-sm font-bold"
+                >
+                  Create Team
+                </button>
+              ) : breadcrum == 2 ? (
+                <button
+                  onClick={handleCreateMatch}
+                  className="w-36 h-[42px] bg-primary hover:bg-opacity-70 rounded-default text-white focus:ring-2 text-sm font-bold"
+                >
+                  Create Match
+                </button>
+              ) : (
+                ""
+              )}
+            </div>
             <Tab.Panels className="flex-grow flex items-center ">
               {/* Rosters */}
               <Tab.Panel
@@ -194,7 +220,7 @@ const League = () => {
                 )}
               >
                 <hr className="h-px my-4 bg-charcoal border-0" />
-                <div className="flex items-center h-full space-x-4">
+                <div className="flex h-full space-x-4">
                   <div className="w-1/2 bg-charcoal h-[420px] p-default rounded-main">
                     <div className="flex justify-between w-full">
                       <p className="text-white text-xl font-semibold">
@@ -339,7 +365,7 @@ const League = () => {
                   <>
                     <hr className="h-px my-4 bg-charcoal border-0" />
                     <Input
-                      className="rounded-lg h-[42px] text-xs"
+                      className="rounded-lg h-[42px] text-xs flex-grow"
                       icon={search}
                       placeholder="Search Schedules"
                     />

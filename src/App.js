@@ -19,10 +19,6 @@ import Profile from "./pages/profile";
 
 import AuthLayout from "./components/Layouts/AuthLayout";
 import Player from "./pages/home/player";
-import avatar from "./assets/img/dark_mode/ronaldo.jpg";
-import realMadrid from "./assets/img/dark_mode/real-madrid.png";
-import FCBarcelona from "./assets/img/dark_mode/fc-barcelona.jpg";
-import teamLogo from "./assets/img/dark_mode/team-logo.png";
 import React from "react";
 
 function App() {

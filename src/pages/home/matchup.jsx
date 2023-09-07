@@ -135,13 +135,16 @@ const Matchup = () => {
         </Link>
 
         <span className=""> &gt; </span>
-        <Link>
-          <span className="underline">Matches</span>
-        </Link>
+        <span className="">Matches</span>
         <span className=""> &gt; </span>
         <span className="text-sky-500">
           {/* <Link to={`/league/${leagueId}/team/${team.id}`}> */}
-          {homeTeam.name} Vs {awayTeam.name}
+          {homeTeam.name}{" "}
+        </span>
+        <span> Vs</span>
+        <span className="text-sky-500">
+          {" "}
+          {awayTeam.name}
           {/* </Link> */}
         </span>
       </p>

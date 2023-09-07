@@ -57,11 +57,11 @@ const Team = () => {
           <span className="underline">My Leagues</span>
         </Link>
         <span className="text-sky-500"> &gt; </span>
-        <span className="underline">{league.name}</span>
-        <span className="text-sky-500"> &gt; </span>
         <Link to={`/league/${league.id}`}>
-          <span className="underline">Teams</span>
+          <span className="underline">{league.name}</span>
         </Link>
+        <span className="text-sky-500"> &gt; </span>
+        <span className="">Teams</span>
         <span className="text-sky-500"> &gt; {team.name}</span>
       </p>
       <div className="rounded-main bg-slate flex-grow p-default">
