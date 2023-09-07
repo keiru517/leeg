@@ -25,14 +25,12 @@ import FCBarcelona from "./assets/img/dark_mode/fc-barcelona.jpg";
 import teamLogo from "./assets/img/dark_mode/team-logo.png";
 import React from "react";
 
-// axios.defaults.baseURL = "http://localhost:3001/api";
-
 function App() {
   const dispatch = useDispatch();
 
   const getAdmins = () => {
     const admins = [
-      { id: 1, playerId: 1 },
+      { id: 1, playerId:1 },
       { id: 2, playerId: 2 },
     ];
 

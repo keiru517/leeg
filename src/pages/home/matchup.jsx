@@ -130,7 +130,9 @@ const Matchup = () => {
           <span className="underline">My Leagues</span>
         </Link>
         <span className=""> &gt; </span>
-        <span className="underline">2023 Summer League</span>
+        <Link to={`/league/${leagueId}`}>
+          <span className="underline">2023 Summer League</span>
+        </Link>
 
         <span className=""> &gt; </span>
         <Link>
@@ -372,7 +374,11 @@ const Matchup = () => {
                                 alt=""
                                 className="w-8 h-8 mr-2"
                               />
-                              <Link to={`/league/${leagueId}/player/${player.id}`}>{player.name}</Link>
+                              <Link
+                                to={`/league/${leagueId}/player/${player.id}`}
+                              >
+                                {player.name}
+                              </Link>
                             </div>
                           </td>
                           <td className="justify-center">
