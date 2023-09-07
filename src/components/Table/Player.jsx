@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 
 const Player = (props) => {
   const { teams } = props;
-  const columns = ["Player", "Team", "Jersey number"];
+  const columns = ["Player", "Team", "Email", "Country", "Jersey number"];
 
   const players = useSelector((state) => state.home.players).filter(
     (player) => player.role == 2
@@ -41,21 +41,21 @@ const Player = (props) => {
                 key={idx}
                 className="odd:bg-dark-gray even:bg-charcoal h-[53px]"
               >
-                <td className="w-1/5">
+                <td className="w-1/6">
                   <Typography
                     variant="small"
                     color="blue-gray"
-                    className="font-normal flex items-center underline justify-center"
+                    className="font-normal flex items-center underline justify-between px-10"
                   >
                     <img src={player.avatar} alt="" className="h-8 w-8 mr-2" />
                     <Link to={`player/${player.id}`}>{player.name}</Link>
                   </Typography>
                 </td>
-                <td className="w-1/5">
+                <td className="w-1/6">
                   <Typography
                     variant="small"
                     color="blue-gray"
-                    className="font-normal flex items-center underline justify-center"
+                    className="font-normal flex items-center underline justify-between px-10"
                   >
                     <img
                       src={teams.find((team) => team.id == player.teamId).logo}
@@ -67,6 +67,25 @@ const Player = (props) => {
                     </Link>
                   </Typography>
                 </td>
+                <td className="w-1/5"> 
+                  <Typography
+                    variant="small"
+                    color="blue-gray"
+                    className="font-normal flex items-center justify-center"
+                  >
+                    {player.email}
+                  </Typography>
+                </td>
+                <td className="w-1/5"> 
+                  <Typography
+                    variant="small"
+                    color="blue-gray"
+                    className="font-normal flex items-center justify-center"
+                  >
+                    {player.country}
+                  </Typography>
+                </td>
+
 
                 <td className="w-1/5">
                   <Typography

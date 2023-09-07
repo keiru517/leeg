@@ -46,7 +46,7 @@ const StandingTable = (props) => {
               <td className="w-1/6">
                 <Typography
                   variant="small"
-                  className="font-normal flex items-center underline justify-center"
+                  className="font-normal flex items-center underline justify-between px-8"
                 >
                 <img src={logo} alt="" className="h-8 w-8 mr-2" />
                   {name}
