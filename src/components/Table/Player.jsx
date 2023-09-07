@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 
 const Player = (props) => {
   const { teams } = props;
-  const columns = ["Player", "Team", "Email", "Country", "Jersey number"];
+  const columns = ["Player", "Team", "Country", "Jersey number"];
 
   const players = useSelector((state) => state.home.players).filter(
     (player) => player.role == 2
@@ -41,7 +41,7 @@ const Player = (props) => {
                 key={idx}
                 className="odd:bg-dark-gray even:bg-charcoal h-[53px]"
               >
-                <td className="w-1/6">
+                <td className="w-1/5">
                   <Typography
                     variant="small"
                     color="blue-gray"
@@ -51,7 +51,7 @@ const Player = (props) => {
                     <Link to={`player/${player.id}`}>{player.name}</Link>
                   </Typography>
                 </td>
-                <td className="w-1/6">
+                <td className="w-1/5">
                   <Typography
                     variant="small"
                     color="blue-gray"
@@ -65,15 +65,6 @@ const Player = (props) => {
                     <Link to={`team/${player.teamId}`}>
                       {teams.find((team) => team.id == player.teamId).name}
                     </Link>
-                  </Typography>
-                </td>
-                <td className="w-1/5"> 
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal flex items-center justify-center"
-                  >
-                    {player.email}
                   </Typography>
                 </td>
                 <td className="w-1/5"> 
