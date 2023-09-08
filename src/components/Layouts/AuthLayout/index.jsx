@@ -1,16 +1,22 @@
 import { useEffect, useState } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
 import { getUserInfo } from "../../../actions";
 import Signin from "../../../pages/signin";
 import Nav from "../../nav";
 
 const AuthLayout = (props) => {
+  const navigate = useNavigate();
   const [isLoading, setLoading] = useState(true);
   const [isLoggedIn, setLoggedIn] = useState(false);
   useEffect(() => {
     getUserInfo().then((status) => {
-      if (status) setLoggedIn(true);
+      if (status) setLoggedIn(false);
       else setLoggedIn(false);
       setLoading(false);
+      console.log("HEre", isLoggedIn, isLoading);
+      if (!isLoggedIn) {
+        navigate("/signin", {replace:true})
+      }
     });
   }, []);
   return (
@@ -23,7 +29,9 @@ const AuthLayout = (props) => {
           {props.children}
         </>
       ) : (
-        "Go to signin"
+        <>
+          {props.children}
+        </>
       )}
     </div>
   );
