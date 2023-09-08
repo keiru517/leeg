@@ -24,7 +24,7 @@ const OTPSent = () => {
             </p>
             <p className="text-font-light-gray text-base mt-3">
               We sent an email to 
-              <span className="text-white">Gio.chichua9@gmail.com</span>
+              <span className="text-white"> Gio.chichua9@gmail.com </span>
               with a link to reset password.
             </p>
           </div>

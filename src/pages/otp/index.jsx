@@ -67,7 +67,7 @@ const OTP = () => {
             </div>
           </div>
           <div className="flex justify-between mb-4">
-            <Button className="w-[377px] h-button bg-primary">Verify</Button>
+            <button className="w-[377px] h-button bg-primary rounded-default font-bold text-white">Verify</button>
           </div>
           <p className="font-dark-gray text-center">
             Don't receive the Code?

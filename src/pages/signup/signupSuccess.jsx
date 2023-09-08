@@ -15,33 +15,15 @@ const SignupSuccess = () => {
                     <p className='font-dark-gray text-sm text-center'>LEEG.IO</p>
 
                 </div>
-                <div className='bg-slate w-full h-[305px] mt-16 rounded-main p-default flex flex-col'>
+                <div className='bg-slate w-full h-[179px] mt-16 rounded-main p-default flex flex-col'>
                     <div>
-                        <p className='text-white text-2xl font-bold'>Verify Email Address</p>
-                        <p className='text-[#BBBBBB] text-base mt-3'>Enter the SMS sent to <span className='text-white'>Gio.chichua9@gmail.com</span></p>
+                        <p className='text-white text-2xl font-bold'>Your account created</p>
+                        <p className='text-[#BBBBBB] text-base mt-3'>Thanks for joining Leeg.io!</p>
                     </div>
-                    <div className='flex mb-5 mt-2 space-x-[26px]'> 
-                            <div>
-                                <input className='bg-transparent outline-none text-white text-[52px] w-[75px] text-center h-16 mb-4' type="text" />
-                                <img src={otpLine} alt="" />
-                            </div>
-                            <div>
-                                <input className='bg-transparent outline-none text-white text-[52px] w-[75px] text-center h-16 mb-4' type="text" />
-                                <img src={otpLine} alt="" />
-                            </div>
-                            <div>
-                                <input className='bg-transparent outline-none text-white text-[52px] w-[75px] text-center h-16 mb-4' type="text" />
-                                <img src={otpLine} alt="" />
-                            </div>
-                            <div>
-                                <input className='bg-transparent outline-none text-white text-[52px] w-[75px] text-center h-16 mb-4' type="text" />
-                                <img src={otpLine} alt="" />
-                            </div>
-                    </div>
+
                     <div className='flex justify-between mb-4'>
-                        <Button className='w-[377px] h-button bg-primary'>Verify</Button>
+                        <button className='w-[377px] h-button bg-primary rounded-lg text-white font-bold'>Sign in</button>
                     </div>
-                    <p className='font-dark-gray text-center'>Don't receive the Email?<span className='text-primary font-semibold'> Resend Email</span></p>
                 </div>
             </div>
         </div>

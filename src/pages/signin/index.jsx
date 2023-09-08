@@ -44,11 +44,11 @@ const Signin = () => {
           </div>
           <div>
             <div className="flex justify-between mb-4">
-              <Button className="w-[377px] h-button bg-primary">Login</Button>
+              <button className="w-[377px] h-button text-white font-bold text-sm bg-primary rounded-default">Login</button>
             </div>
             <p className="font-dark-gray text-center">
               Don't have an account?
-              <span className="text-sky-500"> Sing Up</span>
+              <span className="text-sky-500 font-bold text-sm"> Sing Up</span>
             </p>
           </div>
         </div>
