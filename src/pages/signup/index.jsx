@@ -62,7 +62,7 @@ const Signup = () => {
           className={`bg-white dark:bg-slate w-full h-[${panelHeight}] mt-16 rounded-main p-default flex flex-col`}
         >
           <div>
-            <p className="text-white text-2xl font-bold">Personal Details</p>
+            <p className="text-black dark:text-white text-2xl font-bold">Personal Details</p>
             <p className="text-font-light-gray mt-3">
               Sign up to access our admin account.
             </p>
@@ -77,7 +77,7 @@ const Signup = () => {
                   }}
                 >
                   <img src={upload} alt="" />
-                  <p className="text-white text-sm ml-[10px]">Upload Picture</p>
+                  <p className="text-black dark:text-white text-sm ml-[10px]">Upload Picture</p>
                   <input type="file" ref={fileUploadRef} hidden />
                 </div>
                 <div className="my-6 space-y-4 ">
