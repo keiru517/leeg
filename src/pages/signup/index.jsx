@@ -59,7 +59,7 @@ const Signup = () => {
           <p className="text-font-light-gray text-sm text-center">LEEG.IO</p>
         </div>
         <div
-          className={`bg-slate w-full h-[${panelHeight}] mt-16 rounded-main p-default flex flex-col`}
+          className={`bg-white dark:bg-slate w-full h-[${panelHeight}] mt-16 rounded-main p-default flex flex-col`}
         >
           <div>
             <p className="text-white text-2xl font-bold">Personal Details</p>
@@ -132,6 +132,7 @@ const Signup = () => {
                     className="bg-transparent rounded-default text-font-dark-gray text-xs"
                     placeholder="Type Your Zip Code*"
                   ></Input>
+
                 </div>
                 <div className="flex justify-between mb-4">
                   <button
