@@ -27,7 +27,7 @@ const Signin = () => {
         <div className="bg-white dark:bg-slate w-full h-[390px] mt-16 rounded-main p-default flex flex-col">
           <div>
             <div>
-              <p className="text-white text-2xl font-bold">Sign in</p>
+              <p className="text-black dark:text-white text-2xl font-bold">Sign in</p>
               <p className="text-font-light-gray mt-3">
                 Sign in to access your account.
               </p>
