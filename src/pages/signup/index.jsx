@@ -71,7 +71,7 @@ const Signup = () => {
             {step === 1 ? (
               <div className="mt-6">
                 <div
-                  className="flex bg-charcoal items-center h-[86px] p-4 rounded-default cursor-pointer"
+                  className="flex bg-transparent items-center h-[86px] p-4 rounded-default cursor-pointer"
                   onClick={() => {
                     fileUploadRef.current?.click();
                   }}
@@ -160,7 +160,7 @@ const Signup = () => {
                   ></Input>
                 </div>
                 <div className="flex justify-between mb-4 space-x-3">
-                  <button onClick={handleBack} className="w-[377px] h-[48px] bg-[#e5e5e5] dark:bg-[#313435] rounded-lg text-white font-bold hover:bg-opacity-70">
+                  <button onClick={handleBack} className="w-[377px] h-[48px] bg-[#e5e5e5] dark:bg-[#313435] rounded-lg text-black dark:text-white font-bold hover:bg-opacity-70">
                     Back
                   </button>
                   <button className="w-[377px] h-[48px] bg-primary rounded-lg text-white font-bold hover:bg-opacity-70">
