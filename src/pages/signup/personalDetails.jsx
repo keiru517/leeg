@@ -40,7 +40,7 @@ const PersonalDetails = () => {
   return (
     <div className="">
       <div className="w-auth mx-auto mt-32">
-        <div className="w-[164px] h-[185px] mx-auto">
+      <div className="w-[164px] h-[185px] mx-auto">
           <img src={logo} alt="logo" className="mx-auto" />
           <img src={hrLine} alt="" className="my-7" />
           <p className="text-[#ADADAD] text-sm text-center">LEEG.IO</p>
@@ -68,7 +68,7 @@ const PersonalDetails = () => {
               ></Input>
             </div>
             <div className="flex justify-between mb-4">
-              <button className="w-[377px] h-[48px] bg-primary rounded-lg text-white font-bold">
+              <button className="w-[377px] h-[48px] bg-primary rounded-lg text-white font-bold hover:bg-opacity-70">
                 Create Account
               </button>
             </div>

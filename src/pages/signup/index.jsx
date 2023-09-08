@@ -129,7 +129,7 @@ const Signup = () => {
               ></Input> */}
             </div>
             <div className="flex justify-between mb-4">
-              <button className="w-[377px] h-[48px] bg-primary rounded-lg text-white font-bold">
+              <button className="w-[377px] h-[48px] bg-primary rounded-lg text-white font-bold hover:bg-opacity-70">
                 Next
               </button>
             </div>

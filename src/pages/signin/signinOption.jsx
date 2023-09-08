@@ -37,8 +37,8 @@ const Signin1 = () => {
                         <p className='text-font-light-gray mt-3'>Sign in to access your account.</p>
                     </div>
                     <div className='flex justify-between mt-auto'>
-                        <button className='w-[180px] h-button bg-[#e5e5e5] text-charcoal dark:bg-[#313435] dark:text-white font-bold rounded-default'>Admin</button>
-                        <button className='w-[180px] h-button bg-[#e5e5e5] text-charcoal dark:bg-[#313435] dark:text-white font-bold rounded-default'>Player</button>
+                        <button className='w-[180px] h-button bg-[#e5e5e5] text-charcoal dark:bg-[#313435] dark:text-white font-bold rounded-default hover:bg-opacity-70'>Admin</button>
+                        <button className='w-[180px] h-button bg-[#e5e5e5] text-charcoal dark:bg-[#313435] dark:text-white font-bold rounded-default hover:bg-opacity-70'>Player</button>
                     </div>
                 </div>
             </div>

@@ -3,7 +3,8 @@ import logo from "../../assets/img/dark_mode/logo.png";
 import hrLine from "../../assets/img/dark_mode/hr-line.png";
 import Button from "../../components/Button";
 import Input from "../../components/Input";
-const Password = () => {
+
+const EmailSent = () => {
   const leagues = [1, 2, 3, 4, 5, 6];
 
   const options = ["Sort by", "Ascend", "Descend", "Recent"];
@@ -18,19 +19,10 @@ const Password = () => {
         </div>
         <div className="bg-slate w-full h-[251px] mt-16 rounded-main p-default flex flex-col">
           <div className="h-[55px]">
-            <p className="text-white text-2xl font-bold">Forgot password?</p>
+            <p className="text-white text-2xl font-bold">Email Sent</p>
             <p className="text-font-light-gray mt-3">
-              Please type your email address.
+              We sent and email to Gigi@gmail.com with a link to reset password.
             </p>
-          </div>
-          <div className="mt-6">
-          <Input
-            className="rounded-default text-font-dark-gray text-xs mb-6"
-            placeholder="Email Address*"
-          ></Input>
-            <button className="w-full h-12 bg-primary font-bold text-white rounded-default hover:bg-opacity-70">
-              Send
-            </button>
           </div>
         </div>
       </div>
@@ -38,4 +30,4 @@ const Password = () => {
   );
 };
 
-export default Password;
+export default EmailSent;

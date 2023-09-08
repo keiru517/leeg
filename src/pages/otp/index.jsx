@@ -67,11 +67,11 @@ const OTP = () => {
             </div>
           </div>
           <div className="flex justify-between mb-4">
-            <button className="w-[377px] h-button bg-primary rounded-default font-bold text-white">Verify</button>
+            <button className="w-[377px] h-button bg-primary rounded-default font-bold text-white hover:bg-opacity-70">Verify</button>
           </div>
           <p className="font-dark-gray text-center">
             Don't receive the Code?
-            <span className="text-primary font-semibold"> Resend Code</span>
+            <span className="text-primary font-semibold "> Resend Code</span>
           </p>
         </div>
       </div>
