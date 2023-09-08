@@ -71,7 +71,7 @@ const Signup = () => {
             {step === 1 ? (
               <div className="mt-6">
                 <div
-                  className="flex bg-transparent items-center h-[86px] p-4 rounded-default cursor-pointer"
+                  className="flex bg-[#F4F4F4] dark:bg-charcoal items-center h-[86px] p-4 rounded-default cursor-pointer"
                   onClick={() => {
                     fileUploadRef.current?.click();
                   }}
