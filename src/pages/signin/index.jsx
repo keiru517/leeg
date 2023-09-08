@@ -2,11 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Input from "../../components/Input";
 import logo from "../../assets/img/dark_mode/logo.png";
-import avatar from "../../assets/img/dark_mode/Avatar.png";
 import hrLine from "../../assets/img/dark_mode/hr-line.png";
-import Button from "../../components/Button";
-import gmail from "../../assets/img/dark_mode/gmail.png";
-import lock from "../../assets/img/dark_mode/lock.png";
 import eyeDisable from "../../assets/img/dark_mode/eye-disable.png";
 
 const Signin = () => {
@@ -19,7 +15,7 @@ const Signin = () => {
       <div className="w-auth mx-auto mt-32">
         <div className="w-[164px] h-[185px] mx-auto">
           <div className="flex w-[112px] h-[112px] bg-white dark:bg-slate rounded-full items-center mx-auto">
-            <img src={avatar} alt="logo" className="mx-auto w-[38px] h-[38px]" />
+            <img src={logo} alt="logo" className="mx-auto w-[38px] h-[38px]" />
           </div>
           <img src={hrLine} alt="" className="my-7" />
           <p className="text-font-light-gray text-sm text-center">LEEG.IO</p>

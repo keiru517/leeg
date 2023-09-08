@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import logo from '../assets/img/dark_mode/Avatar.png';
+import logo from '../assets/img/dark_mode/logo.png';
 import profile from '../assets/img/dark_mode/profile.png';
 import downArrow from '../assets/img/dark_mode/down-arrow.png';
 import line from '../assets/img/dark_mode/line.png';

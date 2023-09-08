@@ -8,10 +8,12 @@ const SignupSuccess = () => {
   return (
     <div className="">
       <div className="w-auth mx-auto mt-32">
-        <div className="w-[164px] h-[185px] mx-auto">
-          <img src={logo} alt="logo" className="mx-auto" />
+      <div className="w-[164px] h-[185px] mx-auto">
+          <div className="flex w-[112px] h-[112px] bg-white dark:bg-slate rounded-full items-center mx-auto">
+            <img src={logo} alt="logo" className="mx-auto w-[38px] h-[38px]" />
+          </div>
           <img src={hrLine} alt="" className="my-7" />
-          <p className="text-[#ADADAD] text-sm text-center">LEEG.IO</p>
+          <p className="text-font-light-gray text-sm text-center">LEEG.IO</p>
         </div>
         <div className="bg-slate w-full h-[179px] mt-16 rounded-main p-default flex flex-col">
           <div>
