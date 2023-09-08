@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Input from "../../components/Input";
 import logo from "../../assets/img/dark_mode/logo.png";
 import hrLine from "../../assets/img/dark_mode/hr-line.png";
@@ -24,6 +24,13 @@ const cities = [
   { id: 1, name: "Los Angelos" },
 ];
 const Signup = () => {
+  const [step, setStep] = useState(1);
+  const [panelHeight, setPanelHeight] = useState("617px");
+  const handleNext = () => {
+    setStep(2);
+    setPanelHeight("315px");
+  };
+
   const [country, setCountry] = useState("Select Country*");
   const selectCountry = (value) => {
     setCountry(value);
@@ -37,6 +44,9 @@ const Signup = () => {
     setCity(value);
   };
 
+  const fileUploadRef = useRef(undefined);
+  const [chosenFile, setChosenFile] = useState();
+
   return (
     <div className="">
       <div className="w-auth mx-auto mt-32">
@@ -45,94 +55,131 @@ const Signup = () => {
           <img src={hrLine} alt="" className="my-7" />
           <p className="text-[#ADADAD] text-sm text-center">LEEG.IO</p>
         </div>
-        <div className="bg-slate w-full h-[617px] mt-16 rounded-main p-default flex flex-col">
+        <div
+          className={`bg-slate w-full h-[${panelHeight}] mt-16 rounded-main p-default flex flex-col`}
+        >
           <div>
             <p className="text-white text-2xl font-bold">Personal Details</p>
             <p className="text-font-light-gray mt-3">
               Sign up to access our admin account.
             </p>
           </div>
-          <div className="mt-6">
-            <div className="flex bg-charcoal items-center h-[86px] p-4 rounded-default">
-              <img src={upload} alt="" />
-              <p className="text-white text-sm ml-[10px]">Upload Picture</p>
-            </div>
-            <div className="my-6 space-y-4 ">
-              <div className="grid grid-cols-2 gap-4">
-                <Input
-                  className="bg-transparent rounded-default text-font-dark-gray text-xs"
-                  placeholder="Type Your First Name*"
-                ></Input>
-                <Input
-                  className="bg-transparent rounded-default text-font-dark-gray text-xs"
-                  placeholder="Type Your Last Name*"
-                ></Input>
-              </div>
-              <Input
-                className="bg-transparent rounded-default text-font-dark-gray text-xs"
-                option={calendar}
-                placeholder="Enter Date of Birth"
-              ></Input>
-              <div className="grid grid-cols-2 gap-4">
-                <Select
-                  className="rounded-default h-12 w-full text-xs"
-                  options={countries}
-                  handleClick={(e) => selectCountry(e.name)}
-                  value={country}
+          <div className="">
+            {step === 1 ? (
+              <div className="mt-6">
+                <div
+                  className="flex bg-charcoal items-center h-[86px] p-4 rounded-default"
+                  onClick={() => {
+                    fileUploadRef.current?.click();
+                  }}
                 >
-                  Select Country*
-                </Select>
-                <Select
-                  className="rounded-default h-12 w-full text-xs"
-                  options={states}
-                  handleClick={(e) => selectState(e.name)}
-                  value={state}
-                >
-                  Select State*
-                </Select>
+                  <img src={upload} alt="" />
+                  <p className="text-white text-sm ml-[10px]">Upload Picture</p>
+                  <input type="file" ref={fileUploadRef} hidden />
+                </div>
+                <div className="my-6 space-y-4 ">
+                  <div className="grid grid-cols-2 gap-4">
+                    <Input
+                      className="bg-transparent rounded-default text-font-dark-gray text-xs"
+                      placeholder="Type Your First Name*"
+                    ></Input>
+                    <Input
+                      className="bg-transparent rounded-default text-font-dark-gray text-xs"
+                      placeholder="Type Your Last Name*"
+                    ></Input>
+                  </div>
+                  <Input
+                    className="bg-transparent rounded-default text-font-dark-gray text-xs"
+                    option={calendar}
+                    placeholder="Enter Date of Birth"
+                  ></Input>
+                  <div className="grid grid-cols-2 gap-4">
+                    <Select
+                      className="rounded-default h-12 w-full text-xs"
+                      options={countries}
+                      handleClick={(e) => selectCountry(e.name)}
+                      value={country}
+                    >
+                      Select Country*
+                    </Select>
+                    <Select
+                      className="rounded-default h-12 w-full text-xs"
+                      options={states}
+                      handleClick={(e) => selectState(e.name)}
+                      value={state}
+                    >
+                      Select State*
+                    </Select>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <Select
+                      className="rounded-default h-12 w-full text-xs"
+                      options={cities}
+                      handleClick={(e) => selectCity(e.name)}
+                      value={city}
+                    >
+                      Select Country*
+                    </Select>
+                    <Input
+                      className="bg-transparent rounded-default text-font-dark-gray text-xs"
+                      placeholder="Type Your Address*"
+                    ></Input>
+                  </div>
+                  <Input
+                    className="bg-transparent rounded-default text-font-dark-gray text-xs"
+                    placeholder="Type Your Zip Code*"
+                  ></Input>
+                  {/* 
+                  <Input
+                    className="bg-transparent rounded-default text-font-dark-gray text-xs"
+                    type="password"
+                    placeholder="Password"
+                    option={eyeDisable}
+                  ></Input>
+                  <Input
+                    className="bg-transparent rounded-default text-font-dark-gray text-xs"
+                    type="text"
+                    placeholder="Type Email Address*"
+                  ></Input>
+                  <Input
+                    className="bg-transparent rounded-default text-font-dark-gray text-xs"
+                    type="text"
+                    placeholder="Enter Date of Birth"
+                    option={calendar}
+                  ></Input> */}
+                </div>
+                <div className="flex justify-between mb-4">
+                  <button
+                    onClick={handleNext}
+                    className="w-[377px] h-[48px] bg-primary rounded-lg text-white font-bold hover:bg-opacity-70"
+                  >
+                    Next
+                  </button>
+                </div>
               </div>
-              <div className="grid grid-cols-2 gap-4">
-                <Select
-                  className="rounded-default h-12 w-full text-xs"
-                  options={cities}
-                  handleClick={(e) => selectCity(e.name)}
-                  value={city}
-                >
-                  Select Country*
-                </Select>
-                <Input
-                  className="bg-transparent rounded-default text-font-dark-gray text-xs"
-                  placeholder="Type Your Address*"
-                ></Input>
-              </div>
-                <Input
-                  className="bg-transparent rounded-default text-font-dark-gray text-xs"
-                  placeholder="Type Your Zip Code*"
-                ></Input>
-{/* 
-              <Input
-                className="bg-transparent rounded-default text-font-dark-gray text-xs"
-                type="password"
-                placeholder="Password"
-                option={eyeDisable}
-              ></Input>
-              <Input
-                className="bg-transparent rounded-default text-font-dark-gray text-xs"
-                type="text"
-                placeholder="Type Email Address*"
-              ></Input>
-              <Input
-                className="bg-transparent rounded-default text-font-dark-gray text-xs"
-                type="text"
-                placeholder="Enter Date of Birth"
-                option={calendar}
-              ></Input> */}
-            </div>
-            <div className="flex justify-between mb-4">
-              <button className="w-[377px] h-[48px] bg-primary rounded-lg text-white font-bold hover:bg-opacity-70">
-                Next
-              </button>
-            </div>
+            ) : (
+              <>
+                <div className="my-6 space-y-4 ">
+                  <Input
+                    className="bg-transparent rounded-default text-font-dark-gray text-xs"
+                    type="password"
+                    placeholder="Type Your Password*"
+                    option={eyeDisable}
+                  ></Input>
+                  <Input
+                    className="bg-transparent rounded-default text-font-dark-gray text-xs"
+                    type="password"
+                    placeholder="Retype Your Passowrd*"
+                    option={eyeDisable}
+                  ></Input>
+                </div>
+                <div className="flex justify-between mb-4">
+                  <button className="w-[377px] h-[48px] bg-primary rounded-lg text-white font-bold hover:bg-opacity-70">
+                    Create Account
+                  </button>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>
