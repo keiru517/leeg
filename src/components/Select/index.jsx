@@ -29,7 +29,7 @@ const Select = (props) => {
         onClick={toggle}
       >
         <span className="ml-4">{value}</span>
-        <img src={downArrowFilled} alt="" className="mr-4 " />
+        <img src={downArrowFilled} alt="" className="mr-4" />
       </div>
       <ul
         className={`py-2 text-sm text-gray-700 dark:text-gray-200 absolute top-12 bg-light-gray w-full rounded-default${

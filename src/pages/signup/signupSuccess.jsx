@@ -3,8 +3,11 @@ import logo from "../../assets/img/dark_mode/logo.png";
 import hrLine from "../../assets/img/dark_mode/hr-line.png";
 import Button from "../../components/Button";
 import otpLine from "../../assets/img/dark_mode/otp-line.png";
+import { useNavigate } from "react-router-dom";
 
 const SignupSuccess = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="">
       <div className="w-auth mx-auto mt-32">
@@ -25,8 +28,8 @@ const SignupSuccess = () => {
             </p>
           </div>
 
-          <div className="flex justify-between mb-4">
-            <button className="w-[377px] h-button bg-primary rounded-lg text-white font-bold hover:bg-opacity-70">
+          <div className="flex justify-between my-3">
+            <button onClick={()=>{navigate('/signin')}} className="w-[377px] h-button bg-primary rounded-lg text-white font-bold hover:bg-opacity-70">
               Sign in
             </button>
           </div>

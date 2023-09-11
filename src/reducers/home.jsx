@@ -2,6 +2,7 @@
 import * as actions from "../actions";
 
 const initialState = {
+  countries: [],
   leagues: [],
   teams: [],
   matches: [],
@@ -36,6 +37,8 @@ const initialState = {
 
 const home = (state = initialState, action) => {
   switch (action.type) {
+    case actions.GET_COUNTRIES:
+      return { ...state, countries: action.payload };
     case actions.GET_LEAGUES:
       return { ...state, leagues: action.payload };
 
@@ -232,12 +235,12 @@ const home = (state = initialState, action) => {
           open: false,
         },
       };
-// Tab
-case actions.SET_TAB_ID:
-  return {
-    ...state,
-    tab: action.payload
-  }
+    // Tab
+    case actions.SET_TAB_ID:
+      return {
+        ...state,
+        tab: action.payload,
+      };
     default:
       return state;
   }

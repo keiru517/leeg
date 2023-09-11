@@ -1,6 +1,8 @@
 import axios from "axios";
 import apis from "../utils/apis";
 
+// country
+export const GET_COUNTRIES = "GET_COUNTRIES";
 // league
 export const GET_LEAGUES = "GET_LEAGUES";
 export const OPEN_CREATE_LEAGUE_DIALOG = "OPEN_CREATE_LEAGUE_DIALOG";
@@ -39,6 +41,27 @@ export const CLOSE_ADD_SUBSTITUTE_DIALOG = "CLOSE_ADD_SUBSTITUTE_DIALOG";
 export const GET_ADMINS = "GET_ADMINS";
 // Tab
 export const SET_TAB_ID = "SET_TAB_ID";
+
+// get countries
+export const getCountries = async (dispatch) => {
+  try {
+    const response = await axios.get(apis.getCountries, {
+      headers: {
+        'X-CSCAPI-KEY': process.env.REACT_APP_COUNTRY_API_KEY
+      }
+    });
+    console.log(response.data)
+    dispatch({
+      type: GET_COUNTRIES,
+      payload: response.data
+    })
+  } catch (error) {
+    dispatch({
+      type: GET_COUNTRIES,
+      payload: []
+    })
+  }
+}
 
 // league actions----------------------------------
 

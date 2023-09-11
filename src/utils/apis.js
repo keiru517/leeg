@@ -1,5 +1,8 @@
 import { apiUrl } from "./config";
 export const apis = {
+  getCountries: "https://api.countrystatecity.in/v1/countries",
+  // authentication
+  signup: apiUrl + '/user/signup',
   // leagues
   getLeagues: apiUrl + '/league/all',
   createLeague: apiUrl + "/league/create",

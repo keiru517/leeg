@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { getUserInfo } from "../../../actions";
-import Signin from "../../../pages/signin";
 import Nav from "../../nav";
 
 const AuthLayout = (props) => {

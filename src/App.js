@@ -37,10 +37,12 @@ function App() {
     dispatch({ type: actions.GET_ADMINS, payload: admins });
   };
 
+  actions.getCountries(dispatch);
   actions.getLeagues(dispatch);
   actions.getTeams(dispatch);
   actions.getMatches(dispatch);
   actions.getPlayers(dispatch);
+  
 
   useEffect(()=>{
     // dispatch(actions.getLeagues(dispatch))
