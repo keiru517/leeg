@@ -18,5 +18,5 @@ app.use('/api/match', matchRouter);
 app.use('/api/admin', adminRouter);
 app.use('/api/matchup', matchupRouter);
 
-const port = Number(process.env.PORT || '3000');
+const port = Number(process.env.PORT || '3001');
 app.listen(port, () => console.log(`App listening on port ${port}!`));

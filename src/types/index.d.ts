@@ -6,9 +6,16 @@ export namespace Types {
     updatedAt?: string;
   }
   export interface T_User extends T_DB {
+    avatar: string;
     firstName: string;
     lastName: string;
     email: string;
+    birthday: string;
+    country: string;
+    state: string;
+    city: string;
+    address: string;
+    zipCode: string;
     password: string;
   }
   export interface T_League extends T_DB {

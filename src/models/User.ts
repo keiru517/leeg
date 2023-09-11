@@ -9,15 +9,24 @@ type UserCreationAttributes = Optional<
 
 class User extends Model<UserCreationAttributes, UserCreationAttributes> {
   declare id: CreationOptional<number>;
+  declare avatar: string;
   declare firstName: string;
   declare lastName: string;
   declare email: string;
+  declare birthday: string;
+  declare country: string;
+  declare state: string;
+  declare city: string;
+  declare address: string;
+  declare zipCode: string;
   declare password: string;
+
   static modelName = 'User';
 }
 
 User.init(
   {
+    avatar: DataTypes.STRING,
     firstName: DataTypes.STRING,
     lastName: DataTypes.STRING,
     email: {
@@ -25,7 +34,23 @@ User.init(
       unique: true,
       allowNull: false
     },
-    password: DataTypes.STRING
+    birthday: DataTypes.STRING,
+    country: DataTypes.STRING,
+    state: DataTypes.STRING,
+    city: DataTypes.STRING,
+    address: DataTypes.STRING,
+    zipCode: DataTypes.STRING,
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      // set(value: string) {
+      //   const hashedPassword = crypto
+      //     .createHash('md5')
+      //     .update(value)
+      //     .digest('hex');
+      //   this.setDataValue('password', hashedPassword);
+      // }
+    }
   },
   {
     sequelize: sequelize,

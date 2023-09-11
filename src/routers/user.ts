@@ -4,5 +4,5 @@ import multer from 'multer';
 const upload = multer();
 const userRouter = Router();
 
-userRouter.post('/sign-up', upload.single('image'), UserController.create);
+userRouter.post('/signup', upload.single('avatar'), UserController.create);
 export default userRouter;
