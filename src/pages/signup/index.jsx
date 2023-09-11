@@ -13,10 +13,10 @@ import * as actions from "../../actions";
 import apis from "../../utils/apis";
 import axios from "axios";
 
-const countries = [
-  { id: 0, name: "United States" },
-  { id: 1, name: "France" },
-];
+// const countries = [
+//   { id: 0, name: "United States" },
+//   { id: 1, name: "France" },
+// ];
 const states = [
   { id: 0, name: "New York" },
   { id: 1, name: "Los Angelos" },
@@ -28,7 +28,7 @@ const cities = [
 const Signup = () => {
   const navigate = useNavigate();
 
-  // const countries = useSelector((state) => state.home.countries);
+  const countries = useSelector((state) => state.home.countries);
 
   const [step, setStep] = useState(1);
   const [panelHeight, setPanelHeight] = useState("617px");
@@ -68,6 +68,7 @@ const Signup = () => {
   const [chosenFile, setChosenFile] = useState();
 
   const handleSignup = () => {
+    console.log(country);
     const formData = new FormData();
     formData.append("firstName", firstName);
     formData.append("lastName", lastName);
@@ -204,7 +205,21 @@ const Signup = () => {
                     >
                       Select Country*
                     </Select>
-                    {/* <Second></Second> */}
+                    {/* <select
+                      className="bg-transparent border border-dark-gray rounded-default dark:text-font-dark-gray text-xs"
+                      name=""
+                      id=""
+                    >
+                      {countries.map((country) => (
+                        <option
+                          className="bg-light-gray rounded-default dark:text-gray-200"
+                          value={country.name}
+                          onClick={(e) => setCountry(e.target.value)}
+                        >
+                          {country.name}
+                        </option>
+                      ))}
+                    </select> */}
                     <Select
                       className="rounded-default h-12 w-full text-xs"
                       options={states}

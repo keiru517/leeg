@@ -10,13 +10,14 @@ const AuthLayout = (props) => {
   useEffect(() => {
     getUserInfo().then((status) => {
       if (status) {
-        setLoggedIn(true);
-        navigate('/', {replace:true})
+        setLoggedIn(false);
+        // navigate('/', {replace:true})
       }
       else setLoggedIn(false);
       setLoading(false);
+      navigate('/signin', {replace:true})
     });
-
+    
   }, []);
 
   return (
