@@ -4,11 +4,27 @@ import Input from "../../components/Input";
 import logo from "../../assets/img/dark_mode/logo.png";
 import hrLine from "../../assets/img/dark_mode/hr-line.png";
 import eyeDisable from "../../assets/img/dark_mode/eye-disable.png";
+import apis from "../../utils/apis";
+import axios from "axios";
+import { setAuthToken } from "../../utils/authService";
 
 const Signin = () => {
-  const leagues = [1, 2, 3, 4, 5, 6];
 
-  const options = ["Sort by", "Ascend", "Descend", "Recent"];
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleLogin = () => {
+    axios.post(apis.signin, {
+      email: email,
+      password: password
+    }).then(res=>{
+      localStorage.setItem('token', res.data.token);
+      setAuthToken(res.data.token);
+
+    }).catch(error=>{
+      console.log(error.message)
+    })
+  }
 
   return (
     <div className="">
@@ -32,11 +48,15 @@ const Signin = () => {
               <Input
                 className="rounded-default text-font-dark-gray text-xs"
                 placeholder="Email Address*"
-              ></Input>
+                value={email}
+                onChange={(e)=>setEmail(e.target.value)}
+                ></Input>
               <Input
                 className="rounded-default text-font-dark-gray text-xs"
                 type="password"
                 placeholder="Password*"
+                value={password}
+                onChange={(e)=>setPassword(e.target.value)}
                 option={eyeDisable}
               ></Input>
               <p className="text-white text-sm">Forgot password?</p>
@@ -44,7 +64,7 @@ const Signin = () => {
           </div>
           <div>
             <div className="flex justify-between mb-4">
-              <button className="w-[377px] h-button text-white font-bold text-sm bg-primary rounded-default hover:bg-opacity-70">
+              <button onClick={handleLogin} className="w-[377px] h-button text-white font-bold text-sm bg-primary rounded-default hover:bg-opacity-70">
                 Login
               </button>
             </div>

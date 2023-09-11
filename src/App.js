@@ -24,8 +24,10 @@ import React from "react";
 import PersonalDetails from "./pages/signup/personalDetails";
 import EmailSent from "./pages/password/emailSent";
 import ResetPassword from "./pages/password/resetPassword";
+import { setAuthToken } from "./utils/authService";
 
 function App() {
+
   const dispatch = useDispatch();
 
   const getAdmins = () => {

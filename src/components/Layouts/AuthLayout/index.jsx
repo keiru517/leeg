@@ -9,15 +9,16 @@ const AuthLayout = (props) => {
   const [isLoggedIn, setLoggedIn] = useState(false);
   useEffect(() => {
     getUserInfo().then((status) => {
-      if (status) setLoggedIn(false);
+      if (status) {
+        setLoggedIn(true);
+        navigate('/', {replace:true})
+      }
       else setLoggedIn(false);
       setLoading(false);
-      console.log("HEre", isLoggedIn, isLoading);
-      if (!isLoggedIn) {
-        navigate("/signin", {replace:true})
-      }
     });
+
   }, []);
+
   return (
     <div className="p-[20px_26px_51px_26px] dark:bg-black bg-[#f4f4f4] justify-center flex flex-col flex-grow">
       {isLoading ? (

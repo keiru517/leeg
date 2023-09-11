@@ -3,6 +3,7 @@ export const apis = {
   getCountries: "https://api.countrystatecity.in/v1/countries",
   // authentication
   signup: apiUrl + '/user/signup',
+  signin: apiUrl + '/user/signin',
   // leagues
   getLeagues: apiUrl + '/league/all',
   createLeague: apiUrl + "/league/create",
