@@ -106,8 +106,8 @@ export const signup: RequestHandler = async (req, res) => {
 
       const buffer = req.file.buffer;
       writeFileSync(filePath, buffer);
+      res.status(200).json({ message: 'Singed up successfully!' });
     }
-    res.status(200).json({ message: 'Singed up successfully!' });
   } catch (error) {
     console.log(error)
     res.status(404).json({ message: 'Singup failed!' });
