@@ -44,8 +44,8 @@ export const verifyEmail: RequestHandler =async (req, res) => {
     const mailOptions = {
       from: process.env.EMAIL,
       to: email,
-      subject: 'subject',
-      text: 'safasdf' + verificationCode
+      subject: 'Leeg: 2-Step Verificaiton',
+      text: 'Hi.\n Your access code for a one-time entry to Leeg is:\n' + verificationCode
     };
 
     const emailService = nodemailer.createTransport({
