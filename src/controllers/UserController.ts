@@ -3,10 +3,76 @@ import User from '../models/User';
 import path from 'path';
 import { absolutePath } from '../helpers';
 import { existsSync, mkdirSync, writeFileSync } from 'fs';
+import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
+import nodemailer from 'nodemailer';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const create: RequestHandler = async (req, res) => {
+export const signin: RequestHandler =async (req, res) => {
+    try {
+      const email = req.body.email;
+      const password = req.body.password;
+      const user =  await User.findOne({
+        where: {
+          email: email
+        }
+      });
+
+      if (user) {
+        if (user.password == crypto.createHash('md5').update(password).digest('hex')) {
+          const token = jwt.sign({ id: user.id?.toString(), email: user.email}, 'leeg517', {
+            expiresIn: '1h',
+          });
+
+          res.status(200).json({message: "Signed in successfully!", token: token})
+        } else {
+          res.status(400).json({ message: 'Incorrect password'})
+        }
+
+      } else {
+        res.status(400).json({ message: 'Email is not registered'})
+      }
+    } catch (error) {
+      res.status(400).json({ message: 'Signin failed!'})
+    }
+}
+
+export const verifyEmail: RequestHandler =async (req, res) => {
+  console.log(process.env.EMAIL)
+  try {
+    const email = req.body.email;
+    const verificationCode = Math.floor(1000 + Math.random() * 9000);
+    const mailOptions = {
+      from: process.env.EMAIL,
+      to: email,
+      subject: 'subject',
+      text: 'safasdf' + verificationCode
+    };
+
+    const emailService = nodemailer.createTransport({
+      service: 'smtp.gmail.com',
+      auth: {
+        user: process.env.EMAIL,
+        pass: "oxhr jvss bsij psru"
+      }
+    });
+
+    emailService.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.error(error);
+        res.status(500).json({message: "Email sending failed"});
+      } else {
+        console.log(`Email sent: ${info.response}`);
+        res.json({message: 'Sent', code:verificationCode})
+      }
+    })
+
+
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export const signup: RequestHandler = async (req, res) => {
   try {
     if (req.file) {
       const extension = path.extname(req.file.originalname);
@@ -45,3 +111,9 @@ export const create: RequestHandler = async (req, res) => {
     res.status(404).json({ message: 'Singup failed!' });
   }
 };
+
+// GET SERVER_URL/api/user/all
+export const all: RequestHandler = async (req, res) => {
+  const users = await User.findAll();
+  res.json({users})
+}
