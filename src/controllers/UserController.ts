@@ -42,10 +42,10 @@ export const verifyEmail: RequestHandler =async (req, res) => {
     const email = req.body.email;
     const verificationCode = Math.floor(1000 + Math.random() * 9000);
     const mailOptions = {
-      from: "process.env.EMAIL",
+      from: process.env.EMAIL,
       to: email,
-      subject: 'Leeg: 2-Step Verificaiton',
-      text: 'Hi.\n Your access code for a one-time entry to Leeg is:\n' + verificationCode
+      subject: process.env.EMAIL_SUBJECT,
+      text: process.env.EMAIL_BODY + verificationCode.toString()
     };
 
     const emailService = nodemailer.createTransport({
@@ -54,7 +54,7 @@ export const verifyEmail: RequestHandler =async (req, res) => {
       secure: false,
       auth: {
         user: process.env.EMAIL,
-        pass: "oxhrjvssbsijpsru"
+        pass: process.env.PASSWORD
       }
     });
 
