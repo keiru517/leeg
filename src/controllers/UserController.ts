@@ -52,7 +52,7 @@ export const verifyEmail: RequestHandler =async (req, res) => {
       service: 'smtp.gmail.com',
       auth: {
         user: process.env.EMAIL,
-        pass: "oxhr jvss bsij psru"
+        pass: process.env.PASSWORD
       }
     });
 
