@@ -13,10 +13,10 @@ import * as actions from "../../actions";
 import apis from "../../utils/apis";
 import axios from "axios";
 
-// const countries = [
-//   { id: 0, name: "United States" },
-//   { id: 1, name: "France" },
-// ];
+const countries = [
+  { id: 0, name: "United States" },
+  { id: 1, name: "France" },
+];
 const states = [
   { id: 0, name: "New York" },
   { id: 1, name: "Los Angelos" },
@@ -28,7 +28,7 @@ const cities = [
 const Signup = () => {
   const navigate = useNavigate();
 
-  const countries = useSelector((state) => state.home.countries);
+  // const countries = useSelector((state) => state.home.countries);
 
   const [step, setStep] = useState(1);
   const [panelHeight, setPanelHeight] = useState("617px");
