@@ -114,6 +114,7 @@ export const signup: RequestHandler = async (req, res) => {
   }
 };
 
+
 // GET SERVER_URL/api/user/all
 export const all: RequestHandler = async (req, res) => {
   const users = await User.findAll();
