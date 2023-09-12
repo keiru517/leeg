@@ -42,7 +42,7 @@ export const verifyEmail: RequestHandler =async (req, res) => {
     const email = req.body.email;
     const verificationCode = Math.floor(1000 + Math.random() * 9000);
     const mailOptions = {
-      from: process.env.EMAIL,
+      from: "process.env.EMAIL",
       to: email,
       subject: 'Leeg: 2-Step Verificaiton',
       text: 'Hi.\n Your access code for a one-time entry to Leeg is:\n' + verificationCode
@@ -52,7 +52,7 @@ export const verifyEmail: RequestHandler =async (req, res) => {
       service: 'smtp.gmail.com',
       auth: {
         user: process.env.EMAIL,
-        pass: process.env.PASSWORD
+        pass: "oxhrjvssbsijpsru"
       }
     });
 
