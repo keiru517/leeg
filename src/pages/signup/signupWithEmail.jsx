@@ -30,6 +30,7 @@ const SignupWithEmail = () => {
   }
 
   const sendOTP = () => {
+    console.log('sent otp', apis.verifyEmail)
     axios.post(apis.verifyEmail, {
       email: email
     }).then(res=>{
