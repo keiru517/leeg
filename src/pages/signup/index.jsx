@@ -18,12 +18,12 @@ const countries = [
   { id: 1, name: "France" },
 ];
 const states = [
-  { id: 0, name: "New York" },
-  { id: 1, name: "Los Angelos" },
+  { id: 0, name: "Califonia" },
+  { id: 1, name: "Alaska" },
 ];
 const cities = [
-  { id: 0, name: "New York" },
-  { id: 1, name: "Los Angelos" },
+  { id: 0, name: "Anaheim" },
+  { id: 1, name: "Anchorage" },
 ];
 const Signup = () => {
   const navigate = useNavigate();
