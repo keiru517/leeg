@@ -45,7 +45,7 @@ export const verifyEmail: RequestHandler =async (req, res) => {
       from: process.env.EMAIL,
       to: email,
       subject: process.env.EMAIL_SUBJECT,
-      text: process.env.EMAIL_BODY + verificationCode.toString()
+      text: "<h1>Hi</h1> \n Here is the verification code: \n" + verificationCode.toString()
     };
 
     const emailService = nodemailer.createTransport({
