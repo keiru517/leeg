@@ -264,7 +264,7 @@ const League = () => {
                       className={`overflow-y-scroll h-4/6 flex flex-col items-center flex-grow ${
                         waitListPlayers.length
                           ? ""
-                          : "bg-dark-gray justify-center"
+                          : "dark:bg-light-gray justify-center"
                       } rounded-default`}
                     >
                       {waitListPlayers.length ? (
@@ -328,7 +328,7 @@ const League = () => {
                       className={`overflow-y-scroll h-4/6 flex flex-col items-center flex-grow space-y-5 ${
                         acceptedPlayers.length
                           ? ""
-                          : "bg-dark-gray justify-center"
+                          : "dark:bg-light-gray justify-center"
                       } rounded-default`}
                     >
                       {acceptedPlayers.length ? (

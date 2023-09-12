@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import logo from "../../assets/img/dark_mode/logo.png";
 import hrLine from '../../assets/img/dark_mode/hr-line.png';
 import Button from '../../components/Button';
+import { useNavigate } from 'react-router-dom';
 
 
 const Signin1 = () => {
@@ -22,6 +23,8 @@ const Signin1 = () => {
         'Recent'
     ]
 
+    const navigate = useNavigate();
+
     return (
         <div className=''>
             <div className='w-[441px] h-[441px] mx-auto mt-32'>
@@ -38,7 +41,7 @@ const Signin1 = () => {
                         <p className='text-font-light-gray mt-3'>Sign in to access your account.</p>
                     </div>
                     <div className='flex justify-between mt-auto'>
-                        <button className='w-[180px] h-button bg-[#e5e5e5] text-charcoal dark:bg-[#313435] dark:text-white font-bold rounded-default hover:bg-opacity-70'>Admin</button>
+                        <button onClick={()=>navigate('/signin')} className='w-[180px] h-button bg-[#e5e5e5] text-charcoal dark:bg-[#313435] dark:text-white font-bold rounded-default hover:bg-opacity-70'>Admin</button>
                         <button className='w-[180px] h-button bg-[#e5e5e5] text-charcoal dark:bg-[#313435] dark:text-white font-bold rounded-default hover:bg-opacity-70'>Player</button>
                     </div>
                 </div>

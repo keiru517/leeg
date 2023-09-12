@@ -4,6 +4,7 @@ export const apis = {
   // authentication
   signup: apiUrl + '/user/signup',
   signin: apiUrl + '/user/signin',
+  verifyEmail: apiUrl + '/user/verifyEmail',
   // leagues
   getLeagues: apiUrl + '/league/all',
   createLeague: apiUrl + "/league/create",

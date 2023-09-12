@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Input from "../../components/Input";
 import logo from "../../assets/img/dark_mode/logo.png";
 import hrLine from "../../assets/img/dark_mode/hr-line.png";
@@ -9,7 +9,7 @@ import axios from "axios";
 import { setAuthToken } from "../../utils/authService";
 
 const Signin = () => {
-
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -20,6 +20,7 @@ const Signin = () => {
     }).then(res=>{
       localStorage.setItem('token', res.data.token);
       setAuthToken(res.data.token);
+      navigate('/', {replace:true})
 
     }).catch(error=>{
       console.log(error.message)
@@ -27,7 +28,6 @@ const Signin = () => {
   }
 
   return (
-    <div className="">
       <div className="w-auth mx-auto mt-32">
         <div className="w-[164px] h-[185px] mx-auto">
           <div className="flex w-[112px] h-[112px] bg-white dark:bg-slate rounded-full items-center mx-auto">
@@ -70,14 +70,13 @@ const Signin = () => {
             </div>
             <p className="font-dark-gray text-center">
               Don't have an account?
-              <Link to={"/signup"}>
+              <Link to={"/singupWithEmail"}>
                 <span className="text-sky-500 font-bold text-sm"> Sing Up</span>
               </Link>
             </p>
           </div>
         </div>
       </div>
-    </div>
   );
 };
 

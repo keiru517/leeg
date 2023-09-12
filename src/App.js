@@ -25,6 +25,7 @@ import PersonalDetails from "./pages/signup/personalDetails";
 import EmailSent from "./pages/password/emailSent";
 import ResetPassword from "./pages/password/resetPassword";
 import { setAuthToken } from "./utils/authService";
+import SignupWithEmail from "./pages/signup/signupWithEmail";
 
 function App() {
 
@@ -39,11 +40,11 @@ function App() {
     dispatch({ type: actions.GET_ADMINS, payload: admins });
   };
 
-  actions.getCountries(dispatch);
-  actions.getLeagues(dispatch);
-  actions.getTeams(dispatch);
-  actions.getMatches(dispatch);
-  actions.getPlayers(dispatch);
+  // actions.getCountries(dispatch);
+  // actions.getLeagues(dispatch);
+  // actions.getTeams(dispatch);
+  // actions.getMatches(dispatch);
+  // actions.getPlayers(dispatch);
   
 
   useEffect(()=>{
@@ -58,6 +59,7 @@ function App() {
         <Routes>
           <Route exact path="/signinOption" element={<SigninOption />}></Route>
           <Route exact path="/signin" element={<Signin />}></Route>
+          <Route exact path="/singupWithEmail" element={<SignupWithEmail />}></Route>
           <Route exact path="/signup" element={<Signup />}></Route>
           <Route exact path="/signupSuccess" element={<SignupSuccess />}></Route>
           <Route exact path="/personalDetails" element={<PersonalDetails />}></Route>

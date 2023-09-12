@@ -11,15 +11,26 @@ import * as actions from "../../actions";
 const Home = () => {
   const leagues = useSelector((state) => state.home.leagues);
 
-  const options = [{id:0, name: "Ascend"}, {id:1, name:"Descend"}, {id:2, name:"Recent"}];
+  const options = [
+    { id: 0, name: "Ascend" },
+    { id: 1, name: "Descend" },
+    { id: 2, name: "Recent" },
+  ];
   const [value, setValue] = useState("Sort by");
 
-const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log("here")
-    dispatch({type: actions.SET_TAB_ID, payload:0})
-});
+    dispatch({ type: actions.SET_TAB_ID, payload: 0 });
+  });
+
+  useEffect(() => {
+    actions.getCountries(dispatch);
+    actions.getLeagues(dispatch);
+    actions.getTeams(dispatch);
+    actions.getMatches(dispatch);
+    actions.getPlayers(dispatch);
+  }, []);
 
   return (
     <div className="flex flex-col flex-grow">
