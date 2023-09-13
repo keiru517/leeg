@@ -57,7 +57,7 @@ const League = () => {
     "Schedule",
     "Standings",
     "All Playerlist",
-    "Settings"
+    "Settings",
   ];
 
   function classNames(...classes) {
@@ -118,24 +118,31 @@ const League = () => {
   };
 
   const handleAccept = () => {
-    axios
-      .post(apis.acceptPlayer, waitItemChecked)
-      .then((res) => {
-        actions.getPlayers(dispatch);
-        setWaitItemChecked({});
-      })
-      .catch((error) => alert(error.data.message));
+    if (Object.keys(waitItemChecked).length < 1) {
+      alert("Please select at least one player!");
+    } else {
+      axios
+        .post(apis.acceptPlayer, waitItemChecked)
+        .then((res) => {
+          actions.getPlayers(dispatch);
+          setWaitItemChecked({});
+        })
+        .catch((error) => alert(error.data.message));
+    }
   };
 
   const handleRemove = () => {
-    console.log(acceptedItemChecked);
-    axios
-      .post(apis.unacceptPlayer, acceptedItemChecked)
-      .then((res) => {
-        actions.getPlayers(dispatch);
-        setAcceptedItemChecked({});
-      })
-      .catch((error) => alert(error.data.message));
+    if (Object.keys(acceptedItemChecked).length < 1) {
+      alert("Please select at least one player!");
+    } else {
+      axios
+        .post(apis.unacceptPlayer, acceptedItemChecked)
+        .then((res) => {
+          actions.getPlayers(dispatch);
+          setAcceptedItemChecked({});
+        })
+        .catch((error) => alert(error.data.message));
+    }
   };
 
   const handleInvitePlayer = () => {
@@ -507,7 +514,9 @@ const League = () => {
                         {value}
                       </Select>
                     </div>
-                    <h1 className="dark:text-white font-bold text-2xl">Settings page</h1>
+                    <h1 className="dark:text-white font-bold text-2xl">
+                      Settings page
+                    </h1>
                   </>
                 ) : (
                   <div className="flex items-center flex-grow">
@@ -517,7 +526,6 @@ const League = () => {
                   </div>
                 )}
               </Tab.Panel>
-
             </Tab.Panels>
           </Tab.Group>
         </div>

@@ -6,7 +6,6 @@ import line from "../assets/img/dark_mode/line.png";
 import darkMode from "../assets/img/dark-mode.png";
 import lightMode from "../assets/img/light-mode.png";
 import SettingsSelect from "../components/Select/settings";
-import { Link } from "react-router-dom";
 
 const Nav = () => {
   const options = [
@@ -21,10 +20,9 @@ const Nav = () => {
     setMode(!mode);
   };
 
-  const [option, setOption] = useState('');
 
   return (
-    <div className="dark:bg-slate  bg-white p-default rounded-main h-[99px] flex items-center justify-between">
+    <div className="dark:bg-slate  bg-white p-default rounded-main h-10 flex items-center justify-between">
       <div className="title flex items-center space-x-8">
         <div className="logo flex">
           <div className="flex">
@@ -35,14 +33,14 @@ const Nav = () => {
           </div>
         </div>
         <img src={line}></img>
-        <div className="greeting">
+        {/* <div className="greeting">
           <p className="dark:text-white text-[#33383F] text-lg font-semibold text-left">
             Hello George!
           </p>
           <p className="text-sm dark:text-font-dark-gray text-left">
             Welcome to your dashboard
           </p>
-        </div>
+        </div> */}
       </div>
       <div className="flex space-x-2 items-center">
 
@@ -53,7 +51,7 @@ const Nav = () => {
           onClick={toggle}
         />
         <SettingsSelect
-          className="h-11 pl-3 w-[199px] text-white dark:bg-charcoal"
+          className="h-10 pl-3 w-[199px] text-white dark:bg-charcoal"
           value="George Chichua"
           icon={profile}
         >
