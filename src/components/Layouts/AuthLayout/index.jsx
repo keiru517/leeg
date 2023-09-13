@@ -12,13 +12,12 @@ const AuthLayout = (props) => {
   const token = localStorage.getItem('token');
   useEffect(()=>{
 
-    console.log("Token", token)
     if (token) {
       setLoggedIn(true)
       setAuthToken(token);
       navigate('/', {replace:true})
     } else {
-      navigate('/signinOption', { replace: true})
+      navigate('/signin', { replace: true})
       setLoggedIn(false)
     }
     setLoading(false)

@@ -21,7 +21,7 @@ const SettingsSelect = (props) => {
   const handleLogOut = () => {
     console.log("Logout");
     localStorage.removeItem("token");
-    navigate("/signinOption", { replace: true });
+    navigate("/signin", { replace: true });
   };
 
   return (
