@@ -183,7 +183,7 @@ const Matchup = () => {
         </div>
       </div>
       <div className="flex flex-col flex-grow rounded-main bg-slate overflow-auto mt-[20px] p-default">
-        <div className="search flex justify-between space-x-3">
+        {/* <div className="search flex justify-between space-x-3">
           <Input
             icon={search}
             className="flex-grow rounded-lg text-xs"
@@ -197,7 +197,7 @@ const Matchup = () => {
           >
             {value}
           </Select>
-        </div>
+        </div> */}
         <br></br>
         <div className="grid grid-cols-2 gap-4">
           <div className="flex flex-col overflow-y-auto rounded-default h-[350px] bg-dark-gray transition ease-in-out delay-150 hover:bg-dark-gray duration-200 w-full">

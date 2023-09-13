@@ -57,6 +57,7 @@ const League = () => {
     "Schedule",
     "Standings",
     "All Playerlist",
+    "Settings"
   ];
 
   function classNames(...classes) {
@@ -365,7 +366,7 @@ const League = () => {
                   <>
                     <hr className="h-px my-4 bg-charcoal border-0" />
                     <Input
-                      className="rounded-lg h-[42px] text-xs flex-grow"
+                      className="rounded-lg h-[42px] text-xs"
                       icon={search}
                       placeholder="Search Schedules"
                     />
@@ -482,6 +483,41 @@ const League = () => {
                   </div>
                 )}
               </Tab.Panel>
+
+              {/* Settings */}
+              <Tab.Panel
+                key={5}
+                className={classNames("rounded-xl flex flex-col w-full h-full")}
+              >
+                {teams.length > 0 ? (
+                  <>
+                    <hr className="h-px my-4 bg-charcoal border-0" />
+                    <div className="flex space-x-3">
+                      <Input
+                        className="rounded-lg flex-grow text-xs"
+                        icon={search}
+                        placeholder="Search Standings"
+                      />
+                      <Select
+                        className="text-xs"
+                        options={options}
+                        handleClick={(e) => setValue(e.name)}
+                        value={value}
+                      >
+                        {value}
+                      </Select>
+                    </div>
+                    <h1 className="dark:text-white font-bold text-2xl">Settings page</h1>
+                  </>
+                ) : (
+                  <div className="flex items-center flex-grow">
+                    <p className="text-2xl text-white w-full text-center">
+                      No Players To Show!
+                    </p>
+                  </div>
+                )}
+              </Tab.Panel>
+
             </Tab.Panels>
           </Tab.Group>
         </div>
