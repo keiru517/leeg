@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -21,6 +21,7 @@ import MatchModal from "../../components/Modal/MatchModal";
 import MatchTable from "../../components/Table/Match";
 import StandingTable from "../../components/Table/Standing";
 import PlayerTable from "../../components/Table/Player";
+import calendar from "../../assets/img/dark_mode/calendar.png";
 import apis from "../../utils/apis";
 import * as actions from "../../actions";
 
@@ -31,6 +32,13 @@ const League = () => {
   const league = useSelector((state) => state.home.leagues).find(
     (league) => league.id == leagueId
   );
+
+  const [leagueName, setLeagueName] = useState(league.name);
+  const [leagueDescription, setLeagueDescription] = useState(
+    league.description
+  );
+  const [leagueStartDate, setLeagueStartDate] = useState(league.startDate);
+  const [leagueEndDate, setLeagueEndDate] = useState(league.endDate);
 
   const teams = useSelector((state) => state.home.teams).filter(
     (team) => team.leagueId == leagueId
@@ -84,7 +92,6 @@ const League = () => {
   // };
 
   const handleCategory = (data) => {
-    console.log(data);
     dispatch({ type: actions.SET_TAB_ID, payload: data });
     setBreadcrum(data);
   };
@@ -98,13 +105,12 @@ const League = () => {
     (player) => (player.leagueId == leagueId) & (player.role == 1)
   );
 
-  // useEffect(() => {
-    
-  //   actions.getTeams(dispatch);
-  //   actions.getMatches(dispatch);
-  //   actions.getMatchups(dispatch);
-  //   actions.getPlayers(dispatch);
-  // }, []);
+  useEffect(() => {
+    setLeagueName(league.name)
+    setLeagueDescription(league.description)
+    setLeagueStartDate(league.startDate)
+    setLeagueEndDate(league.endDate)
+  }, [tabIndex==5]);
 
   const [waitKeyword, setWaitKeyword] = useState("");
 
@@ -154,6 +160,28 @@ const League = () => {
   };
   const handleCreateMatch = () => {
     dispatch({ type: actions.OPEN_CREATE_MATCH_DIALOG, payload: true });
+  };
+
+  const fileUploadRef = useRef();
+  const [chosenFile, setChosenFile] = useState();
+
+  const editLeague = () => {
+    const formData = new FormData();
+    formData.append('id', leagueId);
+    formData.append('logo', chosenFile);
+    formData.append('name', leagueName);
+    formData.append('description', leagueDescription);
+    formData.append('statDate', leagueStartDate);
+    formData.append('endDate', leagueEndDate);
+
+    dispatch({ type: actions.CLOSE_LEAGUE_DIALOG });
+    axios
+      .post(apis.updateLeague, formData)
+      .then((res) => {
+        actions.getLeagues(dispatch);
+        alert(res.data.message);
+      });
+    console.log("Clicked edit");
   };
 
   return (
@@ -500,24 +528,67 @@ const League = () => {
                 {teams.length > 0 ? (
                   <>
                     <hr className="h-px my-4 bg-charcoal border-0" />
-                    <div className="flex space-x-3">
-                      <Input
-                        className="rounded-lg flex-grow text-xs"
-                        icon={search}
-                        placeholder="Search Standings"
-                      />
-                      <Select
-                        className="text-xs"
-                        options={options}
-                        handleClick={(e) => setValue(e.name)}
-                        value={value}
-                      >
-                        {value}
-                      </Select>
+                    <div className="mt-4 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                      <div className="flex flex-col space-x-3 items-center">
+                        <div>
+                          <div className="flex space-x-3 items-center">
+                            <input type="file" hidden ref={fileUploadRef} 
+                            onChange={(e)=>{
+                              const files = e.target.files;
+                              if (files.length) {
+                                const file = files[0];
+                                setChosenFile(file);
+                              }
+                            }}
+                            />
+                            <img
+                              onClick={() => {
+                                fileUploadRef.current?.click();
+                              }}
+                              src={league.logo}
+                              className="w-24 h-24 rounded-lg cursor-pointer"
+                              alt=""
+                            />
+                            <Input
+                              className="rounded-lg flex-grow text-xs "
+                              placeholder="League Name"
+                              value={leagueName}
+                              onChange={(e) => setLeagueName(e.target.value)}
+                            ></Input>
+                          </div>
+                          <textarea
+                            id="message"
+                            rows="6"
+                            className="block p-2.5 w-full text-xs text-gray-900 rounded-lg border border-charcoal focus:ring-blue-500 focus:border-blue-500 dark:bg-transparent dark:border-charcoal dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 resize-none outline-none"
+                            placeholder="Describe your League*"
+                            value={leagueDescription}
+                            onChange={(e)=>setLeagueDescription(e.target.value)}
+                          ></textarea>
+                          <Input
+                            className="text-xs rounded-default my-5"
+                            option={calendar}
+                            placeholder="Enter Season Start Date*"
+                            value={leagueStartDate}
+                            onChange={(e) => setLeagueStartDate(e.target.value)}
+                          />
+                          <Input
+                            className="text-xs rounded-default"
+                            option={calendar}
+                            placeholder="Enter Season End Date*"
+                            value={leagueEndDate}
+                            onChange={(e) => setLeagueEndDate(e.target.value)}
+                          />
+                        </div>
+                        <div className="flex flex-grow">
+                          <button
+                            onClick={editLeague}
+                            className="bg-primary h-12 text-white font-bold text-sm w-[76px] rounded-default hover:opacity-70"
+                          >
+                            Save
+                          </button>
+                        </div>
+                      </div>
                     </div>
-                    <h1 className="dark:text-white font-bold text-2xl">
-                      Settings page
-                    </h1>
                   </>
                 ) : (
                   <div className="flex items-center flex-grow">
