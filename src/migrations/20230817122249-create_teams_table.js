@@ -13,7 +13,7 @@ module.exports = {
       leagueId: {
         allowNull: false,
         references: {
-          model: 'Leagues',
+          model: 'leagues',
           key: 'id'
         },
         onDelete: 'CASCADE',

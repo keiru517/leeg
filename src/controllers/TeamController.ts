@@ -81,7 +81,7 @@ export const logo: RequestHandler = async (req, res) => {
     }
   });
   if (team) {
-    res.sendFile(teamLogoPath(userId, team.logo))
+    res.sendFile(teamLogoPath(userId, team.logo));
   }
   else {
     res.status(404).json({

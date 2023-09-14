@@ -1,4 +1,4 @@
-import { Model, DataTypes, Optional, CreationOptional } from 'sequelize';
+import { Model, DataTypes, Optional, CreationOptional, ForeignKey } from 'sequelize';
 import sequelize from '.';
 import { Types } from '../types';
 
@@ -12,6 +12,7 @@ export default class League extends Model<
   LeagueCreationAttributes
 > {
   declare id: CreationOptional<number>;
+  declare userId: ForeignKey<number>;
   declare name: string;
   declare description: string;
   declare logo: string;
@@ -21,6 +22,18 @@ export default class League extends Model<
 }
 League.init(
   {
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'User',
+        key: 'id'
+      }
+    },
+    type: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0
+    },
     name: DataTypes.STRING,
     description: DataTypes.STRING,
     logo: DataTypes.STRING,

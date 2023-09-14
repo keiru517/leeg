@@ -19,6 +19,8 @@ export namespace Types {
     password: string;
   }
   export interface T_League extends T_DB {
+    userId: number;
+    type: number; // 0 - public, 1 - private
     name: string;
     description: string;
     logo: string;

@@ -17,14 +17,14 @@ leagueRouter.post('/create', upload.single('logo'), LeagueController.create);
 
 // update a league
 // SERVER_URL/api/league/update
-leagueRouter.post('/update', LeagueController.update);
+leagueRouter.post('/update',upload.single('logo'), LeagueController.update);
 
 // delete a league
 // SERVER_URL/api/league/remove/1
 leagueRouter.delete('/remove/:id', LeagueController.remove);
 
-// SERVER_URL/api/league/logo/1
-leagueRouter.get('/logo/:id', LeagueController.getLogo);
+// SERVER_URL/api/league/2/logo/1
+leagueRouter.get('/:userId/logo/:id', LeagueController.getLogo);
 // get a league
 // SERVER_URL/api/league/info/1
 leagueRouter.get('/info/:id', LeagueController.info);

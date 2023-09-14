@@ -4,14 +4,16 @@ import { Types } from '../types';
 export const absolutePath = (path: string | undefined = undefined) => {
   return join(process.cwd(), path || '');
 };
-
+export const userAvatarPath = (userId: number, fileName: string) => {
+  return path.join(UPLOAD_PATH, userId?.toString(), fileName);
+};
 export const leagueLogoPath = (userId: number, fileName: string) => {
   return path.join(UPLOAD_PATH, userId?.toString(), 'leagues', fileName);
 };
 
 export const teamLogoPath = (userId: number, fileName: string) => {
   return path.join(UPLOAD_PATH, userId?.toString(), 'teams', fileName);
-}
+};
 
 export const rs = (
   data = {},

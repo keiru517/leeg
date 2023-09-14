@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express';
 import User from '../models/User';
 import path from 'path';
-import { absolutePath } from '../helpers';
+import { absolutePath, userAvatarPath } from '../helpers';
 import { existsSync, mkdirSync, writeFileSync } from 'fs';
 import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
@@ -20,10 +20,10 @@ export const signin: RequestHandler =async (req, res) => {
       if (user) {
         if (user.password == crypto.createHash('md5').update(password).digest('hex')) {
           const token = jwt.sign({ id: user.id?.toString(), email: user.email}, 'leeg517', {
-            expiresIn: '1h',
+            expiresIn: '2d',
           });
 
-          res.status(200).json({message: "Signed in successfully!", token: token})
+          res.status(200).json({message: "Signed in successfully!", token: token, user:user})
         } else {
           res.status(400).json({ message: 'Incorrect password'})
         }
@@ -120,3 +120,38 @@ export const all: RequestHandler = async (req, res) => {
   const users = await User.findAll();
   res.json({users})
 }
+
+// GET SERVER_URL/api/user/all
+export const info: RequestHandler = async (req, res) => {
+  const id = Number(req.params.id);
+  console.log('============================', id)
+  const user = await User.findOne({
+    where: {
+      id
+    }
+  });
+  if (user) {
+    res.status(200).json({user:user})
+  } else {
+    res.status(404).json({
+      message: 'user not found'
+    })
+  }
+}
+
+export const avatar: RequestHandler =async (req, res) => {
+  const id = Number(req.params.id);
+  const user = await User.findOne({
+    where: {
+      id
+    }
+  });
+  if (user) {
+    res.sendFile(userAvatarPath(id, user.avatar));
+  } else {
+    res.status(404).json({
+      message: 'user not found'
+    })
+  }
+}
+
