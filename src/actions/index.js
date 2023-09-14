@@ -1,6 +1,8 @@
 import axios from "axios";
 import apis from "../utils/apis";
 
+// user
+export const GET_USER = "GET_USER";
 // country
 export const GET_COUNTRIES = "GET_COUNTRIES";
 // league
@@ -244,9 +246,18 @@ export const getAdmins = (payload) => ({
   payload: payload,
 });
 
-export const getUserInfo = () =>
-  new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve(true);
-    }, 500);
-  });
+export const getUserInfo = async (dispatch, id) => {
+  console.log("action", id)
+  try {
+    const response = await axios.get(apis.getUserInfo(id));
+    dispatch({type: GET_USER, payload: response.data.user});
+    
+  } catch (error) {
+    console.log(error)
+  }
+}
+  // new Promise((resolve, reject) => {
+  //   setTimeout(() => {
+  //     resolve(true);
+  //   }, 500);
+  // });

@@ -2,6 +2,7 @@
 import * as actions from "../actions";
 
 const initialState = {
+  user: {},
   countries: [],
   leagues: [],
   teams: [],
@@ -37,6 +38,8 @@ const initialState = {
 
 const home = (state = initialState, action) => {
   switch (action.type) {
+    case actions.GET_USER:
+      return { ...state, user: action.payload };
     case actions.GET_COUNTRIES:
       return { ...state, countries: action.payload };
     case actions.GET_LEAGUES:

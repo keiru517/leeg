@@ -5,6 +5,12 @@ export const apis = {
   signup: apiUrl + '/user/signup',
   signin: apiUrl + '/user/signin',
   verifyEmail: apiUrl + '/user/verifyEmail',
+  getUserInfo: (id) => {
+    return `${apiUrl}/user/info/${id}`
+  },
+  userAvatarURL: (id)=> {
+    return `${apiUrl}/user/avatar/${id}`
+  }, 
   // leagues
   getLeagues: apiUrl + '/league/all',
   createLeague: apiUrl + "/league/create",

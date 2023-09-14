@@ -7,9 +7,12 @@ import eyeDisable from "../../assets/img/dark_mode/eye-disable.png";
 import apis from "../../utils/apis";
 import axios from "axios";
 import { setAuthToken } from "../../utils/authService";
+import { useDispatch } from "react-redux";
+import * as actions from '../../actions';
 
 const Signin = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -19,7 +22,10 @@ const Signin = () => {
       password: password
     }).then(res=>{
       localStorage.setItem('token', res.data.token);
+      localStorage.setItem('userId', res.data.user.id)
       setAuthToken(res.data.token);
+      dispatch({type:actions.GET_USER, payload:res.data.user})
+      
       navigate('/', {replace:true})
 
     }).catch(error=>{

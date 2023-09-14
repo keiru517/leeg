@@ -98,12 +98,13 @@ const League = () => {
     (player) => (player.leagueId == leagueId) & (player.role == 1)
   );
 
-  useEffect(() => {
-    actions.getTeams(dispatch);
-    actions.getMatches(dispatch);
-    actions.getMatchups(dispatch);
-    actions.getPlayers(dispatch);
-  }, []);
+  // useEffect(() => {
+    
+  //   actions.getTeams(dispatch);
+  //   actions.getMatches(dispatch);
+  //   actions.getMatchups(dispatch);
+  //   actions.getPlayers(dispatch);
+  // }, []);
 
   const [waitKeyword, setWaitKeyword] = useState("");
 

@@ -25,6 +25,7 @@ const Home = () => {
   });
 
   useEffect(() => {
+    actions.getUserInfo(dispatch, localStorage.getItem('userId'));
     actions.getCountries(dispatch);
     actions.getLeagues(dispatch);
     actions.getTeams(dispatch);

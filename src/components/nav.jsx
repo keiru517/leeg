@@ -6,6 +6,7 @@ import line from "../assets/img/dark_mode/line.png";
 import darkMode from "../assets/img/dark-mode.png";
 import lightMode from "../assets/img/light-mode.png";
 import SettingsSelect from "../components/Select/settings";
+import { useSelector } from "react-redux";
 
 const Nav = () => {
   const options = [
@@ -20,6 +21,7 @@ const Nav = () => {
     setMode(!mode);
   };
 
+  const user = useSelector(state=>state.home.user);
 
   return (
     <div className="dark:bg-slate  bg-white p-default rounded-main h-10 flex items-center justify-between">
@@ -51,9 +53,8 @@ const Nav = () => {
           onClick={toggle}
         />
         <SettingsSelect
-          className="h-10 pl-3 w-[199px] text-white dark:bg-charcoal"
-          value="George Chichua"
-          icon={profile}
+          className="h-10 pl-3 w-[70px] text-white dark:bg-charcoal"
+          // value={user.firstName +" " + user.lastName}
         >
           
         </SettingsSelect>
