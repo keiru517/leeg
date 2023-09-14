@@ -24,9 +24,11 @@ const SettingsSelect = (props) => {
 
   const handleLogOut = () => {
     localStorage.removeItem("token");
-    // localStorage.removeItem("userId");
+    localStorage.removeItem("userId");
     navigate("/signin", { replace: true });
   };
+
+  if (!user) return null
 
   return (
     <div
@@ -35,7 +37,7 @@ const SettingsSelect = (props) => {
       //     setExpand(true)
       //   }}
     >
-      <img src={apis.userAvatarURL(localStorage.getItem('userId'))} className="w-8 h-8 rounded-lg" alt="" />
+      <img src={apis.userAvatarURL(localStorage.getItem("userId"))} className="w-8 h-8 rounded-lg" alt="" />
       <div
         className="w-full h-full flex justify-between items-center"
         onClick={toggle}

@@ -30,7 +30,7 @@ const LeagueModal = () => {
   const cancelButtonRef = useRef(null);
 
 
-  const [leagueName, setLeagueName] = useState(league.name);
+  const [leagueName, setLeagueName] = useState(league?.name);
   const [leagueDescription, setLeagueDescription] = useState(
     league.description
   );

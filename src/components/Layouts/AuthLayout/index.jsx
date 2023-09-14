@@ -15,7 +15,7 @@ const AuthLayout = (props) => {
     if (token) {
       setLoggedIn(true)
       setAuthToken(token);
-      navigate('/', {replace:true})
+      // navigate('/', {replace:true})
     } else {
       navigate('/signin', { replace: true})
       setLoggedIn(false)

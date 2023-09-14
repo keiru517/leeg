@@ -1,4 +1,4 @@
-import { Fragment, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import close from "../../assets/img/dark_mode/close.png";
 import Select from "../Select";
@@ -10,23 +10,25 @@ import axios from "axios";
 import apis from "../../utils/apis";
 
 const MatchModal = () => {
-  let {leagueId} = useParams();
+  let { leagueId } = useParams();
   const cancelButtonRef = useRef(null);
 
   const dispatch = useDispatch();
 
   const status = useSelector((state) => state.home.match_dialog.open);
   const type = useSelector((state) => state.home.match_dialog.type);
-  
+
   const team = useSelector((state) => state.home.match_dialog.match);
-  const teams = useSelector(state=> state.home.teams).filter(team=>team.leagueId == leagueId)
-  
+  const teams = useSelector((state) => state.home.teams).filter(
+    (team) => team.leagueId == leagueId
+  );
+
   // const options = ["Real Madrid", "Manchester City", "FC Barcelona"];
   const options = teams;
-  const [homeValue, setHomeValue] = useState({name:'Select Home Team*'});
-  const [awayValue, setAwayValue] = useState({name: "Select Away Team*"});
+  const [homeValue, setHomeValue] = useState({ name: "Select Home Team*" });
+  const [awayValue, setAwayValue] = useState({ name: "Select Away Team*" });
 
-  const currentDate = new Date()
+  const currentDate = new Date();
   const formattedDate = currentDate.toLocaleDateString("en-US", {
     weekday: "long",
     month: "long",
@@ -34,13 +36,17 @@ const MatchModal = () => {
     year: "numeric",
   });
 
-  const currentTime = currentDate.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+  const currentTime = currentDate.toLocaleTimeString([], {
+    hour: "numeric",
+    minute: "2-digit",
+  });
 
-  const formattedTime = currentDate.getHours() >= 12 ? `${currentTime}` : `${currentTime}`;
-  
-  const [date, setDate] = useState(formattedDate)
-  const [time, setTime] = useState(formattedTime)
-  const [location, setLocation] = useState("")
+  const formattedTime =
+    currentDate.getHours() >= 12 ? `${currentTime}` : `${currentTime}`;
+
+  const [date, setDate] = useState(formattedDate);
+  const [time, setTime] = useState(formattedTime);
+  const [location, setLocation] = useState("");
 
   const closeDialog = () => {
     // dispatch({ type: actions.OPEN_CREATE_TEAM_DIALOG, payload: false });
@@ -61,20 +67,29 @@ const MatchModal = () => {
   };
 
   const createSubmit = () => {
-    axios.post(apis.createMatch, {
-      leagueId: leagueId,
-      homeTeamId: homeValue.id,
-      awayTeamId: awayValue.id,
-      date,
-      time,
-      location,
-    }).then(res=>{
-      actions.getMatches(dispatch)
-      dispatch({ type: actions.CLOSE_MATCH_DIALOG });
-    }).catch(error=>alert(error.data.message))
-    
+    axios
+      .post(apis.createMatch, {
+        leagueId: leagueId,
+        homeTeamId: homeValue.id,
+        awayTeamId: awayValue.id,
+        date,
+        time,
+        location,
+      })
+      .then((res) => {
+        actions.getMatches(dispatch);
+        dispatch({ type: actions.CLOSE_MATCH_DIALOG });
+      })
+      .catch((error) => alert(error.data.message));
+
     console.log("Clicked create");
   };
+
+  const [warning, setWarning] = useState(false);
+  useEffect(() => {
+    if (homeValue.name == awayValue.name) setWarning(true);
+    else setWarning(false)
+  }, [homeValue, awayValue]);
 
   return (
     <Transition.Root show={status} as={Fragment}>
@@ -126,7 +141,8 @@ const MatchModal = () => {
                       <div className="grid grid-cols-2 gap-[10px]">
                         <Select
                           options={options}
-                          handleClick={(e)=>setHomeValue(e)}
+                          // handleClick={e=>handleHome(e)}
+                          handleClick={(e) => setHomeValue(e)}
                           value={homeValue.name}
                           className="rounded-default w-full h-12 text-xs"
                         >
@@ -134,18 +150,25 @@ const MatchModal = () => {
                         </Select>
                         <Select
                           options={options}
-                          handleClick={(e)=>setAwayValue(e)}
+                          handleClick={(e) => setAwayValue(e)}
                           value={awayValue.name}
                           className="rounded-default w-full h-12 text-xs"
                         >
                           Select Away Team*
                         </Select>
+                        {warning ? (
+                          <p className="text-red-700 col-span-2">
+                            Can not create a match between the same teams
+                          </p>
+                        ) : (
+                          ""
+                        )}
                         <Input
                           className="rounded-default text-xs h-12"
                           placeholder="Enter Date*"
                           value={date}
                           onChange={(e) => setDate(e.target.value)}
-                          ></Input>
+                        ></Input>
                         <Input
                           className="rounded-default text-xs h-12"
                           placeholder="Select Time*"
@@ -162,7 +185,8 @@ const MatchModal = () => {
                     </div>
                     <button
                       onClick={createSubmit}
-                      className="bg-primary rounded-xl w-full hover:bg-opacity-70 h-button text-white"
+                      className="bg-primary rounded-xl w-full hover:bg-opacity-70 h-button text-white disabled:opacity-10"
+                      disabled={warning}
                     >
                       Create Match
                     </button>

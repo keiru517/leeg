@@ -29,16 +29,16 @@ const League = () => {
   let { leagueId } = useParams();
   const dispatch = useDispatch();
 
+  const user = useSelector((state) => state.home.user);
+
   const league = useSelector((state) => state.home.leagues).find(
     (league) => league.id == leagueId
   );
 
-  const [leagueName, setLeagueName] = useState(league.name);
-  const [leagueDescription, setLeagueDescription] = useState(
-    league.description
-  );
-  const [leagueStartDate, setLeagueStartDate] = useState(league.startDate);
-  const [leagueEndDate, setLeagueEndDate] = useState(league.endDate);
+  const [leagueName, setLeagueName] = useState();
+  const [leagueDescription, setLeagueDescription] = useState();
+  const [leagueStartDate, setLeagueStartDate] = useState();
+  const [leagueEndDate, setLeagueEndDate] = useState();
 
   const teams = useSelector((state) => state.home.teams).filter(
     (team) => team.leagueId == leagueId
@@ -106,11 +106,20 @@ const League = () => {
   );
 
   useEffect(() => {
-    setLeagueName(league.name)
-    setLeagueDescription(league.description)
-    setLeagueStartDate(league.startDate)
-    setLeagueEndDate(league.endDate)
-  }, [tabIndex==5]);
+    actions.getUserInfo(dispatch, localStorage.getItem("userId"));
+    actions.getCountries(dispatch);
+    actions.getLeagues(dispatch);
+    actions.getTeams(dispatch);
+    actions.getMatches(dispatch);
+    actions.getPlayers(dispatch);
+  }, []);
+
+  useEffect(() => {
+    setLeagueName(league?.name);
+    setLeagueDescription(league?.description);
+    setLeagueStartDate(league?.startDate);
+    setLeagueEndDate(league?.endDate);
+  }, [league]);
 
   const [waitKeyword, setWaitKeyword] = useState("");
 
@@ -167,22 +176,23 @@ const League = () => {
 
   const editLeague = () => {
     const formData = new FormData();
-    formData.append('id', leagueId);
-    formData.append('logo', chosenFile);
-    formData.append('name', leagueName);
-    formData.append('description', leagueDescription);
-    formData.append('statDate', leagueStartDate);
-    formData.append('endDate', leagueEndDate);
+    formData.append("id", leagueId);
+    formData.append("userId", user.id);
+    formData.append("logo", chosenFile);
+    formData.append("name", leagueName);
+    formData.append("description", leagueDescription);
+    formData.append("startDate", leagueStartDate);
+    formData.append("endDate", leagueEndDate);
 
-    dispatch({ type: actions.CLOSE_LEAGUE_DIALOG });
-    axios
-      .post(apis.updateLeague, formData)
-      .then((res) => {
-        actions.getLeagues(dispatch);
-        alert(res.data.message);
-      });
+    // dispatch({ type: actions.CLOSE_LEAGUE_DIALOG });
+    axios.post(apis.updateLeague, formData).then((res) => {
+      actions.getLeagues(dispatch);
+      alert(res.data.message);
+    });
     console.log("Clicked edit");
   };
+
+  if (!league) return null;
 
   return (
     <div className="flex flex-col flex-grow">
@@ -197,7 +207,7 @@ const League = () => {
         <Link to="/">
           <span className="underline">My Leagues</span>
         </Link>
-        <span className="text-sky-500"> &gt; {league.name}</span>
+        <span className="text-sky-500"> &gt; {league?.name}</span>
       </p>
 
       <div className="rounded-main bg-slate flex-grow p-default">
@@ -532,20 +542,23 @@ const League = () => {
                       <div className="flex flex-col space-x-3 items-center">
                         <div>
                           <div className="flex space-x-3 items-center">
-                            <input type="file" hidden ref={fileUploadRef} 
-                            onChange={(e)=>{
-                              const files = e.target.files;
-                              if (files.length) {
-                                const file = files[0];
-                                setChosenFile(file);
-                              }
-                            }}
+                            <input
+                              type="file"
+                              hidden
+                              ref={fileUploadRef}
+                              onChange={(e) => {
+                                const files = e.target.files;
+                                if (files.length) {
+                                  const file = files[0];
+                                  setChosenFile(file);
+                                }
+                              }}
                             />
                             <img
                               onClick={() => {
                                 fileUploadRef.current?.click();
                               }}
-                              src={league.logo}
+                              src={league?.logo}
                               className="w-24 h-24 rounded-lg cursor-pointer"
                               alt=""
                             />
@@ -562,7 +575,9 @@ const League = () => {
                             className="block p-2.5 w-full text-xs text-gray-900 rounded-lg border border-charcoal focus:ring-blue-500 focus:border-blue-500 dark:bg-transparent dark:border-charcoal dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 resize-none outline-none"
                             placeholder="Describe your League*"
                             value={leagueDescription}
-                            onChange={(e)=>setLeagueDescription(e.target.value)}
+                            onChange={(e) =>
+                              setLeagueDescription(e.target.value)
+                            }
                           ></textarea>
                           <Input
                             className="text-xs rounded-default my-5"
