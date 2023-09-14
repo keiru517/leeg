@@ -82,7 +82,8 @@ export const getLeagues = async (dispatch) => {
     
     // set logo image to all leagues
     leagues.map(league=>{
-      const logoUrl = apis.leagueLogoURL(league.id);
+      console.log(league.userId, league.id)
+      const logoUrl = apis.leagueLogoURL(league.userId, league.id);
       dispatch({
         type: SET_LEAGUE_LOGO_URL,
         payload: { id: league.id, logoUrl: logoUrl },

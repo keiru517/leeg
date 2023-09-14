@@ -10,7 +10,7 @@ const Card = (props) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const logoUrl = apis.leagueLogoURL(item.id);
+    const logoUrl = apis.leagueLogoURL(item.userId, item.id);
     dispatch({
       type: actions.SET_LEAGUE_LOGO_URL,
       payload: { id: item.id, logoUrl: logoUrl },

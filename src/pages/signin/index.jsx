@@ -76,6 +76,7 @@ const Signin = () => {
             </div>
             <p className="font-dark-gray text-center">
               Don't have an account?
+              {/* <Link to={"/signup"}> */}
               <Link to={"/singupWithEmail"}>
                 <span className="text-sky-500 font-bold text-sm"> Sign Up</span>
               </Link>
