@@ -34,23 +34,16 @@ User.init(
       unique: true,
       allowNull: false
     },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     birthday: DataTypes.STRING,
     country: DataTypes.STRING,
     state: DataTypes.STRING,
     city: DataTypes.STRING,
     address: DataTypes.STRING,
     zipCode: DataTypes.STRING,
-    password: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      // set(value: string) {
-      //   const hashedPassword = crypto
-      //     .createHash('md5')
-      //     .update(value)
-      //     .digest('hex');
-      //   this.setDataValue('password', hashedPassword);
-      // }
-    }
   },
   {
     sequelize: sequelize,

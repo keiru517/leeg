@@ -12,7 +12,7 @@ module.exports = {
       userId: {
         allowNull: false,
         references: {
-          model: 'users',
+          model: 'Users',
           key: 'id'
         },
         onDelete: 'CASCADE',
