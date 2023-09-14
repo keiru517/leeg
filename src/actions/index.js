@@ -1,5 +1,7 @@
 import axios from "axios";
 import apis from "../utils/apis";
+import { useNavigate } from "react-router-dom";
+
 
 // user
 export const GET_USER = "GET_USER";
@@ -87,6 +89,10 @@ export const getLeagues = async (dispatch) => {
       });
     })
   } catch (error) {
+    console.log(error.response.status)
+    if (error.response.status == 401) {
+      console.log("hi")
+    }
     dispatch({
       type: GET_LEAGUES,
       payload: [],
@@ -247,11 +253,12 @@ export const getAdmins = (payload) => ({
 });
 
 export const getUserInfo = async (dispatch, id) => {
-  console.log("action", id)
+
   try {
     const response = await axios.get(apis.getUserInfo(id));
-    dispatch({type: GET_USER, payload: response.data.user});
-    
+    const user = response.data.user;
+    user.avatar = apis.userAvatarURL(id);
+    dispatch({type: GET_USER, payload: user});
   } catch (error) {
     console.log(error)
   }

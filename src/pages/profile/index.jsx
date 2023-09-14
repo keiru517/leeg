@@ -7,14 +7,15 @@ import PageTitle from "../../components/PageTitle";
 import * as actions from "../../actions";
 import leftarrowIcon from "../../assets/img/dark_mode/left-arrow.png";
 import verticalLine from "../../assets/img/dark_mode/vertical-line.png";
-import horizontalLine  from "../../assets/img/dark_mode/horizontal-line.png";
+import horizontalLine from "../../assets/img/dark_mode/horizontal-line.png";
 import profileImage from "../../assets/img/dark_mode/profile.png";
-import AdminTable from '../../components/Table/Admin';
+import AdminTable from "../../components/Table/Admin";
 import eyeDisable from "../../assets/img/dark_mode/eye-disable.png";
-import toggleOn from '../../assets/img/dark_mode/toggle-on.png';
+import toggleOn from "../../assets/img/dark_mode/toggle-on.png";
 
 const Profile = () => {
-  const admins = useSelector(state=>state.home.admins);
+  const admins = useSelector((state) => state.home.admins);
+  const user = useSelector((state) => state.home.user);
 
   const breadcrumList = [
     "Personal Information",
@@ -59,10 +60,9 @@ const Profile = () => {
   };
 
   const inviteAdmin = () => {
-
     console.log("invite Admin clicked! The admin email is:", value);
-    setValue("")
-  }
+    setValue("");
+  };
 
   useEffect(() => {
     // getLeagues();
@@ -119,15 +119,15 @@ const Profile = () => {
           <div className="flex flex-col flex-grow">
             <div className="flex flex-col flex-grow space-y-5">
               <div className="flex items-center">
-                <img src={profileImage} alt="" className="mr-8" />
+                <img src={user.avatar} alt="" className="mr-8 w-24 h-24 rounded-lg" />
                 <div className="bg-primary h-button rounded-default text-white font-bold text-sm mr-3 w-[180px] hover:opacity-70 cursor-pointer flex justify-center items-center">
                   {/* <input style={{display:'none'}} type='file' className=" rounded-default w-[180px] h-input text-white font-bold text-sm mr-3 hover:opacity-70 ">
                     
                   </input> */}
-                  <input className="hidden" type='file'/>
+                  <input className="hidden" type="file" />
                   Upload New Picture
                 </div>
-               <button className="bg-[#313435] rounded-default w-[103px] h-button text-white font-bold text-sm hover:opacity-70">
+                <button className="bg-[#313435] rounded-default w-[103px] h-button text-white font-bold text-sm hover:opacity-70">
                   Remove
                 </button>
               </div>
@@ -199,32 +199,39 @@ const Profile = () => {
               </div>
             </div>
           </div>
-        ) : (
-          step === 2?
+        ) : step === 2 ? (
           <div className="flex flex-col flex-grow">
-            <AdminTable ></AdminTable>
-            <img src={horizontalLine} alt="" className="my-5"/>
+            <AdminTable></AdminTable>
+            <img src={horizontalLine} alt="" className="my-5" />
             <div className="flex space-x-3">
-              <Input value={value} onChange={(e)=> setValue(e.target.value)} className='flex flex-grow rounded-default text-xs' placeholder="Type Admin Email Address"></Input>
-              <button onClick={inviteAdmin} className="text-white bg-primary font-bold text-sm w-[78px] h-12 rounded-default">Invite</button>
+              <Input
+                value={value}
+                onChange={(e) => setValue(e.target.value)}
+                className="flex flex-grow rounded-default text-xs"
+                placeholder="Type Admin Email Address"
+              ></Input>
+              <button
+                onClick={inviteAdmin}
+                className="text-white bg-primary font-bold text-sm w-[78px] h-12 rounded-default"
+              >
+                Invite
+              </button>
             </div>
           </div>
-          :
+        ) : (
           <div className="flex flex-col flex-grow">
-            {
-              admins.map((admin, idx)=>(
-                <>
-                  <div className="flex justify-between">  
-                    <p className="text-white font-semibold text-sm">Stats tracking {idx + 1}</p>
-                    <img src={toggleOn} alt="" className="w-[50px]"/>
+            {admins.map((admin, idx) => (
+              <>
+                <div className="flex justify-between">
+                  <p className="text-white font-semibold text-sm">
+                    Stats tracking {idx + 1}
+                  </p>
+                  <img src={toggleOn} alt="" className="w-[50px]" />
+                </div>
 
-                  </div>
-
-                  <hr className="h-px my-4 bg-charcoal border-0" />
-                
-                </>
-              ))
-            }
+                <hr className="h-px my-4 bg-charcoal border-0" />
+              </>
+            ))}
           </div>
         )}
       </div>

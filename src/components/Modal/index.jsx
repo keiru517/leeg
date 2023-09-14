@@ -16,19 +16,25 @@ import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../actions";
 import axios from "axios";
 import { Navigate } from "react-router-dom";
-import apis from '../../utils/apis';
+import apis from "../../utils/apis";
 
 const Modal = (props) => {
   const dispatch = useDispatch();
 
   const status = useSelector((state) => state.home.league_dialog.open);
+  const user = useSelector((state) => state.home.user);
 
   // const [open, setOpen] = useState(false);
   const [step, setStep] = useState(1);
 
   const cancelButtonRef = useRef(null);
 
-  const sportOptions = [{id:0, name:"Basketball"}, {id:1, name:"Rugby"}, {id:2, name:"Hockey"}, {id:3, name:"Baseball"}];
+  const sportOptions = [
+    { id: 0, name: "Basketball" },
+    { id: 1, name: "Rugby" },
+    { id: 2, name: "Hockey" },
+    { id: 3, name: "Baseball" },
+  ];
 
   const closeDialog = () => {
     setStep(1);
@@ -64,8 +70,8 @@ const Modal = (props) => {
   const [chosenFile, setChosenFile] = useState();
 
   const createLeague = () => {
-
     const formData = new FormData();
+    formData.append("userId", user.id);
     formData.append("sport", sport);
     formData.append("name", leagueName);
     formData.append("description", leagueDescription);

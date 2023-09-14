@@ -1,4 +1,4 @@
-import { Fragment, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { useParams } from "react-router";
 import axios from "axios";
@@ -32,8 +32,11 @@ const TeamModal = () => {
     (player) => (player.leagueId == leagueId) & (player.role == 1)
   );
 
-  const [teamName, setTeamName] = useState(team.name);
+  const [teamName, setTeamName] = useState();
 
+  useEffect(()=>{
+    setTeamName(team.name)
+  }, [team])
   const closeDialog = () => {
     // setStep(1);
     // dispatch({ type: actions.OPEN_CREATE_TEAM_DIALOG, payload: false });
