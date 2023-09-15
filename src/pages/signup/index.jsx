@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Input from "../../components/Input";
 import hrLine from "../../assets/img/dark_mode/hr-line.png";
@@ -27,61 +27,54 @@ const cities = [
 ];
 const Signup = () => {
   const navigate = useNavigate();
-
+  let { email } = useParams();
+  console.log(email);
   // const countries = useSelector((state) => state.home.countries);
 
-  const [step, setStep] = useState(1);
   const [panelHeight, setPanelHeight] = useState("617px");
-  const handleNext = () => {
-    setStep(2);
-    setPanelHeight("315px");
-  };
 
   const handleBack = () => {
-    setStep(1);
-    setPanelHeight("617px");
+    navigate('/singupWithEmail');
   };
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
   const [birthday, setBirthday] = useState("");
-  const [address, setAddress] = useState("");
-  const [zipCode, setZipCode] = useState("");
+  // const [address, setAddress] = useState("");
+  // const [zipCode, setZipCode] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
 
-  const [country, setCountry] = useState("Select Country*");
-  const selectCountry = (value) => {
-    setCountry(value);
-  };
-  const [state, setState] = useState("Select State*");
-  const selectState = (value) => {
-    setState(value);
-  };
-  const [city, setCity] = useState("Select City*");
-  const selectCity = (value) => {
-    setCity(value);
-  };
+  // const [country, setCountry] = useState("Select Country*");
+  // const selectCountry = (value) => {
+  //   setCountry(value);
+  // };
+  // const [state, setState] = useState("Select State*");
+  // const selectState = (value) => {
+  //   setState(value);
+  // };
+  // const [city, setCity] = useState("Select City*");
+  // const selectCity = (value) => {
+  //   setCity(value);
+  // };
 
   const fileUploadRef = useRef(undefined);
   const [chosenFile, setChosenFile] = useState();
 
   const handleSignup = () => {
-    console.log(country);
     const formData = new FormData();
+    formData.append("avatar", chosenFile);
     formData.append("firstName", firstName);
     formData.append("lastName", lastName);
     formData.append("email", email);
-    formData.append("zipCode", zipCode);
     formData.append("birthday", birthday);
-    formData.append("country", country);
-    formData.append("state", state);
-    formData.append("city", city);
-    formData.append("address", address);
     formData.append("password", password);
     formData.append("passwordConfirm", passwordConfirm);
-    formData.append("avatar", chosenFile);
+    // formData.append("zipCode", zipCode);
+    // formData.append("country", country);
+    // formData.append("state", state);
+    // formData.append("city", city);
+    // formData.append("address", address);
 
     axios
       .post(apis.signup, formData)
@@ -127,139 +120,75 @@ const Signup = () => {
             </p>
           </div>
           <div className="">
-            {step === 1 ? (
-              <div className="mt-6">
-                <div
-                  className="flex bg-[#F4F4F4] dark:bg-charcoal items-center h-[86px] p-4 rounded-default cursor-pointer"
-                  onClick={() => {
-                    fileUploadRef.current?.click();
+            <div className="mt-6">
+              <div
+                className="flex bg-[#F4F4F4] dark:bg-charcoal items-center h-[86px] p-4 rounded-default cursor-pointer"
+                onClick={() => {
+                  fileUploadRef.current?.click();
+                }}
+              >
+                <img src={upload} alt="" />
+                <p className="text-black dark:text-white text-sm ml-[10px]">
+                  Upload Picture
+                </p>
+                <input
+                  type="file"
+                  ref={fileUploadRef}
+                  hidden
+                  onChange={(e) => {
+                    const files = e.target.files;
+                    if (files.length) {
+                      const file = files[0];
+                      setChosenFile(file);
+                    }
                   }}
-                >
-                  <img src={upload} alt="" />
-                  <p className="text-black dark:text-white text-sm ml-[10px]">
-                    Upload Picture
-                  </p>
-                  <input
-                    type="file"
-                    ref={fileUploadRef}
-                    hidden
+                />
+              </div>
+              <div className="my-6 space-y-4 ">
+                <div className="grid grid-cols-2 gap-4">
+                  <Input
+                    className="bg-transparent rounded-default text-font-dark-gray text-xs"
+                    placeholder="Type Your First Name*"
+                    value={firstName}
                     onChange={(e) => {
-                      const files = e.target.files;
-                      if (files.length) {
-                        const file = files[0];
-                        setChosenFile(file);
-                      }
+                      setFirstName(e.target.value);
                     }}
-                  />
-                </div>
-                <div className="my-6 space-y-4 ">
-                  <div className="grid grid-cols-2 gap-4">
-                    <Input
-                      className="bg-transparent rounded-default text-font-dark-gray text-xs"
-                      placeholder="Type Your First Name*"
-                      value={firstName}
-                      onChange={(e) => {
-                        setFirstName(e.target.value);
-                      }}
-                    ></Input>
-                    <Input
-                      className="bg-transparent rounded-default text-font-dark-gray text-xs"
-                      placeholder="Type Your Last Name*"
-                      value={lastName}
-                      onChange={(e) => {
-                        setLastName(e.target.value);
-                      }}
-                    ></Input>
-                    <Input
+                  ></Input>
+                  <Input
+                    className="bg-transparent rounded-default text-font-dark-gray text-xs"
+                    placeholder="Type Your Last Name*"
+                    value={lastName}
+                    onChange={(e) => {
+                      setLastName(e.target.value);
+                    }}
+                  ></Input>
+                  {/* <Input
                       className="bg-transparent rounded-default text-font-dark-gray text-xs"
                       placeholder="Type Your Eamil Address*"
                       value={email}
                       onChange={(e) => {
                         setEmail(e.target.value);
                       }}
-                    ></Input>
-                    <Input
+                    ></Input> */}
+                  {/* <Input
                       className="bg-transparent rounded-default text-font-dark-gray text-xs"
                       placeholder="Type Your Zip Code*"
                       value={zipCode}
                       onChange={(e) => {
                         setZipCode(e.target.value);
                       }}
-                    ></Input>
-                  </div>
-                  <Input
-                    className="bg-transparent rounded-default text-font-dark-gray text-xs"
-                    option={calendar}
-                    placeholder="Enter Date of Birth*"
-                    value={birthday}
-                    onChange={(e) => {
-                      setBirthday(e.target.value);
-                    }}
-                  ></Input>
-                  <div className="grid grid-cols-2 gap-4">
-                    <Select
-                      className="rounded-default h-12 w-full text-xs"
-                      options={countries}
-                      handleClick={(e) => selectCountry(e.name)}
-                      value={country}
-                    >
-                      Select Country*
-                    </Select>
-                    {/* <select
-                      className="bg-transparent border border-dark-gray rounded-default dark:text-font-dark-gray text-xs"
-                      name=""
-                      id=""
-                    >
-                      {countries.map((country) => (
-                        <option
-                          className="bg-light-gray rounded-default dark:text-gray-200"
-                          value={country.name}
-                          onClick={(e) => setCountry(e.target.value)}
-                        >
-                          {country.name}
-                        </option>
-                      ))}
-                    </select> */}
-                    <Select
-                      className="rounded-default h-12 w-full text-xs"
-                      options={states}
-                      handleClick={(e) => selectState(e.name)}
-                      value={state}
-                    >
-                      Select State*
-                    </Select>
-                  </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <Select
-                      className="rounded-default h-12 w-full text-xs"
-                      options={cities}
-                      handleClick={(e) => selectCity(e.name)}
-                      value={city}
-                    >
-                      Select Country*
-                    </Select>
-                    <Input
-                      className="bg-transparent rounded-default text-font-dark-gray text-xs"
-                      placeholder="Type Your Address*"
-                      value={address}
-                      onChange={(e) => {
-                        setAddress(e.target.value);
-                      }}
-                    ></Input>
-                  </div>
+                    ></Input> */}
                 </div>
-                <div className="flex justify-between mb-4">
-                  <button
-                    onClick={handleNext}
-                    className="w-[377px] h-[48px] bg-primary rounded-lg text-white font-bold hover:bg-opacity-70"
-                  >
-                    Next
-                  </button>
-                </div>
-              </div>
-            ) : (
-              <>
-                <div className="mt-6 space-y-4 ">
+                <Input
+                  className="bg-transparent rounded-default text-font-dark-gray text-xs"
+                  option={calendar}
+                  placeholder="Enter Date of Birth*"
+                  value={birthday}
+                  onChange={(e) => {
+                    setBirthday(e.target.value);
+                  }}
+                ></Input>
+                <div className="grid grid-cols-2 gap-4">
                   <Input
                     className="bg-transparent rounded-default text-font-dark-gray text-xs"
                     type="password"
@@ -281,28 +210,54 @@ const Signup = () => {
                     }}
                   ></Input>
                 </div>
+                {/* <div className="grid grid-cols-2 gap-4">
+                    <Select
+                      className="rounded-default h-12 w-full text-xs"
+                      options={cities}
+                      handleClick={(e) => selectCity(e.name)}
+                      value={city}
+                    >
+                      Select Country*
+                    </Select>
+                    <Input
+                      className="bg-transparent rounded-default text-font-dark-gray text-xs"
+                      placeholder="Type Your Address*"
+                      value={address}
+                      onChange={(e) => {
+                        setAddress(e.target.value);
+                      }}
+                    ></Input>
+                  </div> */}
+              </div>
                 {isMatch ? (
                   ""
                 ) : (
                   <p className="text-red-700 mt-4">Password does not match</p>
                 )}
-                <div className="flex justify-between mt-6 space-x-3">
+              <div className="flex justify-between mt-6 space-x-3">
+                <button
+                  onClick={handleBack}
+                  className="w-[377px] h-[48px] bg-[#e5e5e5] dark:bg-[#313435] rounded-lg text-black dark:text-white font-bold hover:bg-opacity-70"
+                >
+                  Back
+                </button>
+                <button
+                  onClick={handleSignup}
+                  className="w-[377px] h-[48px] bg-primary rounded-lg text-white font-bold hover:bg-opacity-70 disabled:opacity-10"
+                  disabled={!isMatch}
+                >
+                  Create Account
+                </button>
+              </div>
+              {/* <div className="flex justify-between mb-4">
                   <button
-                    onClick={handleBack}
-                    className="w-[377px] h-[48px] bg-[#e5e5e5] dark:bg-[#313435] rounded-lg text-black dark:text-white font-bold hover:bg-opacity-70"
+                    onClick={handleNext}
+                    className="w-[377px] h-[48px] bg-primary rounded-lg text-white font-bold hover:bg-opacity-70"
                   >
-                    Back
+                    Next
                   </button>
-                  <button
-                    onClick={handleSignup}
-                    className="w-[377px] h-[48px] bg-primary rounded-lg text-white font-bold hover:bg-opacity-70 disabled:opacity-10"
-                    disabled={!isMatch}
-                  >
-                    Create Account
-                  </button>
-                </div>
-              </>
-            )}
+                </div> */}
+            </div>
           </div>
         </div>
       </div>

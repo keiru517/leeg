@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect, useRef } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import logo from "../../assets/img/dark_mode/logo.png";
 import hrLine from "../../assets/img/dark_mode/hr-line.png";
@@ -21,36 +21,64 @@ const SignupWithEmail = () => {
   const [third, setThird] = useState();
   const [fourth, setFourth] = useState();
 
+  const firstInputRef = useRef();
+  const secondInputRef = useRef();
+  const thirdInputRef = useRef();
+  const fourthInputRef = useRef();
+
   const [code, setCode] = useState();
 
   const [email, setEmail] = useState("");
   const handleClick = () => {
+    sendOTP();
     setStep(2);
-    sendOTP()
-  }
+  };
 
   const sendOTP = () => {
-    console.log('sent otp', apis.verifyEmail)
-    axios.post(apis.verifyEmail, {
-      email: email
-    }).then(res=>{
-      const verifyCode = res.data.code;
-      setCode(verifyCode);
-    }).catch((error)=>{
-      console.log(error)
-      alert("Error")
-    });
-  }
+    axios
+      .post(apis.verifyEmail, {
+        email: email,
+      })
+      .then((res) => {
+        const verifyCode = res.data.code;
+        setCode(verifyCode);
+      })
+      .catch((error) => {
+        console.log(error);
+        alert("Error");
+      });
+  };
+
+  const reSendOTP = () => {
+    alert("Verification code sent to email again!");
+    axios
+      .post(apis.verifyEmail, {
+        email: email,
+      })
+      .then((res) => {
+        const verifyCode = res.data.code;
+        setCode(verifyCode);
+      })
+      .catch((error) => {
+        console.log(error);
+        alert("Error");
+      });
+  };
 
   const handleVerify = () => {
-    console.log(first+second+third+fourth)
-    if (code == first+second+third+fourth) {
-      navigate('/signup');
+    console.log(first + second + third + fourth);
+    if (code == first + second + third + fourth) {
+      navigate(`/signup/${email}`);
     } else {
-      alert("Incorrect verification code")
+      alert("Incorrect verification code");
     }
-  }
+  };
 
+  useEffect(() => {
+    if (step === 2) {
+      alert("Verification code sent to email!");
+    }
+  }, [step]);
 
   return (
     <div className="">
@@ -63,7 +91,7 @@ const SignupWithEmail = () => {
           <p className="text-font-light-gray text-sm text-center">LEEG.IO</p>
         </div>
         {step == 1 ? (
-          <div className="bg-slate w-full h-[251px] mt-16 rounded-main p-default flex flex-col">
+          <div className="bg-slate w-full h-[275px] mt-16 rounded-main p-default flex flex-col">
             <div className="h-[55px]">
               <p className="text-white text-2xl font-bold">Sign up!</p>
               <p className="text-font-light-gray mt-3">
@@ -75,14 +103,24 @@ const SignupWithEmail = () => {
                 className="rounded-default text-font-dark-gray text-xs mb-6"
                 placeholder="Type your email address"
                 value={email}
-                onChange = {(e)=>setEmail(e.target.value)}
+                onChange={(e) => setEmail(e.target.value)}
               ></Input>
               <button
                 onClick={handleClick}
-                className="w-full h-12 bg-primary font-bold text-white rounded-default hover:bg-opacity-70"
+                className="w-full h-12 bg-primary font-bold text-white rounded-default hover:bg-opacity-70 mb-4"
               >
                 Create Account
               </button>
+              <p className="font-dark-gray text-center">
+                Do you already have an account?
+                {/* <Link to={"/signup"}> */}
+                <Link to={"/signin"}>
+                  <span className="text-sky-500 font-bold text-sm">
+                    {" "}
+                    Sign In
+                  </span>
+                </Link>
+              </p>
             </div>
           </div>
         ) : step == 2 ? (
@@ -101,59 +139,105 @@ const SignupWithEmail = () => {
                 <input
                   type="number"
                   className="bg-transparent outline-none text-white text-[52px] w-[75px] text-center h-16 mb-4"
-                  pattern="^\d{0-9}$"
-                  maxLength={1}
-                  max={9}
                   value={first}
-                  onChange={(e)=>setFirst(e.target.value.toString())}
-                  />
+                  ref={firstInputRef}
+                  // onChange={(e)=>setFirst(e.target.value.toString())}
+                  onChange={(e) => {
+                    const inputValue = e.target.value.toString();
+                    const sanitizedValue =
+                      inputValue.length === 1 ? inputValue : inputValue[0]; // Only allow a single digit
+
+                    setFirst(sanitizedValue);
+                    if (inputValue.length === 1) {
+                      secondInputRef.current?.focus();
+                    }
+                  }}
+                />
                 <img src={otpLine} alt="" />
               </div>
               <div>
                 <input
                   type="number"
                   className="bg-transparent outline-none text-white text-[52px] w-[75px] text-center h-16 mb-4"
-                  maxLength={1}
-                  max={9}
                   value={second}
-                  onChange={(e)=>setSecond(e.target.value.toString())}
-                  />
+                  ref={secondInputRef}
+                  // onChange={(e)=>setSecond(e.target.value.toString())}
+                  onChange={(e) => {
+                    const inputValue = e.target.value.toString();
+                    const sanitizedValue =
+                      inputValue.length === 1 ? inputValue : inputValue[0]; // Only allow a single digit
+
+                    setSecond(sanitizedValue);
+                    if (inputValue.length === 1) {
+                      thirdInputRef.current?.focus();
+                    }
+                  }}
+                />
                 <img src={otpLine} alt="" />
               </div>
               <div>
                 <input
                   type="number"
                   className="bg-transparent outline-none text-white text-[52px] w-[75px] text-center h-16 mb-4"
-                  maxLength={1}
-                  max={9}
                   value={third}
-                  onChange={(e)=>setThird(e.target.value.toString())}
-                  />
+                  ref={thirdInputRef}
+                  // onChange={(e)=>setThird(e.target.value.toString())}
+                  onChange={(e) => {
+                    const inputValue = e.target.value.toString();
+                    const sanitizedValue =
+                      inputValue.length === 1 ? inputValue : inputValue[0]; // Only allow a single digit
+
+                    setThird(sanitizedValue);
+                    if (inputValue.length === 1) {
+                      fourthInputRef.current?.focus();
+                    }
+                  }}
+                />
                 <img src={otpLine} alt="" />
               </div>
               <div>
                 <input
                   type="number"
                   className="bg-transparent outline-none text-white text-[52px] w-[75px] text-center h-16 mb-4"
-                  maxLength={1}
-                  max="9"
                   value={fourth}
-                  onChange={(e)=>setFourth(e.target.value.toString())}
+                  ref={fourthInputRef}
+                  // onChange={(e)=>setFourth(e.target.value.toString())}
+                  onChange={(e) => {
+                    const inputValue = e.target.value.toString();
+                    const sanitizedValue =
+                      inputValue.length === 1 ? inputValue : inputValue[0]; // Only allow a single digit
+
+                    setFourth(sanitizedValue);
+                  }}
                 />
                 <img src={otpLine} alt="" />
               </div>
             </div>
             <div className="flex justify-between mb-4">
-              <button onClick={handleVerify} className="w-[377px] h-button bg-primary rounded-default font-bold text-white hover:bg-opacity-70">
+              <button
+                onClick={handleVerify}
+                className="w-[377px] h-button bg-primary rounded-default font-bold text-white hover:bg-opacity-70"
+              >
                 Verify
               </button>
             </div>
             <p className="font-dark-gray text-center">
-              <span onClick={() => setStep(1)} className="text-primary font-semibold cursor-pointer hover:opacity-70">Change Email</span>
+              <span
+                onClick={() => setStep(1)}
+                className="text-primary font-semibold cursor-pointer hover:opacity-70"
+              >
+                Change Email
+              </span>
             </p>
             <p className="font-dark-gray text-center">
               Don't receive the Code?
-              <span onClick={sendOTP} className="text-primary font-semibold cursor-pointer hover:opacity-70"> Resend Code</span>
+              <span
+                onClick={reSendOTP}
+                className="text-primary font-semibold cursor-pointer hover:opacity-70"
+              >
+                {" "}
+                Resend Code
+              </span>
             </p>
           </div>
         ) : (

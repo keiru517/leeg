@@ -60,7 +60,7 @@ function App() {
           <Route exact path="/signinOption" element={<SigninOption />}></Route>
           <Route exact path="/signin" element={<Signin />}></Route>
           <Route exact path="/singupWithEmail" element={<SignupWithEmail />}></Route>
-          <Route exact path="/signup" element={<Signup />}></Route>
+          <Route exact path="/signup/:email" element={<Signup />}></Route>
           <Route exact path="/signupSuccess" element={<SignupSuccess />}></Route>
           <Route exact path="/personalDetails" element={<PersonalDetails />}></Route>
           <Route exact path="/otp" element={<OTP />}></Route>
