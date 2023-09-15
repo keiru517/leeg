@@ -98,11 +98,11 @@ const League = () => {
   const players = useSelector((state) => state.home.players);
 
   const waitListPlayers = players.filter(
-    (player) => (player.leagueId == leagueId) & (player.role == 0)
+    (player) => player.isWaitList == true
   );
 
   const acceptedPlayers = players.filter(
-    (player) => (player.leagueId == leagueId) & (player.role == 1)
+    (player) => player.isAcceptedList == true
   );
 
   useEffect(() => {
@@ -134,6 +134,7 @@ const League = () => {
   };
 
   const handleAccept = () => {
+    console.log(waitItemChecked)
     if (Object.keys(waitItemChecked).length < 1) {
       alert("Please select at least one player!");
     } else {
@@ -143,7 +144,7 @@ const League = () => {
           actions.getPlayers(dispatch);
           setWaitItemChecked({});
         })
-        .catch((error) => alert(error.data.message));
+        .catch((error) => alert(error.message));
     }
   };
 
@@ -157,7 +158,7 @@ const League = () => {
           actions.getPlayers(dispatch);
           setAcceptedItemChecked({});
         })
-        .catch((error) => alert(error.data.message));
+        .catch((error) => alert(error.message));
     }
   };
 
@@ -319,8 +320,8 @@ const League = () => {
                           <ListItem
                             key={idx}
                             className="mb-5"
-                            avatar={avatar}
-                            name={player.name}
+                            avatar={player.avatar}
+                            name={player.firstName+ " " + player.lastName}
                             email={player.email}
                             date={player.createdAt}
                             itemChecked={!!waitItemChecked[player.id]}
@@ -382,8 +383,8 @@ const League = () => {
                         acceptedPlayers.map((player, idx) => (
                           <ListItem
                             key={idx}
-                            avatar={avatar}
-                            name={player.name}
+                            avatar={player.avatar}
+                            name={player.firstName + " " + player.lastName}
                             email={player.email}
                             date={player.created_at}
                             itemChecked={!!acceptedItemChecked[player.id]}

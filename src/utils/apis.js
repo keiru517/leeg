@@ -20,6 +20,7 @@ export const apis = {
     return `${apiUrl}/league/remove/${id}`
   },
   leagueLogoURL: (userId, id) => `${apiUrl}/league/${userId}/logo/${id}`,
+  applyLeague: apiUrl + '/league/apply',
   // teams
   getTeams: apiUrl + '/team/all',
   createTeam: apiUrl + '/team/create',

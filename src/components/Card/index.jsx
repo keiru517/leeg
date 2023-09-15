@@ -2,28 +2,51 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import * as actions from "../../actions";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { apis } from "../../utils/apis";
 
 const Card = (props) => {
-  const { route, item } = props;
+  const { route, league } = props;
+  const user = useSelector(state=>state.home.user);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const logoUrl = apis.leagueLogoURL(item.userId, item.id);
+    const logoUrl = apis.leagueLogoURL(league.userId, league.id);
     dispatch({
       type: actions.SET_LEAGUE_LOGO_URL,
-      payload: { id: item.id, logoUrl: logoUrl },
+      payload: { id: league.id, logoUrl: logoUrl },
     });
-  }, [item.id]);
+  }, [league.id]);
+
+  const handleApply = () => {
+    console.log("HandleApply", user?.id)
+    axios.post(apis.applyLeague, {
+      userId: user?.id,
+      leagueId: league.id
+    }).then(res=>{
+      alert(res.data.message);
+      console.log("userId", user?.id)
+      actions.getLeagues(dispatch, user?.id);
+    }).catch(error=>{
+      console.log(error.response.message)
+    })
+  };
 
   return (
-    <Link to={`/${route}/${item.id}`}>
-      <div className="rounded-default h-[185px] bg-charcoal p-default transition ease-in-out delay-150 hover:-translate-y-1 hover:bg-dark-gray duration-200 cursor-pointer">
+    <Link to={`${league.isAcceptedList || league.userId == user?.id ? `/${route}/${league.id}` : ``}`}>
+      {/* <div className={`rounded-default h-[185px] bg-charcoal p-default transition ease-in-out delay-150 hover:-translate-y-1 hover:bg-dark-gray duration-200 ${league.isAcceptedList? "cursor-pointer":""}`}> */}
+      <div
+        className={`rounded-default h-[185px] bg-charcoal p-default  hover:bg-dark-gray duration-200 ${
+          league.isAcceptedList
+            ? "cursor-pointer transition ease-in-out delay-150 hover:-translate-y-1"
+            : ""
+        }`}
+      >
         <div className="flex justify-between">
           <div className="flex items-center">
-            <img src={item.logo} className="w-10 h-10 rounded-lg"></img>
-            <p className="text-white text-sm ml-5">{item.name}</p>
+            <img src={league.logo} className="w-10 h-10 rounded-lg"></img>
+            <p className="text-white text-sm ml-5">{league.name}</p>
           </div>
           {/* <div className='flex items-center'>
                     <img src={rightarrow}></img>
@@ -31,11 +54,29 @@ const Card = (props) => {
         </div>
         <div className="h-[75px] mt-4">
           <p className="dark:text-font-dark-gray text-[10px] text-left">
-            Start Date: {item.startDate} End Date: {item.endDate}
+            Start Date: {league.startDate} End Date: {league.endDate}
           </p>
           <p className="dark: text-[#c6c6c6] text-left text-xs h-[54px] mt-2">
-            {item.description}
+            {league.description}
           </p>
+        </div>
+        <div className="text-right">
+          {league.isWaitList ? (
+            <p className="dark:text-yellow-500 text-xs cursor-pointer">
+              PENDING
+            </p>
+          ) : league.isAcceptedList ? (
+            <p className="dark:text-green-500 text-xs cursor-pointer">
+              ACCEPTED
+            </p>
+          ) : (
+            <p
+              onClick={handleApply}
+              className="dark:text-blue-500 text-xs cursor-pointer hover:text-green-500"
+            >
+              APPLY
+            </p>
+          )}
         </div>
       </div>
     </Link>

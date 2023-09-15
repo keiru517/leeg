@@ -70,9 +70,10 @@ export const getCountries = async (dispatch) => {
 // league actions----------------------------------
 
 // Get leagues from the server
-export const getLeagues = async (dispatch) => {
+export const getLeagues = async (dispatch, userId) => {
+
   try {
-    const response = await axios.get(apis.getLeagues);
+    const response = await axios.post(apis.getLeagues, {userId});
     const leagues = response.data.leagues;
     // logo
     dispatch({
@@ -82,7 +83,6 @@ export const getLeagues = async (dispatch) => {
     
     // set logo image to all leagues
     leagues.map(league=>{
-      console.log(league.userId, league.id)
       const logoUrl = apis.leagueLogoURL(league.userId, league.id);
       dispatch({
         type: SET_LEAGUE_LOGO_URL,
@@ -128,18 +128,23 @@ export const getTeams = async (dispatch) => {
   try {
     const response = await axios.get(apis.getTeams);
     const teams = response.data.teams;
+    teams.map(team=>{
+      const logoUrl = apis.teamLogoURL(team.id);
+      team.logo = logoUrl;
+    });
+    
     dispatch({
       type: GET_TEAMS,
       payload: teams,
     });
 
-    teams.map(team=>{
-      const logoUrl = apis.teamLogoURL(team.id);
-      dispatch({
-          type: SET_TEAM_LOGO_URL,
-          payload: { id: team.id, logoUrl: logoUrl}
-      })
-    })
+    // teams.map(team=>{
+    //   const logoUrl = apis.teamLogoURL(team.id);
+    //   dispatch({
+    //       type: SET_TEAM_LOGO_URL,
+    //       payload: { id: team.id, logoUrl: logoUrl}
+    //   })
+    // })
 
   } catch (error) {
     dispatch({
@@ -217,6 +222,10 @@ export const getPlayers = async (dispatch) => {
     const response = await axios.get(apis.getPlayers);
     console.log("player action")
     const players = response.data.players;
+    players.map(player=>{
+      const avatarUrl = apis.userAvatarURL(player.id);
+      player.avatar = avatarUrl;
+    })
     dispatch({
       type: GET_PLAYERS,
       payload: players,
