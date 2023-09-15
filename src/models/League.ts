@@ -18,6 +18,8 @@ export default class League extends Model<
   declare logo: string;
   declare startDate: string;
   declare endDate: string;
+  declare isWaitList: boolean;
+  declare isAcceptedList: boolean;
   static modelName = 'League';
 }
 League.init(
@@ -38,7 +40,15 @@ League.init(
     description: DataTypes.STRING,
     logo: DataTypes.STRING,
     startDate: DataTypes.DATE,
-    endDate: DataTypes.DATE
+    endDate: DataTypes.DATE,
+    isWaitList: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+    },
+    isAcceptedList: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+    },
   },
   {
     sequelize,

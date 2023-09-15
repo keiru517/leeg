@@ -1,6 +1,7 @@
 import { RequestHandler } from 'express';
 import { existsSync, mkdirSync, writeFileSync } from 'fs';
 import League from '../models/League';
+import LeagueUser from '../models/LeagueUser';
 import { Types } from '../types';
 import { absolutePath, leagueLogoPath } from '../helpers';
 import moment from 'moment';
@@ -9,7 +10,17 @@ import path from 'path';
 
 // GET SERVER_URL/api/league/all
 export const all: RequestHandler = async (req, res) => {
+  const userId = req.body.userId;
+  console.log("=====Here is the get leagues", userId)
   const leagues = await League.findAll();
+  const leagueUsers = await LeagueUser.findAll();
+  leagues.map(league=>{
+    const leagueUser = leagueUsers.find(leagueUser=>leagueUser.leagueId == league.id && leagueUser.userId == userId);
+    if (leagueUser) {
+      league.isWaitList = leagueUser.isWaitList;
+      league.isAcceptedList = leagueUser.isAcceptedList;
+    }
+  })
   res.json({ leagues });
 };
 
@@ -92,7 +103,7 @@ export const remove: RequestHandler = async (req, res) => {
 export const getLogo: RequestHandler = async (req, res) => {
   const id = Number(req.params.id);
   const userId = Number(req.params.userId);
-  console.log("userID==============", userId);
+
   const league = await League.findOne({
     where: {
       id
@@ -121,3 +132,26 @@ export const info: RequestHandler = async (req, res) => {
     });
   }
 };
+
+export const apply: RequestHandler =async (req, res) => {
+  const userId = Number(req.body.userId);
+  const leagueId = Number(req.body.leagueId);
+  const leagueUser = await LeagueUser.findOne({
+    where:{
+      leagueId:leagueId,
+      userId:userId
+    }
+  });
+  if (leagueUser) {
+    leagueUser.isWaitList = true;
+    await leagueUser.save()
+  } else {
+    await LeagueUser.create({
+      leagueId,
+      userId,
+      isWaitList:true,
+      isAcceptedList: false
+    });
+  }
+  res.status(200).json({message: "Applied successfully!"})
+}

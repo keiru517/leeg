@@ -9,7 +9,7 @@ const upload = multer();
 
 // get all leagues
 // SERVER_URL/api/league/all
-leagueRouter.get('/all', auth, LeagueController.all);
+leagueRouter.post('/all', auth, LeagueController.all);
 
 // create a league
 // SERVER_RUL/api/league/create
@@ -28,5 +28,7 @@ leagueRouter.get('/:userId/logo/:id', LeagueController.getLogo);
 // get a league
 // SERVER_URL/api/league/info/1
 leagueRouter.get('/info/:id', LeagueController.info);
-
+// apply to a league
+// SERVER_URL/api/league/apply
+leagueRouter.post('/apply', LeagueController.apply);
 export default leagueRouter;

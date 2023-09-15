@@ -2,45 +2,37 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Leagues', {
+    await queryInterface.createTable('LeagueUsers', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      leagueId: {
+        allowNull: false,
+        references: {
+          model:'Leagues',
+          key: 'id'
+        },
+        onDelete:'CASCADE',
+        type: Sequelize.INTEGER
+      },
       userId: {
         allowNull: false,
         references: {
-          model: 'Users',
+          model:'Users',
           key: 'id'
         },
-        onDelete: 'CASCADE',
+        onDelete:'CASCADE',
         type: Sequelize.INTEGER
-      },
-      type: {
-        allowNull: false,
-        type: Sequelize.INTEGER
-      },
-      name: {
-        type: Sequelize.STRING
-      },
-      description: {
-        type: Sequelize.STRING
-      },
-      logo: {
-        type: Sequelize.STRING
-      },
-      startDate: {
-        type: Sequelize.DATE
-      },
-      endDate: {
-        type: Sequelize.DATE
       },
       isWaitList: {
+        allowNull:false,
         type: Sequelize.BOOLEAN
       },
       isAcceptedList: {
+        allowNull:false,
         type: Sequelize.BOOLEAN
       },
       createdAt: {
@@ -53,7 +45,7 @@ module.exports = {
       }
     });
   },
-  async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Leagues');
+  async down(queryInterface) {
+    await queryInterface.dropTable('LeagueUsers');
   }
 };

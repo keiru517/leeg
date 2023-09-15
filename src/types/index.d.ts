@@ -26,6 +26,14 @@ export namespace Types {
     logo: string;
     startDate: string;
     endDate: string;
+    isWaitList: boolean;
+    isAcceptedList: boolean;
+  }
+  export interface T_LeagueUser extends T_DB {
+    leagueId: umber;
+    userId: number;
+    isWaitList: boolean;
+    isAcceptedList: boolean;
   }
   export interface T_Admin extends T_DB {
     userId: number;
