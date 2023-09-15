@@ -1,12 +1,22 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import logo from "../../assets/img/dark_mode/logo.png";
 import hrLine from "../../assets/img/dark_mode/hr-line.png";
-import Button from "../../components/Button";
 import Input from "../../components/Input";
+import apis from "../../utils/apis";
 const Password = () => {
-  const leagues = [1, 2, 3, 4, 5, 6];
+  const navigate = useNavigate();
 
-  const options = ["Sort by", "Ascend", "Descend", "Recent"];
+  const [email, setEmail] = useState();
+  const handleClick = () => {
+    axios.post(apis.forgotPassword, email).then((res)=>{
+      alert(`We sent an email to ${email} with a link to reset password.`);
+    }).catch((error)=>{
+      console.log(error)
+      alert(error.response.message);
+    })
+  }
 
   return (
     <div className="">
@@ -29,8 +39,10 @@ const Password = () => {
           <Input
             className="rounded-default text-font-dark-gray text-xs mb-6"
             placeholder="Email Address*"
+            value={email}
+            onChange={(e)=>setEmail(e.target.value)}
           ></Input>
-            <button className="w-full h-12 bg-primary font-bold text-white rounded-default hover:bg-opacity-70">
+            <button onClick={handleClick} className="w-full h-12 bg-primary font-bold text-white rounded-default hover:bg-opacity-70">
               Send
             </button>
           </div>
