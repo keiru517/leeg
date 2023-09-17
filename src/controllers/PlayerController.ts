@@ -6,13 +6,9 @@ import { Types } from '../types';
 
 // GET SERVER_URL/api/player/all
 export const all: RequestHandler = async (req, res) => {
-  const leagueId = 1;
+  // const leagueId = 1;
 
-  const leagueUsers = await LeagueUser.findAll({
-    where: {
-      leagueId
-    }
-  });
+  const leagueUsers = await LeagueUser.findAll();
 
   // const players: Types.T_User = [];
   // leagueUsers.map(async leagueUser=>{
@@ -108,15 +104,17 @@ export const add: RequestHandler = async (req, res) => {
 // POST SERVER_URL/api/player/accept
 export const accept: RequestHandler = async (req, res) => {
   const data = req.body;
+  console.log(data)
   var playerFound = false;
 
-  const promises = Object.keys(data).map(async id => {
+  const promises = Object.keys(data.waitItemChecked).map(async id => {
     const player = await User.findByPk(id);
     if (player) {
-      if (data[id] == true) {
+      if (data.waitItemChecked[id] == true) {
         const leagueUser = await LeagueUser.findOne({
           where: {
-            userId: id
+            userId: id,
+            leagueId: data.leagueId
           }
         });
 
