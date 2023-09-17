@@ -28,15 +28,17 @@ const SettingsSelect = (props) => {
     navigate("/signin", { replace: true });
   };
 
-  if (!user) return null
+
+  if (!user) return null;
 
   return (
     <div
-      className={`${className} flex justify-between z-10 text-font-dark-gray rounded-lg shadow w-44  border border-dark-gray relative items-center cursor-pointer select-none`}
+      className={`${className} flex justify-between z-10 text-font-dark-gray rounded-lg shadow w-[100px]  border border-dark-gray relative items-center cursor-pointer select-none`}
       //   onClick={() => {
       //     setExpand(true)
       //   }}
     >
+      {/* <p>{user?.firstName[0]}{user?.lastName[0]}</p> */}
       <img src={apis.userAvatarURL(localStorage.getItem("userId"))} className="w-8 h-8 rounded-lg" alt="" />
       <div
         className="w-full h-full flex justify-between items-center"

@@ -132,7 +132,7 @@ export const getTeams = async (dispatch) => {
       const logoUrl = apis.teamLogoURL(team.id);
       team.logo = logoUrl;
     });
-    
+
     dispatch({
       type: GET_TEAMS,
       payload: teams,
@@ -217,7 +217,7 @@ export const getMatchups = async (dispatch) => {
 }
 
 // player action
-export const getPlayers = async (dispatch) => {
+export const getPlayers = async (dispatch, leagueId) => {
   try {
     const response = await axios.get(apis.getPlayers);
     console.log("player action")

@@ -58,15 +58,27 @@ const League = () => {
   const [value, setValue] = useState("Sort by");
   const [waitSortValue, setWaitSortValue] = useState("Sort by");
   const [acceptSortValue, setAcceptSortValue] = useState("Sort by");
+  var categories = [];
+  if (leagueId == user?.leagueId) {
+    categories = [
+      "Manage Rosters",
+      "Teams",
+      "Schedule",
+      "Standings",
+      "All Playerlist",
+      "Settings",
+    ];
+  }
+  else {
+    categories = [
+      "Manage Rosters",
+      "Teams",
+      "Schedule",
+      "Standings",
+      "All Playerlist",
+    ];
 
-  const categories = [
-    "Manage Rosters",
-    "Teams",
-    "Schedule",
-    "Standings",
-    "All Playerlist",
-    "Settings",
-  ];
+  }
 
   function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
@@ -98,11 +110,11 @@ const League = () => {
   const players = useSelector((state) => state.home.players);
 
   const waitListPlayers = players.filter(
-    (player) => player.isWaitList == true
+    (player) => player.isWaitList == true && player.leagueId == leagueId
   );
 
   const acceptedPlayers = players.filter(
-    (player) => player.isAcceptedList == true
+    (player) => player.isAcceptedList == true && player.leagueId == leagueId
   );
 
   useEffect(() => {
@@ -139,7 +151,7 @@ const League = () => {
       alert("Please select at least one player!");
     } else {
       axios
-        .post(apis.acceptPlayer, waitItemChecked)
+        .post(apis.acceptPlayer, {waitItemChecked, leagueId:leagueId})
         .then((res) => {
           actions.getPlayers(dispatch);
           setWaitItemChecked({});
@@ -234,21 +246,21 @@ const League = () => {
                   </Tab>
                 ))}
               </Tab.List>
-              {breadcrum == 0 ? (
+              {breadcrum == 0 && leagueId == user?.leagueId? (
                 <button
                   onClick={handleInvitePlayer}
                   className="w-36 h-[42px] bg-primary hover:bg-opacity-70 rounded-default text-white focus:ring-2 text-sm font-bold"
                 >
                   Invite Player
                 </button>
-              ) : breadcrum == 1 ? (
+              ) : breadcrum == 1 && leagueId == user?.leagueId? (
                 <button
                   onClick={handleCreateTeam}
                   className="w-36 h-[42px] bg-primary hover:bg-opacity-70 rounded-default text-white focus:ring-2 text-sm font-bold"
                 >
                   Create Team
                 </button>
-              ) : breadcrum == 2 ? (
+              ) : breadcrum == 2 && leagueId == user?.leagueId? (
                 <button
                   onClick={handleCreateMatch}
                   className="w-36 h-[42px] bg-primary hover:bg-opacity-70 rounded-default text-white focus:ring-2 text-sm font-bold"
@@ -532,6 +544,7 @@ const League = () => {
               </Tab.Panel>
 
               {/* Settings */}
+
               <Tab.Panel
                 key={5}
                 className={classNames("rounded-xl flex flex-col w-full h-full")}
