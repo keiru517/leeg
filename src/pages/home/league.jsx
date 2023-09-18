@@ -59,7 +59,7 @@ const League = () => {
   const [waitSortValue, setWaitSortValue] = useState("Sort by");
   const [acceptSortValue, setAcceptSortValue] = useState("Sort by");
   var categories = [];
-  if (league.userId == user?.id) {
+  if (league?.userId == user?.id) {
     categories = [
       "Manage Rosters",
       "Teams",
@@ -114,7 +114,7 @@ const League = () => {
   );
 
   const acceptedPlayers = players.filter(
-    (player) => player.isAcceptedList == true && player.leagueId == leagueId
+    (player) => player.isAcceptedList == true && player.leagueId == leagueId && player.teamId == 0
   );
 
   useEffect(() => {
