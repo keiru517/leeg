@@ -8,6 +8,7 @@ import Input from "../../components/Input";
 import otpLine from "../../assets/img/dark_mode/otp-line.png";
 import apis from "../../utils/apis";
 import Alert from "../../components/Alert";
+import { input } from "@material-tailwind/react";
 
 const SignupWithEmail = () => {
   const leagues = [1, 2, 3, 4, 5, 6];
@@ -32,7 +33,6 @@ const SignupWithEmail = () => {
   const [email, setEmail] = useState("");
   const handleClick = () => {
     sendOTP();
-    
   };
 
   const sendOTP = () => {
@@ -48,7 +48,6 @@ const SignupWithEmail = () => {
       .catch((error) => {
         console.log(error);
         alert(error.response.data.message);
-        
       });
   };
 
@@ -148,14 +147,17 @@ const SignupWithEmail = () => {
                   // onChange={(e)=>setFirst(e.target.value.toString())}
                   onChange={(e) => {
                     const inputValue = e.target.value.toString();
-                    console.log(inputValue)
+                    console.log(inputValue);
                     const sanitizedValue =
                       inputValue.length === 1 ? inputValue : inputValue[0]; // Only allow a single digit
 
                     setFirst(sanitizedValue);
                     if (inputValue.length === 1) {
                       secondInputRef.current?.focus();
-                      console.log(inputValue[1])
+                    } else {
+                      secondInputRef.current.value = inputValue[1];
+                      thirdInputRef.current.value = inputValue[2];
+                      fourthInputRef.current.value = inputValue[3];
                     }
                   }}
                 />
@@ -176,6 +178,9 @@ const SignupWithEmail = () => {
                     setSecond(sanitizedValue);
                     if (inputValue.length === 1) {
                       thirdInputRef.current?.focus();
+                    } else {
+                      thirdInputRef.current.value = inputValue[1];
+                      fourthInputRef.current.value = inputValue[2];
                     }
                   }}
                 />
@@ -196,6 +201,8 @@ const SignupWithEmail = () => {
                     setThird(sanitizedValue);
                     if (inputValue.length === 1) {
                       fourthInputRef.current?.focus();
+                    } else {
+                      fourthInputRef.current.value = inputValue[1];
                     }
                   }}
                 />
