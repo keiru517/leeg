@@ -77,15 +77,15 @@ export const remove: RequestHandler = async (req, res) => {
 // POST SERVER_URL/api/player/add
 export const add: RequestHandler = async (req, res) => {
   const data = req.body;
+  console.log(data)
   const teamId = data['teamId'];
   const playersList = data['playersList'];
   var playerFound = false;
 
   const promises = Object.keys(playersList).map(async id => {
-    const player = await Player.findByPk(id);
+    const player = await User.findByPk(id);
     if (player) {
       if (playersList[id] == true) {
-        player.role = 2;
         player.teamId = teamId;
         await player.save();
       }

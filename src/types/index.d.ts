@@ -6,6 +6,7 @@ export namespace Types {
     updatedAt?: string;
   }
   export interface T_User extends T_DB {
+    teamId: number;
     avatar: string;
     firstName: string;
     lastName: string;

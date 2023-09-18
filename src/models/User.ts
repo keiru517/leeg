@@ -1,4 +1,4 @@
-import { Model, DataTypes, Optional, CreationOptional } from 'sequelize';
+import { Model, DataTypes, Optional, CreationOptional, ForeignKey } from 'sequelize';
 import sequelize from '.';
 import { Types } from '../types';
 
@@ -9,6 +9,7 @@ type UserCreationAttributes = Optional<
 
 class User extends Model<UserCreationAttributes, UserCreationAttributes> {
   declare id: CreationOptional<number>;
+  declare teamId: ForeignKey<number>;
   declare avatar: string;
   declare firstName: string;
   declare lastName: string;
@@ -26,6 +27,13 @@ class User extends Model<UserCreationAttributes, UserCreationAttributes> {
 
 User.init(
   {
+    teamId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'Team',
+        key: 'id'
+      }
+    },
     avatar: DataTypes.STRING,
     firstName: DataTypes.STRING,
     lastName: DataTypes.STRING,
