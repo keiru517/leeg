@@ -59,7 +59,7 @@ const League = () => {
   const [waitSortValue, setWaitSortValue] = useState("Sort by");
   const [acceptSortValue, setAcceptSortValue] = useState("Sort by");
   var categories = [];
-  if (leagueId == user?.leagueId) {
+  if (league.userId == user?.id) {
     categories = [
       "Manage Rosters",
       "Teams",
@@ -71,7 +71,7 @@ const League = () => {
   }
   else {
     categories = [
-      "Manage Rosters",
+      // "Manage Rosters",
       "Teams",
       "Schedule",
       "Standings",
@@ -273,6 +273,8 @@ const League = () => {
             </div>
             <Tab.Panels className="flex-grow flex items-center ">
               {/* Rosters */}
+              {
+                league?.userId == user?.id?
               <Tab.Panel
                 key={0}
                 className={classNames(
@@ -415,6 +417,8 @@ const League = () => {
                 </div>
                 <PlayerModal></PlayerModal>
               </Tab.Panel>
+              :""
+              }
 
               {/* Teams */}
               <Tab.Panel

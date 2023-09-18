@@ -31,7 +31,7 @@ const Signin = () => {
         navigate("/", { replace: true });
       })
       .catch((error) => {
-        console.log(error.message);
+        alert(error.response.data.message);
       });
   };
 
