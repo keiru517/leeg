@@ -16,7 +16,7 @@ const SignupWithEmail = () => {
   const options = ["Sort by", "Ascend", "Descend", "Recent"];
 
   const navigate = useNavigate();
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(2);
 
   const [first, setFirst] = useState();
   const [second, setSecond] = useState();
@@ -29,6 +29,7 @@ const SignupWithEmail = () => {
   const fourthInputRef = useRef(null);
 
   const [code, setCode] = useState();
+  const [inputValue, setInputValue] = useState();
 
   const [email, setEmail] = useState("");
   const handleClick = () => {
@@ -68,8 +69,8 @@ const SignupWithEmail = () => {
   };
 
   const handleVerify = () => {
-    console.log(first + second + third + fourth);
-    if (code == first + second + third + fourth) {
+    console.log(inputValue);
+    if (code == inputValue) {
       navigate(`/signup/${email}`);
     } else {
       alert("Incorrect verification code");
@@ -146,15 +147,17 @@ const SignupWithEmail = () => {
                   ref={firstInputRef}
                   // onChange={(e)=>setFirst(e.target.value.toString())}
                   onChange={(e) => {
+                    console.log("First")
                     const inputValue = e.target.value.toString();
-                    console.log(inputValue);
                     const sanitizedValue =
                       inputValue.length === 1 ? inputValue : inputValue[0]; // Only allow a single digit
 
                     setFirst(sanitizedValue);
+                    setInputValue(inputValue)
                     if (inputValue.length === 1) {
                       secondInputRef.current?.focus();
                     } else if (inputValue > 1) {
+                      firstInputRef.current.value = inputValue[0]
                       secondInputRef.current.value = inputValue[1];
                       thirdInputRef.current.value = inputValue[2];
                       fourthInputRef.current.value = inputValue[3];
