@@ -38,7 +38,7 @@ const Modal = (props) => {
 
   const closeDialog = () => {
     setStep(1);
-    setSport("Select Sport*")
+    setSport("Select Sport*");
     setLeagueName("");
     setLeagueDescription("");
     setStartDate("");
@@ -57,7 +57,11 @@ const Modal = (props) => {
   };
 
   const goToStep3 = () => {
-    setStep(3);
+    if (!chosenFile || !leagueName || !leagueDescription) {
+      alert("Please fill in all data")
+    } else {
+      setStep(3);
+    }
   };
 
   const currentDate = new Date().toLocaleDateString("en-US", {
@@ -77,6 +81,8 @@ const Modal = (props) => {
   const [chosenFile, setChosenFile] = useState(null);
 
   const [previewURL, setPreviewURL] = useState("");
+
+  const [logoWarning, setLogoWarning] = useState(false);
 
   const createLeague = () => {
     const formData = new FormData();
@@ -214,14 +220,20 @@ const Modal = (props) => {
                         <>
                           <div>
                             <div
-                              className="flex w-full h-[86px] bg-charcoal rounded-default items-center cursor-pointer"
+                              className={`${
+                                logoWarning ? "border-2 border-red-500" : ""
+                              } flex w-full h-[86px] bg-charcoal rounded-default items-center cursor-pointer`}
                               onClick={() => {
                                 fileUploadRef.current?.click();
                               }}
                             >
                               {previewURL ? (
                                 <div>
-                                  <img src={previewURL} className="rounded-full w-[58px] h-[58px] mx-2" alt="Preview" />
+                                  <img
+                                    src={previewURL}
+                                    className="rounded-full w-[58px] h-[58px] mx-2"
+                                    alt="Preview"
+                                  />
                                 </div>
                               ) : (
                                 <img

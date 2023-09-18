@@ -26,20 +26,29 @@ const TeamModal = () => {
   const cancelButtonRef = useRef(null);
 
   const fileUploadRef = useRef(undefined);
-  const [chosenFile, setChosenFile] = useState();
+  const [chosenFile, setChosenFile] = useState(null);
+  const [previewURL, setPreviewURL] = useState("");
+  const [logoWarning, setLogoWarning] =useState(false);
+  const [nameWarning, setNameWarning] =useState(false);
 
   const players = useSelector((state) => state.home.players).filter(
     (player) => (player.leagueId == leagueId) & (player.role == 1)
   );
 
-  const [teamName, setTeamName] = useState();
-
+  const [teamName, setTeamName] = useState("");
   useEffect(()=>{
-    setTeamName(team.name)
-  }, [team])
+    if(teamName?.length > 0) {
+      setNameWarning(false);
+    }
+  }, [teamName])
+
+  useEffect(() => {
+    setTeamName(team.name);
+  }, [team]);
   const closeDialog = () => {
-    // setStep(1);
-    // dispatch({ type: actions.OPEN_CREATE_TEAM_DIALOG, payload: false });
+    setPreviewURL("");
+    setTeamName("");
+    setLogoWarning(false);
     dispatch({ type: actions.CLOSE_TEAM_DIALOG });
   };
 
@@ -62,17 +71,30 @@ const TeamModal = () => {
     });
   };
 
-  const createSubmit = () => {
-    const formData = new FormData();
-    formData.append("leagueId", leagueId);
-    formData.append("logo", chosenFile);
-    formData.append("name", teamName);
 
-    axios.post(apis.createTeam, formData).then((res) => {
-      actions.getTeams(dispatch);
-      dispatch({ type: actions.CLOSE_TEAM_DIALOG });
-      setTeamName("");
-    });
+
+  const createSubmit = () => {
+    if (!chosenFile && !teamName?.length > 0) {
+      // alert("Please choose file");
+      setLogoWarning(true);
+      setNameWarning(true);
+    } else if (!chosenFile) {
+      setLogoWarning(true)
+    } else if (!teamName?.length > 0) {
+      setNameWarning(true);
+    }
+    else {
+      const formData = new FormData();
+      formData.append("leagueId", leagueId);
+      formData.append("logo", chosenFile);
+      formData.append("name", teamName);
+
+      axios.post(apis.createTeam, formData).then((res) => {
+        actions.getTeams(dispatch);
+        dispatch({ type: actions.CLOSE_TEAM_DIALOG });
+        setTeamName("");
+      });
+    }
   };
 
   const editSubmit = () => {
@@ -100,24 +122,25 @@ const TeamModal = () => {
 
   const [playersList, setPlayersList] = useState({});
   const addPlayers = () => {
-    axios.post(apis.addPlayer, {
-      teamId: team.id,
-      playersList: playersList
-    }).then(res=>{
-      dispatch({type: actions.CLOSE_TEAM_DIALOG})
-      actions.getPlayers(dispatch)
-      setPlayersList({})
-
-    })
-    .catch(error=>console.log(error.message));
+    axios
+      .post(apis.addPlayer, {
+        teamId: team.id,
+        playersList: playersList,
+      })
+      .then((res) => {
+        dispatch({ type: actions.CLOSE_TEAM_DIALOG });
+        actions.getPlayers(dispatch);
+        setPlayersList({});
+      })
+      .catch((error) => console.log(error.message));
     console.log("playersList", playersList);
-  }
+  };
 
   const setCheckedList = (id, checked) => {
-    let temp = {...playersList};
+    let temp = { ...playersList };
     temp[id] = checked;
     setPlayersList(temp);
-  }
+  };
 
   return (
     <Transition.Root show={status} as={Fragment}>
@@ -194,16 +217,20 @@ const TeamModal = () => {
                       {type === "create" || type === "edit" ? (
                         <>
                           <div
-                            className="flex w-full h-[86px] bg-charcoal rounded-default items-center hover:opacity-70 cursor-pointer"
+                            className={`${logoWarning? "border-2 border-red-500":""} flex w-full h-[86px] bg-charcoal rounded-default items-center cursor-pointer`}
                             onClick={() => {
                               fileUploadRef.current?.click();
                             }}
                           >
-                            <img
-                              src={uploadCircle}
-                              alt=""
-                              className="px-[14px]"
-                            />
+                            {previewURL ? (
+                              <img
+                                src={previewURL}
+                                className="rounded-full w-[58px] h-[58px] mx-2"
+                                alt=""
+                              />
+                            ) : (
+                              <img src={uploadCircle} alt="" className="mx-2" />
+                            )}
                             <input
                               type="file"
                               ref={fileUploadRef}
@@ -213,6 +240,8 @@ const TeamModal = () => {
                                 if (files.length) {
                                   const file = files[0];
                                   setChosenFile(file);
+                                  setPreviewURL(URL.createObjectURL(file));
+                                  setLogoWarning(false);
                                 }
                               }}
                             />
@@ -221,7 +250,7 @@ const TeamModal = () => {
                             </p>
                           </div>
                           <Input
-                            className="rounded-default text-xs mt-5"
+                            className={`${nameWarning? "border-2 border-red-500":""} rounded-default text-xs mt-5`}
                             placeholder="Type Team Name*"
                             value={teamName}
                             onChange={(e) => setTeamName(e.target.value)}
@@ -237,7 +266,11 @@ const TeamModal = () => {
                       ) : type === "addPlayer" ? (
                         <>
                           <div className="flex bg-[#4A5462] h-[66px] rounded-default p-4 items-center">
-                            <img src={team.logo} className="w-8 h-8 rounded" alt="" />
+                            <img
+                              src={team.logo}
+                              className="w-8 h-8 rounded"
+                              alt=""
+                            />
                             <p className="text-white underline mx-2 text-sm">
                               {team.name}
                             </p>
@@ -258,8 +291,8 @@ const TeamModal = () => {
                                 player={player}
                                 teamId={team.id}
                                 checked={playersList[player.id]}
-                                setChecked={(checked)=>{
-                                  setCheckedList(player.id, checked)
+                                setChecked={(checked) => {
+                                  setCheckedList(player.id, checked);
                                 }}
                               ></PlayerList>
                             ))}
