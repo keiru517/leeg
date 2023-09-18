@@ -154,10 +154,11 @@ const SignupWithEmail = () => {
                     setFirst(sanitizedValue);
                     if (inputValue.length === 1) {
                       secondInputRef.current?.focus();
-                    } else {
+                    } else if (inputValue > 1) {
                       secondInputRef.current.value = inputValue[1];
                       thirdInputRef.current.value = inputValue[2];
                       fourthInputRef.current.value = inputValue[3];
+                      fourthInputRef.current?.focus()
                     }
                   }}
                 />
@@ -181,6 +182,11 @@ const SignupWithEmail = () => {
                     } else {
                       thirdInputRef.current.value = inputValue[1];
                       fourthInputRef.current.value = inputValue[2];
+                      fourthInputRef.current?.focus()
+                    }
+
+                    if (inputValue.length === 0) {
+                      firstInputRef.current?.focus();
                     }
                   }}
                 />
@@ -204,6 +210,10 @@ const SignupWithEmail = () => {
                     } else {
                       fourthInputRef.current.value = inputValue[1];
                     }
+
+                    if (inputValue.length === 0) {
+                      secondInputRef.current?.focus();
+                    }
                   }}
                 />
                 <img src={otpLine} alt="" />
@@ -221,6 +231,9 @@ const SignupWithEmail = () => {
                       inputValue.length === 1 ? inputValue : inputValue[0]; // Only allow a single digit
 
                     setFourth(sanitizedValue);
+                    if (inputValue.length === 0) {
+                      thirdInputRef.current?.focus();
+                    }
                   }}
                 />
                 <img src={otpLine} alt="" />
