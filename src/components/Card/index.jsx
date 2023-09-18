@@ -11,13 +11,13 @@ const Card = (props) => {
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    const logoUrl = apis.leagueLogoURL(league.userId, league.id);
-    dispatch({
-      type: actions.SET_LEAGUE_LOGO_URL,
-      payload: { id: league.id, logoUrl: logoUrl },
-    });
-  }, [league.id]);
+  // useEffect(() => {
+  //   const logoUrl = apis.leagueLogoURL(league.userId, league.id);
+  //   dispatch({
+  //     type: actions.SET_LEAGUE_LOGO_URL,
+  //     payload: { id: league.id, logoUrl: logoUrl },
+  //   });
+  // }, [league.id]);
 
   const handleApply = () => {
     console.log("HandleApply", user?.id);
@@ -47,7 +47,7 @@ const Card = (props) => {
       {/* <div className={`rounded-default h-[185px] bg-charcoal p-default transition ease-in-out delay-150 hover:-translate-y-1 hover:bg-dark-gray duration-200 ${league.isAcceptedList? "cursor-pointer":""}`}> */}
       <div
         className={`rounded-default h-[185px] bg-charcoal p-default  hover:bg-dark-gray duration-200 ${
-          league.isAcceptedList
+          league.isAcceptedList || league.userId == user?.id
             ? "cursor-pointer transition ease-in-out delay-150 hover:-translate-y-1"
             : ""
         }`}

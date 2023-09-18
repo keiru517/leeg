@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router";
 
 import * as actions from "../../actions";
@@ -7,12 +7,23 @@ import { useNavigate } from "react-router-dom";
 import apis from "../../utils/apis";
 
 const PageTitle = (props) => {
-  const { backIcon, logo, editIcon, button, children, createAction } = props;
+  const {
+    backIcon,
+    logo,
+    editIcon,
+    button,
+    children,
+    createAction,
+    setLeagues,
+  } = props;
 
   let { leagueId } = useParams();
+  const user = useSelector((state) => state.home.user);
   const league = useSelector((state) => state.home.leagues).find(
     (league) => league.id == leagueId
   );
+
+  const leagues = useSelector((state) => state.home.leagues);
 
   const dispatch = useDispatch();
 
@@ -23,6 +34,28 @@ const PageTitle = (props) => {
   const handleEdit = () => {
     dispatch({ type: actions.OPEN_EDIT_LEAGUE_DIALOG, payload: league });
   };
+
+  const [tab, setTab] = useState(-1);
+
+  const handleMyleauges = () => {
+    const myLeagues = leagues.filter((league) => league.userId == user?.id);
+    console.log(myLeagues);
+    setLeagues(myLeagues);
+    setTab(1);
+  };
+
+  const handleOtherleauges = () => {
+    const otherLeagues = leagues.filter((league) => league.userId !== user?.id);
+    console.log(otherLeagues);
+    setLeagues(otherLeagues);
+    setTab(2);
+  };
+
+  const handleAllLeagues = () => {
+    setLeagues(leagues)
+    setTab(0)
+  }
+
 
   const navigate = useNavigate();
 
@@ -49,8 +82,21 @@ const PageTitle = (props) => {
         ) : (
           ""
         )}
-        <p className="text-3xl dark:text-white text-charcoal text-left font-black mx-6">
-          {children}
+        <p
+          onClick={handleMyleauges}
+          className={`text-xl dark:text-white text-charcoal text-left font-black mx-6 cursor-pointer hover:opacity-70 ${
+            tab == 1 ? "border-b-2 border-sky-500 p-3" : ""
+          }`}
+        >
+          My Leagues
+        </p>
+        <p
+          onClick={handleOtherleauges}
+          className={`text-xl dark:text-white text-charcoal text-left font-black mx-6 cursor-pointer hover:opacity-70 ${
+            tab == 2 ? "border-b-2 border-sky-500 p-3" : ""
+          }`}
+        >
+          Other Leagues
         </p>
         {editIcon ? (
           <img

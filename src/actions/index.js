@@ -14,7 +14,7 @@ export const CLOSE_LEAGUE_DIALOG = "CLOSE_LEAGUE_DIALOG";
 export const OPEN_EDIT_LEAGUE_DIALOG = "OPEN_EDIT_LEAGUE_DIALOG";
 export const OPEN_DELETE_LEAGUE_DIALOG = "OPEN_DELETE_LEAGUE_DIALOG";
 export const SET_SELECTED_LEAGUE = "SET_SELECTED_LEAGUE";
-export const SET_LEAGUE_LOGO_URL = "SET_LOGO_URL";
+// export const SET_LEAGUE_LOGO_URL = "SET_LOGO_URL";
 // Teams
 export const GET_TEAMS = "GET_TEAMS";
 export const OPEN_CREATE_TEAM_DIALOG = "OPEN_CREATE_TEAM_DIALOG";
@@ -75,20 +75,20 @@ export const getLeagues = async (dispatch, userId) => {
   try {
     const response = await axios.post(apis.getLeagues, {userId});
     const leagues = response.data.leagues;
-    // logo
+
+    // set logo image to all leagues
+    leagues.map(league=>{
+      const logoUrl = apis.leagueLogoURL(league.userId, league.id);
+      league.logo = logoUrl;
+      // dispatch({
+      //   type: SET_LEAGUE_LOGO_URL,
+      //   payload: { id: league.id, logoUrl: logoUrl },
+      // });
+    })
     dispatch({
       type: GET_LEAGUES,
       payload: leagues,
     });
-    
-    // set logo image to all leagues
-    leagues.map(league=>{
-      const logoUrl = apis.leagueLogoURL(league.userId, league.id);
-      dispatch({
-        type: SET_LEAGUE_LOGO_URL,
-        payload: { id: league.id, logoUrl: logoUrl },
-      });
-    })
   } catch (error) {
     console.log(error.response.status)
     if (error.response.status == 401) {
@@ -112,10 +112,10 @@ export const setSelectedLeague = (payload) => ({
   payload: payload,
 });
 
-export const setLeagueLogoUrl = (payload) => ({
-  type: SET_LEAGUE_LOGO_URL,
-  payload: payload,
-});
+// export const setLeagueLogoUrl = (payload) => ({
+//   type: SET_LEAGUE_LOGO_URL,
+//   payload: payload,
+// });
 
 // Players
 export const openInvitePlayerDialog = (payload) => ({

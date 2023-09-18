@@ -42,31 +42,27 @@ const Home = () => {
     actions.getPlayers(dispatch);
   }, []);
 
-  const [filteredLeagues, setFilteredLeagues] = useState([]);
 
   // set initial values
   useEffect(() => {
-    setFilteredLeagues(leagues);
+    console.log("initial")
+    setFilteredData(leagues);
   }, [leagues]);
 
-  useEffect(() => {
-    if (filter.id === 0) {
-      setFilteredLeagues(leagues);
-    } else if (filter.id === 1) {
-      setFilteredLeagues(leagues.filter((league) => league.userId === user?.id));
-    } else if (filter.id === 2) {
-      setFilteredLeagues(
-        leagues.filter((league) => league.userId !== user?.id)
-      );
-    }
-    console.log("filteredLeagues", filteredLeagues);
-  }, [filter]);
+  const [keyword, setKeyword] = useState("");
+  const [filteredData, setFilteredData] = useState([])
+  useEffect(()=>{
+    const searchResult = leagues.filter(league=>league.name.toLowerCase().includes(keyword.toLowerCase()));
+    setFilteredData(searchResult);
+  },[keyword])
+  
 
   return (
     <div className="flex flex-col flex-grow">
       <PageTitle
         createAction={actions.OPEN_CREATE_LEAGUE_DIALOG}
         button="Create League"
+        setLeagues={setFilteredData}
       >
         My Leagues
       </PageTitle>
@@ -76,15 +72,9 @@ const Home = () => {
             icon={search}
             className="flex-grow rounded-lg text-xs"
             placeholder="Search Leagues"
+            value={keyword}
+            onChange={(e) => setKeyword(e.target.value)}
           />
-          <Select
-            className="w-[144px] rounded-lg text-xs"
-            options={filters}
-            handleClick={(e) => setFilter(e)}
-            value={filter.name}
-          >
-            {filter.name}
-          </Select>
           <Select
             className="w-[144px] rounded-lg text-xs"
             options={options}
@@ -95,9 +85,9 @@ const Home = () => {
           </Select>
         </div>
         <br></br>
-        {leagues.length ? (
+        {filteredData.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {filteredLeagues.map((lg, idx) => (
+            {filteredData.map((lg, idx) => (
               <Card route="league" league={lg} key={idx} />
             ))}
           </div>
