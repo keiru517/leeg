@@ -63,7 +63,6 @@ const Home = () => {
         button="Create League"
         setLeagues={setFilteredData}
       >
-        My Leagues
       </PageTitle>
       <div className="flex flex-col flex-grow rounded-main dark:bg-slate bg-white overflow-auto mt-[20px] p-default">
         <div className="search flex justify-between space-x-3">

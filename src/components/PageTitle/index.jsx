@@ -52,10 +52,9 @@ const PageTitle = (props) => {
   };
 
   const handleAllLeagues = () => {
-    setLeagues(leagues)
-    setTab(0)
-  }
-
+    setLeagues(leagues);
+    setTab(0);
+  };
 
   const navigate = useNavigate();
 
@@ -82,22 +81,28 @@ const PageTitle = (props) => {
         ) : (
           ""
         )}
-        <p
-          onClick={handleMyleauges}
-          className={`text-xl dark:text-white text-charcoal text-left font-black mx-6 cursor-pointer hover:opacity-70 ${
-            tab == 1 ? "border-b-2 border-sky-500 p-3" : ""
-          }`}
-        >
-          My Leagues
-        </p>
-        <p
-          onClick={handleOtherleauges}
-          className={`text-xl dark:text-white text-charcoal text-left font-black mx-6 cursor-pointer hover:opacity-70 ${
-            tab == 2 ? "border-b-2 border-sky-500 p-3" : ""
-          }`}
-        >
-          Other Leagues
-        </p>
+        {children ? (
+          <p className="text-3xl dark:text-white ml-6 font-bold">{children}</p>
+        ) : (
+          <>
+            <p
+              onClick={handleMyleauges}
+              className={`text-xl dark:text-white text-charcoal text-left font-black mx-6 cursor-pointer hover:opacity-70 ${
+                tab == 1 ? "border-b-2 border-sky-500 p-3" : ""
+              }`}
+            >
+              My Leagues
+            </p>
+            <p
+              onClick={handleOtherleauges}
+              className={`text-xl dark:text-white text-charcoal text-left font-black mx-6 cursor-pointer hover:opacity-70 ${
+                tab == 2 ? "border-b-2 border-sky-500 p-3" : ""
+              }`}
+            >
+              Other Leagues
+            </p>
+          </>
+        )}
         {editIcon ? (
           <img
             src={editIcon}
