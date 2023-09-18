@@ -55,9 +55,9 @@ const Nav = () => {
         <SettingsSelect
           className="h-10 pl-3 dark:bg-charcoal"
           value={user?.firstName?.[0] + user?.lastName?.[0]}
-        >
+        />
           
-        </SettingsSelect>
+        {/* </SettingsSelect> */}
         {/* <Link to="/profile">
           <div className="dark:bg-charcoal bg-[#EBEBEB] h-11 rounded-lg p-3 flex items-center justify-between space-x-2 cursor-pointer">
             <img src={profile} className="w-8 h-8 rounded-lg"></img>

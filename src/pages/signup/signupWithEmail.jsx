@@ -7,6 +7,7 @@ import Button from "../../components/Button";
 import Input from "../../components/Input";
 import otpLine from "../../assets/img/dark_mode/otp-line.png";
 import apis from "../../utils/apis";
+import Alert from "../../components/Alert";
 
 const SignupWithEmail = () => {
   const leagues = [1, 2, 3, 4, 5, 6];
@@ -14,24 +15,24 @@ const SignupWithEmail = () => {
   const options = ["Sort by", "Ascend", "Descend", "Recent"];
 
   const navigate = useNavigate();
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(2);
 
   const [first, setFirst] = useState();
   const [second, setSecond] = useState();
   const [third, setThird] = useState();
   const [fourth, setFourth] = useState();
 
-  const firstInputRef = useRef();
-  const secondInputRef = useRef();
-  const thirdInputRef = useRef();
-  const fourthInputRef = useRef();
+  const firstInputRef = useRef(null);
+  const secondInputRef = useRef(null);
+  const thirdInputRef = useRef(null);
+  const fourthInputRef = useRef(null);
 
   const [code, setCode] = useState();
 
   const [email, setEmail] = useState("");
   const handleClick = () => {
     sendOTP();
-    setStep(2);
+    
   };
 
   const sendOTP = () => {
@@ -42,10 +43,12 @@ const SignupWithEmail = () => {
       .then((res) => {
         const verifyCode = res.data.code;
         setCode(verifyCode);
+        setStep(2);
       })
       .catch((error) => {
         console.log(error);
-        alert("Error");
+        alert(error.response.data.message);
+        
       });
   };
 
@@ -61,7 +64,7 @@ const SignupWithEmail = () => {
       })
       .catch((error) => {
         console.log(error);
-        alert("Error");
+        alert(error.response.message);
       });
   };
 
@@ -74,14 +77,15 @@ const SignupWithEmail = () => {
     }
   };
 
-  useEffect(() => {
-    if (step === 2) {
-      alert("Verification code sent to email!");
-    }
-  }, [step]);
+  // useEffect(() => {
+  //   if (step === 2) {
+  //     alert("Verification code sent to email!");
+  //   }
+  // }, [step]);
 
   return (
     <div className="">
+      {/* <Alert open={true}></Alert> */}
       <div className="w-auth mx-auto mt-32">
         <div className="w-[164px] h-[185px] mx-auto">
           <div className="flex w-[112px] h-[112px] bg-white dark:bg-slate rounded-full items-center mx-auto">
@@ -144,12 +148,14 @@ const SignupWithEmail = () => {
                   // onChange={(e)=>setFirst(e.target.value.toString())}
                   onChange={(e) => {
                     const inputValue = e.target.value.toString();
+                    console.log(inputValue)
                     const sanitizedValue =
                       inputValue.length === 1 ? inputValue : inputValue[0]; // Only allow a single digit
 
                     setFirst(sanitizedValue);
                     if (inputValue.length === 1) {
                       secondInputRef.current?.focus();
+                      console.log(inputValue[1])
                     }
                   }}
                 />

@@ -57,7 +57,7 @@ const Card = (props) => {
             <img src={league.logo} className="w-10 h-10 rounded-lg"></img>
             <p className="dark:text-white text-sm ml-5">{league.name}</p>
             {league.userId == user?.id ? (
-                <span class="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300 mx-auto">
+                <span className="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300 mx-auto">
                   Admin
                 </span>
             ) : (

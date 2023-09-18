@@ -6,8 +6,6 @@ import hrLine from "../../assets/img/dark_mode/hr-line.png";
 import eyeDisable from "../../assets/img/dark_mode/eye-disable.png";
 import upload from "../../assets/img/dark_mode/upload_photo.png";
 import calendar from "../../assets/img/dark_mode/calendar.png";
-import Select from "../../components/Select";
-import Second from "../../components/Select/second";
 import logo from "../../assets/img/dark_mode/logo.png";
 import * as actions from "../../actions";
 import apis from "../../utils/apis";

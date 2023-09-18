@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 const SettingsSelect = (props) => {
   const { icon, className, value } = props;
 
-  const user = useSelector(state=>state.home.user);
+  const user = useSelector((state) => state.home.user);
 
   const navigate = useNavigate();
   const [expand, setExpand] = useState(false);
@@ -28,24 +28,22 @@ const SettingsSelect = (props) => {
     navigate("/signin", { replace: true });
   };
 
-
-  console.log(user)
   if (user == {}) return null;
-  console.log("after")
 
   return (
     <div
       className={`${className} flex justify-between z-10 text-font-dark-gray rounded-lg shadow w-[100px]  border border-dark-gray relative items-center cursor-pointer select-none`}
-      //   onClick={() => {
-      //     setExpand(true)
-      //   }}
     >
       <div
         className="w-full h-full flex justify-between items-center"
         onClick={toggle}
       >
-      <p className="dark:text-white mr-1">{value}</p>
-      <img src={apis.userAvatarURL(localStorage.getItem("userId"))} className="w-8 h-8 rounded-lg" alt="" />
+        <p className="dark:text-white mr-1">{value ? value : ""}</p>
+        <img
+          src={apis.userAvatarURL(localStorage.getItem("userId"))}
+          className="w-8 h-8 rounded-lg"
+          alt=""
+        />
         {/* <span className="ml-2">{value}</span> */}
         <img src={downArrowFilled} alt="" className="mr-2" />
       </div>

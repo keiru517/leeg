@@ -54,7 +54,6 @@ export const getCountries = async (dispatch) => {
         'X-CSCAPI-KEY': process.env.REACT_APP_COUNTRY_API_KEY
       }
     });
-    console.log(response.data)
     dispatch({
       type: GET_COUNTRIES,
       payload: response.data

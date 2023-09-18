@@ -35,7 +35,7 @@ const Home = () => {
 
   useEffect(() => {
     actions.getUserInfo(dispatch, localStorage.getItem("userId"));
-    actions.getCountries(dispatch);
+    // actions.getCountries(dispatch);
     actions.getLeagues(dispatch, user?.id);
     actions.getTeams(dispatch);
     actions.getMatches(dispatch);
@@ -45,7 +45,6 @@ const Home = () => {
 
   // set initial values
   useEffect(() => {
-    console.log("initial")
     setFilteredData(leagues);
   }, [leagues]);
 
