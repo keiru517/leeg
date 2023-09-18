@@ -7,7 +7,7 @@ import { apis } from "../../utils/apis";
 
 const Card = (props) => {
   const { route, league } = props;
-  const user = useSelector(state=>state.home.user);
+  const user = useSelector((state) => state.home.user);
 
   const dispatch = useDispatch();
 
@@ -20,21 +20,30 @@ const Card = (props) => {
   }, [league.id]);
 
   const handleApply = () => {
-    console.log("HandleApply", user?.id)
-    axios.post(apis.applyLeague, {
-      userId: user?.id,
-      leagueId: league.id
-    }).then(res=>{
-      alert(res.data.message);
-      console.log("userId", user?.id)
-      actions.getLeagues(dispatch, user?.id);
-    }).catch(error=>{
-      console.log(error.response.message)
-    })
+    console.log("HandleApply", user?.id);
+    axios
+      .post(apis.applyLeague, {
+        userId: user?.id,
+        leagueId: league?.id,
+      })
+      .then((res) => {
+        alert(res.data.message);
+        console.log("userId", user?.id);
+        actions.getLeagues(dispatch, user?.id);
+      })
+      .catch((error) => {
+        console.log(error.response.message);
+      });
   };
 
   return (
-    <Link to={`${league.isAcceptedList || league.userId == user?.id ? `/${route}/${league.id}` : ``}`}>
+    <Link
+      to={`${
+        league.isAcceptedList || league.userId == user?.id
+          ? `/${route}/${league.id}`
+          : ``
+      }`}
+    >
       {/* <div className={`rounded-default h-[185px] bg-charcoal p-default transition ease-in-out delay-150 hover:-translate-y-1 hover:bg-dark-gray duration-200 ${league.isAcceptedList? "cursor-pointer":""}`}> */}
       <div
         className={`rounded-default h-[185px] bg-charcoal p-default  hover:bg-dark-gray duration-200 ${
@@ -43,10 +52,17 @@ const Card = (props) => {
             : ""
         }`}
       >
-        <div className="flex justify-between">
+        <div className="">
           <div className="flex items-center">
             <img src={league.logo} className="w-10 h-10 rounded-lg"></img>
-            <p className="text-white text-sm ml-5">{league.name}</p>
+            <p className="dark:text-white text-sm ml-5">{league.name}</p>
+            {league.userId == user?.id ? (
+                <span class="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300 mx-auto">
+                  Admin
+                </span>
+            ) : (
+              ""
+            )}
           </div>
           {/* <div className='flex items-center'>
                     <img src={rightarrow}></img>

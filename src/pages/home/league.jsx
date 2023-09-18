@@ -246,21 +246,21 @@ const League = () => {
                   </Tab>
                 ))}
               </Tab.List>
-              {breadcrum == 0 && leagueId == user?.leagueId? (
+              {breadcrum == 0 && user?.id == league?.userId? (
                 <button
                   onClick={handleInvitePlayer}
                   className="w-36 h-[42px] bg-primary hover:bg-opacity-70 rounded-default text-white focus:ring-2 text-sm font-bold"
                 >
                   Invite Player
                 </button>
-              ) : breadcrum == 1 && leagueId == user?.leagueId? (
+              ) : breadcrum == 1 && user?.id == league?.userId? (
                 <button
                   onClick={handleCreateTeam}
                   className="w-36 h-[42px] bg-primary hover:bg-opacity-70 rounded-default text-white focus:ring-2 text-sm font-bold"
                 >
                   Create Team
                 </button>
-              ) : breadcrum == 2 && leagueId == user?.leagueId? (
+              ) : breadcrum == 2 && user?.id == league?.userId? (
                 <button
                   onClick={handleCreateMatch}
                   className="w-36 h-[42px] bg-primary hover:bg-opacity-70 rounded-default text-white focus:ring-2 text-sm font-bold"

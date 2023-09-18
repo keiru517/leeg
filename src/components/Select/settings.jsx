@@ -29,7 +29,9 @@ const SettingsSelect = (props) => {
   };
 
 
-  if (!user) return null;
+  console.log(user)
+  if (user == {}) return null;
+  console.log("after")
 
   return (
     <div
@@ -38,13 +40,13 @@ const SettingsSelect = (props) => {
       //     setExpand(true)
       //   }}
     >
-      {/* <p>{user?.firstName[0]}{user?.lastName[0]}</p> */}
-      <img src={apis.userAvatarURL(localStorage.getItem("userId"))} className="w-8 h-8 rounded-lg" alt="" />
       <div
         className="w-full h-full flex justify-between items-center"
         onClick={toggle}
       >
-        <span className="ml-2">{value}</span>
+      <p className="dark:text-white mr-1">{value}</p>
+      <img src={apis.userAvatarURL(localStorage.getItem("userId"))} className="w-8 h-8 rounded-lg" alt="" />
+        {/* <span className="ml-2">{value}</span> */}
         <img src={downArrowFilled} alt="" className="mr-2" />
       </div>
       <ul

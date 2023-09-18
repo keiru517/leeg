@@ -15,7 +15,7 @@ const Nav = () => {
   ];
 
   // true if dark mode
-  const [mode, setMode] = useState(false);
+  const [mode, setMode] = useState(true);
 
   const toggle = () => {
     setMode(!mode);
@@ -41,7 +41,7 @@ const Nav = () => {
           </p>
           <p className="text-sm dark:text-font-dark-gray text-left">
             Welcome to your dashboard
-          </p>
+          </p>s
         </div> */}
       </div>
       <div className="flex space-x-2 items-center">
@@ -53,8 +53,8 @@ const Nav = () => {
           onClick={toggle}
         />
         <SettingsSelect
-          className="h-10 pl-3 w-[70px] text-white dark:bg-charcoal"
-          // value={user.firstName +" " + user.lastName}
+          className="h-10 pl-3 dark:bg-charcoal"
+          value={user?.firstName?.[0] + user?.lastName?.[0]}
         >
           
         </SettingsSelect>

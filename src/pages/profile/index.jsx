@@ -81,7 +81,7 @@ const Profile = () => {
         <span className="text-sky-500"> &gt; {breadcrum}</span>
       </p>
       <div className="flex flex-grow rounded-main bg-slate overflow-auto p-default">
-        <div className="flex flex-col space-y-3">
+        {/* <div className="flex flex-col space-y-3">
           <button
             onClick={goToStep1}
             className={`${
@@ -113,13 +113,17 @@ const Profile = () => {
             Stats Tracking
           </button>
         </div>
-        <img src={verticalLine} alt="" className="mx-5" />
+        <img src={verticalLine} alt="" className="mx-5" /> */}
 
         {step === 1 ? (
           <div className="flex flex-col flex-grow">
             <div className="flex flex-col flex-grow space-y-5">
               <div className="flex items-center">
-                <img src={user.avatar} alt="" className="mr-8 w-24 h-24 rounded-lg" />
+                <img
+                  src={user.avatar}
+                  alt=""
+                  className="mr-8 w-24 h-24 rounded-lg"
+                />
                 <div className="bg-primary h-button rounded-default text-white font-bold text-sm mr-3 w-[180px] hover:opacity-70 cursor-pointer flex justify-center items-center">
                   {/* <input style={{display:'none'}} type='file' className=" rounded-default w-[180px] h-input text-white font-bold text-sm mr-3 hover:opacity-70 ">
                     
@@ -133,11 +137,11 @@ const Profile = () => {
               </div>
               {status === "information" ? (
                 <>
-                  <Input
-                    className="text-font-dark-gray text-xs rounded-default"
-                    placeholder="Type Email Address*"
-                  ></Input>
-                  <div className="grid grid-cols-2 space-x-3">
+                  <div className="grid grid-cols-3 space-x-3">
+                    <Input
+                      className="text-font-dark-gray text-xs rounded-default"
+                      placeholder="Type Email Address*"
+                    ></Input>
                     <Input
                       className="text-font-dark-gray text-xs rounded-default"
                       placeholder="Type Your First Name"
@@ -153,27 +157,25 @@ const Profile = () => {
                   ></Input>
                 </>
               ) : (
-                <>
+                <div className="grid grid-cols-3 space-x-3">
                   <Input
                     type="password"
                     className="text-xs rounded-default"
                     placeholder="Type Your Old Password"
                   ></Input>
-                  <div className="grid grid-cols-2 space-x-3">
-                    <Input
-                      type="password"
-                      className="text-xs rounded-default"
-                      placeholder="Type Your New Passowrd"
-                      option={eyeDisable}
-                    ></Input>
-                    <Input
-                      type="password"
-                      className="text-xs rounded-default"
-                      placeholder="Retype Your New Passowrd"
-                      option={eyeDisable}
-                    ></Input>
-                  </div>
-                </>
+                  <Input
+                    type="password"
+                    className="text-xs rounded-default"
+                    placeholder="Type Your New Passowrd"
+                    option={eyeDisable}
+                  ></Input>
+                  <Input
+                    type="password"
+                    className="text-xs rounded-default"
+                    placeholder="Retype Your New Passowrd"
+                    option={eyeDisable}
+                  ></Input>
+                </div>
               )}
               <div className="space-y-5">
                 <p

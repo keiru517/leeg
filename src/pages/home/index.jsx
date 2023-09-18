@@ -10,13 +10,13 @@ import * as actions from "../../actions";
 
 const Home = () => {
   const leagues = useSelector((state) => state.home.leagues);
-  const user = useSelector(state=>state.home.user);
+  const user = useSelector((state) => state.home.user);
 
   const filters = [
-    { id: 0, name: "All Leagues"},
-    { id: 1, name: "My Leagues"},
-    { id: 2, name: "Other Leagues"},
-  ]
+    { id: 0, name: "All Leagues" },
+    { id: 1, name: "My Leagues" },
+    { id: 2, name: "Other Leagues" },
+  ];
 
   const options = [
     { id: 0, name: "Ascend" },
@@ -24,7 +24,7 @@ const Home = () => {
     { id: 2, name: "Recent" },
   ];
 
-  const [filter, setFilter] = useState(filters[0])
+  const [filter, setFilter] = useState(filters[0]);
   const [value, setValue] = useState("Sort by");
 
   const dispatch = useDispatch();
@@ -32,9 +32,9 @@ const Home = () => {
   useEffect(() => {
     dispatch({ type: actions.SET_TAB_ID, payload: 0 });
   });
-  
+
   useEffect(() => {
-    actions.getUserInfo(dispatch, localStorage.getItem('userId'));
+    actions.getUserInfo(dispatch, localStorage.getItem("userId"));
     actions.getCountries(dispatch);
     actions.getLeagues(dispatch, user?.id);
     actions.getTeams(dispatch);
@@ -45,23 +45,22 @@ const Home = () => {
   const [filteredLeagues, setFilteredLeagues] = useState([]);
 
   // set initial values
-  useEffect(()=>{
+  useEffect(() => {
     setFilteredLeagues(leagues);
-  }, [leagues])
+  }, [leagues]);
 
-  useEffect(()=>{
+  useEffect(() => {
     if (filter.id === 0) {
-      setFilteredLeagues(leagues)
+      setFilteredLeagues(leagues);
     } else if (filter.id === 1) {
-      setFilteredLeagues(leagues.filter(league=>league.userId==user?.id))
-    } else {
-      setFilteredLeagues(leagues.filter(league=>league.userId != user?.id))
+      setFilteredLeagues(leagues.filter((league) => league.userId === user?.id));
+    } else if (filter.id === 2) {
+      setFilteredLeagues(
+        leagues.filter((league) => league.userId !== user?.id)
+      );
     }
-    console.log("filteredLeagues", filteredLeagues)
-
-  }, [filter])
-
-  
+    console.log("filteredLeagues", filteredLeagues);
+  }, [filter]);
 
   return (
     <div className="flex flex-col flex-grow">
