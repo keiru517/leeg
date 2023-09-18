@@ -16,7 +16,7 @@ const SignupWithEmail = () => {
   const options = ["Sort by", "Ascend", "Descend", "Recent"];
 
   const navigate = useNavigate();
-  const [step, setStep] = useState(2);
+  const [step, setStep] = useState(1);
 
   const [first, setFirst] = useState();
   const [second, setSecond] = useState();
