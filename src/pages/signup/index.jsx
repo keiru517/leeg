@@ -58,6 +58,8 @@ const Signup = () => {
 
   const fileUploadRef = useRef(undefined);
   const [chosenFile, setChosenFile] = useState();
+  const [previewURL, setPreviewURL] = useState("");
+
 
   const handleSignup = () => {
     const formData = new FormData();
@@ -125,7 +127,12 @@ const Signup = () => {
                   fileUploadRef.current?.click();
                 }}
               >
+                {
+                  previewURL?
+                  <img src={previewURL} className="rounded-full w-[58px] h-[58px] mx-2" alt="" />
+                  :
                 <img src={upload} alt="" />
+                }
                 <p className="text-black dark:text-white text-sm ml-[10px]">
                   Upload Picture
                 </p>
@@ -138,6 +145,7 @@ const Signup = () => {
                     if (files.length) {
                       const file = files[0];
                       setChosenFile(file);
+                      setPreviewURL(URL.createObjectURL(file))
                     }
                   }}
                 />

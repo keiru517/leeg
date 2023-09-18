@@ -38,6 +38,13 @@ const Modal = (props) => {
 
   const closeDialog = () => {
     setStep(1);
+    setSport("Select Sport*")
+    setLeagueName("");
+    setLeagueDescription("");
+    setStartDate("");
+    setEndDate("");
+    setChosenFile(null);
+    setPreviewURL("");
     dispatch({ type: actions.OPEN_CREATE_LEAGUE_DIALOG, payload: false });
   };
 
@@ -67,7 +74,9 @@ const Modal = (props) => {
   const [endDate, setEndDate] = useState(currentDate);
   const fileUploadRef = useRef(undefined);
 
-  const [chosenFile, setChosenFile] = useState();
+  const [chosenFile, setChosenFile] = useState(null);
+
+  const [previewURL, setPreviewURL] = useState("");
 
   const createLeague = () => {
     const formData = new FormData();
@@ -205,16 +214,22 @@ const Modal = (props) => {
                         <>
                           <div>
                             <div
-                              className="flex w-full h-[86px] bg-charcoal rounded-default items-center  hover:opacity-70 cursor-pointer"
+                              className="flex w-full h-[86px] bg-charcoal rounded-default items-center cursor-pointer"
                               onClick={() => {
                                 fileUploadRef.current?.click();
                               }}
                             >
-                              <img
-                                src={uploadCircle}
-                                alt=""
-                                className="px-[14px]"
-                              />
+                              {previewURL ? (
+                                <div>
+                                  <img src={previewURL} className="rounded-full w-[58px] h-[58px] mx-2" alt="Preview" />
+                                </div>
+                              ) : (
+                                <img
+                                  src={uploadCircle}
+                                  alt=""
+                                  className="mx-2"
+                                />
+                              )}
                               <input
                                 type="file"
                                 ref={fileUploadRef}
@@ -224,6 +239,7 @@ const Modal = (props) => {
                                   if (files.length) {
                                     const file = files[0];
                                     setChosenFile(file);
+                                    setPreviewURL(URL.createObjectURL(file));
                                   }
                                 }}
                               />
