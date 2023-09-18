@@ -32,7 +32,7 @@ const TeamModal = () => {
   const [nameWarning, setNameWarning] =useState(false);
 
   const players = useSelector((state) => state.home.players).filter(
-    (player) => (player.leagueId == leagueId) & (player.role == 1)
+    (player) => (player.leagueId == leagueId) & player.isAcceptedList
   );
 
   const [teamName, setTeamName] = useState("");
