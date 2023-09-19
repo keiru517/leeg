@@ -440,7 +440,7 @@ const League = () => {
                     <div className="w-1/2 bg-charcoal flex flex-col h-full min-h-[420px] p-default rounded-main">
                       <div className="flex justify-between w-full">
                         <p className="text-white text-xl font-semibold">
-                          Accepted Players
+                          Available Players
                         </p>
                         <p className="text-white text-xl font-semibold">
                           {filteredAcceptListPlayers.length}

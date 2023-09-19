@@ -62,7 +62,7 @@ const Signup = () => {
 
 
   const handleSignup = () => {
-    if (!chosenFile || !firstName || !lastName || !email || !birthday || !password || !passwordConfirm)
+    if (!chosenFile || !firstName || !lastName || !email || !password || !passwordConfirm)
     {
       alert("Please fill in all data!")
     } else {
@@ -71,7 +71,7 @@ const Signup = () => {
       formData.append("firstName", firstName);
       formData.append("lastName", lastName);
       formData.append("email", email);
-      formData.append("birthday", birthday);
+      // formData.append("birthday", birthday);
       formData.append("password", password);
       formData.append("passwordConfirm", passwordConfirm);
       // formData.append("zipCode", zipCode);
@@ -190,7 +190,7 @@ const Signup = () => {
                       }}
                     ></Input> */}
                 </div>
-                <Input
+                {/* <Input
                   className="bg-transparent rounded-default text-font-dark-gray text-xs"
                   option={calendar}
                   placeholder="Enter Date of Birth*"
@@ -198,7 +198,7 @@ const Signup = () => {
                   onChange={(e) => {
                     setBirthday(e.target.value);
                   }}
-                ></Input>
+                ></Input> */}
                 <div className="grid grid-cols-2 gap-4">
                   <Input
                     className="bg-transparent rounded-default text-font-dark-gray text-xs"
