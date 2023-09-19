@@ -5,12 +5,14 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const Player = (props) => {
-  const { teams } = props;
+  // const { teams } = props;
+  const { players } = props;
   const columns = ["Player", "Team", "Country", "Jersey number"];
+  const teams = useSelector(state=>state.home.teams);
 
-  const players = useSelector((state) => state.home.players).filter(
-    (player) => player.role == 2
-  );
+  // const players = useSelector((state) => state.home.players).filter(
+  //   (player) => player.teamId !== 0 // Filter players who are added to the team
+  // );
 
   return (
     <div className="text-white mt-5 w-full">
@@ -41,14 +43,14 @@ const Player = (props) => {
                 key={idx}
                 className="odd:bg-dark-gray even:bg-charcoal h-[53px]"
               >
-                <td className="w-1/5">
+                <td className="w-1/4">
                   <Typography
                     variant="small"
                     color="blue-gray"
                     className="font-normal flex items-center underline justify-between px-10"
                   >
-                    <img src={player.avatar} alt="" className="h-8 w-8 mr-2" />
-                    <Link to={`player/${player.id}`}>{player.name}</Link>
+                    <img src={player.avatar} alt="" className="h-8 w-8 mr-2 rounded-default" />
+                    <Link to={`player/${player.id}`}>{player.firstName} {player.lastName}</Link>
                   </Typography>
                 </td>
                 <td className="w-1/5">
@@ -58,12 +60,12 @@ const Player = (props) => {
                     className="font-normal flex items-center underline justify-between px-10"
                   >
                     <img
-                      src={teams.find((team) => team.id == player.teamId).logo}
+                      src={teams.find((team) => team.id == player.teamId)?.logo}
                       alt=""
-                      className="w-8 h-8 mr-2"
+                      className="w-8 h-8 mr-2 rounded-default"
                     />
                     <Link to={`team/${player.teamId}`}>
-                      {teams.find((team) => team.id == player.teamId).name}
+                      {teams.find((team) => team.id == player.teamId)?.name}
                     </Link>
                   </Typography>
                 </td>

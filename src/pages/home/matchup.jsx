@@ -29,7 +29,7 @@ const Matchup = () => {
   );
 
   const homeTeamPlayers = useSelector((state) => state.home.players).filter(
-    (player) => player.teamId == match.homeTeamId && player.role == 2
+    (player) => player.teamId == match.homeTeamId
   );
 
   const homeTeamMatchups = useSelector((state) => state.home.matchups).filter(
@@ -41,7 +41,7 @@ const Matchup = () => {
   );
 
   const awayTeamPlayers = useSelector((state) => state.home.players).filter(
-    (player) => player.teamId == match.awayTeamId && player.role == 2
+    (player) => player.teamId == match.awayTeamId
   );
 
   const awayTeamMatchups = useSelector((state) => state.home.matchups).filter(
@@ -203,7 +203,7 @@ const Matchup = () => {
           <div className="flex flex-col overflow-y-auto rounded-default h-[350px] bg-dark-gray transition ease-in-out delay-150 hover:bg-dark-gray duration-200 w-full">
             <div className="flex justify-between h-button bg-charcoal rounded-t-default p-4">
               <div className="flex items-center">
-                <img src={homeTeam.logo} className="w-8 h-8"></img>
+                <img src={homeTeam.logo} className="w-8 h-8 rounded-default"></img>
                 <Link to={`/league/${leagueId}/team/${match.homeTeamId}`}>
                   <p className="text-white text-sm mx-2 underline">
                     {homeTeam.name}
@@ -264,7 +264,7 @@ const Matchup = () => {
                               <img
                                 src={player.avatar}
                                 alt=""
-                                className="w-8 h-8 mr-2"
+                                className="w-8 h-8 mr-2 rounded-default"
                               />
                               <Link
                                 to={`/league/${leagueId}/player/${player.id}`}
@@ -314,7 +314,7 @@ const Matchup = () => {
           <div className="flex flex-col overflow-y-auto rounded-default h-[350px] bg-dark-gray transition ease-in-out delay-150 hover:bg-dark-gray duration-200 w-full">
             <div className="flex justify-between h-button bg-charcoal rounded-t-default p-4">
               <div className="flex items-center">
-                <img src={awayTeam.logo} className="w-8 h-8"></img>
+                <img src={awayTeam.logo} className="w-8 h-8 rounded-default"></img>
                 <Link to={`/league/${leagueId}/team/${match.awayTeamId}`}>
                   <p className="text-white text-sm mx-2 underline">
                     {awayTeam.name}
@@ -375,7 +375,7 @@ const Matchup = () => {
                               <img
                                 src={player.avatar}
                                 alt=""
-                                className="w-8 h-8 mr-2"
+                                className="w-8 h-8 mr-2 rounded-default"
                               />
                               <Link
                                 to={`/league/${leagueId}/player/${player.id}`}

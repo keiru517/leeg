@@ -8,9 +8,11 @@ import { apis } from "../../utils/apis";
 const Card = (props) => {
   const { route, league } = props;
   const dispatch = useDispatch();
-  
+
   const user = useSelector((state) => state.home.user);
-  const player = useSelector(state=>state.home.players).find(player=>player.userId == user?.id && player.leagueId == league.id);
+  const player = useSelector((state) => state.home.players).find(
+    (player) => player.userId == user?.id && player.leagueId == league.id
+  );
 
   const handleApply = () => {
     console.log("HandleApply", user?.id);
@@ -32,7 +34,7 @@ const Card = (props) => {
   return (
     <Link
       to={`${
-        league.isAcceptedList || league.userId == user?.id
+        player?.isAcceptedList === 1 || league.userId == user?.id
           ? `/${route}/${league.id}`
           : ``
       }`}
@@ -40,7 +42,7 @@ const Card = (props) => {
       {/* <div className={`rounded-default h-[185px] bg-charcoal p-default transition ease-in-out delay-150 hover:-translate-y-1 hover:bg-dark-gray duration-200 ${league.isAcceptedList? "cursor-pointer":""}`}> */}
       <div
         className={`rounded-default h-[185px] bg-charcoal p-default  hover:bg-dark-gray duration-200 ${
-          league.isAcceptedList || league.userId == user?.id
+          player?.isAcceptedList === 1 || league.userId == user?.id
             ? "cursor-pointer transition ease-in-out delay-150 hover:-translate-y-1"
             : ""
         }`}
@@ -50,9 +52,9 @@ const Card = (props) => {
             <img src={league.logo} className="w-10 h-10 rounded-lg"></img>
             <p className="dark:text-white text-sm ml-5">{league.name}</p>
             {league.userId == user?.id ? (
-                <span className="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300 mx-auto">
-                  Admin
-                </span>
+              <span className="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300 mx-auto">
+                Admin
+              </span>
             ) : (
               ""
             )}
@@ -78,8 +80,7 @@ const Card = (props) => {
             <p className="dark:text-green-500 text-xs cursor-pointer">
               ACCEPTED
             </p>
-          ) 
-          : (
+          ) : (
             <p
               onClick={handleApply}
               className="dark:text-blue-500 text-xs cursor-pointer hover:text-green-500"

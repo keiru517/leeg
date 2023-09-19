@@ -76,7 +76,7 @@ const PageTitle = (props) => {
             src={logo}
             // src={apis.leagueLogoURL(leagueId)}
             alt=""
-            className="w-20 h-20 ml-6"
+            className="w-20 h-20 ml-6 rounded-default"
           />
         ) : (
           ""

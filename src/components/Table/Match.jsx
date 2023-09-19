@@ -105,7 +105,7 @@ const MatchTable = (props) => {
                             teams.find((team) => team.id == homeTeamId).logo
                           }
                           alt=""
-                          className="h-8 w-8 mr-2"
+                          className="h-8 w-8 mr-2 rounded-default"
                         />
                         {teams.find((team) => team.id == homeTeamId).name}
                       </Link>
@@ -126,7 +126,7 @@ const MatchTable = (props) => {
                             teams.find((team) => team.id == awayTeamId).logo
                           }
                           alt=""
-                          className="h-8 w-8 mr-2"
+                          className="h-8 w-8 mr-2 rounded-default"
                         />
                         {teams.find((team) => team.id == awayTeamId).name}
                       </Link>

@@ -15,7 +15,7 @@ const TeamCard = (props) => {
   const league = useSelector((state) => state.home.leagues).find(
     (league) => league.id == leagueId
   );
-  console.log(league);
+
   const players = useSelector((state) => state.home.players).filter(
     (player) => player.teamId == team.id
   );

@@ -41,7 +41,7 @@ const Player = () => {
           </div>
           <div className="flex items-center space-x-2 mt-2">
             <img src={team.logo} alt="" className="w-6 h-6 rounded-default"/>
-            <p className="text-white text-xs font-medium">{team.name} | #{player.jersey_number}</p>
+            <p className="text-white text-xs font-medium">{team.name} | # 7{player.jersey_number}</p>
           </div>
         </div>
       </ProfileTitle>
@@ -64,7 +64,7 @@ const Player = () => {
           </Link>
         </span>
         <span className=""> &gt; </span>
-        <span className="text-sky-500">{player.name} </span>
+        <span className="text-sky-500">{player.firstName} {player.lastName}</span>
       </p>
       <div className="flex w-full h-[78px] bg-slate rounded-default ">
         <div className="w-1/5 border border-light-gray rounded-l-[10px] flex flex-col justify-center">

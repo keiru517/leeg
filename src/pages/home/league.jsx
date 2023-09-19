@@ -30,6 +30,7 @@ const League = () => {
   const dispatch = useDispatch();
 
   const user = useSelector((state) => state.home.user);
+  const tab = useSelector((state) => state.home.tab);
 
   const league = useSelector((state) => state.home.leagues).find(
     (league) => league.id == leagueId
@@ -46,8 +47,6 @@ const League = () => {
   const matches = useSelector((state) => state.home.matches).filter(
     (match) => match.leagueId == leagueId
   );
-
-  const tabIndex = useSelector((state) => state.home.tab);
 
   const options = [
     { id: 0, name: "Ascend" },
@@ -68,8 +67,7 @@ const League = () => {
       "All Playerlist",
       "Settings",
     ];
-  }
-  else {
+  } else {
     categories = [
       // "Manage Rosters",
       "Teams",
@@ -77,7 +75,6 @@ const League = () => {
       "Standings",
       "All Playerlist",
     ];
-
   }
 
   function classNames(...classes) {
@@ -106,15 +103,27 @@ const League = () => {
   const handleCategory = (data) => {
     dispatch({ type: actions.SET_TAB_ID, payload: data });
     setBreadcrum(data);
+    setWaitListKeyword("");
+    setAcceptListKeyword("");
+    setTeamKeyword("");
+    setScheduleKeyword("");
+    setStandingsKeyword("");
+    setPlayerKeyword("");
   };
   const players = useSelector((state) => state.home.players);
 
   const waitListPlayers = players.filter(
-    (player) => player.isWaitList == true && player.leagueId == leagueId && player.teamId === 0
+    (player) =>
+      player.isWaitList == true &&
+      player.leagueId == leagueId &&
+      player.teamId === 0
   );
 
   const acceptedPlayers = players.filter(
-    (player) => player.isAcceptedList == true && player.leagueId == leagueId && player.teamId === 0
+    (player) =>
+      player.isAcceptedList == true &&
+      player.leagueId == leagueId &&
+      player.teamId === 0
   );
 
   useEffect(() => {
@@ -133,7 +142,94 @@ const League = () => {
     setLeagueEndDate(league?.endDate);
   }, [league]);
 
-  const [waitKeyword, setWaitKeyword] = useState("");
+  // Search section
+  const [waitListKeyword, setWaitListKeyword] = useState("");
+  const [filteredWaitListPlayers, setFilteredWaitListPlayers] = useState([]);
+
+  const [acceptListKeyword, setAcceptListKeyword] = useState("");
+  const [filteredAcceptListPlayers, setFilteredAcceptListPlayers] = useState(
+    []
+  );
+
+  const [teamKeyword, setTeamKeyword] = useState("");
+  const [filteredTeams, setFilteredTeams] = useState([]);
+
+  const [scheduleKeyword, setScheduleKeyword] = useState("");
+  const [filteredMatches, setFilteredMatches] = useState([]);
+
+  const [standingsKeyword, setStandingsKeyword] = useState("");
+  const [filteredStandings, setFilteredStandings] = useState([]);
+
+  const [playerKeyword, setPlayerKeyword] = useState("");
+  const [filteredPlayers, setFilteredPlayers] = useState([]);
+
+  // Rosters
+  useEffect(() => {
+    console.log("UseEffecthre");
+    setFilteredWaitListPlayers(waitListPlayers);
+    setFilteredAcceptListPlayers(acceptedPlayers);
+    setFilteredTeams(teams);
+    setFilteredStandings(teams);
+  }, [players]);
+
+  useEffect(() => {
+    const searchResult = waitListPlayers.filter((player) =>
+      (player.firstName + player.lastName)
+        .toLowerCase()
+        .includes(waitListKeyword.toLowerCase())
+    );
+    setFilteredWaitListPlayers(searchResult);
+  }, [waitListKeyword]);
+
+  useEffect(() => {
+    const searchResult = acceptedPlayers.filter((player) =>
+      (player.firstName + player.lastName)
+        .toLowerCase()
+        .includes(acceptListKeyword.toLowerCase())
+    );
+    setFilteredAcceptListPlayers(searchResult);
+  }, [acceptListKeyword]);
+
+  // Teams
+  // useEffect(() => {
+  //   setFilteredTeams(teams);
+  // }, [teams]);
+
+  useEffect(() => {
+    console.log(teamKeyword);
+    const searchResult = teams.filter((team) =>
+      team.name.toLowerCase().includes(teamKeyword.toLowerCase())
+    );
+    setFilteredTeams(searchResult);
+  }, [teamKeyword]);
+
+  // Schedule
+  // useEffect(() => {
+  //   setFilteredMatches(matches);
+  // }, [matches]);
+
+  // useEffect(() => {
+  //   console.log(scheduleKeyword);
+  // }, [scheduleKeyword]);
+
+  // Standings
+  useEffect(() => {
+    const searchResult = teams.filter((team) =>
+      team.name.toLowerCase().includes(standingsKeyword.toLowerCase())
+    );
+    setFilteredStandings(searchResult);
+  }, [standingsKeyword]);
+
+  // All Playerlist
+  useEffect(() => {
+    console.log("player hook")
+    const searchResult = players.filter(
+      (player) =>
+        player.teamId !== 0 &&
+        (player.firstName + player.lastName).toLowerCase().includes(playerKeyword.toLowerCase())
+    );
+    setFilteredPlayers(searchResult);
+  }, [playerKeyword]);
 
   const setWaitListItemChecked = (index, checked) => {
     let temp = { ...waitItemChecked };
@@ -146,12 +242,11 @@ const League = () => {
   };
 
   const handleAccept = () => {
-    console.log(waitItemChecked)
     if (Object.keys(waitItemChecked).length < 1) {
       alert("Please select at least one player!");
     } else {
       axios
-        .post(apis.acceptPlayer, {waitItemChecked, leagueId:leagueId})
+        .post(apis.acceptPlayer, { waitItemChecked, leagueId: leagueId })
         .then((res) => {
           actions.getPlayers(dispatch);
           setWaitItemChecked({});
@@ -202,20 +297,12 @@ const League = () => {
       actions.getLeagues(dispatch);
       alert(res.data.message);
     });
-    console.log("Clicked edit");
   };
 
   if (!league) return null;
 
   return (
     <div className="flex flex-col flex-grow">
-      {/* <PageTitle
-        backIcon={leftarrowIcon}
-        logo={league.logo}
-        editIcon={editIcon}
-      >
-        {league.name}
-      </PageTitle> */}
       <p className="font-dark-gray my-[20px]">
         <Link to="/">
           <span className="underline">My Leagues</span>
@@ -225,7 +312,7 @@ const League = () => {
 
       <div className="rounded-main bg-slate flex-grow p-default">
         <div className="w-full px-2 sm:px-0 h-full flex flex-col">
-          <Tab.Group defaultIndex={tabIndex}>
+          <Tab.Group defaultIndex={tab}>
             <div className="flex justify-between">
               <Tab.List className="flex justify-start space-x-5 rounded-xl bg-transparent p-1 ">
                 {categories.map((category, idx) => (
@@ -246,21 +333,21 @@ const League = () => {
                   </Tab>
                 ))}
               </Tab.List>
-              {breadcrum == 0 && user?.id == league?.userId? (
+              {tab == 0 && user?.id == league?.userId ? (
                 <button
                   onClick={handleInvitePlayer}
                   className="w-36 h-[42px] bg-primary hover:bg-opacity-70 rounded-default text-white focus:ring-2 text-sm font-bold"
                 >
                   Invite Player
                 </button>
-              ) : breadcrum == 1 && user?.id == league?.userId? (
+              ) : tab == 1 && user?.id == league?.userId ? (
                 <button
                   onClick={handleCreateTeam}
                   className="w-36 h-[42px] bg-primary hover:bg-opacity-70 rounded-default text-white focus:ring-2 text-sm font-bold"
                 >
                   Create Team
                 </button>
-              ) : breadcrum == 2 && user?.id == league?.userId? (
+              ) : tab == 2 && user?.id == league?.userId ? (
                 <button
                   onClick={handleCreateMatch}
                   className="w-36 h-[42px] bg-primary hover:bg-opacity-70 rounded-default text-white focus:ring-2 text-sm font-bold"
@@ -273,168 +360,174 @@ const League = () => {
             </div>
             <Tab.Panels className="flex-grow flex items-center ">
               {/* Rosters */}
-              {
-                league?.userId == user?.id?
-              <Tab.Panel
-                key={0}
-                className={classNames(
-                  "rounded-xl flex flex-col justify-between w-full h-full"
-                )}
-              >
-                <hr className="h-px my-4 bg-charcoal border-0" />
-                <div className="flex h-full space-x-4">
-                  <div className="w-1/2 bg-charcoal flex flex-col h-full min-h-[420px] p-default rounded-main">
-                    <div className="flex justify-between w-full">
-                      <p className="text-white text-xl font-semibold">
-                        Waitlisted Players
-                      </p>
-                      <p className="text-white text-xl font-semibold">
-                        {waitListPlayers.length}
-                      </p>
-                    </div>
-                    <hr className="h-px my-5 bg-gray-200 border-0 dark:bg-dark-gray" />
-                    <div className="flex w-full justify-between space-x-10 my-5">
-                      <div className="flex flex-grow space-x-3 ">
-                        <Input
-                          className="flex-grow rounded-lg h-[38px] dark:bg-charcoal bg-white text-xs"
-                          icon={search}
-                          placeholder="Search"
-                          value={waitKeyword}
-                          onChange={(e) => {
-                            setWaitKeyword(e.target.value);
-                          }}
-                        />
-                        <Select
-                          className="w-[144px] rounded-lg text-xs"
-                          options={options}
-                          handleClick={(e) => setWaitSortValue(e.name)}
-                          value={waitSortValue}
-                        >
-                          {waitSortValue}
-                        </Select>
-                      </div>
-                      <div>
-                        <Button
-                          onClick={handleAccept}
-                          className="text-sm bg-success w-[72px] h-[38px] rounded-lg hover:opacity-70"
-                        >
-                          Accept
-                        </Button>
-                      </div>
-                    </div>
-                    <div
-                      className={`overflow-y-scroll h-4/6 flex flex-col items-center flex-grow ${
-                        waitListPlayers.length
-                          ? ""
-                          : "dark:bg-light-gray justify-center"
-                      } rounded-default`}
-                    >
-                      {waitListPlayers.length ? (
-                        waitListPlayers.map((player, idx) => (
-                          <ListItem
-                            key={idx}
-                            className="mb-5"
-                            avatar={player.avatar}
-                            name={player.firstName+ " " + player.lastName}
-                            email={player.email}
-                            date={player.createdAt}
-                            itemChecked={!!waitItemChecked[player.id]}
-                            setItemChecked={(checked) => {
-                              setWaitListItemChecked(player.id, checked);
-                            }}
-                          ></ListItem>
-                        ))
-                      ) : (
-                        <p className="text-white font-medium text-sm">
-                          No waitlisted Players to show!
+              {league?.userId == user?.id ? (
+                <Tab.Panel
+                  key={0}
+                  className={classNames(
+                    "rounded-xl flex flex-col justify-between w-full h-full"
+                  )}
+                >
+                  <hr className="h-px my-4 bg-charcoal border-0" />
+                  <div className="flex h-full space-x-4">
+                    <div className="w-1/2 bg-charcoal flex flex-col h-full min-h-[420px] p-default rounded-main">
+                      <div className="flex justify-between w-full">
+                        <p className="text-white text-xl font-semibold">
+                          Waitlisted Players
                         </p>
-                      )}
+                        <p className="text-white text-xl font-semibold">
+                          {filteredWaitListPlayers.length}
+                        </p>
+                      </div>
+                      <hr className="h-px my-5 bg-gray-200 border-0 dark:bg-dark-gray" />
+                      <div className="flex w-full justify-between space-x-10 my-5">
+                        <div className="flex flex-grow space-x-3 ">
+                          <Input
+                            className="flex-grow rounded-lg h-[38px] dark:bg-charcoal bg-white text-xs"
+                            icon={search}
+                            placeholder="Search"
+                            value={waitListKeyword}
+                            onChange={(e) => {
+                              setWaitListKeyword(e.target.value);
+                            }}
+                          />
+                          <Select
+                            className="w-[144px] rounded-lg text-xs"
+                            options={options}
+                            handleClick={(e) => setWaitSortValue(e.name)}
+                            value={waitSortValue}
+                          >
+                            {waitSortValue}
+                          </Select>
+                        </div>
+                        <div>
+                          <Button
+                            onClick={handleAccept}
+                            className="text-sm bg-success w-[72px] h-[38px] rounded-lg hover:opacity-70"
+                          >
+                            Accept
+                          </Button>
+                        </div>
+                      </div>
+                      <div
+                        className={`overflow-y-scroll h-4/6 flex flex-col items-center flex-grow ${
+                          filteredWaitListPlayers.length
+                            ? ""
+                            : "dark:bg-light-gray justify-center"
+                        } rounded-default`}
+                      >
+                        {filteredWaitListPlayers.length ? (
+                          filteredWaitListPlayers.map((player, idx) => (
+                            <ListItem
+                              key={idx}
+                              className="mb-5"
+                              avatar={player.avatar}
+                              name={player.firstName + " " + player.lastName}
+                              email={player.email}
+                              date={player.createdAt}
+                              itemChecked={!!waitItemChecked[player.id]}
+                              setItemChecked={(checked) => {
+                                setWaitListItemChecked(player.id, checked);
+                              }}
+                            ></ListItem>
+                          ))
+                        ) : (
+                          <p className="text-white font-medium text-sm">
+                            No waitlisted Players to show!
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                    <div className="w-1/2 bg-charcoal flex flex-col h-full min-h-[420px] p-default rounded-main">
+                      <div className="flex justify-between w-full">
+                        <p className="text-white text-xl font-semibold">
+                          Accepted Players
+                        </p>
+                        <p className="text-white text-xl font-semibold">
+                          {filteredAcceptListPlayers.length}
+                        </p>
+                      </div>
+                      <hr className="h-px my-5 bg-gray-200 border-0 dark:bg-dark-gray" />
+                      <div className="flex w-full justify-between space-x-10 my-5">
+                        <div className="flex flex-grow space-x-3 ">
+                          <Input
+                            className="flex-grow rounded-lg h-[38px] dark:bg-charcoal bg-white text-xs"
+                            icon={search}
+                            placeholder="Search"
+                            value={acceptListKeyword}
+                            onChange={(e) =>
+                              setAcceptListKeyword(e.target.value)
+                            }
+                          />
+                          <Select
+                            className="w-[144px] rounded-lg text-xs"
+                            options={options}
+                            handleClick={(e) => setAcceptSortValue(e.name)}
+                            value={acceptSortValue}
+                          >
+                            {acceptSortValue}
+                          </Select>
+                        </div>
+                        <div>
+                          <Button
+                            onClick={handleRemove}
+                            className="text-sm bg-danger w-[72px] h-[38px] rounded-lg hover:opacity-70"
+                          >
+                            Remove
+                          </Button>
+                        </div>
+                      </div>
+                      <div
+                        className={`overflow-y-scroll h-4/6 flex flex-col items-center flex-grow space-y-5 ${
+                          filteredAcceptListPlayers.length
+                            ? ""
+                            : "dark:bg-light-gray justify-center"
+                        } rounded-default`}
+                      >
+                        {filteredAcceptListPlayers.length ? (
+                          filteredAcceptListPlayers.map((player, idx) => (
+                            <ListItem
+                              key={idx}
+                              avatar={player.avatar}
+                              name={player.firstName + " " + player.lastName}
+                              email={player.email}
+                              date={player.created_at}
+                              itemChecked={!!acceptedItemChecked[player.id]}
+                              setItemChecked={(checked) => {
+                                setAcceptedListItemChecked(player.id, checked);
+                              }}
+                            ></ListItem>
+                          ))
+                        ) : (
+                          <p className="text-white font-medium text-sm">
+                            No Accepted Players to show!
+                          </p>
+                        )}
+                      </div>
                     </div>
                   </div>
-                  <div className="w-1/2 bg-charcoal flex flex-col h-full min-h-[420px] p-default rounded-main">
-                    <div className="flex justify-between w-full">
-                      <p className="text-white text-xl font-semibold">
-                        Accepted Players
-                      </p>
-                      <p className="text-white text-xl font-semibold">
-                        {acceptedPlayers.length}
-                      </p>
-                    </div>
-                    <hr className="h-px my-5 bg-gray-200 border-0 dark:bg-dark-gray" />
-                    <div className="flex w-full justify-between space-x-10 my-5">
-                      <div className="flex flex-grow space-x-3 ">
-                        <Input
-                          className="flex-grow rounded-lg h-[38px] dark:bg-charcoal bg-white text-xs"
-                          icon={search}
-                          placeholder="Search"
-                        />
-                        <Select
-                          className="w-[144px] rounded-lg text-xs"
-                          options={options}
-                          handleClick={(e) => setAcceptSortValue(e.name)}
-                          value={acceptSortValue}
-                        >
-                          {acceptSortValue}
-                        </Select>
-                      </div>
-                      <div>
-                        <Button
-                          onClick={handleRemove}
-                          className="text-sm bg-danger w-[72px] h-[38px] rounded-lg hover:opacity-70"
-                        >
-                          Remove
-                        </Button>
-                      </div>
-                    </div>
-                    <div
-                      className={`overflow-y-scroll h-4/6 flex flex-col items-center flex-grow space-y-5 ${
-                        acceptedPlayers.length
-                          ? ""
-                          : "dark:bg-light-gray justify-center"
-                      } rounded-default`}
-                    >
-                      {acceptedPlayers.length ? (
-                        acceptedPlayers.map((player, idx) => (
-                          <ListItem
-                            key={idx}
-                            avatar={player.avatar}
-                            name={player.firstName + " " + player.lastName}
-                            email={player.email}
-                            date={player.created_at}
-                            itemChecked={!!acceptedItemChecked[player.id]}
-                            setItemChecked={(checked) => {
-                              setAcceptedListItemChecked(player.id, checked);
-                            }}
-                          ></ListItem>
-                        ))
-                      ) : (
-                        <p className="text-white font-medium text-sm">
-                          No Accepted Players to show!
-                        </p>
-                      )}
-                    </div>
-                  </div>
-                </div>
-                <PlayerModal></PlayerModal>
-              </Tab.Panel>
-              :""
-              }
+                  <PlayerModal></PlayerModal>
+                </Tab.Panel>
+              ) : (
+                ""
+              )}
 
               {/* Teams */}
               <Tab.Panel
                 key={1}
                 className={classNames("rounded-xl flex flex-col w-full h-full")}
               >
-                {teams.length > 0 ? (
+                <hr className="h-px my-4 bg-charcoal border-0" />
+                <Input
+                  className="rounded-lg h-[42px] text-xs"
+                  icon={search}
+                  placeholder="Search Teams"
+                  value={teamKeyword}
+                  onChange={(e) => setTeamKeyword(e.target.value)}
+                />
+                {filteredTeams.length > 0 ? (
                   <>
-                    <hr className="h-px my-4 bg-charcoal border-0" />
-                    <Input
-                      className="rounded-lg h-[42px] text-xs"
-                      icon={search}
-                      placeholder="Search Schedules"
-                    />
                     <div className="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
-                      {teams.map((team, idx) => (
+                      {filteredTeams.map((team, idx) => (
                         <TeamCard team={team} key={idx}></TeamCard>
                       ))}
                     </div>
@@ -457,11 +550,15 @@ const League = () => {
                 {matches.length > 0 ? (
                   <>
                     <hr className="h-px my-4 bg-charcoal border-0" />
-                    <Input
+                    {/* <Input
                       className="rounded-lg text-xs"
                       icon={search}
                       placeholder="Search Schedules"
-                    />
+                      value={scheduleKeyword}
+                      onChange={(e)=>{
+                        setScheduleKeyword(e.target.value);
+                      }}
+                    /> */}
                     <MatchTable
                       matches={matches}
                       leagueId={leagueId}
@@ -484,26 +581,28 @@ const League = () => {
                   "rounded-xl flex flex-col justify-between w-full h-full"
                 )}
               >
-                {teams.length > 0 ? (
-                  <>
-                    <hr className="h-px my-4 bg-charcoal border-0" />
-                    <div className="flex space-x-3">
-                      <Input
-                        className="rounded-lg flex-grow text-xs"
-                        icon={search}
-                        placeholder="Search Standings"
-                      />
-                      <Select
-                        className="text-xs"
-                        options={options}
-                        handleClick={(e) => setValue(e.name)}
-                        value={value}
-                      >
-                        {value}
-                      </Select>
-                    </div>
-                    <StandingTable teams={teams}></StandingTable>
-                  </>
+                <hr className="h-px my-4 bg-charcoal border-0" />
+                <div className="flex space-x-3">
+                  <Input
+                    className="rounded-lg flex-grow text-xs"
+                    icon={search}
+                    placeholder="Search Standings"
+                    value={standingsKeyword}
+                    onChange={(e) => {
+                      setStandingsKeyword(e.target.value);
+                    }}
+                  />
+                  <Select
+                    className="text-xs"
+                    options={options}
+                    handleClick={(e) => setValue(e.name)}
+                    value={value}
+                  >
+                    {value}
+                  </Select>
+                </div>
+                {filteredStandings.length > 0 ? (
+                  <StandingTable teams={filteredStandings}></StandingTable>
                 ) : (
                   <div className="flex items-center flex-grow">
                     <p className="text-2xl text-white w-full text-center">
@@ -518,26 +617,30 @@ const League = () => {
                 key={4}
                 className={classNames("rounded-xl flex flex-col w-full h-full")}
               >
+                <hr className="h-px my-4 bg-charcoal border-0" />
+                <div className="flex space-x-3">
+                  <Input
+                    className="rounded-lg flex-grow text-xs"
+                    icon={search}
+                    placeholder="Search Players"
+                    value={playerKeyword}
+                    onChange={(e) => {
+                      setPlayerKeyword(e.target.value);
+                    }}
+                  />
+                  <Select
+                    className="text-xs"
+                    options={options}
+                    handleClick={(e) => setValue(e.name)}
+                    value={value}
+                  >
+                    {value}
+                  </Select>
+                </div>
                 {teams.length > 0 ? (
-                  <>
-                    <hr className="h-px my-4 bg-charcoal border-0" />
-                    <div className="flex space-x-3">
-                      <Input
-                        className="rounded-lg flex-grow text-xs"
-                        icon={search}
-                        placeholder="Search Standings"
-                      />
-                      <Select
-                        className="text-xs"
-                        options={options}
-                        handleClick={(e) => setValue(e.name)}
-                        value={value}
-                      >
-                        {value}
-                      </Select>
-                    </div>
-                    <PlayerTable teams={teams}></PlayerTable>
-                  </>
+                  <PlayerTable
+                    players={filteredPlayers}
+                  ></PlayerTable>
                 ) : (
                   <div className="flex items-center flex-grow">
                     <p className="text-2xl text-white w-full text-center">

@@ -50,15 +50,15 @@ const TeamTable = (props) => {
           {data.map((player, index) => (
             <tr key={index} className="even:bg-dark-gray odd:bg-charcoal">
               <td className="">
-                <div className="flex items-center justify-center">
-                  <img src={player.avatar} alt="" className="w-8 h-8 mr-2" />
+                <div className="flex items-center justify-between px-8">
+                  <img src={player.avatar} alt="" className="w-8 h-8 mr-2 rounded-default" />
                   <Typography
                     variant="small"
                     color="blue-gray"
                     className="font-normal underline"
                   >
                     <Link to={`/league/${leagueId}/player/${player.id}`}>
-                      {player.name}
+                      {player.firstName} {player.lastName}
                     </Link>
                   </Typography>
                 </div>
