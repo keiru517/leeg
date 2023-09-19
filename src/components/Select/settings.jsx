@@ -40,7 +40,8 @@ const SettingsSelect = (props) => {
       >
         <p className="dark:text-white mr-1">{value ? value : ""}</p>
         <img
-          src={apis.userAvatarURL(localStorage.getItem("userId"))}
+          src={user?.avatar}
+          // src={apis.userAvatarURL(localStorage.getItem("userId"))}
           className="w-8 h-8 rounded-lg"
           alt=""
         />

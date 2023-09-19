@@ -34,7 +34,7 @@ const TeamCard = (props) => {
     <div className="flex flex-col overflow-y-auto rounded-default h-[350px] bg-dark-gray transition ease-in-out delay-150 hover:bg-dark-gray duration-200 w-full">
       <div className="flex justify-between h-button bg-charcoal rounded-t-default p-4">
         <div className="flex items-center">
-          <img src={team.logo} className="w-8 h-8"></img>
+          <img src={team.logo} className="w-8 h-8 rounded-default"></img>
           <Link to={`team/${team.id}`}>
             <p className="text-white text-sm mx-2 underline">{team.name}</p>
           </Link>

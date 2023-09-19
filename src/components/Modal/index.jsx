@@ -104,6 +104,7 @@ const Modal = (props) => {
         setLeagueDescription("");
         setStartDate(currentDate);
         setEndDate(currentDate);
+        setChosenFile(null)
         goToStep1();
         alert(res.data.message);
 

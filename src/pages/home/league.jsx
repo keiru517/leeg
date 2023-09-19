@@ -110,11 +110,11 @@ const League = () => {
   const players = useSelector((state) => state.home.players);
 
   const waitListPlayers = players.filter(
-    (player) => player.isWaitList == true && player.leagueId == leagueId
+    (player) => player.isWaitList == true && player.leagueId == leagueId && player.teamId === 0
   );
 
   const acceptedPlayers = players.filter(
-    (player) => player.isAcceptedList == true && player.leagueId == leagueId && player.teamId == 0
+    (player) => player.isAcceptedList == true && player.leagueId == leagueId && player.teamId === 0
   );
 
   useEffect(() => {

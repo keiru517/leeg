@@ -72,17 +72,13 @@ export const getCountries = async (dispatch) => {
 export const getLeagues = async (dispatch, userId) => {
 
   try {
-    const response = await axios.post(apis.getLeagues, {userId});
+    const response = await axios.get(apis.getLeagues);
     const leagues = response.data.leagues;
 
     // set logo image to all leagues
     leagues.map(league=>{
       const logoUrl = apis.leagueLogoURL(league.userId, league.id);
       league.logo = logoUrl;
-      // dispatch({
-      //   type: SET_LEAGUE_LOGO_URL,
-      //   payload: { id: league.id, logoUrl: logoUrl },
-      // });
     })
     dispatch({
       type: GET_LEAGUES,
@@ -219,12 +215,12 @@ export const getMatchups = async (dispatch) => {
 export const getPlayers = async (dispatch, leagueId) => {
   try {
     const response = await axios.get(apis.getPlayers);
-    console.log("player action")
+    
     const players = response.data.players;
-    players.map(player=>{
-      const avatarUrl = apis.userAvatarURL(player.id);
-      player.avatar = avatarUrl;
-    })
+    // players.map(player=>{
+    //   const avatarUrl = apis.userAvatarURL(player.userId);
+    //   player.avatar = avatarUrl;
+    // })
     dispatch({
       type: GET_PLAYERS,
       payload: players,

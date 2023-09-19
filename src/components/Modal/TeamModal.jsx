@@ -32,7 +32,7 @@ const TeamModal = () => {
   const [nameWarning, setNameWarning] =useState(false);
 
   const players = useSelector((state) => state.home.players).filter(
-    (player) => (player.leagueId == leagueId) & player.isAcceptedList
+    (player) => (player.leagueId == leagueId) && player.isAcceptedList && player.teamId === 0
   );
 
   const [teamName, setTeamName] = useState("");
@@ -124,6 +124,7 @@ const TeamModal = () => {
 
   const [playersList, setPlayersList] = useState({});
   const addPlayers = () => {
+    console.log("playerList", playersList)
     axios
       .post(apis.addPlayer, {
         teamId: team.id,

@@ -1,6 +1,8 @@
 import { Switch } from "@headlessui/react";
-import { useState } from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { AiOutlineCheck } from "react-icons/ai";
+import apis from "../../utils/apis";
 
 function Checkbox({ label, name, checked, onChange, disabled }) {
   return (
@@ -44,8 +46,6 @@ const ListItem = (props) => {
     setItemChecked,
   } = props;
 
-  // const [itemChecked, setItemChecked] = useState();
-
   return (
     <div className={`${className} w-full`}>
       <div className="flex items-center justify-between bg-dark-gray w-full h-14 rounded-default py-1.5 px-4">
@@ -55,7 +55,7 @@ const ListItem = (props) => {
             <p className="text-white text-base underline">{name}</p>
             <div className="flex">
               <p className="text-white text-xs font-dark-gray">{email}</p>
-              <p className="text-white text-xs font-dark-gray">{date}</p>
+              <p className="text-white text-xs font-dark-gray ml-3">{date}</p>
             </div>
           </div>
         </div>

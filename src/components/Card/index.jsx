@@ -7,17 +7,10 @@ import { apis } from "../../utils/apis";
 
 const Card = (props) => {
   const { route, league } = props;
-  const user = useSelector((state) => state.home.user);
-
   const dispatch = useDispatch();
-
-  // useEffect(() => {
-  //   const logoUrl = apis.leagueLogoURL(league.userId, league.id);
-  //   dispatch({
-  //     type: actions.SET_LEAGUE_LOGO_URL,
-  //     payload: { id: league.id, logoUrl: logoUrl },
-  //   });
-  // }, [league.id]);
+  
+  const user = useSelector((state) => state.home.user);
+  const player = useSelector(state=>state.home.players).find(player=>player.userId == user?.id && player.leagueId == league.id);
 
   const handleApply = () => {
     console.log("HandleApply", user?.id);
@@ -28,8 +21,8 @@ const Card = (props) => {
       })
       .then((res) => {
         alert(res.data.message);
-        console.log("userId", user?.id);
-        actions.getLeagues(dispatch, user?.id);
+        // console.log("userId", user?.id);
+        actions.getPlayers(dispatch);
       })
       .catch((error) => {
         console.log(error.response.message);
@@ -77,15 +70,16 @@ const Card = (props) => {
           </p>
         </div>
         <div className="text-right">
-          {league.isWaitList ? (
+          {player?.isWaitList === 1 ? (
             <p className="dark:text-yellow-500 text-xs cursor-pointer">
               PENDING
             </p>
-          ) : league.isAcceptedList ? (
+          ) : player?.isAcceptedList === 1 ? (
             <p className="dark:text-green-500 text-xs cursor-pointer">
               ACCEPTED
             </p>
-          ) : (
+          ) 
+          : (
             <p
               onClick={handleApply}
               className="dark:text-blue-500 text-xs cursor-pointer hover:text-green-500"

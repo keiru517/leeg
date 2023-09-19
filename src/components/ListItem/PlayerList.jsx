@@ -35,9 +35,9 @@ const PlayerList = ({className, player, setChecked, checked}) => {
     <div className={`${className} w-full`}>
       <div className="flex items-center justify-between bg-dark-gray w-full h-14 rounded-default py-1.5 px-4">
         <div className="flex">
-          <img src={player.avatar} className="w-10 h-10 mr-3" alt="" />
+          <img src={player.avatar} className="w-10 h-10 mr-3 rounded-default" alt="" />
           <div>
-            <p className="text-white text-base underline">{player.name}</p>
+            <p className="text-white text-base underline">{player.firstName} {player.lastName}</p>
             <div className="flex">
               <p className="text-white text-xs font-dark-gray">{player.email}</p>
               <p className="text-white text-xs font-dark-gray">{player.date}</p>
