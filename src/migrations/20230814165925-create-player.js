@@ -15,37 +15,43 @@ module.exports = {
       teamId: {
         type: Sequelize.INTEGER
       },
-      name: {
+      userId: {
+        type: Sequelize.INTEGER
+      },
+      firstName: {
         type: Sequelize.STRING
       },
-      email: {
+      lastName: {
         type: Sequelize.STRING
       },
       avatar: {
         type: Sequelize.STRING
       },
-      points: {
-        type: Sequelize.INTEGER
-      },
-      jerseyNumber: {
-        type: Sequelize.INTEGER
-      },
-      height: {
+      email: {
         type: Sequelize.STRING
       },
-      weight: {
+      birthday: {
         type: Sequelize.STRING
       },
       country: {
         type: Sequelize.STRING
       },
-      age: {
-        type: Sequelize.INTEGER
-      },
-      birthDate: {
+      state: {
         type: Sequelize.STRING
       },
-      role: {
+      city: {
+        type: Sequelize.STRING
+      },
+      address: {
+        type: Sequelize.STRING
+      },
+      zipCode: {
+        type: Sequelize.STRING
+      },
+      isWaitList: {
+        type: Sequelize.INTEGER
+      },
+      isAcceptedList: {
         type: Sequelize.INTEGER
       },
       createdAt: {

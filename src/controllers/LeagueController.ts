@@ -1,7 +1,8 @@
 import { RequestHandler } from 'express';
 import { existsSync, mkdirSync, writeFileSync } from 'fs';
 import League from '../models/League';
-import LeagueUser from '../models/LeagueUser';
+import Player from '../models/Player';
+import User from '../models/User';
 import { Types } from '../types';
 import { absolutePath, leagueLogoPath } from '../helpers';
 import moment from 'moment';
@@ -10,17 +11,8 @@ import path from 'path';
 
 // GET SERVER_URL/api/league/all
 export const all: RequestHandler = async (req, res) => {
-  const userId = req.body.userId;
-  console.log("=====Here is the get leagues", userId)
+  
   const leagues = await League.findAll();
-  const leagueUsers = await LeagueUser.findAll();
-  leagues.map(league=>{
-    const leagueUser = leagueUsers.find(leagueUser=>leagueUser.leagueId == league.id && leagueUser.userId == userId);
-    if (leagueUser) {
-      league.isWaitList = leagueUser.isWaitList;
-      league.isAcceptedList = leagueUser.isAcceptedList;
-    }
-  })
   res.json({ leagues });
 };
 
@@ -136,22 +128,37 @@ export const info: RequestHandler = async (req, res) => {
 export const apply: RequestHandler =async (req, res) => {
   const userId = Number(req.body.userId);
   const leagueId = Number(req.body.leagueId);
-  const leagueUser = await LeagueUser.findOne({
+  const teamId = 0; // The player does not belong to any team now
+  const player = await Player.findOne({
     where:{
       leagueId:leagueId,
       userId:userId
     }
   });
-  if (leagueUser) {
-    leagueUser.isWaitList = true;
-    await leagueUser.save()
+  if (player) {
+    player.isWaitList = 1;
+    await player.save()
   } else {
-    await LeagueUser.create({
-      leagueId,
-      userId,
-      isWaitList:true,
-      isAcceptedList: false
-    });
+    const user = await User.findByPk(userId);
+    if (user) {
+      await Player.create({
+        leagueId,
+        teamId,
+        userId,
+        firstName:user?.firstName,
+        lastName: user?.lastName,
+        avatar: `${process.env.DOMAIN}/api/user/avatar/${userId}`,
+        email: user?.email,
+        birthday: user?.birthday,
+        country: user?.country,
+        state:user?.state,
+        city: user?.city,
+        address:user?.address,
+        zipCode:user?.zipCode,
+        isWaitList:1,
+        isAcceptedList: 0
+      });
+    }
   }
   res.status(200).json({message: "Applied successfully!"})
 }

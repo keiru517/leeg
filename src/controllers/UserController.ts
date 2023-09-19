@@ -99,7 +99,6 @@ export const signup: RequestHandler = async (req, res) => {
       const extension = path.extname(req.file.originalname);
       const fileName = `avatar${extension}`;
       const data = {
-        teamId: 0,
         avatar: fileName,
         firstName: req.body.firstName,
         lastName: req.body.lastName,
@@ -118,6 +117,8 @@ export const signup: RequestHandler = async (req, res) => {
 
       const user = await User.create(data);
       const userId = user.id;
+      // user.avatar = `${process.env.DOMAIN}/api/user/avatar/${userId}`;
+      // await user.save()
 
       const directoryPath = absolutePath(`public/upload/${userId}`);
 

@@ -9,15 +9,6 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      teamId: {
-        allowNull: false,
-        references: {
-          model: 'Teams',
-          key: 'id'
-        },
-        onDelete: 'CASCADE',
-        type: Sequelize.INTEGER
-      },
       avatar: {
         type: Sequelize.STRING
       },

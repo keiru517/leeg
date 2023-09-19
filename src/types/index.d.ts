@@ -6,7 +6,6 @@ export namespace Types {
     updatedAt?: string;
   }
   export interface T_User extends T_DB {
-    teamId: number;
     avatar: string;
     firstName: string;
     lastName: string;
@@ -27,8 +26,6 @@ export namespace Types {
     logo: string;
     startDate: string;
     endDate: string;
-    isWaitList: boolean;
-    isAcceptedList: boolean;
   }
   export interface T_LeagueUser extends T_DB {
     leagueId: umber;
@@ -74,17 +71,19 @@ export namespace Types {
   export interface T_Player extends T_DB {
     leagueId: number;
     teamId: number;
-    name: string;
-    email: string;
+    userId: number;
+    firstName: string;
+    lastName: string;
     avatar: string;
-    points: number;
-    jerseyNumber: number;
-    height: string;
-    weight: string;
+    email: string;
+    birthday: string;
     country: string;
-    age: number;
-    birthDate: string;
-    role: number;
+    state: string;
+    city: string;
+    address: string;
+    zipCode: string;
+    isWaitList: number;
+    isAcceptedList: number;
   }
   export interface T_Score extends T_DB {
     playerId: number;
