@@ -24,6 +24,7 @@ const SettingsSelect = (props) => {
 
   const handleLogOut = () => {
     localStorage.removeItem("token");
+    setExpand(false);
     // localStorage.removeItem("userId");
     navigate("/signin", { replace: true });
   };
@@ -55,19 +56,19 @@ const SettingsSelect = (props) => {
         aria-labelledby="states-button"
       >
         <li key={0}>
-          <button
-            type="button"
-            className="inline-flex w-full px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-middle-gray dark:hover:text-white rounded-default"
-            onClick={handleButtonClick}
-          >
-            <div className="inline-flex items-center mx-auto">
-              <Link to="/profile">
+          <Link to="/profile">
+            <button
+              type="button"
+              className="inline-flex w-full px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-middle-gray dark:hover:text-white rounded-default"
+              onClick={handleButtonClick}
+            >
+              <div className="inline-flex items-center mx-auto">
                 <div className="flex items-center">
                   {user.firstName} {user.lastName}
                 </div>
-              </Link>
-            </div>
-          </button>
+              </div>
+            </button>
+          </Link>
         </li>
         {/* <li key={1}>
           <button
@@ -89,11 +90,11 @@ const SettingsSelect = (props) => {
           <button
             type="button"
             className="inline-flex w-full px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-middle-gray dark:hover:text-white rounded-default"
-            onClick={handleButtonClick}
+            onClick={handleLogOut}
           >
             <div
               className="inline-flex items-center mx-auto"
-              onClick={handleLogOut}
+              // onClick={handleLogOut}
             >
               {/* <Link to="/signout"> */}
               Log out
