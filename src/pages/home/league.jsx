@@ -42,7 +42,10 @@ const League = () => {
   const [leagueEndDate, setLeagueEndDate] = useState();
 
   const teams = useSelector((state) => state.home.teams).filter(
-    (team) => team.leagueId == leagueId
+    (team) => team.leagueId == leagueId && team.isdeleted !== 1
+  );
+  const players = useSelector((state) => state.home.players).filter(
+    (player) => player.leagueId == leagueId
   );
   const matches = useSelector((state) => state.home.matches).filter(
     (match) => match.leagueId == leagueId
@@ -110,7 +113,6 @@ const League = () => {
     setStandingsKeyword("");
     setPlayerKeyword("");
   };
-  const players = useSelector((state) => state.home.players);
 
   const waitListPlayers = players.filter(
     (player) =>
@@ -165,11 +167,10 @@ const League = () => {
 
   // Rosters
   useEffect(() => {
-    console.log("UseEffecthre");
+    console.log("Players effect")
     setFilteredWaitListPlayers(waitListPlayers);
     setFilteredAcceptListPlayers(acceptedPlayers);
-    setFilteredTeams(teams);
-    setFilteredStandings(teams);
+    setFilteredPlayers(players)
   }, [players]);
 
   useEffect(() => {
@@ -191,9 +192,10 @@ const League = () => {
   }, [acceptListKeyword]);
 
   // Teams
-  // useEffect(() => {
-  //   setFilteredTeams(teams);
-  // }, [teams]);
+  useEffect(() => {
+    setFilteredTeams(teams);
+    setFilteredStandings(teams);
+  }, [teams]);
 
   useEffect(() => {
     console.log(teamKeyword);
@@ -222,11 +224,13 @@ const League = () => {
 
   // All Playerlist
   useEffect(() => {
-    console.log("player hook")
+    console.log("player hook");
     const searchResult = players.filter(
       (player) =>
         player.teamId !== 0 &&
-        (player.firstName + player.lastName).toLowerCase().includes(playerKeyword.toLowerCase())
+        (player.firstName + player.lastName)
+          .toLowerCase()
+          .includes(playerKeyword.toLowerCase())
     );
     setFilteredPlayers(searchResult);
   }, [playerKeyword]);
@@ -547,9 +551,9 @@ const League = () => {
                 key={2}
                 className={classNames("rounded-xl flex flex-col w-full h-full")}
               >
+                <hr className="h-px my-4 bg-charcoal border-0" />
                 {matches.length > 0 ? (
                   <>
-                    <hr className="h-px my-4 bg-charcoal border-0" />
                     {/* <Input
                       className="rounded-lg text-xs"
                       icon={search}
@@ -637,10 +641,8 @@ const League = () => {
                     {value}
                   </Select>
                 </div>
-                {teams.length > 0 ? (
-                  <PlayerTable
-                    players={filteredPlayers}
-                  ></PlayerTable>
+                {filteredPlayers.length > 0 ? (
+                  <PlayerTable players={filteredPlayers}></PlayerTable>
                 ) : (
                   <div className="flex items-center flex-grow">
                     <p className="text-2xl text-white w-full text-center">

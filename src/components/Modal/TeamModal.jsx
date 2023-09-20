@@ -91,6 +91,7 @@ const TeamModal = () => {
 
       axios.post(apis.createTeam, formData).then((res) => {
         actions.getTeams(dispatch);
+        actions.getPlayers(dispatch);
         dispatch({ type: actions.CLOSE_TEAM_DIALOG });
         setPreviewURL("");
         setTeamName("");

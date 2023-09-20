@@ -63,7 +63,7 @@ const MatchTable = (props) => {
             ) => (
               // <Link to={`matchup/${id}`}>
                 <tr onClick={()=>goToMatchup(id)} key={index} className="odd:bg-dark-gray even:bg-charcoal  hover:opacity-70">
-                  <td className="w-1/6">
+                  <td className="w-1/7">
                     <Typography
                       variant="small"
                       color="blue-gray"
@@ -72,7 +72,7 @@ const MatchTable = (props) => {
                       {date}
                     </Typography>
                   </td>
-                  <td className="w-1/6">
+                  <td className="w-1/7">
                     <Typography
                       variant="small"
                       color="blue-gray"
@@ -81,7 +81,7 @@ const MatchTable = (props) => {
                       {location}
                     </Typography>
                   </td>
-                  <td className="">
+                  <td className="w-1/7">
                     <Typography
                       variant="small"
                       color="blue-gray"
@@ -90,7 +90,7 @@ const MatchTable = (props) => {
                       {time}
                     </Typography>
                   </td>
-                  <td className="w-1/6">
+                  <td className="w-1/7">
                     <Typography
                       variant="small"
                       color="blue-gray"
@@ -111,7 +111,7 @@ const MatchTable = (props) => {
                       </Link>
                     </Typography>
                   </td>
-                  <td className="w-1/6">
+                  <td className="w-1/7">
                     <Typography
                       variant="small"
                       color="blue-gray"
@@ -141,7 +141,7 @@ const MatchTable = (props) => {
                       {result}
                     </Typography>
                   </td>
-                  <td className="">
+                  <td className="w-1/7">
                     <Typography
                       as="a"
                       href="#"

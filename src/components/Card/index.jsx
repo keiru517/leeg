@@ -48,16 +48,27 @@ const Card = (props) => {
         }`}
       >
         <div className="">
-          <div className="flex items-center">
-            <img src={league.logo} className="w-10 h-10 rounded-lg"></img>
-            <p className="dark:text-white text-sm ml-5">{league.name}</p>
-            {league.userId == user?.id ? (
-              <span className="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300 mx-auto">
-                Admin
-              </span>
-            ) : (
-              ""
-            )}
+          <div className="flex items-center justify-between">
+            <div className="flex items-center">
+              <img src={league.logo} className="w-10 h-10 rounded-lg"></img>
+              <p className="dark:text-white text-sm ml-5">{league.name}</p>
+            </div>
+            <div>
+              {player?.isAcceptedList === 1 ? (
+                <span className="bg-purple-100 text-purple-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-purple-900 dark:text-purple-300">
+                  Player
+                </span>
+              ) : (
+                ""
+              )}
+              {league.userId == user?.id ? (
+                <span className="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
+                  Admin
+                </span>
+              ) : (
+                ""
+              )}
+            </div>
           </div>
           {/* <div className='flex items-center'>
                     <img src={rightarrow}></img>

@@ -17,16 +17,16 @@ const PageTitle = (props) => {
     createAction,
     setLeagues,
   } = props;
-  
+
   let { leagueId } = useParams();
-  
-    const user = useSelector((state) => state.home.user);
-    const league = useSelector((state) => state.home.leagues).find(
-      (league) => league.id == leagueId
-    );
-  
-    const leagues = useSelector((state) => state.home.leagues);
-  
+
+  const user = useSelector((state) => state.home.user);
+  const league = useSelector((state) => state.home.leagues).find(
+    (league) => league.id == leagueId
+  );
+
+  const leagues = useSelector((state) => state.home.leagues);
+
   const options = [
     { id: 0, name: "All Leagues" },
     { id: 1, name: "My Leagues" },
@@ -41,10 +41,12 @@ const PageTitle = (props) => {
       const myLeagues = leagues.filter((league) => league.userId == user?.id);
       setLeagues(myLeagues);
     } else if (e.id === 2) {
-      const otherLeagues = leagues.filter((league) => league.userId !== user?.id);
+      const otherLeagues = leagues.filter(
+        (league) => league.userId !== user?.id
+      );
       setLeagues(otherLeagues);
     }
-  }
+  };
 
   const dispatch = useDispatch();
 
@@ -129,12 +131,20 @@ const PageTitle = (props) => {
         )}
       </div>
       {button ? (
-        <button
-          onClick={handleClick}
-          className="w-[169px] h-button bg-primary hover:bg-opacity-70 rounded-default text-white focus:ring-2 font-bold"
-        >
-          {button}
-        </button>
+        <div className="space-x-3">
+          <button
+            // onClick={handleClick}
+            className="w-[169px] h-button bg-lime-600 hover:bg-opacity-70 rounded-default text-white focus:ring-2 font-bold"
+          >
+            Join by code
+          </button>
+          <button
+            onClick={handleClick}
+            className="w-[169px] h-button bg-primary hover:bg-opacity-70 rounded-default text-white focus:ring-2 font-bold"
+          >
+            {button}
+          </button>
+        </div>
       ) : (
         ""
       )}
