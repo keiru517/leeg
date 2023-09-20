@@ -42,10 +42,10 @@ const League = () => {
   const [leagueEndDate, setLeagueEndDate] = useState();
 
   const teams = useSelector((state) => state.home.teams).filter(
-    (team) => team.leagueId == leagueId && team.isdeleted !== 1
+    (team) => team.leagueId == leagueId && team.isDeleted !== 1
   );
   const players = useSelector((state) => state.home.players).filter(
-    (player) => player.leagueId == leagueId
+    (player) => player.leagueId == leagueId && player.isDeleted !== 1
   );
   const matches = useSelector((state) => state.home.matches).filter(
     (match) => match.leagueId == leagueId

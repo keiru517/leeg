@@ -38,7 +38,7 @@ const Player = (props) => {
         <tbody className="text-center">
           {
             // teams.map(({ logo, name}, index) =>
-            players.map((player, idx) => (
+            players.filter(player=>player.teamId !== 0).map((player, idx) => (
               <tr
                 key={idx}
                 className="odd:bg-dark-gray even:bg-charcoal h-[53px]"

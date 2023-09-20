@@ -203,7 +203,10 @@ const Matchup = () => {
           <div className="flex flex-col overflow-y-auto rounded-default h-[350px] bg-dark-gray transition ease-in-out delay-150 hover:bg-dark-gray duration-200 w-full">
             <div className="flex justify-between h-button bg-charcoal rounded-t-default p-4">
               <div className="flex items-center">
-                <img src={homeTeam.logo} className="w-8 h-8 rounded-default"></img>
+                <img
+                  src={homeTeam.logo}
+                  className="w-8 h-8 rounded-default"
+                ></img>
                 <Link to={`/league/${leagueId}/team/${match.homeTeamId}`}>
                   <p className="text-white text-sm mx-2 underline">
                     {homeTeam.name}
@@ -224,12 +227,12 @@ const Matchup = () => {
             <div className="flex flex-grow items-center">
               {homeTeamPlayers.length > 0 ? (
                 <div className="text-white h-full w-full">
-                  <table className="w-full min-w-max table-auto text-left">
+                  <table className="w-full table-auto text-left">
                     <thead className="sticky">
                       <tr>
                         <th
-                          key="2"
-                          className="h-button bg-slate text-center font-font-dark-gray w-1/2"
+                          key="1"
+                          className="h-button bg-slate text-center font-font-dark-gray"
                         >
                           <Typography
                             variant="small"
@@ -240,8 +243,8 @@ const Matchup = () => {
                           </Typography>
                         </th>
                         <th
-                          key="3"
-                          className="h-button bg-slate text-center font-font-dark-gray w-1/2"
+                          key="2"
+                          className="h-button bg-slate text-center font-font-dark-gray"
                         >
                           <Typography
                             variant="small"
@@ -249,6 +252,18 @@ const Matchup = () => {
                             className="font-normal leading-none opacity-70"
                           >
                             Points
+                          </Typography>
+                        </th>
+                        <th
+                          key="3"
+                          className="h-button bg-slate text-center font-font-dark-gray"
+                        >
+                          <Typography
+                            variant="small"
+                            color="blue-gray"
+                            className="font-normal leading-none opacity-70"
+                          >
+                            Jersey Number
                           </Typography>
                         </th>
                       </tr>
@@ -260,7 +275,7 @@ const Matchup = () => {
                           className="even:bg-dark-gray odd:bg-charcoal"
                         >
                           <td className="">
-                            <div className="flex items-center underline justify-center">
+                            <div className="flex items-center underline justify-between px-3">
                               <img
                                 src={player.avatar}
                                 alt=""
@@ -269,7 +284,7 @@ const Matchup = () => {
                               <Link
                                 to={`/league/${leagueId}/player/${player.id}`}
                               >
-                                {player.name}
+                                {player.firstName} {player.lastName}
                               </Link>
                             </div>
                           </td>
@@ -281,7 +296,30 @@ const Matchup = () => {
                             >
                               <Input
                                 key={index}
-                                className="rounded-default bg-transparent border-none text-center"
+                                className="w-[50px] rounded-default bg-transparent border-none text-center"
+                                type="number"
+                                value={homeInputValues[index]?.points || 0}
+                                onChange={(e) =>
+                                  handleHomeInputChange(
+                                    index,
+                                    player.id,
+                                    matchId,
+                                    match.homeTeamId,
+                                    e.target.value
+                                  )
+                                }
+                              ></Input>
+                            </Typography>
+                          </td>
+                          <td className="">
+                            <Typography
+                              variant="small"
+                              color="blue-gray"
+                              className="font-normal"
+                            >
+                              <Input
+                                key={index}
+                                className="w-[70px] rounded-default bg-transparent border-none text-center"
                                 type="number"
                                 value={homeInputValues[index]?.points || 0}
                                 onChange={(e) =>
@@ -314,7 +352,10 @@ const Matchup = () => {
           <div className="flex flex-col overflow-y-auto rounded-default h-[350px] bg-dark-gray transition ease-in-out delay-150 hover:bg-dark-gray duration-200 w-full">
             <div className="flex justify-between h-button bg-charcoal rounded-t-default p-4">
               <div className="flex items-center">
-                <img src={awayTeam.logo} className="w-8 h-8 rounded-default"></img>
+                <img
+                  src={awayTeam.logo}
+                  className="w-8 h-8 rounded-default"
+                ></img>
                 <Link to={`/league/${leagueId}/team/${match.awayTeamId}`}>
                   <p className="text-white text-sm mx-2 underline">
                     {awayTeam.name}
@@ -335,12 +376,12 @@ const Matchup = () => {
             <div className="flex flex-grow items-center">
               {awayTeamPlayers.length > 0 ? (
                 <div className="text-white h-full w-full">
-                  <table className="w-full min-w-max table-auto text-left">
+                  <table className="w-full table-auto text-left">
                     <thead className="sticky">
                       <tr>
                         <th
-                          key="2"
-                          className="h-button bg-slate text-center font-font-dark-gray w-1/2"
+                          key="1"
+                          className="h-button bg-slate text-center font-font-dark-gray"
                         >
                           <Typography
                             variant="small"
@@ -351,8 +392,8 @@ const Matchup = () => {
                           </Typography>
                         </th>
                         <th
-                          key="3"
-                          className="h-button bg-slate text-center font-font-dark-gray w-1/2"
+                          key="2"
+                          className="h-button bg-slate text-center font-font-dark-gray"
                         >
                           <Typography
                             variant="small"
@@ -360,6 +401,18 @@ const Matchup = () => {
                             className="font-normal leading-none opacity-70"
                           >
                             Points
+                          </Typography>
+                        </th>
+                        <th
+                          key="3"
+                          className="h-button bg-slate text-center font-font-dark-gray"
+                        >
+                          <Typography
+                            variant="small"
+                            color="blue-gray"
+                            className="font-normal leading-none opacity-70"
+                          >
+                            Jersey Number
                           </Typography>
                         </th>
                       </tr>
@@ -371,7 +424,7 @@ const Matchup = () => {
                           className="even:bg-dark-gray odd:bg-charcoal"
                         >
                           <td className="">
-                            <div className="flex items-center underline justify-center">
+                            <div className="flex items-center underline justify-between px-3">
                               <img
                                 src={player.avatar}
                                 alt=""
@@ -380,26 +433,55 @@ const Matchup = () => {
                               <Link
                                 to={`/league/${leagueId}/player/${player.id}`}
                               >
-                                {player.name}
+                                {player.firstName} {player.lastName}
                               </Link>
                             </div>
                           </td>
-                          <td className="justify-center">
-                            <Input
-                              key={index}
-                              className="rounded-default bg-transparent border-none text-center"
-                              type="number"
-                              value={awayInputValues[index]?.points || 0}
-                              onChange={(e) =>
-                                handleAwayInputChange(
-                                  index,
-                                  player.id,
-                                  matchId,
-                                  match.awayTeamId,
-                                  e.target.value
-                                )
-                              }
-                            ></Input>
+                          <td className="">
+                            <Typography
+                              variant="small"
+                              color="blue-gray"
+                              className="font-normal"
+                            >
+                              <Input
+                                key={index}
+                                className="w-[50px] rounded-default bg-transparent border-none text-center"
+                                type="number"
+                                value={awayInputValues[index]?.points || 0}
+                                onChange={(e) =>
+                                  handleAwayInputChange(
+                                    index,
+                                    player.id,
+                                    matchId,
+                                    match.homeTeamId,
+                                    e.target.value
+                                  )
+                                }
+                              ></Input>
+                            </Typography>
+                          </td>
+                          <td className="">
+                            <Typography
+                              variant="small"
+                              color="blue-gray"
+                              className="font-normal"
+                            >
+                              <Input
+                                key={index}
+                                className="w-[70px] rounded-default bg-transparent border-none text-center"
+                                type="number"
+                                value={awayInputValues[index]?.points || 0}
+                                onChange={(e) =>
+                                  handleAwayInputChange(
+                                    index,
+                                    player.id,
+                                    matchId,
+                                    match.homeTeamId,
+                                    e.target.value
+                                  )
+                                }
+                              ></Input>
+                            </Typography>
                           </td>
                         </tr>
                       ))}

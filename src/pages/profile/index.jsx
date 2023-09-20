@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import Input from "../../components/Input";
 import Modal from "../../components/Modal";
@@ -14,8 +14,10 @@ import eyeDisable from "../../assets/img/dark_mode/eye-disable.png";
 import toggleOn from "../../assets/img/dark_mode/toggle-on.png";
 
 const Profile = () => {
+  const dispatch = useDispatch();
   const admins = useSelector((state) => state.home.admins);
   const user = useSelector((state) => state.home.user);
+
 
   const breadcrumList = [
     "Personal Information",
@@ -34,22 +36,10 @@ const Profile = () => {
   };
 
   const [step, setStep] = useState(1);
-  const [breadcrum, setBreadcrum] = useState(breadcrumList[0]);
 
-  const goToStep1 = () => {
-    setStep(1);
-    setBreadcrum(breadcrumList[0]);
-  };
-
-  const goToStep2 = () => {
-    setStep(2);
-    setBreadcrum(breadcrumList[1]);
-  };
-
-  const goToStep3 = () => {
-    setStep(3);
-    setBreadcrum(breadcrumList[2]);
-  };
+  const [email, setEmail] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
 
   const updateInformation = () => {
     console.log("clicked update information");
@@ -65,8 +55,16 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    // getLeagues();
+    actions.getUserInfo(dispatch, localStorage.getItem("userId"));
   }, []);
+
+  useEffect(()=>{
+    setEmail(user?.email)
+    setFirstName(user?.firstName)
+    setLastName(user?.lastName)
+  }, [user])
+
+
 
   return (
     <div className="flex flex-col flex-grow">
@@ -78,7 +76,7 @@ const Profile = () => {
       </PageTitle>
       <p className="text-sm text-font-dark-gray my-[20px]">
         <span className="">Settings</span>
-        <span className="text-sky-500"> &gt; {breadcrum}</span>
+        <span className="text-sky-500"> &gt; Personal Information</span>
       </p>
       <div className="flex flex-grow rounded-main bg-slate overflow-auto p-default">
         {/* <div className="flex flex-col space-y-3">
@@ -141,20 +139,22 @@ const Profile = () => {
                     <Input
                       className="text-font-dark-gray text-xs rounded-default"
                       placeholder="Type Email Address*"
-                    ></Input>
+                      value={email}
+                      onChange={(e)=>setEmail(e.target.value)}
+                      ></Input>
                     <Input
                       className="text-font-dark-gray text-xs rounded-default"
                       placeholder="Type Your First Name"
-                    ></Input>
+                      value={firstName}
+                      onChange={(e)=>setFirstName(e.target.value)}
+                      ></Input>
                     <Input
                       className="text-font-dark-gray text-xs rounded-default"
                       placeholder="Type Your Last Name"
+                      value={lastName}
+                      onChange={(e)=>setLastName(e.target.value)}
                     ></Input>
                   </div>
-                  <Input
-                    className="text-font-dark-gray text-xs rounded-default"
-                    placeholder="Select Location*"
-                  ></Input>
                 </>
               ) : (
                 <div className="grid grid-cols-3 space-x-3">

@@ -59,6 +59,7 @@ const TeamModal = () => {
       .then((res) => {
         dispatch({ type: actions.CLOSE_TEAM_DIALOG });
         actions.getTeams(dispatch);
+        actions.getPlayers(dispatch);
         alert(res.data.message);
       })
       .catch((err) => alert(err.data.message));
