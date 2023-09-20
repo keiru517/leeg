@@ -1,13 +1,16 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import downArrowFilled from "../../../src/assets/img/dark_mode/down-arrow-filled.png";
 import downArrow from "../../../src/assets/img/dark_mode/down-arrow.png";
 import settingsIcon from "../../assets/img/dark_mode/Setting.png";
 import { Link, useNavigate } from "react-router-dom";
 import apis from "../../utils/apis";
 import { useSelector } from "react-redux";
+import toggleOn from '../../assets/img/dark_mode/toggle-on.png';
+import toggleOff from '../../assets/img/dark_mode/toggle-off.png';
 
 const SettingsSelect = (props) => {
   const { icon, className, value } = props;
+  const ref = useRef(null);
 
   const user = useSelector((state) => state.home.user);
 
@@ -17,6 +20,8 @@ const SettingsSelect = (props) => {
   const toggle = () => {
     setExpand(!expand);
   };
+
+  const [darkMode, setDarkMode] = useState(true);
 
   const handleButtonClick = (data) => {
     setExpand(false);
@@ -29,10 +34,28 @@ const SettingsSelect = (props) => {
     navigate("/signin", { replace: true });
   };
 
+  useEffect(() => {
+    // Function to handle clicks outside the component
+    const handleClickOutside = (event) => {
+      if (ref.current && !ref.current.contains(event.target)) {
+        setExpand(false); // Collapse the component
+      }
+    };
+
+    // Add event listener for clicks outside the component
+    document.addEventListener("mousedown", handleClickOutside);
+
+    // Clean up the event listener on component unmount
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   if (user == {}) return null;
 
   return (
     <div
+    ref={ref}
       className={`${className} flex justify-between z-10 text-font-dark-gray rounded-lg shadow w-[100px]  border border-dark-gray relative items-center cursor-pointer select-none`}
     >
       <div
@@ -50,12 +73,26 @@ const SettingsSelect = (props) => {
         <img src={downArrowFilled} alt="" className="mr-2" />
       </div>
       <ul
-        className={`w-[200px] p-2 text-sm text-gray-700 dark:text-gray-200 absolute right-0 top-12 bg-dark-gray rounded-default${
+        className={`w-[180px] p-2 text-sm text-gray-700 dark:text-gray-200 absolute right-0 top-12 bg-dark-gray rounded-default${
           expand ? `` : " hidden"
         }`}
         aria-labelledby="states-button"
       >
         <li key={0}>
+          <button
+            type="button"
+            className="inline-flex w-full px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-middle-gray dark:hover:text-white rounded-default"
+            onClick={()=>setDarkMode(!darkMode)}
+          >
+            <div className="inline-flex items-center mx-auto">
+                <div className="flex items-center">
+                  Dark mode
+                  <img src={darkMode?toggleOn:toggleOff} className="ml-3 w-8" alt="" />
+                </div>
+            </div>
+          </button>
+        </li>
+        <li key={1}>
           <Link to="/profile">
             <button
               type="button"
@@ -64,28 +101,12 @@ const SettingsSelect = (props) => {
             >
               <div className="inline-flex items-center mx-auto">
                 <div className="flex items-center">
-                  {user.firstName} {user.lastName}
+                  Profile
                 </div>
               </div>
             </button>
           </Link>
         </li>
-        {/* <li key={1}>
-          <button
-            type="button"
-            className="inline-flex w-full px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-middle-gray dark:hover:text-white rounded-default"
-            onClick={handleButtonClick}
-          >
-            <div className="inline-flex items-center">
-              <Link to="/profile">
-                <div className="flex items-center">
-                  <img src={settingsIcon} className="mr-3" alt="" />
-                  Settings
-                </div>
-              </Link>
-            </div>
-          </button>
-        </li> */}
         <li key={2}>
           <button
             type="button"
