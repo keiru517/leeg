@@ -5,6 +5,7 @@ import * as actions from "../../actions";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import apis from "../../utils/apis";
+import Select from "../Select";
 
 const PageTitle = (props) => {
   const {
@@ -16,14 +17,34 @@ const PageTitle = (props) => {
     createAction,
     setLeagues,
   } = props;
-
+  
   let { leagueId } = useParams();
-  const user = useSelector((state) => state.home.user);
-  const league = useSelector((state) => state.home.leagues).find(
-    (league) => league.id == leagueId
-  );
-
-  const leagues = useSelector((state) => state.home.leagues);
+  
+    const user = useSelector((state) => state.home.user);
+    const league = useSelector((state) => state.home.leagues).find(
+      (league) => league.id == leagueId
+    );
+  
+    const leagues = useSelector((state) => state.home.leagues);
+  
+  const options = [
+    { id: 0, name: "All Leagues" },
+    { id: 1, name: "My Leagues" },
+    { id: 2, name: "Other Leagues" },
+  ];
+  const [filter, setFilter] = useState("All Leagues");
+  const handleFilter = (e) => {
+    setFilter(e.name);
+    if (e.id === 0) {
+      setLeagues(leagues);
+    } else if (e.id === 1) {
+      const myLeagues = leagues.filter((league) => league.userId == user?.id);
+      setLeagues(myLeagues);
+    } else if (e.id === 2) {
+      const otherLeagues = leagues.filter((league) => league.userId !== user?.id);
+      setLeagues(otherLeagues);
+    }
+  }
 
   const dispatch = useDispatch();
 
@@ -85,22 +106,15 @@ const PageTitle = (props) => {
           <p className="text-3xl dark:text-white ml-6 font-bold">{children}</p>
         ) : (
           <>
-            <p
-              onClick={handleMyleauges}
-              className={`text-xl dark:text-white text-charcoal text-left font-black mx-6 cursor-pointer hover:opacity-70 ${
-                tab == 1 ? "border-b-2 border-sky-500 p-3" : ""
-              }`}
+            <Select
+              className="w-[144px] h-[42px] rounded-lg text-xs"
+              options={options}
+              // handleClick={(e) => setFilter(e.name)}
+              handleClick={handleFilter}
+              value={filter}
             >
-              My Leagues
-            </p>
-            <p
-              onClick={handleOtherleauges}
-              className={`text-xl dark:text-white text-charcoal text-left font-black mx-6 cursor-pointer hover:opacity-70 ${
-                tab == 2 ? "border-b-2 border-sky-500 p-3" : ""
-              }`}
-            >
-              Other Leagues
-            </p>
+              {filter}
+            </Select>
           </>
         )}
         {editIcon ? (

@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import downArrowFilled from "../../../src/assets/img/dark_mode/down-arrow-filled.png";
 import downArrow from "../../../src/assets/img/dark_mode/down-arrow.png";
 
 const Select = (props) => {
   const { icon, className, value, handleClick, options, children, ...rest } = props;
 
+  const ref = useRef(null);
   const [expand, setExpand] = useState(false);
 
   const toggle = () => {
@@ -16,8 +17,26 @@ const Select = (props) => {
     handleClick(data);
   };
 
+  useEffect(() => {
+    // Function to handle clicks outside the component
+    const handleClickOutside = (event) => {
+      if (ref.current && !ref.current.contains(event.target)) {
+        setExpand(false); // Collapse the component
+      }
+    };
+
+    // Add event listener for clicks outside the component
+    document.addEventListener("mousedown", handleClickOutside);
+
+    // Clean up the event listener on component unmount
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
     <div
+    ref={ref}
       className={`${className} flex justify-between z-10 dark:text-white rounded-lg shadow w-44 dark:bg-transparent border border-dark-gray relative items-center cursor-pointer select-none`}
       //   onClick={() => {
       //     setExpand(true)
@@ -32,7 +51,7 @@ const Select = (props) => {
         <img src={downArrowFilled} alt="" className="mr-4" />
       </div>
       <ul
-        className={`py-2 text-sm text-gray-700 dark:text-gray-200 absolute top-12 bg-light-gray w-full rounded-default${
+        className={`p-2 text-sm text-gray-700 dark:text-gray-200 absolute top-12 bg-light-gray w-full rounded-default${
           expand ? `` : " hidden"
         }`}
         aria-labelledby="states-button"
