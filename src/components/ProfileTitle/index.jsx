@@ -27,7 +27,7 @@ const PageTitle = (props) => {
           alt=""
           className="w-[34px] h-[34px] dark:hover:bg-middle-gray rounded-default cursor-pointer"
         />
-        {avatar ? <img src={avatar} alt="" className="w-20 h-20 mx-6" /> : ""}
+        {avatar ? <img src={avatar} alt="" className="w-20 h-20 mx-6 rounded-default" /> : ""}
         <p className="text-3xl text-white text-left font-black">{children}</p>
         {deleteIcon ? <img src={deleteIcon} alt="" className="w-6 h-6" /> : ""}
       </div>

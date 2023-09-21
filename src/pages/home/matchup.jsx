@@ -321,16 +321,16 @@ const Matchup = () => {
                                 key={index}
                                 className="w-[70px] rounded-default bg-transparent border-none text-center"
                                 type="number"
-                                value={homeInputValues[index]?.points || 0}
-                                onChange={(e) =>
-                                  handleHomeInputChange(
-                                    index,
-                                    player.id,
-                                    matchId,
-                                    match.homeTeamId,
-                                    e.target.value
-                                  )
-                                }
+                                // value={homeInputValues[index]?.points || 0}
+                                // onChange={(e) =>
+                                //   handleHomeInputChange(
+                                //     index,
+                                //     player.id,
+                                //     matchId,
+                                //     match.homeTeamId,
+                                //     e.target.value
+                                //   )
+                                // }
                               ></Input>
                             </Typography>
                           </td>
@@ -453,7 +453,7 @@ const Matchup = () => {
                                     index,
                                     player.id,
                                     matchId,
-                                    match.homeTeamId,
+                                    match.awayTeamId,
                                     e.target.value
                                   )
                                 }
@@ -470,16 +470,16 @@ const Matchup = () => {
                                 key={index}
                                 className="w-[70px] rounded-default bg-transparent border-none text-center"
                                 type="number"
-                                value={awayInputValues[index]?.points || 0}
-                                onChange={(e) =>
-                                  handleAwayInputChange(
-                                    index,
-                                    player.id,
-                                    matchId,
-                                    match.homeTeamId,
-                                    e.target.value
-                                  )
-                                }
+                                // value={awayInputValues[index]?.points || 0}
+                                // onChange={(e) =>
+                                //   handleAwayInputChange(
+                                //     index,
+                                //     player.id,
+                                //     matchId,
+                                //     match.homeTeamId,
+                                //     e.target.value
+                                //   )
+                                // }
                               ></Input>
                             </Typography>
                           </td>

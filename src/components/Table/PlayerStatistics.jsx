@@ -37,7 +37,7 @@ const PlayerStatistics = (props) => {
           </tr>
         </thead>
         <tbody className="text-center">
-          {players.map(({ id, name, jerseyNumber }, index) => {
+          {players.map(({ id, firstName, lastName, jerseyNumber }, index) => {
             const playerMatchups = matchups.filter(
               (matchup) => matchup.playerId === id
             );
@@ -67,7 +67,7 @@ const PlayerStatistics = (props) => {
                     className="font-normal flex items-center"
                   >
                     <img src={avatar} alt="" className="mr-3 w-8 h-8" />
-                    {name}
+                    {firstName} {lastName}
                   </Typography>
                 </td>
                 <td className="w-1/6">

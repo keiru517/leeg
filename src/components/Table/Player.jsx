@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 const Player = (props) => {
   // const { teams } = props;
   const { players } = props;
-  const columns = ["Player", "Team", "Country", "Jersey number"];
+  const columns = ["Player", "Team"];
   const teams = useSelector(state=>state.home.teams);
 
   // const players = useSelector((state) => state.home.players).filter(
@@ -69,7 +69,7 @@ const Player = (props) => {
                     </Link>
                   </Typography>
                 </td>
-                <td className="w-1/5"> 
+                {/* <td className="w-1/5"> 
                   <Typography
                     variant="small"
                     color="blue-gray"
@@ -78,8 +78,6 @@ const Player = (props) => {
                     {player.country}
                   </Typography>
                 </td>
-
-
                 <td className="w-1/5">
                   <Typography
                     variant="small"
@@ -88,7 +86,7 @@ const Player = (props) => {
                   >
                     {player.jerseyNumber}
                   </Typography>
-                </td>
+                </td> */}
               </tr>
             ))
             // )
