@@ -18,6 +18,7 @@ export default class League extends Model<
   declare logo: string;
   declare startDate: string;
   declare endDate: string;
+  declare isDeleted: string;
   static modelName = 'League';
 }
 League.init(
@@ -38,7 +39,11 @@ League.init(
     description: DataTypes.STRING,
     logo: DataTypes.STRING,
     startDate: DataTypes.DATE,
-    endDate: DataTypes.DATE
+    endDate: DataTypes.DATE,
+    isDeleted: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0
+    }
   },
   {
     sequelize,

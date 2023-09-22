@@ -1,4 +1,10 @@
-import { Model, DataTypes, Optional, CreationOptional, ForeignKey } from 'sequelize';
+import {
+  Model,
+  DataTypes,
+  Optional,
+  CreationOptional,
+  ForeignKey
+} from 'sequelize';
 import sequelize from '.';
 import { Types } from '../types';
 
@@ -8,8 +14,8 @@ type AdminCreationAttributes = Optional<
 >;
 
 export default class Admin extends Model<
-AdminCreationAttributes,
-AdminCreationAttributes
+  AdminCreationAttributes,
+  AdminCreationAttributes
 > {
   declare id: CreationOptional<number>;
   declare userId: ForeignKey<number>;
@@ -18,7 +24,6 @@ AdminCreationAttributes
 }
 Admin.init(
   {
-
     userId: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -38,6 +43,10 @@ Admin.init(
     role: {
       type: DataTypes.INTEGER,
       defaultValue: 1
+    },
+    isDeleted: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0
     }
   },
   {

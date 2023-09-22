@@ -26,17 +26,14 @@ export namespace Types {
     logo: string;
     startDate: string;
     endDate: string;
+    isDeleted: number;
   }
-  export interface T_LeagueUser extends T_DB {
-    leagueId: umber;
-    userId: number;
-    isWaitList: boolean;
-    isAcceptedList: boolean;
-  }
+
   export interface T_Admin extends T_DB {
     userId: number;
     leagueId: number;
     role: number;
+    isDeleted: number;
   }
   export interface T_Team extends T_DB {
     leagueId: number;
@@ -51,6 +48,7 @@ export namespace Types {
     pointScored: number;
     pointAgainst: number;
     diff: number;
+    isDeleted: number;
   }
   export interface T_Match extends T_DB {
     leagueId: number;
@@ -61,12 +59,14 @@ export namespace Types {
     location: string;
     result: string;
     status: string;
+    isDeleted: number;
   }
   export interface T_Matchup extends T_DB {
     playerId: number;
     matchId: string;
     teamId: number;
     points: number;
+    isDeleted: number;
   }
   export interface T_Player extends T_DB {
     leagueId: number;
@@ -84,6 +84,7 @@ export namespace Types {
     zipCode: string;
     isWaitList: number;
     isAcceptedList: number;
+    isDeleted: number;
   }
   export interface T_Score extends T_DB {
     playerId: number;

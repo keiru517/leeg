@@ -28,6 +28,7 @@ export default class Player extends Model<
   declare zipCode: string;
   declare isWaitList: number;
   declare isAcceptedList: number;
+  declare isDeleted: number
   static modelName = 'Player';
 }
 Player.init(
@@ -46,7 +47,11 @@ Player.init(
     address: DataTypes.STRING,
     zipCode: DataTypes.STRING,
     isWaitList: DataTypes.INTEGER,
-    isAcceptedList: DataTypes.INTEGER
+    isAcceptedList: DataTypes.INTEGER,
+    isDeleted: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0
+    }
   },
   {
     sequelize,

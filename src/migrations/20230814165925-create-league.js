@@ -37,6 +37,9 @@ module.exports = {
       endDate: {
         type: Sequelize.DATE
       },
+      isDeleted: {
+        type: Sequelize.INTEGER
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

@@ -11,7 +11,6 @@ import path from 'path';
 
 // GET SERVER_URL/api/league/all
 export const all: RequestHandler = async (req, res) => {
-  
   const leagues = await League.findAll();
   res.json({ leagues });
 };
@@ -56,7 +55,7 @@ export const update: RequestHandler = async (req, res) => {
       const directoryPath = absolutePath(
         `public/upload/${req.body.userId}/leagues`
       );
-      
+
       if (!existsSync(directoryPath)) {
         mkdirSync(directoryPath, { recursive: true });
       }
@@ -125,19 +124,19 @@ export const info: RequestHandler = async (req, res) => {
   }
 };
 
-export const apply: RequestHandler =async (req, res) => {
+export const apply: RequestHandler = async (req, res) => {
   const userId = Number(req.body.userId);
   const leagueId = Number(req.body.leagueId);
   const teamId = 0; // The player does not belong to any team now
   const player = await Player.findOne({
-    where:{
-      leagueId:leagueId,
-      userId:userId
+    where: {
+      leagueId: leagueId,
+      userId: userId
     }
   });
   if (player) {
     player.isWaitList = 1;
-    await player.save()
+    await player.save();
   } else {
     const user = await User.findByPk(userId);
     if (user) {
@@ -145,20 +144,21 @@ export const apply: RequestHandler =async (req, res) => {
         leagueId,
         teamId,
         userId,
-        firstName:user?.firstName,
+        firstName: user?.firstName,
         lastName: user?.lastName,
         avatar: `${process.env.DOMAIN}/api/user/avatar/${userId}`,
         email: user?.email,
         birthday: user?.birthday,
         country: user?.country,
-        state:user?.state,
+        state: user?.state,
         city: user?.city,
-        address:user?.address,
-        zipCode:user?.zipCode,
-        isWaitList:1,
-        isAcceptedList: 0
+        address: user?.address,
+        zipCode: user?.zipCode,
+        isWaitList: 1,
+        isAcceptedList: 0,
+        isDeleted: 0
       });
     }
   }
-  res.status(200).json({message: "Applied successfully!"})
-}
+  res.status(200).json({ message: 'Applied successfully!' });
+};

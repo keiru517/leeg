@@ -12,57 +12,92 @@ export const all: RequestHandler = async (req, res) => {
 
 // POST SERVER_URL/api/matchup/create
 export const create: RequestHandler = async (req, res) => {
-  console.log(req.body)
+  console.log(req.body);
   const matchId = req.body.matchId;
   // const data = req.body.data;
-  console.log(matchId)
+  console.log(matchId);
 
   var playerFound = false;
   const homeTeamPlayers = req.body.homeInputValues;
   const awayTeamPlayers = req.body.awayInputValues;
 
-  // const mergedObject = Object.values(homeTeamPlayers).concat(
-  //   Object.values(awayTeamPlayers).reduce((acc, obj, index) => {
-  //     return obj;
-  //   }, {}))
+  // Handle home team players
+  const promise1 = Object.keys(homeTeamPlayers).map(async id => {
+    const player = homeTeamPlayers[id];
 
-    const promise1 = Object.keys(homeTeamPlayers).map( async id=>{
-      const player = homeTeamPlayers[id];
+    // check if there is a matchup data
+    const matchup = await Matchup.findOne({
+      where: {
+        playerId: player.playerId,
+        teamId: player.teamId,
+        matchId: matchId
+      }
+    });
 
+    // update a matchup
+    if (matchup) {
+      await Matchup.update(
+        { points: player.points },
+        { where: { playerId: player.playerId } }
+      );
+    }
+    // Create a matchup
+    else {
       await Matchup.create({
         playerId: player.playerId,
         matchId: matchId,
         teamId: player.teamId,
-        points: player.points
-      })
-      playerFound = true;
-    })
+        points: player.points,
+        isDeleted: 0
+      });
+    }
 
-    const promise2 = Object.keys(awayTeamPlayers).map( async id=>{
-      const player = awayTeamPlayers[id];
+    playerFound = true;
+  });
 
+  // Handle away team players
+  const promise2 = Object.keys(awayTeamPlayers).map(async id => {
+    const player = awayTeamPlayers[id];
+
+    // check if there is a matchup data
+    const matchup = await Matchup.findOne({
+      where: {
+        playerId: player.playerId,
+        teamId: player.teamId,
+        matchId: matchId
+      }
+    });
+    // update a matchup
+    if (matchup) {
+      await Matchup.update(
+        { points: player.points },
+        { where: { playerId: player.playerId } }
+      );
+    } 
+    // Create a matchup
+    else {
       await Matchup.create({
         playerId: player.playerId,
         matchId: matchId,
         teamId: player.teamId,
-        points: player.points
-      })
-      playerFound = true;
-    })
-    await Promise.all(promise1)
-    await Promise.all(promise2)
-
+        points: player.points,
+        isDeleted: 0
+      });
+    }
+    playerFound = true;
+  });
+  await Promise.all(promise1);
+  await Promise.all(promise2);
 
   if (playerFound) {
-    res.status(200).json({message: 'Saved successfully!'});
+    res.status(200).json({ message: 'Saved successfully!' });
   } else {
-    res.status(404).json({message: "Player not found"});
+    res.status(404).json({ message: 'Player not found' });
   }
 };
 
 // POST SERVER_URL/api/matchup/update/1
 export const update: RequestHandler = async (req, res) => {
-
   // const data = {
   //   name: req.body.name,
   //   description: req.body.description,
@@ -89,7 +124,7 @@ export const remove: RequestHandler = async (req, res) => {
     await matchup.destroy();
     const matchups = await Matchup.findAll();
 
-    res.json({ message: 'deleted successfully!', matchups:matchups });
+    res.json({ message: 'deleted successfully!', matchups: matchups });
   } else {
     res.status(404).json({ message: 'matchup not found' });
   }

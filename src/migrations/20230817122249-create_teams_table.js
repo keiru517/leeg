@@ -52,6 +52,9 @@ module.exports = {
       diff: {
         type: Sequelize.INTEGER
       },
+      isDeleted: {
+        type: Sequelize.INTEGER
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

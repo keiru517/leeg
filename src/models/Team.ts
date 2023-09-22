@@ -30,6 +30,7 @@ export default class Team extends Model<
   declare pointScored: number;
   declare pointAgainst: number;
   declare diff: number;
+  declare isDeleted: number;
 
   static modelName = 'Team';
 }
@@ -78,6 +79,10 @@ Team.init(
       defaultValue: 0
     },
     diff: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0
+    },
+    isDeleted: {
       type: DataTypes.INTEGER,
       defaultValue: 0
     }

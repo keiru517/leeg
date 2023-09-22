@@ -19,6 +19,7 @@ export default class Matchup extends Model<
   declare points: number;
   declare gamesPlayed: number;
   declare ppg: number;
+  declare isDeleted: number;
   static modelName = 'Matchup';
 }
 Matchup.init(
@@ -48,6 +49,10 @@ Matchup.init(
       }
     },
     points: DataTypes.INTEGER,
+    isDeleted: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0
+    }
   },
   {
     sequelize,

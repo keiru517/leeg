@@ -52,6 +52,9 @@ module.exports = {
       status: {
         type: Sequelize.STRING
       },
+      isDeleted: {
+        type: Sequelize.INTEGER
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

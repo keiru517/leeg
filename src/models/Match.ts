@@ -21,6 +21,7 @@ export default class Match extends Model<
   declare location: string;
   declare result: string;
   declare status: string;
+  declare isDeleted: number;
   static modelName = 'Match';
 }
 Match.init(
@@ -59,6 +60,10 @@ Match.init(
     status: {
       type: DataTypes.STRING,
       defaultValue: ''
+    }, 
+    isDeleted: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0
     }
   },
   {
