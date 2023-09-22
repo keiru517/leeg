@@ -12,6 +12,9 @@ import ProfileTable from "../../components/Table/Profile";
 
 const Player = () => {
   let { leagueId, userId } = useParams();
+  const dispatch = useDispatch();
+
+  const user = useSelector(state=>state.home.user);
 
   const options = [
     {
@@ -28,16 +31,24 @@ const Player = () => {
     },
   ];
 
+  useEffect(()=>{
+    actions.getUserInfo(dispatch, localStorage.getItem('userId'))
+    actions.getLeagues(dispatch);
+    actions.getPlayers(dispatch);
+    actions.getTeams(dispatch);
+    actions.getMatches(dispatch);
+    actions.getMatchups(dispatch);
+  }, [])
+
   const [value, setValue] = useState("Sort by");
 
-  const players = useSelector((state) => state.home.players);
-  const player = players.find((player) => player.userId == userId);
+  const player = useSelector((state) => state.home.players).find((player) => player.userId == userId && player.leagueId == leagueId);
 
-  const teams = useSelector((state) => state.home.teams);
-  const team = teams.find((team) => team.id == player.teamId);
+
+  const team = useSelector((state) => state.home.teams).find((team) => team.id == player?.teamId);
 
   const league = useSelector((state) => state.home.leagues).find(
-    (league) => league.id == league.id
+    (league) => league.id == leagueId
   );
 
   const matches = useSelector((state) => state.home.matches);
@@ -47,7 +58,7 @@ const Player = () => {
       <ProfileTitle avatar={player?.avatar} team={team}>
         <div>
           <div className="flex items-center">
-            <p className="text-[28px]">{player?.firstName} {player?.lastName}</p>
+            <p className="text-[28px]">{player?.firstName} {player?.lastName} </p>
             <span className="text-xs font-normal mt-2 text-font-dark-gray">
               / {player?.email}
             </span>
@@ -55,7 +66,7 @@ const Player = () => {
           <div className="flex items-center space-x-2 mt-2">
             <img src={team?.logo} alt="" className="w-6 h-6 rounded-default" />
             <p className="text-white text-xs font-medium">
-              {team?.name} | # 7{player?.jersey_number}
+              {team?.name} | # {player?.jerseyNumber}
             </p>
           </div>
         </div>
@@ -65,12 +76,10 @@ const Player = () => {
         <Link to="/">
           <span className="underline">My Leagues</span>
         </Link>
-        <span className=""> &gt; </span>
-        <span className="underline">{league?.name}</span>
 
         <span className=""> &gt; </span>
         <Link to={`/league/${league?.id}`}>
-          <span className="underline">Teams</span>
+          <span className="underline">{league?.name}</span>
         </Link>
         <span className=""> &gt; </span>
         <span className="underline">

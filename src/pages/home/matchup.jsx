@@ -19,6 +19,7 @@ import MatchupTitle from "../../components/MatchupTitle";
 const Matchup = () => {
   let { leagueId, matchId } = useParams();
   const dispatch = useDispatch();
+
   useEffect(() => {
     actions.getUserInfo(dispatch, localStorage.getItem("userId"));
     actions.getCountries(dispatch);
@@ -28,11 +29,15 @@ const Matchup = () => {
     actions.getPlayers(dispatch);
   }, []);
 
+  const league = useSelector((state) => state.home.leagues).find(
+    (league) => league.id == leagueId
+  );
+
   const match = useSelector((state) => state.home.matches).find(
     (match) => match.id == matchId
   );
 
-  const matchups = useSelector(state=>state.home.matchups);
+  const matchups = useSelector((state) => state.home.matchups);
 
   const homeTeam = useSelector((state) => state.home.teams).find(
     (team) => team.id == match?.homeTeamId
@@ -142,7 +147,7 @@ const Matchup = () => {
         </Link>
         <span className=""> &gt; </span>
         <Link to={`/league/${leagueId}`}>
-          <span className="underline">2023 Summer League</span>
+          <span className="underline">{league?.name}</span>
         </Link>
 
         <span className=""> &gt; </span>
@@ -178,7 +183,9 @@ const Matchup = () => {
               {matchupResult[0]}:{matchupResult[1]}
             </p>
             <p className="text-white text-sm">{match?.date}</p>
-            <p className="text-font-dark-gray text-sm mt-1">{match?.location}</p>
+            <p className="text-font-dark-gray text-sm mt-1">
+              {match?.location}
+            </p>
           </div>
           <div className="text-center w-[330px]">
             <img
@@ -328,21 +335,7 @@ const Matchup = () => {
                               color="blue-gray"
                               className="font-normal"
                             >
-                              <Input
-                                key={index}
-                                className="w-[70px] rounded-default bg-transparent border-none text-center"
-                                type="number"
-                                // value={homeInputValues[index]?.points || 0}
-                                // onChange={(e) =>
-                                //   handleHomeInputChange(
-                                //     index,
-                                //     player.id,
-                                //     matchId,
-                                //     match.homeTeamId,
-                                //     e.target.value
-                                //   )
-                                // }
-                              ></Input>
+                              {player?.jerseyNumber}
                             </Typography>
                           </td>
                         </tr>
@@ -477,21 +470,7 @@ const Matchup = () => {
                               color="blue-gray"
                               className="font-normal"
                             >
-                              <Input
-                                key={index}
-                                className="w-[70px] rounded-default bg-transparent border-none text-center"
-                                type="number"
-                                // value={awayInputValues[index]?.points || 0}
-                                // onChange={(e) =>
-                                //   handleAwayInputChange(
-                                //     index,
-                                //     player.id,
-                                //     matchId,
-                                //     match.homeTeamId,
-                                //     e.target.value
-                                //   )
-                                // }
-                              ></Input>
+                              {player?.jerseyNumber}
                             </Typography>
                           </td>
                         </tr>

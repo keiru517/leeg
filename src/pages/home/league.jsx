@@ -168,10 +168,10 @@ const League = () => {
 
   // Rosters
   useEffect(() => {
-    console.log("Players effect")
+    console.log("Players effect");
     setFilteredWaitListPlayers(waitListPlayers);
     setFilteredAcceptListPlayers(acceptedPlayers);
-    setFilteredPlayers(players)
+    setFilteredPlayers(players);
   }, [players]);
 
   useEffect(() => {
@@ -286,6 +286,7 @@ const League = () => {
 
   const fileUploadRef = useRef();
   const [chosenFile, setChosenFile] = useState();
+  const [previewURL, setPreviewURL] = useState("");
 
   const editLeague = () => {
     const formData = new FormData();
@@ -302,6 +303,10 @@ const League = () => {
       actions.getLeagues(dispatch);
       alert(res.data.message);
     });
+  };
+
+  const deleteLeague = () => {
+    dispatch({ type: actions.OPEN_DELETE_LEAGUE_DIALOG, payload: league });
   };
 
   if (!league) return null;
@@ -659,83 +664,78 @@ const League = () => {
                 key={5}
                 className={classNames("rounded-xl flex flex-col w-full h-full")}
               >
-                {teams.length > 0 ? (
-                  <>
-                    <hr className="h-px my-4 bg-charcoal border-0" />
-                    <div className="mt-4 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                      <div className="flex flex-col space-x-3 items-center">
-                        <div>
-                          <div className="flex space-x-3 items-center">
-                            <input
-                              type="file"
-                              hidden
-                              ref={fileUploadRef}
-                              onChange={(e) => {
-                                const files = e.target.files;
-                                if (files.length) {
-                                  const file = files[0];
-                                  setChosenFile(file);
-                                }
-                              }}
-                            />
-                            <img
-                              onClick={() => {
-                                fileUploadRef.current?.click();
-                              }}
-                              src={league?.logo}
-                              className="w-24 h-24 rounded-lg cursor-pointer"
-                              alt=""
-                            />
-                            <Input
-                              className="rounded-lg flex-grow text-xs "
-                              placeholder="League Name"
-                              value={leagueName}
-                              onChange={(e) => setLeagueName(e.target.value)}
-                            ></Input>
-                          </div>
-                          <textarea
-                            id="message"
-                            rows="6"
-                            className="block p-2.5 w-full text-xs text-gray-900 rounded-lg border border-charcoal focus:ring-blue-500 focus:border-blue-500 dark:bg-transparent dark:border-charcoal dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 resize-none outline-none"
-                            placeholder="Describe your League*"
-                            value={leagueDescription}
-                            onChange={(e) =>
-                              setLeagueDescription(e.target.value)
+                <hr className="h-px my-4 bg-charcoal border-0" />
+                <div className="mt-4 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                  <div className="flex flex-col space-x-3 items-center">
+                    <div>
+                      <div className="flex space-x-3 items-center">
+                        <input
+                          type="file"
+                          hidden
+                          ref={fileUploadRef}
+                          onChange={(e) => {
+                            const files = e.target.files;
+                            if (files.length) {
+                              const file = files[0];
+                              setChosenFile(file);
+                              setPreviewURL(URL.createObjectURL(file));
                             }
-                          ></textarea>
-                          <Input
-                            className="text-xs rounded-default my-5"
-                            option={calendar}
-                            placeholder="Enter Season Start Date*"
-                            value={leagueStartDate}
-                            onChange={(e) => setLeagueStartDate(e.target.value)}
-                          />
-                          <Input
-                            className="text-xs rounded-default"
-                            option={calendar}
-                            placeholder="Enter Season End Date*"
-                            value={leagueEndDate}
-                            onChange={(e) => setLeagueEndDate(e.target.value)}
-                          />
-                        </div>
-                        <div className="flex flex-grow">
-                          <button
-                            onClick={editLeague}
-                            className="bg-primary h-12 text-white font-bold text-sm w-[76px] rounded-default hover:opacity-70"
-                          >
-                            Save
-                          </button>
-                        </div>
+                          }}
+                        />
+                        <img
+                          onClick={() => {
+                            fileUploadRef.current?.click();
+                          }}
+                          src={previewURL ? previewURL : league?.logo}
+                          className="w-24 h-24 rounded-lg cursor-pointer"
+                          alt=""
+                        />
+                        <Input
+                          className="rounded-lg flex-grow text-xs "
+                          placeholder="League Name"
+                          value={leagueName}
+                          onChange={(e) => setLeagueName(e.target.value)}
+                        ></Input>
                       </div>
+                      <textarea
+                        id="message"
+                        rows="6"
+                        className="block p-2.5 w-full text-xs text-gray-900 rounded-lg border border-charcoal focus:ring-blue-500 focus:border-blue-500 dark:bg-transparent dark:border-charcoal dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 resize-none outline-none"
+                        placeholder="Describe your League*"
+                        value={leagueDescription}
+                        onChange={(e) => setLeagueDescription(e.target.value)}
+                      ></textarea>
+                      <Input
+                        className="text-xs rounded-default my-5"
+                        option={calendar}
+                        placeholder="Enter Season Start Date*"
+                        value={leagueStartDate}
+                        onChange={(e) => setLeagueStartDate(e.target.value)}
+                      />
+                      <Input
+                        className="text-xs rounded-default"
+                        option={calendar}
+                        placeholder="Enter Season End Date*"
+                        value={leagueEndDate}
+                        onChange={(e) => setLeagueEndDate(e.target.value)}
+                      />
                     </div>
-                  </>
-                ) : (
-                  <div className="flex items-center flex-grow">
-                    <p className="text-2xl text-white w-full text-center">
-                      No Players To Show!
-                    </p>
+                    <div className="flex flex-grow">
+                      <button
+                        onClick={editLeague}
+                        className="bg-primary h-12 text-white font-bold text-sm w-[76px] rounded-default hover:opacity-70"
+                      >
+                        Save
+                      </button>
+                      <button
+                        onClick={deleteLeague}
+                        className="bg-danger h-12 text-white font-bold text-sm w-[76px] rounded-default hover:opacity-70"
+                      >
+                        Delete
+                      </button>
+                    </div>
                   </div>
-                )}
+                </div>
               </Tab.Panel>
             </Tab.Panels>
           </Tab.Group>

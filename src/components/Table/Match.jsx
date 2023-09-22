@@ -4,7 +4,7 @@ import actionIcon from "../../assets/img/dark_mode/action.png";
 import { useParams } from "react-router";
 import teamLogo from "../../assets/img/dark_mode/team-logo.png";
 import { useSelector } from "react-redux";
-import Option from '../Option';
+import Option from "../Option";
 
 const MatchTable = (props) => {
   const navigate = useNavigate();
@@ -34,11 +34,17 @@ const MatchTable = (props) => {
 
   const handleOption = (idx, matchId) => {
     if (idx === 0) {
-      navigate(`matchup/${matchId}`)
-    } else if (idx=== 1) {
-      alert("Match has been deleted")
+      navigate(`matchup/${matchId}`);
+    } else if (idx === 1) {
+      alert("Match has been deleted");
     }
-  }
+  };
+
+  const isDeletedTeam = (teamId) => {
+    const team = teams.find((team) => team.id == teamId);
+    if (team.isDeleted === 1) return true;
+    else return false;
+  };
 
   return (
     <div className="text-white h-full w-full mt-4">
@@ -64,108 +70,123 @@ const MatchTable = (props) => {
         <tbody className="text-center">
           {matches.map(
             (
-              {
-                id,
-                date,
-                location,
-                homeTeamId,
-                awayTeamId,
-                time,
-                result,
-              },
+              { id, date, location, homeTeamId, awayTeamId, time, result },
               index
             ) => (
-                // <tr onClick={()=>goToMatchup(id)} key={index} className="odd:bg-dark-gray even:bg-charcoal  hover:opacity-70">
-                <tr key={index} className="odd:bg-dark-gray even:bg-charcoal ">
-                  <td className="w-1/7">
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="font-normal"
-                    >
-                      {date}
-                    </Typography>
-                  </td>
-                  <td className="w-1/7">
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="font-normal"
-                    >
-                      {location}
-                    </Typography>
-                  </td>
-                  <td className="w-1/7">
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="font-normal"
-                    >
-                      {time}
-                    </Typography>
-                  </td>
-                  <td className="w-1/7">
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="font-normal flex items-center justify-center underline"
-                    >
+              // <tr onClick={()=>goToMatchup(id)} key={index} className="odd:bg-dark-gray even:bg-charcoal  hover:opacity-70">
+              <tr key={index} className="odd:bg-dark-gray even:bg-charcoal ">
+                <td className="w-1/7">
+                  <Typography
+                    variant="small"
+                    color="blue-gray"
+                    className="font-normal"
+                  >
+                    {date}
+                  </Typography>
+                </td>
+                <td className="w-1/7">
+                  <Typography
+                    variant="small"
+                    color="blue-gray"
+                    className="font-normal"
+                  >
+                    {location}
+                  </Typography>
+                </td>
+                <td className="w-1/7">
+                  <Typography
+                    variant="small"
+                    color="blue-gray"
+                    className="font-normal"
+                  >
+                    {time}
+                  </Typography>
+                </td>
+                <td className="w-1/7">
+                  <Typography
+                    variant="small"
+                    color="blue-gray"
+                    className={`font-normal flex items-center justify-center ${isDeletedTeam(homeTeamId) ? "": "underline"}`}
+                  >
+                    {isDeletedTeam(homeTeamId) ? (
+                      <>
+                        <img
+                          src={teams.find((team) => team.id == homeTeamId).logo}
+                          alt=""
+                          className="h-8 w-8 mr-2 rounded-default"
+                        />
+                        {teams.find((team) => team.id == homeTeamId).name}
+                        <span class="bg-red-100 text-red-800 text-xs font-medium ml-3 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300 text-right">Deleted</span>
+                      </>
+                    ) : (
                       <Link
                         className="flex items-center"
                         to={`/league/${leagueId}/team/${homeTeamId}`}
                       >
                         <img
-                          src={
-                            teams.find((team) => team.id == homeTeamId).logo
-                          }
+                          src={teams.find((team) => team.id == homeTeamId).logo}
                           alt=""
                           className="h-8 w-8 mr-2 rounded-default"
                         />
                         {teams.find((team) => team.id == homeTeamId).name}
                       </Link>
-                    </Typography>
-                  </td>
-                  <td className="w-1/7">
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="font-normal flex items-center justify-center underline"
-                    >
+                    )}
+                  </Typography>
+                </td>
+                <td className="w-1/7">
+                <Typography
+                    variant="small"
+                    color="blue-gray"
+                    className={`font-normal flex items-center justify-center ${isDeletedTeam(awayTeamId) ? "": "underline"}`}
+                  >
+                    {isDeletedTeam(awayTeamId) ? (
+                      <>
+                        <img
+                          src={teams.find((team) => team.id == awayTeamId).logo}
+                          alt=""
+                          className="h-8 w-8 mr-2 rounded-default"
+                        />
+                        {teams.find((team) => team.id == awayTeamId).name}
+                        <span class="bg-red-100 text-red-800 text-xs font-medium ml-3 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300 text-right">Deleted</span>
+                      </>
+                    ) : (
                       <Link
                         className="flex items-center"
                         to={`/league/${leagueId}/team/${awayTeamId}`}
                       >
                         <img
-                          src={
-                            teams.find((team) => team.id == awayTeamId).logo
-                          }
+                          src={teams.find((team) => team.id == awayTeamId).logo}
                           alt=""
                           className="h-8 w-8 mr-2 rounded-default"
                         />
                         {teams.find((team) => team.id == awayTeamId).name}
                       </Link>
-                    </Typography>
-                  </td>
-                  <td className="">
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="font-normal"
-                    >
-                      {result}
-                    </Typography>
-                  </td>
-                  <td className="w-1/7">
-                    {/* <Typography
+                    )}
+                  </Typography>
+                </td>
+                <td className="">
+                  <Typography
+                    variant="small"
+                    color="blue-gray"
+                    className="font-normal"
+                  >
+                    {result}
+                  </Typography>
+                </td>
+                <td className="w-1/7">
+                  {/* <Typography
                       // as="a"
                       variant="small"
                       color="blue"
                       className="font-medium justify-between "
                     > */}
-                      <Option options={options} handleClick={(idx)=>handleOption(idx, id)}></Option>
-                    {/* </Typography> */}
-                  </td>
-                </tr>
+                  <Option
+                    options={options}
+                    handleClick={(idx) => handleOption(idx, id)}
+                  ></Option>
+                  {/* </Typography> */}
+                </td>
+              </tr>
               // </Link>
             )
           )}

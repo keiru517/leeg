@@ -29,8 +29,9 @@ const LeagueModal = () => {
 
   const cancelButtonRef = useRef(null);
 
-
   const [leagueName, setLeagueName] = useState(league?.name);
+  const [confirmLeagueName, setConfirmLeagueName] = useState("");
+
   const [leagueDescription, setLeagueDescription] = useState(
     league.description
   );
@@ -38,27 +39,33 @@ const LeagueModal = () => {
   const [startDate, setStartDate] = useState(league.startDate);
   const [endDate, setEndDate] = useState(league.endDate);
 
-  const handleEdit = () => {
-    dispatch({ type: actions.OPEN_EDIT_LEAGUE_DIALOG, payload: league });
-  };
+  // const handleEdit = () => {
+  //   dispatch({ type: actions.OPEN_EDIT_LEAGUE_DIALOG, payload: league });
+  // };
 
   const handleDelete = () => {
-    axios
-    .delete(apis.deleteLeague(league.id))
-      .then((res) => {
-        alert(res.data.message);
-        actions.getLeagues(dispatch);
-        navigate(-1);
-      })
-      .catch((err) => alert(err.data.message));
-    dispatch({ type: actions.CLOSE_LEAGUE_DIALOG });
+    console.log(confirmLeagueName, leagueName)
+    if (confirmLeagueName == "") {
+      alert("Please type the league name you want to delete for confirmation.");
+    } else if (confirmLeagueName === leagueName) {
+      axios
+        .delete(apis.deleteLeague(league.id))
+        .then((res) => {
+          alert(res.data.message);
+          actions.getLeagues(dispatch);
+          navigate(-1);
+        })
+        .catch((err) => alert(err.data.message));
+      dispatch({ type: actions.CLOSE_LEAGUE_DIALOG });
+    } else {
+      alert("Please type the league name correctly.");
+    }
   };
 
   const closeDialog = () => {
     setStep(1);
     dispatch({ type: actions.CLOSE_LEAGUE_DIALOG });
-    setLeagueName(league.name);
-    setLeagueName(league.description);
+    setConfirmLeagueName("");
   };
 
   const editSubmit = () => {
@@ -79,10 +86,10 @@ const LeagueModal = () => {
     console.log("Clicked edit");
   };
 
-  const deleteSubmit = () => {
-    dispatch({ type: actions.OPEN_CREATE_LEAGUE_DIALOG, payload: false });
-    console.log("Clicked delete");
-  };
+  // const deleteSubmit = () => {
+  //   dispatch({ type: actions.OPEN_CREATE_LEAGUE_DIALOG, payload: false });
+  //   console.log("Clicked delete");
+  // };
 
   return (
     <Transition.Root show={status} as={Fragment}>
@@ -128,7 +135,7 @@ const LeagueModal = () => {
                       </p>
                     )}
                     <div className="flex items-center">
-                      {type === "edit" ? (
+                      {/* {type === "edit" ? (
                         <img
                           src={deleteIcon}
                           onClick={handleDelete}
@@ -140,7 +147,7 @@ const LeagueModal = () => {
                           onClick={handleEdit}
                           className="h-[18px] w-[18px] cursor-pointer hover:opacity-70"
                         ></img>
-                      )}
+                      )} */}
                       <img
                         src={close}
                         onClick={closeDialog}
@@ -204,9 +211,11 @@ const LeagueModal = () => {
                         <Input
                           className="rounded-default text-xs"
                           placeholder="Type League Name*"
+                          value={confirmLeagueName}
+                          onChange={e=>setConfirmLeagueName(e.target.value)}
                         ></Input>
                         <button
-                          onClick={deleteSubmit}
+                          onClick={handleDelete}
                           className="bg-danger bg-opacity-10 rounded-xl w-full h-12 text-danger font-semibold hover:opacity-70"
                         >
                           Delete Team

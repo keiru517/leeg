@@ -40,8 +40,11 @@ export const apis = {
   // matchup
   getMatchups: apiUrl + '/matchup/all',
   createMatchup: apiUrl + '/matchup/create',
+  // player
   getPlayers: apiUrl + '/player/all',
   createPlayer: apiUrl + '/player/create',
+  updatePlayer: apiUrl + '/player/update',
+  removePlayer: apiUrl + '/player/remove',
   acceptPlayer: apiUrl + '/player/accept',
   unacceptPlayer: apiUrl + '/player/unaccept',
   addPlayer: apiUrl + '/player/add',

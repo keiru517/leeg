@@ -20,6 +20,9 @@ const initialState = {
   player_dialog: {
     open: false,
   },
+  jersey_number_dialog: {
+    open:false
+  },
   team_dialog: {
     open: false,
     type: "create",

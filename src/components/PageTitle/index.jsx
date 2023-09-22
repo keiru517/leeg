@@ -132,12 +132,11 @@ const PageTitle = (props) => {
       </div>
       {button ? (
         <div className="space-x-3">
-          <button
-            // onClick={handleClick}
+          {/* <button
             className="w-[169px] h-button bg-lime-600 hover:bg-opacity-70 rounded-default text-white focus:ring-2 font-bold"
           >
             Join by code
-          </button>
+          </button> */}
           <button
             onClick={handleClick}
             className="w-[169px] h-button bg-primary hover:bg-opacity-70 rounded-default text-white focus:ring-2 font-bold"

@@ -50,15 +50,12 @@ const Profile = (props) => {
         </thead>
         <tbody className="text-center">
           {players.map((player, idx) => {
-            const team = teams.find((team) => team.id == player?.teamId);
-            const points = matchups.find(matchup=>matchup.playerId == player.id).points;
-            console.log(team)
+            const points = matchups.find(matchup=>matchup.playerId == player?.id)?.points;
             const match = matches.find(
               (match) =>
                 match.homeTeamId == player?.teamId ||
                 match.awayTeamId == player?.teamId
             );
-            console.log('match',match);
 
             return (
             <tr
