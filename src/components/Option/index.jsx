@@ -1,8 +1,10 @@
 import { useRef, useState, useEffect } from "react";
 import downArrowFilled from "../../../src/assets/img/dark_mode/down-arrow-filled.png";
 import downArrow from "../../../src/assets/img/dark_mode/down-arrow.png";
+import actionIcon from "../../assets/img/dark_mode/action.png";
 
-const Select = (props) => {
+
+const Option = (props) => {
   const {
     icon,
     className,
@@ -20,9 +22,10 @@ const Select = (props) => {
     setExpand(!expand);
   };
 
-  const handleButtonClick = (data) => {
+  const handleButtonClick = (idx, event) => {
+    event.preventDefault();
     setExpand(false);
-    handleClick(data);
+    handleClick(idx);
   };
 
   useEffect(() => {
@@ -45,21 +48,12 @@ const Select = (props) => {
   return (
     <div
       ref={ref}
-      className={`${className} flex justify-between z-10 dark:text-white rounded-lg shadow w-44 dark:bg-transparent border border-dark-gray relative items-center cursor-pointer select-none`}
-      //   onClick={() => {
-      //     setExpand(true)
-      //   }}
+      className={`${className}  rounded-full w-8 h-8 items-center flex mx-auto relative cursor-pointer`}
+      onClick={toggle}
     >
-      <img src={icon} alt="" />
-      <div
-        className="w-full h-full flex justify-between items-center"
-        onClick={toggle}
-      >
-        <span className="ml-4">{value}</span>
-        <img src={downArrowFilled} alt="" className="mr-4" />
-      </div>
+      <img src={actionIcon} alt="" className="mx-auto " />
       <ul
-        className={`p-2 text-sm text-gray-700 dark:text-gray-200 absolute top-12 bg-light-gray w-full rounded-default${
+        className={`p-2 text-sm text-gray-700 dark:text-gray-200 absolute top-8 bg-[#333333] w-[100px] rounded-default -left-8 z-50 ${
           expand ? `` : " hidden"
         }`}
         aria-labelledby="states-button"
@@ -70,7 +64,7 @@ const Select = (props) => {
               <button
                 type="button"
                 className="inline-flex w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-middle-gray dark:hover:text-white rounded-default"
-                onClick={() => handleButtonClick(option)}
+                onClick={(event) => handleButtonClick(idx, event)}
               >
                 <div className="inline-flex items-center">{option.name}</div>
               </button>
@@ -82,4 +76,4 @@ const Select = (props) => {
   );
 };
 
-export default Select;
+export default Option;

@@ -45,7 +45,6 @@ function App() {
   // actions.getTeams(dispatch);
   // actions.getMatches(dispatch);
   // actions.getPlayers(dispatch);
-  
 
   useEffect(()=>{
     // dispatch(actions.getLeagues(dispatch))
@@ -77,7 +76,7 @@ function App() {
           ></Route>
           <Route
             exact
-            path="/league/:leagueId/player/:playerId"
+            path="/league/:leagueId/player/:userId"
             element={<Player />}
           ></Route>
           <Route

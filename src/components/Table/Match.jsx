@@ -4,9 +4,10 @@ import actionIcon from "../../assets/img/dark_mode/action.png";
 import { useParams } from "react-router";
 import teamLogo from "../../assets/img/dark_mode/team-logo.png";
 import { useSelector } from "react-redux";
+import Option from '../Option';
 
 const MatchTable = (props) => {
-  const naviage = useNavigate();
+  const navigate = useNavigate();
   const { matches, leagueId } = props;
 
   // let { leagueId} = useParams();
@@ -20,10 +21,23 @@ const MatchTable = (props) => {
     "Action",
   ];
 
+  const options = [
+    { id: 0, name: "Edit" },
+    { id: 1, name: "Delete" },
+  ];
+
   const teams = useSelector((state) => state.home.teams);
 
-  const goToMatchup = (id) => {
-    naviage(`/league/${leagueId}/matchup/${id}`)
+  // const goToMatchup = (id) => {
+  //   navigate(`/league/${leagueId}/matchup/${id}`)
+  // }
+
+  const handleOption = (idx, matchId) => {
+    if (idx === 0) {
+      navigate(`matchup/${matchId}`)
+    } else if (idx=== 1) {
+      alert("Match has been deleted")
+    }
   }
 
   return (
@@ -61,8 +75,8 @@ const MatchTable = (props) => {
               },
               index
             ) => (
-              // <Link to={`matchup/${id}`}>
-                <tr onClick={()=>goToMatchup(id)} key={index} className="odd:bg-dark-gray even:bg-charcoal  hover:opacity-70">
+                // <tr onClick={()=>goToMatchup(id)} key={index} className="odd:bg-dark-gray even:bg-charcoal  hover:opacity-70">
+                <tr key={index} className="odd:bg-dark-gray even:bg-charcoal ">
                   <td className="w-1/7">
                     <Typography
                       variant="small"
@@ -94,7 +108,7 @@ const MatchTable = (props) => {
                     <Typography
                       variant="small"
                       color="blue-gray"
-                      className="font-normal flex items-center justify-center"
+                      className="font-normal flex items-center justify-center underline"
                     >
                       <Link
                         className="flex items-center"
@@ -115,7 +129,7 @@ const MatchTable = (props) => {
                     <Typography
                       variant="small"
                       color="blue-gray"
-                      className="font-normal flex items-center justify-center"
+                      className="font-normal flex items-center justify-center underline"
                     >
                       <Link
                         className="flex items-center"
@@ -142,15 +156,14 @@ const MatchTable = (props) => {
                     </Typography>
                   </td>
                   <td className="w-1/7">
-                    <Typography
-                      as="a"
-                      href="#"
+                    {/* <Typography
+                      // as="a"
                       variant="small"
                       color="blue"
                       className="font-medium justify-between "
-                    >
-                      <img src={actionIcon} alt="" className="mx-auto" />
-                    </Typography>
+                    > */}
+                      <Option options={options} handleClick={(idx)=>handleOption(idx, id)}></Option>
+                    {/* </Typography> */}
                   </td>
                 </tr>
               // </Link>

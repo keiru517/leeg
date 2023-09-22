@@ -50,7 +50,7 @@ const Player = (props) => {
                     className="font-normal flex items-center underline justify-between px-10"
                   >
                     <img src={player.avatar} alt="" className="h-8 w-8 mr-2 rounded-default" />
-                    <Link to={`player/${player.id}`}>{player.firstName} {player.lastName}</Link>
+                    <Link to={`player/${player.userId}`}>{player.firstName} {player.lastName}</Link>
                   </Typography>
                 </td>
                 <td className="w-1/5">

@@ -19,17 +19,27 @@ import MatchupTitle from "../../components/MatchupTitle";
 const Matchup = () => {
   let { leagueId, matchId } = useParams();
   const dispatch = useDispatch();
+  useEffect(() => {
+    actions.getUserInfo(dispatch, localStorage.getItem("userId"));
+    actions.getCountries(dispatch);
+    actions.getLeagues(dispatch);
+    actions.getTeams(dispatch);
+    actions.getMatches(dispatch);
+    actions.getPlayers(dispatch);
+  }, []);
 
   const match = useSelector((state) => state.home.matches).find(
     (match) => match.id == matchId
   );
 
+  const matchups = useSelector(state=>state.home.matchups);
+
   const homeTeam = useSelector((state) => state.home.teams).find(
-    (team) => team.id == match.homeTeamId
+    (team) => team.id == match?.homeTeamId
   );
 
   const homeTeamPlayers = useSelector((state) => state.home.players).filter(
-    (player) => player.teamId == match.homeTeamId
+    (player) => player.teamId == match?.homeTeamId
   );
 
   const homeTeamMatchups = useSelector((state) => state.home.matchups).filter(
@@ -37,11 +47,11 @@ const Matchup = () => {
   );
 
   const awayTeam = useSelector((state) => state.home.teams).find(
-    (team) => team.id == match.awayTeamId
+    (team) => team.id == match?.awayTeamId
   );
 
   const awayTeamPlayers = useSelector((state) => state.home.players).filter(
-    (player) => player.teamId == match.awayTeamId
+    (player) => player.teamId == match?.awayTeamId
   );
 
   const awayTeamMatchups = useSelector((state) => state.home.matchups).filter(
@@ -88,6 +98,7 @@ const Matchup = () => {
     });
     setMatchupResult([homeTeamPoints, awayTeamPoints]);
   }, [homeInputValues, awayInputValues]);
+  // }, [matchups]);
 
   useEffect(() => {
     actions.getMatchups(dispatch);
@@ -122,7 +133,7 @@ const Matchup = () => {
 
   return (
     <div className="flex flex-col flex-grow">
-      <MatchupTitle handleClick={handleSubmit} result={match.result}>
+      <MatchupTitle handleClick={handleSubmit} result={match?.result}>
         Matchup Page
       </MatchupTitle>
       <p className="font-dark-gray my-[20px]">
@@ -139,12 +150,12 @@ const Matchup = () => {
         <span className=""> &gt; </span>
         <span className="text-sky-500">
           {/* <Link to={`/league/${leagueId}/team/${team.id}`}> */}
-          {homeTeam.name}{" "}
+          {homeTeam?.name}{" "}
         </span>
         <span> Vs</span>
         <span className="text-sky-500">
           {" "}
-          {awayTeam.name}
+          {awayTeam?.name}
           {/* </Link> */}
         </span>
       </p>
@@ -152,31 +163,31 @@ const Matchup = () => {
         <div className="flex space-x-10">
           <div className="text-center w-[330px]">
             <img
-              src={homeTeam.logo}
+              src={homeTeam?.logo}
               alt=""
               className="w-28 h-28 rounded-full mx-auto"
             />
             <p className="text-white font-semibold text-2xl mt-5">
-              {homeTeam.name}
+              {homeTeam?.name}
             </p>
             <p className="text-font-dark-gray font-semibold text-xl">Home</p>
           </div>
           <div className="text-center mt-3">
-            <p className="text-white text-sm mt-3">{match.status}</p>
+            <p className="text-white text-sm mt-3">{match?.status}</p>
             <p className="text-white text-[56px] my-2">
               {matchupResult[0]}:{matchupResult[1]}
             </p>
-            <p className="text-white text-sm">{match.date}</p>
-            <p className="text-font-dark-gray text-sm mt-1">{match.location}</p>
+            <p className="text-white text-sm">{match?.date}</p>
+            <p className="text-font-dark-gray text-sm mt-1">{match?.location}</p>
           </div>
           <div className="text-center w-[330px]">
             <img
-              src={awayTeam.logo}
+              src={awayTeam?.logo}
               alt=""
               className="w-28 h-28 rounded-full mx-auto"
             />
             <p className="text-white font-semibold text-2xl mt-5">
-              {awayTeam.name}
+              {awayTeam?.name}
             </p>
             <p className="text-font-dark-gray font-semibold text-xl">Away</p>
           </div>
@@ -204,16 +215,16 @@ const Matchup = () => {
             <div className="flex justify-between h-button bg-charcoal rounded-t-default p-4">
               <div className="flex items-center">
                 <img
-                  src={homeTeam.logo}
+                  src={homeTeam?.logo}
                   className="w-8 h-8 rounded-default"
                 ></img>
-                <Link to={`/league/${leagueId}/team/${match.homeTeamId}`}>
+                <Link to={`/league/${leagueId}/team/${match?.homeTeamId}`}>
                   <p className="text-white text-sm mx-2 underline">
-                    {homeTeam.name}
+                    {homeTeam?.name}
                   </p>
                 </Link>
                 <p className="text-white text-[10px]">
-                  {homeTeam.waitlist}/{homeTeam.max}
+                  {homeTeam?.waitlist}/{homeTeam?.max}
                 </p>
               </div>
               <div
@@ -282,7 +293,7 @@ const Matchup = () => {
                                 className="w-8 h-8 mr-2 rounded-default"
                               />
                               <Link
-                                to={`/league/${leagueId}/player/${player.id}`}
+                                to={`/league/${leagueId}/player/${player.userId}`}
                               >
                                 {player.firstName} {player.lastName}
                               </Link>
@@ -304,7 +315,7 @@ const Matchup = () => {
                                     index,
                                     player.id,
                                     matchId,
-                                    match.homeTeamId,
+                                    match?.homeTeamId,
                                     e.target.value
                                   )
                                 }
@@ -347,22 +358,22 @@ const Matchup = () => {
                 </div>
               )}
             </div>
-            <SubstituteModal id={match.homeTeamId}></SubstituteModal>
+            <SubstituteModal id={match?.homeTeamId}></SubstituteModal>
           </div>
           <div className="flex flex-col overflow-y-auto rounded-default h-[350px] bg-dark-gray transition ease-in-out delay-150 hover:bg-dark-gray duration-200 w-full">
             <div className="flex justify-between h-button bg-charcoal rounded-t-default p-4">
               <div className="flex items-center">
                 <img
-                  src={awayTeam.logo}
+                  src={awayTeam?.logo}
                   className="w-8 h-8 rounded-default"
                 ></img>
-                <Link to={`/league/${leagueId}/team/${match.awayTeamId}`}>
+                <Link to={`/league/${leagueId}/team/${match?.awayTeamId}`}>
                   <p className="text-white text-sm mx-2 underline">
-                    {awayTeam.name}
+                    {awayTeam?.name}
                   </p>
                 </Link>
                 <p className="text-white text-[10px]">
-                  {awayTeam.waitlist}/{awayTeam.max}
+                  {awayTeam?.waitlist}/{awayTeam?.max}
                 </p>
               </div>
               <div
@@ -431,7 +442,7 @@ const Matchup = () => {
                                 className="w-8 h-8 mr-2 rounded-default"
                               />
                               <Link
-                                to={`/league/${leagueId}/player/${player.id}`}
+                                to={`/league/${leagueId}/player/${player.userId}`}
                               >
                                 {player.firstName} {player.lastName}
                               </Link>
@@ -453,7 +464,7 @@ const Matchup = () => {
                                     index,
                                     player.id,
                                     matchId,
-                                    match.awayTeamId,
+                                    match?.awayTeamId,
                                     e.target.value
                                   )
                                 }
@@ -496,7 +507,7 @@ const Matchup = () => {
                 </div>
               )}
             </div>
-            <SubstituteModal id={match.awayTeamId}></SubstituteModal>
+            <SubstituteModal id={match?.awayTeamId}></SubstituteModal>
           </div>
 
           {/* <MatchCard teamId={homeTeam.id} />

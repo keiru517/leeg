@@ -2,10 +2,28 @@ import { Card, Typography } from "@material-tailwind/react";
 import actionIcon from "../../assets/img/dark_mode/action.png";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
+import Option from "../Option";
 
 const TeamTable = (props) => {
   const { data } = props;
   const { leagueId, teamId } = useParams();
+
+  const options = [
+    { id: 0, name: "Edit" },
+    { id: 1, name: "Delete" },
+  ];
+
+  const handleOption = (idx, playerId, event) => {
+    // event.preventDefault();
+
+    if (idx === 0) {
+      alert(`edit: ${playerId}`);
+      // navigate(`matchup/${matchId}`)
+    } else if (idx === 1) {
+      // alert("Match has been deleted")
+      alert(`delete: ${playerId}`);
+    }
+  };
 
   return (
     <div className="text-white h-full w-full">
@@ -39,32 +57,33 @@ const TeamTable = (props) => {
           </tr>
         </thead>
         <tbody className="text-center">
-          {/* <tr>
-            <td className="w-1/2 bg-slate text-left text-font-dark-gray text-sm">
-              Player
-            </td>
-            <td className="w-1/2 bg-slate text-left text-font-dark-gray text-sm">
-              Action
-            </td>
-          </tr> */}
-          {data.map((player, index) => (
-            <tr key={index} className="even:bg-dark-gray odd:bg-charcoal">
+          {data.map((player, idx) => (
+            <tr key={idx} className="even:bg-dark-gray odd:bg-charcoal">
               <td className="">
                 <div className="flex items-center justify-between px-8">
-                  <img src={player.avatar} alt="" className="w-8 h-8 mr-2 rounded-default" />
+                  <img
+                    src={player.avatar}
+                    alt=""
+                    className="w-8 h-8 mr-2 rounded-default"
+                  />
                   <Typography
                     variant="small"
                     color="blue-gray"
                     className="font-normal underline"
                   >
-                    <Link to={`/league/${leagueId}/player/${player.id}`}>
+                    <Link to={`/league/${leagueId}/player/${player.userId}`}>
                       {player.firstName} {player.lastName}
                     </Link>
                   </Typography>
                 </div>
               </td>
               <td>
-                <img src={actionIcon} alt="" className="mx-auto" />
+                <Option
+                  options={options}
+                  handleClick={(idx, event) =>
+                    handleOption(idx, player.id, event)
+                  }
+                ></Option>
               </td>
             </tr>
           ))}

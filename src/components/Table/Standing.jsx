@@ -1,6 +1,7 @@
 import { Card, Typography } from "@material-tailwind/react";
 import actionIcon from '../../assets/img/dark_mode/action.png';
 import teamLogo from '../../assets/img/dark_mode/team-logo.png';
+import { Link } from "react-router-dom";
 
 const StandingTable = (props) => {
   const { teams } = props;
@@ -33,7 +34,7 @@ const StandingTable = (props) => {
           </tr>
         </thead>
         <tbody className="text-center">
-          {teams.sort((a, b)=>b.win-a.win).map(({ position, name, logo, win, lose, pointScored, pointAgainst, diff }, index) => (
+          {teams.sort((a, b)=>b.win-a.win).map(({id, position, name, logo, win, lose, pointScored, pointAgainst, diff }, index) => (
             <tr key={index} className="odd:bg-dark-gray even:bg-charcoal">
               <td className="w-1/6">
                 <Typography
@@ -49,7 +50,9 @@ const StandingTable = (props) => {
                   className="font-normal flex items-center underline justify-between px-8"
                 >
                 <img src={logo} alt="" className="h-8 w-8 mr-2 rounded-default" />
+                <Link to={`team/${id}`}>
                   {name}
+                </Link>
                 </Typography>
               </td>
               <td className="w-1/6">

@@ -1,11 +1,10 @@
 import { Card, Typography } from "@material-tailwind/react";
-import actionIcon from "../../assets/img/dark_mode/action.png";
-import avatar from "../../assets/img/dark_mode/player.png";
 import Matchup from "../../pages/home/matchup";
+import { Link, useParams } from "react-router-dom";
 
 const PlayerStatistics = (props) => {
   const { players, matchups } = props;
-
+  let {leagueId} = useParams();
   const columns = [
     "Position",
     "Player",
@@ -37,7 +36,7 @@ const PlayerStatistics = (props) => {
           </tr>
         </thead>
         <tbody className="text-center">
-          {players.map(({ id, firstName, lastName, jerseyNumber }, index) => {
+          {players.map(({ id,userId, avatar, firstName, lastName, jerseyNumber }, index) => {
             const playerMatchups = matchups.filter(
               (matchup) => matchup.playerId === id
             );
@@ -64,10 +63,12 @@ const PlayerStatistics = (props) => {
                   <Typography
                     variant="small"
                     color="blue-gray"
-                    className="font-normal flex items-center"
+                    className="font-normal flex items-center underline"
                   >
-                    <img src={avatar} alt="" className="mr-3 w-8 h-8" />
-                    {firstName} {lastName}
+                    <img src={avatar} alt="" className="mr-3 w-8 h-8 rounded-default" />
+                    <Link to={`/league/${leagueId}/player/${userId}`}>
+                      {firstName} {lastName}
+                    </Link>
                   </Typography>
                 </td>
                 <td className="w-1/6">

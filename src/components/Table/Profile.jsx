@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const Profile = (props) => {
-  const { leagueId, playerId } = props;
+  const { leagueId, userId } = props;
   const columns = [
     "Game Date",
     "Matchup",
@@ -15,10 +15,17 @@ const Profile = (props) => {
   ];
 
   const teams = useSelector((state) => state.home.teams);
-  const player = useSelector((state) => state.home.players).find(player=>player.id == playerId);
-  const matches = useSelector(state=>state.home.matches).filter(match=>match.homeTeamId == player.teamId || match.awayTeamId == player.teamId);
-  console.log(matches)
-  const matchups = useSelector(state=>state.home.matchups).filter(matchup=>matchup.playerId == playerId);
+  const players = useSelector((state) => state.home.players).filter(
+    (player) =>
+      player.userId == userId &&
+      player.leagueId == leagueId &&
+      player?.teamId !== 0
+  );
+
+  const matches = useSelector((state) => state.home.matches);
+  // .filter(match=>match.homeTeamId == player.teamId || match.awayTeamId == player.teamId);
+  // console.log(matches)
+  const matchups = useSelector((state) => state.home.matchups);
 
   return (
     <div className="text-white mt-5 w-full">
@@ -42,8 +49,82 @@ const Profile = (props) => {
           </tr>
         </thead>
         <tbody className="text-center">
-          {
-            // matches.map(({ logo, name}, index) =>
+          {players.map((player, idx) => {
+            const team = teams.find((team) => team.id == player?.teamId);
+            const points = matchups.find(matchup=>matchup.playerId == player.id).points;
+            console.log(team)
+            const match = matches.find(
+              (match) =>
+                match.homeTeamId == player?.teamId ||
+                match.awayTeamId == player?.teamId
+            );
+            console.log('match',match);
+
+            return (
+            <tr
+              key={idx}
+              className="odd:bg-dark-gray even:bg-charcoal h-[53px]"
+            >
+              <td className="">
+                <Typography
+                  variant="small"
+                  color="blue-gray"
+                  className="font-normal"
+                >
+                  {match.date}
+                </Typography>
+              </td>
+              <td className="">
+                <Typography
+                  variant="small"
+                  color="blue-gray"
+                  className="font-normal flex items-center space-x-2 justify-center"
+                >
+                  <img
+                    src={teams.find((team) => team.id == match.homeTeamId).logo}
+                    alt=""
+                    className="w-8 h-8 "
+                  />
+                  <p className="underline">
+                    <Link to={`/league/${leagueId}/team/${match.homeTeamId}`}>
+                      {teams.find((team) => team.id == match.homeTeamId).name}
+                    </Link>
+                  </p>
+                  <p className="text-font-dark-gray">VS</p>
+                  <img
+                    src={teams.find((team) => team.id == match.awayTeamId).logo}
+                    alt=""
+                    className="w-8 h-8 mr-2"
+                  />
+                  <p className="underline">
+                    <Link to={`/league/${leagueId}/team/${match.awayTeamId}`}>
+                      {teams.find((team) => team.id == match.awayTeamId).name}
+                    </Link>
+                  </p>
+                </Typography>
+              </td>
+              <td className="w-1/5">
+                <Typography
+                  variant="small"
+                  color="blue-gray"
+                  className="font-normal"
+                >
+                  {points}
+                </Typography>
+              </td>
+              <td className="w-1/5">
+                <Typography
+                  variant="small"
+                  color="blue-gray"
+                  className="font-normal"
+                >
+                  {match.result}
+                </Typography>
+              </td>
+            </tr>
+            );
+          })}
+          {/* {
             matches.map((match, idx) => (
               <tr
                 key={idx}
@@ -121,20 +202,9 @@ const Profile = (props) => {
                     {match.result}
                   </Typography>
                 </td>
-                {/*
-                <td className="w-1/5">
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal"
-                  >
-                    {player.ppg}
-                  </Typography>
-                </td> */}
               </tr>
             ))
-            // )
-          }
+          } */}
         </tbody>
       </table>
     </div>
