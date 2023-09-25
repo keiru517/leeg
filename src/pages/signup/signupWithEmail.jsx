@@ -101,9 +101,9 @@ const SignupWithEmail = () => {
           <p className="text-font-light-gray text-sm text-center">LEEG.IO</p>
         </div>
         {step == 1 ? (
-          <div className="bg-slate w-full h-[275px] mt-16 rounded-main p-default flex flex-col">
+          <div className="bg-white dark:bg-slate w-full h-[275px] mt-16 rounded-main p-default flex flex-col">
             <div className="h-[55px]">
-              <p className="text-white text-2xl font-bold">Sign up!</p>
+              <p className="text-black dark:text-white text-2xl font-bold">Sign up!</p>
               <p className="text-font-light-gray mt-3">
                 Enter your email address.
               </p>
