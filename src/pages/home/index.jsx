@@ -51,7 +51,6 @@ const Home = () => {
   const [keyword, setKeyword] = useState("");
   const [filteredData, setFilteredData] = useState([])
   useEffect(()=>{
-    console.log("search")
     const searchResult = leagues.filter(league=>league.name.toLowerCase().includes(keyword.toLowerCase()));
     setFilteredData(searchResult);
   },[keyword])

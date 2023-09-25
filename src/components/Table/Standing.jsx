@@ -17,7 +17,7 @@ const StandingTable = (props) => {
   ];
 
   return (
-    <div className="text-white h-full w-full mt-4">
+    <div className="text-black dark:text-white h-full w-full mt-4">
       <table className="w-full min-w-max table-auto text-left">
         <thead>
           <tr>
@@ -35,7 +35,7 @@ const StandingTable = (props) => {
         </thead>
         <tbody className="text-center">
           {teams.sort((a, b)=>b.win-a.win).map(({id, position, name, logo, win, lose, pointScored, pointAgainst, diff }, index) => (
-            <tr key={index} className="odd:bg-dark-gray even:bg-charcoal">
+            <tr key={index} className="odd:bg-light-dark-gray dark:odd:bg-dark-gray even:bg-light-charcoal dark:even:bg-charcoal">
               <td className="w-1/6">
                 <Typography
                   variant="small"

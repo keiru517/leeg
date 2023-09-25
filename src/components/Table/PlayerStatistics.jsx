@@ -15,7 +15,7 @@ const PlayerStatistics = (props) => {
   ];
 
   return (
-    <div className="text-white h-full w-full mt-4">
+    <div className="text-black dark:text-white h-full w-full mt-4">
       <table className="w-full min-w-max table-auto text-left">
         <thead>
           <tr>
@@ -49,7 +49,7 @@ const PlayerStatistics = (props) => {
               const ppg = totalPoints/gp;
               
             return (
-              <tr key={index} className="even:bg-dark-gray odd:bg-charcoal">
+              <tr key={index} className="odd:bg-light-dark-gray dark:odd:bg-charcoal even:bg-light-charcoal dark:even:bg-dark-gray">
                 <td className="w-1/6">
                   <Typography
                     variant="small"

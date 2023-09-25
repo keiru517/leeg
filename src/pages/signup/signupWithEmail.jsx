@@ -17,7 +17,7 @@ const SignupWithEmail = () => {
   const options = ["Sort by", "Ascend", "Descend", "Recent"];
 
   const navigate = useNavigate();
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(2);
 
   const [first, setFirst] = useState();
   const [second, setSecond] = useState();
@@ -134,9 +134,9 @@ const SignupWithEmail = () => {
             </div>
           </div>
         ) : step == 2 ? (
-          <div className="bg-slate w-full h-[335px] mt-16 rounded-main p-default flex flex-col">
+          <div className="bg-white dark:bg-slate w-full h-[335px] mt-16 rounded-main p-default flex flex-col">
             <div>
-              <p className="text-white text-2xl font-bold">
+              <p className="text-black dark:text-white text-2xl font-bold">
                 Verify Email Address
               </p>
               <p className="text-font-light-gray text-base mt-3">
@@ -148,7 +148,7 @@ const SignupWithEmail = () => {
               <div>
                 <input
                   type="number"
-                  className="bg-transparent outline-none text-white text-[52px] w-[75px] text-center h-16 mb-4"
+                  className="bg-transparent outline-none dark:text-white text-black text-[52px] w-[75px] text-center h-16 mb-4"
                   value={first}
                   ref={firstInputRef}
                   // onChange={(e)=>setFirst(e.target.value.toString())}
@@ -178,7 +178,7 @@ const SignupWithEmail = () => {
               <div>
                 <input
                   type="number"
-                  className="bg-transparent outline-none text-white text-[52px] w-[75px] text-center h-16 mb-4"
+                  className="bg-transparent outline-none dark:text-white text-black text-[52px] w-[75px] text-center h-16 mb-4"
                   value={second}
                   ref={secondInputRef}
                   onChange={(e) => {
@@ -210,7 +210,7 @@ const SignupWithEmail = () => {
               <div>
                 <input
                   type="number"
-                  className="bg-transparent outline-none text-white text-[52px] w-[75px] text-center h-16 mb-4"
+                  className="bg-transparent outline-none dark:text-white text-black text-[52px] w-[75px] text-center h-16 mb-4"
                   value={third}
                   ref={thirdInputRef}
                   onChange={(e) => {
@@ -235,7 +235,7 @@ const SignupWithEmail = () => {
               <div>
                 <input
                   type="number"
-                  className="bg-transparent outline-none text-white text-[52px] w-[75px] text-center h-16 mb-4"
+                  className="bg-transparent outline-none dark:text-white text-black text-[52px] w-[75px] text-center h-16 mb-4"
                   value={fourth}
                   ref={fourthInputRef}
                   onChange={(e) => {

@@ -44,7 +44,7 @@ const TeamTable = (props) => {
   };
 
   return (
-    <div className="text-white h-full w-full">
+    <div className="text-black dark:text-white h-full w-full">
       <table className="w-full table-auto text-left">
         <thead className="sticky">
           <tr>
@@ -88,7 +88,7 @@ const TeamTable = (props) => {
         </thead>
         <tbody className="text-center">
           {data.map((player, idx) => (
-            <tr key={idx} className="even:bg-dark-gray odd:bg-charcoal">
+            <tr key={idx} className="odd:bg-light-dark-gray dark:odd:bg-dark-gray even:bg-light-charcoal dark:even:bg-charcoal">
               <td className="">
                 <div className="flex items-center justify-between px-8">
                   <img

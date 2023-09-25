@@ -41,7 +41,7 @@ const Card = (props) => {
     >
       {/* <div className={`rounded-default h-[185px] bg-charcoal p-default transition ease-in-out delay-150 hover:-translate-y-1 hover:bg-dark-gray duration-200 ${league.isAcceptedList? "cursor-pointer":""}`}> */}
       <div
-        className={`rounded-default h-[185px] bg-charcoal p-default  hover:bg-dark-gray duration-200 ${
+        className={`rounded-default h-[185px] bg-light-charcoal dark:bg-charcoal p-default hover:bg-light-dark-gray dark:hover:bg-dark-gray duration-200 ${
           player?.isAcceptedList === 1 || league?.userId == user?.id || league?.isAllowedFan
             ? "cursor-pointer transition ease-in-out delay-150 hover:-translate-y-1"
             : ""
@@ -83,7 +83,7 @@ const Card = (props) => {
           <p className="dark:text-font-dark-gray text-[10px] text-left">
             Start Date: {league.startDate} End Date: {league.endDate}
           </p>
-          <p className="dark: text-[#c6c6c6] text-left text-xs h-[54px] mt-2">
+          <p className="dark:text-[#c6c6c6] text-left text-xs h-[54px] mt-2">
             {league.description}
           </p>
         </div>

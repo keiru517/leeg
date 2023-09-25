@@ -335,7 +335,7 @@ const League = () => {
         <span className="text-sky-500"> &gt; {league?.name}</span>
       </p>
 
-      <div className="rounded-main bg-slate flex-grow p-default">
+      <div className="rounded-main bg-white dark:bg-slate flex-grow p-default">
         <div className="w-full px-2 sm:px-0 h-full flex flex-col">
           <Tab.Group defaultIndex={tab}>
             <div className="flex justify-between">
@@ -345,11 +345,11 @@ const League = () => {
                     key={category}
                     className={({ selected }) =>
                       classNames(
-                        "py-2.5 text-sm font-medium leading-5 text-gray-300 px-3",
+                        "py-2.5 text-sm font-medium leading-5 text-gray-500 dark:text-gray-300 px-3",
                         " focus:outline-none ",
                         selected
-                          ? "divide-[bg-sky-500] text-white border-b-2 border-sky-500"
-                          : " rounded-lg hover:bg-white/[0.12] hover:text-white"
+                          ? "divide-[bg-sky-500] text-black dark:text-white border-b-2 border-sky-500"
+                          : " rounded-lg hover:bg-white/[0.12] "
                       )
                     }
                     onClick={() => handleCategory(idx)}
@@ -394,20 +394,20 @@ const League = () => {
                 >
                   <hr className="h-px my-4 bg-charcoal border-0" />
                   <div className="flex h-full space-x-4">
-                    <div className="w-1/2 bg-charcoal flex flex-col h-full min-h-[420px] p-default rounded-main">
+                    <div className="w-1/2 bg-light-charcoal dark:bg-charcoal flex flex-col h-full min-h-[420px] p-default rounded-main">
                       <div className="flex justify-between w-full">
-                        <p className="text-white text-xl font-semibold">
+                        <p className="text-black dark:text-white text-xl font-semibold">
                           Waitlisted Players
                         </p>
-                        <p className="text-white text-xl font-semibold">
+                        <p className="text-black dark:text-white text-xl font-semibold">
                           {filteredWaitListPlayers.length}
                         </p>
                       </div>
-                      <hr className="h-px my-5 bg-gray-200 border-0 dark:bg-dark-gray" />
+                      <hr className="h-px my-5 bg-gray-300 border-0 dark:bg-dark-gray" />
                       <div className="flex w-full justify-between space-x-10 my-5">
                         <div className="flex flex-grow space-x-3 ">
                           <Input
-                            className="flex-grow rounded-lg h-[38px] dark:bg-charcoal bg-white text-xs"
+                            className="flex-grow rounded-lg h-[38px] dark:bg-charcoal text-xs"
                             icon={search}
                             placeholder="Search"
                             value={waitListKeyword}
@@ -456,26 +456,26 @@ const League = () => {
                             ></ListItem>
                           ))
                         ) : (
-                          <p className="text-white font-medium text-sm">
+                          <p className="text-black dark:text-white font-medium text-sm">
                             No waitlisted Players to show!
                           </p>
                         )}
                       </div>
                     </div>
-                    <div className="w-1/2 bg-charcoal flex flex-col h-full min-h-[420px] p-default rounded-main">
+                    <div className="w-1/2 bg-light-charcoal dark:bg-charcoal flex flex-col h-full min-h-[420px] p-default rounded-main">
                       <div className="flex justify-between w-full">
-                        <p className="text-white text-xl font-semibold">
+                        <p className="text-black dark:text-white text-xl font-semibold">
                           Available Players
                         </p>
-                        <p className="text-white text-xl font-semibold">
+                        <p className="text-black dark:text-white text-xl font-semibold">
                           {filteredAcceptListPlayers.length}
                         </p>
                       </div>
-                      <hr className="h-px my-5 bg-gray-200 border-0 dark:bg-dark-gray" />
+                      <hr className="h-px my-5 bg-gray-300 border-0 dark:bg-dark-gray" />
                       <div className="flex w-full justify-between space-x-10 my-5">
                         <div className="flex flex-grow space-x-3 ">
                           <Input
-                            className="flex-grow rounded-lg h-[38px] dark:bg-charcoal bg-white text-xs"
+                            className="flex-grow rounded-lg h-[38px] dark:bg-charcoal text-xs"
                             icon={search}
                             placeholder="Search"
                             value={acceptListKeyword}
@@ -523,7 +523,7 @@ const League = () => {
                             ></ListItem>
                           ))
                         ) : (
-                          <p className="text-white font-medium text-sm">
+                          <p className="text-black dark:text-white font-medium text-sm">
                             No Accepted Players to show!
                           </p>
                         )}
@@ -559,7 +559,7 @@ const League = () => {
                   </>
                 ) : (
                   <div className="flex items-center flex-grow">
-                    <p className="text-2xl text-white w-full text-center">
+                    <p className="text-2xl text-black dark:text-white w-full text-center">
                       No Teams to show!
                     </p>
                   </div>
@@ -591,7 +591,7 @@ const League = () => {
                   </>
                 ) : (
                   <div className="flex items-center flex-grow">
-                    <p className="text-2xl text-white w-full text-center">
+                    <p className="text-2xl text-black dark:text-white w-full text-center">
                       No Matches to show!
                     </p>
                   </div>
@@ -630,7 +630,7 @@ const League = () => {
                   <StandingTable teams={filteredStandings}></StandingTable>
                 ) : (
                   <div className="flex items-center flex-grow">
-                    <p className="text-2xl text-white w-full text-center">
+                    <p className="text-2xl text-black dark:text-white w-full text-center">
                       No Standings to show!
                     </p>
                   </div>
@@ -666,7 +666,7 @@ const League = () => {
                   <PlayerTable players={filteredPlayers}></PlayerTable>
                 ) : (
                   <div className="flex items-center flex-grow">
-                    <p className="text-2xl text-white w-full text-center">
+                    <p className="text-2xl text-black dark:text-white w-full text-center">
                       No Players To Show!
                     </p>
                   </div>

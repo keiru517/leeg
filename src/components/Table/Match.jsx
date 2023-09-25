@@ -57,7 +57,7 @@ const MatchTable = (props) => {
   };
 
   return (
-    <div className="text-white h-full w-full mt-4">
+    <div className="text-black dark:text-white h-full w-full mt-4">
       <table className="w-full min-w-max table-auto text-left">
         <thead>
           <tr>
@@ -84,7 +84,7 @@ const MatchTable = (props) => {
               index
             ) => (
               // <tr onClick={()=>goToMatchup(id)} key={index} className="odd:bg-dark-gray even:bg-charcoal  hover:opacity-70">
-              <tr key={index} className="odd:bg-dark-gray even:bg-charcoal ">
+              <tr key={index} className="odd:bg-light-dark-gray dark:odd:bg-dark-gray even:bg-light-charcoal dark:even:bg-charcoal">
                 <td className="w-1/7">
                   <Typography
                     variant="small"

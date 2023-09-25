@@ -15,7 +15,7 @@ const Player = (props) => {
   // );
 
   return (
-    <div className="text-white mt-5 w-full">
+    <div className="text-black dark:text-white mt-5 w-full">
       <table className="w-full min-w-max table-auto text-left">
         <thead>
           <tr>
@@ -41,7 +41,7 @@ const Player = (props) => {
             players.filter(player=>player.teamId !== 0).map((player, idx) => (
               <tr
                 key={idx}
-                className="odd:bg-dark-gray even:bg-charcoal h-[53px]"
+                className="odd:bg-light-dark-gray dark:odd:bg-dark-gray even:bg-light-charcoal dark:even:bg-charcoal h-[53px]"
               >
                 <td className="w-1/4">
                   <Typography

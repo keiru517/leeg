@@ -18,7 +18,7 @@ const TeamStatistics = () => {
   ];
 
   return (
-    <div className="text-white mt-5 w-full">
+    <div className="text-black dark:text-white mt-5 w-full">
       <table className="w-full min-w-max table-auto text-left">
         <thead>
           <tr>
@@ -37,7 +37,7 @@ const TeamStatistics = () => {
         </thead>
         <tbody className="text-center">
           {/* {data.map(({ w, l, ps, pa, diff}, index) => ( */}
-            <tr className="odd:bg-dark-gray even:bg-charcoal h-[53px]">
+            <tr className="odd:bg-light-dark-gray dark:odd:bg-dark-gray even:bg-light-charcoal dark:even:bg-charcoal h-[53px]">
               <td className="w-1/5">
                 <Typography
                   variant="small"
