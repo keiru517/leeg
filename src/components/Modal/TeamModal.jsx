@@ -61,24 +61,14 @@ const TeamModal = () => {
 
   const handleDelete = () => {
     dispatch({ type: actions.OPEN_DELETE_TEAM_DIALOG, payload: team });
-    console.log("teamid", team.id);
-    // axios
-    //   .delete(apis.deleteTeam(team.id))
-    //   .then((res) => {
-    //     dispatch({ type: actions.CLOSE_TEAM_DIALOG });
-    //     actions.getTeams(dispatch);
-    //     actions.getPlayers(dispatch);
-    //     alert(res.data.message);
-    //   })
-    //   .catch((err) => alert(err.data.message));
   };
 
-  const handleEdit = () => {
-    dispatch({
-      type: actions.OPEN_EDIT_TEAM_DIALOG,
-      payload: { open: true, type: "edit", team: team },
-    });
-  };
+  // const handleEdit = () => {
+  //   dispatch({
+  //     type: actions.OPEN_EDIT_TEAM_DIALOG,
+  //     payload: { open: true, type: "edit", team: team },
+  //   });
+  // };
 
   const createSubmit = () => {
     if (!chosenFile && !teamName?.length > 0) {
@@ -197,10 +187,10 @@ const TeamModal = () => {
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative transform overflow-hidden rounded-main text-left shadow-xl transition-all sm:my-8 bg-slate h-[609px] md:w-[735px] mx-3 flex flex-col">
+              <Dialog.Panel className="relative transform overflow-hidden rounded-main text-left shadow-xl transition-all sm:my-8 bg-white dark:bg-slate h-[609px] md:w-[735px] mx-3 flex flex-col">
                 <div className="divide-y divide-solid divide-[#3A3A3A] flex flex-col flex-grow">
                   <div className="flex items-center text-left h-[88px] justify-between px-default">
-                    <p className="text-2xl text-white font-bold">
+                    <p className="text-2xl text-black dark:text-white font-bold">
                       {type == "create"
                         ? "Create Team"
                         : type == "edit"
@@ -248,7 +238,7 @@ const TeamModal = () => {
                           <div
                             className={`${
                               logoWarning ? "border-2 border-red-500" : ""
-                            } flex w-full h-[86px] bg-charcoal rounded-default items-center cursor-pointer`}
+                            } flex w-full h-[86px] bg-light-charcoal dark:bg-charcoal rounded-default items-center cursor-pointer`}
                             onClick={() => {
                               fileUploadRef.current?.click();
                             }}
@@ -284,7 +274,7 @@ const TeamModal = () => {
                                 }
                               }}
                             />
-                            <p className="text-white font-bold text-sm">
+                            <p className="text-black dark:text-white font-bold text-sm">
                               Upload League Logo
                             </p>
                           </div>
@@ -326,16 +316,16 @@ const TeamModal = () => {
                         </div>
                       ) : type === "addPlayer" ? (
                         <>
-                          <div className="flex bg-[#4A5462] h-[66px] rounded-default p-4 items-center">
+                          <div className="flex bg-light-charcoal dark:bg-[#4A5462] h-[66px] rounded-default p-4 items-center">
                             <img
                               src={team.logo}
                               className="w-8 h-8 rounded"
                               alt=""
                             />
-                            <p className="text-white underline mx-2 text-sm">
+                            <p className="text-black dark:text-white underline mx-2 text-sm">
                               {team.name}
                             </p>
-                            <p className="text-white text-[10px]">
+                            <p className="text-black dark:text-white text-[10px]">
                               {team.waitlist}/{team.max}
                             </p>
                           </div>

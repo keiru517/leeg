@@ -48,14 +48,14 @@ const ListItem = (props) => {
 
   return (
     <div className={`${className} w-full`}>
-      <div className="flex items-center justify-between bg-dark-gray w-full h-14 rounded-default py-1.5 px-4">
+      <div className="flex items-center justify-between bg-[#e6e6e6] dark:bg-dark-gray w-full h-14 rounded-default py-1.5 px-4">
         <div className="flex">
           <img src={avatar} className="w-10 h-10 mr-3 rounded-default" alt="" />
           <div>
-            <p className="text-white text-base underline">{name}</p>
+            <p className="text-black dark:text-white text-base underline">{name}</p>
             <div className="flex">
-              <p className="text-white text-xs font-dark-gray">{email}</p>
-              <p className="text-white text-xs font-dark-gray ml-3">{date}</p>
+              <p className="text-black dark:text-white text-xs font-dark-gray">{email}</p>
+              <p className="text-black dark:text-white text-xs font-dark-gray ml-3">{date}</p>
             </div>
           </div>
         </div>

@@ -31,14 +31,14 @@ const TeamCard = (props) => {
   };
 
   return (
-    <div className="flex flex-col overflow-y-auto rounded-default h-[350px] bg-dark-gray transition ease-in-out delay-150 hover:bg-dark-gray duration-200 w-full">
-      <div className="flex justify-between h-button bg-charcoal rounded-t-default p-4">
+    <div className="flex flex-col overflow-y-auto rounded-default h-[350px]  bg-light-charcoal dark:bg-dark-gray transition ease-in-out delay-150 duration-200 w-full">
+      <div className="flex justify-between h-button bg-light-dark-gray dark:bg-charcoal rounded-t-default p-4">
         <div className="flex items-center">
           <img src={team.logo} className="w-8 h-8 rounded-default"></img>
           <Link to={`team/${team.id}`}>
-            <p className="text-white text-sm mx-2 underline">{team.name}</p>
+            <p className="text-black dark:text-white text-sm mx-2 underline">{team.name}</p>
           </Link>
-          <p className="text-white text-[10px]">
+          <p className="text-black dark:text-white text-[10px]">
             {team.waitlist}/{team.max}
           </p>
         </div>
@@ -65,7 +65,7 @@ const TeamCard = (props) => {
           <TeamTable data={players} />
         ) : (
           <div className="flex items-center flex-grow">
-            <p className="text-2xl text-white w-full text-center">
+            <p className="text-2xl text-black dark:text-white w-full text-center">
               No players to show!
             </p>
           </div>

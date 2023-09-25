@@ -144,10 +144,10 @@ const Modal = (props) => {
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative transform overflow-hidden rounded-main pb-4 text-left shadow-xl transition-all sm:my-8 bg-slate h-[609px] md:w-[735px] mx-3">
-                <div className="divide-y divide-solid divide-[#3A3A3A]">
+              <Dialog.Panel className="relative transform overflow-hidden rounded-main pb-4 text-left shadow-xl transition-all sm:my-8 bg-white dark:bg-slate h-[609px] md:w-[735px] mx-3">
+                <div className="divide-y divide-solid divide-font-dark-gray dark:divide-[#3A3A3A]">
                   <div className="flex items-center text-left h-[88px] justify-between px-[26px]">
-                    <p className="text-2xl text-white font-bold">
+                    <p className="text-2xl text-black dark:text-white font-bold">
                       Create League
                     </p>
                     <img
@@ -156,13 +156,13 @@ const Modal = (props) => {
                       className="cursor-pointer hover:opacity-70"
                     ></img>
                   </div>
-                  <div className="flex divide-x divide-solid divide-[#3A3A3A]">
+                  <div className="flex divide-x divide-solid divide-font-dark-gray dark:divide-[#3A3A3A]">
                     <div className="flex flex-col space-y-8 w-[290px] h-[521px] p-default">
                       <div
                         className={
                           step == 1
                             ? "flex w-[238px] h-12 bg-primary rounded-full items-center text-white text-sm font-medium"
-                            : "flex w-[238px] h-12 rounded-full items-center text-white text-sm font-bold"
+                            : "flex w-[238px] h-12 rounded-full items-center text-black dark:text-white text-sm font-bold"
                         }
                       >
                         {step == 1 ? (
@@ -177,7 +177,7 @@ const Modal = (props) => {
                           step == 2
                             ? "flex w-[238px] h-12 bg-primary rounded-full items-center text-white text-sm font-medium"
                             : step == 3
-                            ? "flex w-[238px] h-12 rounded-full items-center text-white text-sm font-bold"
+                            ? "flex w-[238px] h-12 rounded-full items-center text-black dark:text-white text-sm font-bold"
                             : "flex w-[238px] h-12 rounded-full items-center text-font-dark-gray text-sm font-bold"
                         }
                       >
@@ -223,7 +223,7 @@ const Modal = (props) => {
                             <div
                               className={`${
                                 logoWarning ? "border-2 border-red-500" : ""
-                              } flex w-full h-[86px] bg-charcoal rounded-default items-center cursor-pointer`}
+                              } flex w-full h-[86px] bg-light-charcoal dark:bg-charcoal rounded-default items-center cursor-pointer`}
                               onClick={() => {
                                 fileUploadRef.current?.click();
                               }}
@@ -256,7 +256,7 @@ const Modal = (props) => {
                                   }
                                 }}
                               />
-                              <p className="text-white font-bold text-sm">
+                              <p className="text-black dark:text-white font-bold text-sm">
                                 Upload League Logo
                               </p>
                             </div>
@@ -281,7 +281,7 @@ const Modal = (props) => {
                           <div className="flex mt-auto w-full justify-between">
                             <button
                               onClick={goToStep1}
-                              className="bg-[#3A3A3A] w-[169px] h-button rounded-xl mt-auto text-white font-semibold text-sm dark:hover:bg-middle-gray focus:ring-2"
+                              className="bg-[#e5e5e5] dark:bg-[#3A3A3A] w-[169px] h-button rounded-xl mt-auto text-black dark:text-white font-semibold text-sm dark:hover:bg-middle-gray focus:ring-2"
                             >
                               Back to Step 1
                             </button>
@@ -314,7 +314,7 @@ const Modal = (props) => {
                           <div className="flex mt-auto w-full justify-between">
                             <button
                               onClick={goToStep2}
-                              className="bg-[#3A3A3A] w-[169px] h-button rounded-xl mt-auto text-white font-semibold text-sm hover:bg-gray-700 focus:ring-2"
+                              className="bg-[#e5e5e5] dark:bg-[#3A3A3A] w-[169px] h-button rounded-xl mt-auto text-black dark:text-white font-semibold text-sm hover:bg-gray-700 focus:ring-2"
                             >
                               Back to Step 2
                             </button>

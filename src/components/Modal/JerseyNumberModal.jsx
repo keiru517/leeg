@@ -76,10 +76,10 @@ const JerseyNumberModal = (props) => {
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative transform overflow-hidden rounded-main text-left shadow-xl transition-all sm:my-8 bg-slate h-[609px] md:w-[735px] mx-3 flex flex-col">
+              <Dialog.Panel className="relative transform overflow-hidden rounded-main text-left shadow-xl transition-all sm:my-8 bg-white dark:bg-slate h-[609px] md:w-[735px] mx-3 flex flex-col">
                 <div className="divide-y divide-solid divide-[#3A3A3A] flex flex-col flex-grow">
                   <div className="flex items-center text-left h-[88px] justify-between px-default">
-                    <p className="text-2xl text-white font-bold">
+                    <p className="text-2xl text-black dark:text-white font-bold">
                       Edit Jersey Number
                     </p>
                     <div className="flex items-center">
@@ -93,7 +93,7 @@ const JerseyNumberModal = (props) => {
                   <div className="flex-col p-default flex flex-grow justify-between">
                     <div>
                       <>
-                        <div className="flex items-center justify-between bg-dark-gray w-full h-14 rounded-default py-1.5 px-4">
+                        <div className="flex items-center justify-between bg-light-charcoal dark:bg-dark-gray w-full h-14 rounded-default py-1.5 px-4">
                           <div className="flex">
                             <img
                               src={player?.avatar}
@@ -101,11 +101,11 @@ const JerseyNumberModal = (props) => {
                               alt=""
                             />
                             <div>
-                              <p className="text-white text-base underline">
+                              <p className="text-black dark:text-white text-base underline">
                                 {player?.firstName} {player?.lastName}
                               </p>
                               <div className="flex">
-                                <p className="text-white text-xs font-dark-gray">
+                                <p className="text-black dark:text-white text-xs font-dark-gray">
                                   {player?.email}
                                 </p>
                               </div>

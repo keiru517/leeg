@@ -50,7 +50,7 @@ const TeamTable = (props) => {
           <tr>
             <th
               key="1"
-              className="h-button bg-slate text-center font-font-dark-gray w-1/3"
+              className="h-button bg-light-charcoal dark:bg-slate text-center w-1/3"
             >
               <Typography
                 variant="small"
@@ -62,7 +62,7 @@ const TeamTable = (props) => {
             </th>
             <th
               key="2"
-              className="h-button bg-slate text-center font-font-dark-gray w-1/3"
+              className="h-button bg-light-charcoal dark:bg-slate text-center w-1/3"
             >
               <Typography
                 variant="small"
@@ -74,7 +74,7 @@ const TeamTable = (props) => {
             </th>
             <th
               key="3"
-              className="h-button bg-slate text-center font-font-dark-gray w-1/3"
+              className="h-button bg-light-charcoal dark:bg-slate text-center w-1/3"
             >
               <Typography
                 variant="small"
