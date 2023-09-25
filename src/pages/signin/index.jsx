@@ -9,6 +9,7 @@ import axios from "axios";
 import { setAuthToken } from "../../utils/authService";
 import { useDispatch } from "react-redux";
 import * as actions from "../../actions";
+import PasswordInput from "../../components/Input/password";
 
 const Signin = () => {
   const navigate = useNavigate();
@@ -61,14 +62,12 @@ const Signin = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             ></Input>
-            <Input
+            <PasswordInput
               className="rounded-default text-font-dark-gray text-xs"
-              type="password"
-              placeholder="Password*"
+              placeholder="Type Your Password*"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              option={eyeDisable}
-            ></Input>
+            ></PasswordInput>
             <p className="dark:text-white text-sm hover:opacity-70">
               <Link to={"/forgotpwd"}>Forgot password?</Link>
             </p>

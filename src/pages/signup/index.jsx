@@ -1,33 +1,17 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
 import Input from "../../components/Input";
+import PasswordInput from "../../components/Input/password";
 import hrLine from "../../assets/img/dark_mode/hr-line.png";
-import eyeDisable from "../../assets/img/dark_mode/eye-disable.png";
 import upload from "../../assets/img/dark_mode/upload_photo.png";
-import calendar from "../../assets/img/dark_mode/calendar.png";
 import logo from "../../assets/img/dark_mode/logo.png";
-import * as actions from "../../actions";
 import apis from "../../utils/apis";
 import axios from "axios";
 
-const countries = [
-  { id: 0, name: "United States" },
-  { id: 1, name: "France" },
-];
-const states = [
-  { id: 0, name: "Califonia" },
-  { id: 1, name: "Alaska" },
-];
-const cities = [
-  { id: 0, name: "Anaheim" },
-  { id: 1, name: "Anchorage" },
-];
 const Signup = () => {
   const navigate = useNavigate();
   let { email } = useParams();
   console.log(email);
-  // const countries = useSelector((state) => state.home.countries);
 
   const [panelHeight, setPanelHeight] = useState("617px");
 
@@ -37,24 +21,8 @@ const Signup = () => {
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [birthday, setBirthday] = useState("");
-  // const [address, setAddress] = useState("");
-  // const [zipCode, setZipCode] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
-
-  // const [country, setCountry] = useState("Select Country*");
-  // const selectCountry = (value) => {
-  //   setCountry(value);
-  // };
-  // const [state, setState] = useState("Select State*");
-  // const selectState = (value) => {
-  //   setState(value);
-  // };
-  // const [city, setCity] = useState("Select City*");
-  // const selectCity = (value) => {
-  //   setCity(value);
-  // };
 
   const fileUploadRef = useRef(undefined);
   const [chosenFile, setChosenFile] = useState();
@@ -200,26 +168,24 @@ const Signup = () => {
                   }}
                 ></Input> */}
                 <div className="grid grid-cols-2 gap-4">
-                  <Input
+                  <PasswordInput
                     className="bg-transparent rounded-default text-font-dark-gray text-xs"
                     type="password"
                     placeholder="Type Your Password*"
-                    option={eyeDisable}
                     value={password}
                     onChange={(e) => {
                       setPassword(e.target.value);
                     }}
-                  ></Input>
-                  <Input
+                  ></PasswordInput>
+                  <PasswordInput
                     className="bg-transparent rounded-default text-font-dark-gray text-xs"
                     type="password"
                     placeholder="Retype Your Passowrd*"
-                    option={eyeDisable}
                     value={passwordConfirm}
                     onChange={(e) => {
                       setPasswordConfirm(e.target.value);
                     }}
-                  ></Input>
+                  ></PasswordInput>
                 </div>
                 {/* <div className="grid grid-cols-2 gap-4">
                     <Select

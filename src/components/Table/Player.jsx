@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 const Player = (props) => {
   // const { teams } = props;
   const { players } = props;
-  const columns = ["Player", "Team"];
+  const columns = ["Player", "Jersery Number", "Team"];
   const teams = useSelector(state=>state.home.teams);
 
   // const players = useSelector((state) => state.home.players).filter(
@@ -51,6 +51,15 @@ const Player = (props) => {
                   >
                     <img src={player.avatar} alt="" className="h-8 w-8 mr-2 rounded-default" />
                     <Link to={`player/${player.userId}`}>{player.firstName} {player.lastName}</Link>
+                  </Typography>
+                </td>
+                <td className="w-1/4">
+                  <Typography
+                    variant="small"
+                    color="blue-gray"
+                    className="font-normal"
+                  >
+                    {player?.jerseyNumber}
                   </Typography>
                 </td>
                 <td className="w-1/5">
