@@ -22,6 +22,6 @@ teamRouter.delete('/remove/:id', TeamController.remove);
 
 // send logo
 // SERVER_URL/api/team/logo/1
-teamRouter.get('/logo/:id', TeamController.logo);
+teamRouter.get('/logo/:userId/:id', TeamController.logo);
 
 export default teamRouter;

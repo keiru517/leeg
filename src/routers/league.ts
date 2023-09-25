@@ -31,4 +31,7 @@ leagueRouter.get('/info/:id', LeagueController.info);
 // apply to a league
 // SERVER_URL/api/league/apply
 leagueRouter.post('/apply', LeagueController.apply);
+// Allow fan view of a league
+leagueRouter.post('/allowFan', LeagueController.allowFan);
+
 export default leagueRouter;

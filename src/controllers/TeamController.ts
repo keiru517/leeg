@@ -20,7 +20,7 @@ export const all: RequestHandler = async (req, res) => {
 // POST SERVER_URL/api/team/create
 export const create: RequestHandler = async (req, res) => {
   const data: Types.T_Team = req.body;
-  const userId = 1;
+  const userId = data.userId;
   if (req.file) {
     const extension = path.extname(req.file.originalname);
     const directoryPath = absolutePath(`public/upload/${userId}/teams`);
@@ -37,6 +37,7 @@ export const create: RequestHandler = async (req, res) => {
     const buffer = req.file.buffer;
     writeFileSync(filePath, buffer);
     data.logo = fileName;
+    // data.logo = filePath;
     // data.logo = URL.createObjectURL(new Blob([buffer], {type: "image/jpeg"}));
   }
 
@@ -77,15 +78,10 @@ export const remove: RequestHandler = async (req, res) => {
     });
 
     const promises = Object.values(players).map(async player => {
-      console.log(player.id)
-      // const player = await Player.findByPk(id);
-      // console.log('====', player);
       if (player) {
         player.isDeleted = 1;
         await player.save();
 
-        // const newData = {...player};
-        // newData.teamId = 0;
         await Player.create({
           leagueId: player.leagueId,
           teamId: 0,
@@ -94,6 +90,7 @@ export const remove: RequestHandler = async (req, res) => {
           lastName: player.lastName,
           avatar: player.avatar,
           email: player.email,
+          jerseyNumber: 0,
           birthday: player.birthday,
           country: player.country,
           state: player.state,
@@ -117,8 +114,9 @@ export const remove: RequestHandler = async (req, res) => {
 
 // GET SERVER_URL/api/team/logo/1
 export const logo: RequestHandler = async (req, res) => {
+  const userId = Number(req.params.userId);
   const id = Number(req.params.id);
-  const userId = 1;
+  console.log("============", userId)
   const team = await Team.findOne({
     where: {
       id

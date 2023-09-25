@@ -5,37 +5,7 @@ import { Types } from '../types';
 
 // GET SERVER_URL/api/player/all
 export const all: RequestHandler = async (req, res) => {
-  // const leagueId = 1;
-
   const players = await Player.findAll();
-
-  // const players: Types.T_User = [];
-  // leagueUsers.map(async leagueUser=>{
-  //   const user = await User.findOne({
-  //     where: {
-  //       id: leagueUser.userId
-  //     }
-  //   });
-  //   console.log("=============", user)
-  //   players.push(user)
-  // })
-
-  // const result = await Promise.all(
-  //   players.map(async player => {
-  //     const user = await User.findOne({
-  //       where: {
-  //         id: player.userId
-  //       }
-  //     });
-  //     return {
-  //       ...user?.dataValues,
-  //       leagueId: player.leagueId,
-  //       isWaitList: player.isWaitList,
-  //       isAcceptedList: player.isAcceptedList
-  //     };
-  //   })
-  // );
-
   res.json({ players });
 };
 
@@ -47,27 +17,50 @@ export const create: RequestHandler = async (req, res) => {
   res.status(200).json({ message: 'A Player Created Successfully!' });
 };
 
-// POST SERVER_URL/api/player/update/1
+// POST SERVER_URL/api/player/update
 export const update: RequestHandler = async (req, res) => {
-  const player = await Player.findByPk(req.body.id);
+  const {playerId, jerseyNumber} = req.body;
+  console.log(playerId, jerseyNumber);
+  
+  const player = await Player.findByPk(playerId);
   if (player) {
-    await player.update(req.body);
-    res.json({ player });
+    await player.update({'jerseyNumber':jerseyNumber});
+    res.json({ message:"Updated successfully!" });
   } else {
     res.status(404).json({ message: 'player not found' });
   }
 };
 
-// POST SERVER_URL/api/player/remove/1
+// POST SERVER_URL/api/player/remove
 export const remove: RequestHandler = async (req, res) => {
-  const id = Number(req.params.id);
+  const id = req.body.id;
 
   const player = await Player.findByPk(id);
   if (player) {
-    await player.destroy();
-    const players = await Player.findAll();
+    player.isDeleted = 1;
+    await player.save();
 
-    res.json({ message: 'deleted successfully!', players: players });
+    await Player.create({
+      leagueId: player.leagueId,
+      teamId: 0,
+      userId: player.userId,
+      firstName: player.firstName,
+      lastName: player.lastName,
+      avatar: player.avatar,
+      email: player.email,
+      jerseyNumber: 0,
+      birthday: player.birthday,
+      country: player.country,
+      state: player.state,
+      city: player.city,
+      address: player.address,
+      zipCode: player.zipCode,
+      isWaitList: player.isWaitList,
+      isAcceptedList: player.isAcceptedList,
+      isDeleted: 0
+    });
+
+    res.json({ message: 'deleted successfully!'});
   } else {
     res.status(404).json({ message: 'player not found' });
   }
@@ -85,17 +78,9 @@ export const add: RequestHandler = async (req, res) => {
     const player = await Player.findByPk(id);
     if (player) {
       player.teamId = teamId;
-      await player.save()
+      await player.save();
       playerFound = true;
     }
-    // const player = await User.findByPk(id);
-    // if (player) {
-    //   if (playersList[id] == true) {
-    //     // player.teamId = teamId;
-    //     await player.save();
-    //   }
-    //   playerFound = true;
-    // }
   });
 
   await Promise.all(promises);
@@ -117,28 +102,9 @@ export const accept: RequestHandler = async (req, res) => {
     if (player) {
       player.isAcceptedList = 1;
       player.isWaitList = 0;
-      await player.save()
+      await player.save();
       playerFound = true;
     }
-    // const result = await User.findByPk(id);
-    // if (result) {
-    //   if (data.waitItemChecked[id] == true) {
-    //     const player = await Player.findOne({
-    //       where: {
-    //         userId: id,
-    //         leagueId: data.leagueId
-    //       }
-    //     });
-
-    //     if (player) {
-    //       player.isWaitList = 0;
-    //       player.isAcceptedList = 1;
-    //       await player.save();
-    //     }
-    //     await result.save();
-    //   }
-    //   playerFound = true;
-    // }
   });
 
   await Promise.all(promises);
@@ -160,27 +126,9 @@ export const unaccept: RequestHandler = async (req, res) => {
     if (player) {
       player.isWaitList = 1;
       player.isAcceptedList = 0;
-      await player.save()
+      await player.save();
       playerFound = true;
     }
-    // const result = await User.findByPk(id);
-    // if (result) {
-    //   if (data[id] == true) {
-    //     const player = await Player.findOne({
-    //       where: {
-    //         userId: id
-    //       }
-    //     });
-
-    //     if (player) {
-    //       player.isWaitList = 1;
-    //       player.isAcceptedList = 0;
-    //       await player.save();
-    //     }
-    //     await result.save();
-    //   }
-    //   playerFound = true;
-    // }
   });
 
   await Promise.all(promises);

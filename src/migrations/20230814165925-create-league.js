@@ -37,6 +37,9 @@ module.exports = {
       endDate: {
         type: Sequelize.DATE
       },
+      isAllowedFan: {
+        type: Sequelize.BOOLEAN
+      },
       isDeleted: {
         type: Sequelize.INTEGER
       },

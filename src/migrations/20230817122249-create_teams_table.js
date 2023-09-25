@@ -10,6 +10,15 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      userId: {
+        allowNull: false,
+        references: {
+          model: 'Users',
+          key: 'id'
+        },
+        onDelete: 'CASCADE',
+        type: Sequelize.INTEGER
+      },
       leagueId: {
         allowNull: false,
         references: {

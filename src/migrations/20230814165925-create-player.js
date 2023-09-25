@@ -30,6 +30,9 @@ module.exports = {
       email: {
         type: Sequelize.STRING
       },
+      jerseyNumber: {
+        type: Sequelize.INTEGER
+      },
       birthday: {
         type: Sequelize.STRING
       },

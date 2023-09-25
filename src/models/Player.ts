@@ -20,6 +20,7 @@ export default class Player extends Model<
   declare lastName: string;
   declare avatar: string;
   declare email: string;
+  declare jerseyNumber: number;
   declare birthday: string;
   declare country: string;
   declare state: string;
@@ -40,6 +41,7 @@ Player.init(
     lastName: DataTypes.STRING,
     avatar: DataTypes.STRING,
     email: DataTypes.STRING,
+    jerseyNumber: DataTypes.INTEGER,
     birthday: DataTypes.STRING,
     country: DataTypes.STRING,
     state: DataTypes.STRING,

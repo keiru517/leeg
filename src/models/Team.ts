@@ -36,6 +36,14 @@ export default class Team extends Model<
 }
 Team.init(
   {
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'User',
+        key: 'id'
+      }
+    },
     leagueId: {
       type: DataTypes.INTEGER,
       allowNull: false,

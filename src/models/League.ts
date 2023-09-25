@@ -1,4 +1,10 @@
-import { Model, DataTypes, Optional, CreationOptional, ForeignKey } from 'sequelize';
+import {
+  Model,
+  DataTypes,
+  Optional,
+  CreationOptional,
+  ForeignKey
+} from 'sequelize';
 import sequelize from '.';
 import { Types } from '../types';
 
@@ -40,6 +46,10 @@ League.init(
     logo: DataTypes.STRING,
     startDate: DataTypes.DATE,
     endDate: DataTypes.DATE,
+    isAllowedFan: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+    },
     isDeleted: {
       type: DataTypes.INTEGER,
       defaultValue: 0

@@ -26,7 +26,9 @@ export namespace Types {
     logo: string;
     startDate: string;
     endDate: string;
+    isAllowedFan: boolean;
     isDeleted: number;
+
   }
 
   export interface T_Admin extends T_DB {
@@ -36,6 +38,7 @@ export namespace Types {
     isDeleted: number;
   }
   export interface T_Team extends T_DB {
+    userId: number;
     leagueId: number;
     name: string;
     logo: string;
@@ -76,6 +79,7 @@ export namespace Types {
     lastName: string;
     avatar: string;
     email: string;
+    jerseyNumber: number;
     birthday: string;
     country: string;
     state: string;
