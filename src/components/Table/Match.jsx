@@ -11,15 +11,25 @@ const MatchTable = (props) => {
   const { matches, leagueId } = props;
 
   // let { leagueId} = useParams();
-  const columns = [
-    "Date",
-    "Location",
-    "Time",
-    "Home",
-    "Away",
-    "Results",
-    "Action",
-  ];
+  const user = useSelector((state) => state.home.user);
+  const league = useSelector((state) => state.home.leagues).find(
+    (league) => league.id == leagueId
+  );
+
+  var columns = [];
+  if (league?.userId == user?.id) {
+    var columns = [
+      "Date",
+      "Location",
+      "Time",
+      "Home",
+      "Away",
+      "Results",
+      "Action",
+    ];
+  } else {
+    var columns = ["Date", "Location", "Time", "Home", "Away", "Results"];
+  }
 
   const options = [
     { id: 0, name: "Edit" },
@@ -106,7 +116,9 @@ const MatchTable = (props) => {
                   <Typography
                     variant="small"
                     color="blue-gray"
-                    className={`font-normal flex items-center justify-center ${isDeletedTeam(homeTeamId) ? "": "underline"}`}
+                    className={`font-normal flex items-center justify-center ${
+                      isDeletedTeam(homeTeamId) ? "" : "underline"
+                    }`}
                   >
                     {isDeletedTeam(homeTeamId) ? (
                       <>
@@ -116,7 +128,9 @@ const MatchTable = (props) => {
                           className="h-8 w-8 mr-2 rounded-default"
                         />
                         {teams.find((team) => team.id == homeTeamId).name}
-                        <span class="bg-red-100 text-red-800 text-xs font-medium ml-3 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300 text-right">Deleted</span>
+                        <span class="bg-red-100 text-red-800 text-xs font-medium ml-3 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300 text-right">
+                          Deleted
+                        </span>
                       </>
                     ) : (
                       <Link
@@ -134,10 +148,12 @@ const MatchTable = (props) => {
                   </Typography>
                 </td>
                 <td className="w-1/7">
-                <Typography
+                  <Typography
                     variant="small"
                     color="blue-gray"
-                    className={`font-normal flex items-center justify-center ${isDeletedTeam(awayTeamId) ? "": "underline"}`}
+                    className={`font-normal flex items-center justify-center ${
+                      isDeletedTeam(awayTeamId) ? "" : "underline"
+                    }`}
                   >
                     {isDeletedTeam(awayTeamId) ? (
                       <>
@@ -147,7 +163,9 @@ const MatchTable = (props) => {
                           className="h-8 w-8 mr-2 rounded-default"
                         />
                         {teams.find((team) => team.id == awayTeamId).name}
-                        <span class="bg-red-100 text-red-800 text-xs font-medium ml-3 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300 text-right">Deleted</span>
+                        <span class="bg-red-100 text-red-800 text-xs font-medium ml-3 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300 text-right">
+                          Deleted
+                        </span>
                       </>
                     ) : (
                       <Link
@@ -173,21 +191,17 @@ const MatchTable = (props) => {
                     {result}
                   </Typography>
                 </td>
-                <td className="w-1/7">
-                  {/* <Typography
-                      // as="a"
-                      variant="small"
-                      color="blue"
-                      className="font-medium justify-between "
-                    > */}
-                  <Option
-                    options={options}
-                    handleClick={(idx) => handleOption(idx, id)}
-                  ></Option>
-                  {/* </Typography> */}
-                </td>
+                {league?.userId == user?.id ? (
+                  <td className="w-1/7">
+                    <Option
+                      options={options}
+                      handleClick={(idx) => handleOption(idx, id)}
+                    ></Option>
+                  </td>
+                ) : (
+                  ""
+                )}
               </tr>
-              // </Link>
             )
           )}
         </tbody>

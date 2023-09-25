@@ -13,11 +13,12 @@ import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../actions";
 import PlayerList from "../ListItem/PlayerList";
 import apis from "../../utils/apis";
+import { useSelect } from "@material-tailwind/react";
 
 const TeamModal = () => {
   let { leagueId } = useParams();
   const dispatch = useDispatch();
-
+  const user = useSelector((state) => state.home.user);
   const status = useSelector((state) => state.home.team_dialog.open);
   const type = useSelector((state) => state.home.team_dialog.type);
 
@@ -28,41 +29,48 @@ const TeamModal = () => {
   const fileUploadRef = useRef(undefined);
   const [chosenFile, setChosenFile] = useState(null);
   const [previewURL, setPreviewURL] = useState("");
-  const [logoWarning, setLogoWarning] =useState(false);
-  const [nameWarning, setNameWarning] =useState(false);
+  const [logoWarning, setLogoWarning] = useState(false);
+  const [nameWarning, setNameWarning] = useState(false);
+  const [confirmTeamName, setConfirmTeamName] = useState("");
 
   const players = useSelector((state) => state.home.players).filter(
-    (player) => (player.leagueId == leagueId) && player.isAcceptedList && player.teamId === 0
+    (player) =>
+      player.leagueId == leagueId &&
+      player.isAcceptedList &&
+      player.teamId === 0
   );
 
   const [teamName, setTeamName] = useState("");
-  useEffect(()=>{
-    if(teamName?.length > 0) {
+  useEffect(() => {
+    if (teamName?.length > 0) {
       setNameWarning(false);
     }
-  }, [teamName])
+  }, [teamName]);
 
   useEffect(() => {
     setTeamName(team.name);
   }, [team]);
+
   const closeDialog = () => {
     setPreviewURL("");
     setTeamName("");
     setLogoWarning(false);
+    setConfirmTeamName("");
     dispatch({ type: actions.CLOSE_TEAM_DIALOG });
   };
 
   const handleDelete = () => {
+    dispatch({ type: actions.OPEN_DELETE_TEAM_DIALOG, payload: team });
     console.log("teamid", team.id);
-    axios
-      .delete(apis.deleteTeam(team.id))
-      .then((res) => {
-        dispatch({ type: actions.CLOSE_TEAM_DIALOG });
-        actions.getTeams(dispatch);
-        actions.getPlayers(dispatch);
-        alert(res.data.message);
-      })
-      .catch((err) => alert(err.data.message));
+    // axios
+    //   .delete(apis.deleteTeam(team.id))
+    //   .then((res) => {
+    //     dispatch({ type: actions.CLOSE_TEAM_DIALOG });
+    //     actions.getTeams(dispatch);
+    //     actions.getPlayers(dispatch);
+    //     alert(res.data.message);
+    //   })
+    //   .catch((err) => alert(err.data.message));
   };
 
   const handleEdit = () => {
@@ -72,20 +80,18 @@ const TeamModal = () => {
     });
   };
 
-
-
   const createSubmit = () => {
     if (!chosenFile && !teamName?.length > 0) {
       // alert("Please choose file");
       setLogoWarning(true);
       setNameWarning(true);
     } else if (!chosenFile) {
-      setLogoWarning(true)
+      setLogoWarning(true);
     } else if (!teamName?.length > 0) {
       setNameWarning(true);
-    }
-    else {
+    } else {
       const formData = new FormData();
+      formData.append("userId", user?.id);
       formData.append("leagueId", leagueId);
       formData.append("logo", chosenFile);
       formData.append("name", teamName);
@@ -120,13 +126,26 @@ const TeamModal = () => {
   };
 
   const deleteSubmit = () => {
-    dispatch({ type: actions.CLOSE_TEAM_DIALOG });
-    console.log("Clicked delete");
+    if (confirmTeamName == "") {
+      alert("Please type the league name you want to delete for confirmation.");
+    } else if (confirmTeamName === team?.name) {
+      axios
+        .delete(apis.deleteTeam(team.id))
+        .then((res) => {
+          actions.getTeams(dispatch);
+          actions.getPlayers(dispatch);
+          alert(res.data.message);
+        })
+        .catch((err) => alert(err.data.message));
+      dispatch({ type: actions.CLOSE_TEAM_DIALOG });
+    } else {
+      alert("Please type the league name correctly.");
+    }
   };
 
   const [playersList, setPlayersList] = useState({});
   const addPlayers = () => {
-    console.log("playerList", playersList)
+    console.log("playerList", playersList);
     axios
       .post(apis.addPlayer, {
         teamId: team.id,
@@ -193,23 +212,28 @@ const TeamModal = () => {
                         : ""}
                     </p>
                     <div className="flex items-center">
-                      {type === "edit" ? (
-                        <img
-                          src={deleteIcon}
-                          alt=""
-                          className="w-[18px] h-[18px] mr-5 hover:opacity-70 cursor-pointer"
-                          onClick={handleDelete}
-                        />
-                      ) : type === "delete" ? (
-                        <img
-                          src={editIcon}
-                          alt="sdf"
-                          className="w-[18px] h-[18px] mr-5 hover:opacity-70 cursor-pointer"
-                          onClick={handleEdit}
-                        />
-                      ) : (
-                        ""
-                      )}
+                      {
+                        type === "edit" ? (
+                          <img
+                            src={deleteIcon}
+                            alt=""
+                            className="w-[18px] h-[18px] mr-5 hover:opacity-70 cursor-pointer"
+                            onClick={handleDelete}
+                          />
+                        ) : (
+                          ""
+                        )
+                        // : type === "delete" ? (
+                        //   <img
+                        //     src={editIcon}
+                        //     alt="sdf"
+                        //     className="w-[18px] h-[18px] mr-5 hover:opacity-70 cursor-pointer"
+                        //     onClick={handleEdit}
+                        //   />
+                        // ) : (
+                        //   ""
+                        // )
+                      }
                       <img
                         src={close}
                         onClick={closeDialog}
@@ -222,7 +246,9 @@ const TeamModal = () => {
                       {type === "create" || type === "edit" ? (
                         <>
                           <div
-                            className={`${logoWarning? "border-2 border-red-500":""} flex w-full h-[86px] bg-charcoal rounded-default items-center cursor-pointer`}
+                            className={`${
+                              logoWarning ? "border-2 border-red-500" : ""
+                            } flex w-full h-[86px] bg-charcoal rounded-default items-center cursor-pointer`}
                             onClick={() => {
                               fileUploadRef.current?.click();
                             }}
@@ -233,8 +259,16 @@ const TeamModal = () => {
                                 className="rounded-full w-[58px] h-[58px] mx-2"
                                 alt=""
                               />
-                            ) : (
+                            ) : type === "create" ? (
                               <img src={uploadCircle} alt="" className="mx-2" />
+                            ) : type === "edit" ? (
+                              <img
+                                src={team?.logo}
+                                alt=""
+                                className="rounded-full w-[58px] h-[58px] mx-2"
+                              />
+                            ) : (
+                              ""
                             )}
                             <input
                               type="file"
@@ -255,19 +289,41 @@ const TeamModal = () => {
                             </p>
                           </div>
                           <Input
-                            className={`${nameWarning? "border-2 border-red-500":""} rounded-default text-xs mt-5`}
+                            className={`${
+                              nameWarning ? "border-2 border-red-500" : ""
+                            } rounded-default text-xs mt-5`}
                             placeholder="Type Team Name*"
                             value={teamName}
                             onChange={(e) => setTeamName(e.target.value)}
                           ></Input>
                         </>
                       ) : type === "delete" ? (
-                        <Input
-                          className="rounded-default text-xs "
-                          placeholder="Type Team Name*"
-                          // value={team.name}
-                          // onChange={(e) => setTeamName(e.target.value)}
-                        ></Input>
+                        <div className="flex flex-col justify-between h-full">
+                          <div className="space-y-3">
+                            <div className="flex items-center justify-between dark:bg-charcoal w-full h-[86px] rounded-default py-1.5 px-2">
+                              <div className="flex items-center">
+                                <img
+                                  src={team?.logo}
+                                  className="w-[58px] h-[58px] mr-3 rounded-full"
+                                  alt=""
+                                />
+                                <div className="">
+                                  <p className="text-white text-base">
+                                    {team?.name}
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                            <Input
+                              className="rounded-default text-xs "
+                              placeholder="Type Team Name*"
+                              value={confirmTeamName}
+                              onChange={(e) =>
+                                setConfirmTeamName(e.target.value)
+                              }
+                            ></Input>
+                          </div>
+                        </div>
                       ) : type === "addPlayer" ? (
                         <>
                           <div className="flex bg-[#4A5462] h-[66px] rounded-default p-4 items-center">

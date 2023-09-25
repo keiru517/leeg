@@ -2,52 +2,53 @@ import { apiUrl } from "./config";
 export const apis = {
   getCountries: "https://api.countrystatecity.in/v1/countries",
   // authentication
-  signup: apiUrl + '/user/signup',
-  signin: apiUrl + '/user/signin',
-  verifyEmail: apiUrl + '/user/verifyEmail',
+  signup: apiUrl + "/user/signup",
+  signin: apiUrl + "/user/signin",
+  verifyEmail: apiUrl + "/user/verifyEmail",
   getUserInfo: (id) => {
-    return `${apiUrl}/user/info/${id}`
+    return `${apiUrl}/user/info/${id}`;
   },
-  userAvatarURL: (id)=> {
-    return `${apiUrl}/user/avatar/${id}`
-  }, 
-  forgotPassword: apiUrl + 'user/forgotPassword',
+  userAvatarURL: (id) => {
+    return `${apiUrl}/user/avatar/${id}`;
+  },
+  forgotPassword: apiUrl + "user/forgotPassword",
   // leagues
-  getLeagues: apiUrl + '/league/all',
+  getLeagues: apiUrl + "/league/all",
   createLeague: apiUrl + "/league/create",
-  updateLeague: apiUrl + '/league/update',
+  updateLeague: apiUrl + "/league/update",
   deleteLeague: (id) => {
-    return `${apiUrl}/league/remove/${id}`
+    return `${apiUrl}/league/remove/${id}`;
   },
   leagueLogoURL: (userId, id) => `${apiUrl}/league/${userId}/logo/${id}`,
-  applyLeague: apiUrl + '/league/apply',
+  applyLeague: apiUrl + "/league/apply",
+  allowFan: apiUrl + "/league/allowFan",
   // teams
-  getTeams: apiUrl + '/team/all',
-  createTeam: apiUrl + '/team/create',
-  updateTeam: apiUrl + '/team/update',
+  getTeams: apiUrl + "/team/all",
+  createTeam: apiUrl + "/team/create",
+  updateTeam: apiUrl + "/team/update",
   deleteTeam: (id) => {
-    return `${apiUrl}/team/remove/${id}`
+    return `${apiUrl}/team/remove/${id}`;
   },
-  teamLogoURL: (id) => `${apiUrl}/team/logo/${id}`,
+  teamLogoURL: (userId, id) => `${apiUrl}/team/logo/${userId}/${id}`,
   // matches
-  getMatchtes: apiUrl + '/match/all',
-  createMatch: apiUrl + '/match/create',
-  updateMatch: apiUrl + '/match/update',
-  updateMatchResult: apiUrl + '/match/updateResult',
+  getMatchtes: apiUrl + "/match/all",
+  createMatch: apiUrl + "/match/create",
+  updateMatch: apiUrl + "/match/update",
+  updateMatchResult: apiUrl + "/match/updateResult",
   deleteMatch: (id) => {
-    return `${apiUrl}/match/remove/${id}`
+    return `${apiUrl}/match/remove/${id}`;
   },
   // matchup
-  getMatchups: apiUrl + '/matchup/all',
-  createMatchup: apiUrl + '/matchup/create',
+  getMatchups: apiUrl + "/matchup/all",
+  createMatchup: apiUrl + "/matchup/create",
   // player
-  getPlayers: apiUrl + '/player/all',
-  createPlayer: apiUrl + '/player/create',
-  updatePlayer: apiUrl + '/player/update',
-  removePlayer: apiUrl + '/player/remove',
-  acceptPlayer: apiUrl + '/player/accept',
-  unacceptPlayer: apiUrl + '/player/unaccept',
-  addPlayer: apiUrl + '/player/add',
+  getPlayers: apiUrl + "/player/all",
+  createPlayer: apiUrl + "/player/create",
+  updatePlayer: apiUrl + "/player/update",
+  removePlayer: apiUrl + "/player/remove",
+  acceptPlayer: apiUrl + "/player/accept",
+  unacceptPlayer: apiUrl + "/player/unaccept",
+  addPlayer: apiUrl + "/player/add",
 };
 
 export default apis;

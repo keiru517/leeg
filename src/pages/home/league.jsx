@@ -24,6 +24,8 @@ import PlayerTable from "../../components/Table/Player";
 import calendar from "../../assets/img/dark_mode/calendar.png";
 import apis from "../../utils/apis";
 import * as actions from "../../actions";
+import toggleOn from "../../assets/img/dark_mode/toggle-on.png";
+import toggleOff from "../../assets/img/dark_mode/toggle-off.png";
 
 const League = () => {
   let { leagueId } = useParams();
@@ -87,6 +89,19 @@ const League = () => {
   const [breadcrum, setBreadcrum] = useState(0);
   const [waitItemChecked, setWaitItemChecked] = useState({});
   const [acceptedItemChecked, setAcceptedItemChecked] = useState({});
+
+  const [isAllowedFan, setIsAllowedFan] = useState(!!league?.setIsAllowedFan);
+  useEffect(()=>{
+    setIsAllowedFan(league?.isAllowedFan);
+  }, [league])
+  const toggleFan = ()=>{
+    axios.post(apis.allowFan, {leagueId: leagueId, status:!isAllowedFan}).then((res)=>{
+      actions.getLeagues(dispatch);
+      setIsAllowedFan(!isAllowedFan)
+    }).catch(error=>{
+      alert(error.message)
+    })
+  }
 
   const buttons = [
     "Invite Player",
@@ -733,6 +748,19 @@ const League = () => {
                       >
                         Delete
                       </button>
+                    </div>
+                  </div>
+                  <div className="flex flex-col space-x-3 items-center">
+                    <div className="flex">
+                      <p className="text-xs dark:text-white text-black">
+                        Allow Fan view
+                      </p>
+                      <img
+                        src={isAllowedFan ? toggleOn : toggleOff}
+                        alt=""
+                        className="w-8 cursor-pointer"
+                        onClick={toggleFan}
+                      />
                     </div>
                   </div>
                 </div>

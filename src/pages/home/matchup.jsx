@@ -19,7 +19,7 @@ import MatchupTitle from "../../components/MatchupTitle";
 const Matchup = () => {
   let { leagueId, matchId } = useParams();
   const dispatch = useDispatch();
-
+  const user = useSelector((state) => state.home.user);
   useEffect(() => {
     actions.getUserInfo(dispatch, localStorage.getItem("userId"));
     actions.getCountries(dispatch);

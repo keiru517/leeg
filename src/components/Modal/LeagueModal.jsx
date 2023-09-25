@@ -43,8 +43,8 @@ const LeagueModal = () => {
   //   dispatch({ type: actions.OPEN_EDIT_LEAGUE_DIALOG, payload: league });
   // };
 
-  const handleDelete = () => {
-    console.log(confirmLeagueName, leagueName)
+  const deleteSubmit = () => {
+    console.log(confirmLeagueName, leagueName);
     if (confirmLeagueName == "") {
       alert("Please type the league name you want to delete for confirmation.");
     } else if (confirmLeagueName === leagueName) {
@@ -208,17 +208,36 @@ const LeagueModal = () => {
                       </>
                     ) : (
                       <div className="flex flex-col justify-between h-full">
-                        <Input
-                          className="rounded-default text-xs"
-                          placeholder="Type League Name*"
-                          value={confirmLeagueName}
-                          onChange={e=>setConfirmLeagueName(e.target.value)}
-                        ></Input>
+                        <div className="space-y-3">
+                          <div className="flex items-center justify-between bg-dark-gray w-full h-14 rounded-default py-1.5 px-4">
+                            <div className="flex items-center">
+                              <img
+                                src={league?.logo}
+                                className="w-10 h-10 mr-3 rounded-default"
+                                alt=""
+                              />
+                              <div className="">
+                                <p className="text-white text-base">
+                                  {league?.name}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                          <Input
+                            className="rounded-default text-xs"
+                            placeholder="Type League Name*"
+                            value={confirmLeagueName}
+                            onChange={(e) =>
+                              setConfirmLeagueName(e.target.value)
+                            }
+                          ></Input>
+                        </div>
+
                         <button
-                          onClick={handleDelete}
+                          onClick={deleteSubmit}
                           className="bg-danger bg-opacity-10 rounded-xl w-full h-12 text-danger font-semibold hover:opacity-70"
                         >
-                          Delete Team
+                          Delete League
                         </button>
                       </div>
                     )}

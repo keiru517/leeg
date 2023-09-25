@@ -34,7 +34,7 @@ const Card = (props) => {
   return (
     <Link
       to={`${
-        player?.isAcceptedList === 1 || league.userId == user?.id
+        player?.isAcceptedList === 1 || league.userId == user?.id || league?.isAllowedFan
           ? `/${route}/${league.id}`
           : ``
       }`}
@@ -42,7 +42,7 @@ const Card = (props) => {
       {/* <div className={`rounded-default h-[185px] bg-charcoal p-default transition ease-in-out delay-150 hover:-translate-y-1 hover:bg-dark-gray duration-200 ${league.isAcceptedList? "cursor-pointer":""}`}> */}
       <div
         className={`rounded-default h-[185px] bg-charcoal p-default  hover:bg-dark-gray duration-200 ${
-          player?.isAcceptedList === 1 || league.userId == user?.id
+          player?.isAcceptedList === 1 || league?.userId == user?.id || league?.isAllowedFan
             ? "cursor-pointer transition ease-in-out delay-150 hover:-translate-y-1"
             : ""
         }`}
@@ -54,7 +54,12 @@ const Card = (props) => {
               <p className="dark:text-white text-sm ml-5">{league.name}</p>
             </div>
             <div>
-              {player?.isAcceptedList === 1 ? (
+              {
+                league?.isAllowedFan? (
+                  <span class="bg-yellow-100 text-yellow-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300">Fan Allowed</span>
+                ):""}
+                {
+              player?.isAcceptedList === 1 && player?.userId == league?.userId ? (
                 <span className="bg-purple-100 text-purple-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-purple-900 dark:text-purple-300">
                   Player
                 </span>

@@ -111,7 +111,6 @@ const JerseyNumberModal = (props) => {
                               </div>
                             </div>
                           </div>
-
                         </div>
 
                         <Input

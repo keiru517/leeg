@@ -70,7 +70,7 @@ export const getCountries = async (dispatch) => {
 // league actions----------------------------------
 
 // Get leagues from the server
-export const getLeagues = async (dispatch, userId) => {
+export const getLeagues = async (dispatch) => {
 
   try {
     const response = await axios.get(apis.getLeagues);
@@ -125,7 +125,7 @@ export const getTeams = async (dispatch) => {
     const response = await axios.get(apis.getTeams);
     const teams = response.data.teams;
     teams.map(team=>{
-      const logoUrl = apis.teamLogoURL(team.id);
+      const logoUrl = apis.teamLogoURL(team.userId, team.id);
       team.logo = logoUrl;
     });
 

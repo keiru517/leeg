@@ -36,7 +36,7 @@ const Home = () => {
   useEffect(() => {
     actions.getUserInfo(dispatch, localStorage.getItem("userId"));
     // actions.getCountries(dispatch);
-    actions.getLeagues(dispatch, user?.id);
+    actions.getLeagues(dispatch);
     actions.getTeams(dispatch);
     actions.getMatches(dispatch);
     actions.getPlayers(dispatch);
