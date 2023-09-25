@@ -9,6 +9,7 @@ import otpLine from "../../assets/img/dark_mode/otp-line.png";
 import apis from "../../utils/apis";
 import Alert from "../../components/Alert";
 import { input } from "@material-tailwind/react";
+import { mrtFilterOptions } from "mantine-react-table";
 
 const SignupWithEmail = () => {
   const leagues = [1, 2, 3, 4, 5, 6];
@@ -29,7 +30,7 @@ const SignupWithEmail = () => {
   const fourthInputRef = useRef(null);
 
   const [code, setCode] = useState();
-  const [inputValue, setInputValue] = useState();
+  const [inputValue, setInputValue] = useState("");
 
   const [email, setEmail] = useState("");
   const handleClick = () => {
@@ -68,20 +69,25 @@ const SignupWithEmail = () => {
       });
   };
 
+  useEffect(()=>{
+    if (inputValue.length === 4) {
+      setFirst(inputValue[0]);
+      setSecond(inputValue[1]);
+      setFirst(inputValue[2]);
+      setFirst(inputValue[3]);
+    }
+  }, [inputValue])
+
   const handleVerify = () => {
-    console.log(inputValue);
+    console.log("inputvalue", inputValue);
+    console.log("individual", first+second+third+fourth)
+
     if (code == inputValue) {
       navigate(`/signup/${email}`);
     } else {
       alert("Incorrect verification code");
     }
   };
-
-  // useEffect(() => {
-  //   if (step === 2) {
-  //     alert("Verification code sent to email!");
-  //   }
-  // }, [step]);
 
   return (
     <div className="">
@@ -153,14 +159,16 @@ const SignupWithEmail = () => {
                       inputValue.length === 1 ? inputValue : inputValue[0]; // Only allow a single digit
 
                     setFirst(sanitizedValue);
-                    setInputValue(inputValue)
+                    
                     if (inputValue.length === 1) {
                       secondInputRef.current?.focus();
-                    } else if (inputValue > 1) {
+                    } 
+
+                    else if (inputValue > 1) {
                       firstInputRef.current.value = inputValue[0]
-                      secondInputRef.current.value = inputValue[1];
-                      thirdInputRef.current.value = inputValue[2];
-                      fourthInputRef.current.value = inputValue[3];
+                      setSecond(inputValue[1])
+                      setThird(inputValue[2])
+                      setFourth(inputValue[3])
                       fourthInputRef.current?.focus()
                     }
                   }}
@@ -173,18 +181,22 @@ const SignupWithEmail = () => {
                   className="bg-transparent outline-none text-white text-[52px] w-[75px] text-center h-16 mb-4"
                   value={second}
                   ref={secondInputRef}
-                  // onChange={(e)=>setSecond(e.target.value.toString())}
                   onChange={(e) => {
                     const inputValue = e.target.value.toString();
+                    console.log("second", inputValue)
                     const sanitizedValue =
                       inputValue.length === 1 ? inputValue : inputValue[0]; // Only allow a single digit
 
                     setSecond(sanitizedValue);
+                    // thirdInputRef.current?.focus();
+                    
+                    // if user types the code manually
                     if (inputValue.length === 1) {
                       thirdInputRef.current?.focus();
-                    } else {
-                      thirdInputRef.current.value = inputValue[1];
-                      fourthInputRef.current.value = inputValue[2];
+                    } 
+                    else if (inputValue.length > 1) {
+                      setThird(inputValue[1])
+                      setFourth(inputValue[2])
                       fourthInputRef.current?.focus()
                     }
 
@@ -201,19 +213,18 @@ const SignupWithEmail = () => {
                   className="bg-transparent outline-none text-white text-[52px] w-[75px] text-center h-16 mb-4"
                   value={third}
                   ref={thirdInputRef}
-                  // onChange={(e)=>setThird(e.target.value.toString())}
                   onChange={(e) => {
                     const inputValue = e.target.value.toString();
                     const sanitizedValue =
                       inputValue.length === 1 ? inputValue : inputValue[0]; // Only allow a single digit
 
                     setThird(sanitizedValue);
+
                     if (inputValue.length === 1) {
                       fourthInputRef.current?.focus();
-                    } else {
-                      fourthInputRef.current.value = inputValue[1];
+                    } else if (inputValue.length > 1){
+                      setFourth(inputValue[1])
                     }
-
                     if (inputValue.length === 0) {
                       secondInputRef.current?.focus();
                     }
@@ -227,7 +238,6 @@ const SignupWithEmail = () => {
                   className="bg-transparent outline-none text-white text-[52px] w-[75px] text-center h-16 mb-4"
                   value={fourth}
                   ref={fourthInputRef}
-                  // onChange={(e)=>setFourth(e.target.value.toString())}
                   onChange={(e) => {
                     const inputValue = e.target.value.toString();
                     const sanitizedValue =
