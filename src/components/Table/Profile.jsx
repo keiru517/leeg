@@ -26,7 +26,7 @@ const Profile = (props) => {
   const matches = useSelector((state) => state.home.matches).filter(
     (match) =>
       match.homeTeamId == player?.teamId ||
-      match.awayTeamId == player?.awayTeamId
+      match.awayTeamId == player?.teamId
   );
   // .filter(match=>match.homeTeamId == player.teamId || match.awayTeamId == player.teamId);
   // console.log(matches)

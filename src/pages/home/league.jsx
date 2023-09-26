@@ -86,7 +86,6 @@ const League = () => {
     return classes.filter(Boolean).join(" ");
   }
 
-  const [breadcrum, setBreadcrum] = useState(0);
   const [waitItemChecked, setWaitItemChecked] = useState({});
   const [acceptedItemChecked, setAcceptedItemChecked] = useState({});
 
@@ -106,18 +105,8 @@ const League = () => {
       });
   };
 
-  const buttons = [
-    "Invite Player",
-    "Create Team",
-    "Create Match",
-    "Create Match",
-    "Create Match",
-  ];
-
   const handleCategory = (data) => {
-    // dispatch({ type: actions.SET_TAB_ID, payload: data });
     navigate(`/league/${leagueId}?tab=${data}`)
-    setBreadcrum(data);
     setWaitListKeyword("");
     setAcceptListKeyword("");
     setTeamKeyword("");
