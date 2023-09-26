@@ -25,7 +25,6 @@ const Team = () => {
     (league) => league.id == leagueId
   );
 
-
   const options = ["Ascend", "Descend", "Recent"];
   const [value, setValue] = useState("Sort by");
 
@@ -56,11 +55,13 @@ const Team = () => {
           <span className="underline">My Leagues</span>
         </Link>
         <span className="text-sky-500"> &gt; </span>
-        <Link to={`/league/${league.id}`}>
+        <Link to={`/league/${league.id}?tab=0`}>
           <span className="underline">{league.name}</span>
         </Link>
         <span className="text-sky-500"> &gt; </span>
-        <span className="">Teams</span>
+        <Link to={`/league/${league.id}?tab=2`}>
+          <span className="underline">Teams</span>
+        </Link>
         <span className="text-sky-500"> &gt; {team.name}</span>
       </p>
       <div className="rounded-main bg-white dark:bg-slate flex-grow p-default">

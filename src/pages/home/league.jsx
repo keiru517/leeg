@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import axios from "axios";
@@ -30,9 +31,13 @@ import toggleOff from "../../assets/img/dark_mode/toggle-off.png";
 const League = () => {
   let { leagueId } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const tab = queryParams.get('tab');
 
   const user = useSelector((state) => state.home.user);
-  const tab = useSelector((state) => state.home.tab);
+  // const tab = useSelector((state) => state.home.tab);
 
   const league = useSelector((state) => state.home.leagues).find(
     (league) => league.id == leagueId
@@ -65,6 +70,7 @@ const League = () => {
   var categories = [];
   if (league?.userId == user?.id) {
     categories = [
+      "Blog",
       "Manage Rosters",
       "Teams",
       "Schedule",
@@ -73,13 +79,7 @@ const League = () => {
       "Settings",
     ];
   } else {
-    categories = [
-      // "Manage Rosters",
-      "Teams",
-      "Schedule",
-      "Standings",
-      "Players",
-    ];
+    categories = ["Blog", "Teams", "Schedule", "Standings", "Players"];
   }
 
   function classNames(...classes) {
@@ -91,17 +91,20 @@ const League = () => {
   const [acceptedItemChecked, setAcceptedItemChecked] = useState({});
 
   const [isAllowedFan, setIsAllowedFan] = useState(!!league?.setIsAllowedFan);
-  useEffect(()=>{
+  useEffect(() => {
     setIsAllowedFan(league?.isAllowedFan);
-  }, [league])
-  const toggleFan = ()=>{
-    axios.post(apis.allowFan, {leagueId: leagueId, status:!isAllowedFan}).then((res)=>{
-      actions.getLeagues(dispatch);
-      setIsAllowedFan(!isAllowedFan)
-    }).catch(error=>{
-      alert(error.message)
-    })
-  }
+  }, [league]);
+  const toggleFan = () => {
+    axios
+      .post(apis.allowFan, { leagueId: leagueId, status: !isAllowedFan })
+      .then((res) => {
+        actions.getLeagues(dispatch);
+        setIsAllowedFan(!isAllowedFan);
+      })
+      .catch((error) => {
+        alert(error.message);
+      });
+  };
 
   const buttons = [
     "Invite Player",
@@ -112,7 +115,8 @@ const League = () => {
   ];
 
   const handleCategory = (data) => {
-    dispatch({ type: actions.SET_TAB_ID, payload: data });
+    // dispatch({ type: actions.SET_TAB_ID, payload: data });
+    navigate(`/league/${leagueId}?tab=${data}`)
     setBreadcrum(data);
     setWaitListKeyword("");
     setAcceptListKeyword("");
@@ -339,21 +343,21 @@ const League = () => {
                   </Tab>
                 ))}
               </Tab.List>
-              {tab == 0 && user?.id == league?.userId ? (
+              {tab == 1 && user?.id == league?.userId ? (
                 <button
                   onClick={handleInvitePlayer}
                   className="w-36 h-[42px] bg-primary hover:bg-opacity-70 rounded-default text-white focus:ring-2 text-sm font-bold"
                 >
                   Invite Player
                 </button>
-              ) : tab == 1 && user?.id == league?.userId ? (
+              ) : tab == 2 && user?.id == league?.userId ? (
                 <button
                   onClick={handleCreateTeam}
                   className="w-36 h-[42px] bg-primary hover:bg-opacity-70 rounded-default text-white focus:ring-2 text-sm font-bold"
                 >
                   Create Team
                 </button>
-              ) : tab == 2 && user?.id == league?.userId ? (
+              ) : tab == 3 && user?.id == league?.userId ? (
                 <button
                   onClick={handleCreateMatch}
                   className="w-36 h-[42px] bg-primary hover:bg-opacity-70 rounded-default text-white focus:ring-2 text-sm font-bold"
@@ -365,10 +369,90 @@ const League = () => {
               )}
             </div>
             <Tab.Panels className="flex-grow flex items-center ">
+              {/* Blog */}
+              <Tab.Panel
+                key={0}
+                className={classNames(
+                  "rounded-xl flex flex-col justify-between w-full h-full"
+                )}
+              >
+                <hr className="h-px my-4 bg-charcoal border-0" />
+                <div className="flex h-full space-x-4">
+                  <div className="w-full bg-light-charcoal dark:bg-charcoal flex flex-col h-full min-h-[420px] p-default rounded-main">
+                    <div className="flex justify-between w-full">
+                      <p className="text-black dark:text-white text-xl font-semibold">
+                        Blogs for this league
+                      </p>
+                      <p className="text-black dark:text-white text-xl font-semibold">
+                        {filteredWaitListPlayers.length}
+                      </p>
+                    </div>
+                    <hr className="h-px my-5 bg-gray-300 border-0 dark:bg-dark-gray" />
+                    <div className="flex w-full justify-between space-x-10 my-5">
+                      <div className="flex flex-grow space-x-3 ">
+                        <Input
+                          className="flex-grow rounded-lg h-[38px] dark:bg-charcoal text-xs"
+                          icon={search}
+                          placeholder="Search"
+                          value={waitListKeyword}
+                          onChange={(e) => {
+                            setWaitListKeyword(e.target.value);
+                          }}
+                        />
+                        <Select
+                          className="w-[144px] rounded-lg text-xs"
+                          options={options}
+                          handleClick={(e) => setWaitSortValue(e.name)}
+                          value={waitSortValue}
+                        >
+                          {waitSortValue}
+                        </Select>
+                      </div>
+                      <div>
+                        <Button
+                          onClick={handleAccept}
+                          className="text-sm bg-success w-[100px] h-[38px] rounded-lg hover:opacity-70"
+                        >
+                          Add blog
+                        </Button>
+                      </div>
+                    </div>
+                    <div
+                      className={`overflow-y-scroll h-4/6 flex flex-col items-center flex-grow ${
+                        filteredWaitListPlayers.length
+                          ? ""
+                          : "dark:bg-light-gray justify-center"
+                      } rounded-default`}
+                    >
+                      {filteredWaitListPlayers.length ? (
+                        filteredWaitListPlayers.map((player, idx) => (
+                          <ListItem
+                            key={idx}
+                            className="mb-5"
+                            avatar={player.avatar}
+                            name={player.firstName + " " + player.lastName}
+                            email={player.email}
+                            date={player.createdAt}
+                            itemChecked={!!waitItemChecked[player.id]}
+                            setItemChecked={(checked) => {
+                              setWaitListItemChecked(player.id, checked);
+                            }}
+                          ></ListItem>
+                        ))
+                      ) : (
+                        <p className="text-black dark:text-white font-medium text-sm">
+                          No Blogs to show!
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                </div>
+                <PlayerModal></PlayerModal>
+              </Tab.Panel>
               {/* Rosters */}
               {league?.userId == user?.id ? (
                 <Tab.Panel
-                  key={0}
+                  key={1}
                   className={classNames(
                     "rounded-xl flex flex-col justify-between w-full h-full"
                   )}
@@ -519,7 +603,7 @@ const League = () => {
 
               {/* Teams */}
               <Tab.Panel
-                key={1}
+                key={2}
                 className={classNames("rounded-xl flex flex-col w-full h-full")}
               >
                 <hr className="h-px my-4 bg-charcoal border-0" />
@@ -550,7 +634,7 @@ const League = () => {
 
               {/* Schedule */}
               <Tab.Panel
-                key={2}
+                key={3}
                 className={classNames("rounded-xl flex flex-col w-full h-full")}
               >
                 <hr className="h-px my-4 bg-charcoal border-0" />
@@ -582,7 +666,7 @@ const League = () => {
 
               {/* Standings */}
               <Tab.Panel
-                key={3}
+                key={4}
                 className={classNames(
                   "rounded-xl flex flex-col justify-between w-full h-full"
                 )}
@@ -620,7 +704,7 @@ const League = () => {
 
               {/* Players */}
               <Tab.Panel
-                key={4}
+                key={5}
                 className={classNames("rounded-xl flex flex-col w-full h-full")}
               >
                 <hr className="h-px my-4 bg-charcoal border-0" />
@@ -657,7 +741,7 @@ const League = () => {
               {/* Settings */}
 
               <Tab.Panel
-                key={5}
+                key={6}
                 className={classNames("rounded-xl flex flex-col w-full h-full")}
               >
                 <hr className="h-px my-4 bg-charcoal border-0" />

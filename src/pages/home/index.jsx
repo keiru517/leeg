@@ -29,9 +29,6 @@ const Home = () => {
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch({ type: actions.SET_TAB_ID, payload: 0 });
-  });
 
   useEffect(() => {
     actions.getUserInfo(dispatch, localStorage.getItem("userId"));

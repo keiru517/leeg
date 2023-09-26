@@ -45,7 +45,6 @@ export const CLOSE_ADD_SUBSTITUTE_DIALOG = "CLOSE_ADD_SUBSTITUTE_DIALOG";
 // Admin
 export const GET_ADMINS = "GET_ADMINS";
 // Tab
-export const SET_TAB_ID = "SET_TAB_ID";
 
 // get countries
 export const getCountries = async (dispatch) => {

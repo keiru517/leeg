@@ -15,14 +15,19 @@ const Profile = (props) => {
   ];
 
   const teams = useSelector((state) => state.home.teams);
-  const players = useSelector((state) => state.home.players).filter(
+  const player = useSelector((state) => state.home.players).find(
     (player) =>
       player.userId == userId &&
       player.leagueId == leagueId &&
-      player?.teamId !== 0
+      player?.teamId !== 0 &&
+      player?.isDeleted !== 1
   );
 
-  const matches = useSelector((state) => state.home.matches);
+  const matches = useSelector((state) => state.home.matches).filter(
+    (match) =>
+      match.homeTeamId == player?.teamId ||
+      match.awayTeamId == player?.awayTeamId
+  );
   // .filter(match=>match.homeTeamId == player.teamId || match.awayTeamId == player.teamId);
   // console.log(matches)
   const matchups = useSelector((state) => state.home.matchups);
@@ -49,7 +54,7 @@ const Profile = (props) => {
           </tr>
         </thead>
         <tbody className="text-center">
-          {players.map((player, idx) => {
+          {/* {players.map((player, idx) => {
             const points = matchups.find(
               (matchup) => matchup.playerId == player?.id
             )?.points;
@@ -58,76 +63,89 @@ const Profile = (props) => {
                 match.homeTeamId == player?.teamId ||
                 match.awayTeamId == player?.teamId
             );
-              if (match) {
-                return (
-                  <tr
-                    key={idx}
-                    className="odd:bg-light-dark-gray dark:odd:bg-dark-gray even:bg-light-charcoal dark:even:bg-charcoal h-[53px]"
+
+              if (match) { */}
+          {matches.map((match, idx) => {
+            const points = matchups.find(
+              (matchup) => matchup.playerId == player?.id
+            )?.points;
+            return (
+              <tr
+                key={idx}
+                className="odd:bg-light-dark-gray dark:odd:bg-dark-gray even:bg-light-charcoal dark:even:bg-charcoal h-[53px]"
+              >
+                <td className="">
+                  <Typography
+                    variant="small"
+                    color="blue-gray"
+                    className="font-normal"
                   >
-                    <td className="">
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal"
+                    {match?.date}
+                  </Typography>
+                </td>
+                <td className="">
+                  <Typography
+                    variant="small"
+                    color="blue-gray"
+                    className="font-normal flex items-center space-x-2 justify-center"
+                  >
+                    <img
+                      src={
+                        teams.find((team) => team.id == match?.homeTeamId)?.logo
+                      }
+                      alt=""
+                      className="w-8 h-8 rounded-default"
+                    />
+                    <p className="underline">
+                      <Link
+                        to={`/league/${leagueId}/team/${match?.homeTeamId}`}
                       >
-                        {match?.date}
-                      </Typography>
-                    </td>
-                    <td className="">
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal flex items-center space-x-2 justify-center"
+                        {
+                          teams.find((team) => team.id == match?.homeTeamId)
+                            ?.name
+                        }
+                      </Link>
+                    </p>
+                    <p className="text-font-dark-gray">VS</p>
+                    <img
+                      src={
+                        teams.find((team) => team.id == match?.awayTeamId)?.logo
+                      }
+                      alt=""
+                      className="w-8 h-8 mr-2 rounded-default"
+                    />
+                    <p className="underline">
+                      <Link
+                        to={`/league/${leagueId}/team/${match?.awayTeamId}`}
                       >
-                        <img
-                          src={
-                            teams.find((team) => team.id == match?.homeTeamId)?.logo
-                          }
-                          alt=""
-                          className="w-8 h-8 "
-                        />
-                        <p className="underline">
-                          <Link to={`/league/${leagueId}/team/${match?.homeTeamId}`}>
-                            {teams.find((team) => team.id == match?.homeTeamId)?.name}
-                          </Link>
-                        </p>
-                        <p className="text-font-dark-gray">VS</p>
-                        <img
-                          src={
-                            teams.find((team) => team.id == match?.awayTeamId)?.logo
-                          }
-                          alt=""
-                          className="w-8 h-8 mr-2"
-                        />
-                        <p className="underline">
-                          <Link to={`/league/${leagueId}/team/${match?.awayTeamId}`}>
-                            {teams.find((team) => team.id == match?.awayTeamId)?.name}
-                          </Link>
-                        </p>
-                      </Typography>
-                    </td>
-                    <td className="w-1/5">
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal"
-                      >
-                        {points}
-                      </Typography>
-                    </td>
-                    <td className="w-1/5">
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal"
-                      >
-                        {match?.result}
-                      </Typography>
-                    </td>
-                  </tr>
-                );
-                
-              } 
+                        {
+                          teams.find((team) => team.id == match?.awayTeamId)
+                            ?.name
+                        }
+                      </Link>
+                    </p>
+                  </Typography>
+                </td>
+                <td className="w-1/5">
+                  <Typography
+                    variant="small"
+                    color="blue-gray"
+                    className="font-normal"
+                  >
+                    {points}
+                  </Typography>
+                </td>
+                <td className="w-1/5">
+                  <Typography
+                    variant="small"
+                    color="blue-gray"
+                    className="font-normal"
+                  >
+                    {match?.result}
+                  </Typography>
+                </td>
+              </tr>
+            );
           })}
         </tbody>
       </table>

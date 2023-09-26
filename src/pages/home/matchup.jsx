@@ -25,6 +25,7 @@ const Matchup = () => {
     actions.getLeagues(dispatch);
     actions.getTeams(dispatch);
     actions.getMatches(dispatch);
+    actions.getMatchups(dispatch);
     actions.getPlayers(dispatch);
   }, []);
 
