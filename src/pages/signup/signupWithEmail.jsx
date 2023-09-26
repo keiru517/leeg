@@ -263,7 +263,13 @@ const SignupWithEmail = () => {
             </div>
             <p className="font-dark-gray text-center">
               <span
-                onClick={() => setStep(1)}
+                onClick={() => {
+                  setStep(1);
+                  setFirst("");
+                  setSecond("");
+                  setThird("");
+                  setFourth("");
+                }}
                 className="text-primary font-semibold cursor-pointer hover:opacity-70"
               >
                 Change Email
