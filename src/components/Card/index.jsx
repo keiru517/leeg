@@ -58,8 +58,8 @@ const Card = (props) => {
               <p className="dark:text-white text-sm ml-5">{league.name}</p>
             </div>
             <div>
-              {player?.isAcceptedList === 1 &&
-              player?.userId == league?.userId ? (
+              {player?.isAcceptedList === 1 && player?.isDeleted !== 1 &&
+              player?.teamId !== 0 ? (
                 <span className="bg-purple-100 text-purple-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-purple-900 dark:text-purple-300">
                   Player
                 </span>

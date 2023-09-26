@@ -178,7 +178,7 @@ const League = () => {
     setFilteredWaitListPlayers(waitListPlayers);
     setFilteredAcceptListPlayers(acceptedPlayers);
     setFilteredPlayers(players);
-  }, [players.length]);
+  }, [players.length, waitListPlayers.length, acceptedPlayers.length]);
 
   useEffect(() => {
     const searchResult = waitListPlayers.filter((player) =>
