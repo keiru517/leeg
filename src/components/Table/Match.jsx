@@ -64,7 +64,7 @@ const MatchTable = (props) => {
             {columns.map((head, idx) => (
               <th
                 key={idx}
-                className="h-button text-center font-font-dark-gray"
+                className="h-button text-center font-font-dark-gray font-normal opacity-70 text-sm"
               >
                   {head}
               </th>
