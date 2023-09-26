@@ -81,6 +81,7 @@ const SignupWithEmail = () => {
   const handleVerify = () => {
     console.log("inputvalue", inputValue);
     console.log("individual", first+second+third+fourth)
+    console.log(code)
 
     if (code == first+second+third+fourth) {
       navigate(`/signup/${email}`);
