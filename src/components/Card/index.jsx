@@ -34,7 +34,9 @@ const Card = (props) => {
   return (
     <Link
       to={`${
-        player?.isAcceptedList === 1 || league.userId == user?.id || league?.isAllowedFan
+        player?.isAcceptedList === 1 ||
+        league.userId == user?.id ||
+        league?.isAllowedFan
           ? `/${route}/${league.id}`
           : ``
       }`}
@@ -42,7 +44,9 @@ const Card = (props) => {
       {/* <div className={`rounded-default h-[185px] bg-charcoal p-default transition ease-in-out delay-150 hover:-translate-y-1 hover:bg-dark-gray duration-200 ${league.isAcceptedList? "cursor-pointer":""}`}> */}
       <div
         className={`rounded-default h-[185px] bg-light-charcoal dark:bg-charcoal p-default hover:bg-light-dark-gray dark:hover:bg-dark-gray duration-200 ${
-          player?.isAcceptedList === 1 || league?.userId == user?.id || league?.isAllowedFan
+          player?.isAcceptedList === 1 ||
+          league?.userId == user?.id ||
+          league?.isAllowedFan
             ? "cursor-pointer transition ease-in-out delay-150 hover:-translate-y-1"
             : ""
         }`}
@@ -54,12 +58,8 @@ const Card = (props) => {
               <p className="dark:text-white text-sm ml-5">{league.name}</p>
             </div>
             <div>
-              {
-                league?.isAllowedFan? (
-                  <span class="bg-yellow-100 text-yellow-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300">Fan Allowed</span>
-                ):""}
-                {
-              player?.isAcceptedList === 1 && player?.userId == league?.userId ? (
+              {player?.isAcceptedList === 1 &&
+              player?.userId == league?.userId ? (
                 <span className="bg-purple-100 text-purple-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-purple-900 dark:text-purple-300">
                   Player
                 </span>
@@ -87,7 +87,14 @@ const Card = (props) => {
             {league.description}
           </p>
         </div>
-        <div className="text-right">
+        <div className="flex justify-end">
+          {league?.isAllowedFan ? (
+            <span class="bg-yellow-100 text-yellow-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300">
+              Fan Allowed
+            </span>
+          ) : (
+            ""
+          )}
           {player?.isWaitList === 1 ? (
             <p className="dark:text-yellow-500 text-xs cursor-pointer">
               PENDING
