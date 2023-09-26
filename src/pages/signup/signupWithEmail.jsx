@@ -82,7 +82,7 @@ const SignupWithEmail = () => {
     console.log("inputvalue", inputValue);
     console.log("individual", first+second+third+fourth)
 
-    if (code == inputValue) {
+    if (code == first+second+third+fourth) {
       navigate(`/signup/${email}`);
     } else {
       alert("Incorrect verification code");
