@@ -69,7 +69,7 @@ const League = () => {
       "Teams",
       "Schedule",
       "Standings",
-      "All Playerlist",
+      "Players",
       "Settings",
     ];
   } else {
@@ -78,7 +78,7 @@ const League = () => {
       "Teams",
       "Schedule",
       "Standings",
-      "All Playerlist",
+      "Players",
     ];
   }
 
@@ -110,13 +110,6 @@ const League = () => {
     "Create Match",
     "Create Match",
   ];
-  // const buttons = {
-  //   "Manage Rosters": "Invite Player",
-  //   "Teams": "Create Team",
-  //   "Schedule": "Create Match",
-  //   "Standings": "Create Match",
-  //   "All Playerlist": "Create Match",
-  // };
 
   const handleCategory = (data) => {
     dispatch({ type: actions.SET_TAB_ID, payload: data });
@@ -145,7 +138,6 @@ const League = () => {
 
   useEffect(() => {
     actions.getUserInfo(dispatch, localStorage.getItem("userId"));
-    actions.getCountries(dispatch);
     actions.getLeagues(dispatch);
     actions.getTeams(dispatch);
     actions.getMatches(dispatch);
@@ -170,7 +162,7 @@ const League = () => {
   );
 
   const [teamKeyword, setTeamKeyword] = useState("");
-  const [filteredTeams, setFilteredTeams] = useState([]);
+  const [filteredTeams, setFilteredTeams] = useState("");
 
   const [scheduleKeyword, setScheduleKeyword] = useState("");
   const [filteredMatches, setFilteredMatches] = useState([]);
@@ -183,11 +175,10 @@ const League = () => {
 
   // Rosters
   useEffect(() => {
-    console.log("Players effect");
     setFilteredWaitListPlayers(waitListPlayers);
     setFilteredAcceptListPlayers(acceptedPlayers);
     setFilteredPlayers(players);
-  }, [players]);
+  }, [players.length]);
 
   useEffect(() => {
     const searchResult = waitListPlayers.filter((player) =>
@@ -211,24 +202,14 @@ const League = () => {
   useEffect(() => {
     setFilteredTeams(teams);
     setFilteredStandings(teams);
-  }, [teams]);
+  }, [teams.length]);
 
   useEffect(() => {
-    console.log(teamKeyword);
     const searchResult = teams.filter((team) =>
       team.name.toLowerCase().includes(teamKeyword.toLowerCase())
     );
     setFilteredTeams(searchResult);
   }, [teamKeyword]);
-
-  // Schedule
-  // useEffect(() => {
-  //   setFilteredMatches(matches);
-  // }, [matches]);
-
-  // useEffect(() => {
-  //   console.log(scheduleKeyword);
-  // }, [scheduleKeyword]);
 
   // Standings
   useEffect(() => {
@@ -238,9 +219,8 @@ const League = () => {
     setFilteredStandings(searchResult);
   }, [standingsKeyword]);
 
-  // All Playerlist
+  // Players
   useEffect(() => {
-    console.log("player hook");
     const searchResult = players.filter(
       (player) =>
         player.teamId !== 0 &&
@@ -325,6 +305,7 @@ const League = () => {
   };
 
   if (!league) return null;
+  if (!teams) return null;
 
   return (
     <div className="flex flex-col flex-grow">
@@ -637,7 +618,7 @@ const League = () => {
                 )}
               </Tab.Panel>
 
-              {/* All Playerlist */}
+              {/* Players */}
               <Tab.Panel
                 key={4}
                 className={classNames("rounded-xl flex flex-col w-full h-full")}

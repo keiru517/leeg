@@ -86,10 +86,10 @@ const TeamModal = () => {
       formData.append("logo", chosenFile);
       formData.append("name", teamName);
 
+      dispatch({ type: actions.CLOSE_TEAM_DIALOG });
       axios.post(apis.createTeam, formData).then((res) => {
         actions.getTeams(dispatch);
         actions.getPlayers(dispatch);
-        dispatch({ type: actions.CLOSE_TEAM_DIALOG });
         setPreviewURL("");
         setTeamName("");
         setLogoWarning(false);
@@ -119,6 +119,7 @@ const TeamModal = () => {
     if (confirmTeamName == "") {
       alert("Please type the league name you want to delete for confirmation.");
     } else if (confirmTeamName === team?.name) {
+      setConfirmTeamName("");
       axios
         .delete(apis.deleteTeam(team.id))
         .then((res) => {
@@ -135,7 +136,6 @@ const TeamModal = () => {
 
   const [playersList, setPlayersList] = useState({});
   const addPlayers = () => {
-    console.log("playerList", playersList);
     axios
       .post(apis.addPlayer, {
         teamId: team.id,
@@ -290,7 +290,7 @@ const TeamModal = () => {
                       ) : type === "delete" ? (
                         <div className="flex flex-col justify-between h-full">
                           <div className="space-y-3">
-                            <div className="flex items-center justify-between dark:bg-charcoal w-full h-[86px] rounded-default py-1.5 px-2">
+                            <div className="flex items-center justify-between bg-light-charcoal dark:bg-charcoal w-full h-[86px] rounded-default py-1.5 px-2">
                               <div className="flex items-center">
                                 <img
                                   src={team?.logo}
@@ -298,7 +298,7 @@ const TeamModal = () => {
                                   alt=""
                                 />
                                 <div className="">
-                                  <p className="text-white text-base">
+                                  <p className="text-black dark:text-white text-base">
                                     {team?.name}
                                   </p>
                                 </div>

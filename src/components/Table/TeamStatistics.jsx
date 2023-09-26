@@ -24,13 +24,7 @@ const TeamStatistics = () => {
           <tr>
             {columns.map((head, idx) => (
               <th key={idx} className="h-button text-center font-font-dark-gray">
-                <Typography
-                  variant="small"
-                  color="blue-gray"
-                  className="font-normal leading-none opacity-70"
-                >
                   {head}
-                </Typography>
               </th>
             ))}
           </tr>

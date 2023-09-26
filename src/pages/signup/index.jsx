@@ -16,7 +16,7 @@ const Signup = () => {
   const [panelHeight, setPanelHeight] = useState("617px");
 
   const handleBack = () => {
-    navigate('/singupWithEmail');
+    navigate('/signupWithEmail');
   };
 
   const [firstName, setFirstName] = useState("");

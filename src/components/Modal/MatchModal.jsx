@@ -16,11 +16,9 @@ const MatchModal = () => {
   const dispatch = useDispatch();
 
   const status = useSelector((state) => state.home.match_dialog.open);
-  const type = useSelector((state) => state.home.match_dialog.type);
-
   const team = useSelector((state) => state.home.match_dialog.match);
   const teams = useSelector((state) => state.home.teams).filter(
-    (team) => team.leagueId == leagueId
+    (team) => team.leagueId == leagueId && team.isDeleted !== 1
   );
 
   // const options = ["Real Madrid", "Manchester City", "FC Barcelona"];
@@ -28,24 +26,8 @@ const MatchModal = () => {
   const [homeValue, setHomeValue] = useState({ name: "Select Home Team*" });
   const [awayValue, setAwayValue] = useState({ name: "Select Away Team*" });
 
-  const currentDate = new Date();
-  const formattedDate = currentDate.toLocaleDateString("en-US", {
-    weekday: "long",
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-  });
-
-  const currentTime = currentDate.toLocaleTimeString([], {
-    hour: "numeric",
-    minute: "2-digit",
-  });
-
-  const formattedTime =
-    currentDate.getHours() >= 12 ? `${currentTime}` : `${currentTime}`;
-
-  const [date, setDate] = useState(formattedDate);
-  const [time, setTime] = useState(formattedTime);
+  const [date, setDate] = useState("");
+  const [time, setTime] = useState("");
   const [location, setLocation] = useState("");
 
   const closeDialog = () => {

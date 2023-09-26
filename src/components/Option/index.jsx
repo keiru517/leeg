@@ -53,7 +53,7 @@ const Option = (props) => {
     >
       <img src={actionIcon} alt="" className="mx-auto " />
       <ul
-        className={`p-2 text-sm text-gray-700 dark:text-gray-200 absolute top-8 bg-[#333333] w-[100px] rounded-default -left-8 z-50 ${
+        className={`p-2 text-sm text-gray-700 dark:text-gray-200 absolute top-8 bg-[#ebebeb] dark:bg-[#333333] w-[100px] rounded-default -left-8 z-50 ${
           expand ? `` : " hidden"
         }`}
         aria-labelledby="states-button"

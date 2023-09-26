@@ -2,12 +2,12 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { Tab } from "@headlessui/react";
 import search from "../../assets/img/dark_mode/search.png";
 import leftarrowIcon from "../../assets/img/dark_mode/left-arrow.png";
 import Input from "../../components/Input";
 import Select from "../../components/Select";
 import PageTitle from "../../components/PageTitle";
-import { Tab } from "@headlessui/react";
 import MatchTable from "../../components/Table/Match";
 import TeamStatisticsTable from "../../components/Table/TeamStatistics";
 import PlayerStatisticsTable from "../../components/Table/PlayerStatistics";
@@ -25,7 +25,6 @@ const Team = () => {
     (league) => league.id == leagueId
   );
 
-  // const teams = useSelector((state) => state.home.teams);
 
   const options = ["Ascend", "Descend", "Recent"];
   const [value, setValue] = useState("Sort by");
@@ -64,7 +63,7 @@ const Team = () => {
         <span className="">Teams</span>
         <span className="text-sky-500"> &gt; {team.name}</span>
       </p>
-      <div className="rounded-main bg-slate flex-grow p-default">
+      <div className="rounded-main bg-white dark:bg-slate flex-grow p-default">
         <div className="w-full px-2 sm:px-0 h-full flex flex-col">
           <Tab.Group>
             <Tab.List className="flex justify-start space-x-5 rounded-xl bg-transparent p-1 ">
@@ -73,11 +72,11 @@ const Team = () => {
                   key={category}
                   className={({ selected }) =>
                     classNames(
-                      "py-2.5 text-sm font-medium leading-5 text-gray-300 px-3",
+                      "py-2.5 text-sm font-medium leading-5 text-gray-500 dark:text-gray-300 px-3",
                       " focus:outline-none ",
                       selected
-                        ? "divide-[bg-sky-500] text-white border-b-2 border-sky-500"
-                        : " rounded-lg hover:bg-white/[0.12] hover:text-white"
+                        ? "divide-[bg-sky-500] text-black dark:text-white border-b-2 border-sky-500"
+                        : " rounded-lg hover:bg-white/[0.12]"
                     )
                   }
                   // onClick={() => handleCategory(category)}
@@ -117,7 +116,7 @@ const Team = () => {
                   </>
                 ) : (
                   <div className="flex items-center flex-grow">
-                    <p className="text-2xl text-white w-full text-center">
+                    <p className="text-2xl text-black dark:text-white w-full text-center">
                       No Matches To Show!
                     </p>
                   </div>
@@ -135,11 +134,11 @@ const Team = () => {
                   <>
                     <hr className="h-px my-4 bg-charcoal border-0" />
                     <div className=" flex flex-col space-y-5">
-                      <p className="text-white text-sm font-mediim">
+                      <p className="text-black dark:text-white text-sm font-mediim">
                         Team Statistics
                       </p>
                       <TeamStatisticsTable />
-                      <p className="text-white text-sm font-mediim">
+                      <p className="text-black dark:text-white text-sm font-mediim">
                         Player Statistics
                       </p>
                       <Input
@@ -155,7 +154,7 @@ const Team = () => {
                   </>
                 ) : (
                   <div className="flex items-center flex-grow">
-                    <p className="text-2xl text-white w-full text-center">
+                    <p className="text-2xl text-black dark:text-white w-full text-center">
                       No Statistics To Show!
                     </p>
                   </div>
@@ -184,7 +183,7 @@ const Team = () => {
                   </>
                 ) : (
                   <div className="flex items-center flex-grow">
-                    <p className="text-2xl text-white w-full text-center">
+                    <p className="text-2xl text-black dark:text-white w-full text-center">
                       No Players To Show!
                     </p>
                   </div>

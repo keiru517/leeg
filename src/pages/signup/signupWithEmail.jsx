@@ -142,7 +142,7 @@ const SignupWithEmail = () => {
               </p>
               <p className="text-font-light-gray text-base mt-3">
                 Enter the Code sent to{" "}
-                <span className="text-white">{email}</span>
+                <span className="text-black dark:text-white">{email}</span>
               </p>
             </div>
             <div className="flex mb-5 mt-2 space-x-[26px]">

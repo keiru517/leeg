@@ -112,13 +112,17 @@ const JerseyNumberModal = (props) => {
                             </div>
                           </div>
                         </div>
-
-                        <Input
-                          className={`rounded-default text-xs mt-5`}
-                          placeholder="Type Jersey Number*"
-                          value={jerseyNumber}
-                          onChange={(e) => setJerseyNumber(e.target.value)}
-                        ></Input>
+                        <div className="mt-5">
+                          <label htmlFor="jerseyNumber" className="text-xs text-dark dark:text-white">Jersey Number :</label>
+                          <Input
+                          id='jerseyNumber'
+                          name='jerseyNumber'
+                            className={`rounded-default text-xs`}
+                            placeholder="Type Jersey Number*"
+                            value={jerseyNumber}
+                            onChange={(e) => setJerseyNumber(e.target.value)}
+                          ></Input>
+                        </div>
                       </>
                     </div>
                     <button

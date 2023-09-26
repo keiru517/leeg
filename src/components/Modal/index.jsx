@@ -64,19 +64,12 @@ const Modal = (props) => {
     }
   };
 
-  const currentDate = new Date().toLocaleDateString("en-US", {
-    weekday: "long",
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-  });
-
   const [sport, setSport] = useState("Select Sport*");
   const [leagueName, setLeagueName] = useState("");
   const [leagueDescription, setLeagueDescription] = useState("");
-  const [startDate, setStartDate] = useState(currentDate);
-  const [endDate, setEndDate] = useState(currentDate);
-  const fileUploadRef = useRef(undefined);
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const fileUploadRef = useRef(null);
 
   const [chosenFile, setChosenFile] = useState(null);
 
@@ -102,8 +95,8 @@ const Modal = (props) => {
         setSport("Select Sport*");
         setLeagueName("");
         setLeagueDescription("");
-        setStartDate(currentDate);
-        setEndDate(currentDate);
+        setStartDate("");
+        setEndDate("");
         setChosenFile(null)
         goToStep1();
         alert(res.data.message);
@@ -298,14 +291,14 @@ const Modal = (props) => {
                           <div className="w-full h-29">
                             <Input
                               className="text-xs rounded-default mb-5"
-                              option={calendar}
+                              // option={calendar}
                               placeholder="Enter Season Start Date*"
                               value={startDate}
                               onChange={(e) => setStartDate(e.target.value)}
                             />
                             <Input
                               className="text-xs rounded-default"
-                              option={calendar}
+                              // option={calendar}
                               placeholder="Enter Season End Date*"
                               value={endDate}
                               onChange={(e) => setEndDate(e.target.value)}

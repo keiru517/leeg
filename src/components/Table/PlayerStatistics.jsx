@@ -24,13 +24,7 @@ const PlayerStatistics = (props) => {
                 key={idx}
                 className="h-button text-center font-font-dark-gray"
               >
-                <Typography
-                  variant="small"
-                  color="blue-gray"
-                  className="font-normal leading-none opacity-70"
-                >
                   {head}
-                </Typography>
               </th>
             ))}
           </tr>
@@ -46,7 +40,8 @@ const PlayerStatistics = (props) => {
               0
               );
               const gp = playerMatchups.length;
-              const ppg = totalPoints/gp;
+
+              const ppg = gp === 0 ? 0: totalPoints/gp;
               
             return (
               <tr key={index} className="odd:bg-light-dark-gray dark:odd:bg-charcoal even:bg-light-charcoal dark:even:bg-dark-gray">

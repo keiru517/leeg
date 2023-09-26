@@ -44,7 +44,7 @@ const MatchTable = (props) => {
 
   const handleOption = (idx, matchId) => {
     if (idx === 0) {
-      navigate(`matchup/${matchId}`);
+      navigate(`/league/${leagueId}/matchup/${matchId}`);
     } else if (idx === 1) {
       alert("Match has been deleted");
     }
@@ -66,13 +66,7 @@ const MatchTable = (props) => {
                 key={idx}
                 className="h-button text-center font-font-dark-gray"
               >
-                <Typography
-                  variant="small"
-                  color="blue-gray"
-                  className="font-normal leading-none opacity-70"
-                >
                   {head}
-                </Typography>
               </th>
             ))}
           </tr>
@@ -128,7 +122,7 @@ const MatchTable = (props) => {
                           className="h-8 w-8 mr-2 rounded-default"
                         />
                         {teams.find((team) => team.id == homeTeamId).name}
-                        <span class="bg-red-100 text-red-800 text-xs font-medium ml-3 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300 text-right">
+                        <span className="bg-red-100 text-red-800 text-xs font-medium ml-3 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300 text-right">
                           Deleted
                         </span>
                       </>
@@ -163,7 +157,7 @@ const MatchTable = (props) => {
                           className="h-8 w-8 mr-2 rounded-default"
                         />
                         {teams.find((team) => team.id == awayTeamId).name}
-                        <span class="bg-red-100 text-red-800 text-xs font-medium ml-3 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300 text-right">
+                        <span className="bg-red-100 text-red-800 text-xs font-medium ml-3 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300 text-right">
                           Deleted
                         </span>
                       </>

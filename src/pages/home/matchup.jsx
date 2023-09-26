@@ -22,7 +22,6 @@ const Matchup = () => {
   const user = useSelector((state) => state.home.user);
   useEffect(() => {
     actions.getUserInfo(dispatch, localStorage.getItem("userId"));
-    actions.getCountries(dispatch);
     actions.getLeagues(dispatch);
     actions.getTeams(dispatch);
     actions.getMatches(dispatch);
@@ -164,7 +163,7 @@ const Matchup = () => {
           {/* </Link> */}
         </span>
       </p>
-      <div className="flex rounded-main bg-slate p-12 h-[284px] items-center justify-center">
+      <div className="flex rounded-main bg-white dark:bg-slate p-12 h-[284px] items-center justify-center">
         <div className="flex space-x-10">
           <div className="text-center w-[330px]">
             <img
@@ -172,17 +171,19 @@ const Matchup = () => {
               alt=""
               className="w-28 h-28 rounded-full mx-auto"
             />
-            <p className="text-white font-semibold text-2xl mt-5">
+            <p className="text-black dark:text-white font-semibold text-2xl mt-5">
               {homeTeam?.name}
             </p>
             <p className="text-font-dark-gray font-semibold text-xl">Home</p>
           </div>
           <div className="text-center mt-3">
-            <p className="text-white text-sm mt-3">{match?.status}</p>
-            <p className="text-white text-[56px] my-2">
+            <p className="text-black dark:text-white text-sm mt-3">
+              {match?.status}
+            </p>
+            <p className="text-black dark:text-white text-[56px] my-2">
               {matchupResult[0]}:{matchupResult[1]}
             </p>
-            <p className="text-white text-sm">{match?.date}</p>
+            <p className="text-black dark:text-white text-sm">{match?.date}</p>
             <p className="text-font-dark-gray text-sm mt-1">
               {match?.location}
             </p>
@@ -193,14 +194,14 @@ const Matchup = () => {
               alt=""
               className="w-28 h-28 rounded-full mx-auto"
             />
-            <p className="text-white font-semibold text-2xl mt-5">
+            <p className="text-black dark:text-white font-semibold text-2xl mt-5">
               {awayTeam?.name}
             </p>
             <p className="text-font-dark-gray font-semibold text-xl">Away</p>
           </div>
         </div>
       </div>
-      <div className="flex flex-col flex-grow rounded-main bg-slate overflow-auto mt-[20px] p-default">
+      <div className="flex flex-col flex-grow rounded-main bg-white dark:bg-slate overflow-auto mt-[20px] p-default">
         {/* <div className="search flex justify-between space-x-3">
           <Input
             icon={search}
@@ -218,19 +219,19 @@ const Matchup = () => {
         </div> */}
         <br></br>
         <div className="grid grid-cols-2 gap-4">
-          <div className="flex flex-col overflow-y-auto rounded-default h-[350px] bg-dark-gray transition ease-in-out delay-150 hover:bg-dark-gray duration-200 w-full">
-            <div className="flex justify-between h-button bg-charcoal rounded-t-default p-4">
+          <div className="flex flex-col overflow-y-auto rounded-default h-[350px] bg-light-charcoal dark:bg-dark-gray transition ease-in-out delay-150 duration-200 w-full">
+            <div className="flex justify-between h-button bg-light-dark-gray dark:bg-charcoal rounded-t-default p-4">
               <div className="flex items-center">
                 <img
                   src={homeTeam?.logo}
                   className="w-8 h-8 rounded-default"
                 ></img>
                 <Link to={`/league/${leagueId}/team/${match?.homeTeamId}`}>
-                  <p className="text-white text-sm mx-2 underline">
+                  <p className="text-black dark:text-white text-sm mx-2 underline">
                     {homeTeam?.name}
                   </p>
                 </Link>
-                <p className="text-white text-[10px]">
+                <p className="text-black dark:text-white text-[10px]">
                   {homeTeam?.waitlist}/{homeTeam?.max}
                 </p>
               </div>
@@ -244,45 +245,27 @@ const Matchup = () => {
 
             <div className="flex flex-grow items-center">
               {homeTeamPlayers.length > 0 ? (
-                <div className="text-white h-full w-full">
+                <div className="text-black dark:text-white h-full w-full">
                   <table className="w-full table-auto text-left">
                     <thead className="sticky">
                       <tr>
                         <th
                           key="1"
-                          className="h-button bg-slate text-center font-font-dark-gray"
+                          className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray"
                         >
-                          <Typography
-                            variant="small"
-                            color="blue-gray"
-                            className="font-normal leading-none opacity-70"
-                          >
-                            Player
-                          </Typography>
+                          Player
                         </th>
                         <th
                           key="2"
-                          className="h-button bg-slate text-center font-font-dark-gray"
+                          className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray"
                         >
-                          <Typography
-                            variant="small"
-                            color="blue-gray"
-                            className="font-normal leading-none opacity-70"
-                          >
-                            Points
-                          </Typography>
+                          Points
                         </th>
                         <th
                           key="3"
-                          className="h-button bg-slate text-center font-font-dark-gray"
+                          className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray"
                         >
-                          <Typography
-                            variant="small"
-                            color="blue-gray"
-                            className="font-normal leading-none opacity-70"
-                          >
-                            Jersey Number
-                          </Typography>
+                          Jersey Number
                         </th>
                       </tr>
                     </thead>
@@ -290,7 +273,7 @@ const Matchup = () => {
                       {homeTeamPlayers.map((player, index) => (
                         <tr
                           key={index}
-                          className="even:bg-dark-gray odd:bg-charcoal"
+                          className="odd:bg-light-dark-gray dark:odd:bg-dark-gray even:bg-light-charcoal dark:even:bg-charcoal"
                         >
                           <td className="">
                             <div className="flex items-center underline justify-between px-3">
@@ -307,37 +290,23 @@ const Matchup = () => {
                             </div>
                           </td>
                           <td className="">
-                            <Typography
-                              variant="small"
-                              color="blue-gray"
-                              className="font-normal"
-                            >
-                              <Input
-                                key={index}
-                                className="w-[50px] rounded-default bg-transparent border-none text-center"
-                                type="number"
-                                value={homeInputValues[index]?.points || 0}
-                                onChange={(e) =>
-                                  handleHomeInputChange(
-                                    index,
-                                    player.id,
-                                    matchId,
-                                    match?.homeTeamId,
-                                    e.target.value
-                                  )
-                                }
-                              ></Input>
-                            </Typography>
+                            <Input
+                              key={index}
+                              className="w-[50px] rounded-default bg-transparent border-none text-center"
+                              type="number"
+                              value={homeInputValues[index]?.points || 0}
+                              onChange={(e) =>
+                                handleHomeInputChange(
+                                  index,
+                                  player.id,
+                                  matchId,
+                                  match?.homeTeamId,
+                                  e.target.value
+                                )
+                              }
+                            ></Input>
                           </td>
-                          <td className="">
-                            <Typography
-                              variant="small"
-                              color="blue-gray"
-                              className="font-normal"
-                            >
-                              {player?.jerseyNumber}
-                            </Typography>
-                          </td>
+                          <td className="">{player?.jerseyNumber}</td>
                         </tr>
                       ))}
                     </tbody>
@@ -345,7 +314,7 @@ const Matchup = () => {
                 </div>
               ) : (
                 <div className="flex items-center flex-grow">
-                  <p className="text-2xl text-white w-full text-center">
+                  <p className="text-2xl text-black dark:text-white w-full text-center">
                     No players to show!
                   </p>
                 </div>
@@ -353,19 +322,19 @@ const Matchup = () => {
             </div>
             <SubstituteModal id={match?.homeTeamId}></SubstituteModal>
           </div>
-          <div className="flex flex-col overflow-y-auto rounded-default h-[350px] bg-dark-gray transition ease-in-out delay-150 hover:bg-dark-gray duration-200 w-full">
-            <div className="flex justify-between h-button bg-charcoal rounded-t-default p-4">
+          <div className="flex flex-col overflow-y-auto rounded-default h-[350px] bg-light-charcoal dark:bg-dark-gray transition ease-in-out delay-150 duration-200 w-full">
+            <div className="flex justify-between h-button bg-light-dark-gray dark:bg-charcoal rounded-t-default p-4">
               <div className="flex items-center">
                 <img
                   src={awayTeam?.logo}
                   className="w-8 h-8 rounded-default"
                 ></img>
                 <Link to={`/league/${leagueId}/team/${match?.awayTeamId}`}>
-                  <p className="text-white text-sm mx-2 underline">
+                  <p className="text-black dark:text-white text-sm mx-2 underline">
                     {awayTeam?.name}
                   </p>
                 </Link>
-                <p className="text-white text-[10px]">
+                <p className="text-black dark:text-white text-[10px]">
                   {awayTeam?.waitlist}/{awayTeam?.max}
                 </p>
               </div>
@@ -379,45 +348,27 @@ const Matchup = () => {
 
             <div className="flex flex-grow items-center">
               {awayTeamPlayers.length > 0 ? (
-                <div className="text-white h-full w-full">
+                <div className="text-black dark:text-white h-full w-full">
                   <table className="w-full table-auto text-left">
                     <thead className="sticky">
                       <tr>
                         <th
                           key="1"
-                          className="h-button bg-slate text-center font-font-dark-gray"
+                          className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray"
                         >
-                          <Typography
-                            variant="small"
-                            color="blue-gray"
-                            className="font-normal leading-none opacity-70"
-                          >
-                            Player
-                          </Typography>
+                          Player
                         </th>
                         <th
                           key="2"
-                          className="h-button bg-slate text-center font-font-dark-gray"
+                          className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray"
                         >
-                          <Typography
-                            variant="small"
-                            color="blue-gray"
-                            className="font-normal leading-none opacity-70"
-                          >
-                            Points
-                          </Typography>
+                          Points
                         </th>
                         <th
                           key="3"
-                          className="h-button bg-slate text-center font-font-dark-gray"
+                          className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray"
                         >
-                          <Typography
-                            variant="small"
-                            color="blue-gray"
-                            className="font-normal leading-none opacity-70"
-                          >
-                            Jersey Number
-                          </Typography>
+                          Jersey Number
                         </th>
                       </tr>
                     </thead>
@@ -425,7 +376,7 @@ const Matchup = () => {
                       {awayTeamPlayers.map((player, index) => (
                         <tr
                           key={index}
-                          className="even:bg-dark-gray odd:bg-charcoal"
+                          className="odd:bg-light-dark-gray dark:odd:bg-dark-gray even:bg-light-charcoal dark:even:bg-charcoal"
                         >
                           <td className="">
                             <div className="flex items-center underline justify-between px-3">
@@ -442,37 +393,23 @@ const Matchup = () => {
                             </div>
                           </td>
                           <td className="">
-                            <Typography
-                              variant="small"
-                              color="blue-gray"
-                              className="font-normal"
-                            >
-                              <Input
-                                key={index}
-                                className="w-[50px] rounded-default bg-transparent border-none text-center"
-                                type="number"
-                                value={awayInputValues[index]?.points || 0}
-                                onChange={(e) =>
-                                  handleAwayInputChange(
-                                    index,
-                                    player.id,
-                                    matchId,
-                                    match?.awayTeamId,
-                                    e.target.value
-                                  )
-                                }
-                              ></Input>
-                            </Typography>
+                            <Input
+                              key={index}
+                              className="w-[50px] rounded-default bg-transparent border-none text-center"
+                              type="number"
+                              value={awayInputValues[index]?.points || 0}
+                              onChange={(e) =>
+                                handleAwayInputChange(
+                                  index,
+                                  player.id,
+                                  matchId,
+                                  match?.awayTeamId,
+                                  e.target.value
+                                )
+                              }
+                            ></Input>
                           </td>
-                          <td className="">
-                            <Typography
-                              variant="small"
-                              color="blue-gray"
-                              className="font-normal"
-                            >
-                              {player?.jerseyNumber}
-                            </Typography>
-                          </td>
+                          <td className="">{player?.jerseyNumber}</td>
                         </tr>
                       ))}
                     </tbody>
@@ -480,7 +417,7 @@ const Matchup = () => {
                 </div>
               ) : (
                 <div className="flex items-center flex-grow">
-                  <p className="text-2xl text-white w-full text-center">
+                  <p className="text-2xl text-black dark:text-white w-full text-center">
                     No players to show!
                   </p>
                 </div>
