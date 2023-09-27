@@ -53,6 +53,7 @@ export const apis = {
   // admin
   getAdmins: apiUrl + '/admin/all',
   inviteAdmin: apiUrl + '/admin/invite',
+  removeAdmin: apiUrl + '/admin/remove'
 };
 
 export default apis;

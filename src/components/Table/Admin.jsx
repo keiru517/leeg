@@ -3,6 +3,8 @@ import deleteIcon from "../../assets/img/dark_mode/delete.png";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import * as actions from "../../actions";
+import axios from "axios";
+import apis from "../../utils/apis";
 
 const AdminTable = (props) => {
   let { leagueId, user } = props;
@@ -15,6 +17,16 @@ const AdminTable = (props) => {
   useEffect(() => {
     actions.getPlayers(dispatch);
   }, []);
+
+  const handleDelete = (adminId) => {
+    axios.post(apis.removeAdmin, {adminId}).then((res)=>{
+      actions.getUsers(dispatch);
+      actions.getAdmins(dispatch);
+      alert(res.data.message)
+    }).catch((error)=>{
+      alert(error.response.data.message);
+    })
+  }
 
   return (
     <div className="text-white h-full w-full">
@@ -71,8 +83,8 @@ const AdminTable = (props) => {
             ? admins.map((admin, index) => (
                 <tr key={index} className="even:bg-dark-gray odd:bg-charcoal">
                   <td className="w-4/5">
-                    <div className="flex items-center underline justify-between">
-                      <div className="flex">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center">
                         <img
                           src={
                             users.find((user) => user?.id == admin.userId)
@@ -103,6 +115,9 @@ const AdminTable = (props) => {
                     {admin.role !== 1 ? (
                       <img
                         src={deleteIcon}
+                        onClick={()=>{
+                          handleDelete(admin.id);
+                        }}
                         alt=""
                         className="mx-auto cursor-pointer hover:opacity-70"
                       />

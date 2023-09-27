@@ -14,6 +14,9 @@ const Card = (props) => {
     (admin) => admin.leagueId == league.id && admin.isDeleted !== 1
   );
 
+  const users = useSelector(state=>state.home.users);
+  const owner = users.find(user=>user.id == league.userId)
+
   const isAdmin =
     admins.some((admin) => admin.userId == user?.id) ||
     league.userId == user?.id;
@@ -66,7 +69,7 @@ const Card = (props) => {
           <div className="flex items-center justify-between">
             <div className="flex items-center">
               <img src={league.logo} className="w-10 h-10 rounded-lg"></img>
-              <p className="dark:text-white text-sm ml-5">{league.name}</p>
+              <p className="dark:text-white text-sm ml-5">{league.name}<span className="text-xs text-font-dark-gray"> / {owner?.email}</span></p>
             </div>
             <div>
               {player?.isAcceptedList === 1 &&
