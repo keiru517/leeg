@@ -62,7 +62,7 @@ const MatchModal = () => {
         actions.getMatches(dispatch);
         dispatch({ type: actions.CLOSE_MATCH_DIALOG });
       })
-      .catch((error) => alert(error.data.message));
+      .catch((error) => alert(error.response.data.message));
 
     console.log("Clicked create");
   };

@@ -33,6 +33,7 @@ const Player = () => {
 
   useEffect(()=>{
     actions.getUserInfo(dispatch, localStorage.getItem('userId'))
+    actions.getUsers(dispatch);
     actions.getLeagues(dispatch);
     actions.getPlayers(dispatch);
     actions.getTeams(dispatch);

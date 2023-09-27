@@ -35,7 +35,7 @@ const SubstituteModal = (props) => {
       role:2,
       teamId
     }).then(res=>actions.getMatches(dispatch))
-    .catch(error=>console.log(error.data))
+    .catch(error=>console.log(error.response.data.message))
     dispatch({ type: actions.CLOSE_ADD_SUBSTITUTE_DIALOG });
   };
 

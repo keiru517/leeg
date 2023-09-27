@@ -56,7 +56,7 @@ const EditPlayerModal = (props) => {
         alert(res.data.message);
       })
       .catch((error) => {
-        alert(error.message);
+        alert(error.response.data.message);
       });
   };
 

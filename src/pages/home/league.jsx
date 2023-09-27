@@ -19,8 +19,10 @@ import LeagueModal from "../../components/Modal/LeagueModal";
 import PlayerModal from "../../components/Modal/PlayerModal";
 import TeamModal from "../../components/Modal/TeamModal";
 import MatchModal from "../../components/Modal/MatchModal";
+import AdminModal from "../../components/Modal/AdminModal";
 import MatchTable from "../../components/Table/Match";
 import StandingTable from "../../components/Table/Standing";
+import AdminTable from "../../components/Table/Admin";
 import PlayerTable from "../../components/Table/Player";
 import calendar from "../../assets/img/dark_mode/calendar.png";
 import apis from "../../utils/apis";
@@ -37,11 +39,17 @@ const League = () => {
   const tab = queryParams.get("tab");
 
   const user = useSelector((state) => state.home.user);
-  // const tab = useSelector((state) => state.home.tab);
-
   const league = useSelector((state) => state.home.leagues).find(
     (league) => league.id == leagueId
   );
+
+  const admins = useSelector((state) => state.home.admins).filter(
+    (admin) => admin.leagueId == league?.id && admin.isDeleted !== 1
+  );
+
+  const isAdmin =
+    admins.some((admin) => admin.userId == user?.id) ||
+    league?.userId == user?.id;
 
   const [leagueName, setLeagueName] = useState();
   const [leagueDescription, setLeagueDescription] = useState();
@@ -68,7 +76,8 @@ const League = () => {
   const [waitSortValue, setWaitSortValue] = useState("Sort by");
   const [acceptSortValue, setAcceptSortValue] = useState("Sort by");
   var categories = [];
-  if (league?.userId == user?.id) {
+  if (isAdmin) {
+    // if (league?.userId == user?.id) {
     categories = [
       "Blog",
       "Manage Rosters",
@@ -102,7 +111,7 @@ const League = () => {
         setIsAllowedFan(!isAllowedFan);
       })
       .catch((error) => {
-        alert(error.message);
+        alert(error.response.data.message);
       });
   };
 
@@ -132,11 +141,13 @@ const League = () => {
 
   useEffect(() => {
     actions.getUserInfo(dispatch, localStorage.getItem("userId"));
+    actions.getUsers(dispatch);
     actions.getLeagues(dispatch);
     actions.getTeams(dispatch);
     actions.getMatches(dispatch);
     actions.getMatchups(dispatch);
     actions.getPlayers(dispatch);
+    actions.getAdmins(dispatch);
   }, []);
 
   useEffect(() => {
@@ -245,7 +256,7 @@ const League = () => {
           actions.getPlayers(dispatch);
           setWaitItemChecked({});
         })
-        .catch((error) => alert(error.message));
+        .catch((error) => alert(error.response.data.message));
     }
   };
 
@@ -259,7 +270,7 @@ const League = () => {
           actions.getPlayers(dispatch);
           setAcceptedItemChecked({});
         })
-        .catch((error) => alert(error.message));
+        .catch((error) => alert(error.response.data.message));
     }
   };
 
@@ -273,6 +284,7 @@ const League = () => {
     dispatch({ type: actions.OPEN_CREATE_MATCH_DIALOG, payload: true });
   };
 
+  // Settings
   const fileUploadRef = useRef();
   const [chosenFile, setChosenFile] = useState();
   const [previewURL, setPreviewURL] = useState("");
@@ -298,8 +310,9 @@ const League = () => {
     dispatch({ type: actions.OPEN_DELETE_LEAGUE_DIALOG, payload: league });
   };
 
-  if (!league) return null;
-  if (!teams) return null;
+  const inviteAdmin = () => {
+    dispatch({ type: actions.OPEN_ADMIN_DIALOG, payload: true });
+  };
 
   return (
     <div className="flex flex-col flex-grow">
@@ -333,21 +346,21 @@ const League = () => {
                   </Tab>
                 ))}
               </Tab.List>
-              {tab == 1 && user?.id == league?.userId ? (
+              {tab == 1 && isAdmin ? (
                 <button
                   onClick={handleInvitePlayer}
                   className="w-36 h-[42px] bg-primary hover:bg-opacity-70 rounded-default text-white focus:ring-2 text-sm font-bold"
                 >
                   Invite Player
                 </button>
-              ) : tab == 2 && user?.id == league?.userId ? (
+              ) : tab == 2 && isAdmin ? (
                 <button
                   onClick={handleCreateTeam}
                   className="w-36 h-[42px] bg-primary hover:bg-opacity-70 rounded-default text-white focus:ring-2 text-sm font-bold"
                 >
                   Create Team
                 </button>
-              ) : tab == 3 && user?.id == league?.userId ? (
+              ) : tab == 3 && isAdmin ? (
                 <button
                   onClick={handleCreateMatch}
                   className="w-36 h-[42px] bg-primary hover:bg-opacity-70 rounded-default text-white focus:ring-2 text-sm font-bold"
@@ -440,7 +453,7 @@ const League = () => {
                 <PlayerModal></PlayerModal>
               </Tab.Panel>
               {/* Rosters */}
-              {league?.userId == user?.id ? (
+              {isAdmin ? (
                 <Tab.Panel
                   key={1}
                   className={classNames(
@@ -864,19 +877,22 @@ const League = () => {
                       />
                     </div>
                   </div>
-                  <div className="flex flex-col space-x-3 items-center">
+                  <div className="flex flex-col space-y-3 items-center">
                     <div className="flex">
                       <p className="text-xs dark:text-white text-black">
                         Admin Access
                       </p>
-                      {/* <img
-                        src={isAllowedFan ? toggleOn : toggleOff}
-                        alt=""
-                        className="w-8 cursor-pointer"
-                        onClick={toggleFan}
-                      /> */}
                     </div>
+                    <button
+                      onClick={inviteAdmin}
+                      className="mt-5 bg-primary h-12 text-white font-bold text-sm w-[76px] rounded-default hover:opacity-70"
+                    >
+                      Invite Admin
+                    </button>
+
+                    <AdminTable user={user} leagueId={leagueId} />
                   </div>
+                  <AdminModal user={user} leagueId={leagueId} />
                 </div>
               </Tab.Panel>
             </Tab.Panels>

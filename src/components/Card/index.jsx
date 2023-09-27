@@ -10,6 +10,14 @@ const Card = (props) => {
   const dispatch = useDispatch();
 
   const user = useSelector((state) => state.home.user);
+  const admins = useSelector((state) => state.home.admins).filter(
+    (admin) => admin.leagueId == league.id && admin.isDeleted !== 1
+  );
+
+  const isAdmin =
+    admins.some((admin) => admin.userId == user?.id) ||
+    league.userId == user?.id;
+
   const player = useSelector((state) => state.home.players).find(
     (player) => player.userId == user?.id && player.leagueId == league.id
   );
@@ -27,15 +35,17 @@ const Card = (props) => {
         actions.getPlayers(dispatch);
       })
       .catch((error) => {
-        console.log(error.response.message);
+        console.log(error.response.data.message);
       });
   };
 
   return (
     <Link
       to={`${
+        // user can access the leauge if he is the owner or admin or accepted or allowed fan view
+        league?.userId == user?.id ||
+        isAdmin ||
         player?.isAcceptedList === 1 ||
-        league.userId == user?.id ||
         league?.isAllowedFan
           ? `/${route}/${league.id}`
           : ``
@@ -44,8 +54,9 @@ const Card = (props) => {
       {/* <div className={`rounded-default h-[185px] bg-charcoal p-default transition ease-in-out delay-150 hover:-translate-y-1 hover:bg-dark-gray duration-200 ${league.isAcceptedList? "cursor-pointer":""}`}> */}
       <div
         className={`rounded-default h-[185px] bg-light-charcoal dark:bg-charcoal p-default hover:bg-light-dark-gray dark:hover:bg-dark-gray duration-200 ${
-          player?.isAcceptedList === 1 ||
+          isAdmin ||
           league?.userId == user?.id ||
+          player?.isAcceptedList === 1 ||
           league?.isAllowedFan
             ? "cursor-pointer transition ease-in-out delay-150 hover:-translate-y-1"
             : ""
@@ -58,7 +69,8 @@ const Card = (props) => {
               <p className="dark:text-white text-sm ml-5">{league.name}</p>
             </div>
             <div>
-              {player?.isAcceptedList === 1 && player?.isDeleted !== 1 &&
+              {player?.isAcceptedList === 1 &&
+              player?.isDeleted !== 1 &&
               player?.teamId !== 0 ? (
                 <span className="bg-purple-100 text-purple-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-purple-900 dark:text-purple-300">
                   Player
@@ -66,7 +78,8 @@ const Card = (props) => {
               ) : (
                 ""
               )}
-              {league.userId == user?.id ? (
+              {/* {league.userId == user?.id ? ( */}
+              {isAdmin ? (
                 <span className="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
                   Admin
                 </span>

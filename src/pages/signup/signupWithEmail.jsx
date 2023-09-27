@@ -48,7 +48,6 @@ const SignupWithEmail = () => {
         setStep(2);
       })
       .catch((error) => {
-        console.log(error);
         alert(error.response.data.message);
       });
   };
@@ -64,8 +63,7 @@ const SignupWithEmail = () => {
         setCode(verifyCode);
       })
       .catch((error) => {
-        console.log(error);
-        alert(error.response.message);
+        alert(error.response.data.message);
       });
   };
 

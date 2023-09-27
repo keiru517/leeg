@@ -109,8 +109,8 @@ const TeamModal = () => {
         actions.getTeams(dispatch);
         alert(res.data.message);
       })
-      .catch((err) => {
-        alert(err.data.message);
+      .catch((error) => {
+        alert(error.response.data.message);
       });
     console.log("Clicked edit");
   };
@@ -127,7 +127,7 @@ const TeamModal = () => {
           actions.getPlayers(dispatch);
           alert(res.data.message);
         })
-        .catch((err) => alert(err.data.message));
+        .catch((error) => alert(error.response.data.message));
       dispatch({ type: actions.CLOSE_TEAM_DIALOG });
     } else {
       alert("Please type the league name correctly.");
@@ -146,7 +146,7 @@ const TeamModal = () => {
         actions.getPlayers(dispatch);
         setPlayersList({});
       })
-      .catch((error) => console.log(error.message));
+      .catch((error) => console.log(error.response.data.message));
     console.log("playersList", playersList);
   };
 

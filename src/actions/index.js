@@ -2,9 +2,9 @@ import axios from "axios";
 import apis from "../utils/apis";
 import { useNavigate } from "react-router-dom";
 
-
 // user
 export const GET_USER = "GET_USER";
+export const GET_USERS = "GET_USERS";
 // country
 export const GET_COUNTRIES = "GET_COUNTRIES";
 // league
@@ -44,6 +44,7 @@ export const CLOSE_ADD_SUBSTITUTE_DIALOG = "CLOSE_ADD_SUBSTITUTE_DIALOG";
 
 // Admin
 export const GET_ADMINS = "GET_ADMINS";
+export const OPEN_ADMIN_DIALOG = "OPEN_ADMIN_DIALOG";
 // Tab
 
 // get countries
@@ -51,43 +52,42 @@ export const getCountries = async (dispatch) => {
   try {
     const response = await axios.get(apis.getCountries, {
       headers: {
-        'X-CSCAPI-KEY': process.env.REACT_APP_COUNTRY_API_KEY
-      }
+        "X-CSCAPI-KEY": process.env.REACT_APP_COUNTRY_API_KEY,
+      },
     });
     dispatch({
       type: GET_COUNTRIES,
-      payload: response.data
-    })
+      payload: response.data,
+    });
   } catch (error) {
     dispatch({
       type: GET_COUNTRIES,
-      payload: []
-    })
+      payload: [],
+    });
   }
-}
+};
 
 // league actions----------------------------------
 
 // Get leagues from the server
 export const getLeagues = async (dispatch) => {
-
   try {
     const response = await axios.get(apis.getLeagues);
     const leagues = response.data.leagues;
 
     // set logo image to all leagues
-    leagues.map(league=>{
+    leagues.map((league) => {
       const logoUrl = apis.leagueLogoURL(league.userId, league.id);
       league.logo = logoUrl;
-    })
+    });
     dispatch({
       type: GET_LEAGUES,
       payload: leagues,
     });
   } catch (error) {
-    console.log(error.response.status)
+    console.log(error.response.status);
     if (error.response.status == 401) {
-      console.log("hi")
+      console.log("hi");
     }
     dispatch({
       type: GET_LEAGUES,
@@ -95,7 +95,6 @@ export const getLeagues = async (dispatch) => {
     });
   }
 };
-
 
 export const openDeleteLeagueDialog = (payload) => ({
   type: OPEN_DELETE_LEAGUE_DIALOG,
@@ -123,7 +122,7 @@ export const getTeams = async (dispatch) => {
   try {
     const response = await axios.get(apis.getTeams);
     const teams = response.data.teams;
-    teams.map(team=>{
+    teams.map((team) => {
       const logoUrl = apis.teamLogoURL(team.userId, team.id);
       team.logo = logoUrl;
     });
@@ -140,7 +139,6 @@ export const getTeams = async (dispatch) => {
     //       payload: { id: team.id, logoUrl: logoUrl}
     //   })
     // })
-
   } catch (error) {
     dispatch({
       type: GET_TEAMS,
@@ -195,27 +193,26 @@ export const closeMatchDialog = () => ({
 });
 // matchup action
 export const getMatchups = async (dispatch) => {
-  try{
+  try {
     const response = await axios.get(apis.getMatchups);
     const matchups = response.data.matchups;
     dispatch({
       type: GET_MATCHUPS,
-      payload: matchups
-    })
+      payload: matchups,
+    });
   } catch {
     dispatch({
       type: GET_MATCHUPS,
-      payload: []
-    })
-
+      payload: [],
+    });
   }
-}
+};
 
 // player action
-export const getPlayers = async (dispatch, leagueId) => {
+export const getPlayers = async (dispatch) => {
   try {
     const response = await axios.get(apis.getPlayers);
-    
+
     const players = response.data.players;
     // players.map(player=>{
     //   const avatarUrl = apis.userAvatarURL(player.userId);
@@ -252,24 +249,50 @@ export const closeAddSubstitueDialog = () => ({
 });
 
 // Admin
-export const getAdmins = (payload) => ({
-  type: GET_ADMINS,
-  payload: payload,
-});
+export const getAdmins = async (dispatch) => {
+  try {
+    const response = await axios.get(apis.getAdmins);
+
+    const admins = response.data.admins;
+
+    dispatch({
+      type: GET_ADMINS,
+      payload: admins,
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_ADMINS,
+      payload: [],
+    });
+  }
+};
+
+export const getUsers = async (dispatch) => {
+  try {
+    const response = await axios.get(apis.getUsers);
+    const users = response.data.users;
+    users.map(user=>{
+      user.avatar = apis.userAvatarURL(user.id);
+    })
+    
+    dispatch({ type: GET_USERS, payload: users });
+  } catch (error) {
+    dispatch({ type: GET_USERS, payload: [] });
+  }
+};
 
 export const getUserInfo = async (dispatch, id) => {
-
   try {
     const response = await axios.get(apis.getUserInfo(id));
     const user = response.data.user;
     user.avatar = apis.userAvatarURL(id);
-    dispatch({type: GET_USER, payload: user});
+    dispatch({ type: GET_USER, payload: user });
   } catch (error) {
-    console.log(error)
+    dispatch({ type: GET_USER, payload: [] });
   }
-}
-  // new Promise((resolve, reject) => {
-  //   setTimeout(() => {
-  //     resolve(true);
-  //   }, 500);
-  // });
+};
+// new Promise((resolve, reject) => {
+//   setTimeout(() => {
+//     resolve(true);
+//   }, 500);
+// });

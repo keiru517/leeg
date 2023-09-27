@@ -33,11 +33,11 @@ const LeagueModal = () => {
   const [confirmLeagueName, setConfirmLeagueName] = useState("");
 
   const [leagueDescription, setLeagueDescription] = useState(
-    league.description
+    league?.description
   );
 
-  const [startDate, setStartDate] = useState(league.startDate);
-  const [endDate, setEndDate] = useState(league.endDate);
+  const [startDate, setStartDate] = useState(league?.startDate);
+  const [endDate, setEndDate] = useState(league?.endDate);
 
   // const handleEdit = () => {
   //   dispatch({ type: actions.OPEN_EDIT_LEAGUE_DIALOG, payload: league });
@@ -55,7 +55,7 @@ const LeagueModal = () => {
           actions.getLeagues(dispatch);
           navigate(-1);
         })
-        .catch((err) => alert(err.data.message));
+        .catch((error) => alert(error.response.data.message));
       dispatch({ type: actions.CLOSE_LEAGUE_DIALOG });
     } else {
       alert("Please type the league name correctly.");

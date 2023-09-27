@@ -13,8 +13,7 @@ const Password = () => {
     axios.post(apis.forgotPassword, email).then((res)=>{
       alert(`We sent an email to ${email} with a link to reset password.`);
     }).catch((error)=>{
-      console.log(error)
-      alert(error.response.message);
+      alert(error.response.data.message);
     })
   }
 

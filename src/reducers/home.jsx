@@ -3,7 +3,7 @@ import * as actions from "../actions";
 
 const initialState = {
   user: {},
-  countries: [],
+  users: [],
   leagues: [],
   teams: [],
   matches: [],
@@ -19,8 +19,11 @@ const initialState = {
   player_dialog: {
     open: false,
   },
+  admin_dialog: {
+    open: false,
+  },
   jersey_number_dialog: {
-    open:false
+    open: false,
   },
   team_dialog: {
     open: false,
@@ -42,6 +45,8 @@ const home = (state = initialState, action) => {
   switch (action.type) {
     case actions.GET_USER:
       return { ...state, user: action.payload };
+    case actions.GET_USERS:
+      return { ...state, users: action.payload };
     case actions.GET_COUNTRIES:
       return { ...state, countries: action.payload };
     case actions.GET_LEAGUES:
@@ -238,6 +243,15 @@ const home = (state = initialState, action) => {
         ...state,
         substitute_dialog: {
           open: false,
+        },
+      };
+
+    // admin
+    case actions.OPEN_ADMIN_DIALOG:
+      return {
+        ...state,
+        admin_dialog: {
+          open: action.payload,
         },
       };
     default:

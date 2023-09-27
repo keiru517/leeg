@@ -37,7 +37,7 @@ const TeamTable = (props) => {
           actions.getPlayers(dispatch);
         })
         .catch((error) => {
-          alert(error.message);
+          alert(error.response.data.message);
         });
       // alert("Match has been deleted")
     }

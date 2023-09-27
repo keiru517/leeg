@@ -103,7 +103,7 @@ const Modal = (props) => {
 
         // Navigate(-1);
       })
-      .catch((err) => console.log(err.data));
+      .catch((error) => console.log(error.response.data.message));
   };
 
   return (

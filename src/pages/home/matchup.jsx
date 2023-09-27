@@ -22,6 +22,7 @@ const Matchup = () => {
   const user = useSelector((state) => state.home.user);
   useEffect(() => {
     actions.getUserInfo(dispatch, localStorage.getItem("userId"));
+    actions.getUsers(dispatch);
     actions.getLeagues(dispatch);
     actions.getTeams(dispatch);
     actions.getMatches(dispatch);
@@ -119,7 +120,7 @@ const Matchup = () => {
         actions.getMatches(dispatch);
         actions.getMatchups(dispatch);
       })
-      .catch((error) => console.log(error.message));
+      .catch((error) => console.log(error.response.data.message));
 
     axios
       .post(apis.createMatchup, {
@@ -133,7 +134,7 @@ const Matchup = () => {
         actions.getMatchups(dispatch);
         alert(res.data.message);
       })
-      .catch((error) => console.log(error.message));
+      .catch((error) => console.log(error.response.data.message));
   };
 
   return (

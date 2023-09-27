@@ -5,6 +5,7 @@ export const apis = {
   signup: apiUrl + "/user/signup",
   signin: apiUrl + "/user/signin",
   verifyEmail: apiUrl + "/user/verifyEmail",
+  getUsers: apiUrl + '/user/all',
   getUserInfo: (id) => {
     return `${apiUrl}/user/info/${id}`;
   },
@@ -49,6 +50,9 @@ export const apis = {
   acceptPlayer: apiUrl + "/player/accept",
   unacceptPlayer: apiUrl + "/player/unaccept",
   addPlayer: apiUrl + "/player/add",
+  // admin
+  getAdmins: apiUrl + '/admin/all',
+  inviteAdmin: apiUrl + '/admin/invite',
 };
 
 export default apis;
