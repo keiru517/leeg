@@ -13,8 +13,9 @@ import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../actions";
 import PlayerList from "../ListItem/PlayerList";
 import apis from "../../utils/apis";
+import Select from "../Select";
 
-const JerseyNumberModal = (props) => {
+const EditPlayerModal = (props) => {
   const dispatch = useDispatch();
 
   let { leagueId } = useParams();
@@ -25,25 +26,39 @@ const JerseyNumberModal = (props) => {
 
   const [jerseyNumber, setJerseyNumber] = useState(0);
 
-  useEffect(()=>{
+  const positions = [
+    { id: 0, name: "Center" },
+    { id: 1, name: "Power Forward" },
+    { id: 2, name: "Small Forward" },
+    { id: 3, name: "Point Guard" },
+    { id: 4, name: "Shooting Guard" },
+  ];
+
+  const [position, setPosition] = useState(player?.position? player?.position:"Select Position");
+
+  useEffect(() => {
     setJerseyNumber(player?.jerseyNumber);
-  }, [player])
+  }, [player]);
 
   const cancelButtonRef = useRef(null);
 
   const closeDialog = () => {
+    setPosition("Select Position")
     setIsOpen(false);
   };
 
-  const handleEdit = ()=>{
+  const handleEdit = () => {
     setIsOpen(false);
-    axios.post(apis.updatePlayer, {playerId, jerseyNumber}).then((res)=>{
-      actions.getPlayers(dispatch)
-      alert(res.data.message)
-    }).catch(error=>{
-      alert(error.message);
-    })
-  }
+    axios
+      .post(apis.updatePlayer, { playerId, jerseyNumber, position })
+      .then((res) => {
+        actions.getPlayers(dispatch);
+        alert(res.data.message);
+      })
+      .catch((error) => {
+        alert(error.message);
+      });
+  };
 
   return (
     <Transition.Root show={isOpen} as={Fragment}>
@@ -80,7 +95,7 @@ const JerseyNumberModal = (props) => {
                 <div className="divide-y divide-solid divide-[#3A3A3A] flex flex-col flex-grow">
                   <div className="flex items-center text-left h-[88px] justify-between px-default">
                     <p className="text-2xl text-black dark:text-white font-bold">
-                      Edit Jersey Number
+                      Edit Player
                     </p>
                     <div className="flex items-center">
                       <img
@@ -112,16 +127,40 @@ const JerseyNumberModal = (props) => {
                             </div>
                           </div>
                         </div>
-                        <div className="mt-5">
-                          <label htmlFor="jerseyNumber" className="text-xs text-dark dark:text-white">Jersey Number :</label>
-                          <Input
-                          id='jerseyNumber'
-                          name='jerseyNumber'
-                            className={`rounded-default text-xs`}
-                            placeholder="Type Jersey Number*"
-                            value={jerseyNumber}
-                            onChange={(e) => setJerseyNumber(e.target.value)}
-                          ></Input>
+                        <div className="grid grid-cols-2 gap-4 mt-5">
+                          <div>
+                            <label
+                              htmlFor="jerseyNumber"
+                              className="text-xs text-dark dark:text-white"
+                            >
+                              Jersey Number :
+                            </label>
+                            <Input
+                              id="jerseyNumber"
+                              name="jerseyNumber"
+                              className={`rounded-default text-xs`}
+                              placeholder="Type Jersey Number*"
+                              value={jerseyNumber}
+                              onChange={(e) => setJerseyNumber(e.target.value)}
+                            ></Input>
+                          </div>
+                          <div>
+                            <label
+                              htmlFor="position"
+                              className="text-xs text-dark dark:text-white"
+                            >
+                              Position :
+                            </label>
+                            <Select
+                              name="position"
+                              className="w-full h-[42px] rounded-lg text-xs"
+                              options={positions}
+                              value={position}
+                              handleClick={(e) => setPosition(e.name)}
+                            >
+                              {position}
+                            </Select>
+                          </div>
                         </div>
                       </>
                     </div>
@@ -142,4 +181,4 @@ const JerseyNumberModal = (props) => {
   );
 };
 
-export default JerseyNumberModal;
+export default EditPlayerModal;

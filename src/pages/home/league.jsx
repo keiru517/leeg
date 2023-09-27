@@ -34,7 +34,7 @@ const League = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const tab = queryParams.get('tab');
+  const tab = queryParams.get("tab");
 
   const user = useSelector((state) => state.home.user);
   // const tab = useSelector((state) => state.home.tab);
@@ -93,6 +93,7 @@ const League = () => {
   useEffect(() => {
     setIsAllowedFan(league?.isAllowedFan);
   }, [league]);
+
   const toggleFan = () => {
     axios
       .post(apis.allowFan, { leagueId: leagueId, status: !isAllowedFan })
@@ -106,7 +107,7 @@ const League = () => {
   };
 
   const handleCategory = (data) => {
-    navigate(`/league/${leagueId}?tab=${data}`)
+    navigate(`/league/${leagueId}?tab=${data}`);
     setWaitListKeyword("");
     setAcceptListKeyword("");
     setTeamKeyword("");
@@ -735,6 +736,7 @@ const League = () => {
               >
                 <hr className="h-px my-4 bg-charcoal border-0" />
                 <div className="mt-4 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                  {/* League Settings */}
                   <div className="flex flex-col space-x-3 items-center">
                     <div>
                       <div className="flex space-x-3 items-center">
@@ -804,7 +806,8 @@ const League = () => {
                       </button>
                     </div>
                   </div>
-                  <div className="flex flex-col space-x-3 items-center">
+                  {/* Stats */}
+                  <div className="flex flex-col space-y-3 items-center">
                     <div className="flex">
                       <p className="text-xs dark:text-white text-black">
                         Allow Fan view
@@ -815,6 +818,63 @@ const League = () => {
                         className="w-8 cursor-pointer"
                         onClick={toggleFan}
                       />
+                    </div>
+                    <div className="flex">
+                      <p className="text-xs dark:text-white text-black">
+                        Display League ID
+                      </p>
+                      <img
+                        src={isAllowedFan ? toggleOn : toggleOff}
+                        alt=""
+                        className="w-8 cursor-pointer"
+                        // onClick={toggleLeagueId}
+                      />
+                    </div>
+                    <div className="flex">
+                      <p className="text-xs dark:text-white text-black">
+                        Display Position
+                      </p>
+                      <img
+                        src={isAllowedFan ? toggleOn : toggleOff}
+                        alt=""
+                        className="w-8 cursor-pointer"
+                        // onClick={togglePosition}
+                      />
+                    </div>
+                    <div className="flex">
+                      <p className="text-xs dark:text-white text-black">
+                        Enable New Application
+                      </p>
+                      <img
+                        src={isAllowedFan ? toggleOn : toggleOff}
+                        alt=""
+                        className="w-8 cursor-pointer"
+                        // onClick={toggleNewApplication}
+                      />
+                    </div>
+                    <div className="flex">
+                      <p className="text-xs dark:text-white text-black">
+                        Require Passowrd to Apply
+                      </p>
+                      <img
+                        src={isAllowedFan ? toggleOn : toggleOff}
+                        alt=""
+                        className="w-8 cursor-pointer"
+                        // onClick={toggleFan}
+                      />
+                    </div>
+                  </div>
+                  <div className="flex flex-col space-x-3 items-center">
+                    <div className="flex">
+                      <p className="text-xs dark:text-white text-black">
+                        Admin Access
+                      </p>
+                      {/* <img
+                        src={isAllowedFan ? toggleOn : toggleOff}
+                        alt=""
+                        className="w-8 cursor-pointer"
+                        onClick={toggleFan}
+                      /> */}
                     </div>
                   </div>
                 </div>

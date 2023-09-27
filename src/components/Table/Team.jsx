@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux";
 import axios from "axios";
 import apis from "../../utils/apis";
 import Input from "../Input";
-import JerseyNumberModal from "../Modal/JerseyNumberModal";
+import EditPlayerModal from "../Modal/EditPlayerModal";
 import { useState } from "react";
 
 const TeamTable = (props) => {
@@ -128,7 +128,7 @@ const TeamTable = (props) => {
           ))}
         </tbody>
       </table>
-      <JerseyNumberModal
+      <EditPlayerModal
         playerId={playerId}
         isOpen={isOpen}
         setIsOpen={setIsOpen}
