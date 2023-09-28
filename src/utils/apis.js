@@ -23,6 +23,9 @@ export const apis = {
   leagueLogoURL: (userId, id) => `${apiUrl}/league/${userId}/logo/${id}`,
   applyLeague: apiUrl + "/league/apply",
   allowFan: apiUrl + "/league/allowFan",
+  toggleLeagueId: apiUrl + '/league/toggleLeagueId',
+  togglePosition: apiUrl + '/league/togglePosition',
+  togglePassword: apiUrl + '/league/togglePassword',
   // teams
   getTeams: apiUrl + "/team/all",
   createTeam: apiUrl + "/team/create",
@@ -53,7 +56,8 @@ export const apis = {
   // admin
   getAdmins: apiUrl + '/admin/all',
   inviteAdmin: apiUrl + '/admin/invite',
-  removeAdmin: apiUrl + '/admin/remove'
+  removeAdmin: apiUrl + '/admin/remove',
+  // settings
 };
 
 export default apis;

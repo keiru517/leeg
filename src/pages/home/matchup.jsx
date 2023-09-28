@@ -74,6 +74,7 @@ const Matchup = () => {
   const [homeInputValues, setHomeInputValues] = useState(homeTeamMatchups);
 
   const handleHomeInputChange = (index, playerId, matchId, teamId, points) => {
+    console.log("Home", index, playerId, matchId, teamId, points)
     let temp = { ...homeInputValues };
     temp[index] = { playerId, matchId, teamId, points };
     setHomeInputValues(temp);
@@ -117,6 +118,7 @@ const Matchup = () => {
         result: matchupResult,
       })
       .then((res) => {
+        actions.getTeams(dispatch);
         actions.getMatches(dispatch);
         actions.getMatchups(dispatch);
       })
@@ -237,35 +239,47 @@ const Matchup = () => {
                   {homeTeam?.waitlist}/{homeTeam?.max}
                 </p>
               </div>
-              <div
-                onClick={handleAddSubstitute}
-                className="flex items-center space-x-2 text-sky-500 text-sm cursor-pointer hover:opacity-70"
-              >
-                + Substitute
-              </div>
             </div>
 
             <div className="flex flex-grow items-center">
               {homeTeamPlayers.length > 0 ? (
                 <div className="text-black dark:text-white h-full w-full">
-                  <table className="w-full table-auto text-left">
+                  <table className="w-full text-left">
                     <thead className="sticky">
                       <tr>
                         <th
                           key="1"
-                          className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray"
+                          className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
                         >
                           Player
                         </th>
                         <th
                           key="2"
-                          className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray"
+                          className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
                         >
                           Points
                         </th>
                         <th
                           key="3"
-                          className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray"
+                          className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
+                        >
+                          3 Points
+                        </th>
+                        <th
+                          key="4"
+                          className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
+                        >
+                          2 Points
+                        </th>
+                        <th
+                          key="5"
+                          className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
+                        >
+                          1 Points
+                        </th>
+                        <th
+                          key="5"
+                          className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
                         >
                           Jersey Number
                         </th>
@@ -290,6 +304,43 @@ const Matchup = () => {
                                 {player.firstName} {player.lastName}
                               </Link>
                             </div>
+                          </td>
+                          <td className="">
+                            3
+                          </td>
+                          <td className="">
+                            <Input
+                              key={index}
+                              className="w-[50px] rounded-default bg-transparent border-none text-center"
+                              type="number"
+                              value={homeInputValues[index]?.points || 0}
+                              onChange={(e) =>
+                                handleHomeInputChange(
+                                  index,
+                                  player.id,
+                                  matchId,
+                                  match?.homeTeamId,
+                                  e.target.value
+                                )
+                              }
+                            ></Input>
+                          </td>
+                          <td className="">
+                            <Input
+                              key={index}
+                              className="w-[50px] rounded-default bg-transparent border-none text-center"
+                              type="number"
+                              value={homeInputValues[index]?.points || 0}
+                              onChange={(e) =>
+                                handleHomeInputChange(
+                                  index,
+                                  player.id,
+                                  matchId,
+                                  match?.homeTeamId,
+                                  e.target.value
+                                )
+                              }
+                            ></Input>
                           </td>
                           <td className="">
                             <Input
@@ -356,19 +407,37 @@ const Matchup = () => {
                       <tr>
                         <th
                           key="1"
-                          className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray"
+                          className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
                         >
                           Player
                         </th>
                         <th
                           key="2"
-                          className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray"
+                          className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
                         >
                           Points
                         </th>
                         <th
                           key="3"
-                          className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray"
+                          className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
+                        >
+                          3 Points
+                        </th>
+                        <th
+                          key="4"
+                          className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
+                        >
+                          2 Points
+                        </th>
+                        <th
+                          key="5"
+                          className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
+                        >
+                          1 Points
+                        </th>
+                        <th
+                          key="5"
+                          className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
                         >
                           Jersey Number
                         </th>
@@ -393,6 +462,43 @@ const Matchup = () => {
                                 {player.firstName} {player.lastName}
                               </Link>
                             </div>
+                          </td>
+                          <td className="">
+                            5
+                          </td>
+                          <td className="">
+                            <Input
+                              key={index}
+                              className="w-[50px] rounded-default bg-transparent border-none text-center"
+                              type="number"
+                              value={awayInputValues[index]?.points || 0}
+                              onChange={(e) =>
+                                handleAwayInputChange(
+                                  index,
+                                  player.id,
+                                  matchId,
+                                  match?.awayTeamId,
+                                  e.target.value
+                                )
+                              }
+                            ></Input>
+                          </td>
+                          <td className="">
+                            <Input
+                              key={index}
+                              className="w-[50px] rounded-default bg-transparent border-none text-center"
+                              type="number"
+                              value={awayInputValues[index]?.points || 0}
+                              onChange={(e) =>
+                                handleAwayInputChange(
+                                  index,
+                                  player.id,
+                                  matchId,
+                                  match?.awayTeamId,
+                                  e.target.value
+                                )
+                              }
+                            ></Input>
                           </td>
                           <td className="">
                             <Input

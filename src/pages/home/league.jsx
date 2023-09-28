@@ -98,23 +98,6 @@ const League = () => {
   const [waitItemChecked, setWaitItemChecked] = useState({});
   const [acceptedItemChecked, setAcceptedItemChecked] = useState({});
 
-  const [isAllowedFan, setIsAllowedFan] = useState(!!league?.setIsAllowedFan);
-  useEffect(() => {
-    setIsAllowedFan(league?.isAllowedFan);
-  }, [league]);
-
-  const toggleFan = () => {
-    axios
-      .post(apis.allowFan, { leagueId: leagueId, status: !isAllowedFan })
-      .then((res) => {
-        actions.getLeagues(dispatch);
-        setIsAllowedFan(!isAllowedFan);
-      })
-      .catch((error) => {
-        alert(error.response.data.message);
-      });
-  };
-
   const handleCategory = (data) => {
     navigate(`/league/${leagueId}?tab=${data}`);
     setWaitListKeyword("");
@@ -184,6 +167,7 @@ const League = () => {
     setFilteredAcceptListPlayers(acceptedPlayers);
     setFilteredPlayers(players);
   }, [players.length, waitListPlayers.length, acceptedPlayers.length]);
+
 
   useEffect(() => {
     const searchResult = waitListPlayers.filter((player) =>
@@ -289,6 +273,18 @@ const League = () => {
   const [chosenFile, setChosenFile] = useState();
   const [previewURL, setPreviewURL] = useState("");
 
+  const [isAllowedFan, setIsAllowedFan] = useState("");
+  const [displayPoints, setDisplayPoints] = useState("");
+  const [displayLeagueId, setDisplayLeagueId] = useState("");
+  const [displayPosition, setDisplayPosition] = useState("");
+  const [requirePassword, setRequirePassword] = useState("");
+  useEffect(() => {
+    setIsAllowedFan(league?.isAllowedFan);
+    setDisplayLeagueId(league?.displayLeagueId);
+    setDisplayPosition(league?.displayPosition);
+    setRequirePassword(league?.requirePassword);
+  }, [league]);
+
   const editLeague = () => {
     const formData = new FormData();
     formData.append("id", leagueId);
@@ -304,6 +300,78 @@ const League = () => {
       actions.getLeagues(dispatch);
       alert(res.data.message);
     });
+  };
+
+  const toggleFan = () => {
+    axios
+      .post(apis.allowFan, { leagueId: leagueId, status: !isAllowedFan })
+      .then((res) => {
+        actions.getLeagues(dispatch);
+        actions.getPlayers(dispatch);
+        actions.getMatches(dispatch);
+        actions.getMatchups(dispatch);
+        setIsAllowedFan(!isAllowedFan);
+      })
+      .catch((error) => {
+        alert(error.response.data.message);
+      });
+  };
+
+
+  const toggleLeagueId = () => {
+    console.log("displayLeagueId", displayLeagueId);
+    axios
+      .post(apis.toggleLeagueId, {
+        leagueId: leagueId,
+        status: !displayLeagueId,
+      })
+      .then((res) => {
+        actions.getLeagues(dispatch);
+        actions.getPlayers(dispatch);
+        actions.getMatches(dispatch);
+        actions.getMatchups(dispatch);
+        setDisplayLeagueId(!displayLeagueId);
+      })
+      .catch((error) => {
+        alert(error.response.data.message);
+      });
+  };
+
+  const togglePosition = () => {
+    axios
+      .post(apis.togglePosition, {
+        leagueId: leagueId,
+        status: !displayPosition,
+      })
+      .then((res) => {
+        actions.getLeagues(dispatch);
+        actions.getPlayers(dispatch);
+        actions.getMatches(dispatch);
+        actions.getMatchups(dispatch);
+        setDisplayPosition(!displayPosition);
+      })
+      .catch((error) => {
+        alert(error.response.data.message);
+      });
+  };
+
+  const togglePassword = () => {
+    console.timeLog("password");
+    axios
+      .post(apis.togglePassword, {
+        leagueId: leagueId,
+        status: !requirePassword,
+      })
+      .then((res) => {
+        actions.getLeagues(dispatch);
+        actions.getPlayers(dispatch);
+        actions.getMatches(dispatch);
+        actions.getMatchups(dispatch);
+        setRequirePassword(!requirePassword);
+      })
+      .catch((error) => {
+        alert(error.response.data.message);
+      });
   };
 
   const deleteLeague = () => {
@@ -731,7 +799,7 @@ const League = () => {
                   </Select>
                 </div>
                 {filteredPlayers.length > 0 ? (
-                  <PlayerTable players={filteredPlayers}></PlayerTable>
+                  <PlayerTable players={filteredPlayers} league={league}></PlayerTable>
                 ) : (
                   <div className="flex items-center flex-grow">
                     <p className="text-2xl text-black dark:text-white w-full text-center">
@@ -837,10 +905,10 @@ const League = () => {
                         Display League ID
                       </p>
                       <img
-                        src={isAllowedFan ? toggleOn : toggleOff}
+                        src={displayLeagueId ? toggleOn : toggleOff}
                         alt=""
                         className="w-8 cursor-pointer"
-                        // onClick={toggleLeagueId}
+                        onClick={toggleLeagueId}
                       />
                     </div>
                     <div className="flex">
@@ -848,21 +916,10 @@ const League = () => {
                         Display Position
                       </p>
                       <img
-                        src={isAllowedFan ? toggleOn : toggleOff}
+                        src={displayPosition ? toggleOn : toggleOff}
                         alt=""
                         className="w-8 cursor-pointer"
-                        // onClick={togglePosition}
-                      />
-                    </div>
-                    <div className="flex">
-                      <p className="text-xs dark:text-white text-black">
-                        Enable New Application
-                      </p>
-                      <img
-                        src={isAllowedFan ? toggleOn : toggleOff}
-                        alt=""
-                        className="w-8 cursor-pointer"
-                        // onClick={toggleNewApplication}
+                        onClick={togglePosition}
                       />
                     </div>
                     <div className="flex">
@@ -870,13 +927,14 @@ const League = () => {
                         Require Passowrd to Apply
                       </p>
                       <img
-                        src={isAllowedFan ? toggleOn : toggleOff}
+                        src={requirePassword ? toggleOn : toggleOff}
                         alt=""
                         className="w-8 cursor-pointer"
-                        // onClick={toggleFan}
+                        onClick={togglePassword}
                       />
                     </div>
                   </div>
+
                   <div className="flex flex-col space-y-3 items-center">
                     <div className="flex">
                       <p className="text-xs dark:text-white text-black">

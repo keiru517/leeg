@@ -6,8 +6,8 @@ import { useSelector } from "react-redux";
 
 const Player = (props) => {
   // const { teams } = props;
-  const { players } = props;
-  const columns = ["Player", "Jersery Number", "Points", "Team"];
+  const { players, league } = props;
+  const columns = league?.displayPosition? ["Player", "Jersery Number","Position",  "Points", "Team"]:["Player", "Jersery Number", "Points", "Team"]
   const teams = useSelector((state) => state.home.teams);
   const matchups = useSelector((state) => state.home.matchups);
 
@@ -46,7 +46,7 @@ const Player = (props) => {
                   key={idx}
                   className="odd:bg-light-dark-gray dark:odd:bg-dark-gray even:bg-light-charcoal dark:even:bg-charcoal h-[53px]"
                 >
-                  <td className="w-1/4">
+                  <td className="w-1/10">
                     <Typography
                       variant="small"
                       color="blue-gray"
@@ -62,7 +62,7 @@ const Player = (props) => {
                       </Link>
                     </Typography>
                   </td>
-                  <td className="w-1/4">
+                  <td className="w-1/10">
                     <Typography
                       variant="small"
                       color="blue-gray"
@@ -71,7 +71,19 @@ const Player = (props) => {
                       {player?.jerseyNumber}
                     </Typography>
                   </td>
-                  <td className="w-1/4">
+                  {
+                    league?.displayPosition &&
+                  <td className="w-1/10">
+                    <Typography
+                      variant="small"
+                      color="blue-gray"
+                      className="font-normal"
+                    >
+                      {player?.position}
+                    </Typography>
+                  </td>
+                  }
+                  <td className="w-1/10">
                     <Typography
                       variant="small"
                       color="blue-gray"

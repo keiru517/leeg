@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import Option from "../Option";
 import * as actions from "../../actions";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import apis from "../../utils/apis";
 import Input from "../Input";
@@ -14,6 +14,12 @@ import { useState } from "react";
 const TeamTable = (props) => {
   const { data } = props;
   const { leagueId, teamId } = useParams();
+
+  const league = useSelector((state) => state.home.leagues).find(
+    (league) => league.id == leagueId
+  );
+
+  console.log(league?.displayPosition)
 
   const dispatch = useDispatch();
 
@@ -72,8 +78,24 @@ const TeamTable = (props) => {
                 Jersey Number
               </Typography>
             </th>
+            {league?.displayPosition ? (
+              <th
+                key="3"
+                className="h-button bg-light-charcoal dark:bg-slate text-center w-1/3"
+              >
+                <Typography
+                  variant="small"
+                  color="blue-gray"
+                  className="font-normal leading-none opacity-70"
+                >
+                  Position
+                </Typography>
+              </th>
+            ) : (
+              ""
+            )}
             <th
-              key="3"
+              key="4"
               className="h-button bg-light-charcoal dark:bg-slate text-center w-1/3"
             >
               <Typography
@@ -88,7 +110,10 @@ const TeamTable = (props) => {
         </thead>
         <tbody className="text-center">
           {data.map((player, idx) => (
-            <tr key={idx} className="odd:bg-light-dark-gray dark:odd:bg-dark-gray even:bg-light-charcoal dark:even:bg-charcoal">
+            <tr
+              key={idx}
+              className="odd:bg-light-dark-gray dark:odd:bg-dark-gray even:bg-light-charcoal dark:even:bg-charcoal"
+            >
               <td className="">
                 <div className="flex items-center justify-between px-8">
                   <img
@@ -116,6 +141,19 @@ const TeamTable = (props) => {
                   {player.jerseyNumber}
                 </Typography>
               </td>
+
+              {league?.displayPosition && (
+                <td className="">
+                  <Typography
+                    variant="small"
+                    color="blue-gray"
+                    className="font-normal"
+                  >
+                    {player.position}
+                  </Typography>
+                </td>
+              )}
+
               <td>
                 <Option
                   options={options}

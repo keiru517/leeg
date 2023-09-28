@@ -13,7 +13,7 @@ const MatchTable = (props) => {
   // let { leagueId} = useParams();
   const user = useSelector((state) => state.home.user);
   const league = useSelector((state) => state.home.leagues).find(
-    (league) => league.id == leagueId
+    (league) => league.id == leagueId && league.isDeleted !== 1
   );
 
   var columns = [];
