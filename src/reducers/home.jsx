@@ -37,7 +37,7 @@ const initialState = {
   },
   substitute_dialog: {
     open: false,
-    type: "",
+    id: "",
   },
 };
 
@@ -235,6 +235,7 @@ const home = (state = initialState, action) => {
         ...state,
         substitute_dialog: {
           open: true,
+          id: action.payload
         },
       };
 

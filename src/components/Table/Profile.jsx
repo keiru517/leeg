@@ -19,8 +19,7 @@ const Profile = (props) => {
     (player) =>
       player.userId == userId &&
       player.leagueId == leagueId &&
-      player?.teamId !== 0 &&
-      player?.isDeleted !== 1
+      player?.teamId !== 0 
   );
 
   const matches = useSelector((state) => state.home.matches).filter(
@@ -67,7 +66,7 @@ const Profile = (props) => {
               if (match) { */}
           {matches.map((match, idx) => {
             const points = matchups.find(
-              (matchup) => matchup.playerId == player?.id
+              (matchup) => matchup.playerId == player?.id && matchup.matchId == match.id
             )?.points;
             return (
               <tr
@@ -132,7 +131,7 @@ const Profile = (props) => {
                     color="blue-gray"
                     className="font-normal"
                   >
-                    {points}
+                    {points?points:0}
                   </Typography>
                 </td>
                 <td className="w-1/5">
@@ -141,7 +140,7 @@ const Profile = (props) => {
                     color="blue-gray"
                     className="font-normal"
                   >
-                    {match?.result}
+                    {match?.homeTeamPoints} : {match?.awayTeamPoints}
                   </Typography>
                 </td>
               </tr>

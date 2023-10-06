@@ -62,6 +62,11 @@ const League = () => {
   const players = useSelector((state) => state.home.players).filter(
     (player) => player.leagueId == leagueId && player.isDeleted !== 1
   );
+  // this is used for Players tab
+  const allPlayers = useSelector((state) => state.home.players).filter(
+    (player) => player.leagueId == leagueId && player.isAcceptedList === 1
+  );
+
   const matches = useSelector((state) => state.home.matches).filter(
     (match) => match.leagueId == leagueId
   );
@@ -165,8 +170,8 @@ const League = () => {
   useEffect(() => {
     setFilteredWaitListPlayers(waitListPlayers);
     setFilteredAcceptListPlayers(acceptedPlayers);
-    setFilteredPlayers(players);
-  }, [players.length, waitListPlayers.length, acceptedPlayers.length]);
+    setFilteredPlayers(allPlayers);
+  }, [players.length, waitListPlayers.length, acceptedPlayers.length, allPlayers.length]);
 
 
   useEffect(() => {
@@ -210,9 +215,8 @@ const League = () => {
 
   // Players
   useEffect(() => {
-    const searchResult = players.filter(
+    const searchResult = allPlayers.filter(
       (player) =>
-        player.teamId !== 0 &&
         (player.firstName + player.lastName)
           .toLowerCase()
           .includes(playerKeyword.toLowerCase())

@@ -74,7 +74,7 @@ const MatchTable = (props) => {
         <tbody className="text-center">
           {matches.map(
             (
-              { id, date, location, homeTeamId, awayTeamId, time, result },
+              { id, date, location, homeTeamId, awayTeamId, time, homeTeamPoints, awayTeamPoints },
               index
             ) => (
               // <tr onClick={()=>goToMatchup(id)} key={index} className="odd:bg-dark-gray even:bg-charcoal  hover:opacity-70">
@@ -182,7 +182,7 @@ const MatchTable = (props) => {
                     color="blue-gray"
                     className="font-normal"
                   >
-                    {result}
+                    {homeTeamPoints} : {awayTeamPoints}
                   </Typography>
                 </td>
                 {league?.userId == user?.id ? (

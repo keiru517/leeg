@@ -334,7 +334,7 @@ const TeamModal = () => {
                             icon={search}
                             placeholder="Search Players"
                           />
-                          <div className="overflow-y-auto">
+                          <div className="overflow-y-auto h-[260px]">
                             {players.map((player, idx) => (
                               <PlayerList
                                 key={idx}

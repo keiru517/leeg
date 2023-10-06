@@ -45,14 +45,17 @@ export const apis = {
   // matchup
   getMatchups: apiUrl + "/matchup/all",
   createMatchup: apiUrl + "/matchup/create",
+  createOneMatchup: apiUrl + "/matchup/createOne",
+  updateMatchup: apiUrl + "/matchup/update",
   // player
   getPlayers: apiUrl + "/player/all",
   createPlayer: apiUrl + "/player/create",
   updatePlayer: apiUrl + "/player/update",
-  removePlayer: apiUrl + "/player/remove",
+  removePlayerFromTeam: apiUrl + "/player/removeFromTeam",
   acceptPlayer: apiUrl + "/player/accept",
   unacceptPlayer: apiUrl + "/player/unaccept",
   addPlayer: apiUrl + "/player/add",
+  updatePoints: apiUrl + "/player/updatePoints",
   // admin
   getAdmins: apiUrl + '/admin/all',
   inviteAdmin: apiUrl + '/admin/invite',

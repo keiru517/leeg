@@ -38,73 +38,193 @@ const Matchup = () => {
     (match) => match.id == matchId
   );
 
-  const matchups = useSelector((state) => state.home.matchups);
+  const matchups = useSelector((state) => state.home.matchups).filter(
+    (matchup) => matchup.matchId == matchId
+  );
 
   const homeTeam = useSelector((state) => state.home.teams).find(
     (team) => team.id == match?.homeTeamId
   );
+  // const homeTeamPlayers = useSelector((state) => state.home.players).filter(
+  //   (player) => player.teamId == match?.homeTeamId
+  // );
+  const homePlayers = useSelector((state) => state.home.players)
+    .filter(
+      (player) => player.teamId == match?.homeTeamId
+    )
+    .map((player) => {
+      return { ...player, points: 0, points3: 0, points2: 0, points1: 0 };
+    });
 
-  const homeTeamPlayers = useSelector((state) => state.home.players).filter(
-    (player) => player.teamId == match?.homeTeamId
-  );
+  const homeTeamMatchups = useSelector((state) => state.home.matchups)
+    .filter(
+      (matchup) => matchup.matchId == matchId && matchup.teamId == homeTeam.id
+    )
+    .map(({ player, points, points3, points2, points1 }) => {
+      return { ...player, points, points3, points2, points1 };
+    });
 
-  const homeTeamMatchups = useSelector((state) => state.home.matchups).filter(
-    (matchup) => matchup.matchId == matchId && matchup.teamId == homeTeam.id
-  );
+  const homeTeamPlayers = match?.isNew ? homePlayers : homeTeamMatchups;
 
   const awayTeam = useSelector((state) => state.home.teams).find(
     (team) => team.id == match?.awayTeamId
   );
+  // const awayTeamPlayers = useSelector((state) => state.home.players).filter(
+  //   (player) => player.teamId == match?.awayTeamId
+  // );
+  const awayPlayers = useSelector((state) => state.home.players)
+    .filter(
+      (player) => player.teamId == match?.awayTeamId
+    )
+    .map((player) => {
+      return { ...player, points: 0, points3: 0, points2: 0, points1: 0 };
+    });
 
-  const awayTeamPlayers = useSelector((state) => state.home.players).filter(
-    (player) => player.teamId == match?.awayTeamId
-  );
-
-  const awayTeamMatchups = useSelector((state) => state.home.matchups).filter(
-    (matchup) => matchup.matchId == matchId && matchup.teamId == awayTeam.id
-  );
+  const awayTeamMatchups = useSelector((state) => state.home.matchups)
+    .filter(
+      (matchup) => matchup.matchId == matchId && matchup.teamId == awayTeam.id
+    )
+    .map(({ player, points, points3, points2, points1 }) => {
+      return { ...player, points, points3, points2, points1 };
+    });
+  const awayTeamPlayers = match?.isNew ? awayPlayers : awayTeamMatchups;
 
   const options = ["Ascend", "Descend", "Recent"];
   const [value, setValue] = useState("Sort by");
 
-  const handleAddSubstitute = () => {
-    dispatch({ type: actions.OPEN_ADD_SUBSTITUTE_DIALOG });
+  const handleAddSubstitute = (id) => {
+    dispatch({ type: actions.OPEN_ADD_SUBSTITUTE_DIALOG , payload: id});
   };
 
   const [homeInputValues, setHomeInputValues] = useState(homeTeamMatchups);
 
-  const handleHomeInputChange = (index, playerId, matchId, teamId, points) => {
-    console.log("Home", index, playerId, matchId, teamId, points)
-    let temp = { ...homeInputValues };
-    temp[index] = { playerId, matchId, teamId, points };
-    setHomeInputValues(temp);
+  // const handleHomeInputChange = (index, playerId, matchId, teamId, points) => {
+  //   console.log("Home", index, playerId, matchId, teamId, points);
+  //   let temp = { ...homeInputValues };
+  //   temp[index] = { playerId, matchId, teamId, points };
+  //   setHomeInputValues(temp);
+  // };
+
+  const [homeInput, setHomeInput] = useState([]);
+  const [awayInput, setAwayInput] = useState([]);
+
+  useEffect(() => {
+    console.log("homeTeamPlayers log", homeTeamMatchups);
+    // setHomeInput(homeTeamMatchups);
+    // setAwayInput(awayTeamMatchups);
+    setHomeInput(homeTeamPlayers);
+    setAwayInput(awayTeamPlayers);
+  }, [
+    homeTeamMatchups.length,
+    awayTeamMatchups.length,
+    homeTeamPlayers.length,
+    awayTeamPlayers.length,
+  ]);
+
+  const handleHomePoints3Change = (index, points3) => {
+    let temp = { ...homeInput };
+    temp[index] = {
+      ...temp[index],
+      points3: Number(points3),
+      points: temp[index].points + 3 * (Number(points3) - temp[index].points3),
+      // points: match?.isNew? temp[index].points || 0 + 3 * Number(points3):temp[index].points || 0 + 3 * (Number(points3) - temp[index].points3),
+    };
+    console.log("home temp", temp);
+    setHomeInput(temp);
+  };
+
+  const handleHomePoints2Change = (index, points2) => {
+    let temp = { ...homeInput };
+    temp[index] = {
+      ...temp[index],
+      points2: Number(points2),
+      points: temp[index].points + 2 * (Number(points2) - temp[index].points2),
+      // points: match?.isNew? temp[index].points || 0 + 2 * Number(points2):temp[index].points + 2 * (Number(points2) - temp[index].points2),
+    };
+    setHomeInput(temp);
+  };
+
+  const handleHomePoints1Change = (index, points1) => {
+    let temp = { ...homeInput };
+    temp[index] = {
+      ...temp[index],
+      points1: Number(points1),
+      points: temp[index].points + 1 * (Number(points1) - temp[index].points1),
+      // points: match?.isNew? temp[index].points || 0 + 1 * Number(points1):temp[index].points + 1 * (Number(points1) - temp[index].points1),
+    };
+    setHomeInput(temp);
+  };
+
+  const handleAwayPoints3Change = (index, points3) => {
+    let temp = { ...awayInput };
+    temp[index] = {
+      ...temp[index],
+      points3: Number(points3),
+      points: temp[index].points + 3 * (Number(points3) - temp[index].points3),
+    };
+    setAwayInput(temp);
+  };
+
+  const handleAwayPoints2Change = (index, points2) => {
+    let temp = { ...awayInput };
+    temp[index] = {
+      ...temp[index],
+      points2: Number(points2),
+      points: temp[index].points + 2 * (Number(points2) - temp[index].points2),
+    };
+    setAwayInput(temp);
+  };
+
+  const handleAwayPoints1Change = (index, points1) => {
+    let temp = { ...awayInput };
+    temp[index] = {
+      ...temp[index],
+      points1: Number(points1),
+      points: temp[index].points + 1 * (Number(points1) - temp[index].points1),
+    };
+    setAwayInput(temp);
   };
 
   const [awayInputValues, setAwayInputValues] = useState(awayTeamMatchups);
 
-  const handleAwayInputChange = (index, playerId, matchId, teamId, points) => {
-    let temp = { ...awayInputValues };
-    temp[index] = { playerId, matchId, teamId, points };
-    setAwayInputValues(temp);
-  };
+  // const handleAwayInputChange = (index, playerId, matchId, teamId, points) => {
+  //   let temp = { ...awayInputValues };
+  //   temp[index] = { playerId, matchId, teamId, points };
+  //   setAwayInputValues(temp);
+  // };
 
   const [matchupResult, setMatchupResult] = useState([]);
   // const [mergedObject, setMergedObject] = useState({});
 
   useEffect(() => {
-    console.log(homeInputValues);
-    console.log(awayInputValues);
+    console.log("asdf", homeInput);
+    console.log("asdf", awayInput);
 
     let homeTeamPoints = 0;
-    Object.keys(homeInputValues).map((id) => {
-      homeTeamPoints += Number(homeInputValues[id].points);
+    Object.keys(homeInput).map((id) => {
+      homeTeamPoints += Number(homeInput[id].points);
     });
     let awayTeamPoints = 0;
-    Object.keys(awayInputValues).map((id) => {
-      awayTeamPoints += Number(awayInputValues[id].points);
+    Object.keys(awayInput).map((id) => {
+      awayTeamPoints += Number(awayInput[id].points);
     });
     setMatchupResult([homeTeamPoints, awayTeamPoints]);
-  }, [homeInputValues, awayInputValues]);
+  }, [homeInput, awayInput]);
+
+  // useEffect(() => {
+  //   console.log(homeInputValues);
+  //   console.log(awayInputValues);
+
+  //   let homeTeamPoints = 0;
+  //   Object.keys(homeInputValues).map((id) => {
+  //     homeTeamPoints += Number(homeInputValues[id].points);
+  //   });
+  //   let awayTeamPoints = 0;
+  //   Object.keys(awayInputValues).map((id) => {
+  //     awayTeamPoints += Number(awayInputValues[id].points);
+  //   });
+  //   setMatchupResult([homeTeamPoints, awayTeamPoints]);
+  // }, [homeInputValues, awayInputValues]);
   // }, [matchups]);
 
   useEffect(() => {
@@ -121,15 +241,31 @@ const Matchup = () => {
         actions.getTeams(dispatch);
         actions.getMatches(dispatch);
         actions.getMatchups(dispatch);
+        actions.getPlayers(dispatch);
       })
       .catch((error) => console.log(error.response.data.message));
+
+    // axios
+    //   .post(apis.updateMatchup, {
+    //     matchId: matchId,
+    //     // data: mergedObject,
+    //     homeInputValues: homeInput,
+    //     awayInputValues: awayInput,
+    //   })
+    //   .then((res) => {
+    //     actions.getTeams(dispatch);
+    //     actions.getMatches(dispatch);
+    //     actions.getMatchups(dispatch);
+    //     actions.getPlayers(dispatch);
+    //     alert(res.data.message);
+    //   })
+    //   .catch((error) => console.log(error.response.data.message));
 
     axios
       .post(apis.createMatchup, {
         matchId: matchId,
-        // data: mergedObject,
-        homeInputValues: homeInputValues,
-        awayInputValues: awayInputValues,
+        homeInputValues: homeInput,
+        awayInputValues: awayInput,
       })
       .then((res) => {
         actions.getMatches(dispatch);
@@ -185,6 +321,7 @@ const Matchup = () => {
               {match?.status}
             </p>
             <p className="text-black dark:text-white text-[56px] my-2">
+              {/* {match?.homeTeamPoints}:{match?.awayTeamPoints} */}
               {matchupResult[0]}:{matchupResult[1]}
             </p>
             <p className="text-black dark:text-white text-sm">{match?.date}</p>
@@ -239,9 +376,16 @@ const Matchup = () => {
                   {homeTeam?.waitlist}/{homeTeam?.max}
                 </p>
               </div>
+              <div
+                onClick={() => handleAddSubstitute(match?.homeTeamId)}
+                className="flex items-center space-x-2 text-sky-500 text-sm cursor-pointer hover:opacity-70"
+              >
+                + Substitute
+              </div>
             </div>
 
             <div className="flex flex-grow items-center">
+              {/* {homeTeamMatchups.length > 0 ? ( */}
               {homeTeamPlayers.length > 0 ? (
                 <div className="text-black dark:text-white h-full w-full">
                   <table className="w-full text-left">
@@ -278,7 +422,7 @@ const Matchup = () => {
                           1 Points
                         </th>
                         <th
-                          key="5"
+                          key="6"
                           className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
                         >
                           Jersey Number
@@ -286,6 +430,68 @@ const Matchup = () => {
                       </tr>
                     </thead>
                     <tbody className="text-center">
+                      {/* {homeTeamMatchups.map((matchup, index) => {
+                        const player = homeTeamPlayers.find(
+                          (player) => player.id == matchup.playerId
+                        );
+
+                        return (
+                          <tr
+                            key={index}
+                            className="odd:bg-light-dark-gray dark:odd:bg-dark-gray even:bg-light-charcoal dark:even:bg-charcoal"
+                          >
+                            <td className="">
+                              <div className="flex items-center underline justify-between px-3">
+                                <img
+                                  src={player?.avatar}
+                                  alt=""
+                                  className="w-8 h-8 mr-2 rounded-default"
+                                />
+                                <Link
+                                  to={`/league/${leagueId}/player/${player?.userId}`}
+                                >
+                                  {player?.firstName} {player?.lastName}
+                                </Link>
+                              </div>
+                            </td>
+                            <td className="">{homeInput[index]?.points}</td>
+                            <td className="">
+                              <Input
+                                key={index}
+                                className="w-[50px] rounded-default bg-transparent border-none text-center"
+                                type="number"
+                                value={homeInput[index]?.points3 || 0}
+                                onChange={(e) =>
+                                  handleHomePoints3Change(index, e.target.value)
+                                }
+                              ></Input>
+                            </td>
+                            <td className="">
+                              <Input
+                                key={index}
+                                className="w-[50px] rounded-default bg-transparent border-none text-center"
+                                type="number"
+                                value={homeInput[index]?.points2 || 0}
+                                onChange={(e) =>
+                                  handleHomePoints2Change(index, e.target.value)
+                                }
+                              ></Input>
+                            </td>
+                            <td className="">
+                              <Input
+                                key={index}
+                                className="w-[50px] rounded-default bg-transparent border-none text-center"
+                                type="number"
+                                value={homeInput[index]?.points1 || 0}
+                                onChange={(e) =>
+                                  handleHomePoints1Change(index, e.target.value)
+                                }
+                              ></Input>
+                            </td>
+                            <td className="">{player?.jerseyNumber}</td>
+                          </tr>
+                        );
+                      })} */}
                       {homeTeamPlayers.map((player, index) => (
                         <tr
                           key={index}
@@ -305,23 +511,15 @@ const Matchup = () => {
                               </Link>
                             </div>
                           </td>
-                          <td className="">
-                            3
-                          </td>
+                          <td className="">{homeInput[index]?.points || 0}</td>
                           <td className="">
                             <Input
                               key={index}
                               className="w-[50px] rounded-default bg-transparent border-none text-center"
                               type="number"
-                              value={homeInputValues[index]?.points || 0}
+                              value={homeInput[index]?.points3 || 0}
                               onChange={(e) =>
-                                handleHomeInputChange(
-                                  index,
-                                  player.id,
-                                  matchId,
-                                  match?.homeTeamId,
-                                  e.target.value
-                                )
+                                handleHomePoints3Change(index, e.target.value)
                               }
                             ></Input>
                           </td>
@@ -330,15 +528,9 @@ const Matchup = () => {
                               key={index}
                               className="w-[50px] rounded-default bg-transparent border-none text-center"
                               type="number"
-                              value={homeInputValues[index]?.points || 0}
+                              value={homeInput[index]?.points2 || 0}
                               onChange={(e) =>
-                                handleHomeInputChange(
-                                  index,
-                                  player.id,
-                                  matchId,
-                                  match?.homeTeamId,
-                                  e.target.value
-                                )
+                                handleHomePoints2Change(index, e.target.value)
                               }
                             ></Input>
                           </td>
@@ -347,15 +539,9 @@ const Matchup = () => {
                               key={index}
                               className="w-[50px] rounded-default bg-transparent border-none text-center"
                               type="number"
-                              value={homeInputValues[index]?.points || 0}
+                              value={homeInput[index]?.points1 || 0}
                               onChange={(e) =>
-                                handleHomeInputChange(
-                                  index,
-                                  player.id,
-                                  matchId,
-                                  match?.homeTeamId,
-                                  e.target.value
-                                )
+                                handleHomePoints1Change(index, e.target.value)
                               }
                             ></Input>
                           </td>
@@ -373,7 +559,6 @@ const Matchup = () => {
                 </div>
               )}
             </div>
-            <SubstituteModal id={match?.homeTeamId}></SubstituteModal>
           </div>
           <div className="flex flex-col overflow-y-auto rounded-default h-[350px] bg-light-charcoal dark:bg-dark-gray transition ease-in-out delay-150 duration-200 w-full">
             <div className="flex justify-between h-button bg-light-dark-gray dark:bg-charcoal rounded-t-default p-4">
@@ -392,7 +577,7 @@ const Matchup = () => {
                 </p>
               </div>
               <div
-                onClick={handleAddSubstitute}
+                onClick={() => handleAddSubstitute(match?.awayTeamId)}
                 className="flex items-center space-x-2 text-sky-500 text-sm cursor-pointer hover:opacity-70"
               >
                 + Substitute
@@ -400,6 +585,7 @@ const Matchup = () => {
             </div>
 
             <div className="flex flex-grow items-center">
+              {/* {awayTeamMatchups.length > 0 ? ( */}
               {awayTeamPlayers.length > 0 ? (
                 <div className="text-black dark:text-white h-full w-full">
                   <table className="w-full table-auto text-left">
@@ -436,7 +622,7 @@ const Matchup = () => {
                           1 Points
                         </th>
                         <th
-                          key="5"
+                          key="6"
                           className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
                         >
                           Jersey Number
@@ -444,6 +630,68 @@ const Matchup = () => {
                       </tr>
                     </thead>
                     <tbody className="text-center">
+                      {/* {awayTeamMatchups.map((matchup, index) => {
+                        const player = awayTeamPlayers.find(
+                          (player) => player.id == matchup.playerId
+                        );
+
+                        return (
+                          <tr
+                            key={index}
+                            className="odd:bg-light-dark-gray dark:odd:bg-dark-gray even:bg-light-charcoal dark:even:bg-charcoal"
+                          >
+                            <td className="">
+                              <div className="flex items-center underline justify-between px-3">
+                                <img
+                                  src={player?.avatar}
+                                  alt=""
+                                  className="w-8 h-8 mr-2 rounded-default"
+                                />
+                                <Link
+                                  to={`/league/${leagueId}/player/${player?.userId}`}
+                                >
+                                  {player?.firstName} {player?.lastName}
+                                </Link>
+                              </div>
+                            </td>
+                            <td className="">{awayInput[index]?.points}</td>
+                            <td className="">
+                              <Input
+                                key={index}
+                                className="w-[50px] rounded-default bg-transparent border-none text-center"
+                                type="number"
+                                value={awayInput[index]?.points3 || 0}
+                                onChange={(e) =>
+                                  handleAwayPoints3Change(index, e.target.value)
+                                }
+                              ></Input>
+                            </td>
+                            <td className="">
+                              <Input
+                                key={index}
+                                className="w-[50px] rounded-default bg-transparent border-none text-center"
+                                type="number"
+                                value={awayInput[index]?.points2 || 0}
+                                onChange={(e) =>
+                                  handleAwayPoints2Change(index, e.target.value)
+                                }
+                              ></Input>
+                            </td>
+                            <td className="">
+                              <Input
+                                key={index}
+                                className="w-[50px] rounded-default bg-transparent border-none text-center"
+                                type="number"
+                                value={awayInput[index]?.points1 || 0}
+                                onChange={(e) =>
+                                  handleAwayPoints1Change(index, e.target.value)
+                                }
+                              ></Input>
+                            </td>
+                            <td className="">{player?.jerseyNumber}</td>
+                          </tr>
+                        );
+                      })} */}
                       {awayTeamPlayers.map((player, index) => (
                         <tr
                           key={index}
@@ -463,23 +711,15 @@ const Matchup = () => {
                               </Link>
                             </div>
                           </td>
-                          <td className="">
-                            5
-                          </td>
+                          <td className="">{awayInput[index]?.points || 0}</td>
                           <td className="">
                             <Input
                               key={index}
                               className="w-[50px] rounded-default bg-transparent border-none text-center"
                               type="number"
-                              value={awayInputValues[index]?.points || 0}
+                              value={awayInput[index]?.points3 || 0}
                               onChange={(e) =>
-                                handleAwayInputChange(
-                                  index,
-                                  player.id,
-                                  matchId,
-                                  match?.awayTeamId,
-                                  e.target.value
-                                )
+                                handleAwayPoints3Change(index, e.target.value)
                               }
                             ></Input>
                           </td>
@@ -488,15 +728,9 @@ const Matchup = () => {
                               key={index}
                               className="w-[50px] rounded-default bg-transparent border-none text-center"
                               type="number"
-                              value={awayInputValues[index]?.points || 0}
+                              value={awayInput[index]?.points2 || 0}
                               onChange={(e) =>
-                                handleAwayInputChange(
-                                  index,
-                                  player.id,
-                                  matchId,
-                                  match?.awayTeamId,
-                                  e.target.value
-                                )
+                                handleAwayPoints2Change(index, e.target.value)
                               }
                             ></Input>
                           </td>
@@ -505,15 +739,9 @@ const Matchup = () => {
                               key={index}
                               className="w-[50px] rounded-default bg-transparent border-none text-center"
                               type="number"
-                              value={awayInputValues[index]?.points || 0}
+                              value={awayInput[index]?.points1 || 0}
                               onChange={(e) =>
-                                handleAwayInputChange(
-                                  index,
-                                  player.id,
-                                  matchId,
-                                  match?.awayTeamId,
-                                  e.target.value
-                                )
+                                handleAwayPoints1Change(index, e.target.value)
                               }
                             ></Input>
                           </td>
@@ -531,7 +759,6 @@ const Matchup = () => {
                 </div>
               )}
             </div>
-            <SubstituteModal id={match?.awayTeamId}></SubstituteModal>
           </div>
 
           {/* <MatchCard teamId={homeTeam.id} />
@@ -539,6 +766,8 @@ const Matchup = () => {
         </div>
       </div>
       {/* <SubstituteModal /> */}
+      <SubstituteModal homeTeamPlayers={homeTeamPlayers} awayTeamPlayers={awayTeamPlayers}></SubstituteModal>
+
     </div>
     // </div>
   );

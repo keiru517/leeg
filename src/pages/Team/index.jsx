@@ -41,7 +41,7 @@ const Team = () => {
   );
 
   const players = useSelector((state) => state.home.players).filter(
-    (player) => player.teamId == teamId
+    (player) => player.teamId == teamId && player.isDeleted !== 1
   );
 
   const matchups = useSelector((state) => state.home.matchups);
@@ -135,22 +135,22 @@ const Team = () => {
                   <>
                     <hr className="h-px my-4 bg-charcoal border-0" />
                     <div className=" flex flex-col space-y-5">
-                      <p className="text-black dark:text-white text-sm font-mediim">
+                      {/* <p className="text-black dark:text-white text-sm font-mediim">
                         Team Statistics
-                      </p>
+                      </p> */}
                       <TeamStatisticsTable />
-                      <p className="text-black dark:text-white text-sm font-mediim">
+                      {/* <p className="text-black dark:text-white text-sm font-mediim">
                         Player Statistics
                       </p>
                       <Input
                         className="rounded-lg text-xs"
                         icon={search}
                         placeholder="Search Schedules"
-                      />
-                      <PlayerStatisticsTable
+                      /> */}
+                      {/* <PlayerStatisticsTable
                         players={players}
                         matchups={matchups}
-                      ></PlayerStatisticsTable>
+                      ></PlayerStatisticsTable> */}
                     </div>
                   </>
                 ) : (
@@ -173,12 +173,16 @@ const Team = () => {
                     <hr className="h-px my-4 bg-charcoal border-0" />
                     <div className=" flex flex-col space-y-5">
                       <Input
-                        className="rounded-lg"
+                        className="rounded-lg text-xs"
                         icon={search}
                         placeholder="Search Schedules"
                       />
                       <div className="flex flex-grow items-center">
-                        <TeamTable data={players}></TeamTable>:
+                        {/* <TeamTable data={players}></TeamTable> */}
+                        <PlayerStatisticsTable
+                          players={players}
+                          matchups={matchups}
+                        ></PlayerStatisticsTable>
                       </div>
                     </div>
                   </>

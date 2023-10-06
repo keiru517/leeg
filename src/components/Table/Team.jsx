@@ -38,7 +38,7 @@ const TeamTable = (props) => {
       setPlayerId(playerId);
     } else if (idx === 1) {
       axios
-        .post(apis.removePlayer, { id: playerId })
+        .post(apis.removePlayerFromTeam, { id: playerId })
         .then((res) => {
           actions.getPlayers(dispatch);
         })
