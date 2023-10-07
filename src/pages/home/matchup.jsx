@@ -376,12 +376,12 @@ const Matchup = () => {
                   {homeTeam?.waitlist}/{homeTeam?.max}
                 </p>
               </div>
-              <div
+              {/* <div
                 onClick={() => handleAddSubstitute(match?.homeTeamId)}
                 className="flex items-center space-x-2 text-sky-500 text-sm cursor-pointer hover:opacity-70"
               >
                 + Substitute
-              </div>
+              </div> */}
             </div>
 
             <div className="flex flex-grow items-center">
@@ -576,12 +576,12 @@ const Matchup = () => {
                   {awayTeam?.waitlist}/{awayTeam?.max}
                 </p>
               </div>
-              <div
+              {/* <div
                 onClick={() => handleAddSubstitute(match?.awayTeamId)}
                 className="flex items-center space-x-2 text-sky-500 text-sm cursor-pointer hover:opacity-70"
               >
                 + Substitute
-              </div>
+              </div> */}
             </div>
 
             <div className="flex flex-grow items-center">
