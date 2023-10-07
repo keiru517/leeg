@@ -64,7 +64,7 @@ export const invite: RequestHandler = async (req, res) => {
         text:
           inviter.firstName +
           ' ' +
-          inviter.lastName +
+          inviter.lastName + ' ' +
           process.env.INVITE_ADMIN_EMAIL_BODY +
           ' ' +
           league.name
