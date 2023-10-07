@@ -25,13 +25,25 @@ leagueRouter.delete('/remove/:id', LeagueController.remove);
 
 // SERVER_URL/api/league/2/logo/1
 leagueRouter.get('/:userId/logo/:id', LeagueController.getLogo);
+
 // get a league
 // SERVER_URL/api/league/info/1
 leagueRouter.get('/info/:id', LeagueController.info);
+
 // apply to a league
 // SERVER_URL/api/league/apply
 leagueRouter.post('/apply', LeagueController.apply);
+
 // Allow fan view of a league
 leagueRouter.post('/allowFan', LeagueController.allowFan);
+
+// Toggle LeagueId
+leagueRouter.post('/toggleLeagueId', LeagueController.toggleLeagueId);
+
+// Toggle Position
+leagueRouter.post('/togglePosition', LeagueController.togglePosition);
+
+// Toggle Password
+leagueRouter.post('/togglePassword', LeagueController.togglePassword);
 
 export default leagueRouter;

@@ -19,8 +19,9 @@ export default class Match extends Model<
   declare date: string;
   declare time: string;
   declare location: string;
-  declare result: string;
-  declare status: string;
+  declare homeTeamPoints: number;
+  declare awayTeamPoints: number;
+  declare isNew: boolean;
   declare isDeleted: number;
   static modelName = 'Match';
 }
@@ -53,13 +54,17 @@ Match.init(
     date: DataTypes.STRING,
     time: DataTypes.STRING,
     location: DataTypes.STRING,
-    result: {
-      type:DataTypes.STRING,
-      defaultValue: '-:-'
+    homeTeamPoints: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0
     },
-    status: {
-      type: DataTypes.STRING,
-      defaultValue: ''
+    awayTeamPoints: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0
+    },
+    isNew: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true
     }, 
     isDeleted: {
       type: DataTypes.INTEGER,

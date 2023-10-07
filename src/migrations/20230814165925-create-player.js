@@ -15,6 +15,9 @@ module.exports = {
       teamId: {
         type: Sequelize.INTEGER
       },
+      matchId: {
+        type: Sequelize.INTEGER
+      },
       userId: {
         type: Sequelize.INTEGER
       },
@@ -32,6 +35,9 @@ module.exports = {
       },
       jerseyNumber: {
         type: Sequelize.INTEGER
+      },
+      position: {
+        type: Sequelize.STRING
       },
       birthday: {
         type: Sequelize.STRING
@@ -58,6 +64,9 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       isDeleted: {
+        type: Sequelize.INTEGER
+      },
+      isSubstitute: {
         type: Sequelize.INTEGER
       },
       createdAt: {

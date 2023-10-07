@@ -46,11 +46,14 @@ module.exports = {
       location: {
         type: Sequelize.STRING
       },
-      result: {
-        type: Sequelize.STRING
+      homeTeamPoints: {
+        type: Sequelize.INTEGER
       },
-      status: {
-        type: Sequelize.STRING
+      awayTeamPoints: {
+        type: Sequelize.INTEGER
+      },
+      isNew: {
+        type: Sequelize.BOOLEAN
       },
       isDeleted: {
         type: Sequelize.INTEGER

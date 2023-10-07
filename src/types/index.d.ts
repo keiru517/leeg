@@ -23,10 +23,15 @@ export namespace Types {
     type: number; // 0 - public, 1 - private
     name: string;
     description: string;
+    leagueId: string;
     logo: string;
     startDate: string;
     endDate: string;
     isAllowedFan: boolean;
+    displayPosition: boolean;
+    displayLeagueId: boolean;
+    requirePassword: boolean;
+    password: string;
     isDeleted: number;
 
   }
@@ -60,26 +65,34 @@ export namespace Types {
     date: string;
     time: string;
     location: string;
-    result: string;
-    status: string;
+    homeTeamPoints: number;
+    awayTeamPoints: number;
+    isNew: boolean;
     isDeleted: number;
   }
   export interface T_Matchup extends T_DB {
     playerId: number;
-    matchId: string;
+    userId: number;
+    leagueId: number;
+    matchId: number;
     teamId: number;
     points: number;
+    points3: number;
+    points2: number;
+    points1: number;
     isDeleted: number;
   }
   export interface T_Player extends T_DB {
     leagueId: number;
     teamId: number;
+    matchId: number;
     userId: number;
     firstName: string;
     lastName: string;
     avatar: string;
     email: string;
     jerseyNumber: number;
+    position: string;
     birthday: string;
     country: string;
     state: string;
@@ -89,6 +102,7 @@ export namespace Types {
     isWaitList: number;
     isAcceptedList: number;
     isDeleted: number;
+    isSubstitute: number;
   }
   export interface T_Score extends T_DB {
     playerId: number;

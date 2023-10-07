@@ -17,9 +17,9 @@ adminRouter.post('/invite', AdminController.invite);
 // SERVER_URL/api/admin/update
 // adminRouter.post('/update', AdminController.update);
 
-// // delete a admin
-// // SERVER_URL/api/admin/remove/1
-// adminRouter.delete('/remove/:id', AdminController.remove);
+// delete an admin
+// SERVER_URL/api/admin/remove
+adminRouter.post('/remove', AdminController.remove);
 
 // // get a admin
 // // SERVER_URL/api/admin/info/1

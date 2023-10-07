@@ -15,12 +15,14 @@ export default class Player extends Model<
   declare id: CreationOptional<number>;
   declare leagueId: number;
   declare teamId: number;
+  declare matchId: number;
   declare userId: number;
   declare firstName: string;
   declare lastName: string;
   declare avatar: string;
   declare email: string;
   declare jerseyNumber: number;
+  declare position: string;
   declare birthday: string;
   declare country: string;
   declare state: string;
@@ -30,18 +32,21 @@ export default class Player extends Model<
   declare isWaitList: number;
   declare isAcceptedList: number;
   declare isDeleted: number
+  declare isSubstitute: number
   static modelName = 'Player';
 }
 Player.init(
   {
     leagueId: DataTypes.INTEGER,
     teamId: DataTypes.INTEGER,
+    matchId: DataTypes.INTEGER,
     userId: DataTypes.INTEGER,
     firstName: DataTypes.STRING,
     lastName: DataTypes.STRING,
     avatar: DataTypes.STRING,
     email: DataTypes.STRING,
     jerseyNumber: DataTypes.INTEGER,
+    position: DataTypes.STRING,
     birthday: DataTypes.STRING,
     country: DataTypes.STRING,
     state: DataTypes.STRING,
@@ -51,6 +56,10 @@ Player.init(
     isWaitList: DataTypes.INTEGER,
     isAcceptedList: DataTypes.INTEGER,
     isDeleted: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0
+    },
+    isSubstitute: {
       type: DataTypes.INTEGER,
       defaultValue: 0
     }

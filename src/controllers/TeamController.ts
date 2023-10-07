@@ -79,28 +79,32 @@ export const remove: RequestHandler = async (req, res) => {
 
     const promises = Object.values(players).map(async player => {
       if (player) {
-        player.isDeleted = 1;
+        player.teamId = 0;
+        player.isWaitList = 0;
+        player.isAcceptedList = 1;
         await player.save();
 
-        await Player.create({
-          leagueId: player.leagueId,
-          teamId: 0,
-          userId: player.userId,
-          firstName: player.firstName,
-          lastName: player.lastName,
-          avatar: player.avatar,
-          email: player.email,
-          jerseyNumber: 0,
-          birthday: player.birthday,
-          country: player.country,
-          state: player.state,
-          city: player.city,
-          address: player.address,
-          zipCode: player.zipCode,
-          isWaitList: player.isWaitList,
-          isAcceptedList: player.isAcceptedList,
-          isDeleted: 0,
-        });
+        // await Player.create({
+        //   leagueId: player.leagueId,
+        //   teamId: 0,
+        //   matchId: 0,
+        //   userId: player.userId,
+        //   firstName: player.firstName,
+        //   lastName: player.lastName,
+        //   avatar: player.avatar,
+        //   email: player.email,
+        //   jerseyNumber: 0,
+        //   position:"Select Postion",
+        //   birthday: player.birthday,
+        //   country: player.country,
+        //   state: player.state,
+        //   city: player.city,
+        //   address: player.address,
+        //   zipCode: player.zipCode,
+        //   isWaitList: player.isWaitList,
+        //   isAcceptedList: player.isAcceptedList,
+        //   isDeleted: 0,
+        // });
       }
     });
 

@@ -21,9 +21,15 @@ export default class League extends Model<
   declare userId: ForeignKey<number>;
   declare name: string;
   declare description: string;
+  declare leagueId: string;
   declare logo: string;
   declare startDate: string;
   declare endDate: string;
+  declare isAllowedFan: boolean;
+  declare displayPosition: boolean;
+  declare displayLeagueId: boolean;
+  declare requirePassword: boolean;
+  declare password: string;
   declare isDeleted: string;
   static modelName = 'League';
 }
@@ -43,12 +49,28 @@ League.init(
     },
     name: DataTypes.STRING,
     description: DataTypes.STRING,
+    leagueId: DataTypes.STRING,
     logo: DataTypes.STRING,
     startDate: DataTypes.DATE,
     endDate: DataTypes.DATE,
     isAllowedFan: {
       type: DataTypes.BOOLEAN,
       defaultValue: false
+    },
+    displayPosition: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+    },
+    displayLeagueId: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+    },
+    requirePassword: {
+      type:DataTypes.BOOLEAN,
+      defaultValue:false
+    },
+    password: {
+      type: DataTypes.STRING,
     },
     isDeleted: {
       type: DataTypes.INTEGER,

@@ -6,6 +6,9 @@ const matchupRouter = Router();
 // SERVER_URL/api/matchup/all
 matchupRouter.get('/all', MatchupController.all);
 
+// Add substitute
+matchupRouter.post('/createOne', MatchupController.createOne);
+
 // create a matchup
 // SERVER_URL/api/matchup/create
 matchupRouter.post('/create', MatchupController.create);

@@ -3,6 +3,7 @@ import { existsSync, mkdirSync, writeFileSync } from 'fs';
 import League from '../models/League';
 import Player from '../models/Player';
 import User from '../models/User';
+import Admin from '../models/Admin';
 import { Types } from '../types';
 import { absolutePath, leagueLogoPath } from '../helpers';
 import moment from 'moment';
@@ -37,7 +38,14 @@ export const create: RequestHandler = async (req, res) => {
     data.logo = fileName;
   }
 
-  await League.create(data);
+  const league = await League.create(data);
+  await Admin.create({
+    userId:data.userId,
+    leagueId: league.id,
+    role: 1,
+    isDeleted: 0
+  });
+  
   res.status(200).json({ message: 'A League Created Successfully!' });
 };
 
@@ -143,12 +151,14 @@ export const apply: RequestHandler = async (req, res) => {
       await Player.create({
         leagueId,
         teamId,
+        matchId:0,
         userId,
         firstName: user?.firstName,
         lastName: user?.lastName,
         avatar: `${process.env.DOMAIN}/api/user/avatar/${userId}`,
         email: user?.email,
         jerseyNumber:0,
+        position:"Select Position",
         birthday: user?.birthday,
         country: user?.country,
         state: user?.state,
@@ -157,7 +167,8 @@ export const apply: RequestHandler = async (req, res) => {
         zipCode: user?.zipCode,
         isWaitList: 1,
         isAcceptedList: 0,
-        isDeleted: 0
+        isDeleted: 0,
+        isSubstitute:0
       });
     }
   }
@@ -170,6 +181,41 @@ export const allowFan: RequestHandler =async (req, res) => {
   const league = await League.findByPk(leagueId);
   if (league) {
     await league.update({'isAllowedFan':status});
+    res.status(200).json({message: 'Success'})
+  } else {
+    res.status(404).json({message: 'League not found'});
+  }
+}
+export const toggleLeagueId: RequestHandler =async (req, res) => {
+  const leagueId = req.body.leagueId;
+  const status = req.body.status;
+  const league = await League.findByPk(leagueId);
+  if (league) {
+    await league.update({displayLeagueId:status});
+    res.status(200).json({message: 'Success'})
+  } else {
+    res.status(404).json({message: 'League not found'});
+  }
+}
+
+export const togglePosition: RequestHandler =async (req, res) => {
+  const leagueId = req.body.leagueId;
+  const status = req.body.status;
+  const league = await League.findByPk(leagueId);
+  if (league) {
+    await league.update({displayPosition:status});
+    res.status(200).json({message: 'Success'})
+  } else {
+    res.status(404).json({message: 'League not found'});
+  }
+}
+
+export const togglePassword: RequestHandler =async (req, res) => {
+  const leagueId = req.body.leagueId;
+  const status = req.body.status;
+  const league = await League.findByPk(leagueId);
+  if (league) {
+    await league.update({requirePassword:status});
     res.status(200).json({message: 'Success'})
   } else {
     res.status(404).json({message: 'League not found'});

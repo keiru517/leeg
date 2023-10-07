@@ -56,16 +56,14 @@ export const verifyEmail: RequestHandler = async (req, res) => {
       }
     });
     if (user) {
-      console.log("user exist")
       res.status(400).json({ message: 'The email has already been registered!' });
     } else {
-      console.log("user does not exist")
       const verificationCode = Math.floor(1000 + Math.random() * 9000);
       const mailOptions = {
         from: process.env.EMAIL,
         to: email,
-        subject: process.env.EMAIL_SUBJECT,
-        text: process.env.EMAIL_BODY + verificationCode.toString()
+        subject: process.env.VERIFICATION_EMAIL_SUBJECT,
+        text: process.env.VERIFICATION_EMAIL_BODY + verificationCode.toString()
       };
 
       const emailService = nodemailer.createTransport({

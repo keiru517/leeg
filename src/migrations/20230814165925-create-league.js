@@ -28,6 +28,9 @@ module.exports = {
       description: {
         type: Sequelize.STRING
       },
+      leagueId: {
+        type: Sequelize.STRING
+      },
       logo: {
         type: Sequelize.STRING
       },
@@ -39,6 +42,18 @@ module.exports = {
       },
       isAllowedFan: {
         type: Sequelize.BOOLEAN
+      },
+      displayPosition: {
+        type: Sequelize.BOOLEAN
+      },
+      displayLeagueId: {
+        type: Sequelize.BOOLEAN
+      },
+      requirePassword: {
+        type: Sequelize.BOOLEAN
+      },
+      password: {
+        type: Sequelize.STRING
       },
       isDeleted: {
         type: Sequelize.INTEGER

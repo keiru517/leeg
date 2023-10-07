@@ -1,6 +1,13 @@
-import { Model, DataTypes, Optional, CreationOptional, ForeignKey } from 'sequelize';
+import {
+  Model,
+  DataTypes,
+  Optional,
+  CreationOptional,
+  ForeignKey
+} from 'sequelize';
 import sequelize from '.';
 import { Types } from '../types';
+import Player from './Player';
 
 type MatchupCreationAttribute = Optional<
   Types.T_Matchup,
@@ -13,12 +20,14 @@ export default class Matchup extends Model<
 > {
   declare id: CreationOptional<number>;
   declare playerId: ForeignKey<number>;
-  declare homeTeamId: ForeignKey<number>;
-  declare awayTeamId: ForeignKey<number>;
-  declare date: string;
+  declare userId: ForeignKey<number>;
+  declare leagueId: ForeignKey<number>;
+  declare matchId: ForeignKey<number>;
+  declare teamId: ForeignKey<number>;
   declare points: number;
-  declare gamesPlayed: number;
-  declare ppg: number;
+  declare points3: number;
+  declare points2: number;
+  declare points1: number;
   declare isDeleted: number;
   static modelName = 'Matchup';
 }
@@ -29,6 +38,22 @@ Matchup.init(
       allowNull: false,
       references: {
         model: 'Player',
+        key: 'id'
+      }
+    },
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'User',
+        key: 'id'
+      }
+    },
+    leagueId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'League',
         key: 'id'
       }
     },
@@ -49,6 +74,9 @@ Matchup.init(
       }
     },
     points: DataTypes.INTEGER,
+    points3: DataTypes.INTEGER,
+    points2: DataTypes.INTEGER,
+    points1: DataTypes.INTEGER,
     isDeleted: {
       type: DataTypes.INTEGER,
       defaultValue: 0
@@ -59,3 +87,8 @@ Matchup.init(
     modelName: 'Matchup'
   }
 );
+
+Matchup.belongsTo(Player, {
+  foreignKey: 'playerId',
+  as: 'player'
+});

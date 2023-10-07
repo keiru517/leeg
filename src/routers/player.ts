@@ -14,9 +14,13 @@ playerRouter.post('/create', PlayerController.create);
 // SERVER_URL/api/player/update
 playerRouter.post('/update', PlayerController.update);
 
-// delete a player
+// update a points
+// SERVER_URL/api/player/updatePoints
+playerRouter.post('/updatePoints', PlayerController.updatePoints);
+
+// remove a player from a team and put him in accepted list
 // SERVER_URL/api/player/remove/1
-playerRouter.post('/remove', PlayerController.remove);
+playerRouter.post('/removeFromTeam', PlayerController.removeFromTeam);
 
 // add players
 // SERVER_URL/api/player/add
