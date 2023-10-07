@@ -2,6 +2,10 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Features to be done
+- Editing lineups
+- Attempts made option
+- Forgot password system
 ## Available Scripts
 
 In the project directory, you can run:
