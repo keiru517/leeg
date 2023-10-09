@@ -192,7 +192,7 @@ export const update: RequestHandler = async (req, res) => {
     // check if there is a matchup data
     const matchup = await Matchup.findOne({
       where: {
-        playerId: player.playerId,
+        playerId: player.id,
         teamId: player.teamId,
         matchId: matchId
       }
@@ -225,7 +225,7 @@ export const update: RequestHandler = async (req, res) => {
     // check if there is a matchup data
     const matchup = await Matchup.findOne({
       where: {
-        playerId: player.playerId,
+        playerId: player.id,
         teamId: player.teamId,
         matchId: matchId
       }
