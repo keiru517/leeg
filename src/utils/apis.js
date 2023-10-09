@@ -52,6 +52,7 @@ export const apis = {
   createPlayer: apiUrl + "/player/create",
   updatePlayer: apiUrl + "/player/update",
   removePlayerFromTeam: apiUrl + "/player/removeFromTeam",
+  removeSubstitute: apiUrl + "/player/removeSubstitute",
   acceptPlayer: apiUrl + "/player/accept",
   unacceptPlayer: apiUrl + "/player/unaccept",
   addPlayer: apiUrl + "/player/add",

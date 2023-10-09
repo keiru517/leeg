@@ -5,16 +5,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import search from "../../assets/img/dark_mode/search.png";
-import leftarrowIcon from "../../assets/img/dark_mode/left-arrow.png";
-import editIcon from "../../assets/img/dark_mode/edit.png";
 import Input from "../../components/Input";
 import ListItem from "../../components/ListItem";
 import Select from "../../components/Select";
 import Button from "../../components/Button";
-import PageTitle from "../../components/PageTitle";
 import TeamCard from "../../components/Card/Team";
 import { Tab } from "@headlessui/react";
-import avatar from "../../assets/img/dark_mode/player.png";
 import LeagueModal from "../../components/Modal/LeagueModal";
 import PlayerModal from "../../components/Modal/PlayerModal";
 import TeamModal from "../../components/Modal/TeamModal";
@@ -64,7 +60,7 @@ const League = () => {
   );
   // this is used for Players tab
   const allPlayers = useSelector((state) => state.home.players).filter(
-    (player) => player.leagueId == leagueId && player.isAcceptedList === 1
+    (player) => player.leagueId == leagueId
   );
 
   const matches = useSelector((state) => state.home.matches).filter(

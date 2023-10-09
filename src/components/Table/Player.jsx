@@ -26,7 +26,8 @@ const Player = (props) => {
         // If player already exists, add points to existing player
         acc[player.userId].points = points;
         // overwrite the teamId if there is a player who is not deleted
-        acc[player.userId].teamId = player.isDeleted? 0 : player.teamId;
+        console.log("substitute",player.id, player.isSubstitute)
+        acc[player.userId].teamId =player.isDeleted? 0 : player.teamId;
         // overwrite the isDeleted if there is a player who is not deleted
         acc[player.userId].isDeleted = player.isDeleted ? 1 : player.isDeleted;
       } else {
@@ -93,11 +94,11 @@ const Player = (props) => {
                     key={idx}
                     className="odd:bg-light-dark-gray dark:odd:bg-dark-gray even:bg-light-charcoal dark:even:bg-charcoal h-[53px]"
                   >
-                    <td className="w-1/10">
+                    <td className="w-1/5">
                       <Typography
                         variant="small"
                         color="blue-gray"
-                        className="font-normal flex items-center underline justify-between px-10"
+                        className="font-normal flex items-center underline px-3"
                       >
                         <img
                           src={player.avatar}
@@ -109,7 +110,7 @@ const Player = (props) => {
                         </Link>
                       </Typography>
                     </td>
-                    <td className="w-1/10">
+                    <td className="w-1/5">
                       <Typography
                         variant="small"
                         color="blue-gray"
@@ -119,7 +120,7 @@ const Player = (props) => {
                       </Typography>
                     </td>
                     {league?.displayPosition && (
-                      <td className="w-1/10">
+                      <td className="w-1/5">
                         <Typography
                           variant="small"
                           color="blue-gray"
@@ -129,7 +130,7 @@ const Player = (props) => {
                         </Typography>
                       </td>
                     )}
-                    <td className="w-1/10">
+                    <td className="w-1/5">
                       <Typography
                         variant="small"
                         color="blue-gray"

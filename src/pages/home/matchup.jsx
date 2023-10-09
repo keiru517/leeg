@@ -49,9 +49,7 @@ const Matchup = () => {
   //   (player) => player.teamId == match?.homeTeamId
   // );
   const homePlayers = useSelector((state) => state.home.players)
-    .filter(
-      (player) => player.teamId == match?.homeTeamId
-    )
+    .filter((player) => player.teamId == match?.homeTeamId)
     .map((player) => {
       return { ...player, points: 0, points3: 0, points2: 0, points1: 0 };
     });
@@ -64,7 +62,8 @@ const Matchup = () => {
       return { ...player, points, points3, points2, points1 };
     });
 
-  const homeTeamPlayers = match?.isNew ? homePlayers : homeTeamMatchups;
+  const homeTeamPlayers = homeTeamMatchups;
+  // const homeTeamPlayers = match?.isNew ? homePlayers : homeTeamMatchups;
 
   const awayTeam = useSelector((state) => state.home.teams).find(
     (team) => team.id == match?.awayTeamId
@@ -73,9 +72,7 @@ const Matchup = () => {
   //   (player) => player.teamId == match?.awayTeamId
   // );
   const awayPlayers = useSelector((state) => state.home.players)
-    .filter(
-      (player) => player.teamId == match?.awayTeamId
-    )
+    .filter((player) => player.teamId == match?.awayTeamId)
     .map((player) => {
       return { ...player, points: 0, points3: 0, points2: 0, points1: 0 };
     });
@@ -87,13 +84,13 @@ const Matchup = () => {
     .map(({ player, points, points3, points2, points1 }) => {
       return { ...player, points, points3, points2, points1 };
     });
-  const awayTeamPlayers = match?.isNew ? awayPlayers : awayTeamMatchups;
+  const awayTeamPlayers = awayTeamMatchups;
 
   const options = ["Ascend", "Descend", "Recent"];
   const [value, setValue] = useState("Sort by");
 
   const handleAddSubstitute = (id) => {
-    dispatch({ type: actions.OPEN_ADD_SUBSTITUTE_DIALOG , payload: id});
+    dispatch({ type: actions.OPEN_ADD_SUBSTITUTE_DIALOG, payload: id });
   };
 
   const [homeInputValues, setHomeInputValues] = useState(homeTeamMatchups);
@@ -245,34 +242,54 @@ const Matchup = () => {
       })
       .catch((error) => console.log(error.response.data.message));
 
-    // axios
-    //   .post(apis.updateMatchup, {
-    //     matchId: matchId,
-    //     // data: mergedObject,
-    //     homeInputValues: homeInput,
-    //     awayInputValues: awayInput,
-    //   })
-    //   .then((res) => {
-    //     actions.getTeams(dispatch);
-    //     actions.getMatches(dispatch);
-    //     actions.getMatchups(dispatch);
-    //     actions.getPlayers(dispatch);
-    //     alert(res.data.message);
-    //   })
-    //   .catch((error) => console.log(error.response.data.message));
-
     axios
-      .post(apis.createMatchup, {
+      .post(apis.updateMatchup, {
         matchId: matchId,
+        // data: mergedObject,
         homeInputValues: homeInput,
         awayInputValues: awayInput,
       })
       .then((res) => {
+        actions.getTeams(dispatch);
         actions.getMatches(dispatch);
         actions.getMatchups(dispatch);
+        actions.getPlayers(dispatch);
         alert(res.data.message);
       })
       .catch((error) => console.log(error.response.data.message));
+
+    // axios
+    //   .post(apis.createMatchup, {
+    //     matchId: matchId,
+    //     homeInputValues: homeInput,
+    //     awayInputValues: awayInput,
+    //   })
+    //   .then((res) => {
+    //     actions.getMatches(dispatch);
+    //     actions.getMatchups(dispatch);
+    //     alert(res.data.message);
+    //   })
+    //   .catch((error) => console.log(error.response.data.message));
+  };
+
+  const removeSubstitute = (userId) => {
+    axios
+      .post(apis.removeSubstitute, {
+        userId,
+        leagueId,
+        matchId,
+      })
+      .then((res) => {
+        actions.getMatchups(dispatch)
+        actions.getPlayers(dispatch)
+        alert(res.data.message)
+      })
+      .catch((error) => {
+        console.log(error.response.data.message);
+      });
+    
+      // if the admin remove a substitutue, then the matchup result will be saved automatically
+    handleSubmit();
   };
 
   return (
@@ -376,12 +393,12 @@ const Matchup = () => {
                   {homeTeam?.waitlist}/{homeTeam?.max}
                 </p>
               </div>
-              {/* <div
+              <div
                 onClick={() => handleAddSubstitute(match?.homeTeamId)}
                 className="flex items-center space-x-2 text-sky-500 text-sm cursor-pointer hover:opacity-70"
               >
                 + Substitute
-              </div> */}
+              </div>
             </div>
 
             <div className="flex flex-grow items-center">
@@ -396,6 +413,12 @@ const Matchup = () => {
                           className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
                         >
                           Player
+                        </th>
+                        <th
+                          key="6"
+                          className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
+                        >
+                          Jersey Number
                         </th>
                         <th
                           key="2"
@@ -425,7 +448,7 @@ const Matchup = () => {
                           key="6"
                           className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
                         >
-                          Jersey Number
+                          Action
                         </th>
                       </tr>
                     </thead>
@@ -498,7 +521,7 @@ const Matchup = () => {
                           className="odd:bg-light-dark-gray dark:odd:bg-dark-gray even:bg-light-charcoal dark:even:bg-charcoal"
                         >
                           <td className="">
-                            <div className="flex items-center underline justify-between px-3">
+                            <div className="flex items-center underline px-3">
                               <img
                                 src={player.avatar}
                                 alt=""
@@ -511,41 +534,53 @@ const Matchup = () => {
                               </Link>
                             </div>
                           </td>
+                          <td className="">{player?.jerseyNumber}</td>
                           <td className="">{homeInput[index]?.points || 0}</td>
                           <td className="">
-                            <Input
+                            <input
                               key={index}
-                              className="w-[50px] rounded-default bg-transparent border-none text-center"
+                              className="w-[50px] outline-none rounded-default bg-transparent border-none text-center"
                               type="number"
                               value={homeInput[index]?.points3 || 0}
                               onChange={(e) =>
                                 handleHomePoints3Change(index, e.target.value)
                               }
-                            ></Input>
+                            ></input>
                           </td>
                           <td className="">
-                            <Input
+                            <input
                               key={index}
-                              className="w-[50px] rounded-default bg-transparent border-none text-center"
+                              className="w-[50px] outline-none rounded-default bg-transparent border-none text-center"
                               type="number"
                               value={homeInput[index]?.points2 || 0}
                               onChange={(e) =>
                                 handleHomePoints2Change(index, e.target.value)
                               }
-                            ></Input>
+                            ></input>
                           </td>
                           <td className="">
-                            <Input
+                            <input
                               key={index}
-                              className="w-[50px] rounded-default bg-transparent border-none text-center"
+                              className="w-[50px] outline-none rounded-default bg-transparent border-none text-center"
                               type="number"
                               value={homeInput[index]?.points1 || 0}
                               onChange={(e) =>
                                 handleHomePoints1Change(index, e.target.value)
                               }
-                            ></Input>
+                            ></input>
                           </td>
-                          <td className="">{player?.jerseyNumber}</td>
+                          <td>
+                            {player.isSubstitute === 1 ? (
+                              <img
+                                src={deleteIcon}
+                                onClick={() => removeSubstitute(player.userId)}
+                                alt=""
+                                className="cursor-pointer"
+                              />
+                            ) : (
+                              ""
+                            )}
+                          </td>
                         </tr>
                       ))}
                     </tbody>
@@ -576,12 +611,12 @@ const Matchup = () => {
                   {awayTeam?.waitlist}/{awayTeam?.max}
                 </p>
               </div>
-              {/* <div
+              <div
                 onClick={() => handleAddSubstitute(match?.awayTeamId)}
                 className="flex items-center space-x-2 text-sky-500 text-sm cursor-pointer hover:opacity-70"
               >
                 + Substitute
-              </div> */}
+              </div>
             </div>
 
             <div className="flex flex-grow items-center">
@@ -596,6 +631,12 @@ const Matchup = () => {
                           className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
                         >
                           Player
+                        </th>
+                        <th
+                          key="6"
+                          className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
+                        >
+                          Jersey Number
                         </th>
                         <th
                           key="2"
@@ -625,7 +666,7 @@ const Matchup = () => {
                           key="6"
                           className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
                         >
-                          Jersey Number
+                          Action
                         </th>
                       </tr>
                     </thead>
@@ -698,7 +739,7 @@ const Matchup = () => {
                           className="odd:bg-light-dark-gray dark:odd:bg-dark-gray even:bg-light-charcoal dark:even:bg-charcoal"
                         >
                           <td className="">
-                            <div className="flex items-center underline justify-between px-3">
+                            <div className="flex items-center underline px-3">
                               <img
                                 src={player.avatar}
                                 alt=""
@@ -711,41 +752,53 @@ const Matchup = () => {
                               </Link>
                             </div>
                           </td>
+                          <td className="">{player?.jerseyNumber}</td>
                           <td className="">{awayInput[index]?.points || 0}</td>
                           <td className="">
-                            <Input
+                            <input
                               key={index}
-                              className="w-[50px] rounded-default bg-transparent border-none text-center"
+                              className="w-[50px] outline-none rounded-default bg-transparent border-none text-center"
                               type="number"
                               value={awayInput[index]?.points3 || 0}
                               onChange={(e) =>
                                 handleAwayPoints3Change(index, e.target.value)
                               }
-                            ></Input>
+                            ></input>
                           </td>
                           <td className="">
-                            <Input
+                            <input
                               key={index}
-                              className="w-[50px] rounded-default bg-transparent border-none text-center"
+                              className="w-[50px] outline-none rounded-default bg-transparent border-none text-center"
                               type="number"
                               value={awayInput[index]?.points2 || 0}
                               onChange={(e) =>
                                 handleAwayPoints2Change(index, e.target.value)
                               }
-                            ></Input>
+                            ></input>
                           </td>
                           <td className="">
-                            <Input
+                            <input
                               key={index}
-                              className="w-[50px] rounded-default bg-transparent border-none text-center"
+                              className="w-[50px] outline-none rounded-default bg-transparent border-none text-center"
                               type="number"
                               value={awayInput[index]?.points1 || 0}
                               onChange={(e) =>
                                 handleAwayPoints1Change(index, e.target.value)
                               }
-                            ></Input>
+                            ></input>
                           </td>
-                          <td className="">{player?.jerseyNumber}</td>
+                          <td>
+                            {player.isSubstitute === 1 ? (
+                              <img
+                                src={deleteIcon}
+                                onClick={() => removeSubstitute(player.userId)}
+                                alt=""
+                                className="cursor-pointer"
+                              />
+                            ) : (
+                              ""
+                            )}
+                          </td>
                         </tr>
                       ))}
                     </tbody>
@@ -766,8 +819,10 @@ const Matchup = () => {
         </div>
       </div>
       {/* <SubstituteModal /> */}
-      <SubstituteModal homeTeamPlayers={homeTeamPlayers} awayTeamPlayers={awayTeamPlayers}></SubstituteModal>
-
+      <SubstituteModal
+        homeTeamPlayers={homeTeamPlayers}
+        awayTeamPlayers={awayTeamPlayers}
+      ></SubstituteModal>
     </div>
     // </div>
   );

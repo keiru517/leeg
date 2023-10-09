@@ -17,7 +17,7 @@ const TeamCard = (props) => {
   );
 
   const players = useSelector((state) => state.home.players).filter(
-    (player) => player.teamId == team.id && player.isDeleted !== 1
+    (player) => player.teamId == team.id && player.isDeleted !== 1 && player.isSubstitute !==1
   );
 
   const dispatch = useDispatch();

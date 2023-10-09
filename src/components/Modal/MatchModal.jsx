@@ -63,14 +63,12 @@ const MatchModal = () => {
         dispatch({ type: actions.CLOSE_MATCH_DIALOG });
       })
       .catch((error) => alert(error.response.data.message));
-
-    console.log("Clicked create");
   };
 
   const [warning, setWarning] = useState(false);
   useEffect(() => {
     if (homeValue.name == awayValue.name) setWarning(true);
-    else setWarning(false)
+    else setWarning(false);
   }, [homeValue, awayValue]);
 
   return (

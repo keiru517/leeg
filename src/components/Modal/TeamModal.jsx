@@ -137,11 +137,11 @@ const TeamModal = () => {
   const [playersList, setPlayersList] = useState({});
   const addPlayers = () => {
     axios
-      .post(apis.addPlayer, {
-        teamId: team.id,
-        playersList: playersList,
-      })
-      .then((res) => {
+    .post(apis.addPlayer, {
+      teamId: team.id,
+      playersList: playersList,
+    })
+    .then((res) => {
         dispatch({ type: actions.CLOSE_TEAM_DIALOG });
         actions.getPlayers(dispatch);
         setPlayersList({});

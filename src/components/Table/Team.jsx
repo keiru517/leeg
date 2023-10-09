@@ -115,7 +115,7 @@ const TeamTable = (props) => {
               className="odd:bg-light-dark-gray dark:odd:bg-dark-gray even:bg-light-charcoal dark:even:bg-charcoal"
             >
               <td className="">
-                <div className="flex items-center justify-between px-8">
+                <div className="flex items-center px-3">
                   <img
                     src={player.avatar}
                     alt=""
