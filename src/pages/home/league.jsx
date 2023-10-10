@@ -274,14 +274,31 @@ const League = () => {
   const [previewURL, setPreviewURL] = useState("");
 
   const [isAllowedFan, setIsAllowedFan] = useState("");
-  const [displayPoints, setDisplayPoints] = useState("");
   const [displayLeagueId, setDisplayLeagueId] = useState("");
   const [displayPosition, setDisplayPosition] = useState("");
+  const [displayAttempts3, setDisplayAttempts3] = useState("");
+  const [displayAttempts2, setDisplayAttempts2] = useState("");
+  const [displayAttempts1, setDisplayAttempts1] = useState("");
+  const [displayBlocks, setDisplayBlocks] = useState("");
+  const [displayRebounds, setDisplayRebounds] = useState("");
+  const [displayAssists, setDisplayAssists] = useState("");
+  const [displayFouls, setDisplayFouls] = useState("");
+  const [displaySteals, setDisplaySteals] = useState("");
+  const [displayTurnovers, setDisplayTurnovers] = useState("");
   const [requirePassword, setRequirePassword] = useState("");
+
   useEffect(() => {
     setIsAllowedFan(league?.isAllowedFan);
-    setDisplayLeagueId(league?.displayLeagueId);
     setDisplayPosition(league?.displayPosition);
+    setDisplayAttempts3(league?.displayAttempts3);
+    setDisplayAttempts2(league?.displayAttempts2);
+    setDisplayAttempts1(league?.displayAttempts1);
+    setDisplayBlocks(league?.displayBlocks);
+    setDisplayRebounds(league?.displayRebounds);
+    setDisplayAssists(league?.displayAssists);
+    setDisplayFouls(league?.displayFouls);
+    setDisplaySteals(league?.displaySteals);
+    setDisplayTurnovers(league?.displayTurnovers);
     setRequirePassword(league?.requirePassword);
   }, [league]);
 
@@ -317,26 +334,6 @@ const League = () => {
       });
   };
 
-
-  const toggleLeagueId = () => {
-    console.log("displayLeagueId", displayLeagueId);
-    axios
-      .post(apis.toggleLeagueId, {
-        leagueId: leagueId,
-        status: !displayLeagueId,
-      })
-      .then((res) => {
-        actions.getLeagues(dispatch);
-        actions.getPlayers(dispatch);
-        actions.getMatches(dispatch);
-        actions.getMatchups(dispatch);
-        setDisplayLeagueId(!displayLeagueId);
-      })
-      .catch((error) => {
-        alert(error.response.data.message);
-      });
-  };
-
   const togglePosition = () => {
     axios
       .post(apis.togglePosition, {
@@ -354,6 +351,169 @@ const League = () => {
         alert(error.response.data.message);
       });
   };
+
+  const toggleAttempts3 = () => {
+    axios
+      .post(apis.toggleAttempts3, {
+        leagueId: leagueId,
+        status: !displayAttempts3,
+      })
+      .then((res) => {
+        actions.getLeagues(dispatch);
+        actions.getPlayers(dispatch);
+        actions.getMatches(dispatch);
+        actions.getMatchups(dispatch);
+        setDisplayAttempts3(!displayAttempts3)
+      })
+      .catch((error) => {
+        alert(error.response.data.message);
+      });
+  };
+
+  const toggleAttempts2 = () => {
+    axios
+      .post(apis.toggleAttempts2, {
+        leagueId: leagueId,
+        status: !displayAttempts2,
+      })
+      .then((res) => {
+        actions.getLeagues(dispatch);
+        actions.getPlayers(dispatch);
+        actions.getMatches(dispatch);
+        actions.getMatchups(dispatch);
+        setDisplayAttempts2(!displayAttempts2)
+      })
+      .catch((error) => {
+        alert(error.response.data.message);
+      });
+  };
+
+  const toggleAttempts1 = () => {
+    axios
+      .post(apis.toggleAttempts1, {
+        leagueId: leagueId,
+        status: !displayAttempts1,
+      })
+      .then((res) => {
+        actions.getLeagues(dispatch);
+        actions.getPlayers(dispatch);
+        actions.getMatches(dispatch);
+        actions.getMatchups(dispatch);
+        setDisplayAttempts1(!displayAttempts1)
+      })
+      .catch((error) => {
+        alert(error.response.data.message);
+      });
+  };
+
+  const toggleBlocks = () => {
+    axios
+      .post(apis.toggleBlocks, {
+        leagueId: leagueId,
+        status: !displayBlocks,
+      })
+      .then((res) => {
+        actions.getLeagues(dispatch);
+        actions.getPlayers(dispatch);
+        actions.getMatches(dispatch);
+        actions.getMatchups(dispatch);
+        setDisplayBlocks(!displayBlocks)
+      })
+      .catch((error) => {
+        alert(error.response.data.message);
+      });
+  };
+
+  const toggleRebounds = () => {
+    axios
+      .post(apis.toggleRebounds, {
+        leagueId: leagueId,
+        status: !displayRebounds,
+      })
+      .then((res) => {
+        actions.getLeagues(dispatch);
+        actions.getPlayers(dispatch);
+        actions.getMatches(dispatch);
+        actions.getMatchups(dispatch);
+        setDisplayRebounds(!displayRebounds)
+      })
+      .catch((error) => {
+        alert(error.response.data.message);
+      });
+  };
+
+  const toggleAssists = () => {
+    axios
+      .post(apis.toggleAssists, {
+        leagueId: leagueId,
+        status: !displayAssists,
+      })
+      .then((res) => {
+        actions.getLeagues(dispatch);
+        actions.getPlayers(dispatch);
+        actions.getMatches(dispatch);
+        actions.getMatchups(dispatch);
+        setDisplayAssists(!displayAssists)
+      })
+      .catch((error) => {
+        alert(error.response.data.message);
+      });
+  };
+  
+  const toggleFouls = () => {
+    axios
+      .post(apis.toggleFouls, {
+        leagueId: leagueId,
+        status: !displayFouls,
+      })
+      .then((res) => {
+        actions.getLeagues(dispatch);
+        actions.getPlayers(dispatch);
+        actions.getMatches(dispatch);
+        actions.getMatchups(dispatch);
+        setDisplayFouls(!displayFouls)
+      })
+      .catch((error) => {
+        alert(error.response.data.message);
+      });
+  };
+
+  const toggleSteals = () => {
+    axios
+      .post(apis.toggleSteals, {
+        leagueId: leagueId,
+        status: !displaySteals,
+      })
+      .then((res) => {
+        actions.getLeagues(dispatch);
+        actions.getPlayers(dispatch);
+        actions.getMatches(dispatch);
+        actions.getMatchups(dispatch);
+        setDisplaySteals(!displaySteals)
+      })
+      .catch((error) => {
+        alert(error.response.data.message);
+      });
+  };
+
+  const toggleTurnovers = () => {
+    axios
+      .post(apis.toggleTurnovers, {
+        leagueId: leagueId,
+        status: !displayTurnovers,
+      })
+      .then((res) => {
+        actions.getLeagues(dispatch);
+        actions.getPlayers(dispatch);
+        actions.getMatches(dispatch);
+        actions.getMatchups(dispatch);
+        setDisplayTurnovers(!displayTurnovers)
+      })
+      .catch((error) => {
+        alert(error.response.data.message);
+      });
+  };
+
 
   const togglePassword = () => {
     console.timeLog("password");
@@ -900,7 +1060,7 @@ const League = () => {
                         onClick={toggleFan}
                       />
                     </div>
-                    <div className="flex">
+                    {/* <div className="flex">
                       <p className="text-xs dark:text-white text-black">
                         Display League ID
                       </p>
@@ -910,7 +1070,7 @@ const League = () => {
                         className="w-8 cursor-pointer"
                         onClick={toggleLeagueId}
                       />
-                    </div>
+                    </div> */}
                     <div className="flex">
                       <p className="text-xs dark:text-white text-black">
                         Display Position
@@ -920,6 +1080,105 @@ const League = () => {
                         alt=""
                         className="w-8 cursor-pointer"
                         onClick={togglePosition}
+                      />
+                    </div>
+                    <div className="flex">
+                      <p className="text-xs dark:text-white text-black">
+                        Display 3 Attempts
+                      </p>
+                      <img
+                        src={displayAttempts3 ? toggleOn : toggleOff}
+                        alt=""
+                        className="w-8 cursor-pointer"
+                        onClick={toggleAttempts3}
+                      />
+                    </div>
+                    <div className="flex">
+                      <p className="text-xs dark:text-white text-black">
+                        Display 2 Attempts
+                      </p>
+                      <img
+                        src={displayAttempts2 ? toggleOn : toggleOff}
+                        alt=""
+                        className="w-8 cursor-pointer"
+                        onClick={toggleAttempts2}
+                      />
+                    </div>
+                    <div className="flex">
+                      <p className="text-xs dark:text-white text-black">
+                        Display 1 Attempts
+                      </p>
+                      <img
+                        src={displayAttempts1 ? toggleOn : toggleOff}
+                        alt=""
+                        className="w-8 cursor-pointer"
+                        onClick={toggleAttempts1}
+                      />
+                    </div>
+                    <div className="flex">
+                      <p className="text-xs dark:text-white text-black">
+                        Display Blocks
+                      </p>
+                      <img
+                        src={displayBlocks ? toggleOn : toggleOff}
+                        alt=""
+                        className="w-8 cursor-pointer"
+                        onClick={toggleBlocks}
+                      />
+                    </div>
+                    <div className="flex">
+                      <p className="text-xs dark:text-white text-black">
+                        Display Rebounds
+                      </p>
+                      <img
+                        src={displayRebounds ? toggleOn : toggleOff}
+                        alt=""
+                        className="w-8 cursor-pointer"
+                        onClick={toggleRebounds}
+                      />
+                    </div>
+                    <div className="flex">
+                      <p className="text-xs dark:text-white text-black">
+                        Display Assists
+                      </p>
+                      <img
+                        src={displayAssists ? toggleOn : toggleOff}
+                        alt=""
+                        className="w-8 cursor-pointer"
+                        onClick={toggleAssists}
+                      />
+                    </div>
+                    <div className="flex">
+                      <p className="text-xs dark:text-white text-black">
+                        Display Fouls
+                      </p>
+                      <img
+                        src={displayFouls ? toggleOn : toggleOff}
+                        alt=""
+                        className="w-8 cursor-pointer"
+                        onClick={toggleFouls}
+                      />
+                    </div>
+                    <div className="flex">
+                      <p className="text-xs dark:text-white text-black">
+                        Display Steals
+                      </p>
+                      <img
+                        src={displaySteals ? toggleOn : toggleOff}
+                        alt=""
+                        className="w-8 cursor-pointer"
+                        onClick={toggleSteals}
+                      />
+                    </div>
+                    <div className="flex">
+                      <p className="text-xs dark:text-white text-black">
+                        Display Turnovers
+                      </p>
+                      <img
+                        src={displayTurnovers ? toggleOn : toggleOff}
+                        alt=""
+                        className="w-8 cursor-pointer"
+                        onClick={toggleTurnovers}
                       />
                     </div>
                     <div className="flex">

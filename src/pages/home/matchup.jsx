@@ -34,6 +34,17 @@ const Matchup = () => {
     (league) => league.id == leagueId
   );
 
+  const displayPosition = league?.displayPosition;
+  const displayAttempts3 = league?.displayAttempts3;
+  const displayAttempts2 = league?.displayAttempts2;
+  const displayAttempts1 = league?.displayAttempts1;
+  const displayBlocks = league?.displayBlocks;
+  const displayRebounds = league?.displayRebounds;
+  const displayAssists = league?.displayAssists;
+  const displayFouls = league?.displayFouls;
+  const displaySteals = league?.displaySteals;
+  const displayTurnovers = league?.displayTurnovers;
+
   const match = useSelector((state) => state.home.matches).find(
     (match) => match.id == matchId
   );
@@ -48,19 +59,51 @@ const Matchup = () => {
   // const homeTeamPlayers = useSelector((state) => state.home.players).filter(
   //   (player) => player.teamId == match?.homeTeamId
   // );
-  const homePlayers = useSelector((state) => state.home.players)
-    .filter((player) => player.teamId == match?.homeTeamId)
-    .map((player) => {
-      return { ...player, points: 0, points3: 0, points2: 0, points1: 0 };
-    });
+  // const homePlayers = useSelector((state) => state.home.players)
+  //   .filter((player) => player.teamId == match?.homeTeamId)
+  //   .map((player) => {
+  //     return { ...player, points: 0, points3: 0, points2: 0, points1: 0 };
+  //   });
 
   const homeTeamMatchups = useSelector((state) => state.home.matchups)
     .filter(
       (matchup) => matchup.matchId == matchId && matchup.teamId == homeTeam.id
     )
-    .map(({ player, points, points3, points2, points1 }) => {
-      return { ...player, points, points3, points2, points1 };
-    });
+    .map(
+      ({
+        player,
+        points,
+        points3,
+        points2,
+        points1,
+        attempts3,
+        attempts2,
+        attempts1,
+        blocks,
+        rebounds,
+        assists,
+        fouls,
+        steals,
+        turnovers,
+      }) => {
+        return {
+          ...player,
+          points,
+          points3,
+          points2,
+          points1,
+          attempts3,
+          attempts2,
+          attempts1,
+          blocks,
+          rebounds,
+          assists,
+          fouls,
+          steals,
+          turnovers,
+        };
+      }
+    );
 
   const homeTeamPlayers = homeTeamMatchups;
   // const homeTeamPlayers = match?.isNew ? homePlayers : homeTeamMatchups;
@@ -71,19 +114,51 @@ const Matchup = () => {
   // const awayTeamPlayers = useSelector((state) => state.home.players).filter(
   //   (player) => player.teamId == match?.awayTeamId
   // );
-  const awayPlayers = useSelector((state) => state.home.players)
-    .filter((player) => player.teamId == match?.awayTeamId)
-    .map((player) => {
-      return { ...player, points: 0, points3: 0, points2: 0, points1: 0 };
-    });
+  // const awayPlayers = useSelector((state) => state.home.players)
+  //   .filter((player) => player.teamId == match?.awayTeamId)
+  //   .map((player) => {
+  //     return { ...player, points: 0, points3: 0, points2: 0, points1: 0 };
+  //   });
 
   const awayTeamMatchups = useSelector((state) => state.home.matchups)
     .filter(
       (matchup) => matchup.matchId == matchId && matchup.teamId == awayTeam.id
     )
-    .map(({ player, points, points3, points2, points1 }) => {
-      return { ...player, points, points3, points2, points1 };
-    });
+    .map(
+      ({
+        player,
+        points,
+        points3,
+        points2,
+        points1,
+        attempts3,
+        attempts2,
+        attempts1,
+        blocks,
+        rebounds,
+        assists,
+        fouls,
+        steals,
+        turnovers,
+      }) => {
+        return {
+          ...player,
+          points,
+          points3,
+          points2,
+          points1,
+          attempts3,
+          attempts2,
+          attempts1,
+          blocks,
+          rebounds,
+          assists,
+          fouls,
+          steals,
+          turnovers,
+        };
+      }
+    );
   const awayTeamPlayers = awayTeamMatchups;
 
   const options = ["Ascend", "Descend", "Recent"];
@@ -92,8 +167,6 @@ const Matchup = () => {
   const handleAddSubstitute = (id) => {
     dispatch({ type: actions.OPEN_ADD_SUBSTITUTE_DIALOG, payload: id });
   };
-
-  const [homeInputValues, setHomeInputValues] = useState(homeTeamMatchups);
 
   // const handleHomeInputChange = (index, playerId, matchId, teamId, points) => {
   //   console.log("Home", index, playerId, matchId, teamId, points);
@@ -106,9 +179,9 @@ const Matchup = () => {
   const [awayInput, setAwayInput] = useState([]);
 
   useEffect(() => {
-    console.log("homeTeamPlayers log", homeTeamMatchups);
     // setHomeInput(homeTeamMatchups);
     // setAwayInput(awayTeamMatchups);
+    console.log(homeTeamPlayers);
     setHomeInput(homeTeamPlayers);
     setAwayInput(awayTeamPlayers);
   }, [
@@ -280,15 +353,15 @@ const Matchup = () => {
         matchId,
       })
       .then((res) => {
-        actions.getMatchups(dispatch)
-        actions.getPlayers(dispatch)
-        alert(res.data.message)
+        actions.getMatchups(dispatch);
+        actions.getPlayers(dispatch);
+        alert(res.data.message);
       })
       .catch((error) => {
         console.log(error.response.data.message);
       });
-    
-      // if the admin remove a substitutue, then the matchup result will be saved automatically
+
+    // if the admin remove a substitutue, then the matchup result will be saved automatically
     handleSubmit();
   };
 
@@ -401,7 +474,7 @@ const Matchup = () => {
               </div>
             </div>
 
-            <div className="flex flex-grow items-center">
+            <div className="flex flex-grow items-center overflow-x-auto">
               {/* {homeTeamMatchups.length > 0 ? ( */}
               {homeTeamPlayers.length > 0 ? (
                 <div className="text-black dark:text-white h-full w-full">
@@ -415,37 +488,137 @@ const Matchup = () => {
                           Player
                         </th>
                         <th
-                          key="6"
+                          key="2"
                           className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
                         >
                           Jersey Number
                         </th>
+                        {displayPosition ? (
+                          <th
+                            key="3"
+                            className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
+                          >
+                            Position
+                          </th>
+                        ) : (
+                          ""
+                        )}
                         <th
-                          key="2"
+                          key="4"
                           className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
                         >
                           Points
                         </th>
                         <th
-                          key="3"
+                          key="5"
                           className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
                         >
                           3 Points
                         </th>
                         <th
-                          key="4"
+                          key="6"
                           className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
                         >
                           2 Points
                         </th>
                         <th
-                          key="5"
+                          key="7"
                           className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
                         >
                           1 Points
                         </th>
+                        {displayAttempts3 ? (
+                          <th
+                            key="8"
+                            className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
+                          >
+                            3 Attempts
+                          </th>
+                        ) : (
+                          ""
+                        )}
+                        {displayAttempts2 ? (
+                          <th
+                            key="9"
+                            className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
+                          >
+                            2 Attempts
+                          </th>
+                        ) : (
+                          ""
+                        )}
+                        {displayAttempts1 ? (
+                          <th
+                            key="10"
+                            className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
+                          >
+                            1 Attempts
+                          </th>
+                        ) : (
+                          ""
+                        )}
+                        {displayBlocks ? (
+                          <th
+                            key="11"
+                            className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
+                          >
+                            Blocks
+                          </th>
+                        ) : (
+                          ""
+                        )}
+                        {displayRebounds ? (
+                          <th
+                            key="12"
+                            className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
+                          >
+                            Rebounds
+                          </th>
+                        ) : (
+                          ""
+                        )}
+                        {displayAssists ? (
+                          <th
+                            key="13"
+                            className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
+                          >
+                            Assists
+                          </th>
+                        ) : (
+                          ""
+                        )}
+                        {displayFouls ? (
+                          <th
+                            key="14"
+                            className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
+                          >
+                            Fouls
+                          </th>
+                        ) : (
+                          ""
+                        )}
+                        {displaySteals ? (
+                          <th
+                            key="15"
+                            className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
+                          >
+                            Steals
+                          </th>
+                        ) : (
+                          ""
+                        )}
+                        {displayTurnovers ? (
+                          <th
+                            key="16"
+                            className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
+                          >
+                            Turnovers
+                          </th>
+                        ) : (
+                          ""
+                        )}
                         <th
-                          key="6"
+                          key="17"
                           className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
                         >
                           Action
@@ -535,6 +708,13 @@ const Matchup = () => {
                             </div>
                           </td>
                           <td className="">{player?.jerseyNumber}</td>
+                          {displayPosition ? (
+                            <td className="">
+                              {homeInput[index]?.position || 0}
+                            </td>
+                          ) : (
+                            ""
+                          )}
                           <td className="">{homeInput[index]?.points || 0}</td>
                           <td className="">
                             <input
@@ -569,6 +749,51 @@ const Matchup = () => {
                               }
                             ></input>
                           </td>
+                          {displayAttempts3 ? (
+                            <td>{homeInput[index]?.attempts3 || 0}</td>
+                          ) : (
+                            ""
+                          )}
+                          {displayAttempts2 ? (
+                            <td>{homeInput[index]?.attempts2 || 0}</td>
+                          ) : (
+                            ""
+                          )}
+                          {displayAttempts1 ? (
+                            <td>{homeInput[index]?.attempts1 || 0}</td>
+                          ) : (
+                            ""
+                          )}
+                          {displayBlocks ? (
+                            <td>{homeInput[index]?.blocks || 0}</td>
+                          ) : (
+                            ""
+                          )}
+                          {displayRebounds ? (
+                            <td>{homeInput[index]?.rebounds || 0}</td>
+                          ) : (
+                            ""
+                          )}
+                          {displayAssists ? (
+                            <td>{homeInput[index]?.assists || 0}</td>
+                          ) : (
+                            ""
+                          )}
+                          {displayFouls ? (
+                            <td>{homeInput[index]?.fouls || 0}</td>
+                          ) : (
+                            ""
+                          )}
+                          {displaySteals ? (
+                            <td>{homeInput[index]?.steals || 0}</td>
+                          ) : (
+                            ""
+                          )}
+                          {displayTurnovers ? (
+                            <td>{homeInput[index]?.turnovers || 0}</td>
+                          ) : (
+                            ""
+                          )}
                           <td>
                             {player.isSubstitute === 1 ? (
                               <img
@@ -619,7 +844,7 @@ const Matchup = () => {
               </div>
             </div>
 
-            <div className="flex flex-grow items-center">
+            <div className="flex flex-grow items-center overflow-x-auto">
               {/* {awayTeamMatchups.length > 0 ? ( */}
               {awayTeamPlayers.length > 0 ? (
                 <div className="text-black dark:text-white h-full w-full">
@@ -633,37 +858,137 @@ const Matchup = () => {
                           Player
                         </th>
                         <th
-                          key="6"
+                          key="2"
                           className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
                         >
                           Jersey Number
                         </th>
+                        {displayPosition ? (
+                          <th
+                            key="2"
+                            className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
+                          >
+                            Position
+                          </th>
+                        ) : (
+                          ""
+                        )}
                         <th
-                          key="2"
+                          key="3"
                           className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
                         >
                           Points
                         </th>
                         <th
-                          key="3"
+                          key="4"
                           className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
                         >
                           3 Points
                         </th>
                         <th
-                          key="4"
+                          key="5"
                           className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
                         >
                           2 Points
                         </th>
                         <th
-                          key="5"
+                          key="6"
                           className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
                         >
                           1 Points
                         </th>
+                        {displayAttempts3 ? (
+                          <th
+                            key="8"
+                            className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
+                          >
+                            3 Attempts
+                          </th>
+                        ) : (
+                          ""
+                        )}
+                        {displayAttempts2 ? (
+                          <th
+                            key="9"
+                            className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
+                          >
+                            2 Attempts
+                          </th>
+                        ) : (
+                          ""
+                        )}
+                        {displayAttempts1 ? (
+                          <th
+                            key="10"
+                            className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
+                          >
+                            1 Attempts
+                          </th>
+                        ) : (
+                          ""
+                        )}
+                        {displayBlocks ? (
+                          <th
+                            key="11"
+                            className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
+                          >
+                            Blocks
+                          </th>
+                        ) : (
+                          ""
+                        )}
+                        {displayRebounds ? (
+                          <th
+                            key="12"
+                            className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
+                          >
+                            Rebounds
+                          </th>
+                        ) : (
+                          ""
+                        )}
+                        {displayAssists ? (
+                          <th
+                            key="13"
+                            className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
+                          >
+                            Assists
+                          </th>
+                        ) : (
+                          ""
+                        )}
+                        {displayFouls ? (
+                          <th
+                            key="14"
+                            className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
+                          >
+                            Fouls
+                          </th>
+                        ) : (
+                          ""
+                        )}
+                        {displaySteals ? (
+                          <th
+                            key="15"
+                            className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
+                          >
+                            Steals
+                          </th>
+                        ) : (
+                          ""
+                        )}
+                        {displayTurnovers ? (
+                          <th
+                            key="16"
+                            className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
+                          >
+                            Turnovers
+                          </th>
+                        ) : (
+                          ""
+                        )}
                         <th
-                          key="6"
+                          key="7"
                           className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
                         >
                           Action
@@ -753,6 +1078,13 @@ const Matchup = () => {
                             </div>
                           </td>
                           <td className="">{player?.jerseyNumber}</td>
+                          {displayPosition ? (
+                            <td className="">
+                              {homeInput[index]?.position || 0}
+                            </td>
+                          ) : (
+                            ""
+                          )}
                           <td className="">{awayInput[index]?.points || 0}</td>
                           <td className="">
                             <input
@@ -787,6 +1119,51 @@ const Matchup = () => {
                               }
                             ></input>
                           </td>
+                          {displayAttempts3 ? (
+                            <td>{awayInput[index]?.attempts3 || 0}</td>
+                          ) : (
+                            ""
+                          )}
+                          {displayAttempts2 ? (
+                            <td>{awayInput[index]?.attempts2 || 0}</td>
+                          ) : (
+                            ""
+                          )}
+                          {displayAttempts1 ? (
+                            <td>{awayInput[index]?.attempts1 || 0}</td>
+                          ) : (
+                            ""
+                          )}
+                          {displayBlocks ? (
+                            <td>{awayInput[index]?.blocks || 0}</td>
+                          ) : (
+                            ""
+                          )}
+                          {displayRebounds ? (
+                            <td>{awayInput[index]?.rebounds || 0}</td>
+                          ) : (
+                            ""
+                          )}
+                          {displayAssists ? (
+                            <td>{awayInput[index]?.assists || 0}</td>
+                          ) : (
+                            ""
+                          )}
+                          {displayFouls ? (
+                            <td>{awayInput[index]?.fouls || 0}</td>
+                          ) : (
+                            ""
+                          )}
+                          {displaySteals ? (
+                            <td>{awayInput[index]?.steals || 0}</td>
+                          ) : (
+                            ""
+                          )}
+                          {displayTurnovers ? (
+                            <td>{awayInput[index]?.turnovers || 0}</td>
+                          ) : (
+                            ""
+                          )}
                           <td>
                             {player.isSubstitute === 1 ? (
                               <img
