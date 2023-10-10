@@ -8,7 +8,7 @@ import User from '../models/User';
 export const all: RequestHandler = async (req, res) => {
   // const matchups = await Matchup.findAll();
   const matchups = await Matchup.findAll({
-    include: [{ model: Player, as: 'player'}],
+    include: [{ model: Player, as: 'player' }]
   });
   // const modifiedMatchups = matchups.map((matchup)=>({
   //   ...matchup,
@@ -16,11 +16,13 @@ export const all: RequestHandler = async (req, res) => {
   // }))
   res.json({ matchups });
 };
+
+// Create a matchup for a substitute
 // POST SERVER_URL/api/matchup/createOne
-export const createOne: RequestHandler =async (req, res) => {
-  const {email, leagueId, matchId, teamId, jerseyNumber, position} = req.body;
+export const createOne: RequestHandler = async (req, res) => {
+  const { email, leagueId, matchId, teamId, jerseyNumber, position } = req.body;
   const user = await User.findOne({
-    where:{
+    where: {
       email
     }
   });
@@ -29,24 +31,24 @@ export const createOne: RequestHandler =async (req, res) => {
     const player = await Player.create({
       leagueId,
       teamId,
-      userId:user.id,
-      matchId:0,
-      firstName:user.firstName,
-      lastName:user.lastName,
-      avatar:`${process.env.DOMAIN}/api/user/avatar/${user.id}`,
-      email:user.email,
+      userId: user.id,
+      matchId: 0,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      avatar: `${process.env.DOMAIN}/api/user/avatar/${user.id}`,
+      email: user.email,
       jerseyNumber,
       position,
-      birthday:user.birthday,
-      isWaitList:0,
-      isAcceptedList:0,
-      isDeleted:0,
-      isSubstitute:1,
-      state:"",
-      country: "",
-      city:"",
-      address:"",
-      zipCode:""
+      birthday: user.birthday,
+      isWaitList: 0,
+      isAcceptedList: 0,
+      isDeleted: 0,
+      isSubstitute: 1,
+      state: '',
+      country: '',
+      city: '',
+      address: '',
+      zipCode: ''
     });
 
     await Matchup.create({
@@ -59,13 +61,22 @@ export const createOne: RequestHandler =async (req, res) => {
       points3: 0,
       points2: 0,
       points1: 0,
+      attempts3: 0,
+      attempts2: 0,
+      attempts1: 0,
+      blocks: 0,
+      rebounds: 0,
+      assists: 0,
+      fouls: 0,
+      steals: 0,
+      turnovers: 0,
       isDeleted: 0
     });
-    res.status(200).json({message:"Added successfully!"});
+    res.status(200).json({ message: 'Added successfully!' });
   } else {
-    res.status(404).json({message:"User not found"});
+    res.status(404).json({ message: 'User not found' });
   }
-}
+};
 // POST SERVER_URL/api/matchup/create
 export const create: RequestHandler = async (req, res) => {
   const matchId = req.body.matchId;
@@ -117,6 +128,15 @@ export const create: RequestHandler = async (req, res) => {
         points3: player.points3,
         points2: player.points2,
         points1: player.points1,
+        attempts3: player.attempts3?player.attempts3:0,
+        attempts2: player.attempts2?player.attempts3:0,
+        attempts1: player.attempts1?player.attempts3:0,
+        blocks: player.blocks?player.blocks:0,
+        rebounds: player.rebounds?player.rebounds:0,
+        assists: player.assists?player.assists:0,
+        fouls: player.fouls?player.fouls:0,
+        steals: player.steals?player.steals:0,
+        turnovers: player.turnovers?player.turnovers:0,
         isDeleted: 0
       });
     }
@@ -161,6 +181,15 @@ export const create: RequestHandler = async (req, res) => {
         points3: player.points3,
         points2: player.points2,
         points1: player.points1,
+        attempts3: player.attempts3?player.attempts3:0,
+        attempts2: player.attempts2?player.attempts3:0,
+        attempts1: player.attempts1?player.attempts3:0,
+        blocks: player.blocks?player.blocks:0,
+        rebounds: player.rebounds?player.rebounds:0,
+        assists: player.assists?player.assists:0,
+        fouls: player.fouls?player.fouls:0,
+        steals: player.steals?player.steals:0,
+        turnovers: player.turnovers?player.turnovers:0,
         isDeleted: 0
       });
     }
@@ -254,6 +283,15 @@ export const update: RequestHandler = async (req, res) => {
         points3: player.points3,
         points2: player.points2,
         points1: player.points1,
+        attempts3: player.attempts3?player.attempts3:0,
+        attempts2: player.attempts2?player.attempts3:0,
+        attempts1: player.attempts1?player.attempts3:0,
+        blocks: player.blocks?player.blocks:0,
+        rebounds: player.rebounds?player.rebounds:0,
+        assists: player.assists?player.assists:0,
+        fouls: player.fouls?player.fouls:0,
+        steals: player.steals?player.steals:0,
+        turnovers: player.turnovers?player.turnovers:0,
         isDeleted: 0
       });
     }

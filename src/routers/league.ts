@@ -37,11 +37,36 @@ leagueRouter.post('/apply', LeagueController.apply);
 // Allow fan view of a league
 leagueRouter.post('/allowFan', LeagueController.allowFan);
 
-// Toggle LeagueId
-leagueRouter.post('/toggleLeagueId', LeagueController.toggleLeagueId);
 
 // Toggle Position
 leagueRouter.post('/togglePosition', LeagueController.togglePosition);
+
+// Toggle 3 points attempts
+leagueRouter.post('/toggleAttempts3', LeagueController.toggleAttempts3);
+
+// Toggle 2 points attempts
+leagueRouter.post('/toggleAttempts2', LeagueController.toggleAttempts2);
+
+// Toggle 2 points attempts
+leagueRouter.post('/toggleAttempts1', LeagueController.toggleAttempts1);
+
+// Toggle Blocks
+leagueRouter.post('/toggleBlocks', LeagueController.toggleBlocks);
+
+// Toggle Rebounds
+leagueRouter.post('/toggleRebounds', LeagueController.toggleRebounds);
+
+// Toggle Assists
+leagueRouter.post('/toggleAssists', LeagueController.toggleAssists);
+
+// Toggle Fouls
+leagueRouter.post('/toggleFouls', LeagueController.toggleFouls);
+
+// Toggle Fouls
+leagueRouter.post('/toggleSteals', LeagueController.toggleSteals);
+
+// Toggle Turnovers
+leagueRouter.post('/toggleTurnovers', LeagueController.toggleTurnovers);
 
 // Toggle Password
 leagueRouter.post('/togglePassword', LeagueController.togglePassword);

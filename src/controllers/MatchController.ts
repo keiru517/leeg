@@ -38,6 +38,15 @@ export const create: RequestHandler = async (req, res) => {
         points3: 0,
         points2: 0,
         points1: 0,
+        attempts3: 0,
+        attempts2: 0,
+        attempts1: 0,
+        blocks: 0,
+        rebounds: 0,
+        assists: 0,
+        fouls: 0,
+        steals: 0,
+        turnovers: 0,
         isDeleted: 0
       });
     }
@@ -62,6 +71,15 @@ export const create: RequestHandler = async (req, res) => {
         points3: 0,
         points2: 0,
         points1: 0,
+        attempts3: 0,
+        attempts2: 0,
+        attempts1: 0,
+        blocks: 0,
+        rebounds: 0,
+        assists: 0,
+        fouls: 0,
+        steals: 0,
+        turnovers: 0,
         isDeleted: 0
       });
     }

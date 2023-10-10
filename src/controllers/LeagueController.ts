@@ -186,17 +186,17 @@ export const allowFan: RequestHandler =async (req, res) => {
     res.status(404).json({message: 'League not found'});
   }
 }
-export const toggleLeagueId: RequestHandler =async (req, res) => {
-  const leagueId = req.body.leagueId;
-  const status = req.body.status;
-  const league = await League.findByPk(leagueId);
-  if (league) {
-    await league.update({displayLeagueId:status});
-    res.status(200).json({message: 'Success'})
-  } else {
-    res.status(404).json({message: 'League not found'});
-  }
-}
+// export const toggleLeagueId: RequestHandler =async (req, res) => {
+//   const leagueId = req.body.leagueId;
+//   const status = req.body.status;
+//   const league = await League.findByPk(leagueId);
+//   if (league) {
+//     await league.update({displayLeagueId:status});
+//     res.status(200).json({message: 'Success'})
+//   } else {
+//     res.status(404).json({message: 'League not found'});
+//   }
+// }
 
 export const togglePosition: RequestHandler =async (req, res) => {
   const leagueId = req.body.leagueId;
@@ -204,6 +204,114 @@ export const togglePosition: RequestHandler =async (req, res) => {
   const league = await League.findByPk(leagueId);
   if (league) {
     await league.update({displayPosition:status});
+    res.status(200).json({message: 'Success'})
+  } else {
+    res.status(404).json({message: 'League not found'});
+  }
+}
+
+export const toggleAttempts3: RequestHandler =async (req, res) => {
+  const leagueId = req.body.leagueId;
+  const status = req.body.status;
+  const league = await League.findByPk(leagueId);
+  if (league) {
+    await league.update({displayAttempts3:status});
+    res.status(200).json({message: 'Success'})
+  } else {
+    res.status(404).json({message: 'League not found'});
+  }
+}
+
+export const toggleAttempts2: RequestHandler =async (req, res) => {
+  const leagueId = req.body.leagueId;
+  const status = req.body.status;
+  const league = await League.findByPk(leagueId);
+  if (league) {
+    await league.update({displayAttempts2:status});
+    res.status(200).json({message: 'Success'})
+  } else {
+    res.status(404).json({message: 'League not found'});
+  }
+}
+
+export const toggleAttempts1: RequestHandler =async (req, res) => {
+  const leagueId = req.body.leagueId;
+  const status = req.body.status;
+  const league = await League.findByPk(leagueId);
+  if (league) {
+    await league.update({displayAttempts1:status});
+    res.status(200).json({message: 'Success'})
+  } else {
+    res.status(404).json({message: 'League not found'});
+  }
+}
+
+export const toggleBlocks: RequestHandler =async (req, res) => {
+  const leagueId = req.body.leagueId;
+  const status = req.body.status;
+  const league = await League.findByPk(leagueId);
+  if (league) {
+    await league.update({displayBlocks:status});
+    res.status(200).json({message: 'Success'})
+  } else {
+    res.status(404).json({message: 'League not found'});
+  }
+}
+
+export const toggleRebounds: RequestHandler =async (req, res) => {
+  const leagueId = req.body.leagueId;
+  const status = req.body.status;
+  const league = await League.findByPk(leagueId);
+  if (league) {
+    await league.update({displayRebounds:status});
+    res.status(200).json({message: 'Success'})
+  } else {
+    res.status(404).json({message: 'League not found'});
+  }
+}
+
+export const toggleAssists: RequestHandler =async (req, res) => {
+  const leagueId = req.body.leagueId;
+  const status = req.body.status;
+  const league = await League.findByPk(leagueId);
+  if (league) {
+    await league.update({displayAssists:status});
+    res.status(200).json({message: 'Success'})
+  } else {
+    res.status(404).json({message: 'League not found'});
+  }
+}
+
+export const toggleFouls: RequestHandler =async (req, res) => {
+  const leagueId = req.body.leagueId;
+  const status = req.body.status;
+  const league = await League.findByPk(leagueId);
+  if (league) {
+    await league.update({displayFouls:status});
+    res.status(200).json({message: 'Success'})
+  } else {
+    res.status(404).json({message: 'League not found'});
+  }
+}
+
+export const toggleSteals: RequestHandler =async (req, res) => {
+  const leagueId = req.body.leagueId;
+  const status = req.body.status;
+  const league = await League.findByPk(leagueId);
+  if (league) {
+    await league.update({displaySteals:status});
+    res.status(200).json({message: 'Success'})
+  } else {
+    res.status(404).json({message: 'League not found'});
+  }
+}
+
+export const toggleTurnovers: RequestHandler =async (req, res) => {
+  const leagueId = req.body.leagueId;
+  const status = req.body.status;
+  const league = await League.findByPk(leagueId);
+  if (league) {
+    await league.update({displayTurnovers:status});
     res.status(200).json({message: 'Success'})
   } else {
     res.status(404).json({message: 'League not found'});

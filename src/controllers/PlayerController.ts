@@ -205,6 +205,8 @@ export const removeSubstitute: RequestHandler =async (req, res) => {
     res.status(404).json({message:"Player not found!"});
   }
 }
+
+// Add players to the team
 // POST SERVER_URL/api/player/add
 export const add: RequestHandler = async (req, res) => {
   const data = req.body;
@@ -236,6 +238,15 @@ export const add: RequestHandler = async (req, res) => {
             points3: 0,
             points2: 0,
             points1: 0,
+            attempts3: 0,
+            attempts2: 0,
+            attempts1: 0,
+            blocks: 0,
+            rebounds: 0,
+            assists: 0,
+            fouls: 0,
+            steals: 0,
+            turnovers: 0,
             isDeleted: 0
           })
         }

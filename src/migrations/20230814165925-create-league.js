@@ -28,9 +28,6 @@ module.exports = {
       description: {
         type: Sequelize.STRING
       },
-      leagueId: {
-        type: Sequelize.STRING
-      },
       logo: {
         type: Sequelize.STRING
       },
@@ -46,7 +43,31 @@ module.exports = {
       displayPosition: {
         type: Sequelize.BOOLEAN
       },
-      displayLeagueId: {
+      displayAttempts3: {
+        type: Sequelize.BOOLEAN
+      },
+      displayAttempts2: {
+        type: Sequelize.BOOLEAN
+      },
+      displayAttempts1: {
+        type: Sequelize.BOOLEAN
+      },
+      displayRebounds: {
+        type: Sequelize.BOOLEAN
+      },
+      displayBlocks: {
+        type: Sequelize.BOOLEAN
+      },
+      displayAssists: {
+        type: Sequelize.BOOLEAN
+      },
+      displayFouls: {
+        type: Sequelize.BOOLEAN
+      },
+      displaySteals: {
+        type: Sequelize.BOOLEAN
+      },
+      displayTurnovers: {
         type: Sequelize.BOOLEAN
       },
       requirePassword: {

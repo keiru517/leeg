@@ -28,6 +28,15 @@ export default class Matchup extends Model<
   declare points3: number;
   declare points2: number;
   declare points1: number;
+  declare attempts3: number;
+  declare attempts2: number;
+  declare attempts1: number;
+  declare blocks: number;
+  declare rebounds: number;
+  declare assists: number;
+  declare fouls: number;
+  declare steals: number;
+  declare turnovers: number;
   declare isDeleted: number;
   static modelName = 'Matchup';
 }
@@ -77,6 +86,15 @@ Matchup.init(
     points3: DataTypes.INTEGER,
     points2: DataTypes.INTEGER,
     points1: DataTypes.INTEGER,
+    attempts3: DataTypes.INTEGER,
+    attempts2: DataTypes.INTEGER,
+    attempts1: DataTypes.INTEGER,
+    blocks: DataTypes.INTEGER,
+    rebounds: DataTypes.INTEGER,
+    assists: DataTypes.INTEGER,
+    fouls: DataTypes.INTEGER,
+    steals: DataTypes.INTEGER,
+    turnovers: DataTypes.INTEGER,
     isDeleted: {
       type: DataTypes.INTEGER,
       defaultValue: 0

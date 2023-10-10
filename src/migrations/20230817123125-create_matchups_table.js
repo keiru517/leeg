@@ -67,6 +67,33 @@ module.exports = {
       points1: {
         type: Sequelize.INTEGER
       },
+      attempts3: {
+        type: Sequelize.INTEGER
+      },
+      attempts2: {
+        type: Sequelize.INTEGER
+      },
+      attempts1: {
+        type: Sequelize.INTEGER
+      },
+      blocks: {
+        type: Sequelize.INTEGER
+      },
+      rebounds: {
+        type: Sequelize.INTEGER
+      },
+      assists: {
+        type: Sequelize.INTEGER
+      },
+      fouls: {
+        type: Sequelize.INTEGER
+      },
+      steals: {
+        type: Sequelize.INTEGER
+      },
+      turnovers: {
+        type: Sequelize.INTEGER
+      },
       isDeleted: {
         type: Sequelize.INTEGER
       },
