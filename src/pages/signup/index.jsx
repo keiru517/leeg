@@ -222,7 +222,6 @@ const Signup = () => {
                 <button
                   onClick={handleSignup}
                   className="w-[377px] h-[48px] bg-primary rounded-lg text-white font-bold hover:bg-opacity-70 disabled:opacity-10"
-                  disabled={!isMatch}
                 >
                   Create Account
                 </button>
