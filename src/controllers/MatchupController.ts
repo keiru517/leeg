@@ -234,7 +234,17 @@ export const update: RequestHandler = async (req, res) => {
           points: player.points,
           points3: player.points3,
           points2: player.points2,
-          points1: player.points1
+          points1: player.points1,
+          attempts3: player.attempts3,
+          attempts2: player.attempts2,
+          attempts1: player.attempts1,
+          blocks: player.blocks,
+          rebounds: player.rebounds,
+          assists: player.assists,
+          fouls: player.fouls,
+          steals: player.steals,
+          turnovers: player.turnovers,
+
         },
         {
           where: {
@@ -266,7 +276,16 @@ export const update: RequestHandler = async (req, res) => {
           points: player.points,
           points3: player.points3,
           points2: player.points2,
-          points1: player.points1
+          points1: player.points1,
+          attempts3: player.attempts3,
+          attempts2: player.attempts2,
+          attempts1: player.attempts1,
+          blocks: player.blocks,
+          rebounds: player.rebounds,
+          assists: player.assists,
+          fouls: player.fouls,
+          steals: player.steals,
+          turnovers: player.turnovers,
         },
         { where: { id: matchup.id } }
       );
