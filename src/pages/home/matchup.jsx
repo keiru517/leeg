@@ -181,7 +181,6 @@ const Matchup = () => {
   useEffect(() => {
     // setHomeInput(homeTeamMatchups);
     // setAwayInput(awayTeamMatchups);
-    console.log(homeTeamPlayers);
     setHomeInput(homeTeamPlayers);
     setAwayInput(awayTeamPlayers);
   }, [
@@ -191,6 +190,7 @@ const Matchup = () => {
     awayTeamPlayers.length,
   ]);
 
+  // Handel Home team inputs
   const handleHomePoints3Change = (index, points3) => {
     let temp = { ...homeInput };
     temp[index] = {
@@ -199,7 +199,6 @@ const Matchup = () => {
       points: temp[index].points + 3 * (Number(points3) - temp[index].points3),
       // points: match?.isNew? temp[index].points || 0 + 3 * Number(points3):temp[index].points || 0 + 3 * (Number(points3) - temp[index].points3),
     };
-    console.log("home temp", temp);
     setHomeInput(temp);
   };
 
@@ -209,7 +208,6 @@ const Matchup = () => {
       ...temp[index],
       points2: Number(points2),
       points: temp[index].points + 2 * (Number(points2) - temp[index].points2),
-      // points: match?.isNew? temp[index].points || 0 + 2 * Number(points2):temp[index].points + 2 * (Number(points2) - temp[index].points2),
     };
     setHomeInput(temp);
   };
@@ -220,11 +218,86 @@ const Matchup = () => {
       ...temp[index],
       points1: Number(points1),
       points: temp[index].points + 1 * (Number(points1) - temp[index].points1),
-      // points: match?.isNew? temp[index].points || 0 + 1 * Number(points1):temp[index].points + 1 * (Number(points1) - temp[index].points1),
     };
     setHomeInput(temp);
   };
 
+  const handleHomeAttempts3Change = (index, attempts3) => {
+    let temp = { ...homeInput };
+    temp[index] = {
+      ...temp[index],
+      attempts3: Number(attempts3),
+      // points: temp[index].points + 3 * (Number(points3) - temp[index].points3),
+      // points: match?.isNew? temp[index].points || 0 + 3 * Number(points3):temp[index].points || 0 + 3 * (Number(points3) - temp[index].points3),
+    };
+    setHomeInput(temp);
+  };
+  const handleHomeAttempts2Change = (index, attempts2) => {
+    let temp = { ...homeInput };
+    temp[index] = {
+      ...temp[index],
+      attempts2: Number(attempts2),
+    };
+    setHomeInput(temp);
+  };
+  const handleHomeAttempts1Change = (index, attempts1) => {
+    let temp = { ...homeInput };
+    temp[index] = {
+      ...temp[index],
+      attempts1: Number(attempts1),
+    };
+    setHomeInput(temp);
+  };
+  const handleHomeBlocksChange = (index, blocks) => {
+    let temp = { ...homeInput };
+    temp[index] = {
+      ...temp[index],
+      blocks: Number(blocks),
+    };
+    setHomeInput(temp);
+  };
+  const handleHomeReboundsChange = (index, rebounds) => {
+    let temp = { ...homeInput };
+    temp[index] = {
+      ...temp[index],
+      rebounds: Number(rebounds),
+    };
+    setHomeInput(temp);
+  };
+  const handleHomeAssistsChange = (index, assists) => {
+    let temp = { ...homeInput };
+    temp[index] = {
+      ...temp[index],
+      assists: Number(assists),
+    };
+    setHomeInput(temp);
+  };
+  const handleHomeFoulsChange = (index, fouls) => {
+    let temp = { ...homeInput };
+    temp[index] = {
+      ...temp[index],
+      fouls: Number(fouls),
+    };
+    setHomeInput(temp);
+  };
+  const handleHomeStealsChange = (index, steals) => {
+    let temp = { ...homeInput };
+    temp[index] = {
+      ...temp[index],
+      steals: Number(steals),
+    };
+    setHomeInput(temp);
+  };
+  const handleHomeTurnoversChange = (index, turnovers) => {
+    let temp = { ...homeInput };
+    temp[index] = {
+      ...temp[index],
+      turnovers: Number(turnovers),
+    };
+    setHomeInput(temp);
+  };
+
+  // Handle Away Team inputs
   const handleAwayPoints3Change = (index, points3) => {
     let temp = { ...awayInput };
     temp[index] = {
@@ -251,6 +324,80 @@ const Matchup = () => {
       ...temp[index],
       points1: Number(points1),
       points: temp[index].points + 1 * (Number(points1) - temp[index].points1),
+    };
+    setAwayInput(temp);
+  };
+  const handleAwayAttempts3Change = (index, attempts3) => {
+    let temp = { ...awayInput };
+    temp[index] = {
+      ...temp[index],
+      attempts3: Number(attempts3),
+      // points: temp[index].points + 3 * (Number(points3) - temp[index].points3),
+      // points: match?.isNew? temp[index].points || 0 + 3 * Number(points3):temp[index].points || 0 + 3 * (Number(points3) - temp[index].points3),
+    };
+    setAwayInput(temp);
+  };
+  const handleAwayAttempts2Change = (index, attempts2) => {
+    let temp = { ...awayInput };
+    temp[index] = {
+      ...temp[index],
+      attempts2: Number(attempts2),
+    };
+    setAwayInput(temp);
+  };
+  const handleAwayAttempts1Change = (index, attempts1) => {
+    let temp = { ...awayInput };
+    temp[index] = {
+      ...temp[index],
+      attempts1: Number(attempts1),
+    };
+    setAwayInput(temp);
+  };
+  const handleAwayBlocksChange = (index, blocks) => {
+    let temp = { ...awayInput };
+    temp[index] = {
+      ...temp[index],
+      blocks: Number(blocks),
+    };
+    setAwayInput(temp);
+  };
+  const handleAwayReboundsChange = (index, rebounds) => {
+    let temp = { ...awayInput };
+    temp[index] = {
+      ...temp[index],
+      rebounds: Number(rebounds),
+    };
+    setAwayInput(temp);
+  };
+  const handleAwayAssistsChange = (index, assists) => {
+    let temp = { ...awayInput };
+    temp[index] = {
+      ...temp[index],
+      assists: Number(assists),
+    };
+    setAwayInput(temp);
+  };
+  const handleAwayFoulsChange = (index, fouls) => {
+    let temp = { ...awayInput };
+    temp[index] = {
+      ...temp[index],
+      fouls: Number(fouls),
+    };
+    setAwayInput(temp);
+  };
+  const handleAwayStealsChange = (index, steals) => {
+    let temp = { ...awayInput };
+    temp[index] = {
+      ...temp[index],
+      steals: Number(steals),
+    };
+    setAwayInput(temp);
+  };
+  const handleAwayTurnoversChange = (index, turnovers) => {
+    let temp = { ...awayInput };
+    temp[index] = {
+      ...temp[index],
+      turnovers: Number(turnovers),
     };
     setAwayInput(temp);
   };
@@ -749,61 +896,147 @@ const Matchup = () => {
                               }
                             ></input>
                           </td>
-                          {displayAttempts3 ? (
-                            <td>{homeInput[index]?.attempts3 || 0}</td>
-                          ) : (
-                            ""
+                          {displayAttempts3 && (
+                            <td>
+                              <input
+                                key={index}
+                                className="w-[50px] outline-none rounded-default bg-transparent border-none text-center"
+                                type="number"
+                                value={homeInput[index]?.attempts3 || 0}
+                                onChange={(e) =>
+                                  handleHomeAttempts3Change(
+                                    index,
+                                    e.target.value
+                                  )
+                                }
+                              ></input>
+                            </td>
                           )}
-                          {displayAttempts2 ? (
-                            <td>{homeInput[index]?.attempts2 || 0}</td>
-                          ) : (
-                            ""
+                          {displayAttempts2 && (
+                            <td>
+                              <input
+                                key={index}
+                                className="w-[50px] outline-none rounded-default bg-transparent border-none text-center"
+                                type="number"
+                                value={homeInput[index]?.attempts2 || 0}
+                                onChange={(e) =>
+                                  handleHomeAttempts2Change(
+                                    index,
+                                    e.target.value
+                                  )
+                                }
+                              ></input>
+                            </td>
                           )}
-                          {displayAttempts1 ? (
-                            <td>{homeInput[index]?.attempts1 || 0}</td>
-                          ) : (
-                            ""
+                          {displayAttempts1 && (
+                            <td>
+                              <input
+                                key={index}
+                                className="w-[50px] outline-none rounded-default bg-transparent border-none text-center"
+                                type="number"
+                                value={homeInput[index]?.attempts1 || 0}
+                                onChange={(e) =>
+                                  handleHomeAttempts1Change(
+                                    index,
+                                    e.target.value
+                                  )
+                                }
+                              ></input>
+                            </td>
                           )}
-                          {displayBlocks ? (
-                            <td>{homeInput[index]?.blocks || 0}</td>
-                          ) : (
-                            ""
+
+                          {displayBlocks && (
+                            <td>
+                              <input
+                                key={index}
+                                className="w-[50px] outline-none rounded-default bg-transparent border-none text-center"
+                                type="number"
+                                value={homeInput[index]?.blocks || 0}
+                                onChange={(e) =>
+                                  handleHomeBlocksChange(index, e.target.value)
+                                }
+                              ></input>
+                            </td>
                           )}
-                          {displayRebounds ? (
-                            <td>{homeInput[index]?.rebounds || 0}</td>
-                          ) : (
-                            ""
+                          {displayRebounds && (
+                            <td>
+                              <input
+                                key={index}
+                                className="w-[50px] outline-none rounded-default bg-transparent border-none text-center"
+                                type="number"
+                                value={homeInput[index]?.rebounds || 0}
+                                onChange={(e) =>
+                                  handleHomeReboundsChange(
+                                    index,
+                                    e.target.value
+                                  )
+                                }
+                              ></input>
+                            </td>
                           )}
-                          {displayAssists ? (
-                            <td>{homeInput[index]?.assists || 0}</td>
-                          ) : (
-                            ""
+                          {displayAssists && (
+                            <td>
+                              <input
+                                key={index}
+                                className="w-[50px] outline-none rounded-default bg-transparent border-none text-center"
+                                type="number"
+                                value={homeInput[index]?.assists || 0}
+                                onChange={(e) =>
+                                  handleHomeAssistsChange(index, e.target.value)
+                                }
+                              ></input>
+                            </td>
                           )}
-                          {displayFouls ? (
-                            <td>{homeInput[index]?.fouls || 0}</td>
-                          ) : (
-                            ""
+                          {displayFouls && (
+                            <td>
+                              <input
+                                key={index}
+                                className="w-[50px] outline-none rounded-default bg-transparent border-none text-center"
+                                type="number"
+                                value={homeInput[index]?.fouls || 0}
+                                onChange={(e) =>
+                                  handleHomeFoulsChange(index, e.target.value)
+                                }
+                              ></input>
+                            </td>
                           )}
-                          {displaySteals ? (
-                            <td>{homeInput[index]?.steals || 0}</td>
-                          ) : (
-                            ""
+                          {displaySteals && (
+                            <td>
+                              <input
+                                key={index}
+                                className="w-[50px] outline-none rounded-default bg-transparent border-none text-center"
+                                type="number"
+                                value={homeInput[index]?.steals || 0}
+                                onChange={(e) =>
+                                  handleHomeStealsChange(index, e.target.value)
+                                }
+                              ></input>
+                            </td>
                           )}
-                          {displayTurnovers ? (
-                            <td>{homeInput[index]?.turnovers || 0}</td>
-                          ) : (
-                            ""
+                          {displayTurnovers && (
+                            <td>
+                              <input
+                                key={index}
+                                className="w-[50px] outline-none rounded-default bg-transparent border-none text-center"
+                                type="number"
+                                value={homeInput[index]?.turnovers || 0}
+                                onChange={(e) =>
+                                  handleHomeTurnoversChange(
+                                    index,
+                                    e.target.value
+                                  )
+                                }
+                              ></input>
+                            </td>
                           )}
                           <td>
-                            {player.isSubstitute === 1 ? (
+                            {player.isSubstitute === 1 && (
                               <img
                                 src={deleteIcon}
                                 onClick={() => removeSubstitute(player.userId)}
                                 alt=""
                                 className="cursor-pointer"
                               />
-                            ) : (
-                              ""
                             )}
                           </td>
                         </tr>
@@ -1119,50 +1352,138 @@ const Matchup = () => {
                               }
                             ></input>
                           </td>
-                          {displayAttempts3 ? (
-                            <td>{awayInput[index]?.attempts3 || 0}</td>
-                          ) : (
-                            ""
+                          {displayAttempts3 && (
+                            <td>
+                              <input
+                                key={index}
+                                className="w-[50px] outline-none rounded-default bg-transparent border-none text-center"
+                                type="number"
+                                value={awayInput[index]?.attempts3 || 0}
+                                onChange={(e) =>
+                                  handleAwayAttempts3Change(
+                                    index,
+                                    e.target.value
+                                  )
+                                }
+                              ></input>
+                            </td>
                           )}
-                          {displayAttempts2 ? (
-                            <td>{awayInput[index]?.attempts2 || 0}</td>
-                          ) : (
-                            ""
+                          {displayAttempts2 && (
+                            <td>
+                              <input
+                                key={index}
+                                className="w-[50px] outline-none rounded-default bg-transparent border-none text-center"
+                                type="number"
+                                value={awayInput[index]?.attempts2 || 0}
+                                onChange={(e) =>
+                                  handleAwayAttempts2Change(
+                                    index,
+                                    e.target.value
+                                  )
+                                }
+                              ></input>
+                            </td>
                           )}
-                          {displayAttempts1 ? (
-                            <td>{awayInput[index]?.attempts1 || 0}</td>
-                          ) : (
-                            ""
+                          {displayAttempts1 && (
+                            <td>
+                              <input
+                                key={index}
+                                className="w-[50px] outline-none rounded-default bg-transparent border-none text-center"
+                                type="number"
+                                value={awayInput[index]?.attempts1 || 0}
+                                onChange={(e) =>
+                                  handleAwayAttempts1Change(
+                                    index,
+                                    e.target.value
+                                  )
+                                }
+                              ></input>
+                            </td>
                           )}
-                          {displayBlocks ? (
-                            <td>{awayInput[index]?.blocks || 0}</td>
-                          ) : (
-                            ""
+
+                          {displayBlocks && (
+                            <td>
+                              <input
+                                key={index}
+                                className="w-[50px] outline-none rounded-default bg-transparent border-none text-center"
+                                type="number"
+                                value={awayInput[index]?.blocks || 0}
+                                onChange={(e) =>
+                                  handleAwayBlocksChange(index, e.target.value)
+                                }
+                              ></input>
+                            </td>
                           )}
-                          {displayRebounds ? (
-                            <td>{awayInput[index]?.rebounds || 0}</td>
-                          ) : (
-                            ""
+                          {displayRebounds && (
+                            <td>
+                              <input
+                                key={index}
+                                className="w-[50px] outline-none rounded-default bg-transparent border-none text-center"
+                                type="number"
+                                value={awayInput[index]?.rebounds || 0}
+                                onChange={(e) =>
+                                  handleAwayReboundsChange(
+                                    index,
+                                    e.target.value
+                                  )
+                                }
+                              ></input>
+                            </td>
                           )}
-                          {displayAssists ? (
-                            <td>{awayInput[index]?.assists || 0}</td>
-                          ) : (
-                            ""
+                          {displayAssists && (
+                            <td>
+                              <input
+                                key={index}
+                                className="w-[50px] outline-none rounded-default bg-transparent border-none text-center"
+                                type="number"
+                                value={awayInput[index]?.assists || 0}
+                                onChange={(e) =>
+                                  handleAwayAssistsChange(index, e.target.value)
+                                }
+                              ></input>
+                            </td>
                           )}
-                          {displayFouls ? (
-                            <td>{awayInput[index]?.fouls || 0}</td>
-                          ) : (
-                            ""
+                          {displayFouls && (
+                            <td>
+                              <input
+                                key={index}
+                                className="w-[50px] outline-none rounded-default bg-transparent border-none text-center"
+                                type="number"
+                                value={awayInput[index]?.fouls || 0}
+                                onChange={(e) =>
+                                  handleAwayFoulsChange(index, e.target.value)
+                                }
+                              ></input>
+                            </td>
                           )}
-                          {displaySteals ? (
-                            <td>{awayInput[index]?.steals || 0}</td>
-                          ) : (
-                            ""
+                          {displaySteals && (
+                            <td>
+                              <input
+                                key={index}
+                                className="w-[50px] outline-none rounded-default bg-transparent border-none text-center"
+                                type="number"
+                                value={awayInput[index]?.steals || 0}
+                                onChange={(e) =>
+                                  handleAwayStealsChange(index, e.target.value)
+                                }
+                              ></input>
+                            </td>
                           )}
-                          {displayTurnovers ? (
-                            <td>{awayInput[index]?.turnovers || 0}</td>
-                          ) : (
-                            ""
+                          {displayTurnovers && (
+                            <td>
+                              <input
+                                key={index}
+                                className="w-[50px] outline-none rounded-default bg-transparent border-none text-center"
+                                type="number"
+                                value={awayInput[index]?.turnovers || 0}
+                                onChange={(e) =>
+                                  handleAwayTurnoversChange(
+                                    index,
+                                    e.target.value
+                                  )
+                                }
+                              ></input>
+                            </td>
                           )}
                           <td>
                             {player.isSubstitute === 1 ? (
