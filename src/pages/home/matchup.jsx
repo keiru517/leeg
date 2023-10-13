@@ -67,7 +67,7 @@ const Matchup = () => {
 
   const homeTeamMatchups = useSelector((state) => state.home.matchups)
     .filter(
-      (matchup) => matchup.matchId == matchId && matchup.teamId == homeTeam.id
+      (matchup) => matchup.matchId == matchId && matchup.teamId == homeTeam?.id
     )
     .map(
       ({
@@ -857,18 +857,18 @@ const Matchup = () => {
                           <td className="">{player?.jerseyNumber}</td>
                           {displayPosition ? (
                             <td className="">
-                              {homeInput[index]?.position || 0}
+                              {homeInput[index]?.position}
                             </td>
                           ) : (
                             ""
                           )}
-                          <td className="">{homeInput[index]?.points || 0}</td>
+                          <td className="">{homeInput[index]?.points}</td>
                           <td className="">
                             <input
                               key={index}
                               className="w-[50px] outline-none rounded-default bg-transparent border-none text-center"
                               type="number"
-                              value={homeInput[index]?.points3 || 0}
+                              value={homeInput[index]?.points3}
                               onChange={(e) =>
                                 handleHomePoints3Change(index, e.target.value)
                               }
@@ -879,7 +879,7 @@ const Matchup = () => {
                               key={index}
                               className="w-[50px] outline-none rounded-default bg-transparent border-none text-center"
                               type="number"
-                              value={homeInput[index]?.points2 || 0}
+                              value={homeInput[index]?.points2}
                               onChange={(e) =>
                                 handleHomePoints2Change(index, e.target.value)
                               }
@@ -890,7 +890,7 @@ const Matchup = () => {
                               key={index}
                               className="w-[50px] outline-none rounded-default bg-transparent border-none text-center"
                               type="number"
-                              value={homeInput[index]?.points1 || 0}
+                              value={homeInput[index]?.points1}
                               onChange={(e) =>
                                 handleHomePoints1Change(index, e.target.value)
                               }
