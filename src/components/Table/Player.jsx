@@ -37,17 +37,21 @@ const Player = (props) => {
         acc[player.userId].points = points;
         // overwrite the teamId if there is a player who is not deleted
         console.log("substitute", player.id, player.isSubstitute);
-        acc[player.userId].teamId = player.isDeleted ? 0 : player.teamId;
+        if (player.teamId !== 0 && player.isSubstitute !== 1) {
+          acc[player.userId].teamId = player.teamId
+        }
+        // acc[player.userId].teamId = player.teamId !== 0 && player.isSubstitute !== 1? player.teamId : 0;
         // overwrite the isDeleted if there is a player who is not deleted
         acc[player.userId].isDeleted = player.isDeleted ? 1 : player.isDeleted;
       } else {
         // If player doesn't exist, create a new entry
-        acc[player.userId] = { ...player, points: points };
+        acc[player.userId] = { ...player, points: points};
       }
       return acc;
     }, {})
   );
 
+  console.log(updatedPlayers)
   const teams = useSelector((state) => state.home.teams);
 
   // const players = useSelector((state) => state.home.players).filter(
