@@ -94,7 +94,7 @@ const Profile = () => {
         <span className="">Settings</span>
         <span className="text-sky-500"> &gt; Personal Information</span>
       </p>
-      <div className="flex flex-grow rounded-main bg-slate overflow-auto p-default">
+      <div className="flex flex-grow rounded-main bg-white dark:bg-slate overflow-auto p-default">
         {/* <div className="flex flex-col space-y-3">
           <button
             onClick={goToStep1}
@@ -165,19 +165,19 @@ const Profile = () => {
                 <>
                   <div className="grid grid-cols-3 space-x-3">
                     <Input
-                      className="text-font-dark-gray text-xs rounded-default"
+                      className="text-xs rounded-default"
                       placeholder="Type Email Address*"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                     ></Input>
                     <Input
-                      className="text-font-dark-gray text-xs rounded-default"
+                      className="text-xs rounded-default"
                       placeholder="Type Your First Name"
                       value={firstName}
                       onChange={(e) => setFirstName(e.target.value)}
                     ></Input>
                     <Input
-                      className="text-font-dark-gray text-xs rounded-default"
+                      className="text-xs rounded-default"
                       placeholder="Type Your Last Name"
                       value={lastName}
                       onChange={(e) => setLastName(e.target.value)}
