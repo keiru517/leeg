@@ -17,7 +17,6 @@ const TeamTable = (props) => {
     (league) => league.id == leagueId
   );
 
-  console.log(league?.displayPosition)
 
   const dispatch = useDispatch();
 
@@ -54,7 +53,7 @@ const TeamTable = (props) => {
           <tr>
             <th
               key="1"
-              className="h-button bg-light-charcoal dark:bg-slate text-center w-1/3"
+              className="h-button bg-light-charcoal dark:bg-slate text-center w-1/3 rounded-none"
             >
               <Typography
                 variant="small"

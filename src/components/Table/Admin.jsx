@@ -35,7 +35,7 @@ const AdminTable = (props) => {
           <tr>
             <th
               key="1"
-              className="h-button bg-slate text-center font-font-dark-gray w-1/2"
+              className="h-button bg-white dark:bg-slate text-center font-font-dark-gray w-1/2"
             >
               <Typography
                 variant="small"
