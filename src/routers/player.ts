@@ -22,6 +22,8 @@ playerRouter.post('/updatePoints', PlayerController.updatePoints);
 // SERVER_URL/api/player/remove/1
 playerRouter.post('/removeFromTeam', PlayerController.removeFromTeam);
 
+// remove a substitute player from a team on matchup page
+playerRouter.post('/removeSubstitute', PlayerController.removeSubstitute);
 // add players
 // SERVER_URL/api/player/add
 playerRouter.post('/add', PlayerController.add);

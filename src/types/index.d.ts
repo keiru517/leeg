@@ -23,13 +23,20 @@ export namespace Types {
     type: number; // 0 - public, 1 - private
     name: string;
     description: string;
-    leagueId: string;
     logo: string;
     startDate: string;
     endDate: string;
     isAllowedFan: boolean;
     displayPosition: boolean;
-    displayLeagueId: boolean;
+    displayAttempts3: boolean;
+    displayAttempts2: boolean;
+    displayAttempts1: boolean;
+    displayBlocks: boolean;
+    displayRebounds: boolean;
+    displayAssists: boolean;
+    displayFouls: boolean;
+    displaySteals: boolean;
+    displayTurnovers: boolean;
     requirePassword: boolean;
     password: string;
     isDeleted: number;
@@ -80,6 +87,15 @@ export namespace Types {
     points3: number;
     points2: number;
     points1: number;
+    attempts3: number;
+    attempts2: number;
+    attempts1: number;
+    blocks: number;
+    rebounds: number;
+    assists: number;
+    fouls: number;
+    steals: number;
+    turnovers: number;
     isDeleted: number;
   }
   export interface T_Player extends T_DB {

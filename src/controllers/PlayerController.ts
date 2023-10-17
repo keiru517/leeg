@@ -2,12 +2,18 @@ import { RequestHandler } from 'express';
 import Player from '../models/Player';
 // import User from '../models/User';
 import { Types } from '../types';
+import Matchup from '../models/Matchup';
+import Match from '../models/Match';
+import { Op } from 'sequelize';
+// import Match from '../models/Match';
 
 // GET SERVER_URL/api/player/all
 export const all: RequestHandler = async (req, res) => {
-  const players = await Player.findAll({where:{
-    isDeleted: 0
-  }});
+  const players = await Player.findAll({
+    where: {
+      isDeleted: 0
+    }
+  });
   res.json({ players });
 };
 
@@ -115,17 +121,45 @@ export const updatePoints: RequestHandler = async (req, res) => {
     res.status(404).json({ message: 'Player not found' });
   }
 };
-// POST SERVER_URL/api/player/remove
+// POST SERVER_URL/api/player/removeFromTeam
 export const removeFromTeam: RequestHandler = async (req, res) => {
   const id = req.body.id;
 
   const player = await Player.findByPk(id);
   if (player) {
+    const teamId = player.teamId;
     player.teamId = 0;
     player.isWaitList = 0;
     player.isAcceptedList = 1;
 
     await player.save();
+
+    // Remove from matchup if the match is new
+    const matchups = await Matchup.findAll({
+      where: {
+        playerId: player.id,
+        teamId: teamId
+      }
+    });
+
+    if (matchups) {
+      matchups.map(async matchup => {
+        const matchId = matchup.matchId;
+        const match = await Match.findByPk(matchId);
+        // Check if the match is new or not
+        if (match) {
+          // if the match is new, remove matchup so it will be not displayed on matchup page
+          if (match.isNew) {
+            await matchup.destroy();
+          }
+          // if the match is not new, we need to keep history
+          else {
+            matchup.isDeleted = 1;
+            await matchup.save();
+          }
+        }
+      });
+    }
 
     // await Player.create({
     //   leagueId: player.leagueId,
@@ -155,10 +189,28 @@ export const removeFromTeam: RequestHandler = async (req, res) => {
   }
 };
 
+export const removeSubstitute: RequestHandler =async (req, res) => {
+  const {userId, leagueId, matchId} = req.body;
+  const matchup = await Matchup.findOne({
+    where:{
+      userId,
+      leagueId,
+      matchId
+    }
+  });
+  if (matchup) {
+    await matchup.destroy();
+    res.status(200).json({message:'Removed a substitute successfully!'})
+  } else {
+    res.status(404).json({message:"Player not found!"});
+  }
+}
+
+// Add players to the team
 // POST SERVER_URL/api/player/add
 export const add: RequestHandler = async (req, res) => {
   const data = req.body;
-  console.log(data);
+
   const teamId = data['teamId'];
   const playersList = data['playersList'];
   var playerFound = false;
@@ -168,7 +220,43 @@ export const add: RequestHandler = async (req, res) => {
     if (player) {
       player.teamId = teamId;
       await player.save();
+      const matches = await Match.findAll({
+        where: {
+          [Op.or]: [{ homeTeamId: teamId}, {awayTeamId: teamId }]
+        }
+      });
+
+      matches.map(async match=>{
+        if (match.isNew) {
+          await Matchup.create({
+            playerId:player.id,
+            userId:player.userId,
+            leagueId:player.leagueId,
+            matchId: match.id,
+            teamId: player.teamId,
+            points: 0,
+            points3: 0,
+            points2: 0,
+            points1: 0,
+            attempts3: 0,
+            attempts2: 0,
+            attempts1: 0,
+            blocks: 0,
+            rebounds: 0,
+            assists: 0,
+            fouls: 0,
+            steals: 0,
+            turnovers: 0,
+            isDeleted: 0
+          })
+        }
+
+      })
       playerFound = true;
+      
+      // Update matchup
+      // If a player is added to a team, we need check all matchups and update it
+      // If the match is new, we need to add a matchup
     }
   });
 

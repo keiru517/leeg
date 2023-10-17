@@ -6,6 +6,7 @@ import { existsSync, mkdirSync, writeFileSync } from 'fs';
 import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
 import nodemailer from 'nodemailer';
+import fs from 'fs';
 
 export const signin: RequestHandler = async (req, res) => {
   try {
@@ -63,7 +64,7 @@ export const verifyEmail: RequestHandler = async (req, res) => {
         from: process.env.EMAIL,
         to: email,
         subject: process.env.VERIFICATION_EMAIL_SUBJECT,
-        text: process.env.VERIFICATION_EMAIL_BODY + verificationCode.toString()
+        text: process.env.VERIFICATION_EMAIL_BODY + " " + verificationCode.toString()
       };
 
       const emailService = nodemailer.createTransport({
@@ -141,7 +142,40 @@ export const all: RequestHandler = async (req, res) => {
   res.json({ users });
 };
 
-// GET SERVER_URL/api/user/all
+export const updateInfo: RequestHandler =async (req, res) => {
+  const {userId, email, firstName, lastName} = req.body;
+  const user = await User.findOne({
+    where:{
+      id:userId
+    }
+  });
+
+  if (req.file) {
+    if (user) {
+      user.email = email;
+      user.firstName = firstName;
+      user.lastName = lastName;
+      const extension = path.extname(req.file.originalname);
+      const filePath = userAvatarPath(user.id, user.avatar)
+      try {
+        fs.unlinkSync(filePath);
+        console.log('Avatar file deleted successfully');
+      } catch (err) {
+        console.error('Error deleting avatar file:', err);
+      }
+      const fileName = `avatar${extension}`;
+      user.avatar = fileName;
+      await user.save();
+      const buffer = req.file.buffer;
+      writeFileSync(filePath, buffer);
+      res.status(200).json({message:'Updated successfully!'});
+    } else {
+      res.status(404).json({message:'Update failed!'});
+    }
+  }
+}
+
+// GET SERVER_URL/api/user/info
 export const info: RequestHandler = async (req, res) => {
   const id = Number(req.params.id);
   console.log('============================', id);
