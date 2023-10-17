@@ -12,7 +12,8 @@ export const apis = {
   userAvatarURL: (id) => {
     return `${apiUrl}/user/avatar/${id}`;
   },
-  forgotPassword: apiUrl + "user/forgotPassword",
+  forgotPassword: apiUrl + "/user/forgotPassword",
+  updateInfo: apiUrl + "/user/updateInfo",
   // leagues
   getLeagues: apiUrl + "/league/all",
   createLeague: apiUrl + "/league/create",
@@ -23,8 +24,16 @@ export const apis = {
   leagueLogoURL: (userId, id) => `${apiUrl}/league/${userId}/logo/${id}`,
   applyLeague: apiUrl + "/league/apply",
   allowFan: apiUrl + "/league/allowFan",
-  toggleLeagueId: apiUrl + '/league/toggleLeagueId',
   togglePosition: apiUrl + '/league/togglePosition',
+  toggleAttempts3: apiUrl + '/league/toggleAttempts3',
+  toggleAttempts2: apiUrl + '/league/toggleAttempts2',
+  toggleAttempts1: apiUrl + '/league/toggleAttempts1',
+  toggleBlocks: apiUrl + '/league/toggleBlocks',
+  toggleRebounds: apiUrl + '/league/toggleRebounds',
+  toggleAssists: apiUrl + '/league/toggleAssists',
+  toggleFouls: apiUrl + '/league/toggleFouls',
+  toggleSteals: apiUrl + '/league/toggleSteals',
+  toggleTurnovers: apiUrl + '/league/toggleTurnovers',
   togglePassword: apiUrl + '/league/togglePassword',
   // teams
   getTeams: apiUrl + "/team/all",
@@ -52,6 +61,7 @@ export const apis = {
   createPlayer: apiUrl + "/player/create",
   updatePlayer: apiUrl + "/player/update",
   removePlayerFromTeam: apiUrl + "/player/removeFromTeam",
+  removeSubstitute: apiUrl + "/player/removeSubstitute",
   acceptPlayer: apiUrl + "/player/accept",
   unacceptPlayer: apiUrl + "/player/unaccept",
   addPlayer: apiUrl + "/player/add",

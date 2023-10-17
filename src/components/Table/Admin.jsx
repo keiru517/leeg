@@ -1,4 +1,4 @@
-import { Card, Typography } from "@material-tailwind/react";
+import { Typography } from "@material-tailwind/react";
 import deleteIcon from "../../assets/img/dark_mode/delete.png";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
@@ -104,7 +104,7 @@ const AdminTable = (props) => {
                       </div>
                       {admin.role === 1 ? (
                         <span className="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
-                          Main Admin
+                          Owner
                         </span>
                       ) : (
                         ""

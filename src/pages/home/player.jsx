@@ -2,11 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import Card from "../../components/Card";
 import Select from "../../components/Select";
 import ProfileTitle from "../../components/ProfileTitle";
-import leftarrowIcon from "../../assets/img/dark_mode/left-arrow.png";
-import avatar from "../../assets/img/dark_mode/ronaldo.jpg";
 import * as actions from "../../actions";
 import ProfileTable from "../../components/Table/Profile";
 
@@ -14,7 +11,6 @@ const Player = () => {
   let { leagueId, userId } = useParams();
   const dispatch = useDispatch();
 
-  const user = useSelector(state=>state.home.user);
 
   const options = [
     {

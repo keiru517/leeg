@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -11,7 +11,6 @@ import PageTitle from "../../components/PageTitle";
 import MatchTable from "../../components/Table/Match";
 import TeamStatisticsTable from "../../components/Table/TeamStatistics";
 import PlayerStatisticsTable from "../../components/Table/PlayerStatistics";
-import TeamTable from "../../components/Table/Team";
 
 const Team = () => {
   let { leagueId, teamId } = useParams();

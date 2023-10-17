@@ -1,23 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
 import Input from "../../components/Input";
 import Modal from "../../components/Modal";
 import PageTitle from "../../components/PageTitle";
 import * as actions from "../../actions";
 import leftarrowIcon from "../../assets/img/dark_mode/left-arrow.png";
-import verticalLine from "../../assets/img/dark_mode/vertical-line.png";
 import horizontalLine from "../../assets/img/dark_mode/horizontal-line.png";
-import profileImage from "../../assets/img/dark_mode/profile.png";
 import AdminTable from "../../components/Table/Admin";
 import eyeDisable from "../../assets/img/dark_mode/eye-disable.png";
 import toggleOn from "../../assets/img/dark_mode/toggle-on.png";
+import axios from "axios";
+import apis from "../../utils/apis";
 
 const Profile = () => {
   const dispatch = useDispatch();
   const admins = useSelector((state) => state.home.admins);
   const user = useSelector((state) => state.home.user);
-
 
   const breadcrumList = [
     "Personal Information",
@@ -58,14 +56,29 @@ const Profile = () => {
     actions.getUserInfo(dispatch, localStorage.getItem("userId"));
   }, []);
 
-  useEffect(()=>{
-    setEmail(user?.email)
-    setFirstName(user?.firstName)
-    setLastName(user?.lastName)
-  }, [user])
+  useEffect(() => {
+    setEmail(user?.email);
+    setFirstName(user?.firstName);
+    setLastName(user?.lastName);
+  }, [user]);
 
+  const fileUploadRef = useRef();
+  const [chosenFile, setChosenFile] = useState(null);
+  const [previewURL, setPreviewURL] = useState("");
 
-
+  const handleSubmit = () =>{
+    const formData = new FormData();
+    formData.append("avatar", chosenFile);
+    formData.append("userId", user?.id);
+    formData.append("email", email);
+    formData.append("firstName", firstName);
+    formData.append("lastName", lastName);
+    console.log(chosenFile)
+    axios.post(apis.updateInfo, formData).then((res)=>{
+      alert("updated")
+      actions.getUsers(dispatch);
+    })
+  }
   return (
     <div className="flex flex-col flex-grow">
       <PageTitle
@@ -78,7 +91,7 @@ const Profile = () => {
         <span className="">Settings</span>
         <span className="text-sky-500"> &gt; Personal Information</span>
       </p>
-      <div className="flex flex-grow rounded-main bg-slate overflow-auto p-default">
+      <div className="flex flex-grow rounded-main bg-white dark:bg-slate overflow-auto p-default">
         {/* <div className="flex flex-col space-y-3">
           <button
             onClick={goToStep1}
@@ -116,43 +129,55 @@ const Profile = () => {
         {step === 1 ? (
           <div className="flex flex-col flex-grow">
             <div className="flex flex-col flex-grow space-y-5">
-              <div className="flex items-center">
-                <img
-                  src={user.avatar}
-                  alt=""
-                  className="mr-8 w-24 h-24 rounded-lg"
-                />
-                <div className="bg-primary h-button rounded-default text-white font-bold text-sm mr-3 w-[180px] hover:opacity-70 cursor-pointer flex justify-center items-center">
-                  {/* <input style={{display:'none'}} type='file' className=" rounded-default w-[180px] h-input text-white font-bold text-sm mr-3 hover:opacity-70 ">
-                    
-                  </input> */}
-                  <input className="hidden" type="file" />
+              <div className="flex items-center space-x-3">
+                  <img
+
+                    src={previewURL ? previewURL : user?.avatar}
+                    className="w-24 h-24 rounded-lg"
+                    alt=""
+                  />
+                <div
+                  className="bg-primary h-button rounded-default text-white font-bold text-sm mr-3 w-[180px] hover:opacity-70 cursor-pointer flex justify-center items-center"
+                  onClick={() => {
+                    fileUploadRef.current?.click();
+                  }}
+                >
                   Upload New Picture
                 </div>
-                <button className="bg-[#313435] rounded-default w-[103px] h-button text-white font-bold text-sm hover:opacity-70">
-                  Remove
-                </button>
+                <input
+                  type="file"
+                  hidden
+                  ref={fileUploadRef}
+                  onChange={(e) => {
+                    const files = e.target.files;
+                    if (files.length > 0) {
+                      const file = files[0];
+                      setChosenFile(file);
+                      setPreviewURL(URL.createObjectURL(file));
+                    }
+                  }}
+                />
               </div>
               {status === "information" ? (
                 <>
                   <div className="grid grid-cols-3 space-x-3">
                     <Input
-                      className="text-font-dark-gray text-xs rounded-default"
+                      className="text-xs rounded-default"
                       placeholder="Type Email Address*"
                       value={email}
-                      onChange={(e)=>setEmail(e.target.value)}
-                      ></Input>
+                      onChange={(e) => setEmail(e.target.value)}
+                    ></Input>
                     <Input
-                      className="text-font-dark-gray text-xs rounded-default"
+                      className="text-xs rounded-default"
                       placeholder="Type Your First Name"
                       value={firstName}
-                      onChange={(e)=>setFirstName(e.target.value)}
-                      ></Input>
+                      onChange={(e) => setFirstName(e.target.value)}
+                    ></Input>
                     <Input
-                      className="text-font-dark-gray text-xs rounded-default"
+                      className="text-xs rounded-default"
                       placeholder="Type Your Last Name"
                       value={lastName}
-                      onChange={(e)=>setLastName(e.target.value)}
+                      onChange={(e) => setLastName(e.target.value)}
                     ></Input>
                   </div>
                 </>
@@ -189,11 +214,12 @@ const Profile = () => {
                     : "Update Information"}
                 </p>
                 <button
-                  onClick={
-                    status === "information"
-                      ? updateInformation
-                      : updatePassword
-                  }
+                  // onClick={
+                  //   status === "information"
+                  //     ? updateInformation
+                  //     : updatePassword
+                  // }
+                  onClick={handleSubmit}
                   className="bg-primary h-12 text-white font-bold text-sm w-[76px] rounded-default hover:opacity-70"
                 >
                   Save

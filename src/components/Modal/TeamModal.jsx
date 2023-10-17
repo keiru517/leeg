@@ -2,10 +2,8 @@ import { Fragment, useEffect, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { useParams } from "react-router";
 import axios from "axios";
-import { CheckIcon } from "@heroicons/react/24/outline";
 import close from "../../assets/img/dark_mode/close.png";
 import deleteIcon from "../../assets/img/dark_mode/delete.png";
-import editIcon from "../../assets/img/dark_mode/edit.png";
 import search from "../../assets/img/dark_mode/search.png";
 import uploadCircle from "../../assets/img/dark_mode/upload-circle.png";
 import Input from "../Input";
@@ -13,7 +11,6 @@ import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../actions";
 import PlayerList from "../ListItem/PlayerList";
 import apis from "../../utils/apis";
-import { useSelect } from "@material-tailwind/react";
 
 const TeamModal = () => {
   let { leagueId } = useParams();
@@ -32,6 +29,7 @@ const TeamModal = () => {
   const [logoWarning, setLogoWarning] = useState(false);
   const [nameWarning, setNameWarning] = useState(false);
   const [confirmTeamName, setConfirmTeamName] = useState("");
+  const [color, setColor] = useState("");
 
   const players = useSelector((state) => state.home.players).filter(
     (player) =>
@@ -52,7 +50,9 @@ const TeamModal = () => {
   }, [team]);
 
   const closeDialog = () => {
-    setPreviewURL("");
+    setPreviewURL(null);
+    setColor(null);
+    setChosenFile(null);
     setTeamName("");
     setLogoWarning(false);
     setConfirmTeamName("");
@@ -71,26 +71,26 @@ const TeamModal = () => {
   // };
 
   const createSubmit = () => {
-    if (!chosenFile && !teamName?.length > 0) {
+    if (!teamName?.length > 0) {
       // alert("Please choose file");
-      setLogoWarning(true);
+      // setLogoWarning(true);
       setNameWarning(true);
-    } else if (!chosenFile) {
+    } else if (!chosenFile && !color) {
       setLogoWarning(true);
-    } else if (!teamName?.length > 0) {
-      setNameWarning(true);
     } else {
       const formData = new FormData();
       formData.append("userId", user?.id);
       formData.append("leagueId", leagueId);
       formData.append("logo", chosenFile);
+      formData.append("color", color);
       formData.append("name", teamName);
 
       dispatch({ type: actions.CLOSE_TEAM_DIALOG });
       axios.post(apis.createTeam, formData).then((res) => {
         actions.getTeams(dispatch);
         actions.getPlayers(dispatch);
-        setPreviewURL("");
+        setPreviewURL(null);
+        setColor(null);
         setTeamName("");
         setLogoWarning(false);
       });
@@ -99,12 +99,14 @@ const TeamModal = () => {
 
   const editSubmit = () => {
     dispatch({ type: actions.CLOSE_TEAM_DIALOG });
+    const formData = new FormData();
+    formData.append("userId", user?.id);
+    formData.append("leagueId", leagueId);
+    formData.append("logo", chosenFile);
+    formData.append("color", color);
+    formData.append("name", teamName);
     axios
-      .post(apis.updateTeam, {
-        id: team.id,
-        name: teamName,
-        logo: "updated logo",
-      })
+      .post(apis.updateTeam, formData)
       .then((res) => {
         actions.getTeams(dispatch);
         alert(res.data.message);
@@ -238,45 +240,112 @@ const TeamModal = () => {
                           <div
                             className={`${
                               logoWarning ? "border-2 border-red-500" : ""
-                            } flex w-full h-[86px] bg-light-charcoal dark:bg-charcoal rounded-default items-center cursor-pointer`}
-                            onClick={() => {
-                              fileUploadRef.current?.click();
-                            }}
+                            } flex w-full h-[86px] bg-light-charcoal dark:bg-charcoal rounded-default items-center justify-between`}
                           >
-                            {previewURL ? (
-                              <img
-                                src={previewURL}
-                                className="rounded-full w-[58px] h-[58px] mx-2"
-                                alt=""
+                            <div className="flex items-center">
+                              {/* {previewURL ? (
+                                <img
+                                  onClick={() => {
+                                    fileUploadRef.current?.click();
+                                  }}
+                                  src={previewURL}
+                                  className="rounded-full w-[58px] h-[58px] mx-2"
+                                  alt=""
+                                  style={{
+                                    filter: `birghtness(100%) hue-rotate(180deg) saturate(150%) sepia(20%)`,
+                                  }}
+                                />
+                              ) : type === "create" ? (
+                                <img
+                                  src={uploadCircle}
+                                  alt=""
+                                  className="mx-2"
+                                  onClick={() => {
+                                    fileUploadRef.current?.click();
+                                  }}
+                                />
+                              ) : type === "edit" ? (
+                                <img
+                                  src={team?.logo}
+                                  onClick={() => {
+                                    fileUploadRef.current?.click();
+                                  }}
+                                  alt=""
+                                  className="rounded-full w-[58px] h-[58px] mx-2"
+                                />
+                              ) : (
+                                ""
+                              )} */}
+                              <div
+                                className={`w-[58px] h-[58px] rounded-full mx-2`}
+                                style={{ backgroundColor: color }}
+                                onClick={() => {
+                                  fileUploadRef.current?.click();
+                                }}
+                              >
+                                {previewURL ? (
+                                  <img
+                                    // onClick={() => {
+                                    //   fileUploadRef.current?.click();
+                                    // }}
+                                    src={previewURL}
+                                    className="rounded-full w-[58px] h-[58px]"
+                                    alt=""
+                                  />
+                                ) : type === "create" ? (
+                                  color ? (
+                                    ""
+                                  ) : (
+                                    <img
+                                      src={uploadCircle}
+                                      alt=""
+                                      className=""
+                                      // onClick={() => {
+                                      //   fileUploadRef.current?.click();
+                                      // }}
+                                    />
+                                  )
+                                ) : type === "edit" ? (
+                                  <img
+                                    src={team?.logo}
+                                    alt=""
+                                    className="rounded-full w-[58px] h-[58px]"
+                                  />
+                                ) : (
+                                  ""
+                                )}
+                              </div>
+                              <input
+                                id="nativeColorPicker1"
+                                type="color"
+                                className="mr-3 w-[30px]"
+                                value={color}
+                                onChange={(e) => {
+                                  setPreviewURL(null);
+                                  setChosenFile(null);
+                                  setColor(e.target.value);
+                                }}
                               />
-                            ) : type === "create" ? (
-                              <img src={uploadCircle} alt="" className="mx-2" />
-                            ) : type === "edit" ? (
-                              <img
-                                src={team?.logo}
-                                alt=""
-                                className="rounded-full w-[58px] h-[58px] mx-2"
+                              <input
+                                type="file"
+                                ref={fileUploadRef}
+                                hidden
+                                onChange={(e) => {
+                                  const files = e.target.files;
+                                  if (files.length) {
+                                    const file = files[0];
+                                    setChosenFile(file);
+                                    setPreviewURL(URL.createObjectURL(file));
+                                    setColor(null);
+                                    setLogoWarning(false);
+                                  }
+                                }}
                               />
-                            ) : (
-                              ""
-                            )}
-                            <input
-                              type="file"
-                              ref={fileUploadRef}
-                              hidden
-                              onChange={(e) => {
-                                const files = e.target.files;
-                                if (files.length) {
-                                  const file = files[0];
-                                  setChosenFile(file);
-                                  setPreviewURL(URL.createObjectURL(file));
-                                  setLogoWarning(false);
-                                }
-                              }}
-                            />
-                            <p className="text-black dark:text-white font-bold text-sm">
-                              Upload League Logo
-                            </p>
+                              <p className="text-black dark:text-white font-bold text-sm">
+                                Upload Team Logo
+                              </p>
+                            </div>
+                            <div className="flex items-center"></div>
                           </div>
                           <Input
                             className={`${

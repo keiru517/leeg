@@ -8,8 +8,6 @@ import close from "../../assets/img/dark_mode/close.png";
 import uploadCircle from "../../assets/img/dark_mode/upload-circle.png";
 import calendar from "../../assets/img/dark_mode/calendar.png";
 import Input from "../Input";
-import deleteIcon from "../../assets/img/dark_mode/delete.png";
-import editIcon from "../../assets/img/dark_mode/edit.png";
 import axios from "axios";
 import apis from "../../utils/apis";
 
@@ -44,7 +42,7 @@ const LeagueModal = () => {
   // };
 
   const deleteSubmit = () => {
-    console.log(confirmLeagueName, leagueName);
+
     if (confirmLeagueName == "") {
       alert("Please type the league name you want to delete for confirmation.");
     } else if (confirmLeagueName === leagueName) {
@@ -53,7 +51,7 @@ const LeagueModal = () => {
         .then((res) => {
           alert(res.data.message);
           actions.getLeagues(dispatch);
-          navigate(-1);
+          navigate('/');
         })
         .catch((error) => alert(error.response.data.message));
       dispatch({ type: actions.CLOSE_LEAGUE_DIALOG });
@@ -122,7 +120,7 @@ const LeagueModal = () => {
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative transform overflow-hidden rounded-main text-left shadow-xl transition-all sm:my-8 bg-slate h-[609px] md:w-[735px] mx-3 flex flex-col">
+              <Dialog.Panel className="relative transform overflow-hidden rounded-main text-left shadow-xl transition-all sm:my-8 bg-white dark:bg-slate h-[609px] md:w-[735px] mx-3 flex flex-col">
                 <div className="divide-y divide-solid divide-[#3A3A3A] flex flex-col flex-grow">
                   <div className="flex items-center text-left h-[88px] justify-between px-default">
                     {type === "edit" ? (

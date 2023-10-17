@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Input from "../../components/Input";
 import logo from "../../assets/img/dark_mode/logo.png";
 import hrLine from "../../assets/img/dark_mode/hr-line.png";

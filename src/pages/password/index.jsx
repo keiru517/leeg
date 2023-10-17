@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import logo from "../../assets/img/dark_mode/logo.png";
@@ -6,7 +6,6 @@ import hrLine from "../../assets/img/dark_mode/hr-line.png";
 import Input from "../../components/Input";
 import apis from "../../utils/apis";
 const Password = () => {
-  const navigate = useNavigate();
 
   const [email, setEmail] = useState();
   const handleClick = () => {

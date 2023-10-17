@@ -1,6 +1,6 @@
-import { Fragment, useEffect, useRef, useState } from "react";
+import { Fragment, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { CheckIcon } from "@heroicons/react/24/outline";
+import Datepicker from "tailwind-datepicker-react";
 import close from "../../assets/img/dark_mode/close.png";
 import btn1 from "../../assets/img/dark_mode/btn1.png";
 import btn1Selected from "../../assets/img/dark_mode/btn1-selected.png";
@@ -8,14 +8,11 @@ import btn2 from "../../assets/img/dark_mode/btn2.png";
 import btn2Selected from "../../assets/img/dark_mode/btn2-selected.png";
 import btn3 from "../../assets/img/dark_mode/btn3.png";
 import uploadCircle from "../../assets/img/dark_mode/upload-circle.png";
-import calendar from "../../assets/img/dark_mode/calendar.png";
-import Button from "../Button";
 import Select from "../Select";
 import Input from "../Input";
 import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../actions";
 import axios from "axios";
-import { Navigate } from "react-router-dom";
 import apis from "../../utils/apis";
 
 const Modal = (props) => {
@@ -23,26 +20,35 @@ const Modal = (props) => {
 
   const status = useSelector((state) => state.home.league_dialog.open);
   const user = useSelector((state) => state.home.user);
-
+  
   // const [open, setOpen] = useState(false);
   const [step, setStep] = useState(1);
-
+  
   const cancelButtonRef = useRef(null);
-
+  
   const sportOptions = [
     { id: 0, name: "Basketball" },
-    { id: 1, name: "Rugby" },
-    { id: 2, name: "Hockey" },
-    { id: 3, name: "Baseball" },
+    // { id: 1, name: "Rugby" },
+    // { id: 2, name: "Hockey" },
+    // { id: 3, name: "Baseball" },
   ];
 
+  const currentDate = new Date()
+    .toLocaleDateString("en", {
+      month: "short",
+      day: "2-digit",
+      year: "numeric",
+    })
+    .replace(/ /g, "/")
+    .replace(",", "");
+  
   const closeDialog = () => {
     setStep(1);
     setSport("Select Sport*");
     setLeagueName("");
     setLeagueDescription("");
-    setStartDate("");
-    setEndDate("");
+    setStartDate(currentDate);
+    setEndDate(currentDate);
     setChosenFile(null);
     setPreviewURL("");
     dispatch({ type: actions.OPEN_CREATE_LEAGUE_DIALOG, payload: false });
@@ -57,8 +63,8 @@ const Modal = (props) => {
   };
 
   const goToStep3 = () => {
-    if (!chosenFile || !leagueName || !leagueDescription) {
-      alert("Please fill in all data")
+    if (!leagueName) {
+      alert("Please fill in the league name");
     } else {
       setStep(3);
     }
@@ -67,8 +73,8 @@ const Modal = (props) => {
   const [sport, setSport] = useState("Select Sport*");
   const [leagueName, setLeagueName] = useState("");
   const [leagueDescription, setLeagueDescription] = useState("");
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+  const [startDate, setStartDate] = useState(currentDate);
+  const [endDate, setEndDate] = useState(currentDate);
   const fileUploadRef = useRef(null);
 
   const [chosenFile, setChosenFile] = useState(null);
@@ -97,13 +103,127 @@ const Modal = (props) => {
         setLeagueDescription("");
         setStartDate("");
         setEndDate("");
-        setChosenFile(null)
+        setChosenFile(null);
+        setPreviewURL("");
         goToStep1();
         alert(res.data.message);
 
         // Navigate(-1);
       })
       .catch((error) => console.log(error.response.data.message));
+  };
+
+  // useEffect(() => {
+  //   // Default file path in the assets directory
+  //   const defaultFilePath = '../../assets/img/dark_mode/ronaldo.jpg';
+
+  //   // Fetch the default file asynchronously
+  //   fetch(defaultFilePath)
+  //     .then((response) => response.blob())
+  //     .then((blob) => {
+  //       // Create a default File object with the default file blob and name
+  //       const defaultFile = new File([blob], 'ronaldo.jpg', {
+  //         type: 'image/jpeg',
+  //       });
+  //       console.log(defaultFile)
+  //       // Set the default file as the initial state value
+  //       setChosenFile(defaultFile);
+
+  //       // Optionally, set the preview URL for the initial file
+  //       setPreviewURL(URL.createObjectURL(defaultFile));
+  //     })
+  //     .catch((error) => {
+  //       console.error('Error fetching default file:', error);
+  //     });
+  // }, []);
+
+  const options1 = {
+    title: "Enter Season Start Date",
+    autoHide: true,
+    todayBtn: true,
+    clearBtn: true,
+    maxDate: new Date("2030-01-01"),
+    minDate: new Date("1950-01-01"),
+    theme: {
+      background: "bg-gray-700 dark:bg-gray-800",
+      todayBtn: "",
+      clearBtn: "",
+      icons: "",
+      text: "",
+      disabledText: "opacity-30",
+      input: "",
+      inputIcon: "",
+      selected: "",
+    },
+    icons: {
+      // () => ReactElement | JSX.Element
+      prev: () => <span className="text-xs">&lt;</span>,
+      next: () => <span className="text-xs">&gt;</span>,
+    },
+    datepickerClassNames: "text-xs top-12",
+    language: "en",
+  };
+
+  const options2 = {
+    title: "Enter Season End Date",
+    autoHide: true,
+    todayBtn: true,
+    clearBtn: true,
+    maxDate: new Date("2030-01-01"),
+    minDate: new Date("1950-01-01"),
+    theme: {
+      background: "bg-gray-700 dark:bg-gray-800",
+      todayBtn: "",
+      clearBtn: "",
+      icons: "",
+      text: "",
+      disabledText: "opacity-30",
+      input: "",
+      inputIcon: "",
+      selected: "",
+    },
+    icons: {
+      // () => ReactElement | JSX.Element
+      prev: () => <span className="text-xs">&lt;</span>,
+      next: () => <span className="text-xs">&gt;</span>,
+    },
+    datepickerClassNames: "text-xs top-12",
+    language: "en",
+  };
+
+  const [show1, setShow1] = useState(false);
+  const [show2, setShow2] = useState(false);
+  const handleChange1 = (selectedDate) => {
+    const dateObj = new Date(selectedDate);
+    const formattedDate = dateObj
+      .toLocaleDateString("en", {
+        month: "short",
+        day: "2-digit",
+        year: "numeric",
+      })
+      .replace(/ /g, "/")
+      .replace(",", "");
+    console.log(formattedDate.toString());
+    setStartDate(formattedDate.toString());
+  };
+  const handleChange2 = (selectedDate) => {
+    const dateObj = new Date(selectedDate);
+    const formattedDate = dateObj
+      .toLocaleDateString("en", {
+        month: "short",
+        day: "2-digit",
+        year: "numeric",
+      })
+      .replace(/ /g, "/")
+      .replace(",", "");
+    console.log(formattedDate.toString());
+    setEndDate(formattedDate.toString());
+  };
+  const handleClose1 = (state) => {
+    setShow1(state);
+  };
+  const handleClose2 = (state) => {
+    setShow2(state);
   };
 
   return (
@@ -245,6 +365,7 @@ const Modal = (props) => {
                                   if (files.length) {
                                     const file = files[0];
                                     setChosenFile(file);
+                                    console.log(file);
                                     setPreviewURL(URL.createObjectURL(file));
                                   }
                                 }}
@@ -264,7 +385,7 @@ const Modal = (props) => {
                               id="message"
                               rows="6"
                               className="block p-2.5 w-full text-xs text-gray-900 rounded-lg border border-charcoal focus:ring-blue-500 focus:border-blue-500 dark:bg-transparent dark:border-charcoal dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 resize-none outline-none"
-                              placeholder="Describe your League*"
+                              placeholder="Describe your League"
                               value={leagueDescription}
                               onChange={(e) =>
                                 setLeagueDescription(e.target.value)
@@ -288,21 +409,36 @@ const Modal = (props) => {
                         </>
                       ) : (
                         <>
-                          <div className="w-full h-29">
-                            <Input
+                          <div className="w-full h-29 relative">
+                            {/* <Input
                               className="text-xs rounded-default mb-5"
                               // option={calendar}
                               placeholder="Enter Season Start Date*"
                               value={startDate}
                               onChange={(e) => setStartDate(e.target.value)}
+                            /> */}
+                            <Datepicker
+                              classNames="mb-5"
+                              options={options1}
+                              onChange={handleChange1}
+                              show={show1}
+                              setShow={handleClose1}
                             />
-                            <Input
+
+                            <Datepicker
+                              classNames=""
+                              options={options2}
+                              onChange={handleChange2}
+                              show={show2}
+                              setShow={handleClose2}
+                            />
+                            {/* <Input
                               className="text-xs rounded-default"
                               // option={calendar}
                               placeholder="Enter Season End Date*"
                               value={endDate}
                               onChange={(e) => setEndDate(e.target.value)}
-                            />
+                            /> */}
                           </div>
                           <div className="flex mt-auto w-full justify-between">
                             <button

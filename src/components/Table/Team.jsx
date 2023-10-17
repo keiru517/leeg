@@ -1,5 +1,4 @@
-import { Card, Typography } from "@material-tailwind/react";
-import actionIcon from "../../assets/img/dark_mode/action.png";
+import { Typography } from "@material-tailwind/react";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import Option from "../Option";
@@ -7,7 +6,6 @@ import * as actions from "../../actions";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import apis from "../../utils/apis";
-import Input from "../Input";
 import EditPlayerModal from "../Modal/EditPlayerModal";
 import { useState } from "react";
 
@@ -115,7 +113,7 @@ const TeamTable = (props) => {
               className="odd:bg-light-dark-gray dark:odd:bg-dark-gray even:bg-light-charcoal dark:even:bg-charcoal"
             >
               <td className="">
-                <div className="flex items-center justify-between px-8">
+                <div className="flex items-center px-3">
                   <img
                     src={player.avatar}
                     alt=""

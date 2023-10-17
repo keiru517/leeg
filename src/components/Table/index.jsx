@@ -1,4 +1,4 @@
-import { Card, Typography } from "@material-tailwind/react";
+import { Typography } from "@material-tailwind/react";
 
 const Table = (props) => {
   const { columns, data } = props;

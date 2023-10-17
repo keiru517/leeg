@@ -1,6 +1,4 @@
 import { useRef, useState, useEffect } from "react";
-import downArrowFilled from "../../../src/assets/img/dark_mode/down-arrow-filled.png";
-import downArrow from "../../../src/assets/img/dark_mode/down-arrow.png";
 import actionIcon from "../../assets/img/dark_mode/action.png";
 
 

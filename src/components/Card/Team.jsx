@@ -4,8 +4,6 @@ import userIcon from "../../assets/img/dark_mode/user-add.png";
 import editIcon from "../../assets/img/dark_mode/edit.png";
 import * as actions from "../../actions";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import apis from "../../utils/apis";
 
 const TeamCard = (props) => {
   const { team } = props;
@@ -17,7 +15,7 @@ const TeamCard = (props) => {
   );
 
   const players = useSelector((state) => state.home.players).filter(
-    (player) => player.teamId == team.id && player.isDeleted !== 1
+    (player) => player.teamId == team.id && player.isDeleted !== 1 && player.isSubstitute !==1
   );
 
   const dispatch = useDispatch();
@@ -38,8 +36,8 @@ const TeamCard = (props) => {
           <Link to={`team/${team.id}`}>
             <p className="text-black dark:text-white text-sm mx-2 underline">{team.name}</p>
           </Link>
-          <p className="text-black dark:text-white text-[10px]">
-            {team.waitlist}/{team.max}
+          <p className="text-black dark:text-white pt-1 text-sm">
+            {players.length}
           </p>
         </div>
         {league?.userId == user?.id ? (

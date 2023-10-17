@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Input from "../../components/Input";
 import logo from "../../assets/img/dark_mode/logo.png";
 import hrLine from "../../assets/img/dark_mode/hr-line.png";
-import eyeDisable from "../../assets/img/dark_mode/eye-disable.png";
 import apis from "../../utils/apis";
 import axios from "axios";
 import { setAuthToken } from "../../utils/authService";

@@ -1,6 +1,4 @@
-import { Card, Typography } from "@material-tailwind/react";
-import actionIcon from '../../assets/img/dark_mode/action.png';
-import teamLogo from '../../assets/img/dark_mode/team-logo.png';
+import { Typography } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
 
 const StandingTable = (props) => {
@@ -47,7 +45,7 @@ const StandingTable = (props) => {
               <td className="w-1/6">
                 <Typography
                   variant="small"
-                  className="font-normal flex items-center underline  px-8"
+                  className="font-normal flex items-center justify-center underline  px-8"
                 >
                 <img src={logo} alt="" className="h-8 w-8 mr-2 rounded-default" />
                 <Link to={`team/${id}`}>

@@ -1,14 +1,22 @@
-import { Card, Typography } from "@material-tailwind/react";
-import actionIcon from "../../assets/img/dark_mode/action.png";
-import teamLogo from "../../assets/img/dark_mode/team-logo.png";
+import { Typography } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const Player = (props) => {
   // const { teams } = props;
   const { players, league } = props;
-  console.log("players", players);
   const matchups = useSelector((state) => state.home.matchups);
+
+  const displayPosition = league?.displayPosition;
+  const displayAttempts3 = league?.displayAttempts3;
+  const displayAttempts2 = league?.displayAttempts2;
+  const displayAttempts1 = league?.displayAttempts1;
+  const displayBlocks = league?.displayBlocks;
+  const displayRebounds = league?.displayRebounds;
+  const displayAssists = league?.displayAssists;
+  const displayFouls = league?.displayFouls;
+  const displaySteals = league?.displaySteals;
+  const displayTurnovers = league?.displayTurnovers;
 
   // const updatedPlayers = players.map(player=>{
   //   const points = calculatePoints(player.userId)
@@ -26,23 +34,22 @@ const Player = (props) => {
         // If player already exists, add points to existing player
         acc[player.userId].points = points;
         // overwrite the teamId if there is a player who is not deleted
-        acc[player.userId].teamId = player.isDeleted? 0 : player.teamId;
+        console.log("substitute", player.id, player.isSubstitute);
+        if (player.teamId !== 0 && player.isSubstitute !== 1) {
+          acc[player.userId].teamId = player.teamId
+        }
+        // acc[player.userId].teamId = player.teamId !== 0 && player.isSubstitute !== 1? player.teamId : 0;
         // overwrite the isDeleted if there is a player who is not deleted
         acc[player.userId].isDeleted = player.isDeleted ? 1 : player.isDeleted;
       } else {
         // If player doesn't exist, create a new entry
-        acc[player.userId] = { ...player, points: points };
+        acc[player.userId] = { ...player, points: points};
       }
       return acc;
     }, {})
   );
 
-  console.log(updatedPlayers);
-
-  // const players = useSelector(state=>state.home.players);
-  const columns = league?.displayPosition
-    ? ["Player", "Jersery Number", "Position", "Points", "Team"]
-    : ["Player", "Jersery Number", "Points", "Team"];
+  console.log(updatedPlayers)
   const teams = useSelector((state) => state.home.teams);
 
   // const players = useSelector((state) => state.home.players).filter(
@@ -51,23 +58,167 @@ const Player = (props) => {
 
   return (
     <div className="text-black dark:text-white mt-5 w-full">
-      <table className="w-full min-w-max table-auto text-left">
+      <table className="table-auto text-left">
         <thead>
           <tr>
-            {columns.map((head, idx) => (
-              <th
-                key={idx}
-                className="h-button text-center font-font-dark-gray"
+            <th key={1} className="h-button text-center font-font-dark-gray">
+              <Typography
+                variant="small"
+                color="blue-gray"
+                className="font-normal leading-none opacity-70"
               >
-                <Typography
-                  variant="small"
-                  color="blue-gray"
-                  className="font-normal leading-none opacity-70"
-                >
-                  {head}
-                </Typography>
+                Player
+              </Typography>
+            </th>
+            <th key={2} className="h-button text-center font-font-dark-gray">
+              <Typography
+                variant="small"
+                color="blue-gray"
+                className="font-normal leading-none opacity-70"
+              >
+                Jersey Number
+              </Typography>
+            </th>
+            {displayPosition && (
+              <th
+                key={3}
+                className="h-button text-center font-font-dark-gray font-normal opacity-70 text-sm"
+              >
+                Position
               </th>
-            ))}
+            )}
+            <th key={4} className="h-button text-center font-font-dark-gray">
+              <Typography
+                variant="small"
+                color="blue-gray"
+                className="font-normal leading-none opacity-70"
+              >
+                Points
+              </Typography>
+            </th>
+            <th key={5} className="h-button text-center font-font-dark-gray">
+              <Typography
+                variant="small"
+                color="blue-gray"
+                className="font-normal leading-none opacity-70"
+              >
+                3 Points
+              </Typography>
+            </th>
+            <th key={6} className="h-button text-center font-font-dark-gray">
+              <Typography
+                variant="small"
+                color="blue-gray"
+                className="font-normal leading-none opacity-70"
+              >
+                2 Points
+              </Typography>
+            </th>
+            <th key={7} className="h-button text-center font-font-dark-gray">
+              <Typography
+                variant="small"
+                color="blue-gray"
+                className="font-normal leading-none opacity-70"
+              >
+                1 Points
+              </Typography>
+            </th>
+            {displayAttempts3 ? (
+              <th
+                key={8}
+                className="h-button text-center font-font-dark-gray font-normal opacity-70 text-sm"
+              >
+                3 Attempts
+              </th>
+            ) : (
+              ""
+            )}
+            {displayAttempts2 ? (
+              <th
+                key={9}
+                className="h-button text-center font-font-dark-gray font-normal opacity-70 text-sm"
+              >
+                2 Attempts
+              </th>
+            ) : (
+              ""
+            )}
+            {displayAttempts1 ? (
+              <th
+                key={10}
+                className="h-button text-center font-font-dark-gray font-normal opacity-70 text-sm"
+              >
+                1 Attempts
+              </th>
+            ) : (
+              ""
+            )}
+            {displayBlocks ? (
+              <th
+                key={11}
+                className="h-button text-center font-font-dark-gray font-normal opacity-70 text-sm"
+              >
+                Blocks
+              </th>
+            ) : (
+              ""
+            )}
+            {displayRebounds ? (
+              <th
+                key={12}
+                className="h-button text-center font-font-dark-gray font-normal opacity-70 text-sm"
+              >
+                Rebounds
+              </th>
+            ) : (
+              ""
+            )}
+            {displayAssists ? (
+              <th
+                key={13}
+                className="h-button text-center font-font-dark-gray font-normal opacity-70 text-sm"
+              >
+                Assists
+              </th>
+            ) : (
+              ""
+            )}
+            {displayFouls ? (
+              <th
+                key={14}
+                className="h-button text-center font-font-dark-gray font-normal opacity-70 text-sm"
+              >
+                Fouls
+              </th>
+            ) : (
+              ""
+            )}
+            {displaySteals ? (
+              <th
+                key={15}
+                className="h-button text-center font-font-dark-gray font-normal opacity-70 text-sm"
+              >
+                Steals
+              </th>
+            ) : (
+              ""
+            )}
+            {displayTurnovers ? (
+              <th
+                key={16}
+                className="h-button text-center font-font-dark-gray font-normal opacity-70 text-sm"
+              >
+                Turnovers
+              </th>
+            ) : (
+              ""
+            )}
+            <th
+              key={17}
+              className="h-button text-center font-font-dark-gray font-normal opacity-70 text-sm"
+            >
+              Team
+            </th>
           </tr>
         </thead>
         <tbody className="text-center">
@@ -82,22 +233,71 @@ const Player = (props) => {
                     matchup.userId == player.userId &&
                     matchup.leagueId == league.id
                 );
-                const points = matchup.reduce(
+                const totalPoints = matchup.reduce(
                   (sum, item) => sum + item.points,
                   0
                 );
-                const team = teams.find((team) => team.id == player.teamId );
+                const totalPoints3 = matchup.reduce(
+                  (sum, matchup) => sum + matchup.points3,
+                  0
+                );
+                const totalPoints2 = matchup.reduce(
+                  (sum, matchup) => sum + matchup.points2,
+                  0
+                );
+                const totalPoints1 = matchup.reduce(
+                  (sum, matchup) => sum + matchup.points1,
+                  0
+                );
+                const attempts3 = matchup.reduce(
+                  (sum, matchup) => sum + matchup.attempts3,
+                  0
+                );
+                const attempts2 = matchup.reduce(
+                  (sum, matchup) => sum + matchup.attempts2,
+                  0
+                );
+                const attempts1 = matchup.reduce(
+                  (sum, matchup) => sum + matchup.attempts1,
+                  0
+                );
+                const blocks = matchup.reduce(
+                  (sum, matchup) => sum + matchup.blocks,
+                  0
+                );
+                const rebounds = matchup.reduce(
+                  (sum, matchup) => sum + matchup.rebounds,
+                  0
+                );
+                const assists = matchup.reduce(
+                  (sum, matchup) => sum + matchup.assists,
+                  0
+                );
+                const fouls = matchup.reduce(
+                  (sum, matchup) => sum + matchup.fouls,
+                  0
+                );
+                const steals = matchup.reduce(
+                  (sum, matchup) => sum + matchup.steals,
+                  0
+                );
+                const turnovers = matchup.reduce(
+                  (sum, matchup) => sum + matchup.turnovers,
+                  0
+                );
+
+                const team = teams.find((team) => team.id == player.teamId);
                 console.log("team:", team);
                 return (
                   <tr
                     key={idx}
                     className="odd:bg-light-dark-gray dark:odd:bg-dark-gray even:bg-light-charcoal dark:even:bg-charcoal h-[53px]"
                   >
-                    <td className="w-1/10">
+                    <td className="w-1/5">
                       <Typography
                         variant="small"
                         color="blue-gray"
-                        className="font-normal flex items-center underline justify-between px-10"
+                        className="font-normal flex items-center underline px-3"
                       >
                         <img
                           src={player.avatar}
@@ -109,7 +309,7 @@ const Player = (props) => {
                         </Link>
                       </Typography>
                     </td>
-                    <td className="w-1/10">
+                    <td className="w-1/5">
                       <Typography
                         variant="small"
                         color="blue-gray"
@@ -119,7 +319,7 @@ const Player = (props) => {
                       </Typography>
                     </td>
                     {league?.displayPosition && (
-                      <td className="w-1/10">
+                      <td className="w-1/5">
                         <Typography
                           variant="small"
                           color="blue-gray"
@@ -129,15 +329,159 @@ const Player = (props) => {
                         </Typography>
                       </td>
                     )}
-                    <td className="w-1/10">
+                    <td className="w-1/5">
                       <Typography
                         variant="small"
                         color="blue-gray"
                         className="font-normal"
                       >
-                        {points}
+                        {totalPoints}
                       </Typography>
                     </td>
+                    <td className="w-1/5">
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="font-normal"
+                      >
+                        {totalPoints3}
+                      </Typography>
+                    </td>
+                    <td className="w-1/5">
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="font-normal"
+                      >
+                        {totalPoints2}
+                      </Typography>
+                    </td>
+                    <td className="w-1/5">
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="font-normal"
+                      >
+                        {totalPoints1}
+                      </Typography>
+                    </td>
+                    {displayAttempts3 ? (
+                      <td className="w-1/6">
+                        <Typography
+                          variant="small"
+                          color="blue-gray"
+                          className="font-normal"
+                        >
+                          {attempts3}
+                        </Typography>
+                      </td>
+                    ) : (
+                      ""
+                    )}
+                    {displayAttempts2 ? (
+                      <td className="w-1/6">
+                        <Typography
+                          variant="small"
+                          color="blue-gray"
+                          className="font-normal"
+                        >
+                          {attempts2}
+                        </Typography>
+                      </td>
+                    ) : (
+                      ""
+                    )}
+                    {displayAttempts1 ? (
+                      <td className="w-1/6">
+                        <Typography
+                          variant="small"
+                          color="blue-gray"
+                          className="font-normal"
+                        >
+                          {attempts1}
+                        </Typography>
+                      </td>
+                    ) : (
+                      ""
+                    )}
+                    {displayBlocks ? (
+                      <td className="w-1/6">
+                        <Typography
+                          variant="small"
+                          color="blue-gray"
+                          className="font-normal"
+                        >
+                          {blocks}
+                        </Typography>
+                      </td>
+                    ) : (
+                      ""
+                    )}
+                    {displayRebounds ? (
+                      <td className="w-1/6">
+                        <Typography
+                          variant="small"
+                          color="blue-gray"
+                          className="font-normal"
+                        >
+                          {rebounds}
+                        </Typography>
+                      </td>
+                    ) : (
+                      ""
+                    )}
+                    {displayAssists ? (
+                      <td className="w-1/6">
+                        <Typography
+                          variant="small"
+                          color="blue-gray"
+                          className="font-normal"
+                        >
+                          {assists}
+                        </Typography>
+                      </td>
+                    ) : (
+                      ""
+                    )}
+                    {displayFouls ? (
+                      <td className="w-1/6">
+                        <Typography
+                          variant="small"
+                          color="blue-gray"
+                          className="font-normal"
+                        >
+                          {fouls}
+                        </Typography>
+                      </td>
+                    ) : (
+                      ""
+                    )}
+                    {displaySteals ? (
+                      <td className="w-1/6">
+                        <Typography
+                          variant="small"
+                          color="blue-gray"
+                          className="font-normal"
+                        >
+                          {steals}
+                        </Typography>
+                      </td>
+                    ) : (
+                      ""
+                    )}
+                    {displayTurnovers ? (
+                      <td className="w-1/6">
+                        <Typography
+                          variant="small"
+                          color="blue-gray"
+                          className="font-normal"
+                        >
+                          {turnovers}
+                        </Typography>
+                      </td>
+                    ) : (
+                      ""
+                    )}
                     <td className="w-1/5">
                       <Typography
                         variant="small"

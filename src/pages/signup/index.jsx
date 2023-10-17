@@ -30,45 +30,46 @@ const Signup = () => {
 
 
   const handleSignup = () => {
-    if (!chosenFile || !firstName || !lastName || !email || !password || !passwordConfirm)
-    {
-      alert("Please fill in all data!")
+    if (password != passwordConfirm) {
+      setIsMatch(false);
+      setPanelHeight("355px");
     } else {
-      const formData = new FormData();
-      formData.append("avatar", chosenFile);
-      formData.append("firstName", firstName);
-      formData.append("lastName", lastName);
-      formData.append("email", email);
-      // formData.append("birthday", birthday);
-      formData.append("password", password);
-      formData.append("passwordConfirm", passwordConfirm);
-      // formData.append("zipCode", zipCode);
-      // formData.append("country", country);
-      // formData.append("state", state);
-      // formData.append("city", city);
-      // formData.append("address", address);
-  
-      axios
-        .post(apis.signup, formData)
-        .then((res) => {
-          navigate("/signupSuccess");
-        })
-        .catch((err) => {
-          // navigate('/signupSuccess');
-          alert("Signup failed!");
-        });
+      setIsMatch(true);
+      if (!chosenFile || !firstName || !lastName || !email || !password || !passwordConfirm)
+      {
+        alert("Please fill in all data!")
+      } else {
+        const formData = new FormData();
+        formData.append("avatar", chosenFile);
+        formData.append("firstName", firstName);
+        formData.append("lastName", lastName);
+        formData.append("email", email);
+        // formData.append("birthday", birthday);
+        formData.append("password", password);
+        formData.append("passwordConfirm", passwordConfirm);
+        // formData.append("zipCode", zipCode);
+        // formData.append("country", country);
+        // formData.append("state", state);
+        // formData.append("city", city);
+        // formData.append("address", address);
+    
+        axios
+          .post(apis.signup, formData)
+          .then((res) => {
+            navigate("/signupSuccess");
+          })
+          .catch((err) => {
+            // navigate('/signupSuccess');
+            alert("Signup failed!");
+          });
+      }
     }
   };
 
   // password confirmation handler
   const [isMatch, setIsMatch] = useState(true);
   useEffect(() => {
-    if (password != passwordConfirm) {
-      setIsMatch(false);
-      setPanelHeight("355px");
-    } else {
-      setIsMatch(true);
-    }
+
   }, [passwordConfirm]);
 
   return (
@@ -221,7 +222,6 @@ const Signup = () => {
                 <button
                   onClick={handleSignup}
                   className="w-[377px] h-[48px] bg-primary rounded-lg text-white font-bold hover:bg-opacity-70 disabled:opacity-10"
-                  disabled={!isMatch}
                 >
                   Create Account
                 </button>

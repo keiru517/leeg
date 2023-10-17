@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import * as actions from "../../actions";
 import { useDispatch, useSelector } from "react-redux";
 import { apis } from "../../utils/apis";
+import league_logo from "../../assets/img/dark_mode/league-logo.png";
 
 const Card = (props) => {
   const { route, league } = props;
@@ -69,7 +70,7 @@ const Card = (props) => {
           <div className="flex items-center justify-between">
             <div className="flex items-center">
               <img src={league.logo} className="w-10 h-10 rounded-lg"></img>
-              <p className="dark:text-white text-sm ml-5">{league.name}<span className="text-xs text-font-dark-gray"> / {owner?.email}</span></p>
+              <p className="dark:text-white text-sm ml-5">{league.name} / {league.id.toString().padStart(6, '0')}<br></br><span className="text-xs text-font-dark-gray"> {owner?.email}</span></p>
             </div>
             <div>
               {player?.isAcceptedList === 1 &&

@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import logo from "../../assets/img/dark_mode/logo.png";
 import hrLine from "../../assets/img/dark_mode/hr-line.png";
-import Button from "../../components/Button";
-import otpLine from "../../assets/img/dark_mode/otp-line.png";
 import { useNavigate } from "react-router-dom";
 
 const SignupSuccess = () => {
@@ -18,7 +16,7 @@ const SignupSuccess = () => {
           <img src={hrLine} alt="" className="my-7" />
           <p className="text-font-light-gray text-sm text-center">LEEG.IO</p>
         </div>
-        <div className="bg-light-charcoal dark:bg-slate w-full h-[179px] mt-16 rounded-main p-default flex flex-col">
+        <div className="bg-white dark:bg-slate w-full h-[179px] mt-16 rounded-main p-default flex flex-col">
           <div>
             <p className="text-black dark:text-white text-2xl font-bold">
               Your account created
