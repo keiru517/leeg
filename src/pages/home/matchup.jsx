@@ -1,14 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { Typography } from "@material-tailwind/react";
 import { useParams } from "react-router";
-import MatchCard from "../../components/Card/Match";
-import search from "../../assets/img/dark_mode/search.png";
-import Input from "../../components/Input";
-import Select from "../../components/Select";
-import PageTitle from "../../components/PageTitle";
-import leftarrowIcon from "../../assets/img/dark_mode/left-arrow.png";
 import * as actions from "../../actions";
 import SubstituteModal from "../../components/Modal/SubstituteModal";
 import deleteIcon from "../../assets/img/dark_mode/delete.png";
@@ -19,7 +12,7 @@ import MatchupTitle from "../../components/MatchupTitle";
 const Matchup = () => {
   let { leagueId, matchId } = useParams();
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.home.user);
+
   useEffect(() => {
     actions.getUserInfo(dispatch, localStorage.getItem("userId"));
     actions.getUsers(dispatch);

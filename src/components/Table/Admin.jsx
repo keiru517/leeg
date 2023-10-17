@@ -1,4 +1,4 @@
-import { Card, Typography } from "@material-tailwind/react";
+import { Typography } from "@material-tailwind/react";
 import deleteIcon from "../../assets/img/dark_mode/delete.png";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";

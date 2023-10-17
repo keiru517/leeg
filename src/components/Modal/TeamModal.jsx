@@ -2,10 +2,8 @@ import { Fragment, useEffect, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { useParams } from "react-router";
 import axios from "axios";
-import { CheckIcon } from "@heroicons/react/24/outline";
 import close from "../../assets/img/dark_mode/close.png";
 import deleteIcon from "../../assets/img/dark_mode/delete.png";
-import editIcon from "../../assets/img/dark_mode/edit.png";
 import search from "../../assets/img/dark_mode/search.png";
 import uploadCircle from "../../assets/img/dark_mode/upload-circle.png";
 import Input from "../Input";
@@ -13,7 +11,6 @@ import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../actions";
 import PlayerList from "../ListItem/PlayerList";
 import apis from "../../utils/apis";
-import { useSelect } from "@material-tailwind/react";
 
 const TeamModal = () => {
   let { leagueId } = useParams();

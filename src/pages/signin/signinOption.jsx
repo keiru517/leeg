@@ -1,27 +1,10 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import logo from "../../assets/img/dark_mode/logo.png";
 import hrLine from '../../assets/img/dark_mode/hr-line.png';
-import Button from '../../components/Button';
 import { useNavigate } from 'react-router-dom';
 
 
 const Signin1 = () => {
-
-    const leagues = [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6
-    ]
-    
-    const options = [
-        'Sort by',
-        'Ascend',
-        'Descend',
-        'Recent'
-    ]
 
     const navigate = useNavigate();
 

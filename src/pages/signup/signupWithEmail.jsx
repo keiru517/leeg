@@ -3,18 +3,11 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import logo from "../../assets/img/dark_mode/logo.png";
 import hrLine from "../../assets/img/dark_mode/hr-line.png";
-import Button from "../../components/Button";
 import Input from "../../components/Input";
 import otpLine from "../../assets/img/dark_mode/otp-line.png";
 import apis from "../../utils/apis";
-import Alert from "../../components/Alert";
-import { input } from "@material-tailwind/react";
-import { mrtFilterOptions } from "mantine-react-table";
 
 const SignupWithEmail = () => {
-  const leagues = [1, 2, 3, 4, 5, 6];
-
-  const options = ["Sort by", "Ascend", "Descend", "Recent"];
 
   const navigate = useNavigate();
   const [step, setStep] = useState(1);

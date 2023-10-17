@@ -1,13 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import hrLine from "../../assets/img/dark_mode/hr-line.png";
 import logo from "../../assets/img/dark_mode/logo.png";
-import Button from "../../components/Button";
-import Input from "../../components/Input";
 
 const EmailSent = () => {
-  const leagues = [1, 2, 3, 4, 5, 6];
-
-  const options = ["Sort by", "Ascend", "Descend", "Recent"];
 
   return (
     <div className="">

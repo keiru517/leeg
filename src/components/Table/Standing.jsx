@@ -1,6 +1,4 @@
-import { Card, Typography } from "@material-tailwind/react";
-import actionIcon from '../../assets/img/dark_mode/action.png';
-import teamLogo from '../../assets/img/dark_mode/team-logo.png';
+import { Typography } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
 
 const StandingTable = (props) => {

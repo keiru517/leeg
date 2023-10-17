@@ -8,8 +8,6 @@ import close from "../../assets/img/dark_mode/close.png";
 import uploadCircle from "../../assets/img/dark_mode/upload-circle.png";
 import calendar from "../../assets/img/dark_mode/calendar.png";
 import Input from "../Input";
-import deleteIcon from "../../assets/img/dark_mode/delete.png";
-import editIcon from "../../assets/img/dark_mode/edit.png";
 import axios from "axios";
 import apis from "../../utils/apis";
 

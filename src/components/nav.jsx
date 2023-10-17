@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import logo from "../assets/img/dark_mode/logo.png";
 import line from "../assets/img/dark_mode/line.png";
 import SettingsSelect from "../components/Select/settings";

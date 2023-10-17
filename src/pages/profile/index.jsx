@@ -1,14 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
 import Input from "../../components/Input";
 import Modal from "../../components/Modal";
 import PageTitle from "../../components/PageTitle";
 import * as actions from "../../actions";
 import leftarrowIcon from "../../assets/img/dark_mode/left-arrow.png";
-import verticalLine from "../../assets/img/dark_mode/vertical-line.png";
 import horizontalLine from "../../assets/img/dark_mode/horizontal-line.png";
-import profileImage from "../../assets/img/dark_mode/profile.png";
 import AdminTable from "../../components/Table/Admin";
 import eyeDisable from "../../assets/img/dark_mode/eye-disable.png";
 import toggleOn from "../../assets/img/dark_mode/toggle-on.png";

@@ -4,8 +4,6 @@ import userIcon from "../../assets/img/dark_mode/user-add.png";
 import editIcon from "../../assets/img/dark_mode/edit.png";
 import * as actions from "../../actions";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import apis from "../../utils/apis";
 
 const TeamCard = (props) => {
   const { team } = props;

@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import logo from "../../assets/img/dark_mode/logo.png";
 import hrLine from "../../assets/img/dark_mode/hr-line.png";
-import Button from "../../components/Button";
-import otpLine from "../../assets/img/dark_mode/otp-line.png";
 import { useNavigate } from "react-router-dom";
 
 const SignupSuccess = () => {

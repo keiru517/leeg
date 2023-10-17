@@ -10,7 +10,6 @@ import * as actions from "../../actions";
 
 const Home = () => {
   const leagues = useSelector((state) => state.home.leagues);
-  const user = useSelector((state) => state.home.user);
 
   const filters = [
     { id: 0, name: "All Leagues" },

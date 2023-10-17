@@ -1,4 +1,4 @@
-import React, { useReducer, useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import line from "../../assets/img/dark_mode/point-line.png";
 import backIcon from "../../assets/img/dark_mode/left-arrow.png";

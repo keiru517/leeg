@@ -1,8 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { Card, Typography } from "@material-tailwind/react";
-import actionIcon from "../../assets/img/dark_mode/action.png";
-import { useParams } from "react-router";
-import teamLogo from "../../assets/img/dark_mode/team-logo.png";
+import { Typography } from "@material-tailwind/react";
 import { useSelector } from "react-redux";
 import Option from "../Option";
 

@@ -1,6 +1,5 @@
-import { Fragment, useEffect, useRef, useState } from "react";
+import { Fragment, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { CheckIcon } from "@heroicons/react/24/outline";
 import Datepicker from "tailwind-datepicker-react";
 import close from "../../assets/img/dark_mode/close.png";
 import btn1 from "../../assets/img/dark_mode/btn1.png";
@@ -9,14 +8,11 @@ import btn2 from "../../assets/img/dark_mode/btn2.png";
 import btn2Selected from "../../assets/img/dark_mode/btn2-selected.png";
 import btn3 from "../../assets/img/dark_mode/btn3.png";
 import uploadCircle from "../../assets/img/dark_mode/upload-circle.png";
-import calendar from "../../assets/img/dark_mode/calendar.png";
-import Button from "../Button";
 import Select from "../Select";
 import Input from "../Input";
 import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../actions";
 import axios from "axios";
-import { Navigate } from "react-router-dom";
 import apis from "../../utils/apis";
 
 const Modal = (props) => {
