@@ -57,8 +57,14 @@ League.init(
     name: DataTypes.STRING,
     description: DataTypes.STRING,
     logo: DataTypes.STRING,
-    startDate: DataTypes.DATE,
-    endDate: DataTypes.DATE,
+    startDate: {
+      type: DataTypes.STRING,
+      defaultValue: "N/A"
+    },
+    endDate: {
+      type: DataTypes.STRING,
+      defaultValue: "N/A"
+    },
     isAllowedFan: {
       type: DataTypes.BOOLEAN,
       defaultValue: false

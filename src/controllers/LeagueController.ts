@@ -1,5 +1,5 @@
 import { RequestHandler } from 'express';
-import { existsSync, mkdirSync, writeFileSync } from 'fs';
+import { copyFileSync, existsSync, mkdirSync, writeFileSync } from 'fs';
 import League from '../models/League';
 import Player from '../models/Player';
 import User from '../models/User';
@@ -37,6 +37,17 @@ export const create: RequestHandler = async (req, res) => {
     const buffer = req.file.buffer;
     writeFileSync(filePath, buffer);
     data.logo = fileName;
+  } else {
+    const defaultFilePath = absolutePath(`public/league.png`);
+    if (existsSync(defaultFilePath)) {
+      const fileName = `${moment().format(
+        FILE_NAME_DATE_TILE_FORMAT
+      )}.png`;
+      copyFileSync(defaultFilePath, leagueLogoPath(data.userId, fileName))
+      data.logo = fileName;
+    } else {
+      data.logo = '';
+    }
   }
 
   const league = await League.create(data);

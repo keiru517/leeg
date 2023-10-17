@@ -2,7 +2,7 @@ import { RequestHandler } from 'express';
 import { existsSync, mkdirSync, writeFileSync } from 'fs';
 import Team from '../models/Team';
 import Player from '../models/Player';
-import { Types } from '../types';
+// import { Types } from '../types';
 import path from 'path';
 import {
   absolutePath,
@@ -10,6 +10,7 @@ import {
   teamLogoPath
 } from '../helpers';
 import moment from 'moment';
+import { createCanvas } from 'canvas';
 
 // GET SERVER_URL/api/team/all
 export const all: RequestHandler = async (req, res) => {
@@ -19,7 +20,7 @@ export const all: RequestHandler = async (req, res) => {
 
 // POST SERVER_URL/api/team/create
 export const create: RequestHandler = async (req, res) => {
-  const data: Types.T_Team = req.body;
+  const data = req.body;
   const userId = data.userId;
   if (req.file) {
     const extension = path.extname(req.file.originalname);
@@ -39,6 +40,31 @@ export const create: RequestHandler = async (req, res) => {
     data.logo = fileName;
     // data.logo = filePath;
     // data.logo = URL.createObjectURL(new Blob([buffer], {type: "image/jpeg"}));
+  } else {
+    // Handle case when frontend does not send a file
+    const color = data.color; // Assuming the frontend sends the color value
+
+    // Generate a canvas with the desired size
+    const canvas = createCanvas(58, 58);
+    const ctx = canvas.getContext('2d');
+
+    // Set the background color
+    ctx.fillStyle = color;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Save the canvas as an image file
+    const directoryPath = absolutePath(`public/upload/${userId}/teams`);
+
+    if (!existsSync(directoryPath)) {
+      mkdirSync(directoryPath, { recursive: true });
+    }
+
+    const fileName = `${moment().format(FILE_NAME_DATE_TILE_FORMAT)}.png`; // Use the desired file extension
+    const filePath = path.join(directoryPath, fileName);
+    const buffer = canvas.toBuffer('image/png');
+    writeFileSync(filePath, buffer);
+
+    data.logo = fileName;
   }
 
   await Team.create(data);
@@ -134,3 +160,5 @@ export const logo: RequestHandler = async (req, res) => {
     });
   }
 };
+
+
