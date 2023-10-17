@@ -21,13 +21,14 @@ export const create: RequestHandler = async (req, res) => {
   const data: Types.T_League = req.body;
   console.log(data.startDate, data.endDate);
 
+  const directoryPath = absolutePath(`public/upload/${data.userId}/leagues`);
+
+  if (!existsSync(directoryPath)) {
+    mkdirSync(directoryPath, { recursive: true });
+  }
+  
   if (req.file) {
     const extension = path.extname(req.file.originalname);
-    const directoryPath = absolutePath(`public/upload/${data.userId}/leagues`);
-
-    if (!existsSync(directoryPath)) {
-      mkdirSync(directoryPath, { recursive: true });
-    }
 
     const fileName = `${moment().format(
       FILE_NAME_DATE_TILE_FORMAT
