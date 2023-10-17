@@ -12,7 +12,8 @@ export const apis = {
   userAvatarURL: (id) => {
     return `${apiUrl}/user/avatar/${id}`;
   },
-  forgotPassword: apiUrl + "user/forgotPassword",
+  forgotPassword: apiUrl + "/user/forgotPassword",
+  updateInfo: apiUrl + "/user/updateInfo",
   // leagues
   getLeagues: apiUrl + "/league/all",
   createLeague: apiUrl + "/league/create",

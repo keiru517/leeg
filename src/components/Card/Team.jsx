@@ -38,8 +38,8 @@ const TeamCard = (props) => {
           <Link to={`team/${team.id}`}>
             <p className="text-black dark:text-white text-sm mx-2 underline">{team.name}</p>
           </Link>
-          <p className="text-black dark:text-white text-[10px]">
-            {team.waitlist}/{team.max}
+          <p className="text-black dark:text-white pt-1 text-sm">
+            {players.length}
           </p>
         </div>
         {league?.userId == user?.id ? (

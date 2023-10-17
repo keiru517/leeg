@@ -24,12 +24,12 @@ const Modal = (props) => {
 
   const status = useSelector((state) => state.home.league_dialog.open);
   const user = useSelector((state) => state.home.user);
-
+  
   // const [open, setOpen] = useState(false);
   const [step, setStep] = useState(1);
-
+  
   const cancelButtonRef = useRef(null);
-
+  
   const sportOptions = [
     { id: 0, name: "Basketball" },
     // { id: 1, name: "Rugby" },
@@ -37,13 +37,22 @@ const Modal = (props) => {
     // { id: 3, name: "Baseball" },
   ];
 
+  const currentDate = new Date()
+    .toLocaleDateString("en", {
+      month: "short",
+      day: "2-digit",
+      year: "numeric",
+    })
+    .replace(/ /g, "/")
+    .replace(",", "");
+  
   const closeDialog = () => {
     setStep(1);
     setSport("Select Sport*");
     setLeagueName("");
     setLeagueDescription("");
-    setStartDate("");
-    setEndDate("");
+    setStartDate(currentDate);
+    setEndDate(currentDate);
     setChosenFile(null);
     setPreviewURL("");
     dispatch({ type: actions.OPEN_CREATE_LEAGUE_DIALOG, payload: false });
@@ -68,8 +77,8 @@ const Modal = (props) => {
   const [sport, setSport] = useState("Select Sport*");
   const [leagueName, setLeagueName] = useState("");
   const [leagueDescription, setLeagueDescription] = useState("");
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+  const [startDate, setStartDate] = useState(currentDate);
+  const [endDate, setEndDate] = useState(currentDate);
   const fileUploadRef = useRef(null);
 
   const [chosenFile, setChosenFile] = useState(null);
@@ -99,6 +108,7 @@ const Modal = (props) => {
         setStartDate("");
         setEndDate("");
         setChosenFile(null);
+        setPreviewURL("");
         goToStep1();
         alert(res.data.message);
 
@@ -155,7 +165,6 @@ const Modal = (props) => {
       next: () => <span className="text-xs">&gt;</span>,
     },
     datepickerClassNames: "text-xs top-12",
-    defaultDate: new Date(),
     language: "en",
   };
 
@@ -183,7 +192,6 @@ const Modal = (props) => {
       next: () => <span className="text-xs">&gt;</span>,
     },
     datepickerClassNames: "text-xs top-12",
-    defaultDate: new Date(),
     language: "en",
   };
 
@@ -199,7 +207,7 @@ const Modal = (props) => {
       })
       .replace(/ /g, "/")
       .replace(",", "");
-      console.log(formattedDate.toString())
+    console.log(formattedDate.toString());
     setStartDate(formattedDate.toString());
   };
   const handleChange2 = (selectedDate) => {
@@ -212,7 +220,7 @@ const Modal = (props) => {
       })
       .replace(/ /g, "/")
       .replace(",", "");
-      console.log(formattedDate.toString())
+    console.log(formattedDate.toString());
     setEndDate(formattedDate.toString());
   };
   const handleClose1 = (state) => {
