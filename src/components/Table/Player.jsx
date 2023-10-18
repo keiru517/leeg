@@ -58,7 +58,7 @@ const Player = (props) => {
 
   return (
     <div className="text-black dark:text-white mt-5 w-full">
-      <table className="table-auto text-left">
+      <table className="w-full table-auto text-left">
         <thead>
           <tr>
             <th key={1} className="h-button text-center font-font-dark-gray">
@@ -293,7 +293,7 @@ const Player = (props) => {
                     key={idx}
                     className="odd:bg-light-dark-gray dark:odd:bg-dark-gray even:bg-light-charcoal dark:even:bg-charcoal h-[53px]"
                   >
-                    <td className="w-1/5">
+                    <td className="">
                       <Typography
                         variant="small"
                         color="blue-gray"
@@ -309,7 +309,7 @@ const Player = (props) => {
                         </Link>
                       </Typography>
                     </td>
-                    <td className="w-1/5">
+                    <td className="">
                       <Typography
                         variant="small"
                         color="blue-gray"
@@ -319,7 +319,7 @@ const Player = (props) => {
                       </Typography>
                     </td>
                     {league?.displayPosition && (
-                      <td className="w-1/5">
+                      <td className="">
                         <Typography
                           variant="small"
                           color="blue-gray"
@@ -329,7 +329,7 @@ const Player = (props) => {
                         </Typography>
                       </td>
                     )}
-                    <td className="w-1/5">
+                    <td className="">
                       <Typography
                         variant="small"
                         color="blue-gray"
@@ -338,7 +338,7 @@ const Player = (props) => {
                         {totalPoints}
                       </Typography>
                     </td>
-                    <td className="w-1/5">
+                    <td className="">
                       <Typography
                         variant="small"
                         color="blue-gray"
@@ -347,7 +347,7 @@ const Player = (props) => {
                         {totalPoints3}
                       </Typography>
                     </td>
-                    <td className="w-1/5">
+                    <td className="">
                       <Typography
                         variant="small"
                         color="blue-gray"
@@ -356,7 +356,7 @@ const Player = (props) => {
                         {totalPoints2}
                       </Typography>
                     </td>
-                    <td className="w-1/5">
+                    <td className="">
                       <Typography
                         variant="small"
                         color="blue-gray"
@@ -366,7 +366,7 @@ const Player = (props) => {
                       </Typography>
                     </td>
                     {displayAttempts3 ? (
-                      <td className="w-1/6">
+                      <td className="">
                         <Typography
                           variant="small"
                           color="blue-gray"
@@ -379,7 +379,7 @@ const Player = (props) => {
                       ""
                     )}
                     {displayAttempts2 ? (
-                      <td className="w-1/6">
+                      <td className="">
                         <Typography
                           variant="small"
                           color="blue-gray"
@@ -392,7 +392,7 @@ const Player = (props) => {
                       ""
                     )}
                     {displayAttempts1 ? (
-                      <td className="w-1/6">
+                      <td className="">
                         <Typography
                           variant="small"
                           color="blue-gray"
@@ -405,7 +405,7 @@ const Player = (props) => {
                       ""
                     )}
                     {displayBlocks ? (
-                      <td className="w-1/6">
+                      <td className="">
                         <Typography
                           variant="small"
                           color="blue-gray"
@@ -418,7 +418,7 @@ const Player = (props) => {
                       ""
                     )}
                     {displayRebounds ? (
-                      <td className="w-1/6">
+                      <td className="">
                         <Typography
                           variant="small"
                           color="blue-gray"
@@ -431,7 +431,7 @@ const Player = (props) => {
                       ""
                     )}
                     {displayAssists ? (
-                      <td className="w-1/6">
+                      <td className="">
                         <Typography
                           variant="small"
                           color="blue-gray"
@@ -444,7 +444,7 @@ const Player = (props) => {
                       ""
                     )}
                     {displayFouls ? (
-                      <td className="w-1/6">
+                      <td className="">
                         <Typography
                           variant="small"
                           color="blue-gray"
@@ -457,7 +457,7 @@ const Player = (props) => {
                       ""
                     )}
                     {displaySteals ? (
-                      <td className="w-1/6">
+                      <td className="">
                         <Typography
                           variant="small"
                           color="blue-gray"
@@ -470,7 +470,7 @@ const Player = (props) => {
                       ""
                     )}
                     {displayTurnovers ? (
-                      <td className="w-1/6">
+                      <td className="">
                         <Typography
                           variant="small"
                           color="blue-gray"
@@ -482,11 +482,11 @@ const Player = (props) => {
                     ) : (
                       ""
                     )}
-                    <td className="w-1/5">
+                    <td className="">
                       <Typography
                         variant="small"
                         color="blue-gray"
-                        className="font-normal flex items-center underline justify-between px-10"
+                        className="font-normal flex items-center underline"
                       >
                         {team ? (
                           <>
@@ -504,7 +504,7 @@ const Player = (props) => {
                         )}
                       </Typography>
                     </td>
-                    {/* <td className="w-1/5"> 
+                    {/* <td className=""> 
                     <Typography
                       variant="small"
                       color="blue-gray"
@@ -513,7 +513,7 @@ const Player = (props) => {
                       {player.country}
                     </Typography>
                   </td>
-                  <td className="w-1/5">
+                  <td className="">
                     <Typography
                       variant="small"
                       color="blue-gray"
