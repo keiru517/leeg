@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import logo from "../assets/img/dark_mode/logo.png";
 import line from "../assets/img/dark_mode/line.png";
 import SettingsSelect from "../components/Select/settings";
-import { useSelector } from "react-redux";
+import * as actions from "../actions";
 
 const Nav = () => {
+  const dispatch = useDispatch();
   const user = useSelector(state=>state.home.user);
 
   return (

@@ -54,6 +54,7 @@ const Profile = () => {
 
   useEffect(() => {
     actions.getUserInfo(dispatch, localStorage.getItem("userId"));
+    actions.getUsers(dispatch)
   }, []);
 
   useEffect(() => {
@@ -70,13 +71,14 @@ const Profile = () => {
     const formData = new FormData();
     formData.append("avatar", chosenFile);
     formData.append("userId", user?.id);
-    formData.append("email", email);
+    // formData.append("email", email);
     formData.append("firstName", firstName);
     formData.append("lastName", lastName);
     console.log(chosenFile)
     axios.post(apis.updateInfo, formData).then((res)=>{
-      alert("updated")
       actions.getUsers(dispatch);
+      actions.getUserInfo(dispatch, localStorage.getItem('userId'))
+      alert("updated")
     })
   }
   return (
@@ -161,12 +163,12 @@ const Profile = () => {
               {status === "information" ? (
                 <>
                   <div className="grid grid-cols-3 space-x-3">
-                    <Input
+                    {/* <Input
                       className="text-xs rounded-default"
                       placeholder="Type Email Address*"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                    ></Input>
+                    ></Input> */}
                     <Input
                       className="text-xs rounded-default"
                       placeholder="Type Your First Name"

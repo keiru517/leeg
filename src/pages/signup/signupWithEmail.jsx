@@ -27,6 +27,7 @@ const SignupWithEmail = () => {
 
   const [email, setEmail] = useState("");
   const handleClick = () => {
+    setStep(2);
     sendOTP();
   };
 
@@ -38,7 +39,6 @@ const SignupWithEmail = () => {
       .then((res) => {
         const verifyCode = res.data.code;
         setCode(verifyCode);
-        setStep(2);
       })
       .catch((error) => {
         alert(error.response.data.message);

@@ -120,7 +120,7 @@ const Player = (props) => {
                 color="blue-gray"
                 className="font-normal leading-none opacity-70"
               >
-                1 Points
+                Foul Shots
               </Typography>
             </th>
             {displayAttempts3 ? (

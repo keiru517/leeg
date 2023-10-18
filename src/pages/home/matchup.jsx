@@ -665,7 +665,7 @@ const Matchup = () => {
                           key="7"
                           className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
                         >
-                          1 Points
+                          Foul Shots
                         </th>
                         {displayAttempts3 ? (
                           <th
@@ -1121,7 +1121,7 @@ const Matchup = () => {
                           key="6"
                           className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
                         >
-                          1 Points
+                          Foul Shots
                         </th>
                         {displayAttempts3 ? (
                           <th
