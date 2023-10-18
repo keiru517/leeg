@@ -5,8 +5,11 @@ import { auth } from '../auth';
 
 const leagueRouter = Router();
 
-const upload = multer();
-
+const upload = multer({
+    limits: {
+      fileSize: 50 * 1024 * 1024
+    }
+  });
 // get all leagues
 // SERVER_URL/api/league/all
 leagueRouter.get('/all', auth, LeagueController.all);

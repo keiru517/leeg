@@ -30,6 +30,8 @@ export const signin: RequestHandler = async (req, res) => {
           }
         );
 
+        res.cookie('token', token)
+
         res
           .status(200)
           .json({
@@ -143,7 +145,7 @@ export const all: RequestHandler = async (req, res) => {
 };
 
 export const updateInfo: RequestHandler =async (req, res) => {
-  const {userId, email, firstName, lastName} = req.body;
+  const {userId, firstName, lastName} = req.body;
   const user = await User.findOne({
     where:{
       id:userId
@@ -152,7 +154,6 @@ export const updateInfo: RequestHandler =async (req, res) => {
 
   if (req.file) {
     if (user) {
-      user.email = email;
       user.firstName = firstName;
       user.lastName = lastName;
       const extension = path.extname(req.file.originalname);
