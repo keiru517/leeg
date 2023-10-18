@@ -262,7 +262,7 @@ const Profile = () => {
                   onClick={
                     status === "information" ? goToPassword : goToInformation
                   }
-                  className="text-white font-medium text-sm cursor-pointer hover:opacity-70"
+                  className="text-black dark:text-white font-medium text-sm cursor-pointer hover:opacity-70"
                 >
                   {status === "information"
                     ? "Update Password"
