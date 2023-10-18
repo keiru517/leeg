@@ -175,7 +175,7 @@ const Profile = () => {
                   alt=""
                 />
                 <div
-                  className="bg-primary h-button rounded-default text-white font-bold text-sm mr-3 w-[180px] hover:opacity-70 cursor-pointer flex justify-center items-center"
+                  className="bg-primary h-button rounded-default text-black dark:text-white font-bold text-sm mr-3 w-[180px] hover:opacity-70 cursor-pointer flex justify-center items-center"
                   onClick={() => {
                     fileUploadRef.current?.click();
                   }}
