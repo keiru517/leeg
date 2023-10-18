@@ -12,6 +12,7 @@ userRouter.post(
   upload.single('avatar'),
   UserController.updateInfo
 );
+userRouter.post('/updatePassword', UserController.updatePassword);
 userRouter.get('/info/:id', UserController.info);
 userRouter.get('/all', UserController.all);
 userRouter.get('/avatar/:id', UserController.avatar);
