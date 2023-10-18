@@ -58,9 +58,9 @@ const Signup = () => {
           .then((res) => {
             navigate("/signupSuccess");
           })
-          .catch((err) => {
+          .catch((error) => {
             // navigate('/signupSuccess');
-            alert("Signup failed!");
+            alert(error.response.data.message);
           });
       }
     }
