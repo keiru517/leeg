@@ -185,7 +185,36 @@ export const updateInfo: RequestHandler = async (req, res) => {
     } else {
       res.status(404).json({ message: 'Update failed!' });
     }
+  } else {
+    if (user) {
+      user.firstName = firstName;
+      user.lastName = lastName;
+      await user.save();
+      res.status(200).json({ message: 'Updated successfully!' });
+      
+    }
   }
+};
+
+// Update the user password
+export const updatePassword: RequestHandler = async (req, res) => {
+  const { userId, password } = req.body;
+  const user = await User.findOne({
+    where: {
+      id: userId
+    }
+  });
+
+    if (user) {
+      user.password =  crypto
+      .createHash('md5')
+      .update(password)
+      .digest('hex');
+      await user.save();
+      res.status(200).json({ message: 'Updated successfully!' });
+    } else {
+      res.status(404).json({ message: 'Update failed!' });
+    }
 };
 
 // GET SERVER_URL/api/user/info
