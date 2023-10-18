@@ -30,15 +30,13 @@ export const signin: RequestHandler = async (req, res) => {
           }
         );
 
-        res.cookie('token', token)
+        res.cookie('token', token);
 
-        res
-          .status(200)
-          .json({
-            message: 'Signed in successfully!',
-            token: token,
-            user: user
-          });
+        res.status(200).json({
+          message: 'Signed in successfully!',
+          token: token,
+          user: user
+        });
       } else {
         res.status(400).json({ message: 'Incorrect password' });
       }
@@ -59,14 +57,19 @@ export const verifyEmail: RequestHandler = async (req, res) => {
       }
     });
     if (user) {
-      res.status(400).json({ message: 'The email has already been registered!' });
+      res
+        .status(400)
+        .json({ message: 'The email has already been registered!' });
     } else {
       const verificationCode = Math.floor(1000 + Math.random() * 9000);
       const mailOptions = {
         from: process.env.EMAIL,
         to: email,
         subject: process.env.VERIFICATION_EMAIL_SUBJECT,
-        text: process.env.VERIFICATION_EMAIL_BODY + " " + verificationCode.toString()
+        text:
+          process.env.VERIFICATION_EMAIL_BODY +
+          ' ' +
+          verificationCode.toString()
       };
 
       const emailService = nodemailer.createTransport({
@@ -116,21 +119,30 @@ export const signup: RequestHandler = async (req, res) => {
           .digest('hex')
       };
 
-      const user = await User.create(data);
-      const userId = user.id;
-      // user.avatar = `${process.env.DOMAIN}/api/user/avatar/${userId}`;
-      // await user.save()
+      const exitUser = await User.findOne({
+        where: {
+          email: req.body.email
+        }
+      });
+      if (exitUser) {
+        res.status(400).json({ message: 'Email has alreay been registered!' });
+      } else {
+        const user = await User.create(data);
+        const userId = user.id;
+        // user.avatar = `${process.env.DOMAIN}/api/user/avatar/${userId}`;
+        // await user.save()
 
-      const directoryPath = absolutePath(`public/upload/${userId}`);
+        const directoryPath = absolutePath(`public/upload/${userId}`);
 
-      if (!existsSync(directoryPath)) {
-        mkdirSync(directoryPath, { recursive: true });
+        if (!existsSync(directoryPath)) {
+          mkdirSync(directoryPath, { recursive: true });
+        }
+        const filePath = path.join(directoryPath, fileName);
+
+        const buffer = req.file.buffer;
+        writeFileSync(filePath, buffer);
+        res.status(200).json({ message: 'Singed up successfully!' });
       }
-      const filePath = path.join(directoryPath, fileName);
-
-      const buffer = req.file.buffer;
-      writeFileSync(filePath, buffer);
-      res.status(200).json({ message: 'Singed up successfully!' });
     }
   } catch (error) {
     console.log(error);
@@ -144,11 +156,11 @@ export const all: RequestHandler = async (req, res) => {
   res.json({ users });
 };
 
-export const updateInfo: RequestHandler =async (req, res) => {
-  const {userId, firstName, lastName} = req.body;
+export const updateInfo: RequestHandler = async (req, res) => {
+  const { userId, firstName, lastName } = req.body;
   const user = await User.findOne({
-    where:{
-      id:userId
+    where: {
+      id: userId
     }
   });
 
@@ -157,7 +169,7 @@ export const updateInfo: RequestHandler =async (req, res) => {
       user.firstName = firstName;
       user.lastName = lastName;
       const extension = path.extname(req.file.originalname);
-      const filePath = userAvatarPath(user.id, user.avatar)
+      const filePath = userAvatarPath(user.id, user.avatar);
       try {
         fs.unlinkSync(filePath);
         console.log('Avatar file deleted successfully');
@@ -169,12 +181,12 @@ export const updateInfo: RequestHandler =async (req, res) => {
       await user.save();
       const buffer = req.file.buffer;
       writeFileSync(filePath, buffer);
-      res.status(200).json({message:'Updated successfully!'});
+      res.status(200).json({ message: 'Updated successfully!' });
     } else {
-      res.status(404).json({message:'Update failed!'});
+      res.status(404).json({ message: 'Update failed!' });
     }
   }
-}
+};
 
 // GET SERVER_URL/api/user/info
 export const info: RequestHandler = async (req, res) => {

@@ -1,11 +1,7 @@
 import { UserController } from '../controllers';
 import { Router } from 'express';
 import multer from 'multer';
-const upload = multer({
-  limits: {
-    fileSize: 50 * 1024 * 1024
-  }
-});
+const upload = multer();
 const userRouter = Router();
 
 userRouter.post('/signin', UserController.signin);
