@@ -3,7 +3,11 @@ import { Router } from 'express';
 import multer from 'multer';
 const teamRouter = Router();
 
-const upload = multer();
+const upload = multer({
+    limits: {
+      fileSize: 50 * 1024 * 1024
+    }
+  });
 // get all teams
 // SERVER_URL/api/team/all
 teamRouter.get('/all', TeamController.all);

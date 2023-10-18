@@ -7,7 +7,11 @@ const userRouter = Router();
 userRouter.post('/signin', UserController.signin);
 userRouter.post('/signup', upload.single('avatar'), UserController.signup);
 userRouter.post('/verifyEmail', UserController.verifyEmail);
-userRouter.post('/updateInfo', upload.single('avatar'), UserController.updateInfo);
+userRouter.post(
+  '/updateInfo',
+  upload.single('avatar'),
+  UserController.updateInfo
+);
 userRouter.get('/info/:id', UserController.info);
 userRouter.get('/all', UserController.all);
 userRouter.get('/avatar/:id', UserController.avatar);
