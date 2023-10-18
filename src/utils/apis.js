@@ -14,6 +14,7 @@ export const apis = {
   },
   forgotPassword: apiUrl + "/user/forgotPassword",
   updateInfo: apiUrl + "/user/updateInfo",
+  updatePassword: apiUrl + "/user/updatePassword",
   // leagues
   getLeagues: apiUrl + "/league/all",
   createLeague: apiUrl + "/league/create",

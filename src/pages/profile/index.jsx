@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { MD5 } from "crypto-js";
 import Input from "../../components/Input";
 import Modal from "../../components/Modal";
 import PageTitle from "../../components/PageTitle";
@@ -11,6 +12,7 @@ import eyeDisable from "../../assets/img/dark_mode/eye-disable.png";
 import toggleOn from "../../assets/img/dark_mode/toggle-on.png";
 import axios from "axios";
 import apis from "../../utils/apis";
+import PasswordInput from "../../components/Input/password";
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -38,6 +40,9 @@ const Profile = () => {
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [passwordConfirm, setPasswordConfirm] = useState("");
 
   const updateInformation = () => {
     console.log("clicked update information");
@@ -54,7 +59,7 @@ const Profile = () => {
 
   useEffect(() => {
     actions.getUserInfo(dispatch, localStorage.getItem("userId"));
-    actions.getUsers(dispatch)
+    actions.getUsers(dispatch);
   }, []);
 
   useEffect(() => {
@@ -67,20 +72,52 @@ const Profile = () => {
   const [chosenFile, setChosenFile] = useState(null);
   const [previewURL, setPreviewURL] = useState("");
 
-  const handleSubmit = () =>{
-    const formData = new FormData();
-    formData.append("avatar", chosenFile);
-    formData.append("userId", user?.id);
-    // formData.append("email", email);
-    formData.append("firstName", firstName);
-    formData.append("lastName", lastName);
-    console.log(chosenFile)
-    axios.post(apis.updateInfo, formData).then((res)=>{
-      actions.getUsers(dispatch);
-      actions.getUserInfo(dispatch, localStorage.getItem('userId'))
-      alert("updated")
-    })
-  }
+  const handleSubmit = () => {
+    if (status === "information") {
+      const formData = new FormData();
+      formData.append("avatar", chosenFile);
+      formData.append("userId", user?.id);
+      // formData.append("email", email);
+      formData.append("firstName", firstName);
+      formData.append("lastName", lastName);
+      axios.post(apis.updateInfo, formData).then((res) => {
+        actions.getUsers(dispatch);
+        actions.getUserInfo(dispatch, localStorage.getItem("userId"));
+        alert("updated");
+      });
+    } else {
+      const hashedPassword = MD5(oldPassword).toString();
+      if (user?.password !== hashedPassword) {
+        console.log(user?.password, hashedPassword);
+        alert("Please type the old password correctly!");
+      } else if (newPassword !== passwordConfirm) {
+        alert("Password doesn't match!");
+      } else if (newPassword.length < 1) {
+        alert("New password is required");
+      } else {
+        axios
+          .post(apis.updatePassword, {
+            userId: user?.id,
+            password: newPassword,
+          })
+          .then((res) => {
+            actions.getUsers(dispatch);
+            actions.getUserInfo(dispatch, localStorage.getItem("userId"));
+            alert("updated");
+            setOldPassword("");
+            setNewPassword("");
+            setPasswordConfirm("");
+          })
+          .catch((error) => {
+            alert(error.response.data.message);
+          });
+      }
+    }
+  };
+
+  useEffect(() => {
+    console.log(status);
+  }, [status]);
   return (
     <div className="flex flex-col flex-grow">
       <PageTitle
@@ -132,14 +169,13 @@ const Profile = () => {
           <div className="flex flex-col flex-grow">
             <div className="flex flex-col flex-grow space-y-5">
               <div className="flex items-center space-x-3">
-                  <img
-
-                    src={previewURL ? previewURL : user?.avatar}
-                    className="w-24 h-24 rounded-lg"
-                    alt=""
-                  />
+                <img
+                  src={previewURL ? previewURL : user?.avatar}
+                  className="w-24 h-24 rounded-lg"
+                  alt=""
+                />
                 <div
-                  className="bg-primary h-button rounded-default text-white font-bold text-sm mr-3 w-[180px] hover:opacity-70 cursor-pointer flex justify-center items-center"
+                  className="bg-primary h-button rounded-default text-black dark:text-white font-bold text-sm mr-3 w-[180px] hover:opacity-70 cursor-pointer flex justify-center items-center"
                   onClick={() => {
                     fileUploadRef.current?.click();
                   }}
@@ -189,19 +225,36 @@ const Profile = () => {
                     type="password"
                     className="text-xs rounded-default"
                     placeholder="Type Your Old Password"
+                    value={oldPassword}
+                    onChange={(e) => setOldPassword(e.target.value)}
                   ></Input>
-                  <Input
+                  <PasswordInput
+                    className="rounded-default text-font-dark-gray text-xs"
+                    placeholder="Type Your Password*"
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                  ></PasswordInput>
+                  <PasswordInput
+                    className="rounded-default text-font-dark-gray text-xs"
+                    placeholder="Type Your Password*"
+                    value={passwordConfirm}
+                    onChange={(e) => setPasswordConfirm(e.target.value)}
+                  ></PasswordInput>
+                  {/* <Input
                     type="password"
                     className="text-xs rounded-default"
                     placeholder="Type Your New Passowrd"
                     option={eyeDisable}
-                  ></Input>
-                  <Input
+                    required
+                  ></Input> */}
+                  {/* <Input
                     type="password"
                     className="text-xs rounded-default"
                     placeholder="Retype Your New Passowrd"
+                    value={passwordConfirm}
+                    onChange={(e) => setPasswordConfirm(e.target.value)}
                     option={eyeDisable}
-                  ></Input>
+                  ></Input> */}
                 </div>
               )}
               <div className="space-y-5">
@@ -209,7 +262,7 @@ const Profile = () => {
                   onClick={
                     status === "information" ? goToPassword : goToInformation
                   }
-                  className="text-white font-medium text-sm cursor-pointer hover:opacity-70"
+                  className="text-black dark:text-white font-medium text-sm cursor-pointer hover:opacity-70"
                 >
                   {status === "information"
                     ? "Update Password"
