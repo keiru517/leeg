@@ -46,7 +46,7 @@ module.exports = {
                 button: '41px'
             },
             padding: {
-                default: '26px'
+                default: '16px'
             }
         }
         // margin: {
