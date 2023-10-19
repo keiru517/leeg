@@ -56,7 +56,7 @@ const SettingsSelect = (props) => {
   return (
     <div
     ref={ref}
-      className={`${className} flex justify-between z-10 dark:text-white text-font-dark-gray rounded-lg shadow w-[100px]  border border-dark-gray relative items-center cursor-pointer select-none`}
+      className={`${className} flex justify-between dark:text-white text-font-dark-gray rounded-lg shadow w-[100px]  border border-dark-gray relative items-center cursor-pointer select-none`}
     >
       <div
         className="w-full h-full flex justify-between items-center"
@@ -73,7 +73,7 @@ const SettingsSelect = (props) => {
         <img src={downArrowFilled} alt="" className="mr-2" />
       </div>
       <ul
-        className={`w-[180px] p-2 text-sm text-gray-700 dark:text-gray-200 absolute right-0 top-12 bg-[#ebebeb] dark:bg-dark-gray rounded-default${
+        className={`w-[180px] p-2 text-sm z-20 text-gray-700 dark:text-gray-200 absolute right-0 top-12 bg-[#ebebeb] dark:bg-dark-gray rounded-default${
           expand ? `` : " hidden"
         }`}
         aria-labelledby="states-button"
