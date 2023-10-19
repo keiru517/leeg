@@ -550,8 +550,11 @@ const League = () => {
         </Link>
         <span className="text-sky-500"> &gt; {league?.name}</span>
       </p>
-
-      <div className="rounded-main bg-white dark:bg-slate flex-grow p-default">
+      <div className="flex items-center space-x-3 mb-[20px]">
+        <img src={league.logo} className="w-10 h-10 rounded-lg"></img>
+        <p className="text-black dark:text-white text-lg">{league?.name}</p>
+      </div>
+      <div className="rounded-default bg-white dark:bg-slate flex-grow p-default">
         <div className="w-full px-2 sm:px-0 h-full flex flex-col">
           <Tab.Group defaultIndex={tab}>
             <div className="flex justify-between">

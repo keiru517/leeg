@@ -8,7 +8,6 @@ import Home from "./pages/home";
 import League from "./pages/home/league";
 import Team from "./pages/Team";
 import Matchup from "./pages/home/matchup";
-import SigninOption from "./pages/signin/signinOption";
 import Signin from "./pages/signin";
 import Signup from "./pages/signup";
 import SignupSuccess from "./pages/signup/signupSuccess";
@@ -56,7 +55,6 @@ function App() {
     <Router>
       <AuthLayout>
         <Routes>
-          <Route exact path="/signinOption" element={<SigninOption />}></Route>
           <Route exact path="/signin" element={<Signin />}></Route>
           <Route exact path="/signupWithEmail" element={<SignupWithEmail />}></Route>
           <Route exact path="/signup/:email" element={<Signup />}></Route>

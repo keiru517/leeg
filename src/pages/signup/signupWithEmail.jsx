@@ -80,7 +80,7 @@ const SignupWithEmail = () => {
   return (
     <div className="">
       {/* <Alert open={true}></Alert> */}
-      <div className="w-auth mx-auto mt-32">
+      <div className="sm:w-auth sm:mx-auto sm:mt-32">
         <div className="w-[164px] h-[185px] mx-auto">
           <div className="flex w-[112px] h-[112px] bg-white dark:bg-slate rounded-full items-center mx-auto">
             <img src={logo} alt="logo" className="mx-auto w-[38px] h-[38px]" />
