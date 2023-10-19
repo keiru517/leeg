@@ -9,8 +9,8 @@ const PersonalDetails = () => {
 
   return (
     <div className="">
-      <div className="w-auth mx-auto mt-32">
-        <div className="w-[164px] h-[185px] mx-auto">
+      <div className="w-auth mx-auto">
+        {/* <div className="w-[164px] h-[185px] mx-auto">
           <div className="flex w-[112px] h-[112px] bg-white dark:bg-slate rounded-full items-center mx-auto">
             <img
               src={logo}
@@ -20,7 +20,7 @@ const PersonalDetails = () => {
           </div>
           <img src={hrLine} alt="" className="my-7" />
           <p className="text-font-light-gray text-sm text-center">LEEG.IO</p>
-        </div>
+        </div> */}
         <div className="bg-slate w-full h-[315px] mt-16 rounded-main p-default flex flex-col">
           <div>
             <p className="text-white text-2xl font-bold">Personal Details</p>
