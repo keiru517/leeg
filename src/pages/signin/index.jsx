@@ -59,16 +59,18 @@ const Signin = () => {
             </p>
           </div>
           <div className="my-6 space-y-4">
-            <Input
-              className="rounded-default text-font-dark-gray text-xs"
+            <input
+              className="w-full flex space-x-2 border border-dark-gray items-center px-3 bg-transparent outline-none  dark:text-white flex-grow h-[42px] rounded-default text-font-dark-gray text-xs"
               placeholder="Email Address*"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-            ></Input>
+              name="email"
+            ></input>
             <PasswordInput
               className="rounded-default text-font-dark-gray text-xs"
               placeholder="Type Your Password*"
               value={password}
+              name="password"
               onChange={(e) => setPassword(e.target.value)}
             ></PasswordInput>
             <p className="dark:text-white text-sm hover:opacity-70">
