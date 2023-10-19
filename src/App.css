@@ -63,10 +63,10 @@
 }
 
 .page-title {
-  height: 132px;
-  margin-top: 20px;
+  /* height: 132px; */
+  /* margin-top: 20px; */
   border-radius: 14px;
-  padding: 26px;
+  /* padding: 26px; */
 }
 
 .search {

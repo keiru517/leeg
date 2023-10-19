@@ -80,7 +80,7 @@ const PageTitle = (props) => {
   const navigate = useNavigate();
 
   return (
-    <div className="page-title dark:bg-charcoal bg-white flex items-center justify-between">
+    <div className="page-title flex items-center justify-between my-3">
       <div className="flex items-center">
         {backIcon ? (
           <img
@@ -137,7 +137,7 @@ const PageTitle = (props) => {
           </button> */}
           <button
             onClick={handleClick}
-            className="w-[169px] h-button bg-primary hover:bg-opacity-70 rounded-default text-white focus:ring-2 font-bold"
+            className="w-[125px] h-button bg-primary hover:bg-opacity-70 rounded-default text-white focus:ring-2 font-bold text-sm"
           >
             {button}
           </button>

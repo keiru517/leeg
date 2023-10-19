@@ -33,7 +33,7 @@ module.exports = {
             },
             borderRadius: {
                 'background': '20px',
-                'default': '10px',
+                'default': '4px',
                 'main': '14px',
             },
             screens: {
@@ -43,7 +43,7 @@ module.exports = {
                 auth:'429px'
             },
             height: {
-                button: '53px'
+                button: '41px'
             },
             padding: {
                 default: '26px'

@@ -49,7 +49,6 @@ const Player = (props) => {
     }, {})
   );
 
-  console.log(updatedPlayers)
   const teams = useSelector((state) => state.home.teams);
 
   // const players = useSelector((state) => state.home.players).filter(

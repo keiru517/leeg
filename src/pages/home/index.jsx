@@ -61,7 +61,7 @@ const Home = () => {
         setLeagues={setFilteredData}
       >
       </PageTitle>
-      <div className="flex flex-col flex-grow rounded-main dark:bg-slate bg-white overflow-auto mt-[20px] p-default">
+      <div className="flex flex-col flex-grow rounded-main dark:bg-slate bg-white overflow-auto p-default">
         <div className="search flex justify-between space-x-3">
           <Input
             icon={search}
