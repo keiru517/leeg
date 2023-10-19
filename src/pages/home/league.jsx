@@ -692,8 +692,8 @@ const League = () => {
                   )}
                 >
                   <hr className="h-px my-4 bg-charcoal border-0" />
-                  <div className="flex h-full space-x-4">
-                    <div className="w-1/2 bg-light-charcoal dark:bg-charcoal flex flex-col h-full min-h-[420px] p-default rounded-main">
+                  <div className="h-full grid grid-cols-1 sm:grid-cols-2 sm:space-x-4 sm:space-y-0 space-y-3 ">
+                    <div className="bg-light-charcoal dark:bg-charcoal flex flex-col h-full min-h-[420px] p-default rounded-main">
                       <div className="flex justify-between w-full">
                         <p className="text-black dark:text-white text-xl font-semibold">
                           Waitlisted Players
@@ -761,7 +761,7 @@ const League = () => {
                         )}
                       </div>
                     </div>
-                    <div className="w-1/2 bg-light-charcoal dark:bg-charcoal flex flex-col h-full min-h-[420px] p-default rounded-main">
+                    <div className="bg-light-charcoal dark:bg-charcoal flex flex-col h-full min-h-[420px] p-default rounded-main">
                       <div className="flex justify-between w-full">
                         <p className="text-black dark:text-white text-xl font-semibold">
                           Available Players
