@@ -8,7 +8,6 @@ import otpLine from "../../assets/img/dark_mode/otp-line.png";
 import apis from "../../utils/apis";
 
 const SignupWithEmail = () => {
-
   const navigate = useNavigate();
   const [step, setStep] = useState(1);
 
@@ -27,8 +26,12 @@ const SignupWithEmail = () => {
 
   const [email, setEmail] = useState("");
   const handleClick = () => {
-    setStep(2);
-    sendOTP();
+    if (!email) {
+      alert("Please type your email address!");
+    } else {
+      setStep(2);
+      sendOTP();
+    }
   };
 
   const sendOTP = () => {
@@ -60,17 +63,17 @@ const SignupWithEmail = () => {
       });
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     if (inputValue.length === 4) {
       setFirst(inputValue[0]);
       setSecond(inputValue[1]);
       setFirst(inputValue[2]);
       setFirst(inputValue[3]);
     }
-  }, [inputValue])
+  }, [inputValue]);
 
   const handleVerify = () => {
-    if (code == first+second+third+fourth) {
+    if (code == first + second + third + fourth) {
       navigate(`/signup/${email}`);
     } else {
       alert("Incorrect verification code");
@@ -91,21 +94,24 @@ const SignupWithEmail = () => {
         {step == 1 ? (
           <div className="bg-white dark:bg-slate w-full h-[275px] mt-16 rounded-main p-default flex flex-col">
             <div className="h-[55px]">
-              <p className="text-black dark:text-white text-2xl font-bold">Sign up!</p>
+              <p className="text-black dark:text-white text-2xl font-bold">
+                Sign up!
+              </p>
               <p className="text-font-light-gray mt-3">
                 Enter your email address.
               </p>
             </div>
             <div className="mt-6">
-              <Input
-                className="rounded-default text-font-dark-gray text-xs mb-6"
-                placeholder="Type your email address"
+              <input
+                className="w-full flex space-x-2 border border-dark-gray items-center px-3 bg-transparent outline-none  dark:text-white flex-grow h-[42px] rounded-default text-font-dark-gray text-xs"
+                placeholder="Type your email address*"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-              ></Input>
+                name="email"
+              ></input>
               <button
                 onClick={handleClick}
-                className="w-full h-12 bg-primary font-bold text-white rounded-default hover:bg-opacity-70 mb-4"
+                className="w-full h-12 bg-primary font-bold text-white rounded-default hover:bg-opacity-70 my-4"
               >
                 Create Account
               </button>
@@ -141,23 +147,21 @@ const SignupWithEmail = () => {
                   ref={firstInputRef}
                   // onChange={(e)=>setFirst(e.target.value.toString())}
                   onChange={(e) => {
-                    console.log("First")
+                    console.log("First");
                     const inputValue = e.target.value.toString();
                     const sanitizedValue =
                       inputValue.length === 1 ? inputValue : inputValue[0]; // Only allow a single digit
 
                     setFirst(sanitizedValue);
-                    
+
                     if (inputValue.length === 1) {
                       secondInputRef.current?.focus();
-                    } 
-
-                    else if (inputValue > 1) {
-                      firstInputRef.current.value = inputValue[0]
-                      setSecond(inputValue[1])
-                      setThird(inputValue[2])
-                      setFourth(inputValue[3])
-                      fourthInputRef.current?.focus()
+                    } else if (inputValue > 1) {
+                      firstInputRef.current.value = inputValue[0];
+                      setSecond(inputValue[1]);
+                      setThird(inputValue[2]);
+                      setFourth(inputValue[3]);
+                      fourthInputRef.current?.focus();
                     }
                   }}
                 />
@@ -171,21 +175,20 @@ const SignupWithEmail = () => {
                   ref={secondInputRef}
                   onChange={(e) => {
                     const inputValue = e.target.value.toString();
-                    console.log("second", inputValue)
+                    console.log("second", inputValue);
                     const sanitizedValue =
                       inputValue.length === 1 ? inputValue : inputValue[0]; // Only allow a single digit
 
                     setSecond(sanitizedValue);
                     // thirdInputRef.current?.focus();
-                    
+
                     // if user types the code manually
                     if (inputValue.length === 1) {
                       thirdInputRef.current?.focus();
-                    } 
-                    else if (inputValue.length > 1) {
-                      setThird(inputValue[1])
-                      setFourth(inputValue[2])
-                      fourthInputRef.current?.focus()
+                    } else if (inputValue.length > 1) {
+                      setThird(inputValue[1]);
+                      setFourth(inputValue[2]);
+                      fourthInputRef.current?.focus();
                     }
 
                     if (inputValue.length === 0) {
@@ -210,8 +213,8 @@ const SignupWithEmail = () => {
 
                     if (inputValue.length === 1) {
                       fourthInputRef.current?.focus();
-                    } else if (inputValue.length > 1){
-                      setFourth(inputValue[1])
+                    } else if (inputValue.length > 1) {
+                      setFourth(inputValue[1]);
                     }
                     if (inputValue.length === 0) {
                       secondInputRef.current?.focus();

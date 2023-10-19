@@ -16,7 +16,7 @@ const Signup = () => {
   const [panelHeight, setPanelHeight] = useState("617px");
 
   const handleBack = () => {
-    navigate('/signupWithEmail');
+    navigate("/signupWithEmail");
   };
 
   const [firstName, setFirstName] = useState("");
@@ -28,16 +28,21 @@ const Signup = () => {
   const [chosenFile, setChosenFile] = useState();
   const [previewURL, setPreviewURL] = useState("");
 
-
   const handleSignup = () => {
     if (password != passwordConfirm) {
       setIsMatch(false);
       setPanelHeight("355px");
     } else {
       setIsMatch(true);
-      if (!chosenFile || !firstName || !lastName || !email || !password || !passwordConfirm)
-      {
-        alert("Please fill in all data!")
+      if (
+        !chosenFile ||
+        !firstName ||
+        !lastName ||
+        !email ||
+        !password ||
+        !passwordConfirm
+      ) {
+        alert("Please fill in all data!");
       } else {
         const formData = new FormData();
         formData.append("avatar", chosenFile);
@@ -52,7 +57,7 @@ const Signup = () => {
         // formData.append("state", state);
         // formData.append("city", city);
         // formData.append("address", address);
-    
+
         axios
           .post(apis.signup, formData)
           .then((res) => {
@@ -68,9 +73,7 @@ const Signup = () => {
 
   // password confirmation handler
   const [isMatch, setIsMatch] = useState(true);
-  useEffect(() => {
-
-  }, [passwordConfirm]);
+  useEffect(() => {}, [passwordConfirm]);
 
   return (
     <div className="">
@@ -101,12 +104,15 @@ const Signup = () => {
                   fileUploadRef.current?.click();
                 }}
               >
-                {
-                  previewURL?
-                  <img src={previewURL} className="rounded-full w-[58px] h-[58px] mx-2" alt="" />
-                  :
-                <img src={upload} alt="" />
-                }
+                {previewURL ? (
+                  <img
+                    src={previewURL}
+                    className="rounded-full w-[58px] h-[58px] mx-2"
+                    alt=""
+                  />
+                ) : (
+                  <img src={upload} alt="" />
+                )}
                 <p className="text-black dark:text-white text-sm ml-[10px]">
                   Upload Picture
                 </p>
@@ -119,7 +125,7 @@ const Signup = () => {
                     if (files.length) {
                       const file = files[0];
                       setChosenFile(file);
-                      setPreviewURL(URL.createObjectURL(file))
+                      setPreviewURL(URL.createObjectURL(file));
                     }
                   }}
                 />
@@ -127,17 +133,19 @@ const Signup = () => {
               <div className="my-6 space-y-4 ">
                 <div className="grid grid-cols-2 gap-4">
                   <Input
-                    className="bg-transparent rounded-default text-font-dark-gray text-xs"
+                    className="w-full flex space-x-2 border border-dark-gray items-center px-3 bg-transparent outline-none  dark:text-white flex-grow h-[42px] rounded-default text-font-dark-gray text-xs"
                     placeholder="Type Your First Name*"
                     value={firstName}
+                    name="firstName"
                     onChange={(e) => {
                       setFirstName(e.target.value);
                     }}
-                  ></Input>
+                    ></Input>
                   <Input
-                    className="bg-transparent rounded-default text-font-dark-gray text-xs"
+                    className="w-full flex space-x-2 border border-dark-gray items-center px-3 bg-transparent outline-none  dark:text-white flex-grow h-[42px] rounded-default text-font-dark-gray text-xs"
                     placeholder="Type Your Last Name*"
                     value={lastName}
+                    name="lastName"
                     onChange={(e) => {
                       setLastName(e.target.value);
                     }}
@@ -174,6 +182,7 @@ const Signup = () => {
                     type="password"
                     placeholder="Type Your Password*"
                     value={password}
+                    name="password"
                     onChange={(e) => {
                       setPassword(e.target.value);
                     }}
@@ -183,6 +192,7 @@ const Signup = () => {
                     type="password"
                     placeholder="Retype Your Passowrd*"
                     value={passwordConfirm}
+                    name="passwordConfirm"
                     onChange={(e) => {
                       setPasswordConfirm(e.target.value);
                     }}
@@ -207,11 +217,11 @@ const Signup = () => {
                     ></Input>
                   </div> */}
               </div>
-                {isMatch ? (
-                  ""
-                ) : (
-                  <p className="text-red-700 mt-4">Password does not match</p>
-                )}
+              {isMatch ? (
+                ""
+              ) : (
+                <p className="text-red-700 mt-4">Password does not match</p>
+              )}
               <div className="flex justify-between mt-6 space-x-3">
                 <button
                   onClick={handleBack}
