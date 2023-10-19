@@ -270,12 +270,12 @@ const Modal = (props) => {
                     ></img>
                   </div>
                   <div className="flex divide-x divide-solid divide-font-dark-gray dark:divide-[#3A3A3A]">
-                    <div className="flex flex-col space-y-8 w-[290px] h-[521px] p-default">
+                    <div className="flex flex-col space-y-8 sm:w-[290px] h-[521px] p-default">
                       <div
                         className={
                           step == 1
-                            ? "flex w-[238px] h-12 bg-primary rounded-full items-center text-white text-sm font-medium"
-                            : "flex w-[238px] h-12 rounded-full items-center text-black dark:text-white text-sm font-bold"
+                            ? "flex sm:w-[238px] w-[49px]  h-12 bg-primary rounded-full items-center text-white text-sm font-medium"
+                            : "flex sm:w-[238px] w-[49px]  h-12 rounded-full items-center text-black dark:text-white text-sm font-bold"
                         }
                       >
                         {step == 1 ? (
@@ -283,15 +283,15 @@ const Modal = (props) => {
                         ) : (
                           <img src={btn1Selected} alt="" className="px-2" />
                         )}
-                        Select Sport
+                        <span className="hidden sm:inline">Select Sport</span>
                       </div>
                       <div
                         className={
                           step == 2
-                            ? "flex w-[238px] h-12 bg-primary rounded-full items-center text-white text-sm font-medium"
+                            ? "flex sm:w-[238px] w-[49px] h-12 bg-primary rounded-full items-center text-white text-sm font-medium"
                             : step == 3
-                            ? "flex w-[238px] h-12 rounded-full items-center text-black dark:text-white text-sm font-bold"
-                            : "flex w-[238px] h-12 rounded-full items-center text-font-dark-gray text-sm font-bold"
+                            ? "flex sm:w-[238px] w-[49px] h-12 rounded-full items-center text-black dark:text-white text-sm font-bold"
+                            : "flex sm:w-[238px] w-[49px]  h-12 rounded-full items-center text-font-dark-gray text-sm font-bold"
                         }
                       >
                         {step == 3 ? (
@@ -299,20 +299,20 @@ const Modal = (props) => {
                         ) : (
                           <img src={btn2} alt="" className="px-2" />
                         )}
-                        Basic Details
+                        <span className="hidden sm:inline">Basic Details</span>
                       </div>
                       <div
                         className={
                           step == 3
-                            ? "flex w-[238px] h-12 bg-primary rounded-full items-center text-white text-sm font-medium"
-                            : "flex w-[238px] h-12 rounded-full items-center text-font-dark-gray text-sm font-bold"
+                            ? "flex sm:w-[238px] w-[49px]  h-12 bg-primary rounded-full items-center text-white text-sm font-medium"
+                            : "flex sm:w-[238px] w-[49px]  h-12 rounded-full items-center text-font-dark-gray text-sm font-bold"
                         }
                       >
                         <img src={btn3} alt="" className="px-2" />
-                        Schedule
+                        <span className="hidden sm:inline">Schedule</span>
                       </div>
                     </div>
-                    <div className="flex flex-col w-[444px] p-default">
+                    <div className="flex flex-col sm:w-[444px] w-[320px] p-default">
                       {step == 1 ? (
                         <>
                           <Select
@@ -325,7 +325,7 @@ const Modal = (props) => {
                           </Select>
                           <button
                             onClick={goToStep2}
-                            className="bg-primary w-full h-button rounded-xl mt-auto text-white font-bold text-sm hover:bg-sky-600 focus:ring-2"
+                            className="bg-primary w-full h-button rounded-default mt-auto text-white font-bold text-sm hover:bg-sky-600 focus:ring-2"
                           >
                             Next: Basic Details
                           </button>
@@ -395,13 +395,13 @@ const Modal = (props) => {
                           <div className="flex mt-auto w-full justify-between">
                             <button
                               onClick={goToStep1}
-                              className="bg-[#e5e5e5] dark:bg-[#3A3A3A] w-[169px] h-button rounded-xl mt-auto text-black dark:text-white font-semibold text-sm dark:hover:bg-middle-gray focus:ring-2"
+                              className="bg-[#e5e5e5] dark:bg-[#3A3A3A] sm:w-[169px] w-[140px] h-button rounded-default mt-auto text-black dark:text-white font-semibold text-sm dark:hover:bg-middle-gray focus:ring-2"
                             >
                               Back to Step 1
                             </button>
                             <button
                               onClick={goToStep3}
-                              className="bg-primary w-[169px] h-button rounded-xl mt-auto text-white font-semibold text-sm hover:bg-sky-600 focus:ring-2"
+                              className="bg-primary sm:w-[169px] w-[140px] h-button rounded-default mt-auto text-white font-semibold text-sm hover:bg-sky-600 focus:ring-2"
                             >
                               Next: Schedule
                             </button>
@@ -443,13 +443,13 @@ const Modal = (props) => {
                           <div className="flex mt-auto w-full justify-between">
                             <button
                               onClick={goToStep2}
-                              className="bg-[#e5e5e5] dark:bg-[#3A3A3A] w-[169px] h-button rounded-xl mt-auto text-black dark:text-white font-semibold text-sm hover:bg-gray-700 focus:ring-2"
+                              className="bg-[#e5e5e5] dark:bg-[#3A3A3A] sm:w-[169px] w-[140px] h-button rounded-default mt-auto text-black dark:text-white font-semibold text-sm hover:bg-gray-700 focus:ring-2"
                             >
                               Back to Step 2
                             </button>
                             <button
                               onClick={createLeague}
-                              className="bg-primary w-[169px] h-button rounded-xl mt-auto text-white font-semibold text-sm hover:bg-sky-600 focus:ring-2"
+                              className="bg-primary sm:w-[169px] w-[140px] h-button rounded-default mt-auto text-white font-semibold text-sm hover:bg-sky-600 focus:ring-2"
                             >
                               Create League
                             </button>
