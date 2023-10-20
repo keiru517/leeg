@@ -20,6 +20,7 @@ import MatchTable from "../../components/Table/Match";
 import StandingTable from "../../components/Table/Standing";
 import AdminTable from "../../components/Table/Admin";
 import PlayerTable from "../../components/Table/Player";
+import RosterTable from "../../components/Table/Roster";
 import calendar from "../../assets/img/dark_mode/calendar.png";
 import apis from "../../utils/apis";
 import * as actions from "../../actions";
@@ -68,13 +69,12 @@ const League = () => {
   );
 
   const options = [
-    { id: 0, name: "Ascend" },
-    { id: 1, name: "Descend" },
-    { id: 2, name: "Recent" },
+    { id: 0, name: "WaitList" },
+    { id: 1, name: "AcceptedList" },
   ];
 
   const [value, setValue] = useState("Sort by");
-  const [waitSortValue, setWaitSortValue] = useState("Sort by");
+  const [waitSortValue, setWaitSortValue] = useState("WaitList");
   const [acceptSortValue, setAcceptSortValue] = useState("Sort by");
   var categories = [];
   if (isAdmin) {
@@ -167,8 +167,12 @@ const League = () => {
     setFilteredWaitListPlayers(waitListPlayers);
     setFilteredAcceptListPlayers(acceptedPlayers);
     setFilteredPlayers(allPlayers);
-  }, [players.length, waitListPlayers.length, acceptedPlayers.length, allPlayers.length]);
-
+  }, [
+    players.length,
+    waitListPlayers.length,
+    acceptedPlayers.length,
+    allPlayers.length,
+  ]);
 
   useEffect(() => {
     const searchResult = waitListPlayers.filter((player) =>
@@ -211,11 +215,10 @@ const League = () => {
 
   // Players
   useEffect(() => {
-    const searchResult = allPlayers.filter(
-      (player) =>
-        (player.firstName + player.lastName)
-          .toLowerCase()
-          .includes(playerKeyword.toLowerCase())
+    const searchResult = allPlayers.filter((player) =>
+      (player.firstName + player.lastName)
+        .toLowerCase()
+        .includes(playerKeyword.toLowerCase())
     );
     setFilteredPlayers(searchResult);
   }, [playerKeyword]);
@@ -363,7 +366,7 @@ const League = () => {
         actions.getPlayers(dispatch);
         actions.getMatches(dispatch);
         actions.getMatchups(dispatch);
-        setDisplayAttempts3(!displayAttempts3)
+        setDisplayAttempts3(!displayAttempts3);
       })
       .catch((error) => {
         alert(error.response.data.message);
@@ -381,7 +384,7 @@ const League = () => {
         actions.getPlayers(dispatch);
         actions.getMatches(dispatch);
         actions.getMatchups(dispatch);
-        setDisplayAttempts2(!displayAttempts2)
+        setDisplayAttempts2(!displayAttempts2);
       })
       .catch((error) => {
         alert(error.response.data.message);
@@ -399,7 +402,7 @@ const League = () => {
         actions.getPlayers(dispatch);
         actions.getMatches(dispatch);
         actions.getMatchups(dispatch);
-        setDisplayAttempts1(!displayAttempts1)
+        setDisplayAttempts1(!displayAttempts1);
       })
       .catch((error) => {
         alert(error.response.data.message);
@@ -417,7 +420,7 @@ const League = () => {
         actions.getPlayers(dispatch);
         actions.getMatches(dispatch);
         actions.getMatchups(dispatch);
-        setDisplayBlocks(!displayBlocks)
+        setDisplayBlocks(!displayBlocks);
       })
       .catch((error) => {
         alert(error.response.data.message);
@@ -435,7 +438,7 @@ const League = () => {
         actions.getPlayers(dispatch);
         actions.getMatches(dispatch);
         actions.getMatchups(dispatch);
-        setDisplayRebounds(!displayRebounds)
+        setDisplayRebounds(!displayRebounds);
       })
       .catch((error) => {
         alert(error.response.data.message);
@@ -453,13 +456,13 @@ const League = () => {
         actions.getPlayers(dispatch);
         actions.getMatches(dispatch);
         actions.getMatchups(dispatch);
-        setDisplayAssists(!displayAssists)
+        setDisplayAssists(!displayAssists);
       })
       .catch((error) => {
         alert(error.response.data.message);
       });
   };
-  
+
   const toggleFouls = () => {
     axios
       .post(apis.toggleFouls, {
@@ -471,7 +474,7 @@ const League = () => {
         actions.getPlayers(dispatch);
         actions.getMatches(dispatch);
         actions.getMatchups(dispatch);
-        setDisplayFouls(!displayFouls)
+        setDisplayFouls(!displayFouls);
       })
       .catch((error) => {
         alert(error.response.data.message);
@@ -489,7 +492,7 @@ const League = () => {
         actions.getPlayers(dispatch);
         actions.getMatches(dispatch);
         actions.getMatchups(dispatch);
-        setDisplaySteals(!displaySteals)
+        setDisplaySteals(!displaySteals);
       })
       .catch((error) => {
         alert(error.response.data.message);
@@ -507,13 +510,12 @@ const League = () => {
         actions.getPlayers(dispatch);
         actions.getMatches(dispatch);
         actions.getMatchups(dispatch);
-        setDisplayTurnovers(!displayTurnovers)
+        setDisplayTurnovers(!displayTurnovers);
       })
       .catch((error) => {
         alert(error.response.data.message);
       });
   };
-
 
   const togglePassword = () => {
     console.timeLog("password");
@@ -551,7 +553,7 @@ const League = () => {
         <span className="text-sky-500"> &gt; {league?.name}</span>
       </p>
       <div className="flex items-center space-x-3 mb-[20px]">
-        <img src={league.logo} className="w-10 h-10 rounded-lg"></img>
+        <img src={league?.logo} className="w-10 h-10 rounded-lg"></img>
         <p className="text-black dark:text-white text-lg">{league?.name}</p>
       </div>
       <div className="rounded-default bg-white dark:bg-slate flex-grow p-default">
@@ -658,7 +660,7 @@ const League = () => {
                           : "dark:bg-light-gray justify-center"
                       } rounded-default`}
                     >
-                      {filteredWaitListPlayers.length ? (
+                      {/* {filteredWaitListPlayers.length ? (
                         filteredWaitListPlayers.map((player, idx) => (
                           <ListItem
                             key={idx}
@@ -673,11 +675,11 @@ const League = () => {
                             }}
                           ></ListItem>
                         ))
-                      ) : (
-                        <p className="text-black dark:text-white font-medium text-sm">
-                          No Blogs to show!
-                        </p>
-                      )}
+                      ) : ( */}
+                      <p className="text-black dark:text-white font-medium text-sm">
+                        No Blogs to show!
+                      </p>
+                      {/* )} */}
                     </div>
                   </div>
                 </div>
@@ -692,7 +694,61 @@ const League = () => {
                   )}
                 >
                   <hr className="h-px my-4 bg-charcoal border-0" />
-                  <div className="h-full grid grid-cols-1 sm:grid-cols-2 sm:space-x-4 sm:space-y-0 space-y-3 ">
+                  <div className="h-full ">
+                    <div className="bg-light-charcoal dark:bg-charcoal flex flex-col h-full min-h-[420px] p-default rounded-main">
+                      <div className="flex w-full justify-between space-x-10">
+                        <div className="flex flex-grow space-x-3 ">
+                          <Input
+                            className="flex-grow rounded-lg h-[38px] dark:bg-charcoal text-xs"
+                            icon={search}
+                            placeholder="Search"
+                            value={waitListKeyword}
+                            onChange={(e) => {
+                              setWaitListKeyword(e.target.value);
+                            }}
+                          />
+                          <Select
+                            className="w-[144px] rounded-lg text-xs"
+                            options={options}
+                            handleClick={(e) => setWaitSortValue(e.name)}
+                            value={waitSortValue}
+                          >
+                            {waitSortValue}
+                          </Select>
+                        </div>
+                      </div>
+                      <div
+                        className={`overflow-y-scroll:auto h-4/6 flex flex-col items-center flex-grow ${
+                          players.length
+                            ? ""
+                            : "dark:bg-light-gray justify-center"
+                        } rounded-default`}
+                      >
+                        <RosterTable />
+                        {/* {players.length ? (
+                          players.map((player, idx) => (
+                            <ListItem
+                              key={idx}
+                              className="mb-5"
+                              avatar={player.avatar}
+                              name={player.firstName + " " + player.lastName}
+                              email={player.email}
+                              date={player.createdAt}
+                              itemChecked={!!waitItemChecked[player.id]}
+                              setItemChecked={(checked) => {
+                                setWaitListItemChecked(player.id, checked);
+                              }}
+                            ></ListItem>
+                          ))
+                        ) : (
+                          <p className="text-black dark:text-white font-medium text-sm">
+                            No waitlisted Players to show!
+                          </p>
+                        )} */}
+                      </div>
+                    </div>
+                  </div>
+                  {/* <div className="h-full grid grid-cols-1 sm:grid-cols-2 sm:space-x-4 sm:space-y-0 space-y-3 ">
                     <div className="bg-light-charcoal dark:bg-charcoal flex flex-col h-full min-h-[420px] p-default rounded-main">
                       <div className="flex justify-between w-full">
                         <p className="text-black dark:text-white text-xl font-semibold">
@@ -828,7 +884,7 @@ const League = () => {
                         )}
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                   <PlayerModal></PlayerModal>
                 </Tab.Panel>
               ) : (
@@ -962,7 +1018,10 @@ const League = () => {
                   </Select>
                 </div>
                 {filteredPlayers.length > 0 ? (
-                  <PlayerTable players={filteredPlayers} league={league}></PlayerTable>
+                  <PlayerTable
+                    players={filteredPlayers}
+                    league={league}
+                  ></PlayerTable>
                 ) : (
                   <div className="flex items-center flex-grow">
                     <p className="text-2xl text-black dark:text-white w-full text-center">
