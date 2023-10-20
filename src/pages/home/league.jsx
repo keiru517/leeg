@@ -59,6 +59,7 @@ const League = () => {
   const players = useSelector((state) => state.home.players).filter(
     (player) => player.leagueId == leagueId && player.isDeleted !== 1
   );
+  
   // this is used for Players tab
   const allPlayers = useSelector((state) => state.home.players).filter(
     (player) => player.leagueId == leagueId
@@ -69,13 +70,29 @@ const League = () => {
   );
 
   const options = [
+    { id: 0, name: "Recent" },
+    { id: 1, name: "Alphabetical" },
+  ];
+
+  const rosterOptions = [
     { id: 0, name: "WaitList" },
     { id: 1, name: "AcceptedList" },
   ];
 
+
   const [value, setValue] = useState("Sort by");
-  const [waitSortValue, setWaitSortValue] = useState("WaitList");
-  const [acceptSortValue, setAcceptSortValue] = useState("Sort by");
+  const [rosterValue, setRosterValue] = useState(rosterOptions[0].name);
+  const [rosters, setRosters] = useState([]);
+  useEffect(()=>{
+    var result =  players?.filter(roster=>roster.isWaitList === 1);
+    if (rosterValue == "WaitList") {
+      result = players?.filter(roster=>roster.isWaitList === 1)
+    } else {
+      result = players?.filter(roster=>roster.isAcceptedList ===1)
+    }
+    setRosters(result);
+  }, [rosterValue])
+
   var categories = [];
   if (isAdmin) {
     // if (league?.userId == user?.id) {
@@ -132,6 +149,7 @@ const League = () => {
     actions.getMatchups(dispatch);
     actions.getPlayers(dispatch);
     actions.getAdmins(dispatch);
+
   }, []);
 
   useEffect(() => {
@@ -167,6 +185,11 @@ const League = () => {
     setFilteredWaitListPlayers(waitListPlayers);
     setFilteredAcceptListPlayers(acceptedPlayers);
     setFilteredPlayers(allPlayers);
+    if (rosterValue==='WaitList') {
+      setRosters(players?.filter(roster=>roster.isWaitList === 1));
+    } else {
+      setRosters(players?.filter(roster=>roster.isAcceptedList === 1));
+    }
   }, [
     players.length,
     waitListPlayers.length,
@@ -635,18 +658,9 @@ const League = () => {
                             setWaitListKeyword(e.target.value);
                           }}
                         />
-                        <Select
-                          className="w-[144px] rounded-lg text-xs"
-                          options={options}
-                          handleClick={(e) => setWaitSortValue(e.name)}
-                          value={waitSortValue}
-                        >
-                          {waitSortValue}
-                        </Select>
                       </div>
                       <div>
                         <Button
-                          onClick={handleAccept}
                           className="text-sm bg-success w-[100px] h-[38px] rounded-lg hover:opacity-70"
                         >
                           Add blog
@@ -709,11 +723,11 @@ const League = () => {
                           />
                           <Select
                             className="w-[144px] rounded-lg text-xs"
-                            options={options}
-                            handleClick={(e) => setWaitSortValue(e.name)}
-                            value={waitSortValue}
+                            options={rosterOptions}
+                            handleClick={(e) => setRosterValue(e.name)}
+                            value={rosterValue}
                           >
-                            {waitSortValue}
+                            {rosterValue}
                           </Select>
                         </div>
                       </div>
@@ -724,7 +738,7 @@ const League = () => {
                             : "dark:bg-light-gray justify-center"
                         } rounded-default`}
                       >
-                        <RosterTable />
+                        <RosterTable rosters={rosters} rosterValue={rosterValue} setRosterValue={setRosterValue}/>
                         {/* {players.length ? (
                           players.map((player, idx) => (
                             <ListItem
