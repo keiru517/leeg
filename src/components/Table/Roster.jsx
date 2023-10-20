@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Typography } from "@material-tailwind/react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import { AiOutlineCheck } from "react-icons/ai";
 import { Switch } from "@headlessui/react";
 import Option from "../Option";
+import axios from "axios";
+import apis from "../../utils/apis";
+import * as actions from "../../actions";
 
 function Checkbox({ label, name, checked, onChange, disabled }) {
   return (
@@ -37,8 +40,9 @@ function Checkbox({ label, name, checked, onChange, disabled }) {
   );
 }
 
-const RosterTable = () => {
+const RosterTable = (props) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   let { leagueId } = useParams();
 
   // let { leagueId} = useParams();
@@ -47,9 +51,7 @@ const RosterTable = () => {
     (league) => league.id == leagueId && league.isDeleted !== 1
   );
 
-  const players = useSelector((state) => state.home.players).filter(
-    (player) => player.leagueId == leagueId && player.isDeleted !== 1
-  );
+  const { rosters, rosterValue, setRosterValue } = props;
 
   var columns = [];
   if (league?.userId == user?.id) {
@@ -73,23 +75,43 @@ const RosterTable = () => {
     ];
   }
 
-  const options = [
-    { id: 0, name: "Accept" },
-    { id: 1, name: "Remove" },
-  ];
+  const options =
+    rosterValue === "WaitList"
+      ? [
+          { id: 0, name: "Accept" },
+          { id: 1, name: "Remove" },
+        ]
+      : [{ id: 0, name: "WaitList" }];
 
   const teams = useSelector((state) => state.home.teams);
 
-  // const goToMatchup = (id) => {
-  //   navigate(`/league/${leagueId}/matchup/${id}`)
-  // }
+  const handleOption = (idx, event) => {
+    const allItemsFalse = Object.values(itemChecked).every((value) => value === false);
+    if (Object.keys(itemChecked).length === 0 || allItemsFalse) {
+      alert("Please select one or more players!");
+    } else {
+      if (rosterValue === "WaitList") {
+        // if the user clicks Accept
+        if (idx === 0) {
+          axios
+            .post(apis.acceptPlayer, itemChecked)
+            .then((res) => {
+              actions.getPlayers(dispatch);
+            })
+            .catch((error) => alert(error.response.data.message));
+        } else {
 
-  const handleOption = (idx, matchId) => {
-    if (idx === 0) {
-      navigate(`/league/${leagueId}/matchup/${matchId}`);
-    } else if (idx === 1) {
-      alert("Match has been deleted");
+        }
+      } else {
+        axios
+          .post(apis.unacceptPlayer, itemChecked)
+          .then((res) => {
+            actions.getPlayers(dispatch);
+          })
+          .catch((error) => alert(error.response.data.message));
+      }
     }
+    setItemChecked({});
   };
 
   const isDeletedTeam = (teamId) => {
@@ -99,11 +121,13 @@ const RosterTable = () => {
   };
 
   const [itemChecked, setItemChecked] = useState({});
-  const setWaitListItemChecked = (index, checked) => {
+  const setListItemChecked = (index, checked) => {
     let temp = { ...itemChecked };
     temp[index] = checked;
     setItemChecked(temp);
+    console.log(temp)
   };
+
   return (
     <div className="text-black dark:text-white h-full w-full mt-4">
       <table className="w-full min-w-max table-auto text-left">
@@ -112,8 +136,8 @@ const RosterTable = () => {
             <th>
               <Checkbox
                 name="name"
-                // itemChecked={!!waitItemChecked[player.id]}
-                // setItemChecked={(checked) => {
+                // checked={!!allchecked}
+                // onChange={(checked) => {
                 //   setWaitListItemChecked(player.id, checked);
                 // }}
               />
@@ -130,7 +154,7 @@ const RosterTable = () => {
               <th>
                 <Option
                   options={options}
-                  // handleClick={(idx) => handleOption(idx, player.id)}
+                  handleClick={(idx, event) => handleOption(idx)}
                 ></Option>
               </th>
             ) : (
@@ -139,7 +163,7 @@ const RosterTable = () => {
           </tr>
         </thead>
         <tbody className="text-center">
-          {players.map((player, index) => (
+          {rosters.map((player, index) => (
             // <tr onClick={()=>goToMatchup(id)} key={index} className="odd:bg-dark-gray even:bg-charcoal  hover:opacity-70">
             <tr
               key={index}
@@ -153,9 +177,9 @@ const RosterTable = () => {
                 >
                   <Checkbox
                     name="name"
-                    itemChecked={!!itemChecked[player.id]}
-                    setItemChecked={(checked) => {
-                      setWaitListItemChecked(player.id, checked);
+                    checked={!!itemChecked[player.id]}
+                    onChange={(checked) => {
+                      setListItemChecked(player.id, checked);
                     }}
                   />
                 </Typography>
