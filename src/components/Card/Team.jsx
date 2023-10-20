@@ -36,7 +36,7 @@ const TeamCard = (props) => {
           <Link to={`team/${team.id}`}>
             <p className="text-black dark:text-white text-sm mx-2 underline">{team.name}</p>
           </Link>
-          <p className="text-black dark:text-white pt-1 text-sm">
+          <p className="text-black dark:text-white text-xs">
             {players.length}
           </p>
         </div>
