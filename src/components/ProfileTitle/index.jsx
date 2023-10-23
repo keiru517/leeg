@@ -19,7 +19,7 @@ const PageTitle = (props) => {
 
 
   return (
-    <div className="page-title bg-charcoal flex items-center justify-between">
+    <div className="page-title bg-charcoal flex items-center justify-between mt-3 p-3">
       <div className="flex items-center">
         <img
           src={backIcon}

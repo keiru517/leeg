@@ -36,14 +36,14 @@ const Player = (props) => {
         // overwrite the teamId if there is a player who is not deleted
         console.log("substitute", player.id, player.isSubstitute);
         if (player.teamId !== 0 && player.isSubstitute !== 1) {
-          acc[player.userId].teamId = player.teamId
+          acc[player.userId].teamId = player.teamId;
         }
         // acc[player.userId].teamId = player.teamId !== 0 && player.isSubstitute !== 1? player.teamId : 0;
         // overwrite the isDeleted if there is a player who is not deleted
         acc[player.userId].isDeleted = player.isDeleted ? 1 : player.isDeleted;
       } else {
         // If player doesn't exist, create a new entry
-        acc[player.userId] = { ...player, points: points};
+        acc[player.userId] = { ...player, points: points };
       }
       return acc;
     }, {})
@@ -293,20 +293,18 @@ const Player = (props) => {
                     className="odd:bg-light-dark-gray dark:odd:bg-dark-gray even:bg-light-charcoal dark:even:bg-charcoal h-[53px]"
                   >
                     <td className="">
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal flex items-center underline px-3"
-                      >
-                        <img
-                          src={player.avatar}
-                          alt=""
-                          className="h-8 w-8 mr-2 rounded-default"
-                        />
-                        <Link to={`player/${player.userId}`}>
-                          {player.firstName} {player.lastName}
-                        </Link>
-                      </Typography>
+                      <Link to={`player/${player.userId}`}>
+                        <div className="flex items-center px-3">
+                          <img
+                            src={player.avatar}
+                            alt=""
+                            className="w-8 h-8 mr-2 rounded-full border border-gray-500 dark:border-gray-100"
+                          />
+                          <span className="font-normal underline">
+                            {player.firstName} {player.lastName}
+                          </span>
+                        </div>
+                      </Link>
                     </td>
                     <td className="">
                       <Typography
