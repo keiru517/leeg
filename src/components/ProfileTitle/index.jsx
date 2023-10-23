@@ -23,10 +23,12 @@ const PageTitle = (props) => {
   return (
     <div className="page-title bg-white dark:bg-charcoal flex items-center justify-between mt-3 p-3">
       <div className="flex items-center">
-        <div className="w-[34px] h-[34px] bg-gray-300 dark:bg-primary items-center flex justify-center rounded-default cursor-pointer hover:opacity-70">
+        <div
+          className="w-[34px] h-[34px] bg-gray-300 dark:bg-primary items-center flex justify-center rounded-default cursor-pointer hover:opacity-70"
+          onClick={() => navigate(-1)}
+        >
           <img
             src={darkMode ? backIconDark : backIconLight}
-            onClick={() => navigate(-1)}
             alt=""
             className="w-[4px] h-[10px] dark:hover:bg-middle-gray rounded-default cursor-pointer"
           />
