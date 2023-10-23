@@ -83,12 +83,14 @@ const PageTitle = (props) => {
     <div className="page-title flex items-center justify-between my-3">
       <div className="flex items-center">
         {backIcon ? (
-          <img
-            onClick={() => navigate(-1)}
-            src={backIcon}
-            alt=""
-            className="w-[34px] h-[34px] dark:hover:bg-middle-gray rounded-default cursor-pointer"
-          />
+          <div className="w-[34px] h-[34px] bg-gray-300 dark:bg-primary items-center flex justify-center rounded-default cursor-pointer hover:opacity-70">
+            <img
+              onClick={() => navigate(-1)}
+              src={backIcon}
+              alt=""
+              className="w-[4px] h-[10px] dark:hover:bg-middle-gray rounded-default cursor-pointer"
+            />
+          </div>
         ) : (
           ""
         )}

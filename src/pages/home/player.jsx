@@ -58,7 +58,7 @@ const Player = () => {
       <ProfileTitle avatar={player?.avatar} team={team}>
         <div>
           <div className="flex items-center">
-            <p className="text-[28px]">
+            <p className="text-[28px] text-black dark:text-white">
               {player?.firstName} {player?.lastName}{" "}
             </p>
             <span className="text-xs font-normal mt-2 text-font-dark-gray">
@@ -67,7 +67,7 @@ const Player = () => {
           </div>
           <div className="flex items-center space-x-2 mt-2">
             <img src={team?.logo?team.logo:DefaultTeamLogo} alt="" className="w-6 h-6 rounded-default" />
-            <p className="text-white text-xs font-medium">
+            <p className="text-black dark:text-white text-xs font-medium">
               {team?.name} | # {player?.jerseyNumber}
             </p>
           </div>
@@ -121,7 +121,7 @@ const Player = () => {
         </div>
       </div> */}
 
-      <div className="flex flex-col flex-grow rounded-main bg-slate overflow-auto mt-5 p-default">
+      <div className="flex flex-col flex-grow rounded-main bg-white dark:bg-slate overflow-auto mt-5 p-default">
         <div className="search flex justify-between space-x-6">
           <Select
             className="w-full rounded-lg text-xs h-[42px]"
