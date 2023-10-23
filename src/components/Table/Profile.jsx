@@ -17,17 +17,15 @@ const Profile = (props) => {
     (player) =>
       player.userId == userId &&
       player.leagueId == leagueId &&
-      player?.teamId !== 0 
+      player?.teamId !== 0
   );
 
-  const matches = useSelector((state) => state.home.matches).filter(
-    (match) =>
-      match.homeTeamId == player?.teamId ||
-      match.awayTeamId == player?.teamId
-  );
+  const matches = useSelector((state) => state.home.matches);
   // .filter(match=>match.homeTeamId == player.teamId || match.awayTeamId == player.teamId);
   // console.log(matches)
-  const matchups = useSelector((state) => state.home.matchups);
+  const matchups = useSelector((state) => state.home.matchups).filter(
+    (matchup) => matchup.userId == userId && matchup.leagueId == leagueId
+  );
 
   return (
     <div className="text-black dark:text-white mt-5 w-full">
@@ -62,7 +60,87 @@ const Profile = (props) => {
             );
 
               if (match) { */}
-          {matches.map((match, idx) => {
+          {matchups.map((matchup, idx) => {
+            const match = matches.find((match) => match.id == matchup.matchId);
+            return (
+              <tr
+                key={idx}
+                className="odd:bg-light-dark-gray dark:odd:bg-dark-gray even:bg-light-charcoal dark:even:bg-charcoal h-[53px]"
+              >
+                <td className="">
+                  <Typography
+                    variant="small"
+                    color="blue-gray"
+                    className="font-normal"
+                  >
+                    {match?.date}
+                  </Typography>
+                </td>
+                <td className="">
+                  <Typography
+                    variant="small"
+                    color="blue-gray"
+                    className="font-normal flex items-center space-x-2 justify-center"
+                  >
+                    <img
+                      src={
+                        teams.find((team) => team.id == match?.homeTeamId)?.logo
+                      }
+                      alt=""
+                      className="w-8 h-8 rounded-default"
+                    />
+                    <p className="underline">
+                      <Link
+                        to={`/league/${leagueId}/team/${match?.homeTeamId}`}
+                      >
+                        {
+                          teams.find((team) => team.id == match?.homeTeamId)
+                            ?.name
+                        }
+                      </Link>
+                    </p>
+                    <p className="text-font-dark-gray">VS</p>
+                    <img
+                      src={
+                        teams.find((team) => team.id == match?.awayTeamId)?.logo
+                      }
+                      alt=""
+                      className="w-8 h-8 mr-2 rounded-default"
+                    />
+                    <p className="underline">
+                      <Link
+                        to={`/league/${leagueId}/team/${match?.awayTeamId}`}
+                      >
+                        {
+                          teams.find((team) => team.id == match?.awayTeamId)
+                            ?.name
+                        }
+                      </Link>
+                    </p>
+                  </Typography>
+                </td>
+                <td className="w-1/5">
+                  <Typography
+                    variant="small"
+                    color="blue-gray"
+                    className="font-normal"
+                  >
+                    {matchup.points}
+                  </Typography>
+                </td>
+                <td className="w-1/5">
+                  <Typography
+                    variant="small"
+                    color="blue-gray"
+                    className="font-normal"
+                  >
+                    {match?.homeTeamPoints} : {match?.awayTeamPoints}
+                  </Typography>
+                </td>
+              </tr>
+            );
+          })}
+          {/* {matches.map((match, idx) => {
             const points = matchups.find(
               (matchup) => matchup.playerId == player?.id && matchup.matchId == match.id
             )?.points;
@@ -143,7 +221,7 @@ const Profile = (props) => {
                 </td>
               </tr>
             );
-          })}
+          })} */}
         </tbody>
       </table>
     </div>

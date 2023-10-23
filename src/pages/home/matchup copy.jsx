@@ -507,44 +507,32 @@ const Matchup = () => {
 
   return (
     <div className="flex flex-col flex-grow">
-      {/* <MatchupTitle handleClick={handleSubmit} result={match?.result}>
+      <MatchupTitle handleClick={handleSubmit} result={match?.result}>
         Matchup Page
-      </MatchupTitle> */}
-      <p className="flex font-dark-gray my-[20px] justify-between">
-        <div className="">
-          <Link to="/">
-            <span className="underline">My Leagues</span>
-          </Link>
-          <span className=""> &gt; </span>
-          <Link to={`/league/${leagueId}`}>
-            <span className="underline">{league?.name}</span>
-          </Link>
+      </MatchupTitle>
+      <p className="font-dark-gray my-[20px]">
+        <Link to="/">
+          <span className="underline">My Leagues</span>
+        </Link>
+        <span className=""> &gt; </span>
+        <Link to={`/league/${leagueId}`}>
+          <span className="underline">{league?.name}</span>
+        </Link>
 
-          <span className=""> &gt; </span>
-          <Link to={`/league/${leagueId}?tab=3`}>
-            <span className="underline">Matches</span>
-          </Link>
-          <span className=""> &gt; </span>
-          <span className="text-sky-500">
-            {/* <Link to={`/league/${leagueId}/team/${team.id}`}> */}
-            {homeTeam?.name}{" "}
-          </span>
-          <span> Vs</span>
-          <span className="text-sky-500">
-            {" "}
-            {awayTeam?.name}
-            {/* </Link> */}
-          </span>
-        </div>
-        <button
-          onClick={handleSubmit}
-          className="w-32 h-button bg-primary hover:bg-opacity-70 rounded-default text-white focus:ring-2 disabled:opacity-10 font-bold justify-end"
-          // disabled={result!=="-:-"}
-        >
-          Save
-        </button>
+        <span className=""> &gt; </span>
+        <span className="">Matches</span>
+        <span className=""> &gt; </span>
+        <span className="text-sky-500">
+          {/* <Link to={`/league/${leagueId}/team/${team.id}`}> */}
+          {homeTeam?.name}{" "}
+        </span>
+        <span> Vs</span>
+        <span className="text-sky-500">
+          {" "}
+          {awayTeam?.name}
+          {/* </Link> */}
+        </span>
       </p>
-
       <div className="flex rounded-main bg-white dark:bg-slate p-12 h-[284px] items-center justify-center">
         <div className="flex space-x-10">
           <div className="text-center w-[330px]">
@@ -584,7 +572,6 @@ const Matchup = () => {
           </div>
         </div>
       </div>
-
       <div className="flex flex-col flex-grow rounded-main bg-white dark:bg-slate overflow-auto mt-[20px] p-default">
         {/* <div className="search flex justify-between space-x-3">
           <Input
@@ -862,7 +849,9 @@ const Matchup = () => {
                           </td>
                           <td className="">{player?.jerseyNumber}</td>
                           {displayPosition ? (
-                            <td className="">{homeInput[index]?.position}</td>
+                            <td className="">
+                              {homeInput[index]?.position}
+                            </td>
                           ) : (
                             ""
                           )}

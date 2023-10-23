@@ -149,7 +149,6 @@ const League = () => {
     actions.getMatchups(dispatch);
     actions.getPlayers(dispatch);
     actions.getAdmins(dispatch);
-
   }, []);
 
   useEffect(() => {

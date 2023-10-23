@@ -17,7 +17,6 @@ const TeamTable = (props) => {
     (league) => league.id == leagueId
   );
 
-
   const dispatch = useDispatch();
 
   const options = [
@@ -112,22 +111,16 @@ const TeamTable = (props) => {
               className="odd:bg-light-dark-gray dark:odd:bg-dark-gray even:bg-light-charcoal dark:even:bg-charcoal"
             >
               <td className="">
-                <div className="flex items-center px-3">
-                  <img
-                    src={player.avatar}
-                    alt=""
-                    className="w-8 h-8 mr-2 rounded-default"
-                  />
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal underline"
-                  >
-                    <Link to={`/league/${leagueId}/player/${player.userId}`}>
-                      {player.firstName} {player.lastName}
-                    </Link>
-                  </Typography>
-                </div>
+                <Link to={`/league/${leagueId}/player/${player.userId}`}>
+                  <div className="flex items-center px-3">
+                    <img
+                      src={player.avatar}
+                      alt=""
+                      className="w-8 h-8 mr-2 rounded-full border border-gray-500 dark:border-gray-100"
+                    />
+                      <span className="font-normal underline">{player.firstName} {player.lastName}</span>
+                  </div>
+                </Link>
               </td>
               <td className="">
                 <Typography

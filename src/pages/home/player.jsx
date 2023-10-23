@@ -6,11 +6,11 @@ import Select from "../../components/Select";
 import ProfileTitle from "../../components/ProfileTitle";
 import * as actions from "../../actions";
 import ProfileTable from "../../components/Table/Profile";
+import DefaultTeamLogo from "../../assets/img/dark_mode/default-team-logo.jpg";
 
 const Player = () => {
   let { leagueId, userId } = useParams();
   const dispatch = useDispatch();
-
 
   const options = [
     {
@@ -27,22 +27,25 @@ const Player = () => {
     },
   ];
 
-  useEffect(()=>{
-    actions.getUserInfo(dispatch, localStorage.getItem('userId'))
+  useEffect(() => {
+    actions.getUserInfo(dispatch, localStorage.getItem("userId"));
     actions.getUsers(dispatch);
     actions.getLeagues(dispatch);
     actions.getPlayers(dispatch);
     actions.getTeams(dispatch);
     actions.getMatches(dispatch);
     actions.getMatchups(dispatch);
-  }, [])
+  }, []);
 
   const [value, setValue] = useState("Sort by");
 
-  const player = useSelector((state) => state.home.players).find((player) => player.userId == userId && player.leagueId == leagueId);
+  const player = useSelector((state) => state.home.players).find(
+    (player) => player.userId == userId && player.leagueId == leagueId
+  );
 
-
-  const team = useSelector((state) => state.home.teams).find((team) => team.id == player?.teamId);
+  const team = useSelector((state) => state.home.teams).find(
+    (team) => team.id == player?.teamId
+  );
 
   const league = useSelector((state) => state.home.leagues).find(
     (league) => league.id == leagueId
@@ -55,13 +58,15 @@ const Player = () => {
       <ProfileTitle avatar={player?.avatar} team={team}>
         <div>
           <div className="flex items-center">
-            <p className="text-[28px]">{player?.firstName} {player?.lastName} </p>
+            <p className="text-[28px]">
+              {player?.firstName} {player?.lastName}{" "}
+            </p>
             <span className="text-xs font-normal mt-2 text-font-dark-gray">
               / {player?.email}
             </span>
           </div>
           <div className="flex items-center space-x-2 mt-2">
-            <img src={team?.logo} alt="" className="w-6 h-6 rounded-default" />
+            <img src={team?.logo?team.logo:DefaultTeamLogo} alt="" className="w-6 h-6 rounded-default" />
             <p className="text-white text-xs font-medium">
               {team?.name} | # {player?.jerseyNumber}
             </p>
@@ -79,10 +84,16 @@ const Player = () => {
           <span className="underline">{league?.name}</span>
         </Link>
         <span className=""> &gt; </span>
-        <span className="underline">
-          <Link to={`/league/${leagueId}/team/${team?.id}`}>{team?.name}</Link>
-        </span>
-        <span className=""> &gt; </span>
+        {team && (
+          <>
+            <span className="underline">
+              <Link to={`/league/${leagueId}/team/${team?.id}`}>
+                {team?.name}
+              </Link>
+            </span>
+            <span className=""> &gt; </span>
+          </>
+        )}
         <span className="text-sky-500">
           {player?.firstName} {player?.lastName}
         </span>
@@ -122,10 +133,7 @@ const Player = () => {
           </Select>
         </div>
         {matches.length > 0 ? (
-          <ProfileTable
-            userId={userId}
-            leagueId={leagueId}
-          />
+          <ProfileTable userId={userId} leagueId={leagueId} />
         ) : (
           <div className="flex flex-grow items-center ">
             <p className="text-2xl text-white font-bold w-full text-center">
