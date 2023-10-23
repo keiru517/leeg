@@ -1,5 +1,6 @@
 import { Typography } from "@material-tailwind/react";
-import deleteIcon from "../../assets/img/dark_mode/delete.png";
+import deleteIconDark from "../../assets/img/dark_mode/delete-icon-dark.png";
+import deleteIconLight from "../../assets/img/dark_mode/delete-icon-light.png";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import * as actions from "../../actions";
@@ -9,6 +10,7 @@ import apis from "../../utils/apis";
 const AdminTable = (props) => {
   let { leagueId, user } = props;
   const dispatch = useDispatch();
+  const darkMode = useSelector((state) => state.home.dark_mode);
   const admins = useSelector((state) => state.home.admins).filter(
     (admin) => admin.leagueId == leagueId && admin.isDeleted !== 1
   );
@@ -19,14 +21,17 @@ const AdminTable = (props) => {
   }, []);
 
   const handleDelete = (adminId) => {
-    axios.post(apis.removeAdmin, {adminId}).then((res)=>{
-      actions.getUsers(dispatch);
-      actions.getAdmins(dispatch);
-      alert(res.data.message)
-    }).catch((error)=>{
-      alert(error.response.data.message);
-    })
-  }
+    axios
+      .post(apis.removeAdmin, { adminId })
+      .then((res) => {
+        actions.getUsers(dispatch);
+        actions.getAdmins(dispatch);
+        alert(res.data.message);
+      })
+      .catch((error) => {
+        alert(error.response.data.message);
+      });
+  };
 
   return (
     <div className="text-white h-full w-full">
@@ -40,19 +45,19 @@ const AdminTable = (props) => {
               <Typography
                 variant="small"
                 color="blue-gray"
-                className="font-normal leading-none "
+                className="font-normal leading-none text-black bg-text-white"
               >
                 Admin
               </Typography>
             </th>
             <th
               key="2"
-              className="h-button bg-slate text-center font-font-dark-gray w-1/2"
+              className="h-button bg-white dark:bg-slate text-center font-font-dark-gray w-1/2"
             >
               <Typography
                 variant="small"
                 color="blue-gray"
-                className="font-normal leading-none "
+                className="font-normal leading-none text-black dark:text-white"
               >
                 Action
               </Typography>
@@ -81,10 +86,13 @@ const AdminTable = (props) => {
           </tr> */}
           {admins.length > 0
             ? admins.map((admin, index) => (
-                <tr key={index} className="even:bg-dark-gray odd:bg-charcoal">
+                <tr
+                  key={index}
+                  className="odd:bg-light-dark-gray dark:odd:bg-dark-gray even:bg-light-charcoal dark:even:bg-charcoal h-[53px]"
+                >
                   <td className="w-4/5">
                     <div className="flex items-center justify-between">
-                      <div className="flex items-center">
+                      <div className="flex items-center text-black dark:text-white">
                         <img
                           src={
                             users.find((user) => user?.id == admin.userId)
@@ -114,8 +122,8 @@ const AdminTable = (props) => {
                   <td className="w-1/5">
                     {admin.role !== 1 ? (
                       <img
-                        src={deleteIcon}
-                        onClick={()=>{
+                        src={darkMode ? deleteIconDark : deleteIconLight}
+                        onClick={() => {
                           handleDelete(admin.id);
                         }}
                         alt=""
