@@ -21,14 +21,16 @@ const PageTitle = (props) => {
   const darkMode = useSelector((state) => state.home.dark_mode);
 
   return (
-    <div className="page-title bg-charcoal flex items-center justify-between mt-3 p-3">
+    <div className="page-title bg-white dark:bg-charcoal flex items-center justify-between mt-3 p-3">
       <div className="flex items-center">
-        <img
-          src={darkMode ? backIconDark : backIconLight}
-          onClick={() => navigate(-1)}
-          alt=""
-          className="w-[34px] h-[34px] dark:hover:bg-middle-gray rounded-default cursor-pointer"
-        />
+        <div className="w-[34px] h-[34px] bg-gray-300 dark:bg-primary items-center flex justify-center rounded-default cursor-pointer hover:opacity-70">
+          <img
+            src={darkMode ? backIconDark : backIconLight}
+            onClick={() => navigate(-1)}
+            alt=""
+            className="w-[4px] h-[10px] dark:hover:bg-middle-gray rounded-default cursor-pointer"
+          />
+        </div>
         {avatar ? (
           <img src={avatar} alt="" className="w-20 h-20 mx-6 rounded-default" />
         ) : (
