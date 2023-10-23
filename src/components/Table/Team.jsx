@@ -57,7 +57,7 @@ const TeamTable = (props) => {
               <Typography
                 variant="small"
                 color="blue-gray"
-                className="font-normal leading-none opacity-70"
+                className="font-normal leading-none"
               >
                 Player
               </Typography>
@@ -69,7 +69,7 @@ const TeamTable = (props) => {
               <Typography
                 variant="small"
                 color="blue-gray"
-                className="font-normal leading-none opacity-70"
+                className="font-normal leading-none"
               >
                 Jersey Number
               </Typography>
@@ -82,7 +82,7 @@ const TeamTable = (props) => {
                 <Typography
                   variant="small"
                   color="blue-gray"
-                  className="font-normal leading-none opacity-70"
+                  className="font-normal leading-none"
                 >
                   Position
                 </Typography>
@@ -97,7 +97,7 @@ const TeamTable = (props) => {
               <Typography
                 variant="small"
                 color="blue-gray"
-                className="font-normal leading-none opacity-70"
+                className="font-normal leading-none"
               >
                 Action
               </Typography>

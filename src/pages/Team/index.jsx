@@ -4,7 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Tab } from "@headlessui/react";
 import search from "../../assets/img/dark_mode/search.png";
-import leftarrowIcon from "../../assets/img/dark_mode/left-arrow.png";
+import backIconDark from "../../assets/img/dark_mode/back-icon-dark.png";
+import backIconLight from "../../assets/img/dark_mode/back-icon-light.png";
 import Input from "../../components/Input";
 import Select from "../../components/Select";
 import PageTitle from "../../components/PageTitle";
@@ -15,6 +16,7 @@ import PlayerStatisticsTable from "../../components/Table/PlayerStatistics";
 const Team = () => {
   let { leagueId, teamId } = useParams();
   const dispatch = useDispatch();
+  const darkMode = useSelector((state) => state.home.dark_mode);
 
   const team = useSelector((state) => state.home.teams).find(
     (team) => team.id == teamId
@@ -46,7 +48,7 @@ const Team = () => {
   const matchups = useSelector((state) => state.home.matchups);
   return (
     <div className="flex flex-col flex-grow">
-      <PageTitle backIcon={leftarrowIcon} logo={team.logo}>
+      <PageTitle backIcon={darkMode ? backIconDark : backIconLight} logo={team.logo}>
         {team.name}
       </PageTitle>
       <p className="font-dark-gray my-[20px]">

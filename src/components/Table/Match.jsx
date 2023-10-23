@@ -61,7 +61,7 @@ const MatchTable = (props) => {
             {columns.map((head, idx) => (
               <th
                 key={idx}
-                className="h-button text-center font-font-dark-gray font-normal opacity-70 text-sm"
+                className="h-button text-center font-font-dark-gray font-normal  text-sm"
               >
                   {head}
               </th>
@@ -74,7 +74,7 @@ const MatchTable = (props) => {
               { id, date, location, homeTeamId, awayTeamId, time, homeTeamPoints, awayTeamPoints },
               index
             ) => (
-              // <tr onClick={()=>goToMatchup(id)} key={index} className="odd:bg-dark-gray even:bg-charcoal  hover:opacity-70">
+              // <tr onClick={()=>goToMatchup(id)} key={index} className="odd:bg-dark-gray even:bg-charcoal  hover:">
               <tr key={index} className="odd:bg-light-dark-gray dark:odd:bg-dark-gray even:bg-light-charcoal dark:even:bg-charcoal">
                 <td className="w-1/7">
                   <Typography

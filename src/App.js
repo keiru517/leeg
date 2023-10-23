@@ -28,38 +28,27 @@ import SignupWithEmail from "./pages/signup/signupWithEmail";
 
 function App() {
 
-  const dispatch = useDispatch();
-
-  const getAdmins = () => {
-    const admins = [
-      { id: 1, playerId:1 },
-      { id: 2, playerId: 2 },
-    ];
-
-    dispatch({ type: actions.GET_ADMINS, payload: admins });
-  };
-
-  // actions.getCountries(dispatch);
-  // actions.getLeagues(dispatch);
-  // actions.getTeams(dispatch);
-  // actions.getMatches(dispatch);
-  // actions.getPlayers(dispatch);
-
-  useEffect(()=>{
-    // dispatch(actions.getLeagues(dispatch))
-
-  }, [])
-    getAdmins();
-  
   return (
     <Router>
       <AuthLayout>
         <Routes>
           <Route exact path="/signin" element={<Signin />}></Route>
-          <Route exact path="/signupWithEmail" element={<SignupWithEmail />}></Route>
+          <Route
+            exact
+            path="/signupWithEmail"
+            element={<SignupWithEmail />}
+          ></Route>
           <Route exact path="/signup/:email" element={<Signup />}></Route>
-          <Route exact path="/signupSuccess" element={<SignupSuccess />}></Route>
-          <Route exact path="/personalDetails" element={<PersonalDetails />}></Route>
+          <Route
+            exact
+            path="/signupSuccess"
+            element={<SignupSuccess />}
+          ></Route>
+          <Route
+            exact
+            path="/personalDetails"
+            element={<PersonalDetails />}
+          ></Route>
           <Route exact path="/otp" element={<OTP />}></Route>
           <Route exact path="/otpsent" element={<OTPSent />}></Route>
           <Route exact path="/forgotpwd" element={<ForgotPwd />}></Route>

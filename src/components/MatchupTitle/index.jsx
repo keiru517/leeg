@@ -1,17 +1,20 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import backIcon from "../../assets/img/dark_mode/left-arrow.png";
+import backIconDark from "../../assets/img/dark_mode/back-icon-dark.png";
+import backIconLight from "../../assets/img/dark_mode/back-icon-light.png";
+import { useSelector } from "react-redux";
 
 const MatchupTitle = (props) => {
   const { children, handleClick, result } = props;
   const navigate = useNavigate();
+  const darkMode = useSelector((state) => state.home.dark_mode);
 
   return (
     <div className="page-title dark:bg-charcoal bg-white flex items-center justify-between">
       <div className="flex items-center">
         <img
           onClick={() => navigate(-1)}
-          src={backIcon}
+          src={darkMode ? backIconDark : backIconLight}
           alt=""
           className="w-[34px] h-[34px] dark:hover:bg-middle-gray rounded-default cursor-pointer"
         />

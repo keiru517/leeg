@@ -23,7 +23,7 @@ const StandingTable = (props) => {
               <th key={idx} className="h-button text-center font-font-dark-gray">
                 <Typography
                   variant="small"
-                  className="font-normal leading-none opacity-70"
+                  className="font-normal leading-none "
                 >
                   {head}
                 </Typography>

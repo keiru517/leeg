@@ -16,7 +16,12 @@ const Signin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-
+  if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    document.documentElement.classList.add('dark')
+  } else {
+    document.documentElement.classList.remove('dark')
+  }
+  
   const handleLogin = () => {
     axios
       .post(apis.signin, {
@@ -26,6 +31,8 @@ const Signin = () => {
       .then((res) => {
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("userId", res.data.user.id);
+
+        // localStorage.setItem("theme", "dark")
         // localStorage.setItem("token", res.data.token);
         // localStorage.setItem("userId", res.data.user.id);
         setAuthToken(res.data.token);

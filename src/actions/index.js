@@ -2,6 +2,8 @@ import axios from "axios";
 import apis from "../utils/apis";
 import { useNavigate } from "react-router-dom";
 
+// setting
+export const SET_DARK_MODE = "SET_DARK_MODE"
 // user
 export const GET_USER = "GET_USER";
 export const GET_USERS = "GET_USERS";
@@ -45,7 +47,7 @@ export const CLOSE_ADD_SUBSTITUTE_DIALOG = "CLOSE_ADD_SUBSTITUTE_DIALOG";
 // Admin
 export const GET_ADMINS = "GET_ADMINS";
 export const OPEN_ADMIN_DIALOG = "OPEN_ADMIN_DIALOG";
-// Tab
+
 
 // get countries
 export const getCountries = async (dispatch) => {
