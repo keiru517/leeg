@@ -26,25 +26,25 @@ const PlayerStatistics = (props) => {
           <tr>
               <th
                 key={1}
-                className="h-button text-center font-font-dark-gray font-normal opacity-70 text-sm"
+                className="h-button text-center font-font-dark-gray font-normal  text-sm"
               >
                 Position
               </th>
               <th
                 key={2}
-                className="h-button text-center font-font-dark-gray font-normal opacity-70 text-sm"
+                className="h-button text-center font-font-dark-gray font-normal  text-sm"
               >
                 Player
               </th>
               <th
                 key={3}
-                className="h-button text-center font-font-dark-gray font-normal opacity-70 text-sm"
+                className="h-button text-center font-font-dark-gray font-normal  text-sm"
               >
                 Jersey Number
               </th>
               <th
                 key={4}
-                className="h-button text-center font-font-dark-gray font-normal opacity-70 text-sm"
+                className="h-button text-center font-font-dark-gray font-normal  text-sm"
               >
                 Points
               </th>
@@ -53,7 +53,7 @@ const PlayerStatistics = (props) => {
                 (
                   <th
                     key={5}
-                    className="h-button text-center font-font-dark-gray font-normal opacity-70 text-sm"
+                    className="h-button text-center font-font-dark-gray font-normal  text-sm"
                   >
                     3 Attempts
                   </th>
@@ -65,7 +65,7 @@ const PlayerStatistics = (props) => {
                 (
                   <th
                     key={5}
-                    className="h-button text-center font-font-dark-gray font-normal opacity-70 text-sm"
+                    className="h-button text-center font-font-dark-gray font-normal  text-sm"
                   >
                     2 Attempts
                   </th>
@@ -77,7 +77,7 @@ const PlayerStatistics = (props) => {
                 (
                   <th
                     key={5}
-                    className="h-button text-center font-font-dark-gray font-normal opacity-70 text-sm"
+                    className="h-button text-center font-font-dark-gray font-normal  text-sm"
                   >
                     1 Attempts
                   </th>
@@ -89,7 +89,7 @@ const PlayerStatistics = (props) => {
                 (
                   <th
                     key={5}
-                    className="h-button text-center font-font-dark-gray font-normal opacity-70 text-sm"
+                    className="h-button text-center font-font-dark-gray font-normal  text-sm"
                   >
                     Blocks
                   </th>
@@ -101,7 +101,7 @@ const PlayerStatistics = (props) => {
                 (
                   <th
                     key={5}
-                    className="h-button text-center font-font-dark-gray font-normal opacity-70 text-sm"
+                    className="h-button text-center font-font-dark-gray font-normal  text-sm"
                   >
                     Rebounds
                   </th>
@@ -113,7 +113,7 @@ const PlayerStatistics = (props) => {
                 (
                   <th
                     key={5}
-                    className="h-button text-center font-font-dark-gray font-normal opacity-70 text-sm"
+                    className="h-button text-center font-font-dark-gray font-normal  text-sm"
                   >
                     Assists
                   </th>
@@ -125,7 +125,7 @@ const PlayerStatistics = (props) => {
                 (
                   <th
                     key={5}
-                    className="h-button text-center font-font-dark-gray font-normal opacity-70 text-sm"
+                    className="h-button text-center font-font-dark-gray font-normal  text-sm"
                   >
                     Fouls
                   </th>
@@ -137,7 +137,7 @@ const PlayerStatistics = (props) => {
                 (
                   <th
                     key={5}
-                    className="h-button text-center font-font-dark-gray font-normal opacity-70 text-sm"
+                    className="h-button text-center font-font-dark-gray font-normal  text-sm"
                   >
                     Steals
                   </th>
@@ -149,7 +149,7 @@ const PlayerStatistics = (props) => {
                 (
                   <th
                     key={5}
-                    className="h-button text-center font-font-dark-gray font-normal opacity-70 text-sm"
+                    className="h-button text-center font-font-dark-gray font-normal  text-sm"
                   >
                     Turnovers
                   </th>
@@ -158,13 +158,13 @@ const PlayerStatistics = (props) => {
               }
               <th
                 key={5}
-                className="h-button text-center font-font-dark-gray font-normal opacity-70 text-sm"
+                className="h-button text-center font-font-dark-gray font-normal  text-sm"
               >
                 PPG
               </th>
               <th
                 key={6}
-                className="h-button text-center font-font-dark-gray font-normal opacity-70 text-sm"
+                className="h-button text-center font-font-dark-gray font-normal  text-sm"
               >
                 Games Played
               </th>

@@ -5,7 +5,8 @@ import Input from "../../components/Input";
 import Modal from "../../components/Modal";
 import PageTitle from "../../components/PageTitle";
 import * as actions from "../../actions";
-import leftarrowIcon from "../../assets/img/dark_mode/left-arrow.png";
+import backIconDark from "../../assets/img/dark_mode/back-icon-dark.png";
+import backIconLight from "../../assets/img/dark_mode/back-icon-light.png";
 import horizontalLine from "../../assets/img/dark_mode/horizontal-line.png";
 import AdminTable from "../../components/Table/Admin";
 import eyeDisable from "../../assets/img/dark_mode/eye-disable.png";
@@ -16,6 +17,8 @@ import PasswordInput from "../../components/Input/password";
 
 const Profile = () => {
   const dispatch = useDispatch();
+  const darkMode = useSelector((state) => state.home.dark_mode);
+
   const admins = useSelector((state) => state.home.admins);
   const user = useSelector((state) => state.home.user);
 
@@ -121,7 +124,7 @@ const Profile = () => {
   return (
     <div className="flex flex-col flex-grow">
       <PageTitle
-        backIcon={leftarrowIcon}
+        backIcon={darkMode ? backIconDark : backIconLight}
         createAction={actions.OPEN_CREATE_LEAGUE_DIALOG}
       >
         Settings

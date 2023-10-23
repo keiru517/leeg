@@ -64,7 +64,7 @@ const Player = (props) => {
               <Typography
                 variant="small"
                 color="blue-gray"
-                className="font-normal leading-none opacity-70"
+                className="font-normal leading-none "
               >
                 Player
               </Typography>
@@ -73,7 +73,7 @@ const Player = (props) => {
               <Typography
                 variant="small"
                 color="blue-gray"
-                className="font-normal leading-none opacity-70"
+                className="font-normal leading-none "
               >
                 Jersey Number
               </Typography>
@@ -81,7 +81,7 @@ const Player = (props) => {
             {displayPosition && (
               <th
                 key={3}
-                className="h-button text-center font-font-dark-gray font-normal opacity-70 text-sm"
+                className="h-button text-center font-font-dark-gray font-normal  text-sm"
               >
                 Position
               </th>
@@ -90,7 +90,7 @@ const Player = (props) => {
               <Typography
                 variant="small"
                 color="blue-gray"
-                className="font-normal leading-none opacity-70"
+                className="font-normal leading-none "
               >
                 Points
               </Typography>
@@ -99,7 +99,7 @@ const Player = (props) => {
               <Typography
                 variant="small"
                 color="blue-gray"
-                className="font-normal leading-none opacity-70"
+                className="font-normal leading-none "
               >
                 3 Points
               </Typography>
@@ -108,7 +108,7 @@ const Player = (props) => {
               <Typography
                 variant="small"
                 color="blue-gray"
-                className="font-normal leading-none opacity-70"
+                className="font-normal leading-none "
               >
                 2 Points
               </Typography>
@@ -117,7 +117,7 @@ const Player = (props) => {
               <Typography
                 variant="small"
                 color="blue-gray"
-                className="font-normal leading-none opacity-70"
+                className="font-normal leading-none "
               >
                 Foul Shots
               </Typography>
@@ -125,7 +125,7 @@ const Player = (props) => {
             {displayAttempts3 ? (
               <th
                 key={8}
-                className="h-button text-center font-font-dark-gray font-normal opacity-70 text-sm"
+                className="h-button text-center font-font-dark-gray font-normal  text-sm"
               >
                 3 Attempts
               </th>
@@ -135,7 +135,7 @@ const Player = (props) => {
             {displayAttempts2 ? (
               <th
                 key={9}
-                className="h-button text-center font-font-dark-gray font-normal opacity-70 text-sm"
+                className="h-button text-center font-font-dark-gray font-normal  text-sm"
               >
                 2 Attempts
               </th>
@@ -145,7 +145,7 @@ const Player = (props) => {
             {displayAttempts1 ? (
               <th
                 key={10}
-                className="h-button text-center font-font-dark-gray font-normal opacity-70 text-sm"
+                className="h-button text-center font-font-dark-gray font-normal  text-sm"
               >
                 1 Attempts
               </th>
@@ -155,7 +155,7 @@ const Player = (props) => {
             {displayBlocks ? (
               <th
                 key={11}
-                className="h-button text-center font-font-dark-gray font-normal opacity-70 text-sm"
+                className="h-button text-center font-font-dark-gray font-normal  text-sm"
               >
                 Blocks
               </th>
@@ -165,7 +165,7 @@ const Player = (props) => {
             {displayRebounds ? (
               <th
                 key={12}
-                className="h-button text-center font-font-dark-gray font-normal opacity-70 text-sm"
+                className="h-button text-center font-font-dark-gray font-normal  text-sm"
               >
                 Rebounds
               </th>
@@ -175,7 +175,7 @@ const Player = (props) => {
             {displayAssists ? (
               <th
                 key={13}
-                className="h-button text-center font-font-dark-gray font-normal opacity-70 text-sm"
+                className="h-button text-center font-font-dark-gray font-normal  text-sm"
               >
                 Assists
               </th>
@@ -185,7 +185,7 @@ const Player = (props) => {
             {displayFouls ? (
               <th
                 key={14}
-                className="h-button text-center font-font-dark-gray font-normal opacity-70 text-sm"
+                className="h-button text-center font-font-dark-gray font-normal  text-sm"
               >
                 Fouls
               </th>
@@ -195,7 +195,7 @@ const Player = (props) => {
             {displaySteals ? (
               <th
                 key={15}
-                className="h-button text-center font-font-dark-gray font-normal opacity-70 text-sm"
+                className="h-button text-center font-font-dark-gray font-normal  text-sm"
               >
                 Steals
               </th>
@@ -205,7 +205,7 @@ const Player = (props) => {
             {displayTurnovers ? (
               <th
                 key={16}
-                className="h-button text-center font-font-dark-gray font-normal opacity-70 text-sm"
+                className="h-button text-center font-font-dark-gray font-normal  text-sm"
               >
                 Turnovers
               </th>
@@ -214,7 +214,7 @@ const Player = (props) => {
             )}
             <th
               key={17}
-              className="h-button text-center font-font-dark-gray font-normal opacity-70 text-sm"
+              className="h-button text-center font-font-dark-gray font-normal  text-sm"
             >
               Team
             </th>

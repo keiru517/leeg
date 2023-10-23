@@ -21,7 +21,7 @@ const TeamStatistics = () => {
         <thead>
           <tr>
             {columns.map((head, idx) => (
-              <th key={idx} className="h-button text-center font-font-dark-gray font-normal opacity-70 text-sm">
+              <th key={idx} className="h-button text-center font-font-dark-gray font-normal  text-sm">
                   {head}
               </th>
             ))}

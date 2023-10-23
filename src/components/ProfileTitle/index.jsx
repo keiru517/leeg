@@ -1,7 +1,9 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import line from "../../assets/img/dark_mode/point-line.png";
-import backIcon from "../../assets/img/dark_mode/left-arrow.png";
+import backIconDark from "../../assets/img/dark_mode/back-icon-dark.png";
+import backIconLight from "../../assets/img/dark_mode/back-icon-light.png";
 
 const PageTitle = (props) => {
   const {
@@ -16,18 +18,22 @@ const PageTitle = (props) => {
   } = props;
 
   const navigate = useNavigate();
-
+  const darkMode = useSelector((state) => state.home.dark_mode);
 
   return (
     <div className="page-title bg-charcoal flex items-center justify-between mt-3 p-3">
       <div className="flex items-center">
         <img
-          src={backIcon}
-          onClick={()=>navigate(-1)}
+          src={darkMode ? backIconDark : backIconLight}
+          onClick={() => navigate(-1)}
           alt=""
           className="w-[34px] h-[34px] dark:hover:bg-middle-gray rounded-default cursor-pointer"
         />
-        {avatar ? <img src={avatar} alt="" className="w-20 h-20 mx-6 rounded-default" /> : ""}
+        {avatar ? (
+          <img src={avatar} alt="" className="w-20 h-20 mx-6 rounded-default" />
+        ) : (
+          ""
+        )}
         <p className="text-3xl text-white text-left font-black">{children}</p>
         {deleteIcon ? <img src={deleteIcon} alt="" className="w-6 h-6" /> : ""}
       </div>

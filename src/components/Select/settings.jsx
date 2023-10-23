@@ -4,13 +4,15 @@ import downArrow from "../../../src/assets/img/dark_mode/down-arrow.png";
 import settingsIcon from "../../assets/img/dark_mode/Setting.png";
 import { Link, useNavigate } from "react-router-dom";
 import apis from "../../utils/apis";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import toggleOn from '../../assets/img/dark_mode/toggle-on.png';
 import toggleOff from '../../assets/img/dark_mode/toggle-off.png';
+import * as actions from "../../actions";
 
 const SettingsSelect = (props) => {
   const { icon, className, value } = props;
   const ref = useRef(null);
+  const dispatch = useDispatch();
 
   const user = useSelector((state) => state.home.user);
 
@@ -21,7 +23,23 @@ const SettingsSelect = (props) => {
     setExpand(!expand);
   };
 
-  const [darkMode, setDarkMode] = useState(true);
+  const [darkMode, setDarkMode] = useState(localStorage.theme === "dark"?true:false);
+
+  const handleTheme = () =>{
+    setDarkMode(!darkMode);
+    localStorage.setItem("theme", darkMode?"dark":"light")
+  }
+
+  useEffect(()=>{
+    dispatch({type: actions.SET_DARK_MODE, payload:darkMode})
+    if (darkMode) {
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+    }
+  }, [darkMode])
 
   const handleButtonClick = (data) => {
     setExpand(false);
@@ -82,7 +100,8 @@ const SettingsSelect = (props) => {
           <button
             type="button"
             className="inline-flex w-full px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-middle-gray dark:hover:text-white rounded-default"
-            onClick={()=>setDarkMode(!darkMode)}
+            onClick={handleTheme}
+            // onClick={()=>setDarkMode(!darkMode)}
           >
             <div className="inline-flex items-center mx-auto">
                 <div className="flex items-center">

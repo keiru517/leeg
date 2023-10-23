@@ -2,6 +2,7 @@
 import * as actions from "../actions";
 
 const initialState = {
+  dark_mode: "",
   user: {},
   users: [],
   leagues: [],
@@ -43,6 +44,8 @@ const initialState = {
 
 const home = (state = initialState, action) => {
   switch (action.type) {
+    case actions.SET_DARK_MODE:
+      return { ...state, dark_mode: action.payload };
     case actions.GET_USER:
       return { ...state, user: action.payload };
     case actions.GET_USERS:
@@ -235,7 +238,7 @@ const home = (state = initialState, action) => {
         ...state,
         substitute_dialog: {
           open: true,
-          id: action.payload
+          id: action.payload,
         },
       };
 

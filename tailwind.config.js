@@ -53,5 +53,6 @@ module.exports = {
         // '26px': '26px'
         // }
     },
-    plugins: []
+    plugins: [],
+    darkMode: 'class'
 }
