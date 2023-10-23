@@ -3,7 +3,8 @@ import { Dialog, Transition } from "@headlessui/react";
 import { useParams } from "react-router";
 import axios from "axios";
 import close from "../../assets/img/dark_mode/close.png";
-import deleteIcon from "../../assets/img/dark_mode/delete.png";
+import deleteIconDark from "../../assets/img/dark_mode/delete-icon-dark.png";
+import deleteIconLight from "../../assets/img/dark_mode/delete-icon-light.png";
 import search from "../../assets/img/dark_mode/search.png";
 import uploadCircle from "../../assets/img/dark_mode/upload-circle.png";
 import Input from "../Input";
@@ -15,6 +16,7 @@ import apis from "../../utils/apis";
 const TeamModal = () => {
   let { leagueId } = useParams();
   const dispatch = useDispatch();
+  const darkMode = useSelector((state) => state.home.dark_mode);
   const user = useSelector((state) => state.home.user);
   const status = useSelector((state) => state.home.team_dialog.open);
   const type = useSelector((state) => state.home.team_dialog.type);
@@ -207,7 +209,7 @@ const TeamModal = () => {
                       {
                         type === "edit" ? (
                           <img
-                            src={deleteIcon}
+                            src={darkMode ? deleteIconDark : deleteIconLight}
                             alt=""
                             className="w-[18px] h-[18px] mr-5 hover:opacity-70 cursor-pointer"
                             onClick={handleDelete}

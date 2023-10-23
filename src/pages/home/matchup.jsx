@@ -4,7 +4,8 @@ import { Link } from "react-router-dom";
 import { useParams } from "react-router";
 import * as actions from "../../actions";
 import SubstituteModal from "../../components/Modal/SubstituteModal";
-import deleteIcon from "../../assets/img/dark_mode/delete.png";
+import deleteIconDark from "../../assets/img/dark_mode/delete-icon-dark.png";
+import deleteIconLight from "../../assets/img/dark_mode/delete-icon-light.png";
 import axios from "axios";
 import apis from "../../utils/apis";
 import MatchupTitle from "../../components/MatchupTitle";
@@ -12,6 +13,7 @@ import MatchupTitle from "../../components/MatchupTitle";
 const Matchup = () => {
   let { leagueId, matchId } = useParams();
   const dispatch = useDispatch();
+  const darkMode = useSelector((state) => state.home.dark_mode);
 
   useEffect(() => {
     actions.getUserInfo(dispatch, localStorage.getItem("userId"));
@@ -1036,7 +1038,9 @@ const Matchup = () => {
                           <td>
                             {player.isSubstitute === 1 && (
                               <img
-                                src={deleteIcon}
+                                src={
+                                  darkMode ? deleteIconDark : deleteIconLight
+                                }
                                 onClick={() => removeSubstitute(player.userId)}
                                 alt=""
                                 className="cursor-pointer"
@@ -1492,7 +1496,9 @@ const Matchup = () => {
                           <td>
                             {player.isSubstitute === 1 ? (
                               <img
-                                src={deleteIcon}
+                                src={
+                                  darkMode ? deleteIconDark : deleteIconLight
+                                }
                                 onClick={() => removeSubstitute(player.userId)}
                                 alt=""
                                 className="cursor-pointer"
