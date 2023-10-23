@@ -271,15 +271,18 @@ export const add: RequestHandler = async (req, res) => {
 // POST SERVER_URL/api/player/accept
 export const accept: RequestHandler = async (req, res) => {
   const data = req.body;
-  console.log(data);
+  console.log("data===================", data);
   var playerFound = false;
 
-  const promises = Object.keys(data.waitItemChecked).map(async id => {
+  const promises = Object.keys(data).map(async id => {
+    console.log(data[id])
     const player = await Player.findByPk(id);
     if (player) {
-      player.isAcceptedList = 1;
-      player.isWaitList = 0;
-      await player.save();
+      if (data[id]) {
+        player.isAcceptedList = 1;
+        player.isWaitList = 0;
+        await player.save();
+      }
       playerFound = true;
     }
   });
