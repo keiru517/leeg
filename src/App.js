@@ -8,6 +8,7 @@ import Home from "./pages/home";
 import League from "./pages/home/league";
 import Team from "./pages/Team";
 import Matchup from "./pages/home/matchup";
+import Matchup1 from "./pages/home/matchup1";
 import Signin from "./pages/signin";
 import Signup from "./pages/signup";
 import SignupSuccess from "./pages/signup/signupSuccess";
@@ -70,6 +71,11 @@ function App() {
             exact
             path="/league/:leagueId/matchup/:matchId"
             element={<Matchup />}
+          ></Route>
+          <Route
+            exact
+            path="/league/:leagueId/matchup1/:matchId"
+            element={<Matchup1 />}
           ></Route>
           <Route exact path="/profile" element={<Profile />}></Route>
         </Routes>

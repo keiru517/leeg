@@ -1,6 +1,6 @@
 import { Typography } from "@material-tailwind/react";
-import deleteIconDark from "../../assets/img/dark_mode/delete-icon-dark.png";
-import deleteIconLight from "../../assets/img/dark_mode/delete-icon-light.png";
+import deleteIconDark from "../../assets/img/dark_mode/delete-icon-dark.svg";
+import deleteIconLight from "../../assets/img/dark_mode/delete-icon-light.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import * as actions from "../../actions";
@@ -45,7 +45,7 @@ const AdminTable = (props) => {
               <Typography
                 variant="small"
                 color="blue-gray"
-                className="font-normal leading-none text-black bg-text-white"
+                className="font-normal leading-none text-black dark:text-white"
               >
                 Admin
               </Typography>

@@ -2,8 +2,8 @@ import { Link, useParams } from "react-router-dom";
 import TeamTable from "../Table/Team";
 import userIconDark from "../../assets/img/dark_mode/user-add-icon-dark.png";
 import userIconLight from "../../assets/img/dark_mode/user-add-icon-light.png";
-import editIconDark from "../../assets/img/dark_mode/edit-icon-dark.png";
-import editIconLight from "../../assets/img/dark_mode/edit-icon-light.png";
+import editIconDark from "../../assets/img/dark_mode/edit-icon-dark.svg";
+import editIconLight from "../../assets/img/dark_mode/edit-icon-light.svg";
 import * as actions from "../../actions";
 import { useDispatch, useSelector } from "react-redux";
 
