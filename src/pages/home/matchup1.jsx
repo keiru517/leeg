@@ -3,12 +3,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router";
 import * as actions from "../../actions";
-import SubstituteModal from "../../components/Modal/SubstituteModal";
-import deleteIconDark from "../../assets/img/dark_mode/delete-icon-dark.svg";
-import deleteIconLight from "../../assets/img/dark_mode/delete-icon-light.svg";
 import axios from "axios";
 import apis from "../../utils/apis";
-import MatchupTitle from "../../components/MatchupTitle";
 import Log from "../../components/Card/Log";
 import leftArrowIcon from "../../assets/img/dark_mode/left-arrow.svg";
 import rightArrowIcon from "../../assets/img/dark_mode/right-arrow.svg";
@@ -16,17 +12,21 @@ import triupIconDark from "../../assets/img/dark_mode/triup-icon-dark.png";
 import tridownIconDark from "../../assets/img/dark_mode/tridown-icon-dark.png";
 import triupIconLight from "../../assets/img/dark_mode/triup-icon-light.png";
 import tridownIconLight from "../../assets/img/dark_mode/tridown-icon-light.png";
-import playerStats from '../../assets/img/dark_mode/player-stats.svg';
-import editLineup from '../../assets/img/dark_mode/edit-lineup.svg';
+import playerStats from "../../assets/img/dark_mode/player-stats.svg";
+import editLineup from "../../assets/img/dark_mode/edit-lineup.svg";
 import plusIconDark from "../../assets/img/dark_mode/plus-icon-dark.svg";
 import plusIconLight from "../../assets/img/dark_mode/plus-icon-light.svg";
 import downloadIconDark from "../../assets/img/dark_mode/download-icon-dark.svg";
 import downloadIconLight from "../../assets/img/dark_mode/download-icon-light.svg";
+import SelectPlayerModal from "../../components/Modal/SelectPlayerModal";
 
 const Matchup1 = () => {
   let { leagueId, matchId } = useParams();
   const dispatch = useDispatch();
   const darkMode = useSelector((state) => state.home.dark_mode);
+  const match = useSelector((state) => state.home.matches).find(
+    (match) => match.id == matchId
+  );
 
   useEffect(() => {
     actions.getUserInfo(dispatch, localStorage.getItem("userId"));
@@ -35,6 +35,7 @@ const Matchup1 = () => {
     actions.getTeams(dispatch);
     actions.getMatches(dispatch);
     actions.getMatchups(dispatch);
+    actions.getLogs(dispatch);
     actions.getPlayers(dispatch);
   }, []);
 
@@ -53,17 +54,18 @@ const Matchup1 = () => {
   const displaySteals = league?.displaySteals;
   const displayTurnovers = league?.displayTurnovers;
 
-  const match = useSelector((state) => state.home.matches).find(
-    (match) => match.id == matchId
-  );
-
   const matchups = useSelector((state) => state.home.matchups).filter(
     (matchup) => matchup.matchId == matchId
+  );
+
+  const allLogs = useSelector((state) => state.home.logs).filter(
+    (log) => log.leagueId == leagueId && log.matchId == matchId
   );
 
   const homeTeam = useSelector((state) => state.home.teams).find(
     (team) => team.id == match?.homeTeamId
   );
+
   // const homeTeamPlayers = useSelector((state) => state.home.players).filter(
   //   (player) => player.teamId == match?.homeTeamId
   // );
@@ -130,7 +132,7 @@ const Matchup1 = () => {
 
   const awayTeamMatchups = useSelector((state) => state.home.matchups)
     .filter(
-      (matchup) => matchup.matchId == matchId && matchup.teamId == awayTeam.id
+      (matchup) => matchup.matchId == matchId && matchup.teamId == awayTeam?.id
     )
     .map(
       ({
@@ -183,30 +185,231 @@ const Matchup1 = () => {
   //   setHomeInputValues(temp);
   // };
 
-  const [homeInput, setHomeInput] = useState([]);
-  const [awayInput, setAwayInput] = useState([]);
+  const [homeInput, setHomeInput] = useState({});
+  const [awayInput, setAwayInput] = useState({});
+  const [logs, setLogs] = useState({});
+
+  const removeLogById = (idToRemove) => {
+    console.log("Removed id", idToRemove);
+    setLogs((prevLogs) => {
+      const logArray = Object.values(prevLogs);
+      const updatedLogs = logArray.filter((log) => log.id !== idToRemove);
+
+      return Object.assign({}, updatedLogs);
+    });
+    console.log(logs);
+  };
 
   useEffect(() => {
-    // setHomeInput(homeTeamMatchups);
-    // setAwayInput(awayTeamMatchups);
     setHomeInput(homeTeamPlayers);
     setAwayInput(awayTeamPlayers);
+    setLogs(allLogs);
+    // console.log("length", allLogs.length)
+    // setId(allLogs.length);
+    if (allLogs.length > 0) {
+      setId(allLogs[allLogs.length - 1].id + 1);
+    } else {
+      setId(0); // Set id to 0 if allLogs is empty
+    }
   }, [
     homeTeamMatchups.length,
     awayTeamMatchups.length,
     homeTeamPlayers.length,
     awayTeamPlayers.length,
+    allLogs.length,
   ]);
 
   // Handel Home team inputs
-  const handleHomePoints3Change = (index, points3) => {
+  const handleAction = (teamId, playerId, event) => {
+    if (teamId == homeTeam?.id) {
+      console.log("Home Team handleAction", teamId, playerId, event);
+      handleHomePointsChange(playerId, event);
+    } else {
+      console.log("Away Team ACtion", teamId, playerId, event);
+      handleAwayPointsChange(playerId, event);
+    }
+  };
+
+  const [id, setId] = useState(0);
+  const handleHomePointsChange = (playerId, event) => {
     let temp = { ...homeInput };
-    temp[index] = {
-      ...temp[index],
-      points3: Number(points3),
-      points: temp[index].points + 3 * (Number(points3) - temp[index].points3),
-      // points: match?.isNew? temp[index].points || 0 + 3 * Number(points3):temp[index].points || 0 + 3 * (Number(points3) - temp[index].points3),
-    };
+    let logTemp = { ...logs };
+    switch (event) {
+      case "+3 Pointer": {
+        Object.values(temp).map((player, index) => {
+          if (player.id == playerId) {
+            temp[index] = {
+              ...temp[index],
+              points3: temp[index].points3 + 1,
+              points: temp[index].points + 3,
+            };
+            logTemp[id] = {
+              ...logTemp[id],
+              id: id,
+              period: 1,
+              playerId,
+              teamId: homeTeam.id,
+              event,
+              homeTeamPoints: matchupResult[0] + 3,
+              awayTeamPoints: matchupResult[1],
+            };
+            setLogs(logTemp);
+            setHomeInput(temp);
+          }
+        });
+        break;
+      }
+      case "+2 Pointer": {
+        Object.values(temp).map((player, index) => {
+          if (player.id == playerId) {
+            temp[index] = {
+              ...temp[index],
+              points2: temp[index].points2 + 1,
+              points: temp[index].points + 2,
+            };
+            logTemp[id] = {
+              ...logTemp[id],
+              id: id,
+              period: 1,
+              playerId,
+              teamId: homeTeam.id,
+              event,
+              homeTeamPoints: matchupResult[0] + 2,
+              awayTeamPoints: matchupResult[1],
+            };
+            setLogs(logTemp);
+            setHomeInput(temp);
+          }
+        });
+        break;
+      }
+      case "+1 Pointer": {
+        Object.values(temp).map((player, index) => {
+          if (player.id == playerId) {
+            temp[index] = {
+              ...temp[index],
+              points2: temp[index].points1 + 1,
+              points: temp[index].points + 1,
+            };
+            logTemp[id] = {
+              ...logTemp[id],
+              id: id,
+              period: 1,
+              playerId,
+              teamId: homeTeam.id,
+              event,
+              homeTeamPoints: matchupResult[0] + 1,
+              awayTeamPoints: matchupResult[1],
+            };
+            setLogs(logTemp);
+            setHomeInput(temp);
+          }
+        });
+        break;
+      }
+    }
+
+    setId(id + 1);
+    setHomeInput(temp);
+    console.log(logTemp);
+  };
+
+  const handleAwayPointsChange = (playerId, event) => {
+    let temp = { ...awayInput };
+    let logTemp = { ...logs };
+
+    switch (event) {
+      case "+3 Pointer": {
+        Object.values(temp).map((player, index) => {
+          if (player.id == playerId) {
+            temp[index] = {
+              ...temp[index],
+              points3: temp[index].points3 + 1,
+              points: temp[index].points + 3,
+            };
+            logTemp[id] = {
+              ...logTemp[id],
+              id: id,
+              period: 1,
+              playerId,
+              teamId: awayTeam.id,
+              event,
+              homeTeamPoints: matchupResult[0],
+              awayTeamPoints: matchupResult[1] + 3,
+            };
+            setLogs(logTemp);
+            setAwayInput(temp);
+          }
+        });
+
+        break;
+      }
+      case "+2 Pointer": {
+        Object.values(temp).map((player, index) => {
+          if (player.id == playerId) {
+            temp[index] = {
+              ...temp[index],
+              points2: temp[index].points2 + 1,
+              points: temp[index].points + 2,
+            };
+            logTemp[id] = {
+              ...logTemp[id],
+              id: id,
+              period: 1,
+              playerId,
+              teamId: awayTeam.id,
+              event,
+              homeTeamPoints: matchupResult[0],
+              awayTeamPoints: matchupResult[1] + 2,
+            };
+            setLogs(logTemp);
+            setAwayInput(temp);
+          }
+        });
+        break;
+      }
+      case "+1 Pointer": {
+        Object.values(temp).map((player, index) => {
+          if (player.id == playerId) {
+            temp[index] = {
+              ...temp[index],
+              points2: temp[index].points1 + 1,
+              points: temp[index].points + 1,
+            };
+            logTemp[id] = {
+              ...logTemp[id],
+              id: id,
+              period: 1,
+              playerId,
+              teamId: awayTeam.id,
+              event,
+              homeTeamPoints: matchupResult[0],
+              awayTeamPoints: matchupResult[1] + 1,
+            };
+            setLogs(logTemp);
+            setAwayInput(temp);
+          }
+        });
+        break;
+      }
+    }
+    setId(id + 1);
+    setAwayInput(temp);
+    // console.log(logTemp);
+  };
+
+  const handleHomePoints3Change = (playerId) => {
+    let temp = { ...homeInput };
+
+    Object.values(temp).map((player, index) => {
+      if (player.id == playerId) {
+        temp[index] = {
+          ...temp[index],
+          points3: temp[index].points3 + 1,
+          points: temp[index].points + 3,
+        };
+      }
+    });
     setHomeInput(temp);
   };
 
@@ -422,8 +625,8 @@ const Matchup1 = () => {
   // const [mergedObject, setMergedObject] = useState({});
 
   useEffect(() => {
-    console.log("asdf", homeInput);
-    console.log("asdf", awayInput);
+    // console.log("homeInput", homeInput);
+    // console.log("awayInput", awayInput);
 
     let homeTeamPoints = 0;
     Object.keys(homeInput).map((id) => {
@@ -435,6 +638,18 @@ const Matchup1 = () => {
     });
     setMatchupResult([homeTeamPoints, awayTeamPoints]);
   }, [homeInput, awayInput]);
+
+  useEffect(() => {
+    console.log("log remove")
+
+    const lastLogIndex = Object.keys(logs).length - 1;
+    const lastLog = Object.values(logs)[lastLogIndex];
+    
+    const totalHomeTeamPoints = lastLog?.homeTeamPoints;
+    const totalAwayTeamPoints = lastLog?.awayTeamPoints;
+
+    setMatchupResult([totalHomeTeamPoints?totalHomeTeamPoints:0, totalAwayTeamPoints?totalAwayTeamPoints:0]);
+  }, [logs]);
 
   // useEffect(() => {
   //   console.log(homeInputValues);
@@ -463,29 +678,50 @@ const Matchup1 = () => {
         result: matchupResult,
       })
       .then((res) => {
-        actions.getTeams(dispatch);
         actions.getMatches(dispatch);
-        actions.getMatchups(dispatch);
-        actions.getPlayers(dispatch);
       })
-      .catch((error) => console.log(error.response.data.message));
+      .catch((error) => {
+        console.log(error.response.data.message);
+      });
+
+    // axios
+    //   .post(apis.updateMatchup, {
+    //     matchId: matchId,
+    //     // data: mergedObject,
+    //     homeInputValues: homeInput,
+    //     awayInputValues: awayInput,
+    //   })
+    //   .then((res) => {
+    //     actions.getTeams(dispatch);
+    //     actions.getMatches(dispatch);
+    //     actions.getMatchups(dispatch);
+    //     actions.getPlayers(dispatch);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error.response.data.message)
+    //   });
 
     axios
-      .post(apis.updateMatchup, {
+      .post(apis.createLogs, {
+        leagueId: leagueId,
         matchId: matchId,
-        // data: mergedObject,
-        homeInputValues: homeInput,
-        awayInputValues: awayInput,
+        logs: logs,
+        homeTeamId: homeTeam?.id,
+        awayTeamId: awayTeam?.id,
       })
       .then((res) => {
-        actions.getTeams(dispatch);
-        actions.getMatches(dispatch);
-        actions.getMatchups(dispatch);
-        actions.getPlayers(dispatch);
+        console.log("here");
+        // actions.getLogs(dispatch);
+        // actions.getMatches(dispatch);
+        // actions.getMatchups(dispatch);
+        // actions.getPlayers(dispatch);
+        // actions.getTeams(dispatch);
+        // setMatchupResult([match?.homeTeamPoints, match?.awayTeamPoints]);
         alert(res.data.message);
       })
-      .catch((error) => console.log(error.response.data.message));
-
+      .catch((error) => {
+        console.log(error.response.data.message);
+      });
     // axios
     //   .post(apis.createMatchup, {
     //     matchId: matchId,
@@ -521,7 +757,14 @@ const Matchup1 = () => {
   };
 
   const period = 1;
-
+  const [event, setEvent] = useState("");
+  const [teamId, setTeamId] = useState("");
+  const handleClickButtons = (event, id) => {
+    setEvent(event);
+    setTeamId(id);
+    dispatch({ type: actions.OPEN_SELECT_PLAYER_DIALOG, payload: true });
+    // dispatch to show the modal
+  };
   return (
     <div className="flex flex-col flex-grow">
       {/* <MatchupTitle handleClick={handleSubmit} result={match?.result}>
@@ -606,6 +849,7 @@ const Matchup1 = () => {
                   <p className="text-black dark:text-white text-[56px] my-2">
                     {/* {match?.homeTeamPoints}:{match?.awayTeamPoints} */}
                     {matchupResult[0]} - {matchupResult[1]}
+                    {/* {match?.homeTeamPoints} - {match?.awayTeamPoints} */}
                   </p>
                   <p className="text-black dark:text-white text-sm">
                     {match?.date}, {match?.time}
@@ -719,56 +963,129 @@ const Matchup1 = () => {
               <div className="flex space-x-3">
                 <div className="flex flex-col w-1/2 space-y-[10px]">
                   <div className="flex dark:bg-charcoal w-full h-14 rounded-t-lg p-4 items-center justify-between">
-                      <Link to={`/league/${leagueId}/team/${homeTeam?.id}`} className="flex space-x-2 items-center">
-                        <img src={homeTeam?.logo} alt="" className="w-8 h-8 rounded-full"/>
-                        <p className="text-black dark:text-white underline">{homeTeam?.name}</p>
-                      </Link>
+                    <Link
+                      to={`/league/${leagueId}/team/${homeTeam?.id}`}
+                      className="flex space-x-2 items-center"
+                    >
+                      <img
+                        src={homeTeam?.logo}
+                        alt=""
+                        className="w-8 h-8 rounded-full"
+                      />
+                      <p className="text-black dark:text-white underline">
+                        {homeTeam?.name}
+                      </p>
+                    </Link>
                     <div className="flex space-x-5 ">
-                      <img src={playerStats} alt="" className="cursor-pointer hover:opacity-75"/>
-                      <img src={editLineup} alt="" className="cursor-pointer hover:opacity-75"/>
+                      <img
+                        src={playerStats}
+                        alt=""
+                        className="cursor-pointer hover:opacity-75"
+                      />
+                      <img
+                        src={editLineup}
+                        alt=""
+                        className="cursor-pointer hover:opacity-75"
+                      />
                     </div>
                   </div>
                   <div className="grid grid-cols-3 gap-[10px]">
-                    <div className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-14 rounded-xl cursor-pointer hover:opacity-75">
+                    <div
+                      className="flex dark:bg-[#303335] w-full items-center justify-center h-14 rounded-xl cursor-pointer hover:opacity-75"
+                      onClick={() =>
+                        handleClickButtons("points3", homeTeam?.id)
+                      }
+                    >
                       <p className="text-black dark:text-white">+3</p>
                     </div>
-                    <div className="flex dark:bg-[#303335] w-full items-center justify-center h-14 rounded-xl cursor-pointer hover:opacity-75">
+                    <div
+                      className="flex dark:bg-[#303335] w-full items-center justify-center h-14 rounded-xl cursor-pointer hover:opacity-75"
+                      onClick={() =>
+                        handleClickButtons("points2", homeTeam?.id)
+                      }
+                    >
                       <p className="text-black dark:text-white">+2</p>
                     </div>
-                    <div className="flex dark:bg-[#303335] w-full items-center justify-center h-14 rounded-xl cursor-pointer hover:opacity-75">
+                    <div
+                      className="flex dark:bg-[#303335] w-full items-center justify-center h-14 rounded-xl cursor-pointer hover:opacity-75"
+                      onClick={() =>
+                        handleClickButtons("points1", homeTeam?.id)
+                      }
+                    >
                       <p className="text-black dark:text-white">+1</p>
                     </div>
                   </div>
                   <div className="grid grid-cols-3 gap-[10px]">
-                    <div className="flex dark:bg-[#303335] w-full items-center justify-center h-14 rounded-xl cursor-pointer hover:opacity-75">
+                    <div
+                      className="flex dark:bg-[#303335] w-full items-center justify-center h-14 rounded-xl cursor-pointer hover:opacity-75"
+                      onClick={() =>
+                        handleClickButtons("attempts3", homeTeam?.id)
+                      }
+                    >
                       <p className="text-black dark:text-white">MISSED 3</p>
                     </div>
-                    <div className="flex dark:bg-[#303335] w-full items-center justify-center h-14 rounded-xl cursor-pointer hover:opacity-75">
+                    <div
+                      className="flex dark:bg-[#303335] w-full items-center justify-center h-14 rounded-xl cursor-pointer hover:opacity-75"
+                      onClick={() =>
+                        handleClickButtons("attempts2", homeTeam?.id)
+                      }
+                    >
                       <p className="text-black dark:text-white">MISSED 2</p>
                     </div>
-                    <div className="flex dark:bg-[#303335] w-full items-center justify-center h-14 rounded-xl cursor-pointer hover:opacity-75">
+                    <div
+                      className="flex dark:bg-[#303335] w-full items-center justify-center h-14 rounded-xl cursor-pointer hover:opacity-75"
+                      onClick={() =>
+                        handleClickButtons("attempts1", homeTeam?.id)
+                      }
+                    >
                       <p className="text-black dark:text-white">MISSED 1</p>
                     </div>
                   </div>
                   <div className="grid grid-cols-3 gap-[10px]">
-                    <div className="flex dark:bg-[#303335] w-full items-center justify-center h-14 rounded-xl cursor-pointer hover:opacity-75">
+                    <div
+                      className="flex dark:bg-[#303335] w-full items-center justify-center h-14 rounded-xl cursor-pointer hover:opacity-75"
+                      onClick={() =>
+                        handleClickButtons("rebounds", homeTeam?.id)
+                      }
+                    >
                       <p className="text-black dark:text-white">REBOUND</p>
                     </div>
-                    <div className="flex dark:bg-[#303335] w-full items-center justify-center h-14 rounded-xl cursor-pointer hover:opacity-75">
+                    <div
+                      className="flex dark:bg-[#303335] w-full items-center justify-center h-14 rounded-xl cursor-pointer hover:opacity-75"
+                      onClick={() =>
+                        handleClickButtons("turnovers", homeTeam?.id)
+                      }
+                    >
                       <p className="text-black dark:text-white">TURNOVER</p>
                     </div>
-                    <div className="flex dark:bg-[#303335] w-full items-center justify-center h-14 rounded-xl cursor-pointer hover:opacity-75">
+                    <div
+                      className="flex dark:bg-[#303335] w-full items-center justify-center h-14 rounded-xl cursor-pointer hover:opacity-75"
+                      onClick={() => handleClickButtons("fouls", homeTeam?.id)}
+                    >
                       <p className="text-black dark:text-white">FOUL</p>
                     </div>
                   </div>
                   <div className="grid grid-cols-3 gap-[10px]">
-                    <div className="flex dark:bg-[#303335] w-full items-center justify-center h-14 rounded-xl cursor-pointer hover:opacity-75">
+                    <div
+                      className="flex dark:bg-[#303335] w-full items-center justify-center h-14 rounded-xl cursor-pointer hover:opacity-75"
+                      onClick={() =>
+                        handleClickButtons("timeout", homeTeam?.id)
+                      }
+                    >
                       <p className="text-black dark:text-white">TIMEOUT</p>
                     </div>
-                    <div className="flex dark:bg-[#303335] w-full items-center justify-center h-14 rounded-xl cursor-pointer hover:opacity-75">
+                    <div
+                      className="flex dark:bg-[#303335] w-full items-center justify-center h-14 rounded-xl cursor-pointer hover:opacity-75"
+                      onClick={() => handleClickButtons("blocks", homeTeam?.id)}
+                    >
                       <p className="text-black dark:text-white">BLOCK</p>
                     </div>
-                    <div className="flex dark:bg-[#303335] w-full items-center justify-center h-14 rounded-xl cursor-pointer hover:opacity-75">
+                    <div
+                      className="flex dark:bg-[#303335] w-full items-center justify-center h-14 rounded-xl cursor-pointer hover:opacity-75"
+                      onClick={() =>
+                        handleClickButtons("assists", homeTeam?.id)
+                      }
+                    >
                       <p className="text-black dark:text-white">ASSIST</p>
                     </div>
                   </div>
@@ -776,56 +1093,129 @@ const Matchup1 = () => {
 
                 <div className="flex flex-col w-1/2 space-y-[10px]">
                   <div className="flex dark:bg-charcoal w-full h-14 rounded-t-lg p-4 items-center justify-between">
-                      <Link to={`/league/${leagueId}/team/${awayTeam?.id}`} className="flex space-x-2 items-center">
-                        <img src={awayTeam?.logo} alt="" className="w-8 h-8 rounded-full"/>
-                        <p className="text-black dark:text-white underline">{awayTeam?.name}</p>
-                      </Link>
+                    <Link
+                      to={`/league/${leagueId}/team/${awayTeam?.id}`}
+                      className="flex space-x-2 items-center"
+                    >
+                      <img
+                        src={awayTeam?.logo}
+                        alt=""
+                        className="w-8 h-8 rounded-full"
+                      />
+                      <p className="text-black dark:text-white underline">
+                        {awayTeam?.name}
+                      </p>
+                    </Link>
                     <div className="flex space-x-5 ">
-                      <img src={playerStats} alt="" className="cursor-pointer hover:opacity-75"/>
-                      <img src={editLineup} alt="" className="cursor-pointer hover:opacity-75"/>
+                      <img
+                        src={playerStats}
+                        alt=""
+                        className="cursor-pointer hover:opacity-75"
+                      />
+                      <img
+                        src={editLineup}
+                        alt=""
+                        className="cursor-pointer hover:opacity-75"
+                      />
                     </div>
                   </div>
                   <div className="grid grid-cols-3 gap-[10px]">
-                    <div className="flex dark:bg-[#303335] w-full items-center justify-center h-14 rounded-xl cursor-pointer hover:opacity-75">
+                    <div
+                      className="flex dark:bg-[#303335] w-full items-center justify-center h-14 rounded-xl cursor-pointer hover:opacity-75"
+                      onClick={() =>
+                        handleClickButtons("points3", awayTeam?.id)
+                      }
+                    >
                       <p className="text-black dark:text-white">+3</p>
                     </div>
-                    <div className="flex dark:bg-[#303335] w-full items-center justify-center h-14 rounded-xl cursor-pointer hover:opacity-75">
+                    <div
+                      className="flex dark:bg-[#303335] w-full items-center justify-center h-14 rounded-xl cursor-pointer hover:opacity-75"
+                      onClick={() =>
+                        handleClickButtons("points2", awayTeam?.id)
+                      }
+                    >
                       <p className="text-black dark:text-white">+2</p>
                     </div>
-                    <div className="flex dark:bg-[#303335] w-full items-center justify-center h-14 rounded-xl cursor-pointer hover:opacity-75">
+                    <div
+                      className="flex dark:bg-[#303335] w-full items-center justify-center h-14 rounded-xl cursor-pointer hover:opacity-75"
+                      onClick={() =>
+                        handleClickButtons("points1", awayTeam?.id)
+                      }
+                    >
                       <p className="text-black dark:text-white">+1</p>
                     </div>
                   </div>
                   <div className="grid grid-cols-3 gap-[10px]">
-                    <div className="flex dark:bg-[#303335] w-full items-center justify-center h-14 rounded-xl cursor-pointer hover:opacity-75">
+                    <div
+                      className="flex dark:bg-[#303335] w-full items-center justify-center h-14 rounded-xl cursor-pointer hover:opacity-75"
+                      onClick={() =>
+                        handleClickButtons("attempts3", awayTeam?.id)
+                      }
+                    >
                       <p className="text-black dark:text-white">MISSED 3</p>
                     </div>
-                    <div className="flex dark:bg-[#303335] w-full items-center justify-center h-14 rounded-xl cursor-pointer hover:opacity-75">
+                    <div
+                      className="flex dark:bg-[#303335] w-full items-center justify-center h-14 rounded-xl cursor-pointer hover:opacity-75"
+                      onClick={() =>
+                        handleClickButtons("attempts2", awayTeam?.id)
+                      }
+                    >
                       <p className="text-black dark:text-white">MISSED 2</p>
                     </div>
-                    <div className="flex dark:bg-[#303335] w-full items-center justify-center h-14 rounded-xl cursor-pointer hover:opacity-75">
+                    <div
+                      className="flex dark:bg-[#303335] w-full items-center justify-center h-14 rounded-xl cursor-pointer hover:opacity-75"
+                      onClick={() =>
+                        handleClickButtons("attempts1", awayTeam?.id)
+                      }
+                    >
                       <p className="text-black dark:text-white">MISSED 1</p>
                     </div>
                   </div>
                   <div className="grid grid-cols-3 gap-[10px]">
-                    <div className="flex dark:bg-[#303335] w-full items-center justify-center h-14 rounded-xl cursor-pointer hover:opacity-75">
+                    <div
+                      className="flex dark:bg-[#303335] w-full items-center justify-center h-14 rounded-xl cursor-pointer hover:opacity-75"
+                      onClick={() =>
+                        handleClickButtons("rebounds", awayTeam?.id)
+                      }
+                    >
                       <p className="text-black dark:text-white">REBOUND</p>
                     </div>
-                    <div className="flex dark:bg-[#303335] w-full items-center justify-center h-14 rounded-xl cursor-pointer hover:opacity-75">
+                    <div
+                      className="flex dark:bg-[#303335] w-full items-center justify-center h-14 rounded-xl cursor-pointer hover:opacity-75"
+                      onClick={() =>
+                        handleClickButtons("turnovers", awayTeam?.id)
+                      }
+                    >
                       <p className="text-black dark:text-white">TURNOVER</p>
                     </div>
-                    <div className="flex dark:bg-[#303335] w-full items-center justify-center h-14 rounded-xl cursor-pointer hover:opacity-75">
+                    <div
+                      className="flex dark:bg-[#303335] w-full items-center justify-center h-14 rounded-xl cursor-pointer hover:opacity-75"
+                      onClick={() => handleClickButtons("fouls", awayTeam?.id)}
+                    >
                       <p className="text-black dark:text-white">FOUL</p>
                     </div>
                   </div>
                   <div className="grid grid-cols-3 gap-[10px]">
-                    <div className="flex dark:bg-[#303335] w-full items-center justify-center h-14 rounded-xl cursor-pointer hover:opacity-75">
+                    <div
+                      className="flex dark:bg-[#303335] w-full items-center justify-center h-14 rounded-xl cursor-pointer hover:opacity-75"
+                      onClick={() =>
+                        handleClickButtons("timeout", awayTeam?.id)
+                      }
+                    >
                       <p className="text-black dark:text-white">TIMEOUT</p>
                     </div>
-                    <div className="flex dark:bg-[#303335] w-full items-center justify-center h-14 rounded-xl cursor-pointer hover:opacity-75">
+                    <div
+                      className="flex dark:bg-[#303335] w-full items-center justify-center h-14 rounded-xl cursor-pointer hover:opacity-75"
+                      onClick={() => handleClickButtons("blocks", awayTeam?.id)}
+                    >
                       <p className="text-black dark:text-white">BLOCK</p>
                     </div>
-                    <div className="flex dark:bg-[#303335] w-full items-center justify-center h-14 rounded-xl cursor-pointer hover:opacity-75">
+                    <div
+                      className="flex dark:bg-[#303335] w-full items-center justify-center h-14 rounded-xl cursor-pointer hover:opacity-75"
+                      onClick={() =>
+                        handleClickButtons("assists", awayTeam?.id)
+                      }
+                    >
                       <p className="text-black dark:text-white">ASSIST</p>
                     </div>
                   </div>
@@ -835,24 +1225,36 @@ const Matchup1 = () => {
           </div>
         </div>
 
-        <div className="flex col-span-2 flex-col flex-grow rounded-main bg-white dark:bg-slate overflow-auto p-default">
-            <div className="flex justify-between mb-5">
-              <p className="text-black dark:text-white">Action Log</p>
-              <div className="flex items-center space-x-5">
-                <img src={darkMode?plusIconDark:plusIconLight} alt="" className="w-3 h-3 cursor-pointer"/>
-                <img src={darkMode?downloadIconDark:downloadIconLight} alt="" className="w-5 h-5 cursor-pointer"/>
-              </div>
+        <div className="flex col-span-2 flex-col flex-grow rounded-main bg-white dark:bg-slate p-default overflow-y-auto">
+          <div className="flex justify-between mb-5">
+            <p className="text-black dark:text-white">Action Log</p>
+            <div className="flex items-center space-x-5">
+              <img
+                src={darkMode ? plusIconDark : plusIconLight}
+                alt=""
+                className="w-3 h-3 cursor-pointer"
+              />
+              <img
+                src={darkMode ? downloadIconDark : downloadIconLight}
+                alt=""
+                className="w-5 h-5 cursor-pointer"
+              />
             </div>
-            <Log id="1" period={period} time="09:42" result="5-0"></Log>
+          </div>
+          <div className="space-y-3">
+            {Object.values(logs).map((log, idx) => (
+              <Log key={idx} log={log} removeLogById={removeLogById}></Log>
+            ))}
+          </div>
         </div>
       </div>
-      {/* <SubstituteModal /> */}
-      <SubstituteModal
-        homeTeamPlayers={homeTeamPlayers}
-        awayTeamPlayers={awayTeamPlayers}
-      ></SubstituteModal>
+      <SelectPlayerModal
+        event={event}
+        teamId={teamId}
+        matchId={matchId}
+        handleAction={handleAction}
+      />
     </div>
-    // </div>
   );
 };
 

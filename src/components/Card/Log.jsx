@@ -11,33 +11,44 @@ import deleteIconDark from "../../assets/img/dark_mode/delete-icon-dark.svg"
 import deleteIconLight from "../../assets/img/dark_mode/delete-icon-light.svg"
 
 const Log = (props) => {
-  const {id, period, time, result } = props;
+  const {log, removeLogById} = props;
 
   const darkMode = useSelector(state=>state.home.dark_mode);
+  const [id, setId] = useState("");
+  const player = useSelector(state=>state.home.matchups).find(matchup=>matchup.playerId == log.playerId).player;
+  const user = useSelector(state=>state.home.user);
+
+  useEffect(()=>{
+    setId(log.id)
+  }, [])
+  const handleDelete = () => {
+    console.log('you clicked the id', id);
+    removeLogById(id)
+  }
 
   return (
     <div className="bg-light-charcoal dark:bg-[#595959] text-black dark:text-white rounded-lg h-28">
       <div className="flex justify-between">
         <div className="flex space-x-3 h-[51px] items-center p-4">
-          <p className="text-black dark:text-white font-medium text-lg">P{period}</p>
-          <p className="text-black dark:text-white font-medium text-lg">{time}</p>
-          <p className="text-black dark:text-white font-medium text-lg">{result}</p>
+          <p className="text-black dark:text-white font-medium text-lg">P{log.period}</p>
+          <p className="text-black dark:text-white font-medium text-lg">{log.time}</p>
+          <p className="text-black dark:text-white font-medium text-lg">{log.homeTeamPoints} - {log.awayTeamPoints}</p>
         </div>
         <div className="flex space-x-3 h-[51px] items-center p-4">
           <img src={darkMode?editIconDark:editIconLight} alt="" className="w-4.5 h-4.5 cursor-pointer"/>
-          <img src={darkMode?deleteIconDark:deleteIconLight} alt="" className="w-4.5 h-4.5 cursor-pointer"/>
+          <img src={darkMode?deleteIconDark:deleteIconLight} alt="" className="w-4.5 h-4.5 cursor-pointer" onClick={handleDelete}/>
         </div>
       </div>
       <hr className="border border-[#686868] w-full"/>
       <div className="flex justify-between">
         <div className="flex space-x-3 h-[51px] items-center p-4">
-          <p className="text-black dark:text-white font-medium text-lg">+2</p>
+          <p className="text-black dark:text-white font-medium text-lg">{log.event.split(" ")[0]}</p>
           <p className="text-black dark:text-white font-medium text-lg">&gt;</p>
-          <p className="text-black dark:text-white font-medium text-lg">#2</p>
-          <p className="text-black dark:text-white font-medium text-lg">C.Ronaldo</p>
+          <p className="text-black dark:text-white font-medium text-lg">#{player?.jerseyNumber}</p>
+          <p className="text-black dark:text-white font-medium text-lg">{player?.firstName[0]} {player?.lastName}</p>
         </div>
         <div className="flex space-x-3 h-[51px] items-center p-4">
-          <p className="text-black dark:text-[#686868] font-medium text-sm">Added by: A.B</p>
+          <p className="text-black dark:text-gray-300 font-medium text-sm">Added by: {user?.firstName[0]}.{user?.lastName[0]} </p>
 
         </div>
       </div>

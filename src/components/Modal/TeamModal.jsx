@@ -10,7 +10,7 @@ import uploadCircle from "../../assets/img/dark_mode/upload-circle.png";
 import Input from "../Input";
 import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../actions";
-import PlayerList from "../ListItem/PlayerList";
+import MatchupPlayerList from "../ListItem/MatchupPlayerList";
 import apis from "../../utils/apis";
 
 const TeamModal = () => {
@@ -407,7 +407,7 @@ const TeamModal = () => {
                           />
                           <div className="overflow-y-auto h-[260px]">
                             {players.map((player, idx) => (
-                              <PlayerList
+                              <MatchupPlayerList
                                 key={idx}
                                 className="mb-5"
                                 player={player}
@@ -416,7 +416,7 @@ const TeamModal = () => {
                                 setChecked={(checked) => {
                                   setCheckedList(player.id, checked);
                                 }}
-                              ></PlayerList>
+                              ></MatchupPlayerList>
                             ))}
                           </div>
                         </>

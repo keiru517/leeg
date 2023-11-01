@@ -474,7 +474,7 @@ const Matchup = () => {
       .catch((error) => console.log(error.response.data.message));
 
     // axios
-    //   .post(apis.createMatchup, {
+    //   .post(apis.crceateMatchup, {
     //     matchId: matchId,
     //     homeInputValues: homeInput,
     //     awayInputValues: awayInput,

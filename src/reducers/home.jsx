@@ -9,6 +9,7 @@ const initialState = {
   teams: [],
   matches: [],
   matchups: [],
+  logs: [],
   players: [],
   admins: [],
   selected_league: [],
@@ -16,6 +17,9 @@ const initialState = {
     open: false,
     type: "create",
     league: [],
+  },
+  select_player_dialog: {
+    open: false,
   },
   player_dialog: {
     open: false,
@@ -124,6 +128,15 @@ const home = (state = initialState, action) => {
         },
       };
 
+    case actions.OPEN_SELECT_PLAYER_DIALOG:
+      return {
+        ...state,
+        select_player_dialog: {
+          ...state.player_dialog,
+          open: action.payload,
+        },
+      };
+
     case actions.OPEN_CREATE_TEAM_DIALOG:
       return {
         ...state,
@@ -199,6 +212,12 @@ const home = (state = initialState, action) => {
       return {
         ...state,
         matchups: action.payload,
+      };
+    // logs
+    case actions.GET_LOGS:
+      return {
+        ...state,
+        logs: action.payload,
       };
 
     case actions.OPEN_ADD_PLAYER_DIALOG:

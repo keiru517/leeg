@@ -23,7 +23,6 @@ export const OPEN_CREATE_TEAM_DIALOG = "OPEN_CREATE_TEAM_DIALOG";
 export const OPEN_EDIT_TEAM_DIALOG = "OPEN_EDIT_TEAM_DIALOG";
 export const OPEN_DELETE_TEAM_DIALOG = "OPEN_DELETE_TEAM_DIALOG";
 export const CLOSE_TEAM_DIALOG = "CLOSE_TEAM_DIALOG";
-export const OPEN_ADD_PLAYER_DIALOG = "OPEN_ADD_PLAYER_DIALOG";
 export const SET_TEAM_LOGO_URL = "SET_TEAM_LOGO_URL";
 
 // Matches
@@ -32,9 +31,13 @@ export const OPEN_CREATE_MATCH_DIALOG = "OPEN_CREATE_MATCH_DIALOG";
 export const CLOSE_MATCH_DIALOG = "CLOSE_MATCH_DIALOG";
 // Matchups
 export const GET_MATCHUPS = "GET_MATCHUPS";
+export const GET_LOGS = "GET_LOGS";
 // player
 export const GET_PLAYERS = "GET_PLAYERS";
 export const OPEN_INVITE_PLAYER_DIALOG = "OPEN_INVITE_PLAYER_DIALOG";
+export const OPEN_SELECT_PLAYER_DIALOG = "OPEN_SELECT_PLAYER_DIALOG";
+export const CLOSE_SELECT_PLAYER_DIALOG = "CLOSE_SELECT_PLAYER_DIALOG";
+export const OPEN_ADD_PLAYER_DIALOG = "OPEN_ADD_PLAYER_DIALOG";
 export const ACCEPT_PLAYER = "ACCEPT_PLAYER";
 export const UNACCEPT_PLAYER = "UNACCEPT_PLAYER";
 export const ADD_PLAYER = "ADD_PLAYER";
@@ -210,6 +213,21 @@ export const getMatchups = async (dispatch) => {
   }
 };
 
+export const getLogs =async (dispatch) => {
+  try {
+    const response = await axios.get(apis.getLogs);
+    const logs = response.data.logs;
+    dispatch({
+      type: GET_LOGS,
+      payload: logs,
+    });
+  } catch {
+    dispatch({
+      type: GET_LOGS,
+      payload: [],
+    });
+  }
+}
 // player action
 export const getPlayers = async (dispatch) => {
   try {
