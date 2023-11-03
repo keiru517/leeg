@@ -98,6 +98,19 @@ export namespace Types {
     turnovers: number;
     isDeleted: number;
   }
+  export interface T_Log extends T_DB {
+    playerId: number;
+    userId: number;
+    leagueId: number;
+    matchId: number;
+    teamId: number;
+    event: string;
+    period: number;
+    time: string;
+    homeTeamPoints: number;
+    awayTeamPoints: number;
+    isDeleted: number;
+  }
   export interface T_Player extends T_DB {
     leagueId: number;
     teamId: number;
