@@ -69,12 +69,12 @@ function App() {
           ></Route>
           <Route
             exact
-            path="/league/:leagueId/matchup/:matchId"
+            path="/league/:leagueId/matchup1/:matchId"
             element={<Matchup />}
           ></Route>
           <Route
             exact
-            path="/league/:leagueId/matchup1/:matchId"
+            path="/league/:leagueId/matchup/:matchId"
             element={<Matchup1 />}
           ></Route>
           <Route exact path="/profile" element={<Profile />}></Route>

@@ -19,6 +19,7 @@ import plusIconLight from "../../assets/img/dark_mode/plus-icon-light.svg";
 import downloadIconDark from "../../assets/img/dark_mode/download-icon-dark.svg";
 import downloadIconLight from "../../assets/img/dark_mode/download-icon-light.svg";
 import SelectPlayerModal from "../../components/Modal/SelectPlayerModal";
+import EditEventModal from "../../components/Modal/EditEventModal";
 
 const Matchup1 = () => {
   let { leagueId, matchId } = useParams();
@@ -43,17 +44,6 @@ const Matchup1 = () => {
     (league) => league.id == leagueId
   );
 
-  const displayPosition = league?.displayPosition;
-  const displayAttempts3 = league?.displayAttempts3;
-  const displayAttempts2 = league?.displayAttempts2;
-  const displayAttempts1 = league?.displayAttempts1;
-  const displayBlocks = league?.displayBlocks;
-  const displayRebounds = league?.displayRebounds;
-  const displayAssists = league?.displayAssists;
-  const displayFouls = league?.displayFouls;
-  const displaySteals = league?.displaySteals;
-  const displayTurnovers = league?.displayTurnovers;
-
   const matchups = useSelector((state) => state.home.matchups).filter(
     (matchup) => matchup.matchId == matchId
   );
@@ -65,15 +55,6 @@ const Matchup1 = () => {
   const homeTeam = useSelector((state) => state.home.teams).find(
     (team) => team.id == match?.homeTeamId
   );
-
-  // const homeTeamPlayers = useSelector((state) => state.home.players).filter(
-  //   (player) => player.teamId == match?.homeTeamId
-  // );
-  // const homePlayers = useSelector((state) => state.home.players)
-  //   .filter((player) => player.teamId == match?.homeTeamId)
-  //   .map((player) => {
-  //     return { ...player, points: 0, points3: 0, points2: 0, points1: 0 };
-  //   });
 
   const homeTeamMatchups = useSelector((state) => state.home.matchups)
     .filter(
@@ -116,19 +97,10 @@ const Matchup1 = () => {
     );
 
   const homeTeamPlayers = homeTeamMatchups;
-  // const homeTeamPlayers = match?.isNew ? homePlayers : homeTeamMatchups;
 
   const awayTeam = useSelector((state) => state.home.teams).find(
     (team) => team.id == match?.awayTeamId
   );
-  // const awayTeamPlayers = useSelector((state) => state.home.players).filter(
-  //   (player) => player.teamId == match?.awayTeamId
-  // );
-  // const awayPlayers = useSelector((state) => state.home.players)
-  //   .filter((player) => player.teamId == match?.awayTeamId)
-  //   .map((player) => {
-  //     return { ...player, points: 0, points3: 0, points2: 0, points1: 0 };
-  //   });
 
   const awayTeamMatchups = useSelector((state) => state.home.matchups)
     .filter(
@@ -171,41 +143,59 @@ const Matchup1 = () => {
     );
   const awayTeamPlayers = awayTeamMatchups;
 
-  const options = ["Ascend", "Descend", "Recent"];
-  const [value, setValue] = useState("Sort by");
-
   const handleAddSubstitute = (id) => {
     dispatch({ type: actions.OPEN_ADD_SUBSTITUTE_DIALOG, payload: id });
   };
 
-  // const handleHomeInputChange = (index, playerId, matchId, teamId, points) => {
-  //   console.log("Home", index, playerId, matchId, teamId, points);
-  //   let temp = { ...homeInputValues };
-  //   temp[index] = { playerId, matchId, teamId, points };
-  //   setHomeInputValues(temp);
-  // };
+  const [arrow, setArrow] = useState("home");
 
   const [homeInput, setHomeInput] = useState({});
   const [awayInput, setAwayInput] = useState({});
   const [logs, setLogs] = useState({});
 
   const removeLogById = (idToRemove) => {
-    console.log("Removed id", idToRemove);
     setLogs((prevLogs) => {
       const logArray = Object.values(prevLogs);
       const updatedLogs = logArray.filter((log) => log.id !== idToRemove);
+      console.log("updated", updatedLogs)
+      // const removedLog = logArray.find((log) => log.id == idToRemove);
+
+      // updatedLogs.map((log, index) => {
+      //   if (removedLog?.teamId == homeTeam.id && log.id > idToRemove) {
+      //     switch (removedLog?.event) {
+      //       case "+3 Pointer":
+      //         log.homeTeamPoints = log.homeTeamPoints - 3;
+      //         break;
+      //       case "+2 Pointer":
+      //         log.homeTeamPoints = log.homeTeamPoints - 2;
+      //         break;
+      //       case "+1 Pointer":
+      //         log.homeTeamPoints = log.homeTeamPoints - 1;
+      //         break;
+      //     }
+      //   } else if (removedLog?.teamId == awayTeam.id && log.id > idToRemove) {
+      //     switch (removedLog?.event) {
+      //       case "+3 Pointer":
+      //         log.awayTeamPoints = log.awayTeamPoints - 3;
+      //         break;
+      //       case "+2 Pointer":
+      //         log.awayTeamPoints = log.awayTeamPoints - 2;
+      //         break;
+      //       case "+1 Pointer":
+      //         log.awayTeamPoints = log.awayTeamPoints - 1;
+      //         break;
+      //     }
+      //   }
+      // });
 
       return Object.assign({}, updatedLogs);
     });
-    console.log(logs);
   };
 
   useEffect(() => {
     setHomeInput(homeTeamPlayers);
     setAwayInput(awayTeamPlayers);
     setLogs(allLogs);
-    // console.log("length", allLogs.length)
-    // setId(allLogs.length);
     if (allLogs.length > 0) {
       setId(allLogs[allLogs.length - 1].id + 1);
     } else {
@@ -222,10 +212,8 @@ const Matchup1 = () => {
   // Handel Home team inputs
   const handleAction = (teamId, playerId, event) => {
     if (teamId == homeTeam?.id) {
-      console.log("Home Team handleAction", teamId, playerId, event);
       handleHomePointsChange(playerId, event);
     } else {
-      console.log("Away Team ACtion", teamId, playerId, event);
       handleAwayPointsChange(playerId, event);
     }
   };
@@ -246,7 +234,8 @@ const Matchup1 = () => {
             logTemp[id] = {
               ...logTemp[id],
               id: id,
-              period: 1,
+              period: period,
+              time,
               playerId,
               teamId: homeTeam.id,
               event,
@@ -270,7 +259,8 @@ const Matchup1 = () => {
             logTemp[id] = {
               ...logTemp[id],
               id: id,
-              period: 1,
+              period: period,
+              time,
               playerId,
               teamId: homeTeam.id,
               event,
@@ -294,7 +284,8 @@ const Matchup1 = () => {
             logTemp[id] = {
               ...logTemp[id],
               id: id,
-              period: 1,
+              period: period,
+              time,
               playerId,
               teamId: homeTeam.id,
               event,
@@ -311,7 +302,6 @@ const Matchup1 = () => {
 
     setId(id + 1);
     setHomeInput(temp);
-    console.log(logTemp);
   };
 
   const handleAwayPointsChange = (playerId, event) => {
@@ -330,7 +320,8 @@ const Matchup1 = () => {
             logTemp[id] = {
               ...logTemp[id],
               id: id,
-              period: 1,
+              period: period,
+              time,
               playerId,
               teamId: awayTeam.id,
               event,
@@ -355,7 +346,8 @@ const Matchup1 = () => {
             logTemp[id] = {
               ...logTemp[id],
               id: id,
-              period: 1,
+              period: period,
+              time,
               playerId,
               teamId: awayTeam.id,
               event,
@@ -379,7 +371,8 @@ const Matchup1 = () => {
             logTemp[id] = {
               ...logTemp[id],
               id: id,
-              period: 1,
+              period: period,
+              time,
               playerId,
               teamId: awayTeam.id,
               event,
@@ -395,277 +388,76 @@ const Matchup1 = () => {
     }
     setId(id + 1);
     setAwayInput(temp);
-    // console.log(logTemp);
   };
-
-  const handleHomePoints3Change = (playerId) => {
-    let temp = { ...homeInput };
-
-    Object.values(temp).map((player, index) => {
-      if (player.id == playerId) {
-        temp[index] = {
-          ...temp[index],
-          points3: temp[index].points3 + 1,
-          points: temp[index].points + 3,
-        };
-      }
-    });
-    setHomeInput(temp);
-  };
-
-  const handleHomePoints2Change = (index, points2) => {
-    let temp = { ...homeInput };
-    temp[index] = {
-      ...temp[index],
-      points2: Number(points2),
-      points: temp[index].points + 2 * (Number(points2) - temp[index].points2),
-    };
-    setHomeInput(temp);
-  };
-
-  const handleHomePoints1Change = (index, points1) => {
-    let temp = { ...homeInput };
-    temp[index] = {
-      ...temp[index],
-      points1: Number(points1),
-      points: temp[index].points + 1 * (Number(points1) - temp[index].points1),
-    };
-    setHomeInput(temp);
-  };
-
-  const handleHomeAttempts3Change = (index, attempts3) => {
-    let temp = { ...homeInput };
-    temp[index] = {
-      ...temp[index],
-      attempts3: Number(attempts3),
-      // points: temp[index].points + 3 * (Number(points3) - temp[index].points3),
-      // points: match?.isNew? temp[index].points || 0 + 3 * Number(points3):temp[index].points || 0 + 3 * (Number(points3) - temp[index].points3),
-    };
-    setHomeInput(temp);
-  };
-  const handleHomeAttempts2Change = (index, attempts2) => {
-    let temp = { ...homeInput };
-    temp[index] = {
-      ...temp[index],
-      attempts2: Number(attempts2),
-    };
-    setHomeInput(temp);
-  };
-  const handleHomeAttempts1Change = (index, attempts1) => {
-    let temp = { ...homeInput };
-    temp[index] = {
-      ...temp[index],
-      attempts1: Number(attempts1),
-    };
-    setHomeInput(temp);
-  };
-  const handleHomeBlocksChange = (index, blocks) => {
-    let temp = { ...homeInput };
-    temp[index] = {
-      ...temp[index],
-      blocks: Number(blocks),
-    };
-    setHomeInput(temp);
-  };
-  const handleHomeReboundsChange = (index, rebounds) => {
-    let temp = { ...homeInput };
-    temp[index] = {
-      ...temp[index],
-      rebounds: Number(rebounds),
-    };
-    setHomeInput(temp);
-  };
-  const handleHomeAssistsChange = (index, assists) => {
-    let temp = { ...homeInput };
-    temp[index] = {
-      ...temp[index],
-      assists: Number(assists),
-    };
-    setHomeInput(temp);
-  };
-  const handleHomeFoulsChange = (index, fouls) => {
-    let temp = { ...homeInput };
-    temp[index] = {
-      ...temp[index],
-      fouls: Number(fouls),
-    };
-    setHomeInput(temp);
-  };
-  const handleHomeStealsChange = (index, steals) => {
-    let temp = { ...homeInput };
-    temp[index] = {
-      ...temp[index],
-      steals: Number(steals),
-    };
-    setHomeInput(temp);
-  };
-  const handleHomeTurnoversChange = (index, turnovers) => {
-    let temp = { ...homeInput };
-    temp[index] = {
-      ...temp[index],
-      turnovers: Number(turnovers),
-    };
-    setHomeInput(temp);
-  };
-
-  // Handle Away Team inputs
-  const handleAwayPoints3Change = (index, points3) => {
-    let temp = { ...awayInput };
-    temp[index] = {
-      ...temp[index],
-      points3: Number(points3),
-      points: temp[index].points + 3 * (Number(points3) - temp[index].points3),
-    };
-    setAwayInput(temp);
-  };
-
-  const handleAwayPoints2Change = (index, points2) => {
-    let temp = { ...awayInput };
-    temp[index] = {
-      ...temp[index],
-      points2: Number(points2),
-      points: temp[index].points + 2 * (Number(points2) - temp[index].points2),
-    };
-    setAwayInput(temp);
-  };
-
-  const handleAwayPoints1Change = (index, points1) => {
-    let temp = { ...awayInput };
-    temp[index] = {
-      ...temp[index],
-      points1: Number(points1),
-      points: temp[index].points + 1 * (Number(points1) - temp[index].points1),
-    };
-    setAwayInput(temp);
-  };
-  const handleAwayAttempts3Change = (index, attempts3) => {
-    let temp = { ...awayInput };
-    temp[index] = {
-      ...temp[index],
-      attempts3: Number(attempts3),
-      // points: temp[index].points + 3 * (Number(points3) - temp[index].points3),
-      // points: match?.isNew? temp[index].points || 0 + 3 * Number(points3):temp[index].points || 0 + 3 * (Number(points3) - temp[index].points3),
-    };
-    setAwayInput(temp);
-  };
-  const handleAwayAttempts2Change = (index, attempts2) => {
-    let temp = { ...awayInput };
-    temp[index] = {
-      ...temp[index],
-      attempts2: Number(attempts2),
-    };
-    setAwayInput(temp);
-  };
-  const handleAwayAttempts1Change = (index, attempts1) => {
-    let temp = { ...awayInput };
-    temp[index] = {
-      ...temp[index],
-      attempts1: Number(attempts1),
-    };
-    setAwayInput(temp);
-  };
-  const handleAwayBlocksChange = (index, blocks) => {
-    let temp = { ...awayInput };
-    temp[index] = {
-      ...temp[index],
-      blocks: Number(blocks),
-    };
-    setAwayInput(temp);
-  };
-  const handleAwayReboundsChange = (index, rebounds) => {
-    let temp = { ...awayInput };
-    temp[index] = {
-      ...temp[index],
-      rebounds: Number(rebounds),
-    };
-    setAwayInput(temp);
-  };
-  const handleAwayAssistsChange = (index, assists) => {
-    let temp = { ...awayInput };
-    temp[index] = {
-      ...temp[index],
-      assists: Number(assists),
-    };
-    setAwayInput(temp);
-  };
-  const handleAwayFoulsChange = (index, fouls) => {
-    let temp = { ...awayInput };
-    temp[index] = {
-      ...temp[index],
-      fouls: Number(fouls),
-    };
-    setAwayInput(temp);
-  };
-  const handleAwayStealsChange = (index, steals) => {
-    let temp = { ...awayInput };
-    temp[index] = {
-      ...temp[index],
-      steals: Number(steals),
-    };
-    setAwayInput(temp);
-  };
-  const handleAwayTurnoversChange = (index, turnovers) => {
-    let temp = { ...awayInput };
-    temp[index] = {
-      ...temp[index],
-      turnovers: Number(turnovers),
-    };
-    setAwayInput(temp);
-  };
-
-  const [awayInputValues, setAwayInputValues] = useState(awayTeamMatchups);
-
-  // const handleAwayInputChange = (index, playerId, matchId, teamId, points) => {
-  //   let temp = { ...awayInputValues };
-  //   temp[index] = { playerId, matchId, teamId, points };
-  //   setAwayInputValues(temp);
-  // };
 
   const [matchupResult, setMatchupResult] = useState([]);
-  // const [mergedObject, setMergedObject] = useState({});
-
-  useEffect(() => {
-    // console.log("homeInput", homeInput);
-    // console.log("awayInput", awayInput);
-
-    let homeTeamPoints = 0;
-    Object.keys(homeInput).map((id) => {
-      homeTeamPoints += Number(homeInput[id].points);
-    });
-    let awayTeamPoints = 0;
-    Object.keys(awayInput).map((id) => {
-      awayTeamPoints += Number(awayInput[id].points);
-    });
-    setMatchupResult([homeTeamPoints, awayTeamPoints]);
-  }, [homeInput, awayInput]);
-
-  useEffect(() => {
-    console.log("log remove")
-
-    const lastLogIndex = Object.keys(logs).length - 1;
-    const lastLog = Object.values(logs)[lastLogIndex];
-    
-    const totalHomeTeamPoints = lastLog?.homeTeamPoints;
-    const totalAwayTeamPoints = lastLog?.awayTeamPoints;
-
-    setMatchupResult([totalHomeTeamPoints?totalHomeTeamPoints:0, totalAwayTeamPoints?totalAwayTeamPoints:0]);
-  }, [logs]);
 
   // useEffect(() => {
-  //   console.log(homeInputValues);
-  //   console.log(awayInputValues);
-
   //   let homeTeamPoints = 0;
-  //   Object.keys(homeInputValues).map((id) => {
-  //     homeTeamPoints += Number(homeInputValues[id].points);
+  //   Object.keys(homeInput).map((id) => {
+  //     homeTeamPoints += Number(homeInput[id].points);
   //   });
   //   let awayTeamPoints = 0;
-  //   Object.keys(awayInputValues).map((id) => {
-  //     awayTeamPoints += Number(awayInputValues[id].points);
+  //   Object.keys(awayInput).map((id) => {
+  //     awayTeamPoints += Number(awayInput[id].points);
   //   });
   //   setMatchupResult([homeTeamPoints, awayTeamPoints]);
-  // }, [homeInputValues, awayInputValues]);
-  // }, [matchups]);
+  // }, [homeInput, awayInput]);
+
+  useEffect(() => {
+    const sortedLogs = Object.values(logs).sort((a, b) => {
+      const timeA = a.time;
+      const timeB = b.time;
+
+      // Convert time strings into numbers for comparison
+      const [minutesA, secondsA] = timeA.split(":").map(Number);
+      const [minutesB, secondsB] = timeB.split(":").map(Number);
+
+      if (a.period !== b.period) {
+        return a.period - b.period; // Sort in ascending order by period
+      }
+
+      // Compare minutes and seconds
+      if (minutesA !== minutesB) {
+        return minutesB - minutesA;
+      } else {
+        return secondsB - secondsA;
+      }
+    });
+
+    setLogs(sortedLogs);
+    let homeTeamPoints = 0;
+    let awayTeamPoints = 0;
+    Object.keys(logs).map(id =>{
+      if (logs[id].teamId == homeTeam?.id) {
+        switch(logs[id].event) {
+          case "+3 Pointer":
+            homeTeamPoints += 3;
+            break;
+          case "+2 Pointer":
+            homeTeamPoints += 2;
+            break;
+          case "+1 Pointer":
+            homeTeamPoints += 1;
+            break;
+        }
+      }
+      else if (logs[id].teamId == awayTeam?.id) {
+        switch(logs[id].event) {
+          case "+3 Pointer":
+            awayTeamPoints += 3;
+            break;
+          case "+2 Pointer":
+            awayTeamPoints += 2;
+            break;
+          case "+1 Pointer":
+            awayTeamPoints += 1;
+            break;
+        }
+      }
+    })
+    setMatchupResult([homeTeamPoints, awayTeamPoints])
+  }, [logs.length]);
 
   useEffect(() => {
     actions.getMatchups(dispatch);
@@ -710,7 +502,6 @@ const Matchup1 = () => {
         awayTeamId: awayTeam?.id,
       })
       .then((res) => {
-        console.log("here");
         // actions.getLogs(dispatch);
         // actions.getMatches(dispatch);
         // actions.getMatchups(dispatch);
@@ -756,7 +547,8 @@ const Matchup1 = () => {
     handleSubmit();
   };
 
-  const period = 1;
+  const [period, setPeriod] = useState(1);
+  const [time, setTime] = useState("");
   const [event, setEvent] = useState("");
   const [teamId, setTeamId] = useState("");
   const handleClickButtons = (event, id) => {
@@ -830,11 +622,16 @@ const Matchup1 = () => {
                     </div>
                     <div className="flex rounded-lg bg-light-charcoal dark:bg-[#151515] w-[97px] h-10 justify-center items-center">
                       <p className="text-black dark:text-white font-medium text-sm">
-                        T/O: 2
+                        TimeOuts: 2
                       </p>
                     </div>
                   </div>
-                  <div className="flex items-center justify-center rounded-[10px] bg-success w-16 h-10 cursor-pointer hover:bg-opacity-70">
+                  <div
+                    className={`flex items-center justify-center rounded-[10px] ${
+                      arrow === "home" ? "bg-success" : "bg-font-dark-gray"
+                    } w-16 h-10 cursor-pointer hover:bg-opacity-70`}
+                    onClick={() => setArrow("home")}
+                  >
                     <img
                       src={leftArrowIcon}
                       alt=""
@@ -878,11 +675,16 @@ const Matchup1 = () => {
                     </div>
                     <div className="flex rounded-lg bg-light-charcoal dark:bg-[#151515] w-[97px] h-10 justify-center items-center">
                       <p className="text-black dark:text-white font-medium text-sm">
-                        T/O: 2
+                        TimeOuts: 2
                       </p>
                     </div>
                   </div>
-                  <div className="flex items-center justify-center rounded-[10px] bg-font-dark-gray w-16 h-10 cursor-pointer hover:bg-opacity-70">
+                  <div
+                    className={`flex items-center justify-center rounded-[10px] ${
+                      arrow === "away" ? "bg-success" : "bg-font-dark-gray"
+                    } w-16 h-10 cursor-pointer hover:bg-opacity-70`}
+                    onClick={() => setArrow("away")}
+                  >
                     <img
                       src={rightArrowIcon}
                       alt=""
@@ -897,6 +699,7 @@ const Matchup1 = () => {
                     className={`flex items-center justify-center rounded-[10px] ${
                       period === 1 ? "bg-success" : "bg-[#151515]"
                     } w-16 h-10 cursor-pointer hover:opacity-75`}
+                    onClick={() => setPeriod(1)}
                   >
                     <p className="text-white">P1</p>
                   </div>
@@ -904,6 +707,7 @@ const Matchup1 = () => {
                     className={`flex items-center justify-center rounded-[10px] ${
                       period === 2 ? "bg-success" : "bg-[#151515]"
                     } w-16 h-10 cursor-pointer hover:opacity-75`}
+                    onClick={() => setPeriod(2)}
                   >
                     <p className="text-white">P2</p>
                   </div>
@@ -911,6 +715,7 @@ const Matchup1 = () => {
                     className={`flex items-center justify-center rounded-[10px] ${
                       period === 3 ? "bg-success" : "bg-[#151515]"
                     } w-16 h-10 cursor-pointer hover:opacity-75`}
+                    onClick={() => setPeriod(3)}
                   >
                     <p className="text-white">P3</p>
                   </div>
@@ -918,6 +723,7 @@ const Matchup1 = () => {
                     className={`flex items-center justify-center rounded-[10px] ${
                       period === 4 ? "bg-success" : "bg-[#151515]"
                     } w-16 h-10 cursor-pointer hover:opacity-75`}
+                    onClick={() => setPeriod(4)}
                   >
                     <p className="text-white">P4</p>
                   </div>
@@ -951,9 +757,15 @@ const Matchup1 = () => {
                     />
                   </div>
                   <button className="w-[169px] h-[53px] rounded-[10px] bg-success text-white font-bold text-sm mt-1 hover:bg-opacity-70">
-                    {" "}
                     START CLOCK
                   </button>
+                  <input
+                    type="text"
+                    className="flex border border-dark-gray items-center px-3 bg-transparent outline-none text-black dark:text-white h-button w-[100px]"
+                    value={time}
+                    onChange={(e) => setTime(e.target.value)}
+                    placeholder="Type time"
+                  />
                 </div>
               </div>
             </div>
@@ -1243,7 +1055,7 @@ const Matchup1 = () => {
           </div>
           <div className="space-y-3">
             {Object.values(logs).map((log, idx) => (
-              <Log key={idx} log={log} removeLogById={removeLogById}></Log>
+              <Log key={idx} log={log} id={log.id} removeLogById={removeLogById}></Log>
             ))}
           </div>
         </div>
@@ -1254,6 +1066,7 @@ const Matchup1 = () => {
         matchId={matchId}
         handleAction={handleAction}
       />
+      <EditEventModal logs={logs} homeTeam={homeTeam} awayTeam={awayTeam} />
     </div>
   );
 };

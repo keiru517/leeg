@@ -21,6 +21,10 @@ const initialState = {
   select_player_dialog: {
     open: false,
   },
+  edit_event_dialog: {
+    open: false,
+    logId: ""
+  },
   player_dialog: {
     open: false,
   },
@@ -218,6 +222,23 @@ const home = (state = initialState, action) => {
       return {
         ...state,
         logs: action.payload,
+      };
+
+    case actions.OPEN_EDIT_EVENT_DIALOG:
+      return {
+        ...state,
+        edit_event_dialog: {
+          open: true,
+          logId: action.payload
+        },
+      };
+    case actions.CLOSE_EDIT_EVENT_DIALOG:
+      return {
+        ...state,
+        edit_event_dialog: {
+          open: false,
+          logId: ""
+        },
       };
 
     case actions.OPEN_ADD_PLAYER_DIALOG:
