@@ -11,13 +11,17 @@ import rightArrowIcon from "../../assets/img/dark_mode/right-arrow.svg";
 import EventPlayerList from "../ListItem/EventPlayerList";
 
 const EditEventModal = (props) => {
-  const { logs, homeTeam, awayTeam } = props;
+  const { logs, setLogs, homeTeam, awayTeam } = props;
   let { leagueId, matchId } = useParams();
 
-  const [period, setPeriod] = useState(1);
-  const logId = useSelector((state) => state.home.edit_event_dialog.id);
+  const logId = useSelector((state) => state.home.edit_event_dialog.logId);
   const log = Object.values(logs).find((log) => log.id == logId);
-  console.log("log", log);
+
+  const [playerId, setPlayerId] = useState("");
+  const [teamId, setTeamId] = useState("");
+  const [period, setPeriod] = useState("");
+  const [time, setTime] = useState("");
+  const [event, setEvent] = useState("");
 
   const matchups = useSelector((state) => state.home.matchups).filter(
     (matchup) => matchup.matchId == matchId
@@ -35,32 +39,45 @@ const EditEventModal = (props) => {
     );
   }, []);
 
+  useEffect(() => {
+    setFilteredHomeTeamMatchups(
+      matchups.filter((matchup) => matchup.teamId == homeTeam.id)
+    );
+    setFilteredAwayTeamMatchups(
+      matchups.filter((matchup) => matchup.teamId == awayTeam.id)
+    );
+    setPlayerId(log?.playerId);
+    setTeamId(log?.teamId);
+    setPeriod(log?.period);
+    setTime(log?.time);
+    setEvent(log?.event);
+  }, [logId]);
+
   const dispatch = useDispatch();
 
   const isOpen = useSelector((state) => state.home.edit_event_dialog.open);
-
-  const positions = [
-    { id: 0, name: "Center" },
-    { id: 1, name: "Power Forward" },
-    { id: 2, name: "Small Forward" },
-    { id: 3, name: "Point Guard" },
-    { id: 4, name: "Shooting Guard" },
-  ];
-  const [position, setPosition] = useState("Select Position");
-
-  const [email, setEmail] = useState("");
-  const [canAdd, setCanAdd] = useState(false);
-
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [jerseyNumber, setJerseyNumber] = useState("");
 
   function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
   }
 
+  const clickAction = (id) => {
+    console.log("you clicked", id);
+  };
+
   const createSubmit = () => {
-    dispatch({ type: actions.CLOSE_ADD_SUBSTITUTE_DIALOG });
+    console.log(playerId, teamId, period, time, event);
+    let temp = {...logs};
+    Object.values(temp).map((log, id)=>{
+      if (log.id == logId) {
+        temp[id] = {...temp[id], playerId, teamId, period, time, event};
+      }
+    });
+
+    // console.log(temp)
+    setLogs(temp)
+    dispatch({type: actions.CLOSE_EDIT_EVENT_DIALOG})
+    // dispatch({ type: actions.CLOSE_ADD_SUBSTITUTE_DIALOG });
     // axios
     //   .post(apis.createOneMatchup, {
     //     email,
@@ -82,8 +99,6 @@ const EditEventModal = (props) => {
   const closeDialog = () => {
     // dispatch({ type: actions.OPEN_CREATE_TEAM_DIALOG, payload: false });
     dispatch({ type: actions.CLOSE_EDIT_EVENT_DIALOG });
-    setEmail("");
-    setJerseyNumber("");
   };
   const cancelButtonRef = useRef(null);
 
@@ -139,7 +154,7 @@ const EditEventModal = (props) => {
                         <div className="flex space-x-3 mt-[10px]">
                           <div
                             className={`flex items-center justify-center rounded-[10px] ${
-                              log?.period === 1 ? "bg-success" : "bg-[#303335]"
+                              period === 1 ? "bg-success" : "bg-[#303335]"
                             } w-16 h-10 cursor-pointer hover:opacity-75`}
                             onClick={() => setPeriod(1)}
                           >
@@ -147,7 +162,7 @@ const EditEventModal = (props) => {
                           </div>
                           <div
                             className={`flex items-center justify-center rounded-[10px] ${
-                              log?.period === 2 ? "bg-success" : "bg-[#303335]"
+                              period === 2 ? "bg-success" : "bg-[#303335]"
                             } w-16 h-10 cursor-pointer hover:opacity-75`}
                             onClick={() => setPeriod(2)}
                           >
@@ -155,7 +170,7 @@ const EditEventModal = (props) => {
                           </div>
                           <div
                             className={`flex items-center justify-center rounded-[10px] ${
-                              log?.period === 3 ? "bg-success" : "bg-[#303335]"
+                              period === 3 ? "bg-success" : "bg-[#303335]"
                             } w-16 h-10 cursor-pointer hover:opacity-75`}
                             onClick={() => setPeriod(3)}
                           >
@@ -163,7 +178,7 @@ const EditEventModal = (props) => {
                           </div>
                           <div
                             className={`flex items-center justify-center rounded-[10px] ${
-                              log?.period === 4 ? "bg-success" : "bg-[#303335]"
+                              period === 4 ? "bg-success" : "bg-[#303335]"
                             } w-16 h-10 cursor-pointer hover:opacity-75`}
                             onClick={() => setPeriod(4)}
                           >
@@ -179,9 +194,15 @@ const EditEventModal = (props) => {
                           <div
                             className={`flex items-center justify-center rounded-[10px] bg-[#303335] w-[141px] h-button cursor-pointer`}
                           >
-                            <p className="font-semibold text-[32px] text-black dark:text-white">
+                            {/* <p className="font-semibold text-[32px] text-black dark:text-white">
                               35:12
-                            </p>
+                            </p> */}
+                            <input
+                              type="text"
+                              className="w-[100px] bg-transparent text-white text-xl"
+                              value={time}
+                              onChange={(e)=>setTime(e.target.value)}
+                            />
                           </div>
                         </div>
                       </div>
@@ -192,22 +213,31 @@ const EditEventModal = (props) => {
                         <div className="flex space-x-5 mt-[10px]">
                           <div
                             className={`flex items-center justify-center rounded-[10px] ${
-                              period === 3 ? "bg-primary" : "bg-[#303335]"
+                              event === "+3 Pointer"
+                                ? "bg-primary"
+                                : "bg-[#303335]"
                             } w-full h-[72px] cursor-pointer hover:opacity-75`}
+                            onClick={() => setEvent("+3 Pointer")}
                           >
                             <p className="text-white">+3</p>
                           </div>
                           <div
                             className={`flex items-center justify-center rounded-[10px] ${
-                              period === 2 ? "bg-primary" : "bg-[#303335]"
+                              event === "+2 Pointer"
+                                ? "bg-primary"
+                                : "bg-[#303335]"
                             } w-full h-[72px] cursor-pointer hover:opacity-75`}
+                            onClick={() => setEvent("+2 Pointer")}
                           >
                             <p className="text-white">+2</p>
                           </div>
                           <div
                             className={`flex items-center justify-center rounded-[10px] ${
-                              period === 1 ? "bg-primary" : "bg-[#303335]"
+                              event === "+1 Pointer"
+                                ? "bg-primary"
+                                : "bg-[#303335]"
                             } w-full h-[72px] cursor-pointer hover:opacity-75`}
+                            onClick={() => setEvent("+1 Pointer")}
                           >
                             <p className="text-white">+1</p>
                           </div>
@@ -215,22 +245,31 @@ const EditEventModal = (props) => {
                         <div className="flex space-x-5 mt-[10px]">
                           <div
                             className={`flex items-center justify-center rounded-[10px] ${
-                              period === 3 ? "bg-primary" : "bg-[#303335]"
+                              event === "3 Missed"
+                                ? "bg-primary"
+                                : "bg-[#303335]"
                             } w-full h-[72px] cursor-pointer hover:opacity-75`}
+                            onClick={() => setEvent("3 Missed")}
                           >
                             <p className="text-white">Missed 3</p>
                           </div>
                           <div
                             className={`flex items-center justify-center rounded-[10px] ${
-                              period === 2 ? "bg-primary" : "bg-[#303335]"
+                              event === "2 Missed"
+                                ? "bg-primary"
+                                : "bg-[#303335]"
                             } w-full h-[72px] cursor-pointer hover:opacity-75`}
+                            onClick={() => setEvent("2 Missed")}
                           >
                             <p className="text-white">Missed 2</p>
                           </div>
                           <div
                             className={`flex items-center justify-center rounded-[10px] ${
-                              period === 1 ? "bg-primary" : "bg-[#303335]"
+                              event === "1 Missed"
+                                ? "bg-primary"
+                                : "bg-[#303335]"
                             } w-full h-[72px] cursor-pointer hover:opacity-75`}
+                            onClick={() => setEvent("1 Missed")}
                           >
                             <p className="text-white">Missed 1</p>
                           </div>
@@ -238,43 +277,55 @@ const EditEventModal = (props) => {
                         <div className="flex space-x-5 mt-[10px]">
                           <div
                             className={`flex items-center justify-center rounded-[10px] ${
-                              period === 3 ? "bg-primary" : "bg-[#303335]"
+                              event === "Rebound"
+                                ? "bg-primary"
+                                : "bg-[#303335]"
                             } w-full h-[72px] cursor-pointer hover:opacity-75`}
+                            onClick={() => setEvent("Rebound")}
                           >
                             <p className="text-white">RBOUND</p>
                           </div>
                           <div
                             className={`flex items-center justify-center rounded-[10px] ${
-                              period === 1 ? "bg-primary" : "bg-[#303335]"
+                              event === "Timeout"
+                                ? "bg-primary"
+                                : "bg-[#303335]"
                             } w-full h-[72px] cursor-pointer hover:opacity-75`}
+                            onClick={() => setEvent("Timeout")}
                           >
                             <p className="text-white">TIMEOUT</p>
                           </div>
                           <div
                             className={`flex items-center justify-center rounded-[10px] ${
-                              period === 2 ? "bg-primary" : "bg-[#303335]"
+                              event === "Turnover"
+                                ? "bg-primary"
+                                : "bg-[#303335]"
                             } w-full h-[72px] cursor-pointer hover:opacity-75`}
+                            onClick={() => setEvent("Turnover")}
                           >
                             <p className="text-white">TURNOVER</p>
                           </div>
                           <div
                             className={`flex items-center justify-center rounded-[10px] ${
-                              period === 1 ? "bg-primary" : "bg-[#303335]"
+                              event === "Foul" ? "bg-primary" : "bg-[#303335]"
                             } w-full h-[72px] cursor-pointer hover:opacity-75`}
+                            onClick={() => setEvent("Foul")}
                           >
                             <p className="text-white">FOUL</p>
                           </div>
                           <div
                             className={`flex items-center justify-center rounded-[10px] ${
-                              period === 3 ? "bg-primary" : "bg-[#303335]"
+                              event === "Block" ? "bg-primary" : "bg-[#303335]"
                             } w-full h-[72px] cursor-pointer hover:opacity-75`}
+                            onClick={() => setEvent("Block")}
                           >
                             <p className="text-white">BLOCK</p>
                           </div>
                           <div
                             className={`flex items-center justify-center rounded-[10px] ${
-                              period === 2 ? "bg-primary" : "bg-[#303335]"
+                              event === "Assist" ? "bg-primary" : "bg-[#303335]"
                             } w-full h-[72px] cursor-pointer hover:opacity-75`}
+                            onClick={() => setEvent("Assist")}
                           >
                             <p className="text-white">ASSIST</p>
                           </div>
@@ -345,14 +396,16 @@ const EditEventModal = (props) => {
                                       key={idx}
                                       className="mb-5"
                                       player={player}
-                                      // addAction={addAction}
+                                      playerId={playerId}
+                                      setPlayerId={setPlayerId}
+                                      setTeamId={setTeamId}
                                     ></EventPlayerList>
                                   )
                                 )}
                               </div>
                             </Tab.Panel>
                             <Tab.Panel
-                              key={0}
+                              key={1}
                               className={classNames(
                                 "rounded-xl flex flex-col justify-between w-full h-full"
                               )}
@@ -364,6 +417,9 @@ const EditEventModal = (props) => {
                                       key={idx}
                                       className="mb-5"
                                       player={player}
+                                      playerId={playerId}
+                                      setPlayerId={setPlayerId}
+                                      setTeamId={setTeamId}
                                       // teamId={awayTeam.id}
                                       // addAction={addAction}
                                     ></EventPlayerList>

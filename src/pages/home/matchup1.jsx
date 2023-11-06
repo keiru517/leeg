@@ -20,6 +20,8 @@ import downloadIconDark from "../../assets/img/dark_mode/download-icon-dark.svg"
 import downloadIconLight from "../../assets/img/dark_mode/download-icon-light.svg";
 import SelectPlayerModal from "../../components/Modal/SelectPlayerModal";
 import EditEventModal from "../../components/Modal/EditEventModal";
+import SubstituteModal from "../../components/Modal/SubstituteModal";
+import LineupsModal from "../../components/Modal/LineupsModal";
 
 const Matchup1 = () => {
   let { leagueId, matchId } = useParams();
@@ -146,6 +148,9 @@ const Matchup1 = () => {
   const handleAddSubstitute = (id) => {
     dispatch({ type: actions.OPEN_ADD_SUBSTITUTE_DIALOG, payload: id });
   };
+  const handleLineups = (id) => {
+    dispatch({ type: actions.OPEN_LINEUP_DIALOG, payload: id });
+  };
 
   const [arrow, setArrow] = useState("home");
 
@@ -157,7 +162,7 @@ const Matchup1 = () => {
     setLogs((prevLogs) => {
       const logArray = Object.values(prevLogs);
       const updatedLogs = logArray.filter((log) => log.id !== idToRemove);
-      console.log("updated", updatedLogs)
+      console.log("updated", updatedLogs);
       // const removedLog = logArray.find((log) => log.id == idToRemove);
 
       // updatedLogs.map((log, index) => {
@@ -206,7 +211,7 @@ const Matchup1 = () => {
     awayTeamMatchups.length,
     homeTeamPlayers.length,
     awayTeamPlayers.length,
-    allLogs.length,
+    ...allLogs,
   ]);
 
   // Handel Home team inputs
@@ -428,9 +433,9 @@ const Matchup1 = () => {
     setLogs(sortedLogs);
     let homeTeamPoints = 0;
     let awayTeamPoints = 0;
-    Object.keys(logs).map(id =>{
+    Object.keys(logs).map((id) => {
       if (logs[id].teamId == homeTeam?.id) {
-        switch(logs[id].event) {
+        switch (logs[id].event) {
           case "+3 Pointer":
             homeTeamPoints += 3;
             break;
@@ -441,9 +446,8 @@ const Matchup1 = () => {
             homeTeamPoints += 1;
             break;
         }
-      }
-      else if (logs[id].teamId == awayTeam?.id) {
-        switch(logs[id].event) {
+      } else if (logs[id].teamId == awayTeam?.id) {
+        switch (logs[id].event) {
           case "+3 Pointer":
             awayTeamPoints += 3;
             break;
@@ -455,8 +459,8 @@ const Matchup1 = () => {
             break;
         }
       }
-    })
-    setMatchupResult([homeTeamPoints, awayTeamPoints])
+    });
+    setMatchupResult([homeTeamPoints, awayTeamPoints]);
   }, [logs.length]);
 
   useEffect(() => {
@@ -798,6 +802,8 @@ const Matchup1 = () => {
                         src={editLineup}
                         alt=""
                         className="cursor-pointer hover:opacity-75"
+                        // onClick={()=>handleAddSubstitute(homeTeam?.id)}
+                        onClick={()=>handleLineups(homeTeam?.id)}
                       />
                     </div>
                   </div>
@@ -928,6 +934,8 @@ const Matchup1 = () => {
                         src={editLineup}
                         alt=""
                         className="cursor-pointer hover:opacity-75"
+                        // onClick={()=>handleAddSubstitute(awayTeam?.id)}
+                        onClick={()=>handleLineups(awayTeam?.id)}
                       />
                     </div>
                   </div>
@@ -1055,7 +1063,12 @@ const Matchup1 = () => {
           </div>
           <div className="space-y-3">
             {Object.values(logs).map((log, idx) => (
-              <Log key={idx} log={log} id={log.id} removeLogById={removeLogById}></Log>
+              <Log
+                key={idx}
+                log={log}
+                id={log.id}
+                removeLogById={removeLogById}
+              ></Log>
             ))}
           </div>
         </div>
@@ -1066,7 +1079,17 @@ const Matchup1 = () => {
         matchId={matchId}
         handleAction={handleAction}
       />
-      <EditEventModal logs={logs} homeTeam={homeTeam} awayTeam={awayTeam} />
+      <EditEventModal
+        logs={logs}
+        setLogs={setLogs}
+        homeTeam={homeTeam}
+        awayTeam={awayTeam}
+      />
+      <SubstituteModal
+        homeTeamPlayers={homeTeamPlayers}
+        awayTeamPlayers={awayTeamPlayers}
+      ></SubstituteModal>
+      <LineupsModal></LineupsModal>
     </div>
   );
 };

@@ -6,7 +6,7 @@ import addedIcon from "../../assets/img/dark_mode/circle-added.png";
 import * as actions from "../../actions";
 import { useDispatch } from "react-redux";
 
-const EventPlayerList = ({ className, player, addAction, checked }) => {
+const EventPlayerList = ({ className, player, playerId, setPlayerId, setTeamId, checked }) => {
   const [itemOnechecked, setItemOneChecked] = useState(false);
   const [itemTwochecked, setItemTwoChecked] = useState(false);
   const [itemThreechecked, setItemThreeChecked] = useState(false);
@@ -15,17 +15,18 @@ const EventPlayerList = ({ className, player, addAction, checked }) => {
   const dispatch = useDispatch();
 
   const [status, setStatus] = useState(checked ? addedIcon : addIcon);
-  const handleClick = (id) => {
+  const handleClick = (playerId, teamId) => {
     dispatch({type: actions.CLOSE_SELECT_PLAYER_DIALOG})
-    console.log("playerID", id);
-    addAction(id)
+    console.log("playerID", playerId, teamId);
+    setPlayerId(playerId)
+    setTeamId(teamId)
   };
 
   return (
     <div className={`${className} w-full`}>
       <div
-        className="flex items-center justify-between bg-[#e6e6e6] dark:bg-dark-gray w-full h-14 rounded-default py-1.5 px-4 cursor-pointer hover:opacity-75"
-        onClick={() => handleClick(player?.id)}
+        className={`flex items-center justify-between ${playerId == player.id?"bg-success":"bg-[#e6e6e6] dark:bg-dark-gray"}  w-full h-14 rounded-default py-1.5 px-4 cursor-pointer hover:opacity-75`}
+        onClick={() => handleClick(player?.id, player?.teamId)}
       >
         <div className="flex">
           <img

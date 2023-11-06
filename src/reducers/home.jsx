@@ -48,6 +48,10 @@ const initialState = {
     open: false,
     id: "",
   },
+  lineup_dialog: {
+    open: false,
+    id: "",
+  },
 };
 
 const home = (state = initialState, action) => {
@@ -286,6 +290,22 @@ const home = (state = initialState, action) => {
       return {
         ...state,
         substitute_dialog: {
+          open: false,
+        },
+      };
+    case actions.OPEN_LINEUP_DIALOG:
+      return {
+        ...state,
+        lineup_dialog: {
+          open: true,
+          id: action.payload,
+        },
+      };
+
+    case actions.CLOSE_LINEUP_DIALOG:
+      return {
+        ...state,
+        lineup_dialog: {
           open: false,
         },
       };
