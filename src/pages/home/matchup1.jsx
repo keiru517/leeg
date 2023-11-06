@@ -605,7 +605,7 @@ const Matchup1 = () => {
         <div className="col-span-5 rounded-main justify-center">
           <div className="grid grid-rows-8 gap-3">
             <div className="flex flex-col row-span-5 bg-white dark:bg-slate rounded-main">
-              <div className="flex justify-between mt-10 mx-12 mb-0">
+              <div className="flex justify-between mt-5 mx-10 mb-0">
                 <div className="flex flex-col items-center">
                   <img
                     src={homeTeam?.logo}
@@ -658,6 +658,81 @@ const Matchup1 = () => {
                   <p className="text-font-dark-gray text-sm mt-1">
                     {match?.location}
                   </p>
+                  <div className="space-y-9 my-3">
+                    <div className="flex space-x-3 justify-center">
+                      <div
+                        className={`flex items-center justify-center rounded-[10px] ${
+                          period === 1 ? "bg-success" : "bg-[#151515]"
+                        } w-16 h-10 cursor-pointer hover:opacity-75`}
+                        onClick={() => setPeriod(1)}
+                      >
+                        <p className="text-white">P1</p>
+                      </div>
+                      <div
+                        className={`flex items-center justify-center rounded-[10px] ${
+                          period === 2 ? "bg-success" : "bg-[#151515]"
+                        } w-16 h-10 cursor-pointer hover:opacity-75`}
+                        onClick={() => setPeriod(2)}
+                      >
+                        <p className="text-white">P2</p>
+                      </div>
+                      <div
+                        className={`flex items-center justify-center rounded-[10px] ${
+                          period === 3 ? "bg-success" : "bg-[#151515]"
+                        } w-16 h-10 cursor-pointer hover:opacity-75`}
+                        onClick={() => setPeriod(3)}
+                      >
+                        <p className="text-white">P3</p>
+                      </div>
+                      <div
+                        className={`flex items-center justify-center rounded-[10px] ${
+                          period === 4 ? "bg-success" : "bg-[#151515]"
+                        } w-16 h-10 cursor-pointer hover:opacity-75`}
+                        onClick={() => setPeriod(4)}
+                      >
+                        <p className="text-white">P4</p>
+                      </div>
+                    </div>
+                    <div className="flex justify-center items-center space-x-2">
+                      <div className="mt-1">
+                        <img
+                          src={darkMode ? triupIconDark : triupIconLight}
+                          alt=""
+                          className="w-6 h-6 cursor-pointer hover:bg-opacity-70"
+                        />
+                        <img
+                          src={darkMode ? tridownIconDark : tridownIconLight}
+                          alt=""
+                          className="w-6 h-6 cursor-pointer hover:bg-opacity-70"
+                        />
+                      </div>
+                      <p className="font-semibold text-[56px] text-black dark:text-white">
+                        35:12
+                      </p>
+                      <div className="mt-1">
+                        <img
+                          src={darkMode ? triupIconDark : triupIconLight}
+                          alt=""
+                          className="w-6 h-6 cursor-pointer hover:bg-opacity-70"
+                        />
+                        <img
+                          src={darkMode ? tridownIconDark : tridownIconLight}
+                          alt=""
+                          className="w-6 h-6 cursor-pointer hover:bg-opacity-70"
+                        />
+                      </div>
+                      <button className="w-[169px] h-[53px] rounded-[10px] bg-success text-white font-bold text-sm mt-1 hover:bg-opacity-70">
+                        START CLOCK
+                      </button>
+                      <input
+                        type="text"
+                        className="flex border border-dark-gray items-center px-3 bg-transparent outline-none text-black dark:text-white h-button w-[100px]"
+                        value={time}
+                        onChange={(e) => setTime(e.target.value)}
+                        placeholder="Type time"
+                      />
+                    </div>
+                  </div>
                 </div>
                 <div className="flex flex-col items-center">
                   <img
@@ -697,88 +772,13 @@ const Matchup1 = () => {
                   </div>
                 </div>
               </div>
-              <div className="space-y-9 mb-10">
-                <div className="flex space-x-3 justify-center">
-                  <div
-                    className={`flex items-center justify-center rounded-[10px] ${
-                      period === 1 ? "bg-success" : "bg-[#151515]"
-                    } w-16 h-10 cursor-pointer hover:opacity-75`}
-                    onClick={() => setPeriod(1)}
-                  >
-                    <p className="text-white">P1</p>
-                  </div>
-                  <div
-                    className={`flex items-center justify-center rounded-[10px] ${
-                      period === 2 ? "bg-success" : "bg-[#151515]"
-                    } w-16 h-10 cursor-pointer hover:opacity-75`}
-                    onClick={() => setPeriod(2)}
-                  >
-                    <p className="text-white">P2</p>
-                  </div>
-                  <div
-                    className={`flex items-center justify-center rounded-[10px] ${
-                      period === 3 ? "bg-success" : "bg-[#151515]"
-                    } w-16 h-10 cursor-pointer hover:opacity-75`}
-                    onClick={() => setPeriod(3)}
-                  >
-                    <p className="text-white">P3</p>
-                  </div>
-                  <div
-                    className={`flex items-center justify-center rounded-[10px] ${
-                      period === 4 ? "bg-success" : "bg-[#151515]"
-                    } w-16 h-10 cursor-pointer hover:opacity-75`}
-                    onClick={() => setPeriod(4)}
-                  >
-                    <p className="text-white">P4</p>
-                  </div>
-                </div>
-                <div className="flex justify-center items-center space-x-2">
-                  <div className="mt-1">
-                    <img
-                      src={darkMode ? triupIconDark : triupIconLight}
-                      alt=""
-                      className="w-6 h-6 cursor-pointer hover:bg-opacity-70"
-                    />
-                    <img
-                      src={darkMode ? tridownIconDark : tridownIconLight}
-                      alt=""
-                      className="w-6 h-6 cursor-pointer hover:bg-opacity-70"
-                    />
-                  </div>
-                  <p className="font-semibold text-[56px] text-black dark:text-white">
-                    35:12
-                  </p>
-                  <div className="mt-1">
-                    <img
-                      src={darkMode ? triupIconDark : triupIconLight}
-                      alt=""
-                      className="w-6 h-6 cursor-pointer hover:bg-opacity-70"
-                    />
-                    <img
-                      src={darkMode ? tridownIconDark : tridownIconLight}
-                      alt=""
-                      className="w-6 h-6 cursor-pointer hover:bg-opacity-70"
-                    />
-                  </div>
-                  <button className="w-[169px] h-[53px] rounded-[10px] bg-success text-white font-bold text-sm mt-1 hover:bg-opacity-70">
-                    START CLOCK
-                  </button>
-                  <input
-                    type="text"
-                    className="flex border border-dark-gray items-center px-3 bg-transparent outline-none text-black dark:text-white h-button w-[100px]"
-                    value={time}
-                    onChange={(e) => setTime(e.target.value)}
-                    placeholder="Type time"
-                  />
-                </div>
-              </div>
             </div>
 
             <div className="row-span-3 bg-white dark:bg-slate rounded-main p-[26px]">
-              <hr className="border border-charcoal mb-[26px]" />
+              {/* <hr className="border border-charcoal mb-[26px]" /> */}
               <div className="flex space-x-3">
                 <div className="flex flex-col w-1/2 space-y-[10px]">
-                  <div className="flex dark:bg-charcoal w-full h-14 rounded-t-lg p-4 items-center justify-between">
+                  <div className="flex dark:bg-charcoal w-full h-12 rounded-t-lg p-4 items-center justify-between">
                     <Link
                       to={`/league/${leagueId}/team/${homeTeam?.id}`}
                       className="flex space-x-2 items-center"
@@ -803,13 +803,13 @@ const Matchup1 = () => {
                         alt=""
                         className="cursor-pointer hover:opacity-75"
                         // onClick={()=>handleAddSubstitute(homeTeam?.id)}
-                        onClick={()=>handleLineups(homeTeam?.id)}
+                        onClick={() => handleLineups(homeTeam?.id)}
                       />
                     </div>
                   </div>
                   <div className="grid grid-cols-3 gap-[10px]">
                     <div
-                      className="flex dark:bg-[#303335] w-full items-center justify-center h-14 rounded-xl cursor-pointer hover:opacity-75"
+                      className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
                       onClick={() =>
                         handleClickButtons("points3", homeTeam?.id)
                       }
@@ -817,7 +817,7 @@ const Matchup1 = () => {
                       <p className="text-black dark:text-white">+3</p>
                     </div>
                     <div
-                      className="flex dark:bg-[#303335] w-full items-center justify-center h-14 rounded-xl cursor-pointer hover:opacity-75"
+                      className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
                       onClick={() =>
                         handleClickButtons("points2", homeTeam?.id)
                       }
@@ -825,7 +825,7 @@ const Matchup1 = () => {
                       <p className="text-black dark:text-white">+2</p>
                     </div>
                     <div
-                      className="flex dark:bg-[#303335] w-full items-center justify-center h-14 rounded-xl cursor-pointer hover:opacity-75"
+                      className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
                       onClick={() =>
                         handleClickButtons("points1", homeTeam?.id)
                       }
@@ -835,7 +835,7 @@ const Matchup1 = () => {
                   </div>
                   <div className="grid grid-cols-3 gap-[10px]">
                     <div
-                      className="flex dark:bg-[#303335] w-full items-center justify-center h-14 rounded-xl cursor-pointer hover:opacity-75"
+                      className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
                       onClick={() =>
                         handleClickButtons("attempts3", homeTeam?.id)
                       }
@@ -843,7 +843,7 @@ const Matchup1 = () => {
                       <p className="text-black dark:text-white">MISSED 3</p>
                     </div>
                     <div
-                      className="flex dark:bg-[#303335] w-full items-center justify-center h-14 rounded-xl cursor-pointer hover:opacity-75"
+                      className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
                       onClick={() =>
                         handleClickButtons("attempts2", homeTeam?.id)
                       }
@@ -851,7 +851,7 @@ const Matchup1 = () => {
                       <p className="text-black dark:text-white">MISSED 2</p>
                     </div>
                     <div
-                      className="flex dark:bg-[#303335] w-full items-center justify-center h-14 rounded-xl cursor-pointer hover:opacity-75"
+                      className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
                       onClick={() =>
                         handleClickButtons("attempts1", homeTeam?.id)
                       }
@@ -861,7 +861,7 @@ const Matchup1 = () => {
                   </div>
                   <div className="grid grid-cols-3 gap-[10px]">
                     <div
-                      className="flex dark:bg-[#303335] w-full items-center justify-center h-14 rounded-xl cursor-pointer hover:opacity-75"
+                      className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
                       onClick={() =>
                         handleClickButtons("rebounds", homeTeam?.id)
                       }
@@ -869,7 +869,7 @@ const Matchup1 = () => {
                       <p className="text-black dark:text-white">REBOUND</p>
                     </div>
                     <div
-                      className="flex dark:bg-[#303335] w-full items-center justify-center h-14 rounded-xl cursor-pointer hover:opacity-75"
+                      className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
                       onClick={() =>
                         handleClickButtons("turnovers", homeTeam?.id)
                       }
@@ -877,7 +877,7 @@ const Matchup1 = () => {
                       <p className="text-black dark:text-white">TURNOVER</p>
                     </div>
                     <div
-                      className="flex dark:bg-[#303335] w-full items-center justify-center h-14 rounded-xl cursor-pointer hover:opacity-75"
+                      className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
                       onClick={() => handleClickButtons("fouls", homeTeam?.id)}
                     >
                       <p className="text-black dark:text-white">FOUL</p>
@@ -885,7 +885,7 @@ const Matchup1 = () => {
                   </div>
                   <div className="grid grid-cols-3 gap-[10px]">
                     <div
-                      className="flex dark:bg-[#303335] w-full items-center justify-center h-14 rounded-xl cursor-pointer hover:opacity-75"
+                      className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
                       onClick={() =>
                         handleClickButtons("timeout", homeTeam?.id)
                       }
@@ -893,13 +893,13 @@ const Matchup1 = () => {
                       <p className="text-black dark:text-white">TIMEOUT</p>
                     </div>
                     <div
-                      className="flex dark:bg-[#303335] w-full items-center justify-center h-14 rounded-xl cursor-pointer hover:opacity-75"
+                      className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
                       onClick={() => handleClickButtons("blocks", homeTeam?.id)}
                     >
                       <p className="text-black dark:text-white">BLOCK</p>
                     </div>
                     <div
-                      className="flex dark:bg-[#303335] w-full items-center justify-center h-14 rounded-xl cursor-pointer hover:opacity-75"
+                      className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
                       onClick={() =>
                         handleClickButtons("assists", homeTeam?.id)
                       }
@@ -910,7 +910,7 @@ const Matchup1 = () => {
                 </div>
 
                 <div className="flex flex-col w-1/2 space-y-[10px]">
-                  <div className="flex dark:bg-charcoal w-full h-14 rounded-t-lg p-4 items-center justify-between">
+                  <div className="flex dark:bg-charcoal w-full h-12 rounded-t-lg p-4 items-center justify-between">
                     <Link
                       to={`/league/${leagueId}/team/${awayTeam?.id}`}
                       className="flex space-x-2 items-center"
@@ -935,13 +935,13 @@ const Matchup1 = () => {
                         alt=""
                         className="cursor-pointer hover:opacity-75"
                         // onClick={()=>handleAddSubstitute(awayTeam?.id)}
-                        onClick={()=>handleLineups(awayTeam?.id)}
+                        onClick={() => handleLineups(awayTeam?.id)}
                       />
                     </div>
                   </div>
                   <div className="grid grid-cols-3 gap-[10px]">
                     <div
-                      className="flex dark:bg-[#303335] w-full items-center justify-center h-14 rounded-xl cursor-pointer hover:opacity-75"
+                      className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
                       onClick={() =>
                         handleClickButtons("points3", awayTeam?.id)
                       }
@@ -949,7 +949,7 @@ const Matchup1 = () => {
                       <p className="text-black dark:text-white">+3</p>
                     </div>
                     <div
-                      className="flex dark:bg-[#303335] w-full items-center justify-center h-14 rounded-xl cursor-pointer hover:opacity-75"
+                      className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
                       onClick={() =>
                         handleClickButtons("points2", awayTeam?.id)
                       }
@@ -957,7 +957,7 @@ const Matchup1 = () => {
                       <p className="text-black dark:text-white">+2</p>
                     </div>
                     <div
-                      className="flex dark:bg-[#303335] w-full items-center justify-center h-14 rounded-xl cursor-pointer hover:opacity-75"
+                      className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
                       onClick={() =>
                         handleClickButtons("points1", awayTeam?.id)
                       }
@@ -967,7 +967,7 @@ const Matchup1 = () => {
                   </div>
                   <div className="grid grid-cols-3 gap-[10px]">
                     <div
-                      className="flex dark:bg-[#303335] w-full items-center justify-center h-14 rounded-xl cursor-pointer hover:opacity-75"
+                      className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
                       onClick={() =>
                         handleClickButtons("attempts3", awayTeam?.id)
                       }
@@ -975,7 +975,7 @@ const Matchup1 = () => {
                       <p className="text-black dark:text-white">MISSED 3</p>
                     </div>
                     <div
-                      className="flex dark:bg-[#303335] w-full items-center justify-center h-14 rounded-xl cursor-pointer hover:opacity-75"
+                      className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
                       onClick={() =>
                         handleClickButtons("attempts2", awayTeam?.id)
                       }
@@ -983,7 +983,7 @@ const Matchup1 = () => {
                       <p className="text-black dark:text-white">MISSED 2</p>
                     </div>
                     <div
-                      className="flex dark:bg-[#303335] w-full items-center justify-center h-14 rounded-xl cursor-pointer hover:opacity-75"
+                      className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
                       onClick={() =>
                         handleClickButtons("attempts1", awayTeam?.id)
                       }
@@ -993,7 +993,7 @@ const Matchup1 = () => {
                   </div>
                   <div className="grid grid-cols-3 gap-[10px]">
                     <div
-                      className="flex dark:bg-[#303335] w-full items-center justify-center h-14 rounded-xl cursor-pointer hover:opacity-75"
+                      className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
                       onClick={() =>
                         handleClickButtons("rebounds", awayTeam?.id)
                       }
@@ -1001,7 +1001,7 @@ const Matchup1 = () => {
                       <p className="text-black dark:text-white">REBOUND</p>
                     </div>
                     <div
-                      className="flex dark:bg-[#303335] w-full items-center justify-center h-14 rounded-xl cursor-pointer hover:opacity-75"
+                      className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
                       onClick={() =>
                         handleClickButtons("turnovers", awayTeam?.id)
                       }
@@ -1009,7 +1009,7 @@ const Matchup1 = () => {
                       <p className="text-black dark:text-white">TURNOVER</p>
                     </div>
                     <div
-                      className="flex dark:bg-[#303335] w-full items-center justify-center h-14 rounded-xl cursor-pointer hover:opacity-75"
+                      className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
                       onClick={() => handleClickButtons("fouls", awayTeam?.id)}
                     >
                       <p className="text-black dark:text-white">FOUL</p>
@@ -1017,7 +1017,7 @@ const Matchup1 = () => {
                   </div>
                   <div className="grid grid-cols-3 gap-[10px]">
                     <div
-                      className="flex dark:bg-[#303335] w-full items-center justify-center h-14 rounded-xl cursor-pointer hover:opacity-75"
+                      className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
                       onClick={() =>
                         handleClickButtons("timeout", awayTeam?.id)
                       }
@@ -1025,13 +1025,13 @@ const Matchup1 = () => {
                       <p className="text-black dark:text-white">TIMEOUT</p>
                     </div>
                     <div
-                      className="flex dark:bg-[#303335] w-full items-center justify-center h-14 rounded-xl cursor-pointer hover:opacity-75"
+                      className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
                       onClick={() => handleClickButtons("blocks", awayTeam?.id)}
                     >
                       <p className="text-black dark:text-white">BLOCK</p>
                     </div>
                     <div
-                      className="flex dark:bg-[#303335] w-full items-center justify-center h-14 rounded-xl cursor-pointer hover:opacity-75"
+                      className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
                       onClick={() =>
                         handleClickButtons("assists", awayTeam?.id)
                       }
