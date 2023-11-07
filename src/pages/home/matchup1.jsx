@@ -211,7 +211,7 @@ const Matchup1 = () => {
     awayTeamMatchups.length,
     homeTeamPlayers.length,
     awayTeamPlayers.length,
-    ...allLogs,
+    allLogs.length,
   ]);
 
   // Handel Home team inputs
