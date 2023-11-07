@@ -211,7 +211,7 @@ const Matchup1 = () => {
     awayTeamMatchups.length,
     homeTeamPlayers.length,
     awayTeamPlayers.length,
-    allLogs.length,
+    allLogs,
   ]);
 
   // Handel Home team inputs
@@ -834,54 +834,69 @@ const Matchup1 = () => {
                     </div>
                   </div>
                   <div className="grid grid-cols-3 gap-[10px]">
-                    <div
-                      className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
-                      onClick={() =>
-                        handleClickButtons("attempts3", homeTeam?.id)
-                      }
-                    >
-                      <p className="text-black dark:text-white">MISSED 3</p>
-                    </div>
-                    <div
-                      className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
-                      onClick={() =>
-                        handleClickButtons("attempts2", homeTeam?.id)
-                      }
-                    >
-                      <p className="text-black dark:text-white">MISSED 2</p>
-                    </div>
-                    <div
-                      className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
-                      onClick={() =>
-                        handleClickButtons("attempts1", homeTeam?.id)
-                      }
-                    >
-                      <p className="text-black dark:text-white">MISSED 1</p>
-                    </div>
+                    {league?.displayAttempts3 && (
+                      <div
+                        className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                        onClick={() =>
+                          handleClickButtons("attempts3", homeTeam?.id)
+                        }
+                      >
+                        <p className="text-black dark:text-white">MISSED 3</p>
+                      </div>
+                    )}
+                    {league?.displayAttempts2 && (
+                      <div
+                        className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                        onClick={() =>
+                          handleClickButtons("attempts2", homeTeam?.id)
+                        }
+                      >
+                        <p className="text-black dark:text-white">MISSED 2</p>
+                      </div>
+                    )}
+                    {league?.displayAttempts1 && (
+                      <div
+                        className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                        onClick={() =>
+                          handleClickButtons("attempts1", homeTeam?.id)
+                        }
+                      >
+                        <p className="text-black dark:text-white">MISSED 1</p>
+                      </div>
+                    )}
                   </div>
                   <div className="grid grid-cols-3 gap-[10px]">
-                    <div
-                      className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
-                      onClick={() =>
-                        handleClickButtons("rebounds", homeTeam?.id)
-                      }
-                    >
-                      <p className="text-black dark:text-white">REBOUND</p>
-                    </div>
-                    <div
-                      className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
-                      onClick={() =>
-                        handleClickButtons("turnovers", homeTeam?.id)
-                      }
-                    >
-                      <p className="text-black dark:text-white">TURNOVER</p>
-                    </div>
-                    <div
-                      className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
-                      onClick={() => handleClickButtons("fouls", homeTeam?.id)}
-                    >
-                      <p className="text-black dark:text-white">FOUL</p>
-                    </div>
+                    {league?.displayRebounds && (
+                      <div
+                        className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                        onClick={() =>
+                          handleClickButtons("rebounds", homeTeam?.id)
+                        }
+                      >
+                        <p className="text-black dark:text-white">REBOUND</p>
+                      </div>
+                    )}
+                    {league?.displayTurnovers && (
+                      <div
+                        className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                        onClick={() =>
+                          handleClickButtons("turnovers", homeTeam?.id)
+                        }
+                      >
+                        <p className="text-black dark:text-white">TURNOVER</p>
+                      </div>
+                    )}
+
+                    {league?.displayFouls && (
+                      <div
+                        className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                        onClick={() =>
+                          handleClickButtons("fouls", homeTeam?.id)
+                        }
+                      >
+                        <p className="text-black dark:text-white">FOUL</p>
+                      </div>
+                    )}
                   </div>
                   <div className="grid grid-cols-3 gap-[10px]">
                     <div
@@ -892,20 +907,26 @@ const Matchup1 = () => {
                     >
                       <p className="text-black dark:text-white">TIMEOUT</p>
                     </div>
-                    <div
-                      className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
-                      onClick={() => handleClickButtons("blocks", homeTeam?.id)}
-                    >
-                      <p className="text-black dark:text-white">BLOCK</p>
-                    </div>
-                    <div
-                      className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
-                      onClick={() =>
-                        handleClickButtons("assists", homeTeam?.id)
-                      }
-                    >
-                      <p className="text-black dark:text-white">ASSIST</p>
-                    </div>
+                    {league?.displayBlocks && (
+                      <div
+                        className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                        onClick={() =>
+                          handleClickButtons("blocks", homeTeam?.id)
+                        }
+                      >
+                        <p className="text-black dark:text-white">BLOCK</p>
+                      </div>
+                    )}
+                    {league?.displayAssists && (
+                      <div
+                        className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                        onClick={() =>
+                          handleClickButtons("assists", homeTeam?.id)
+                        }
+                      >
+                        <p className="text-black dark:text-white">ASSIST</p>
+                      </div>
+                    )}
                   </div>
                 </div>
 
