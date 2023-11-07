@@ -48,22 +48,22 @@ const Team = () => {
   const matchups = useSelector((state) => state.home.matchups);
   return (
     <div className="flex flex-col flex-grow">
-      <PageTitle backIcon={darkMode ? backIconDark : backIconLight} logo={team.logo}>
-        {team.name}
+      <PageTitle backIcon={darkMode ? backIconDark : backIconLight} logo={team?.logo}>
+        {team?.name}
       </PageTitle>
       <p className="font-dark-gray my-[20px]">
         <Link to="/">
           <span className="underline">My Leagues</span>
         </Link>
         <span className="text-sky-500"> &gt; </span>
-        <Link to={`/league/${league.id}?tab=0`}>
-          <span className="underline">{league.name}</span>
+        <Link to={`/league/${league?.id}?tab=0`}>
+          <span className="underline">{league?.name}</span>
         </Link>
         <span className="text-sky-500"> &gt; </span>
-        <Link to={`/league/${league.id}?tab=2`}>
+        <Link to={`/league/${league?.id}?tab=2`}>
           <span className="underline">Teams</span>
         </Link>
-        <span className="text-sky-500"> &gt; {team.name}</span>
+        <span className="text-sky-500"> &gt; {team?.name}</span>
       </p>
       <div className="rounded-main bg-white dark:bg-slate flex-grow p-default">
         <div className="w-full px-2 sm:px-0 h-full flex flex-col">

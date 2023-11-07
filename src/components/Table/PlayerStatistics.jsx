@@ -177,7 +177,7 @@ const PlayerStatistics = (props) => {
               index
             ) => {
               const playerMatchups = matchups.filter(
-                (matchup) => matchup.playerId === id
+                (matchup) => matchup.playerId === id && matchup.attendance === 1
               );
 
               const totalPoints = playerMatchups.reduce(
