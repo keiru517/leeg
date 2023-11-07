@@ -96,6 +96,7 @@ export namespace Types {
     fouls: number;
     steals: number;
     turnovers: number;
+    attendance: number;
     isDeleted: number;
   }
   export interface T_Log extends T_DB {

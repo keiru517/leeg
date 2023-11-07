@@ -70,6 +70,7 @@ export const createOne: RequestHandler = async (req, res) => {
       fouls: 0,
       steals: 0,
       turnovers: 0,
+      attendance: 1,
       isDeleted: 0
     });
     res.status(200).json({ message: 'Added successfully!' });
@@ -279,6 +280,7 @@ export const update: RequestHandler = async (req, res) => {
         fouls: player.fouls ? player.fouls : 0,
         steals: player.steals ? player.steals : 0,
         turnovers: player.turnovers ? player.turnovers : 0,
+        attendance: 1,
         isDeleted: 0
       });
     }

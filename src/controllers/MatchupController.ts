@@ -70,6 +70,7 @@ export const createOne: RequestHandler = async (req, res) => {
       fouls: 0,
       steals: 0,
       turnovers: 0,
+      attendance: 1,
       isDeleted: 0
     });
     res.status(200).json({ message: 'Added successfully!' });
@@ -128,15 +129,16 @@ export const create: RequestHandler = async (req, res) => {
         points3: player.points3,
         points2: player.points2,
         points1: player.points1,
-        attempts3: player.attempts3?player.attempts3:0,
-        attempts2: player.attempts2?player.attempts3:0,
-        attempts1: player.attempts1?player.attempts3:0,
-        blocks: player.blocks?player.blocks:0,
-        rebounds: player.rebounds?player.rebounds:0,
-        assists: player.assists?player.assists:0,
-        fouls: player.fouls?player.fouls:0,
-        steals: player.steals?player.steals:0,
-        turnovers: player.turnovers?player.turnovers:0,
+        attempts3: player.attempts3 ? player.attempts3 : 0,
+        attempts2: player.attempts2 ? player.attempts3 : 0,
+        attempts1: player.attempts1 ? player.attempts3 : 0,
+        blocks: player.blocks ? player.blocks : 0,
+        rebounds: player.rebounds ? player.rebounds : 0,
+        assists: player.assists ? player.assists : 0,
+        fouls: player.fouls ? player.fouls : 0,
+        steals: player.steals ? player.steals : 0,
+        turnovers: player.turnovers ? player.turnovers : 0,
+        attendance: 1,
         isDeleted: 0
       });
     }
@@ -181,15 +183,16 @@ export const create: RequestHandler = async (req, res) => {
         points3: player.points3,
         points2: player.points2,
         points1: player.points1,
-        attempts3: player.attempts3?player.attempts3:0,
-        attempts2: player.attempts2?player.attempts3:0,
-        attempts1: player.attempts1?player.attempts3:0,
-        blocks: player.blocks?player.blocks:0,
-        rebounds: player.rebounds?player.rebounds:0,
-        assists: player.assists?player.assists:0,
-        fouls: player.fouls?player.fouls:0,
-        steals: player.steals?player.steals:0,
-        turnovers: player.turnovers?player.turnovers:0,
+        attempts3: player.attempts3 ? player.attempts3 : 0,
+        attempts2: player.attempts2 ? player.attempts3 : 0,
+        attempts1: player.attempts1 ? player.attempts3 : 0,
+        blocks: player.blocks ? player.blocks : 0,
+        rebounds: player.rebounds ? player.rebounds : 0,
+        assists: player.assists ? player.assists : 0,
+        fouls: player.fouls ? player.fouls : 0,
+        steals: player.steals ? player.steals : 0,
+        turnovers: player.turnovers ? player.turnovers : 0,
+        attendance: 1,
         isDeleted: 0
       });
     }
@@ -243,8 +246,7 @@ export const update: RequestHandler = async (req, res) => {
           assists: player.assists,
           fouls: player.fouls,
           steals: player.steals,
-          turnovers: player.turnovers,
-
+          turnovers: player.turnovers
         },
         {
           where: {
@@ -285,7 +287,7 @@ export const update: RequestHandler = async (req, res) => {
           assists: player.assists,
           fouls: player.fouls,
           steals: player.steals,
-          turnovers: player.turnovers,
+          turnovers: player.turnovers
         },
         { where: { id: matchup.id } }
       );
@@ -302,15 +304,16 @@ export const update: RequestHandler = async (req, res) => {
         points3: player.points3,
         points2: player.points2,
         points1: player.points1,
-        attempts3: player.attempts3?player.attempts3:0,
-        attempts2: player.attempts2?player.attempts3:0,
-        attempts1: player.attempts1?player.attempts3:0,
-        blocks: player.blocks?player.blocks:0,
-        rebounds: player.rebounds?player.rebounds:0,
-        assists: player.assists?player.assists:0,
-        fouls: player.fouls?player.fouls:0,
-        steals: player.steals?player.steals:0,
-        turnovers: player.turnovers?player.turnovers:0,
+        attempts3: player.attempts3 ? player.attempts3 : 0,
+        attempts2: player.attempts2 ? player.attempts3 : 0,
+        attempts1: player.attempts1 ? player.attempts3 : 0,
+        blocks: player.blocks ? player.blocks : 0,
+        rebounds: player.rebounds ? player.rebounds : 0,
+        assists: player.assists ? player.assists : 0,
+        fouls: player.fouls ? player.fouls : 0,
+        steals: player.steals ? player.steals : 0,
+        turnovers: player.turnovers ? player.turnovers : 0,
+        attendance: 1,
         isDeleted: 0
       });
     }
@@ -339,6 +342,34 @@ export const remove: RequestHandler = async (req, res) => {
   } else {
     res.status(404).json({ message: 'matchup not found' });
   }
+};
+
+export const editLineups: RequestHandler = async (req, res) => {
+  const lineups = req.body.lineups;
+  const matchId = req.body.matchId;
+
+  try{
+    const promise = Object.keys(lineups).map(async id => {
+      if (!lineups[id]) {
+        await Matchup.update(
+          {
+            attendance: 0
+          },
+          {
+            where: {
+              matchId,
+              playerId: id
+            }
+          }
+        );
+      }
+    });
+    await Promise.all(promise);
+    res.status(200).json({message: 'Saved successfully!'});
+  } catch{
+    res.status(404).json({message: 'Failed!'});
+  }
+
 };
 
 // GET SERVER_URL/api/matchup/info/1

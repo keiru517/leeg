@@ -247,6 +247,7 @@ export const add: RequestHandler = async (req, res) => {
             fouls: 0,
             steals: 0,
             turnovers: 0,
+            attendance:1,
             isDeleted: 0
           })
         }
