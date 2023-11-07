@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../actions";
 import MatchupPlayerList from "../ListItem/MatchupPlayerList";
 import apis from "../../utils/apis";
+import PlayerList from "../ListItem/PlayerList";
 
 const TeamModal = () => {
   let { leagueId } = useParams();
@@ -407,7 +408,7 @@ const TeamModal = () => {
                           />
                           <div className="overflow-y-auto h-[260px]">
                             {players.map((player, idx) => (
-                              <MatchupPlayerList
+                              <PlayerList
                                 key={idx}
                                 className="mb-5"
                                 player={player}
@@ -416,7 +417,7 @@ const TeamModal = () => {
                                 setChecked={(checked) => {
                                   setCheckedList(player.id, checked);
                                 }}
-                              ></MatchupPlayerList>
+                              ></PlayerList>
                             ))}
                           </div>
                         </>

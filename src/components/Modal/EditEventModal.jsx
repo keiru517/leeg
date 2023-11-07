@@ -133,7 +133,7 @@ const EditEventModal = (props) => {
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative transform overflow-hidden rounded-main text-left shadow-xl transition-all sm:my-8 bg-slate h-[1251px] md:w-[735px] mx-3 flex flex-col">
+              <Dialog.Panel className="relative transform overflow-hidden rounded-main text-left shadow-xl transition-all sm:my-8 bg-slate h-[800px] md:w-[735px] mx-3 flex flex-col">
                 <div className="divide-y divide-solid divide-[#3A3A3A] flex flex-col flex-grow">
                   <div className="flex items-center text-left h-[88px] justify-between px-default">
                     <p className="text-2xl text-white font-bold">Edit Event</p>
@@ -216,7 +216,7 @@ const EditEventModal = (props) => {
                               event === "+3 Pointer"
                                 ? "bg-primary"
                                 : "bg-[#303335]"
-                            } w-full h-[72px] cursor-pointer hover:opacity-75`}
+                            } w-full h-14 cursor-pointer hover:opacity-75`}
                             onClick={() => setEvent("+3 Pointer")}
                           >
                             <p className="text-white">+3</p>
@@ -226,7 +226,7 @@ const EditEventModal = (props) => {
                               event === "+2 Pointer"
                                 ? "bg-primary"
                                 : "bg-[#303335]"
-                            } w-full h-[72px] cursor-pointer hover:opacity-75`}
+                            } w-full h-14 cursor-pointer hover:opacity-75`}
                             onClick={() => setEvent("+2 Pointer")}
                           >
                             <p className="text-white">+2</p>
@@ -236,7 +236,7 @@ const EditEventModal = (props) => {
                               event === "+1 Pointer"
                                 ? "bg-primary"
                                 : "bg-[#303335]"
-                            } w-full h-[72px] cursor-pointer hover:opacity-75`}
+                            } w-full h-14 cursor-pointer hover:opacity-75`}
                             onClick={() => setEvent("+1 Pointer")}
                           >
                             <p className="text-white">+1</p>
@@ -248,7 +248,7 @@ const EditEventModal = (props) => {
                               event === "3 Missed"
                                 ? "bg-primary"
                                 : "bg-[#303335]"
-                            } w-full h-[72px] cursor-pointer hover:opacity-75`}
+                            } w-full h-14 cursor-pointer hover:opacity-75`}
                             onClick={() => setEvent("3 Missed")}
                           >
                             <p className="text-white">Missed 3</p>
@@ -258,7 +258,7 @@ const EditEventModal = (props) => {
                               event === "2 Missed"
                                 ? "bg-primary"
                                 : "bg-[#303335]"
-                            } w-full h-[72px] cursor-pointer hover:opacity-75`}
+                            } w-full h-14 cursor-pointer hover:opacity-75`}
                             onClick={() => setEvent("2 Missed")}
                           >
                             <p className="text-white">Missed 2</p>
@@ -268,7 +268,7 @@ const EditEventModal = (props) => {
                               event === "1 Missed"
                                 ? "bg-primary"
                                 : "bg-[#303335]"
-                            } w-full h-[72px] cursor-pointer hover:opacity-75`}
+                            } w-full h-14 cursor-pointer hover:opacity-75`}
                             onClick={() => setEvent("1 Missed")}
                           >
                             <p className="text-white">Missed 1</p>
@@ -280,7 +280,7 @@ const EditEventModal = (props) => {
                               event === "Rebound"
                                 ? "bg-primary"
                                 : "bg-[#303335]"
-                            } w-full h-[72px] cursor-pointer hover:opacity-75`}
+                            } w-full h-14 cursor-pointer hover:opacity-75`}
                             onClick={() => setEvent("Rebound")}
                           >
                             <p className="text-white">RBOUND</p>
@@ -290,7 +290,7 @@ const EditEventModal = (props) => {
                               event === "Timeout"
                                 ? "bg-primary"
                                 : "bg-[#303335]"
-                            } w-full h-[72px] cursor-pointer hover:opacity-75`}
+                            } w-full h-14 cursor-pointer hover:opacity-75`}
                             onClick={() => setEvent("Timeout")}
                           >
                             <p className="text-white">TIMEOUT</p>
@@ -300,7 +300,7 @@ const EditEventModal = (props) => {
                               event === "Turnover"
                                 ? "bg-primary"
                                 : "bg-[#303335]"
-                            } w-full h-[72px] cursor-pointer hover:opacity-75`}
+                            } w-full h-14 cursor-pointer hover:opacity-75`}
                             onClick={() => setEvent("Turnover")}
                           >
                             <p className="text-white">TURNOVER</p>
@@ -308,7 +308,7 @@ const EditEventModal = (props) => {
                           <div
                             className={`flex items-center justify-center rounded-[10px] ${
                               event === "Foul" ? "bg-primary" : "bg-[#303335]"
-                            } w-full h-[72px] cursor-pointer hover:opacity-75`}
+                            } w-full h-14 cursor-pointer hover:opacity-75`}
                             onClick={() => setEvent("Foul")}
                           >
                             <p className="text-white">FOUL</p>
@@ -316,7 +316,7 @@ const EditEventModal = (props) => {
                           <div
                             className={`flex items-center justify-center rounded-[10px] ${
                               event === "Block" ? "bg-primary" : "bg-[#303335]"
-                            } w-full h-[72px] cursor-pointer hover:opacity-75`}
+                            } w-full h-14 cursor-pointer hover:opacity-75`}
                             onClick={() => setEvent("Block")}
                           >
                             <p className="text-white">BLOCK</p>
@@ -324,7 +324,7 @@ const EditEventModal = (props) => {
                           <div
                             className={`flex items-center justify-center rounded-[10px] ${
                               event === "Assist" ? "bg-primary" : "bg-[#303335]"
-                            } w-full h-[72px] cursor-pointer hover:opacity-75`}
+                            } w-full h-14 cursor-pointer hover:opacity-75`}
                             onClick={() => setEvent("Assist")}
                           >
                             <p className="text-white">ASSIST</p>
@@ -332,7 +332,7 @@ const EditEventModal = (props) => {
                         </div>
                       </div>
 
-                      <div>
+                      <div className="overflow-y-auto h-60">
                         <Tab.Group defaultIndex={0}>
                           <div className="flex justify-between">
                             <Tab.List className="flex justify-start space-x-5 rounded-xl bg-transparent p-1 ">
@@ -435,7 +435,7 @@ const EditEventModal = (props) => {
                     {/* Buttons */}
                     <div>
                       <hr className="border border-gray-600 w-full" />
-                      <div className="flex justify-between mt-[26px]">
+                      <div className="flex justify-between mt-5">
                         <button
                           onClick={createSubmit}
                           className={`bg-red-600 rounded-xl w-[147px] hover:bg-opacity-70 h-[53px] text-white disabled:opacity-10`}
