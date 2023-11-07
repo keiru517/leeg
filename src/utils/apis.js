@@ -59,6 +59,7 @@ export const apis = {
   updateMatchup: apiUrl + "/matchup/update",
   getLogs:apiUrl + "/log/all",
   createLogs:apiUrl + "/log/create",
+  editLineups: apiUrl + "/matchup/editLineups",
   // player
   getPlayers: apiUrl + "/player/all",
   createPlayer: apiUrl + "/player/create",

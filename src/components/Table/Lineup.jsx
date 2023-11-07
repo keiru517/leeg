@@ -46,7 +46,7 @@ const LineupTable = (props) => {
   let { leagueId } = useParams();
 
 
-  const { players } = props;
+  const { players, setLineups } = props;
 
   const columns = ["#", "Players"];
 
@@ -59,12 +59,25 @@ const LineupTable = (props) => {
   };
 
   const [itemChecked, setItemChecked] = useState({});
+
+  useEffect(()=>{
+    let temp = {}
+    players.map(player=>{
+      console.log(player.attendance)
+      temp[player.id] = player.attendance===1?true:false;
+    });
+    setItemChecked(temp);
+  }, [])
+
   const setListItemChecked = (index, checked) => {
     let temp = { ...itemChecked };
     temp[index] = checked;
     setItemChecked(temp);
-    console.log(temp);
   };
+
+  useEffect(()=>{
+    setLineups(itemChecked);
+  }, [itemChecked])
 
   return (
     <div className="text-black dark:text-white h-full w-full mt-4">

@@ -30,7 +30,7 @@ const SelectPlayerModal = (props) => {
   };
   const isOpen = useSelector((state) => state.home.select_player_dialog.open);
   const matchups = useSelector((state) => state.home.matchups).filter(
-    (matchup) => matchup.matchId == matchId
+    (matchup) => matchup.matchId == matchId && matchup.attendance === 1
   );
 
   const [filteredMatchups, setFilteredMatchups] = useState([]);

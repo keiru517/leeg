@@ -21,28 +21,10 @@ const LineupsModal = (props) => {
   );
 
   const players = useSelector((state) => state.home.matchups)
-  .filter(
-    (matchup) => matchup.matchId == matchId && matchup.teamId == teamId
-  )
-  .map(
-    ({
-      player,
-      points,
-      points3,
-      points2,
-      points1,
-      attempts3,
-      attempts2,
-      attempts1,
-      blocks,
-      rebounds,
-      assists,
-      fouls,
-      steals,
-      turnovers,
-    }) => {
-      return {
-        ...player,
+    .filter((matchup) => matchup.matchId == matchId && matchup.teamId == teamId)
+    .map(
+      ({
+        player,
         points,
         points3,
         points2,
@@ -56,9 +38,27 @@ const LineupsModal = (props) => {
         fouls,
         steals,
         turnovers,
-      };
-    }
-  );
+        attendance
+      }) => {
+        return {
+          ...player,
+          points,
+          points3,
+          points2,
+          points1,
+          attempts3,
+          attempts2,
+          attempts1,
+          blocks,
+          rebounds,
+          assists,
+          fouls,
+          steals,
+          turnovers,
+          attendance
+        };
+      }
+    );
 
   const dispatch = useDispatch();
 
@@ -71,39 +71,49 @@ const LineupsModal = (props) => {
     { id: 3, name: "Point Guard" },
     { id: 4, name: "Shooting Guard" },
   ];
+
   const [position, setPosition] = useState("Select Position");
 
   const [email, setEmail] = useState("");
-  const [canAdd, setCanAdd] = useState(false);
-
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [jerseyNumber, setJerseyNumber] = useState("");
+ 
 
   const handleAddSubstitute = (id) => {
     closeDialog();
     dispatch({ type: actions.OPEN_ADD_SUBSTITUTE_DIALOG, payload: id });
   };
 
-  const createSubmit = () => {
-    dispatch({ type: actions.CLOSE_ADD_SUBSTITUTE_DIALOG });
-    axios
-      .post(apis.createOneMatchup, {
-        email,
-        leagueId,
-        matchId,
-        teamId,
-        jerseyNumber,
-        position,
-      })
-      .then((res) => {
-        actions.getPlayers(dispatch);
-        actions.getTeams(dispatch);
-        actions.getMatches(dispatch);
-        actions.getMatchups(dispatch);
-      })
-      .catch((error) => console.log(error.response.data.message));
-  };
+  const [lineups, setLineups] = useState({});
+
+  const handleLineups = () => {
+    console.log(lineups);
+    axios.post(apis.editLineups, {lineups, matchId}).then((res)=>{
+      console.log(res.data.message)
+      actions.getMatchups(dispatch);
+      alert(res.data.message);
+    }).catch(()=>{
+      console.log("Error")
+    })
+  }
+
+  // const createSubmit = () => {
+  //   dispatch({ type: actions.CLOSE_ADD_SUBSTITUTE_DIALOG });
+  //   axios
+  //     .post(apis.createOneMatchup, {
+  //       email,
+  //       leagueId,
+  //       matchId,
+  //       teamId,
+  //       jerseyNumber,
+  //       position,
+  //     })
+  //     .then((res) => {
+  //       actions.getPlayers(dispatch);
+  //       actions.getTeams(dispatch);
+  //       actions.getMatches(dispatch);
+  //       actions.getMatchups(dispatch);
+  //     })
+  //     .catch((error) => console.log(error.response.data.message));
+  // };
 
   const closeDialog = () => {
     dispatch({ type: actions.CLOSE_LINEUP_DIALOG });
@@ -179,14 +189,22 @@ const LineupsModal = (props) => {
                   </div>
                   <div className="flex flex-grow flex-col p-default justify-between">
                     <div>
-                      <LineupTable players={players}></LineupTable>
+                      <LineupTable players={players} setLineups={setLineups}></LineupTable>
                     </div>
-                    <button
-                      onClick={()=>handleAddSubstitute(teamId)}
-                      className={`bg-primary rounded-xl w-full hover:bg-opacity-70 h-button text-white disabled:opacity-10`}
-                    >
-                      Add Substitute
-                    </button>
+                    <div className="flex space-x-3">
+                      <button
+                        onClick={handleLineups}
+                        className={`bg-primary rounded-default w-full hover:bg-opacity-70 h-button text-white disabled:opacity-10`}
+                      >
+                        Save Lineups
+                      </button>
+                      <button
+                        onClick={() => handleAddSubstitute(teamId)}
+                        className={`bg-primary rounded-default w-full hover:bg-opacity-70 h-button text-white disabled:opacity-10`}
+                      >
+                        Add Substitute
+                      </button>
+                    </div>
                   </div>
                 </div>
               </Dialog.Panel>
