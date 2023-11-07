@@ -37,8 +37,8 @@ const Team = () => {
 
   const matches = useSelector((state) => state.home.matches).filter(
     (match) =>
-      (match.leagueId == leagueId) &
-      ((match.homeTeamId == teamId) | (match.awayTeamId == teamId))
+      (match.leagueId == leagueId) &&
+      ((match.homeTeamId == teamId) || (match.awayTeamId == teamId)) && (!match.isNew)
   );
 
   const players = useSelector((state) => state.home.players).filter(
