@@ -26,7 +26,7 @@ export const create: RequestHandler = async (req, res) => {
   if (!existsSync(directoryPath)) {
     mkdirSync(directoryPath, { recursive: true });
   }
-  
+
   if (req.file) {
     const extension = path.extname(req.file.originalname);
 
@@ -41,10 +41,8 @@ export const create: RequestHandler = async (req, res) => {
   } else {
     const defaultFilePath = absolutePath(`public/league.png`);
     if (existsSync(defaultFilePath)) {
-      const fileName = `${moment().format(
-        FILE_NAME_DATE_TILE_FORMAT
-      )}.png`;
-      copyFileSync(defaultFilePath, leagueLogoPath(data.userId, fileName))
+      const fileName = `${moment().format(FILE_NAME_DATE_TILE_FORMAT)}.png`;
+      copyFileSync(defaultFilePath, leagueLogoPath(data.userId, fileName));
       data.logo = fileName;
     } else {
       data.logo = '';
@@ -97,6 +95,26 @@ export const update: RequestHandler = async (req, res) => {
   }
 };
 
+export const updateTimer: RequestHandler = async (req, res) => {
+  const { leagueId, minute, second } = req.body;
+  try{
+    await League.update(
+      {
+        minute,
+        second
+      },
+      {
+        where: {
+          id: leagueId
+        }
+      }
+    );
+    res.status(200).json({message:"Updated successfully!"})
+  }
+  catch{
+    res.status(404).json({message:"Error occurred!"})
+  }
+};
 // POST SERVER_URL/api/league/remove/1
 export const remove: RequestHandler = async (req, res) => {
   const id = Number(req.params.id);

@@ -26,6 +26,8 @@ export namespace Types {
     logo: string;
     startDate: string;
     endDate: string;
+    minute:number;
+    second:number;
     isAllowedFan: boolean;
     displayPosition: boolean;
     displayAttempts3: boolean;

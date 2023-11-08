@@ -220,18 +220,23 @@ export const updatePassword: RequestHandler = async (req, res) => {
 // GET SERVER_URL/api/user/info
 export const info: RequestHandler = async (req, res) => {
   const id = Number(req.params.id);
-  console.log('============================', id);
-  const user = await User.findOne({
-    where: {
-      id
-    }
-  });
-  if (user) {
-    res.status(200).json({ user: user });
-  } else {
-    res.status(404).json({
-      message: 'user not found'
+  try{
+    const user = await User.findOne({
+      where: {
+        id
+      }
     });
+    if (user) {
+      res.status(200).json({ user: user });
+    } else {
+      res.status(404).json({
+        message: 'user not found'
+      });
+    }
+  } catch {
+    res.status(400).json({
+      message:"Unexpected error occurred!"
+    })
   }
 };
 
