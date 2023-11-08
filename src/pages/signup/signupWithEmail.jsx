@@ -29,7 +29,7 @@ const SignupWithEmail = () => {
     if (!email) {
       alert("Please type your email address!");
     } else {
-      setStep(2);
+      // setStep(2);
       sendOTP();
     }
   };
@@ -40,6 +40,7 @@ const SignupWithEmail = () => {
         email: email,
       })
       .then((res) => {
+        setStep(2)
         const verifyCode = res.data.code;
         setCode(verifyCode);
       })

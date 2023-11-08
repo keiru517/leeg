@@ -22,6 +22,7 @@ import SelectPlayerModal from "../../components/Modal/SelectPlayerModal";
 import EditEventModal from "../../components/Modal/EditEventModal";
 import SubstituteModal from "../../components/Modal/SubstituteModal";
 import LineupsModal from "../../components/Modal/LineupsModal";
+import Timer from "../../components/Timer";
 
 const Matchup1 = () => {
   let { leagueId, matchId } = useParams();
@@ -561,6 +562,8 @@ const Matchup1 = () => {
     dispatch({ type: actions.OPEN_SELECT_PLAYER_DIALOG, payload: true });
     // dispatch to show the modal
   };
+
+
   return (
     <div className="flex flex-col flex-grow">
       {/* <MatchupTitle handleClick={handleSubmit} result={match?.result}>
@@ -694,7 +697,7 @@ const Matchup1 = () => {
                       </div>
                     </div>
                     <div className="flex justify-center items-center space-x-2">
-                      <div className="mt-1">
+                      {/* <div className="mt-1">
                         <img
                           src={darkMode ? triupIconDark : triupIconLight}
                           alt=""
@@ -730,7 +733,8 @@ const Matchup1 = () => {
                         value={time}
                         onChange={(e) => setTime(e.target.value)}
                         placeholder="Type time"
-                      />
+                        /> */}
+                        <Timer setTime={setTime}></Timer>
                     </div>
                   </div>
                 </div>

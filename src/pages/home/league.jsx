@@ -59,7 +59,7 @@ const League = () => {
   const players = useSelector((state) => state.home.players).filter(
     (player) => player.leagueId == leagueId && player.isDeleted !== 1
   );
-  
+
   // this is used for Players tab
   const allPlayers = useSelector((state) => state.home.players).filter(
     (player) => player.leagueId == leagueId
@@ -79,19 +79,18 @@ const League = () => {
     { id: 1, name: "AcceptedList" },
   ];
 
-
   const [value, setValue] = useState("Sort by");
   const [rosterValue, setRosterValue] = useState(rosterOptions[0].name);
   const [rosters, setRosters] = useState([]);
-  useEffect(()=>{
-    var result =  players?.filter(roster=>roster.isWaitList === 1);
+  useEffect(() => {
+    var result = players?.filter((roster) => roster.isWaitList === 1);
     if (rosterValue == "WaitList") {
-      result = players?.filter(roster=>roster.isWaitList === 1)
+      result = players?.filter((roster) => roster.isWaitList === 1);
     } else {
-      result = players?.filter(roster=>roster.isAcceptedList ===1)
+      result = players?.filter((roster) => roster.isAcceptedList === 1);
     }
     setRosters(result);
-  }, [rosterValue])
+  }, [rosterValue]);
 
   var categories = [];
   if (isAdmin) {
@@ -184,10 +183,10 @@ const League = () => {
     setFilteredWaitListPlayers(waitListPlayers);
     setFilteredAcceptListPlayers(acceptedPlayers);
     setFilteredPlayers(allPlayers);
-    if (rosterValue==='WaitList') {
-      setRosters(players?.filter(roster=>roster.isWaitList === 1));
+    if (rosterValue === "WaitList") {
+      setRosters(players?.filter((roster) => roster.isWaitList === 1));
     } else {
-      setRosters(players?.filter(roster=>roster.isAcceptedList === 1));
+      setRosters(players?.filter((roster) => roster.isAcceptedList === 1));
     }
   }, [
     players.length,
@@ -298,6 +297,8 @@ const League = () => {
   const [chosenFile, setChosenFile] = useState();
   const [previewURL, setPreviewURL] = useState("");
 
+  const [minute, setMinute] = useState("");
+  const [second, setSecond] = useState("");
   const [isAllowedFan, setIsAllowedFan] = useState("");
   const [displayLeagueId, setDisplayLeagueId] = useState("");
   const [displayPosition, setDisplayPosition] = useState("");
@@ -313,6 +314,8 @@ const League = () => {
   const [requirePassword, setRequirePassword] = useState("");
 
   useEffect(() => {
+    setMinute(league?.minute);
+    setSecond(league?.second);
     setIsAllowedFan(league?.isAllowedFan);
     setDisplayPosition(league?.displayPosition);
     setDisplayAttempts3(league?.displayAttempts3);
@@ -558,6 +561,22 @@ const League = () => {
       });
   };
 
+  const handleTimer = () => {
+    axios
+      .post(apis.updateTimer, {
+        leagueId,
+        minute,
+        second,
+      })
+      .then((res) => {
+        actions.getLeagues(dispatch);
+        alert(res.data.message);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   const deleteLeague = () => {
     dispatch({ type: actions.OPEN_DELETE_LEAGUE_DIALOG, payload: league });
   };
@@ -659,9 +678,7 @@ const League = () => {
                         />
                       </div>
                       <div>
-                        <Button
-                          className="text-sm bg-success w-[100px] h-[38px] rounded-lg hover:opacity-70"
-                        >
+                        <Button className="text-sm bg-success w-[100px] h-[38px] rounded-lg hover:opacity-70">
                           Add blog
                         </Button>
                       </div>
@@ -737,7 +754,11 @@ const League = () => {
                             : "dark:bg-light-gray justify-center"
                         } rounded-default`}
                       >
-                        <RosterTable rosters={rosters} rosterValue={rosterValue} setRosterValue={setRosterValue}/>
+                        <RosterTable
+                          rosters={rosters}
+                          rosterValue={rosterValue}
+                          setRosterValue={setRosterValue}
+                        />
                         {/* {players.length ? (
                           players.map((player, idx) => (
                             <ListItem
@@ -1093,7 +1114,7 @@ const League = () => {
                         onChange={(e) => setLeagueDescription(e.target.value)}
                       ></textarea>
                       <Input
-                        className="text-xs rounded-default my-5"
+                        className="text-xs rounded-default my-3"
                         option={calendar}
                         placeholder="Enter Season Start Date*"
                         value={leagueStartDate}
@@ -1270,6 +1291,30 @@ const League = () => {
                   </div>
 
                   <div className="flex flex-col space-y-3 items-center">
+                    <div className="flex flex-col space-y-3 mt-3">
+                      <input
+                        type="number"
+                        className="flex space-x-2 border border-dark-gray items-center px-3 bg-transparent outline-none text-black dark:text-white flex-grow h-button rounded-default text-xs"
+                        placeholder="Minute of Period"
+                        value={minute}
+                        onChange={(e) => setMinute(e.target.value)}
+                      />
+                      <input
+                        type="number"
+                        className="flex space-x-2 border border-dark-gray items-center px-3 bg-transparent outline-none text-black dark:text-white flex-grow h-button rounded-default text-xs"
+                        placeholder="Second of Period"
+                        value={second}
+                        onChange={(e) => setSecond(e.target.value)}
+                      />
+                      <button
+                        onClick={handleTimer}
+                        className="h-button bg-primary rounded-default text-white "
+                      >
+                        Save
+                      </button>
+                    </div>
+                  </div>
+                  <div className="flex flex-col space-y-3 items-center">
                     <div className="flex">
                       <p className="text-xs dark:text-white text-black">
                         Admin Access
@@ -1284,6 +1329,7 @@ const League = () => {
 
                     <AdminTable user={user} leagueId={leagueId} />
                   </div>
+
                   <AdminModal user={user} leagueId={leagueId} />
                 </div>
               </Tab.Panel>

@@ -19,6 +19,7 @@ export const apis = {
   getLeagues: apiUrl + "/league/all",
   createLeague: apiUrl + "/league/create",
   updateLeague: apiUrl + "/league/update",
+  updateTimer: apiUrl + "/league/updateTimer",
   deleteLeague: (id) => {
     return `${apiUrl}/league/remove/${id}`;
   },
