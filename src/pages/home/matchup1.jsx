@@ -12,17 +12,21 @@ import triupIconDark from "../../assets/img/dark_mode/triup-icon-dark.png";
 import tridownIconDark from "../../assets/img/dark_mode/tridown-icon-dark.png";
 import triupIconLight from "../../assets/img/dark_mode/triup-icon-light.png";
 import tridownIconLight from "../../assets/img/dark_mode/tridown-icon-light.png";
+import MatchupSettingModal from "../../components/Modal/MatchupSettingModal";
+import SelectPlayerModal from "../../components/Modal/SelectPlayerModal";
+import EditEventModal from "../../components/Modal/EditEventModal";
+import SubstituteModal from "../../components/Modal/SubstituteModal";
+import LineupsModal from "../../components/Modal/LineupsModal";
+import PlayerStatsModal from "../../components/Modal/PlayerStatsModal";
+import Timer from "../../components/Timer";
 import playerStats from "../../assets/img/dark_mode/player-stats.svg";
 import editLineup from "../../assets/img/dark_mode/edit-lineup.svg";
 import plusIconDark from "../../assets/img/dark_mode/plus-icon-dark.svg";
 import plusIconLight from "../../assets/img/dark_mode/plus-icon-light.svg";
 import downloadIconDark from "../../assets/img/dark_mode/download-icon-dark.svg";
 import downloadIconLight from "../../assets/img/dark_mode/download-icon-light.svg";
-import SelectPlayerModal from "../../components/Modal/SelectPlayerModal";
-import EditEventModal from "../../components/Modal/EditEventModal";
-import SubstituteModal from "../../components/Modal/SubstituteModal";
-import LineupsModal from "../../components/Modal/LineupsModal";
-import Timer from "../../components/Timer";
+import settingIconDark from "../../assets/img/dark_mode/setting-icon-dark.svg";
+import settingIconLight from "../../assets/img/dark_mode/setting-icon-light.svg";
 
 const Matchup1 = () => {
   let { leagueId, matchId } = useParams();
@@ -31,17 +35,6 @@ const Matchup1 = () => {
   const match = useSelector((state) => state.home.matches).find(
     (match) => match.id == matchId
   );
-
-  useEffect(() => {
-    actions.getUserInfo(dispatch, localStorage.getItem("userId"));
-    actions.getUsers(dispatch);
-    actions.getLeagues(dispatch);
-    actions.getTeams(dispatch);
-    actions.getMatches(dispatch);
-    actions.getMatchups(dispatch);
-    actions.getLogs(dispatch);
-    actions.getPlayers(dispatch);
-  }, []);
 
   const league = useSelector((state) => state.home.leagues).find(
     (league) => league.id == leagueId
@@ -149,54 +142,34 @@ const Matchup1 = () => {
   const handleAddSubstitute = (id) => {
     dispatch({ type: actions.OPEN_ADD_SUBSTITUTE_DIALOG, payload: id });
   };
-  const handleLineups = (id) => {
-    dispatch({ type: actions.OPEN_LINEUP_DIALOG, payload: id });
+
+  const handlePlayerStats = (teamId) => {
+    dispatch({ type: actions.OPEN_PLAYER_STATS_DIALOG, payload: teamId });
+  };
+  const handleLineups = (teamId) => {
+    dispatch({ type: actions.OPEN_LINEUP_DIALOG, payload: teamId });
   };
 
+  useEffect(() => {
+    actions.getUserInfo(dispatch, localStorage.getItem("userId"));
+    actions.getUsers(dispatch);
+    actions.getLeagues(dispatch);
+    actions.getTeams(dispatch);
+    actions.getMatches(dispatch);
+    actions.getMatchups(dispatch);
+    actions.getLogs(dispatch);
+    actions.getPlayers(dispatch);
+  }, []);
+
+  const [homeTeamFouls, setHomeTeamFouls] = useState(0);
+  const [awayTeamFouls, setAwayTeamFouls] = useState(0);
+  const [homeTeamTimeOuts, setHomeTeamTimeOuts] = useState(0);
+  const [awayTeamTimeOuts, setAwayTeamTimeOuts] = useState(0);
   const [arrow, setArrow] = useState("home");
 
   const [homeInput, setHomeInput] = useState({});
   const [awayInput, setAwayInput] = useState({});
-  const [logs, setLogs] = useState({});
-
-  const removeLogById = (idToRemove) => {
-    setLogs((prevLogs) => {
-      const logArray = Object.values(prevLogs);
-      const updatedLogs = logArray.filter((log) => log.id !== idToRemove);
-      console.log("updated", updatedLogs);
-      // const removedLog = logArray.find((log) => log.id == idToRemove);
-
-      // updatedLogs.map((log, index) => {
-      //   if (removedLog?.teamId == homeTeam.id && log.id > idToRemove) {
-      //     switch (removedLog?.event) {
-      //       case "+3 Pointer":
-      //         log.homeTeamPoints = log.homeTeamPoints - 3;
-      //         break;
-      //       case "+2 Pointer":
-      //         log.homeTeamPoints = log.homeTeamPoints - 2;
-      //         break;
-      //       case "+1 Pointer":
-      //         log.homeTeamPoints = log.homeTeamPoints - 1;
-      //         break;
-      //     }
-      //   } else if (removedLog?.teamId == awayTeam.id && log.id > idToRemove) {
-      //     switch (removedLog?.event) {
-      //       case "+3 Pointer":
-      //         log.awayTeamPoints = log.awayTeamPoints - 3;
-      //         break;
-      //       case "+2 Pointer":
-      //         log.awayTeamPoints = log.awayTeamPoints - 2;
-      //         break;
-      //       case "+1 Pointer":
-      //         log.awayTeamPoints = log.awayTeamPoints - 1;
-      //         break;
-      //     }
-      //   }
-      // });
-
-      return Object.assign({}, updatedLogs);
-    });
-  };
+  const [logs, setLogs] = useState(allLogs);
 
   useEffect(() => {
     setHomeInput(homeTeamPlayers);
@@ -212,11 +185,19 @@ const Matchup1 = () => {
     awayTeamMatchups.length,
     homeTeamPlayers.length,
     awayTeamPlayers.length,
-    allLogs,
+    allLogs.length,
   ]);
 
+  const removeLogById = (idToRemove) => {
+    setLogs((prevLogs) => {
+      const logArray = Object.values(prevLogs);
+      const updatedLogs = logArray.filter((log) => log.id !== idToRemove);
+      return Object.assign({}, updatedLogs);
+    });
+  };
   // Handel Home team inputs
   const handleAction = (teamId, playerId, event) => {
+    console.log("here", playerId, event)
     if (teamId == homeTeam?.id) {
       handleHomePointsChange(playerId, event);
     } else {
@@ -225,9 +206,11 @@ const Matchup1 = () => {
   };
 
   const [id, setId] = useState(0);
+
   const handleHomePointsChange = (playerId, event) => {
     let temp = { ...homeInput };
     let logTemp = { ...logs };
+
     switch (event) {
       case "+3 Pointer": {
         Object.values(temp).map((player, index) => {
@@ -236,17 +219,16 @@ const Matchup1 = () => {
               ...temp[index],
               points3: temp[index].points3 + 1,
               points: temp[index].points + 3,
+              attempts3: temp[index].attempts3 + 1,
             };
             logTemp[id] = {
               ...logTemp[id],
               id: id,
-              period: period,
+              period: currentPeriod,
               time,
               playerId,
               teamId: homeTeam.id,
               event,
-              homeTeamPoints: matchupResult[0] + 3,
-              awayTeamPoints: matchupResult[1],
             };
             setLogs(logTemp);
             setHomeInput(temp);
@@ -261,17 +243,16 @@ const Matchup1 = () => {
               ...temp[index],
               points2: temp[index].points2 + 1,
               points: temp[index].points + 2,
+              attempts2: temp[index].attempts2 + 1,
             };
             logTemp[id] = {
               ...logTemp[id],
               id: id,
-              period: period,
+              period: currentPeriod,
               time,
               playerId,
               teamId: homeTeam.id,
               event,
-              homeTeamPoints: matchupResult[0] + 2,
-              awayTeamPoints: matchupResult[1],
             };
             setLogs(logTemp);
             setHomeInput(temp);
@@ -286,17 +267,210 @@ const Matchup1 = () => {
               ...temp[index],
               points2: temp[index].points1 + 1,
               points: temp[index].points + 1,
+              attempts1: temp[index].attempts1 + 1,
             };
             logTemp[id] = {
               ...logTemp[id],
               id: id,
-              period: period,
+              period: currentPeriod,
               time,
               playerId,
               teamId: homeTeam.id,
               event,
-              homeTeamPoints: matchupResult[0] + 1,
-              awayTeamPoints: matchupResult[1],
+              // homeTeamPoints: matchupResult[0] + 1,
+              // awayTeamPoints: matchupResult[1],
+            };
+            setLogs(logTemp);
+            setHomeInput(temp);
+          }
+        });
+        break;
+      }
+      case "+3 Attempt": {
+        Object.values(temp).map((player, index) => {
+          if (player.id == playerId) {
+            temp[index] = {
+              ...temp[index],
+              attempts3: temp[index].attempts3 + 1,
+            };
+            logTemp[id] = {
+              ...logTemp[id],
+              id: id,
+              period: currentPeriod,
+              time,
+              playerId,
+              teamId: homeTeam.id,
+              event,
+            };
+            setLogs(logTemp);
+            setHomeInput(temp);
+          }
+        });
+        break;
+      }
+      case "+2 Attempt": {
+        Object.values(temp).map((player, index) => {
+          if (player.id == playerId) {
+            temp[index] = {
+              ...temp[index],
+              attempts2: temp[index].attempts2 + 1,
+            };
+            logTemp[id] = {
+              ...logTemp[id],
+              id: id,
+              period: currentPeriod,
+              time,
+              playerId,
+              teamId: homeTeam.id,
+              event,
+            };
+            setLogs(logTemp);
+            setHomeInput(temp);
+          }
+        });
+        break;
+      }
+      case "+1 Attempt": {
+        Object.values(temp).map((player, index) => {
+          if (player.id == playerId) {
+            temp[index] = {
+              ...temp[index],
+              attempts1: temp[index].attempts1 + 1,
+            };
+            logTemp[id] = {
+              ...logTemp[id],
+              id: id,
+              period: currentPeriod,
+              time,
+              playerId,
+              teamId: homeTeam.id,
+              event,
+            };
+            setLogs(logTemp);
+            setHomeInput(temp);
+          }
+        });
+        break;
+      }
+      case "Rebound": {
+        Object.values(temp).map((player, index) => {
+          if (player.id == playerId) {
+            temp[index] = {
+              ...temp[index],
+              rebounds: temp[index].rebounds + 1,
+            };
+            logTemp[id] = {
+              ...logTemp[id],
+              id: id,
+              period: currentPeriod,
+              time,
+              playerId,
+              teamId: homeTeam.id,
+              event,
+            };
+            setLogs(logTemp);
+            setHomeInput(temp);
+          }
+        });
+        break;
+      }
+      case "Turnover": {
+        Object.values(temp).map((player, index) => {
+          if (player.id == playerId) {
+            temp[index] = {
+              ...temp[index],
+              turnovers: temp[index].turnovers + 1,
+            };
+            logTemp[id] = {
+              ...logTemp[id],
+              id: id,
+              period: currentPeriod,
+              time,
+              playerId,
+              teamId: homeTeam.id,
+              event,
+            };
+            setLogs(logTemp);
+            setHomeInput(temp);
+          }
+        });
+        break;
+      }
+      case "Foul": {
+        console.log("Foul clicked!")
+        Object.values(temp).map((player, index) => {
+          if (player.id == playerId) {
+            temp[index] = {
+              ...temp[index],
+              fouls: temp[index].fouls + 1,
+            };
+            logTemp[id] = {
+              ...logTemp[id],
+              id: id,
+              period: currentPeriod,
+              time,
+              playerId,
+              teamId: homeTeam.id,
+              event,
+            };
+            setLogs(logTemp);
+            setHomeInput(temp);
+          }
+        });
+        break;
+      }
+      case "TimeOut": {
+        Object.values(temp).map((player, index) => {
+          logTemp[id] = {
+            ...logTemp[id],
+            id: id,
+            period: currentPeriod,
+            time,
+            playerId: player.id,
+            teamId: homeTeam.id,
+            event,
+          };
+          setLogs(logTemp);
+        });
+        break;
+      }
+      case "Block": {
+        Object.values(temp).map((player, index) => {
+          if (player.id == playerId) {
+            temp[index] = {
+              ...temp[index],
+              blocks: temp[index].blocks + 1,
+            };
+            logTemp[id] = {
+              ...logTemp[id],
+              id: id,
+              period: currentPeriod,
+              time,
+              playerId,
+              teamId: homeTeam.id,
+              event,
+            };
+            setLogs(logTemp);
+            setHomeInput(temp);
+          }
+        });
+        break;
+      }
+      case "Assist": {
+        Object.values(temp).map((player, index) => {
+          if (player.id == playerId) {
+            temp[index] = {
+              ...temp[index],
+              assists: temp[index].assists + 1,
+            };
+            logTemp[id] = {
+              ...logTemp[id],
+              id: id,
+              period: currentPeriod,
+              time,
+              playerId,
+              teamId: homeTeam.id,
+              event,
             };
             setLogs(logTemp);
             setHomeInput(temp);
@@ -308,6 +482,7 @@ const Matchup1 = () => {
 
     setId(id + 1);
     setHomeInput(temp);
+    console.log("home", id)
   };
 
   const handleAwayPointsChange = (playerId, event) => {
@@ -322,23 +497,21 @@ const Matchup1 = () => {
               ...temp[index],
               points3: temp[index].points3 + 1,
               points: temp[index].points + 3,
+              attempts3: temp[index].attempts3 + 1,
             };
             logTemp[id] = {
               ...logTemp[id],
               id: id,
-              period: period,
+              period: currentPeriod,
               time,
               playerId,
               teamId: awayTeam.id,
               event,
-              homeTeamPoints: matchupResult[0],
-              awayTeamPoints: matchupResult[1] + 3,
             };
             setLogs(logTemp);
             setAwayInput(temp);
           }
         });
-
         break;
       }
       case "+2 Pointer": {
@@ -348,17 +521,16 @@ const Matchup1 = () => {
               ...temp[index],
               points2: temp[index].points2 + 1,
               points: temp[index].points + 2,
+              attempts2: temp[index].attempts2 + 1,
             };
             logTemp[id] = {
               ...logTemp[id],
               id: id,
-              period: period,
+              period: currentPeriod,
               time,
               playerId,
               teamId: awayTeam.id,
               event,
-              homeTeamPoints: matchupResult[0],
-              awayTeamPoints: matchupResult[1] + 2,
             };
             setLogs(logTemp);
             setAwayInput(temp);
@@ -373,17 +545,207 @@ const Matchup1 = () => {
               ...temp[index],
               points2: temp[index].points1 + 1,
               points: temp[index].points + 1,
+              attempts1: temp[index].attempts1 + 1,
             };
             logTemp[id] = {
               ...logTemp[id],
               id: id,
-              period: period,
+              period: currentPeriod,
               time,
               playerId,
               teamId: awayTeam.id,
               event,
-              homeTeamPoints: matchupResult[0],
-              awayTeamPoints: matchupResult[1] + 1,
+            };
+            setLogs(logTemp);
+            setAwayInput(temp);
+          }
+        });
+        break;
+      }
+      case "+3 Attempt": {
+        Object.values(temp).map((player, index) => {
+          if (player.id == playerId) {
+            temp[index] = {
+              ...temp[index],
+              attempts3: temp[index].attempts3 + 1,
+            };
+            logTemp[id] = {
+              ...logTemp[id],
+              id: id,
+              period: currentPeriod,
+              time,
+              playerId,
+              teamId: awayTeam.id,
+              event,
+            };
+            setLogs(logTemp);
+            setAwayInput(temp);
+          }
+        });
+        break;
+      }
+      case "+2 Attempt": {
+        Object.values(temp).map((player, index) => {
+          if (player.id == playerId) {
+            temp[index] = {
+              ...temp[index],
+              attempts2: temp[index].attempts2 + 1,
+            };
+            logTemp[id] = {
+              ...logTemp[id],
+              id: id,
+              period: currentPeriod,
+              time,
+              playerId,
+              teamId: awayTeam.id,
+              event,
+            };
+            setLogs(logTemp);
+            setAwayInput(temp);
+          }
+        });
+        break;
+      }
+      case "+1 Attempt": {
+        Object.values(temp).map((player, index) => {
+          if (player.id == playerId) {
+            temp[index] = {
+              ...temp[index],
+              attempts1: temp[index].attempts1 + 1,
+            };
+            logTemp[id] = {
+              ...logTemp[id],
+              id: id,
+              period: currentPeriod,
+              time,
+              playerId,
+              teamId: awayTeam.id,
+              event,
+            };
+            setLogs(logTemp);
+            setAwayInput(temp);
+          }
+        });
+        break;
+      }
+      case "Rebound": {
+        Object.values(temp).map((player, index) => {
+          if (player.id == playerId) {
+            temp[index] = {
+              ...temp[index],
+              rebounds: temp[index].rebounds + 1,
+            };
+            logTemp[id] = {
+              ...logTemp[id],
+              id: id,
+              period: currentPeriod,
+              time,
+              playerId,
+              teamId: awayTeam.id,
+              event,
+            };
+            setLogs(logTemp);
+            setAwayInput(temp);
+          }
+        });
+        break;
+      }
+      case "Turnover": {
+        Object.values(temp).map((player, index) => {
+          if (player.id == playerId) {
+            temp[index] = {
+              ...temp[index],
+              turnovers: temp[index].turnovers + 1,
+            };
+            logTemp[id] = {
+              ...logTemp[id],
+              id: id,
+              period: currentPeriod,
+              time,
+              playerId,
+              teamId: awayTeam.id,
+              event,
+            };
+            setLogs(logTemp);
+            setAwayInput(temp);
+          }
+        });
+        break;
+      }
+      case "Foul": {
+        Object.values(temp).map((player, index) => {
+          if (player.id == playerId) {
+            temp[index] = {
+              ...temp[index],
+              fouls: temp[index].fouls + 1,
+            };
+            logTemp[id] = {
+              ...logTemp[id],
+              id: id,
+              period: currentPeriod,
+              time,
+              playerId,
+              teamId: awayTeam.id,
+              event,
+            };
+            setLogs(logTemp);
+            setAwayInput(temp);
+          }
+        });
+        break;
+      }
+      case "TimeOut": {
+        Object.values(temp).map((player, index) => {
+          logTemp[id] = {
+            ...logTemp[id],
+            id: id,
+            period: currentPeriod,
+            time,
+            playerId: player.id,
+            teamId: awayTeam.id,
+            event,
+          };
+          setLogs(logTemp);
+        });
+        break;
+      }
+      case "Block": {
+        Object.values(temp).map((player, index) => {
+          if (player.id == playerId) {
+            temp[index] = {
+              ...temp[index],
+              blocks: temp[index].blocks + 1,
+            };
+            logTemp[id] = {
+              ...logTemp[id],
+              id: id,
+              period: currentPeriod,
+              time,
+              playerId,
+              teamId: awayTeam.id,
+              event,
+            };
+            setLogs(logTemp);
+            setAwayInput(temp);
+          }
+        });
+        break;
+      }
+      case "Assist": {
+        Object.values(temp).map((player, index) => {
+          if (player.id == playerId) {
+            temp[index] = {
+              ...temp[index],
+              assists: temp[index].assists + 1,
+            };
+            logTemp[id] = {
+              ...logTemp[id],
+              id: id,
+              period: currentPeriod,
+              time,
+              playerId,
+              teamId: awayTeam.id,
+              event,
             };
             setLogs(logTemp);
             setAwayInput(temp);
@@ -394,6 +756,7 @@ const Matchup1 = () => {
     }
     setId(id + 1);
     setAwayInput(temp);
+    console.log("awayId", id)
   };
 
   const [matchupResult, setMatchupResult] = useState([]);
@@ -434,6 +797,10 @@ const Matchup1 = () => {
     setLogs(sortedLogs);
     let homeTeamPoints = 0;
     let awayTeamPoints = 0;
+    let tempHomeTeamFouls = 0;
+    let tempAwayTeamFouls = 0;
+    let tempHomeTeamTimeOuts = 0;
+    let tempAwayTeamTimeOuts = 0;
     Object.keys(logs).map((id) => {
       if (logs[id].teamId == homeTeam?.id) {
         switch (logs[id].event) {
@@ -445,6 +812,12 @@ const Matchup1 = () => {
             break;
           case "+1 Pointer":
             homeTeamPoints += 1;
+            break;
+          case "Foul":
+            tempHomeTeamFouls += 1;
+            break;
+          case "TimeOut":
+            tempHomeTeamTimeOuts += 1;
             break;
         }
       } else if (logs[id].teamId == awayTeam?.id) {
@@ -458,15 +831,22 @@ const Matchup1 = () => {
           case "+1 Pointer":
             awayTeamPoints += 1;
             break;
+          case "Foul":
+            tempAwayTeamFouls += 1;
+            break;
+          case "TimeOut":
+            tempAwayTeamTimeOuts += 1;
+            break;
         }
       }
     });
     setMatchupResult([homeTeamPoints, awayTeamPoints]);
+    setHomeTeamFouls(tempHomeTeamFouls);
+    setAwayTeamFouls(tempAwayTeamFouls);
+    setHomeTeamTimeOuts(tempHomeTeamTimeOuts);
+    setAwayTeamTimeOuts(tempAwayTeamTimeOuts);
+    console.log(logs)
   }, [logs.length]);
-
-  useEffect(() => {
-    actions.getMatchups(dispatch);
-  }, []);
 
   const handleSubmit = () => {
     axios
@@ -516,6 +896,7 @@ const Matchup1 = () => {
         alert(res.data.message);
       })
       .catch((error) => {
+        alert(error.response.data.message);
         console.log(error.response.data.message);
       });
     // axios
@@ -552,7 +933,14 @@ const Matchup1 = () => {
     handleSubmit();
   };
 
-  const [period, setPeriod] = useState(1);
+  const [currentPeriod, setCurrentPeriod] = useState(1);
+  const [numberOfPeriods, setNumberOfPeriods] = useState([]);
+  useEffect(() => {
+    setNumberOfPeriods(
+      Array.from({ length: match?.period }, (_, index) => index + 1)
+    );
+  }, [match]);
+  // const periods = Array.from({ length:  4}, (_, index) => index + 1);
   const [time, setTime] = useState("");
   const [event, setEvent] = useState("");
   const [teamId, setTeamId] = useState("");
@@ -562,7 +950,18 @@ const Matchup1 = () => {
     dispatch({ type: actions.OPEN_SELECT_PLAYER_DIALOG, payload: true });
     // dispatch to show the modal
   };
+  const handleClickTimeout = (id) => {
+    setEvent("TimeOut");
+    handleAction(id, "", "TimeOut");
+  };
 
+  const handleSetting = () => {
+    dispatch({ type: actions.OPEN_MATCHUP_SETTING_DIALOG, payload: true });
+  };
+
+  const handleAddEvent = () => {
+    dispatch({ type: actions.OPEN_ADD_EVENT_DIALOG });
+  };
 
   return (
     <div className="flex flex-col flex-grow">
@@ -624,12 +1023,12 @@ const Matchup1 = () => {
                   <div className="flex space-x-3 my-3">
                     <div className="flex rounded-lg bg-light-charcoal dark:bg-[#151515] w-[97px] h-10 justify-center items-center">
                       <p className="text-black dark:text-white font-medium text-sm">
-                        Fouls: 1
+                        Fouls: {homeTeamFouls}
                       </p>
                     </div>
                     <div className="flex rounded-lg bg-light-charcoal dark:bg-[#151515] w-[97px] h-10 justify-center items-center">
                       <p className="text-black dark:text-white font-medium text-sm">
-                        TimeOuts: 2
+                        TimeOuts: {homeTeamTimeOuts}
                       </p>
                     </div>
                   </div>
@@ -663,78 +1062,21 @@ const Matchup1 = () => {
                   </p>
                   <div className="space-y-9 my-3">
                     <div className="flex space-x-3 justify-center">
-                      <div
-                        className={`flex items-center justify-center rounded-[10px] ${
-                          period === 1 ? "bg-success" : "bg-[#151515]"
-                        } w-16 h-10 cursor-pointer hover:opacity-75`}
-                        onClick={() => setPeriod(1)}
-                      >
-                        <p className="text-white">P1</p>
-                      </div>
-                      <div
-                        className={`flex items-center justify-center rounded-[10px] ${
-                          period === 2 ? "bg-success" : "bg-[#151515]"
-                        } w-16 h-10 cursor-pointer hover:opacity-75`}
-                        onClick={() => setPeriod(2)}
-                      >
-                        <p className="text-white">P2</p>
-                      </div>
-                      <div
-                        className={`flex items-center justify-center rounded-[10px] ${
-                          period === 3 ? "bg-success" : "bg-[#151515]"
-                        } w-16 h-10 cursor-pointer hover:opacity-75`}
-                        onClick={() => setPeriod(3)}
-                      >
-                        <p className="text-white">P3</p>
-                      </div>
-                      <div
-                        className={`flex items-center justify-center rounded-[10px] ${
-                          period === 4 ? "bg-success" : "bg-[#151515]"
-                        } w-16 h-10 cursor-pointer hover:opacity-75`}
-                        onClick={() => setPeriod(4)}
-                      >
-                        <p className="text-white">P4</p>
-                      </div>
+                      {numberOfPeriods.map((period) => (
+                        <div
+                          className={`flex items-center justify-center rounded-[10px] ${
+                            currentPeriod === period
+                              ? "bg-success"
+                              : "bg-[#151515]"
+                          } w-16 h-10 cursor-pointer hover:opacity-75`}
+                          onClick={() => setCurrentPeriod(period)}
+                        >
+                          <p className="text-white">P{period}</p>
+                        </div>
+                      ))}
                     </div>
                     <div className="flex justify-center items-center space-x-2">
-                      {/* <div className="mt-1">
-                        <img
-                          src={darkMode ? triupIconDark : triupIconLight}
-                          alt=""
-                          className="w-6 h-6 cursor-pointer hover:bg-opacity-70"
-                        />
-                        <img
-                          src={darkMode ? tridownIconDark : tridownIconLight}
-                          alt=""
-                          className="w-6 h-6 cursor-pointer hover:bg-opacity-70"
-                        />
-                      </div>
-                      <p className="font-semibold text-[56px] text-black dark:text-white">
-                        35:12
-                      </p>
-                      <div className="mt-1">
-                        <img
-                          src={darkMode ? triupIconDark : triupIconLight}
-                          alt=""
-                          className="w-6 h-6 cursor-pointer hover:bg-opacity-70"
-                        />
-                        <img
-                          src={darkMode ? tridownIconDark : tridownIconLight}
-                          alt=""
-                          className="w-6 h-6 cursor-pointer hover:bg-opacity-70"
-                        />
-                      </div>
-                      <button className="w-[169px] h-[53px] rounded-[10px] bg-success text-white font-bold text-sm mt-1 hover:bg-opacity-70">
-                        START CLOCK
-                      </button>
-                      <input
-                        type="text"
-                        className="flex border border-dark-gray items-center px-3 bg-transparent outline-none text-black dark:text-white h-button w-[100px]"
-                        value={time}
-                        onChange={(e) => setTime(e.target.value)}
-                        placeholder="Type time"
-                        /> */}
-                        <Timer setTime={setTime}></Timer>
+                      <Timer setTime={setTime}></Timer>
                     </div>
                   </div>
                 </div>
@@ -753,12 +1095,12 @@ const Matchup1 = () => {
                   <div className="flex space-x-3 my-3">
                     <div className="flex rounded-lg bg-light-charcoal dark:bg-[#151515] w-[97px] h-10 justify-center items-center">
                       <p className="text-black dark:text-white font-medium text-sm">
-                        Fouls: 1
+                        Fouls: {awayTeamFouls}
                       </p>
                     </div>
                     <div className="flex rounded-lg bg-light-charcoal dark:bg-[#151515] w-[97px] h-10 justify-center items-center">
                       <p className="text-black dark:text-white font-medium text-sm">
-                        TimeOuts: 2
+                        TimeOuts: {awayTeamTimeOuts}
                       </p>
                     </div>
                   </div>
@@ -801,12 +1143,12 @@ const Matchup1 = () => {
                         src={playerStats}
                         alt=""
                         className="cursor-pointer hover:opacity-75"
+                        onClick={() => handlePlayerStats(homeTeam?.id)}
                       />
                       <img
                         src={editLineup}
                         alt=""
                         className="cursor-pointer hover:opacity-75"
-                        // onClick={()=>handleAddSubstitute(homeTeam?.id)}
                         onClick={() => handleLineups(homeTeam?.id)}
                       />
                     </div>
@@ -837,77 +1179,96 @@ const Matchup1 = () => {
                       <p className="text-black dark:text-white">+1</p>
                     </div>
                   </div>
-                  <div className="grid grid-cols-3 gap-[10px]">
-                    {league?.displayAttempts3 && (
-                      <div
-                        className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
-                        onClick={() =>
-                          handleClickButtons("attempts3", homeTeam?.id)
-                        }
-                      >
-                        <p className="text-black dark:text-white">MISSED 3</p>
+                  {league?.displayAttempts3 &&
+                    league?.displayAttempts2 &&
+                    league?.displayAttempts1 && (
+                      <div className="grid grid-cols-3 gap-[10px]">
+                        {league?.displayAttempts3 && (
+                          <div
+                            className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                            onClick={() =>
+                              handleClickButtons("attempts3", homeTeam?.id)
+                            }
+                          >
+                            <p className="text-black dark:text-white">
+                              MISSED 3
+                            </p>
+                          </div>
+                        )}
+                        {league?.displayAttempts2 && (
+                          <div
+                            className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                            onClick={() =>
+                              handleClickButtons("attempts2", homeTeam?.id)
+                            }
+                          >
+                            <p className="text-black dark:text-white">
+                              MISSED 2
+                            </p>
+                          </div>
+                        )}
+                        {league?.displayAttempts1 && (
+                          <div
+                            className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                            onClick={() =>
+                              handleClickButtons("attempts1", homeTeam?.id)
+                            }
+                          >
+                            <p className="text-black dark:text-white">
+                              MISSED 1
+                            </p>
+                          </div>
+                        )}
                       </div>
                     )}
-                    {league?.displayAttempts2 && (
-                      <div
-                        className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
-                        onClick={() =>
-                          handleClickButtons("attempts2", homeTeam?.id)
-                        }
-                      >
-                        <p className="text-black dark:text-white">MISSED 2</p>
-                      </div>
-                    )}
-                    {league?.displayAttempts1 && (
-                      <div
-                        className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
-                        onClick={() =>
-                          handleClickButtons("attempts1", homeTeam?.id)
-                        }
-                      >
-                        <p className="text-black dark:text-white">MISSED 1</p>
-                      </div>
-                    )}
-                  </div>
-                  <div className="grid grid-cols-3 gap-[10px]">
-                    {league?.displayRebounds && (
-                      <div
-                        className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
-                        onClick={() =>
-                          handleClickButtons("rebounds", homeTeam?.id)
-                        }
-                      >
-                        <p className="text-black dark:text-white">REBOUND</p>
-                      </div>
-                    )}
-                    {league?.displayTurnovers && (
-                      <div
-                        className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
-                        onClick={() =>
-                          handleClickButtons("turnovers", homeTeam?.id)
-                        }
-                      >
-                        <p className="text-black dark:text-white">TURNOVER</p>
-                      </div>
-                    )}
+                  {league?.displayRebounds &&
+                    league?.displayTurnovers &&
+                    league?.displayFouls && (
+                      <div className="grid grid-cols-3 gap-[10px]">
+                        {league?.displayRebounds && (
+                          <div
+                            className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                            onClick={() =>
+                              handleClickButtons("rebounds", homeTeam?.id)
+                            }
+                          >
+                            <p className="text-black dark:text-white">
+                              REBOUND
+                            </p>
+                          </div>
+                        )}
+                        {league?.displayTurnovers && (
+                          <div
+                            className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                            onClick={() =>
+                              handleClickButtons("turnovers", homeTeam?.id)
+                            }
+                          >
+                            <p className="text-black dark:text-white">
+                              TURNOVER
+                            </p>
+                          </div>
+                        )}
 
-                    {league?.displayFouls && (
-                      <div
-                        className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
-                        onClick={() =>
-                          handleClickButtons("fouls", homeTeam?.id)
-                        }
-                      >
-                        <p className="text-black dark:text-white">FOUL</p>
+                        {league?.displayFouls && (
+                          <div
+                            className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                            onClick={() =>
+                              handleClickButtons("fouls", homeTeam?.id)
+                            }
+                          >
+                            <p className="text-black dark:text-white">FOUL</p>
+                          </div>
+                        )}
                       </div>
                     )}
-                  </div>
                   <div className="grid grid-cols-3 gap-[10px]">
                     <div
                       className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
-                      onClick={() =>
-                        handleClickButtons("timeout", homeTeam?.id)
-                      }
+                      // onClick={() =>
+                      //   handleClickButtons("timeout", homeTeam?.id)
+                      // }
+                      onClick={() => handleClickTimeout(homeTeam?.id)}
                     >
                       <p className="text-black dark:text-white">TIMEOUT</p>
                     </div>
@@ -954,6 +1315,7 @@ const Matchup1 = () => {
                         src={playerStats}
                         alt=""
                         className="cursor-pointer hover:opacity-75"
+                        onClick={() => handlePlayerStats(awayTeam?.id)}
                       />
                       <img
                         src={editLineup}
@@ -990,79 +1352,115 @@ const Matchup1 = () => {
                       <p className="text-black dark:text-white">+1</p>
                     </div>
                   </div>
+                  {league?.displayAttempts3 &&
+                    league?.displayAttempts2 &&
+                    league?.displayAttempts1 && (
+                      <div className="grid grid-cols-3 gap-[10px]">
+                        {league?.displayAttempts3 && (
+                          <div
+                            className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                            onClick={() =>
+                              handleClickButtons("attempts3", awayTeam?.id)
+                            }
+                          >
+                            <p className="text-black dark:text-white">
+                              MISSED 3
+                            </p>
+                          </div>
+                        )}
+                        {league?.displayAttempts2 && (
+                          <div
+                            className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                            onClick={() =>
+                              handleClickButtons("attempts2", awayTeam?.id)
+                            }
+                          >
+                            <p className="text-black dark:text-white">
+                              MISSED 2
+                            </p>
+                          </div>
+                        )}
+                        {league?.displayAttempts1 && (
+                          <div
+                            className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                            onClick={() =>
+                              handleClickButtons("attempts1", awayTeam?.id)
+                            }
+                          >
+                            <p className="text-black dark:text-white">
+                              MISSED 1
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  {league?.displayRebounds &&
+                    league?.displayTurnovers &&
+                    league?.displayFouls && (
+                      <div className="grid grid-cols-3 gap-[10px]">
+                        {league?.displayRebounds && (
+                          <div
+                            className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                            onClick={() =>
+                              handleClickButtons("rebounds", awayTeam?.id)
+                            }
+                          >
+                            <p className="text-black dark:text-white">
+                              REBOUND
+                            </p>
+                          </div>
+                        )}
+                        {league?.displayTurnovers && (
+                          <div
+                            className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                            onClick={() =>
+                              handleClickButtons("turnovers", awayTeam?.id)
+                            }
+                          >
+                            <p className="text-black dark:text-white">
+                              TURNOVER
+                            </p>
+                          </div>
+                        )}
+                        {league?.displayFouls && (
+                          <div
+                            className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                            onClick={() =>
+                              handleClickButtons("fouls", awayTeam?.id)
+                            }
+                          >
+                            <p className="text-black dark:text-white">FOUL</p>
+                          </div>
+                        )}
+                      </div>
+                    )}
                   <div className="grid grid-cols-3 gap-[10px]">
                     <div
                       className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
-                      onClick={() =>
-                        handleClickButtons("attempts3", awayTeam?.id)
-                      }
-                    >
-                      <p className="text-black dark:text-white">MISSED 3</p>
-                    </div>
-                    <div
-                      className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
-                      onClick={() =>
-                        handleClickButtons("attempts2", awayTeam?.id)
-                      }
-                    >
-                      <p className="text-black dark:text-white">MISSED 2</p>
-                    </div>
-                    <div
-                      className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
-                      onClick={() =>
-                        handleClickButtons("attempts1", awayTeam?.id)
-                      }
-                    >
-                      <p className="text-black dark:text-white">MISSED 1</p>
-                    </div>
-                  </div>
-                  <div className="grid grid-cols-3 gap-[10px]">
-                    <div
-                      className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
-                      onClick={() =>
-                        handleClickButtons("rebounds", awayTeam?.id)
-                      }
-                    >
-                      <p className="text-black dark:text-white">REBOUND</p>
-                    </div>
-                    <div
-                      className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
-                      onClick={() =>
-                        handleClickButtons("turnovers", awayTeam?.id)
-                      }
-                    >
-                      <p className="text-black dark:text-white">TURNOVER</p>
-                    </div>
-                    <div
-                      className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
-                      onClick={() => handleClickButtons("fouls", awayTeam?.id)}
-                    >
-                      <p className="text-black dark:text-white">FOUL</p>
-                    </div>
-                  </div>
-                  <div className="grid grid-cols-3 gap-[10px]">
-                    <div
-                      className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
-                      onClick={() =>
-                        handleClickButtons("timeout", awayTeam?.id)
-                      }
+                      onClick={() => handleClickTimeout(awayTeam?.id)}
                     >
                       <p className="text-black dark:text-white">TIMEOUT</p>
                     </div>
-                    <div
-                      className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
-                      onClick={() => handleClickButtons("blocks", awayTeam?.id)}
-                    >
-                      <p className="text-black dark:text-white">BLOCK</p>
-                    </div>
-                    <div
-                      className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
-                      onClick={() =>
-                        handleClickButtons("assists", awayTeam?.id)
-                      }
-                    >
-                      <p className="text-black dark:text-white">ASSIST</p>
-                    </div>
+                    {league?.displayBlocks && (
+                      <div
+                        className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                        onClick={() =>
+                          handleClickButtons("blocks", awayTeam?.id)
+                        }
+                      >
+                        <p className="text-black dark:text-white">BLOCK</p>
+                      </div>
+                    )}
+                    {league?.displayAssists && (
+                      <div
+                        className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                        onClick={() =>
+                          handleClickButtons("assists", awayTeam?.id)
+                        }
+                      >
+                        <p className="text-black dark:text-white">ASSIST</p>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -1075,6 +1473,13 @@ const Matchup1 = () => {
             <p className="text-black dark:text-white">Action Log</p>
             <div className="flex items-center space-x-5">
               <img
+                onClick={handleSetting}
+                src={darkMode ? settingIconDark : settingIconLight}
+                alt=""
+                className="w-4 h-4 cursor-pointer"
+              />
+              <img
+                onClick={handleAddEvent}
                 src={darkMode ? plusIconDark : plusIconLight}
                 alt=""
                 className="w-3 h-3 cursor-pointer"
@@ -1098,6 +1503,7 @@ const Matchup1 = () => {
           </div>
         </div>
       </div>
+      <MatchupSettingModal></MatchupSettingModal>
       <SelectPlayerModal
         event={event}
         teamId={teamId}
@@ -1115,6 +1521,7 @@ const Matchup1 = () => {
         awayTeamPlayers={awayTeamPlayers}
       ></SubstituteModal>
       <LineupsModal></LineupsModal>
+      <PlayerStatsModal></PlayerStatsModal>
     </div>
   );
 };

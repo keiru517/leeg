@@ -21,6 +21,7 @@ import StandingTable from "../../components/Table/Standing";
 import AdminTable from "../../components/Table/Admin";
 import PlayerTable from "../../components/Table/Player";
 import RosterTable from "../../components/Table/Roster";
+import TimePicker from "../../components/Timer/TimePicker";
 import calendar from "../../assets/img/dark_mode/calendar.png";
 import apis from "../../utils/apis";
 import * as actions from "../../actions";
@@ -62,7 +63,7 @@ const League = () => {
 
   // this is used for Players tab
   const allPlayers = useSelector((state) => state.home.players).filter(
-    (player) => player.leagueId == leagueId
+    (player) => player.leagueId == leagueId && player.isAcceptedList
   );
 
   const matches = useSelector((state) => state.home.matches).filter(
@@ -1290,30 +1291,6 @@ const League = () => {
                     </div>
                   </div>
 
-                  <div className="flex flex-col space-y-3 items-center">
-                    <div className="flex flex-col space-y-3 mt-3">
-                      <input
-                        type="number"
-                        className="flex space-x-2 border border-dark-gray items-center px-3 bg-transparent outline-none text-black dark:text-white flex-grow h-button rounded-default text-xs"
-                        placeholder="Minute of Period"
-                        value={minute}
-                        onChange={(e) => setMinute(e.target.value)}
-                      />
-                      <input
-                        type="number"
-                        className="flex space-x-2 border border-dark-gray items-center px-3 bg-transparent outline-none text-black dark:text-white flex-grow h-button rounded-default text-xs"
-                        placeholder="Second of Period"
-                        value={second}
-                        onChange={(e) => setSecond(e.target.value)}
-                      />
-                      <button
-                        onClick={handleTimer}
-                        className="h-button bg-primary rounded-default text-white "
-                      >
-                        Save
-                      </button>
-                    </div>
-                  </div>
                   <div className="flex flex-col space-y-3 items-center">
                     <div className="flex">
                       <p className="text-xs dark:text-white text-black">

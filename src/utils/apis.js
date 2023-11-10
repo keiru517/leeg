@@ -50,6 +50,7 @@ export const apis = {
   createMatch: apiUrl + "/match/create",
   updateMatch: apiUrl + "/match/update",
   updateMatchResult: apiUrl + "/match/updateResult",
+  updateMatchSettings: apiUrl + "/match/updateSettings",
   deleteMatch: (id) => {
     return `${apiUrl}/match/remove/${id}`;
   },

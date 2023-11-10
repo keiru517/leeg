@@ -428,28 +428,28 @@ const TeamModal = () => {
                     {type === "create" ? (
                       <button
                         onClick={createSubmit}
-                        className="bg-primary rounded-xl w-full hover:bg-opacity-70 h-button text-white"
+                        className="bg-primary rounded-default w-full hover:bg-opacity-70 h-button text-white"
                       >
                         Create Team
                       </button>
                     ) : type === "edit" ? (
                       <button
                         onClick={editSubmit}
-                        className="bg-primary rounded-xl w-full hover:bg-opacity-70 h-button text-white"
+                        className="bg-primary rounded-default w-full hover:bg-opacity-70 h-button text-white"
                       >
                         Edit Team
                       </button>
                     ) : type === "delete" ? (
                       <button
                         onClick={deleteSubmit}
-                        className="bg-danger bg-opacity-10 rounded-xl w-full h-12 text-danger font-semibold hover:bg-opacity-5"
+                        className="bg-danger bg-opacity-10 rounded-default w-full h-12 text-danger font-semibold hover:bg-opacity-5"
                       >
                         Delete Team
                       </button>
                     ) : type === "addPlayer" ? (
                       <button
                         onClick={addPlayers}
-                        className="bg-primary rounded-xl w-full hover:bg-opacity-70 h-button text-white"
+                        className="bg-primary rounded-default w-full hover:bg-opacity-70 h-button text-white"
                       >
                         Confirm
                       </button>

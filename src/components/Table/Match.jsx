@@ -131,7 +131,7 @@ const MatchTable = (props) => {
                         <img
                           src={teams.find((team) => team.id == homeTeamId).logo}
                           alt=""
-                          className="h-8 w-8 mr-2 rounded-default"
+                          className="h-8 w-8 mr-2 rounded-full"
                         />
                         {teams.find((team) => team.id == homeTeamId).name}
                       </Link>
@@ -151,7 +151,7 @@ const MatchTable = (props) => {
                         <img
                           src={teams.find((team) => team.id == awayTeamId).logo}
                           alt=""
-                          className="h-8 w-8 mr-2 rounded-default"
+                          className="h-8 w-8 mr-2 rounded-full"
                         />
                         {teams.find((team) => team.id == awayTeamId).name}
                         <span className="bg-red-100 text-red-800 text-xs font-medium ml-3 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300 text-right">
@@ -166,7 +166,7 @@ const MatchTable = (props) => {
                         <img
                           src={teams.find((team) => team.id == awayTeamId).logo}
                           alt=""
-                          className="h-8 w-8 mr-2 rounded-default"
+                          className="h-8 w-8 mr-2 rounded-full"
                         />
                         {teams.find((team) => team.id == awayTeamId).name}
                       </Link>

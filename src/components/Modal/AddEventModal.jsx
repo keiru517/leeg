@@ -9,40 +9,19 @@ import axios from "axios";
 import apis from "../../utils/apis";
 import rightArrowIcon from "../../assets/img/dark_mode/right-arrow.svg";
 import EventPlayerList from "../ListItem/EventPlayerList";
-import TimePicker from "../Timer/TimePicker";
 
-const EditEventModal = (props) => {
+const AddEventModal = (props) => {
   const { logs, setLogs, homeTeam, awayTeam } = props;
   let { leagueId, matchId } = useParams();
 
-  const dispatch = useDispatch();
-
-  const isOpen = useSelector((state) => state.home.event_dialog.open);
-  const match = useSelector((state) => state.home.matches).find(
-    (match) => match.id == matchId
-  );
-
-  function classNames(...classes) {
-    return classes.filter(Boolean).join(" ");
-  }
-
   const logId = useSelector((state) => state.home.event_dialog.logId);
-  const type = useSelector((state) => state.home.event_dialog.type);
-
   const log = Object.values(logs).find((log) => log.id == logId);
 
   const [playerId, setPlayerId] = useState("");
   const [teamId, setTeamId] = useState("");
-  const [currentPeriod, setCurrentPeriod] = useState("");
+  const [period, setPeriod] = useState("");
   const [time, setTime] = useState("");
   const [event, setEvent] = useState("");
-
-  const [numberOfPeriods, setNumberOfPeriods] = useState([]);
-  useEffect(() => {
-    setNumberOfPeriods(
-      Array.from({ length: match?.period }, (_, index) => index + 1)
-    );
-  }, [match]);
 
   const matchups = useSelector((state) => state.home.matchups).filter(
     (matchup) => matchup.matchId == matchId
@@ -69,70 +48,52 @@ const EditEventModal = (props) => {
     );
     setPlayerId(log?.playerId);
     setTeamId(log?.teamId);
-    setCurrentPeriod(log?.period);
-    if (type === "edit") {
-      setTime(
-        log?.time.split(":").map(Number)[0] * 6000 +
-          log?.time.split(":").map(Number)[1] * 100
-      );
-    } else {
-      setTime(0);
-    }
+    setPeriod(log?.period);
+    setTime(log?.time);
     setEvent(log?.event);
   }, [logId]);
+
+  const dispatch = useDispatch();
+
+  const isOpen = useSelector((state) => state.home.event_dialog.open);
+
+  function classNames(...classes) {
+    return classes.filter(Boolean).join(" ");
+  }
 
   const clickAction = (id) => {
     console.log("you clicked", id);
   };
 
-  const [canSubmit, setCanSubmit] = useState();
-
-  useEffect(() => {
-    setCanSubmit(type === "edit" ? true : false);
-    if (playerId && teamId && currentPeriod && time && event) {
-      setCanSubmit(true);
-    }
-  }, [type, playerId, teamId, currentPeriod, time, event]);
-
   const createSubmit = () => {
-    console.log(playerId, teamId, currentPeriod, time, event);
-    // all varaibles are not empty
-    // if (playerId && teamId && period && time && event) {
-    // setCanSubmit(true);
-    console.log(playerId, teamId, currentPeriod, time, event);
-    let temp = { ...logs };
-    if (type === "edit") {
-      Object.values(temp).map((log, id) => {
-        if (log.id == logId) {
-          temp[id] = {
-            ...temp[id],
-            playerId,
-            teamId,
-            period: currentPeriod,
-            time:
-              Math.floor((time % 360000) / 6000).toString() +
-              ":" +
-              Math.floor((time % 6000) / 100).toString(),
-            event,
-          };
-        }
-      });
+    console.log(playerId, teamId, period, time, event);
+    let temp = {...logs};
+    Object.values(temp).map((log, id)=>{
+      if (log.id == logId) {
+        temp[id] = {...temp[id], playerId, teamId, period, time, event};
+      }
+    });
 
-      setLogs(temp);
-    } else {
-      // temp
-      const keys = Object.keys(temp);
-      const lastId = keys[keys.length - 1];
-      setLogs({
-        ...temp,
-        [lastId + 1]: { playerId, teamId, period: currentPeriod, time, event },
-      });
-    }
-    dispatch({ type: actions.CLOSE_EDIT_EVENT_DIALOG });
-    //   console.log("if")
-    // } else {
-    //   setCanSubmit(false);
-    // }
+    // console.log(temp)
+    setLogs(temp);
+    dispatch({type: actions.CLOSE_EDIT_EVENT_DIALOG})
+    // dispatch({ type: actions.CLOSE_ADD_SUBSTITUTE_DIALOG });
+    // axios
+    //   .post(apis.createOneMatchup, {
+    //     email,
+    //     leagueId,
+    //     matchId,
+    //     teamId,
+    //     jerseyNumber,
+    //     position,
+    //   })
+    //   .then((res) => {
+    //     actions.getPlayers(dispatch);
+    //     actions.getTeams(dispatch);
+    //     actions.getMatches(dispatch);
+    //     actions.getMatchups(dispatch);
+    //   })
+    //   .catch((error) => console.log(error.response.data.message));
   };
 
   const closeDialog = () => {
@@ -191,18 +152,38 @@ const EditEventModal = (props) => {
                           Event Time
                         </p>
                         <div className="flex space-x-3 mt-[10px]">
-                          {numberOfPeriods.map((period) => (
-                            <div
-                              className={`flex items-center justify-center rounded-[10px] ${
-                                currentPeriod === period
-                                  ? "bg-success"
-                                  : "bg-[#303335]"
-                              } w-16 h-10 cursor-pointer hover:opacity-75`}
-                              onClick={() => setCurrentPeriod(period)}
-                            >
-                              <p className="text-white">P{period}</p>
-                            </div>
-                          ))}
+                          <div
+                            className={`flex items-center justify-center rounded-[10px] ${
+                              period === 1 ? "bg-success" : "bg-[#303335]"
+                            } w-16 h-10 cursor-pointer hover:opacity-75`}
+                            onClick={() => setPeriod(1)}
+                          >
+                            <p className="text-white">P1</p>
+                          </div>
+                          <div
+                            className={`flex items-center justify-center rounded-[10px] ${
+                              period === 2 ? "bg-success" : "bg-[#303335]"
+                            } w-16 h-10 cursor-pointer hover:opacity-75`}
+                            onClick={() => setPeriod(2)}
+                          >
+                            <p className="text-white">P2</p>
+                          </div>
+                          <div
+                            className={`flex items-center justify-center rounded-[10px] ${
+                              period === 3 ? "bg-success" : "bg-[#303335]"
+                            } w-16 h-10 cursor-pointer hover:opacity-75`}
+                            onClick={() => setPeriod(3)}
+                          >
+                            <p className="text-white">P3</p>
+                          </div>
+                          <div
+                            className={`flex items-center justify-center rounded-[10px] ${
+                              period === 4 ? "bg-success" : "bg-[#303335]"
+                            } w-16 h-10 cursor-pointer hover:opacity-75`}
+                            onClick={() => setPeriod(4)}
+                          >
+                            <p className="text-white">P4</p>
+                          </div>
                           <div className="flex items-center justify-center rounded-[10px] w-16 h-10 cursor-pointer hover:bg-opacity-70">
                             <img
                               src={rightArrowIcon}
@@ -211,13 +192,17 @@ const EditEventModal = (props) => {
                             />
                           </div>
                           <div
-                            className={`flex items-center justify-center rounded-default bg-[#303335] w-[141px] h-button cursor-pointer`}
+                            className={`flex items-center justify-center rounded-[10px] bg-[#303335] w-[141px] h-button cursor-pointer`}
                           >
-                            <TimePicker
-                              className="bg-[#303335]"
-                              initialTime={time}
-                              setTime={setTime}
-                            ></TimePicker>
+                            {/* <p className="font-semibold text-[32px] text-black dark:text-white">
+                              35:12
+                            </p> */}
+                            <input
+                              type="text"
+                              className="w-[100px] bg-transparent text-white text-xl"
+                              value={time}
+                              onChange={(e)=>setTime(e.target.value)}
+                            />
                           </div>
                         </div>
                       </div>
@@ -460,7 +445,6 @@ const EditEventModal = (props) => {
                         <button
                           onClick={createSubmit}
                           className={`bg-primary rounded-xl w-[231px] hover:bg-opacity-70 h-[53px ] text-white disabled:opacity-10`}
-                          disabled={!canSubmit}
                         >
                           Save
                         </button>
@@ -477,4 +461,4 @@ const EditEventModal = (props) => {
   );
 };
 
-export default EditEventModal;
+export default AddEventModal;
