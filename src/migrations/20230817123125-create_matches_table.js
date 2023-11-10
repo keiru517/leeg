@@ -46,6 +46,12 @@ module.exports = {
       location: {
         type: Sequelize.STRING
       },
+      period: {
+        type: Sequelize.INTEGER
+      },
+      timer: {
+        type: Sequelize.INTEGER
+      },
       homeTeamPoints: {
         type: Sequelize.INTEGER
       },

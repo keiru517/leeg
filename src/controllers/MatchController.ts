@@ -123,6 +123,24 @@ export const updateResult: RequestHandler = async (req, res) => {
   }
 };
 
+// POST SERVER_URL/api/match/updateSettings
+export const updateSettings: RequestHandler =async (req, res) => {
+  const {matchId, period, time} = req.body;
+  try{
+    await Match.update({
+      period:period,
+      timer:time
+    }, {
+      where:{
+        id:matchId
+      }
+    });
+    res.status(200).json({message:"Saved Successfully!"});
+  } catch {
+    res.status(404).json({message: "Error occurred while saving!"});
+  }
+}
+
 // update win, lose, points etc of the team
 const updateTeamStatistics = async (
   match: Match,

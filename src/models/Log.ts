@@ -20,15 +20,12 @@ export default class Log extends Model<
 > {
   declare id: CreationOptional<number>;
   declare playerId: ForeignKey<number>;
-  declare userId: ForeignKey<number>;
   declare leagueId: ForeignKey<number>;
   declare matchId: ForeignKey<number>;
   declare teamId: ForeignKey<number>;
   declare event: string;
   declare period: number;
   declare time: string;
-  declare homeTeamPoints: number;
-  declare awayTeamPoints: number;
   declare isDeleted: number;
   static modelName = 'Log';
 }
@@ -39,14 +36,6 @@ Log.init(
       allowNull: false,
       references: {
         model: 'Player',
-        key: 'id'
-      }
-    },
-    userId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: 'User',
         key: 'id'
       }
     },
@@ -77,8 +66,6 @@ Log.init(
     event: DataTypes.STRING,
     period: DataTypes.STRING,
     time: DataTypes.STRING,
-    homeTeamPoints: DataTypes.INTEGER,
-    awayTeamPoints: DataTypes.INTEGER,
     isDeleted: {
       type: DataTypes.INTEGER,
       defaultValue: 0

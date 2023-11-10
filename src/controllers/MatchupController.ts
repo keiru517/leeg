@@ -350,10 +350,10 @@ export const editLineups: RequestHandler = async (req, res) => {
 
   try{
     const promise = Object.keys(lineups).map(async id => {
-      if (!lineups[id]) {
+      // if (!lineups[id]) {
         await Matchup.update(
           {
-            attendance: 0
+            attendance: lineups[id]
           },
           {
             where: {
@@ -362,7 +362,7 @@ export const editLineups: RequestHandler = async (req, res) => {
             }
           }
         );
-      }
+      // }
     });
     await Promise.all(promise);
     res.status(200).json({message: 'Saved successfully!'});

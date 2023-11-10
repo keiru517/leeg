@@ -81,94 +81,125 @@ export const createOne: RequestHandler = async (req, res) => {
 // POST SERVER_URL/api/matchup/create
 export const create: RequestHandler = async (req, res) => {
   const { leagueId, matchId, logs } = req.body;
-  console.log(logs);
   const playerIds = [
     ...new Set(Object.values(logs).map((log: any) => log.playerId))
   ];
-  console.log(playerIds)
+  console.log(playerIds);
 
   try {
     const previousLogs = await Log.findAll({
-      where:{
-        leagueId:leagueId,
-        matchId:matchId
+      where: {
+        leagueId: leagueId,
+        matchId: matchId
       }
-    })
+    });
 
     if (previousLogs) {
-      previousLogs.map(async log=>{
+      previousLogs.map(async log => {
         await log.destroy();
       });
     }
 
     // Create new logs for the matchup
-    const promise = Object.keys(logs).map(async (id) => {
+    const promise = Object.keys(logs).map(async id => {
       const log = logs[id];
+      
       await Log.create({
-        playerId:log.playerId,
-        userId: 1,
+        playerId: log.playerId,
         leagueId,
         matchId,
         teamId: log.teamId,
         event: log.event,
-        period:log.period,
+        period: log.period,
         time: log.time,
-        homeTeamPoints: log.homeTeamPoints,
-        awayTeamPoints: log.awayTeamPoints,
-        isDeleted:0
+        isDeleted: 0
       });
     });
 
     await Promise.all(promise);
 
-    // update matchup
-    playerIds.map(async (id: any) => {
-      const matchup = await Matchup.findOne({
-        where: {
-          playerId: id,
-          leagueId: leagueId,
-          matchId: matchId
+    if (playerIds.length === 0) {
+      // const matchups = await Matchup.findAll({
+      //   where:{
+      //     leagueId: leagueId,
+      //     matchId: matchId
+      //   }
+      // });
+      
+      // matchups.map(async matchup=>{
+        await Matchup.update({
+          points : 0,
+          points3 : 0,
+          points2 : 0,
+          points1 : 0,
+          attempts3 : 0,
+          attempts2 : 0,
+          attempts1 : 0,
+          blocks : 0,
+          rebounds : 0,
+          assists : 0,
+          fouls : 0,
+          steals : 0,
+          turnovers : 0,
+        }, {
+          where:{
+            leagueId: leagueId,
+            matchId: matchId
+          }
+        })
+      // })
+    } else {
+      // update matchup
+      playerIds.map(async (id: any) => {
+        if (id !== '') {
+          const matchup = await Matchup.findOne({
+            where: {
+              playerId: id,
+              leagueId: leagueId,
+              matchId: matchId
+            }
+          });
+    
+          const points3 = calculateNumberOfEvents(logs, '+3 Pointer', id);
+    
+          const attempts3 =
+            points3 + calculateNumberOfEvents(logs, '+3 Attempt', id);
+    
+          const points2 = calculateNumberOfEvents(logs, '+2 Pointer', id);
+          const attempts2 =
+            points2 + calculateNumberOfEvents(logs, '+2 Attempt', id);
+          const points1 = calculateNumberOfEvents(logs, '+1 Pointer', id);
+    
+          const points = points3 * 3 + points2 * 2 + points1;
+          const attempts1 =
+            points1 + calculateNumberOfEvents(logs, '+1 Attempt', id);
+    
+          const rebounds = calculateNumberOfEvents(logs, 'Rebound', id);
+          const turnovers = calculateNumberOfEvents(logs, 'Turnover', id);
+          const fouls = calculateNumberOfEvents(logs, 'Foul', id);
+          const blocks = calculateNumberOfEvents(logs, 'Block', id);
+          const assists = calculateNumberOfEvents(logs, 'Assist', id);
+    
+          if (matchup) {
+            await matchup.update({
+              points,
+              points3,
+              points2,
+              points1,
+              attempts3,
+              attempts2,
+              attempts1,
+              rebounds,
+              turnovers,
+              fouls,
+              blocks,
+              assists
+            });
+          }
+  
         }
       });
-
-      const points3 = calculateNumberOfEvents(
-        logs,
-        '+3 Pointer',
-        id
-      );
-      const points2 = calculateNumberOfEvents(
-        logs,
-        '+2 Pointer',
-        id
-      );
-      const points1 = calculateNumberOfEvents(
-        logs,
-        '+1 Pointer',
-        id
-      );
-      const points = points3 * 3 + points2 * 2 + points1;
-      console.log(points, points3, points2, points1)
-      if (matchup) {
-        await matchup.update({
-          points,
-          points3,
-          points2,
-          points1
-        });
-      }
-    });
-    // playerIds.map(async playerId=>{
-    //   const matchup = await Matchup.findOne({
-    //     where: {
-    //       playerId:playerId,
-    //       leagueId:leagueId,
-    //       matchId:matchId
-    //     }
-    //   });
-
-    //   console.log(matchup);
-    // })
-
+    }
     res.status(200).json({ message: 'Saved successfully!' });
   } catch {
     res.status(404).json({ message: 'Save failed' });
@@ -335,9 +366,7 @@ const calculateNumberOfEvents = (
 ) => {
   const logArray = Object.values(logs);
   const result = logArray.filter(
-    (log: any) =>
-      log.event == event &&
-      log.playerId == playerId
+    (log: any) => log.event == event && log.playerId == playerId
   );
 
   const number = result.length;

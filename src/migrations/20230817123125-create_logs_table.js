@@ -19,15 +19,6 @@ module.exports = {
         onDelete: 'CASCADE',
         type: Sequelize.INTEGER
       },
-      userId: {
-        allowNull: false,
-        references: {
-          model: 'Users',
-          key: 'id'
-        },
-        onDelete: 'CASCADE',
-        type: Sequelize.INTEGER
-      },
       leagueId: {
         allowNull: false,
         references: {
@@ -63,12 +54,6 @@ module.exports = {
       },
       time: {
         type: Sequelize.STRING
-      },
-      homeTeamPoints: {
-        type: Sequelize.INTEGER
-      },
-      awayTeamPoints: {
-        type: Sequelize.INTEGER
       },
       isDeleted: {
         type: Sequelize.INTEGER
