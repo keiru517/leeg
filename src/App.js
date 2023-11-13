@@ -22,8 +22,8 @@ import AuthLayout from "./components/Layouts/AuthLayout";
 import Player from "./pages/home/player";
 import React from "react";
 import PersonalDetails from "./pages/signup/personalDetails";
-import EmailSent from "./pages/password/emailSent";
-import ResetPassword from "./pages/password/resetPassword";
+// import EmailSent from "./pages/password/emailSent";
+// import ResetPassword from "./pages/password/resetPassword";
 import { setAuthToken } from "./utils/authService";
 import SignupWithEmail from "./pages/signup/signupWithEmail";
 
@@ -53,8 +53,8 @@ function App() {
           <Route exact path="/otp" element={<OTP />}></Route>
           <Route exact path="/otpsent" element={<OTPSent />}></Route>
           <Route exact path="/forgotpwd" element={<ForgotPwd />}></Route>
-          <Route exact path="/emailSent" element={<EmailSent />}></Route>
-          <Route exact path="/resetpass/:token" element={<ResetPassword />}></Route>
+          {/* <Route exact path="/emailSent" element={<EmailSent />}></Route> */}
+          {/* <Route exact path="/resetpass" element={<ResetPassword />}></Route> */}
           <Route exact path="/" element={<Home />}></Route>
           <Route exact path="/league/:leagueId" element={<League />}></Route>
           <Route

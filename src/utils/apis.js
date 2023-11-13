@@ -13,6 +13,7 @@ export const apis = {
     return `${apiUrl}/user/avatar/${id}`;
   },
   forgotPassword: apiUrl + "/user/forgotPassword",
+  resetPassword: apiUrl + "/user/resetPassword",
   updateInfo: apiUrl + "/user/updateInfo",
   updatePassword: apiUrl + "/user/updatePassword",
   // leagues

@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { getUserInfo } from "../../../actions";
 import Nav from "../../nav";
 import { setAuthToken } from "../../../utils/authService";
 
 const AuthLayout = (props) => {
   const navigate = useNavigate();
+  let location = useLocation();
   const [isLoading, setLoading] = useState(true);
   const [isLoggedIn, setLoggedIn] = useState(false);
   
@@ -17,7 +18,10 @@ const AuthLayout = (props) => {
       setAuthToken(token);
       // navigate('/', {replace:true})
     } else {
-      navigate('/signin', { replace: true})
+      console.log(location.pathname)
+      if (location.pathname !== "/resetpass" ) {
+        navigate('/signin', { replace: true})
+      } 
       setLoggedIn(false)
     }
     setLoading(false)
