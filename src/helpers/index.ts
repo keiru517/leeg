@@ -42,3 +42,12 @@ export const rf = (
 export const FILE_NAME_DATE_TILE_FORMAT = 'YYYY-MM-DD-HH-mm-ss';
 export const DATE_TILE_FORMAT = 'YYYY-MM-DD HH:mm:ss';
 export const UPLOAD_PATH = absolutePath('public/upload');
+
+export const randomString = (length: number) => {
+  let text = '';
+  const possible = 'abcdefghijklmnopqrstuvwxyz0123456789_-.';
+  for (let i = 0; i < length; i++) {
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+  }
+  return text;
+};

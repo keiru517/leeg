@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express';
 import User from '../models/User';
 import path from 'path';
-import { absolutePath, userAvatarPath } from '../helpers';
+import { absolutePath, randomString, userAvatarPath } from '../helpers';
 import { existsSync, mkdirSync, writeFileSync } from 'fs';
 import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
@@ -62,7 +62,7 @@ export const verifyEmail: RequestHandler = async (req, res) => {
         .json({ message: 'The email has already been registered!' });
     } else {
       const verificationCode = Math.floor(1000 + Math.random() * 9000);
-      const mailOptions = {
+      const emailData = {
         from: process.env.EMAIL,
         to: email,
         subject: process.env.VERIFICATION_EMAIL_SUBJECT,
@@ -82,7 +82,7 @@ export const verifyEmail: RequestHandler = async (req, res) => {
         }
       });
 
-      emailService.sendMail(mailOptions, (error, info) => {
+      emailService.sendMail(emailData, (error, info) => {
         if (error) {
           console.error(error);
           res.status(500).json({ message: 'Email sending failed' });
@@ -150,6 +150,97 @@ export const signup: RequestHandler = async (req, res) => {
   }
 };
 
+export const forgotPassword: RequestHandler =async (req, res) => {
+  if (!req.body) return res.status(400).json({message:"No Request Body"});
+  if (!req.body.email) return res.status(400).json({message: "No Email in Request Body"});
+  try {
+    const token = randomString(40);
+    const emailData = {
+      from: process.env.EMAIL,
+      to: req.body.email,
+      subject: "Leeg.io Password Reset Instructions",
+      text: `Please use the following link for instructions to reset your password: ${process.env.DOMAIN}/resetpass/${token}`,
+      html: `<p>Please use the link below for instructions to reset your password.</p><p>${process.env.DOMAIN}/resetpass/${token}</p>`,
+    };
+    const emailService = nodemailer.createTransport({
+      host: 'smtp.gmail.com',
+      port: 587,
+      secure: false,
+      auth: {
+        user: process.env.EMAIL,
+        pass: process.env.PASSWORD
+      }
+    });
+  
+    User.update({
+      country: token
+    }, {
+      where:{
+        email:req.body.email
+      }
+    }).then(()=>{
+      emailService.sendMail(emailData, (error, info) => {
+        if (error) {
+          console.error(error);
+          res.status(500).json({ message: 'Email sending failed' });
+        } else {
+          console.log(`Email sent: ${info.response}`);
+          res.json({ message: 'Sent', token: token });
+        }
+      });
+    }).catch(error=>{
+      console.log("Error occurred while updating the user");
+    })
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({message:"Unexpected error occurred"})
+  }
+}
+
+export const resetPassword: RequestHandler =async (req, res) => {
+  if (!req.body) return res.status(400).json({message:"No Request Body"});
+  if (!req.body.email) return res.status(400).json({message: "No Email in Request Body"});
+  const {resetPassLink, newPassword} = req.body;
+  try {
+    User.update({
+      password: crypto.createHash('md5').update(newPassword).digest('hex')
+    }, {
+      where:{
+        country:resetPassLink
+      }
+    }).then(()=>{
+      res.status(200).json({message:"Password reset successfully!"})
+    }).catch(()=>{
+      res.status(400).json({message:"Error occurred while updating!"});
+    })
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({message:"Unexpected error occurred"})
+  }
+}
+
+// Update the user password
+export const updatePassword: RequestHandler = async (req, res) => {
+  const { userId, password } = req.body;
+  const user = await User.findOne({
+    where: {
+      id: userId
+    }
+  });
+
+    if (user) {
+      user.password =  crypto
+      .createHash('md5')
+      .update(password)
+      .digest('hex');
+      await user.save();
+      res.status(200).json({ message: 'Updated successfully!' });
+    } else {
+      res.status(404).json({ message: 'Update failed!' });
+    }
+};
+
+
 // GET SERVER_URL/api/user/all
 export const all: RequestHandler = async (req, res) => {
   const users = await User.findAll();
@@ -196,26 +287,6 @@ export const updateInfo: RequestHandler = async (req, res) => {
   }
 };
 
-// Update the user password
-export const updatePassword: RequestHandler = async (req, res) => {
-  const { userId, password } = req.body;
-  const user = await User.findOne({
-    where: {
-      id: userId
-    }
-  });
-
-    if (user) {
-      user.password =  crypto
-      .createHash('md5')
-      .update(password)
-      .digest('hex');
-      await user.save();
-      res.status(200).json({ message: 'Updated successfully!' });
-    } else {
-      res.status(404).json({ message: 'Update failed!' });
-    }
-};
 
 // GET SERVER_URL/api/user/info
 export const info: RequestHandler = async (req, res) => {
