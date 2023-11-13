@@ -151,6 +151,7 @@ export const signup: RequestHandler = async (req, res) => {
 };
 
 export const forgotPassword: RequestHandler =async (req, res) => {
+  console.log("====================", req.body)
   if (!req.body) return res.status(400).json({message:"No Request Body"});
   if (!req.body.email) return res.status(400).json({message: "No Email in Request Body"});
   try {
@@ -159,8 +160,8 @@ export const forgotPassword: RequestHandler =async (req, res) => {
       from: process.env.EMAIL,
       to: req.body.email,
       subject: "Leeg.io Password Reset Instructions",
-      text: `Please use the following link for instructions to reset your password: ${process.env.DOMAIN}/resetpass/${token}`,
-      html: `<p>Please use the link below for instructions to reset your password.</p><p>${process.env.DOMAIN}/resetpass/${token}</p>`,
+      text: `Please use the following link for instructions to reset your password: ${process.env.DOMAIN}/resetpass?token=${token}`,
+      html: `<p>Please use the link below for instructions to reset your password.</p><p>${process.env.DOMAIN}/resetpass?token=${token}</p>`,
     };
     const emailService = nodemailer.createTransport({
       host: 'smtp.gmail.com',
