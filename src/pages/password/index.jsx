@@ -9,7 +9,7 @@ const Password = () => {
   const [email, setEmail] = useState();
   const handleClick = () => {
     axios
-      .post(apis.forgotPassword, email)
+      .post(apis.forgotPassword, {email})
       .then((res) => {
         alert(`We sent an email to ${email} with a link to reset password.`);
       })
