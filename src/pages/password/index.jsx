@@ -6,12 +6,15 @@ import hrLine from "../../assets/img/dark_mode/hr-line.png";
 import Input from "../../components/Input";
 import apis from "../../utils/apis";
 const Password = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState();
+
   const handleClick = () => {
     axios
       .post(apis.forgotPassword, {email})
       .then((res) => {
         alert(`We sent an email to ${email} with a link to reset password.`);
+        navigate('/emailSent')
       })
       .catch((error) => {
         alert(error.response.data.message);
