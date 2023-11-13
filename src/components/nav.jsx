@@ -4,6 +4,7 @@ import logo from "../assets/img/dark_mode/logo.png";
 import line from "../assets/img/dark_mode/line.png";
 import SettingsSelect from "../components/Select/settings";
 import * as actions from "../actions";
+import { Link } from "react-router-dom";
 
 const Nav = () => {
   const dispatch = useDispatch();
@@ -14,10 +15,12 @@ const Nav = () => {
       <div className="title flex items-center space-x-8">
         <div className="logo flex">
           <div className="flex">
-            <img src={logo}></img>
+            <Link to={'/'} className="flex">
+              <img src={logo}></img>
             <p className="dark:text-white text-[#33383F] text-base text-left italic font-semibold mx-3">
               Leeg.io
             </p>
+            </Link>
           </div>
         </div>
         <img src={line}></img>

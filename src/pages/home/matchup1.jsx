@@ -1012,7 +1012,7 @@ const Matchup1 = () => {
                   <img
                     src={homeTeam?.logo}
                     alt=""
-                    className="w-28 h-28 rounded-full mx-auto"
+                    className="w-28 h-28 rounded-full mx-auto border border-gray-500"
                   />
                   <p className="text-black dark:text-white font-semibold text-2xl mt-5">
                     {homeTeam?.name}
@@ -1084,7 +1084,7 @@ const Matchup1 = () => {
                   <img
                     src={awayTeam?.logo}
                     alt=""
-                    className="w-28 h-28 rounded-full mx-auto"
+                    className="w-28 h-28 rounded-full mx-auto border border-gray-500"
                   />
                   <p className="text-black dark:text-white font-semibold text-2xl mt-5">
                     {awayTeam?.name}
@@ -1132,7 +1132,7 @@ const Matchup1 = () => {
                       <img
                         src={homeTeam?.logo}
                         alt=""
-                        className="w-8 h-8 rounded-full"
+                        className="w-8 h-8 rounded-full border border-gray-500"
                       />
                       <p className="text-black dark:text-white underline">
                         {homeTeam?.name}
@@ -1304,7 +1304,7 @@ const Matchup1 = () => {
                       <img
                         src={awayTeam?.logo}
                         alt=""
-                        className="w-8 h-8 rounded-full"
+                        className="w-8 h-8 rounded-full border border-gray-500"
                       />
                       <p className="text-black dark:text-white underline">
                         {awayTeam?.name}

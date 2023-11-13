@@ -174,7 +174,7 @@ const Profile = () => {
               <div className="flex items-center space-x-3">
                 <img
                   src={previewURL ? previewURL : user?.avatar}
-                  className="w-24 h-24 rounded-lg"
+                  className="w-24 h-24 rounded-full border border-gray-500"
                   alt=""
                 />
                 <div

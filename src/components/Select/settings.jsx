@@ -82,7 +82,7 @@ const SettingsSelect = (props) => {
         <img
           src={user?.avatar}
           // src={apis.userAvatarURL(localStorage.getItem("userId"))}
-          className="w-8 h-8 rounded-lg"
+          className="w-8 h-8 rounded-full border border-gray-500"
           alt=""
         />
         {/* <span className="ml-2">{value}</span> */}

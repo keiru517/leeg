@@ -1,4 +1,3 @@
-// const OPEN_CREATE_LEAGUE_DIALOG = 'OPEN_CREATE_LEAGUE_DIALOG'
 import * as actions from "../actions";
 
 const initialState = {

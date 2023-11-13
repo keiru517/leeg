@@ -120,7 +120,7 @@ const LineupTable = (props) => {
                   <img
                     src={player.avatar}
                     alt=""
-                    className="h-8 w-8 sm:mr-2 sm:ml-5 rounded-default"
+                    className="h-8 w-8 sm:mr-2 sm:ml-5 rounded-default border border-gray-500"
                   />
                   <Link to={`player/${player.userId}`}>
                     {player.firstName} {player.lastName}

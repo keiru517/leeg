@@ -490,7 +490,7 @@ const Player = (props) => {
                             <img
                               src={team.logo}
                               alt=""
-                              className="w-8 h-8 mr-2 rounded-default"
+                              className="w-8 h-8 mr-2 rounded-full border border-gray-500"
                             />
                             <Link to={`team/${player.teamId}`}>
                               {team.name}
