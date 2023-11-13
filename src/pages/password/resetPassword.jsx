@@ -1,14 +1,13 @@
-import React from "react";
-import logo from "../../assets/img/dark_mode/logo.png";
-import hrLine from "../../assets/img/dark_mode/hr-line.png";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router";
 import Input from "../../components/Input";
 import eyeDisable from "../../assets/img/dark_mode/eye-disable.png";
+import PasswordInput from "../../components/Input/password";
 
 const ResetPassword = () => {
-  const leagues = [1, 2, 3, 4, 5, 6];
+  let { token } = useParams();
 
-  const options = ["Sort by", "Ascend", "Descend", "Recent"];
-
+  const [password, setPassword] = useState();
   return (
     <div className="">
       <div className="sm:w-auth sm:mx-auto">
@@ -27,6 +26,13 @@ const ResetPassword = () => {
             </p>
           </div>
           <div className="my-6 space-y-4">
+            <PasswordInput
+                className="rounded-default text-font-dark-gray text-xs"
+                placeholder="Type Your Password*"
+                value={password}
+                name="password"
+                onChange={(e) => setPassword(e.target.value)}
+            ></PasswordInput>
             <Input
               className="bg-transparent rounded-default text-font-dark-gray text-xs"
               type="password"

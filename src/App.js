@@ -54,7 +54,7 @@ function App() {
           <Route exact path="/otpsent" element={<OTPSent />}></Route>
           <Route exact path="/forgotpwd" element={<ForgotPwd />}></Route>
           <Route exact path="/emailSent" element={<EmailSent />}></Route>
-          <Route exact path="/resetpwd" element={<ResetPassword />}></Route>
+          <Route exact path="/resetpass/:token" element={<ResetPassword />}></Route>
           <Route exact path="/" element={<Home />}></Route>
           <Route exact path="/league/:leagueId" element={<League />}></Route>
           <Route
