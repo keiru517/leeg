@@ -37,26 +37,14 @@ const Password = () => {
       });
     };
     
-    const handleSubmit = () => {
-      // setStep(3);
-      if (password === passwordConfirm) {
-        axios.post(apis.resetPassword, {resetPassLink:token, newPassword:password}).then((res)=>{
-          alert(res.data.message);
-        }).catch(error=>{
-          alert(error.response.data.message)
-        })
-      } else {
-        alert("Password does not match!");
-      }
-    };
 
   return (
     <div className="">
       <div className="sm:w-auth sm:mx-auto">
         {step === 1 && (
-          <div className="bg-slate w-full h-[251px] mt-16 rounded-main p-default flex flex-col">
+          <div className="bg-white dark:bg-slate w-full h-[251px] mt-16 rounded-main p-default flex flex-col">
             <div className="h-[55px]">
-              <p className="text-white text-2xl font-bold">Forgot password?</p>
+              <p className="text-black dark:text-white text-2xl font-bold">Forgot password?</p>
               <p className="text-font-light-gray mt-3">
                 Please type your email address.
               </p>
@@ -70,7 +58,7 @@ const Password = () => {
               ></Input>
               <button
                 onClick={handleSend}
-                className="w-full h-12 bg-primary font-bold text-white rounded-default hover:bg-opacity-70"
+                className="w-full h-12 bg-primary font-bold dark:text-white rounded-default hover:bg-opacity-70"
               >
                 Send
               </button>

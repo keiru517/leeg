@@ -20,8 +20,18 @@ const ResetPassword = () => {
   const [passwordConfirm, setPasswordConfirm] = useState();
 
   const handleSubmit = () => {
-    //  axios.post(apis.resetPassword, {email, token})
+    // setStep(3);
+    if (password === passwordConfirm) {
+      axios.post(apis.resetPassword, {resetPassLink:token, newPassword:password}).then((res)=>{
+        alert(res.data.message);
+      }).catch(error=>{
+        alert(error.response.data.message)
+      })
+    } else {
+      alert("Password does not match!");
+    }
   };
+
 
   return (
     <div className="">
