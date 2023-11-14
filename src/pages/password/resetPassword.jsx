@@ -11,6 +11,12 @@ const ResetPassword = () => {
   const location = useLocation();
   const [token, setToken] = useState();
 
+  if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    document.documentElement.classList.add('dark')
+  } else {
+    document.documentElement.classList.remove('dark')
+  }
+
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     setToken(searchParams.get('token'));
