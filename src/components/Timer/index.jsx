@@ -16,7 +16,7 @@ const Timer = (props) => {
   );
   const match = useSelector(state=>state.home.matches).find(match=>match.id == matchId);
   // state to check stopwatch running or not
-  const [time, setTimer] = useState(
+  const [timer, setTimer] = useState(
     0
   );
 
@@ -29,8 +29,8 @@ const Timer = (props) => {
   useEffect(() => {
     let intervalId;
     if (isRunning) {
-      // setting time from 0 to 1 every 10 milisecond using javascript setInterval method
-      intervalId = setInterval(() => setTimer(time - 100), 1000);
+      // setting timer from 0 to 1 every 10 milisecond using javascript setInterval method
+      intervalId = setInterval(() => setTimer(timer - 100), 1000);
       setTime(
         minutes.toString().padStart(2, "0") +
           ":" +
@@ -38,19 +38,19 @@ const Timer = (props) => {
       );
     }
     return () => clearInterval(intervalId);
-  }, [isRunning, time]);
+  }, [isRunning, timer]);
 
   // Hours calculation
-  const hours = Math.floor(time / 360000);
+  const hours = Math.floor(timer / 360000);
 
   // Minutes calculation
-  const minutes = Math.floor((time % 360000) / 6000);
+  const minutes = Math.floor((timer % 360000) / 6000);
 
   // Seconds calculation
-  const seconds = Math.floor((time % 6000) / 100);
+  const seconds = Math.floor((timer % 6000) / 100);
 
   // Milliseconds calculation
-  const milliseconds = time % 100;
+  const milliseconds = timer % 100;
 
   // Method to start and stop timer
   const startAndStop = () => {
@@ -59,21 +59,21 @@ const Timer = (props) => {
 
   // Method to reset timer back to 0
   const reset = () => {
-    setTimer(7200);
+    setTimer(match?.timer);
   };
 
   const increaseMinute = () => {
-    setTimer(time + 6000);
+    setTimer(timer + 6000);
   };
   const decreaseMinute = () => {
-    setTimer(time - 6000);
+    setTimer(timer - 6000);
   };
 
   const increaseSecond = () => {
-    setTimer(time + 100);
+    setTimer(timer + 100);
   };
   const decreaseSecond = () => {
-    setTimer(time - 100);
+    setTimer(timer - 100);
   };
 
   return (
@@ -95,19 +95,21 @@ const Timer = (props) => {
             />
           </div>
           <input
-            type="text"
+            type="number"
             className="w-16 font-semibold text-[56px] text-black dark:text-white bg-transparent outline-none"
             value={minutes.toString().padStart(2, "0")}
             onChange={(e) => setTimer(seconds * 100 + e.target.value * 6000)}
+            disabled={isRunning}
           />
           <p className="font-semibold text-[56px] text-black dark:text-white mr-2">
             :
           </p>
           <input
-            type="text"
+            type="number"
             className="w-16 font-semibold text-[56px] text-black dark:text-white bg-transparent outline-none"
             value={seconds.toString().padStart(2, "0")}
             onChange={(e) => setTimer(minutes * 6000 + e.target.value * 100)}
+            disabled={isRunning}
             // onChange={handleSecond}
           />
           {/* <p className="font-semibold text-[56px] text-black dark:text-white">

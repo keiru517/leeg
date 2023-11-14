@@ -16,7 +16,9 @@ const EditEventModal = (props) => {
   let { leagueId, matchId } = useParams();
 
   const dispatch = useDispatch();
-
+  const league = useSelector((state) => state.home.leagues).find(
+    (league) => league.id == leagueId
+  );
   const isOpen = useSelector((state) => state.home.event_dialog.open);
   const match = useSelector((state) => state.home.matches).find(
     (match) => match.id == matchId
@@ -96,10 +98,7 @@ const EditEventModal = (props) => {
 
   const createSubmit = () => {
     console.log(playerId, teamId, currentPeriod, time, event);
-    // all varaibles are not empty
-    // if (playerId && teamId && period && time && event) {
-    // setCanSubmit(true);
-    console.log(playerId, teamId, currentPeriod, time, event);
+
     let temp = { ...logs };
     if (type === "edit") {
       Object.values(temp).map((log, id) => {
@@ -236,6 +235,7 @@ const EditEventModal = (props) => {
                           >
                             <p className="text-white">+3</p>
                           </div>
+
                           <div
                             className={`flex items-center justify-center rounded-[10px] ${
                               event === "+2 Pointer"
@@ -246,6 +246,7 @@ const EditEventModal = (props) => {
                           >
                             <p className="text-white">+2</p>
                           </div>
+
                           <div
                             className={`flex items-center justify-center rounded-[10px] ${
                               event === "+1 Pointer"
@@ -258,36 +259,42 @@ const EditEventModal = (props) => {
                           </div>
                         </div>
                         <div className="flex space-x-5 mt-[10px]">
-                          <div
-                            className={`flex items-center justify-center rounded-[10px] ${
-                              event === "3 Missed"
-                                ? "bg-primary"
-                                : "bg-[#303335]"
-                            } w-full h-14 cursor-pointer hover:opacity-75`}
-                            onClick={() => setEvent("3 Missed")}
-                          >
-                            <p className="text-white">Missed 3</p>
-                          </div>
-                          <div
-                            className={`flex items-center justify-center rounded-[10px] ${
-                              event === "2 Missed"
-                                ? "bg-primary"
-                                : "bg-[#303335]"
-                            } w-full h-14 cursor-pointer hover:opacity-75`}
-                            onClick={() => setEvent("2 Missed")}
-                          >
-                            <p className="text-white">Missed 2</p>
-                          </div>
-                          <div
-                            className={`flex items-center justify-center rounded-[10px] ${
-                              event === "1 Missed"
-                                ? "bg-primary"
-                                : "bg-[#303335]"
-                            } w-full h-14 cursor-pointer hover:opacity-75`}
-                            onClick={() => setEvent("1 Missed")}
-                          >
-                            <p className="text-white">Missed 1</p>
-                          </div>
+                          {league?.displayAttempts3 && (
+                            <div
+                              className={`flex items-center justify-center rounded-[10px] ${
+                                event === "3 Missed"
+                                  ? "bg-primary"
+                                  : "bg-[#303335]"
+                              } w-full h-14 cursor-pointer hover:opacity-75`}
+                              onClick={() => setEvent("3 Missed")}
+                            >
+                              <p className="text-white">Missed 3</p>
+                            </div>
+                          )}
+                          {league?.displayAttempts2 && (
+                            <div
+                              className={`flex items-center justify-center rounded-[10px] ${
+                                event === "2 Missed"
+                                  ? "bg-primary"
+                                  : "bg-[#303335]"
+                              } w-full h-14 cursor-pointer hover:opacity-75`}
+                              onClick={() => setEvent("2 Missed")}
+                            >
+                              <p className="text-white">Missed 2</p>
+                            </div>
+                          )}
+                          {league?.displayAttempts1 && (
+                            <div
+                              className={`flex items-center justify-center rounded-[10px] ${
+                                event === "1 Missed"
+                                  ? "bg-primary"
+                                  : "bg-[#303335]"
+                              } w-full h-14 cursor-pointer hover:opacity-75`}
+                              onClick={() => setEvent("1 Missed")}
+                            >
+                              <p className="text-white">Missed 1</p>
+                            </div>
+                          )}
                         </div>
                         <div className="flex space-x-5 mt-[10px]">
                           <div

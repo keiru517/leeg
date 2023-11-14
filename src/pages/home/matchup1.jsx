@@ -197,7 +197,7 @@ const Matchup1 = () => {
   };
   // Handel Home team inputs
   const handleAction = (teamId, playerId, event) => {
-    console.log("here", playerId, event)
+    console.log("here", playerId, event);
     if (teamId == homeTeam?.id) {
       handleHomePointsChange(playerId, event);
     } else {
@@ -397,7 +397,7 @@ const Matchup1 = () => {
         break;
       }
       case "Foul": {
-        console.log("Foul clicked!")
+        console.log("Foul clicked!");
         Object.values(temp).map((player, index) => {
           if (player.id == playerId) {
             temp[index] = {
@@ -482,7 +482,7 @@ const Matchup1 = () => {
 
     setId(id + 1);
     setHomeInput(temp);
-    console.log("home", id)
+    console.log("home", id);
   };
 
   const handleAwayPointsChange = (playerId, event) => {
@@ -756,7 +756,7 @@ const Matchup1 = () => {
     }
     setId(id + 1);
     setAwayInput(temp);
-    console.log("awayId", id)
+    console.log("awayId", id);
   };
 
   const [matchupResult, setMatchupResult] = useState([]);
@@ -845,7 +845,7 @@ const Matchup1 = () => {
     setAwayTeamFouls(tempAwayTeamFouls);
     setHomeTeamTimeOuts(tempHomeTeamTimeOuts);
     setAwayTeamTimeOuts(tempAwayTeamTimeOuts);
-    console.log(logs)
+    console.log(logs);
   }, [logs.length]);
 
   const handleSubmit = () => {
@@ -934,12 +934,26 @@ const Matchup1 = () => {
   };
 
   const [currentPeriod, setCurrentPeriod] = useState(1);
+  const handlePeriod = (period) => {
+    setCurrentPeriod(period);
+    setIsRunning(false);
+  };
   const [numberOfPeriods, setNumberOfPeriods] = useState([]);
+  const [timeOfPeriod, setTimeOfPeriod] = useState([]);
   useEffect(() => {
     setNumberOfPeriods(
       Array.from({ length: match?.period }, (_, index) => index + 1)
     );
   }, [match]);
+
+  useEffect(() => {
+    let tempTimeOfPeriod = [];
+    numberOfPeriods.map(() => {
+      tempTimeOfPeriod.push(match?.timer);
+    });
+    setTimeOfPeriod(tempTimeOfPeriod);
+    setCurrentPeriod(1);
+  }, [numberOfPeriods.length]);
   // const periods = Array.from({ length:  4}, (_, index) => index + 1);
   const [time, setTime] = useState("");
   const [event, setEvent] = useState("");
@@ -961,6 +975,74 @@ const Matchup1 = () => {
 
   const handleAddEvent = () => {
     dispatch({ type: actions.OPEN_ADD_EVENT_DIALOG });
+  };
+
+  // Timer
+  const [timer, setTimer] = useState(0);
+
+  useEffect(() => {
+    console.log("period");
+    setTimer(timeOfPeriod[currentPeriod - 1]);
+  }, [currentPeriod]);
+
+  useEffect(() => {
+    setTimer(match?.timer);
+    // setTimer(Math.floor(match?.timer/100) * 6000 + Math.floor(match?.timer%100) * 100)
+  }, [match]);
+  const [isRunning, setIsRunning] = useState(false);
+
+  useEffect(() => {
+    let intervalId;
+    if (isRunning) {
+      // setting timer from 0 to 1 every 10 milisecond using javascript setInterval method
+      intervalId = setInterval(() => setTimer(timer - 100), 1000);
+      setTime(
+        minutes.toString().padStart(2, "0") +
+          ":" +
+          seconds.toString().padStart(2, "0")
+      );
+      let tempTimeOfPeriod = [...timeOfPeriod];
+      tempTimeOfPeriod[currentPeriod - 1] = timer;
+      setTimeOfPeriod(tempTimeOfPeriod);
+    }
+
+    return () => clearInterval(intervalId);
+  }, [isRunning, timer]);
+
+  // Hours calculation
+  const hours = Math.floor(timer / 360000);
+
+  // Minutes calculation
+  const minutes = Math.floor((timer % 360000) / 6000);
+
+  // Seconds calculation
+  const seconds = Math.floor((timer % 6000) / 100);
+
+  // Milliseconds calculation
+  const milliseconds = timer % 100;
+
+  // Method to start and stop timer
+  const startAndStop = () => {
+    setIsRunning(!isRunning);
+  };
+
+  // Method to reset timer back to 0
+  const reset = () => {
+    setTimer(match?.timer);
+  };
+
+  const increaseMinute = () => {
+    setTimer(timer + 6000);
+  };
+  const decreaseMinute = () => {
+    setTimer(timer - 6000);
+  };
+
+  const increaseSecond = () => {
+    setTimer(timer + 100);
+  };
+  const decreaseSecond = () => {
+    setTimer(timer - 100);
   };
 
   return (
@@ -1021,11 +1103,13 @@ const Matchup1 = () => {
                     Home
                   </p>
                   <div className="flex space-x-3 my-3">
-                    <div className="flex rounded-lg bg-light-charcoal dark:bg-[#151515] w-[97px] h-10 justify-center items-center">
-                      <p className="text-black dark:text-white font-medium text-sm">
-                        Fouls: {homeTeamFouls}
-                      </p>
-                    </div>
+                    {league?.displayFouls && (
+                      <div className="flex rounded-lg bg-light-charcoal dark:bg-[#151515] w-[97px] h-10 justify-center items-center">
+                        <p className="text-black dark:text-white font-medium text-sm">
+                          Fouls: {homeTeamFouls}
+                        </p>
+                      </div>
+                    )}
                     <div className="flex rounded-lg bg-light-charcoal dark:bg-[#151515] w-[97px] h-10 justify-center items-center">
                       <p className="text-black dark:text-white font-medium text-sm">
                         TimeOuts: {homeTeamTimeOuts}
@@ -1069,14 +1153,96 @@ const Matchup1 = () => {
                               ? "bg-success"
                               : "bg-[#151515]"
                           } w-16 h-10 cursor-pointer hover:opacity-75`}
-                          onClick={() => setCurrentPeriod(period)}
+                          onClick={() => handlePeriod(period)}
+                          // onClick={() => setCurrentPeriod(period)}
                         >
                           <p className="text-white">P{period}</p>
                         </div>
                       ))}
                     </div>
                     <div className="flex justify-center items-center space-x-2">
-                      <Timer setTime={setTime}></Timer>
+                      {/* <Timer setTime={setTime}></Timer> */}
+                      <div className="stopwatch-container">
+                        <div className="justify-center items-center">
+                          <div className="flex">
+                            <div className="mt-5">
+                              <img
+                                onClick={isRunning ? () => {} : increaseMinute}
+                                src={darkMode ? triupIconDark : triupIconLight}
+                                alt=""
+                                className="w-6 h-6 cursor-pointer hover:bg-opacity-70"
+                              />
+                              <img
+                                onClick={isRunning ? () => {} : decreaseMinute}
+                                src={
+                                  darkMode ? tridownIconDark : tridownIconLight
+                                }
+                                alt=""
+                                className="w-6 h-6 cursor-pointer hover:bg-opacity-70"
+                              />
+                            </div>
+                            <input
+                              type="number"
+                              className="w-16 font-semibold text-[56px] text-black dark:text-white bg-transparent outline-none"
+                              value={minutes.toString().padStart(2, "0")}
+                              onChange={(e) =>
+                                setTimer(seconds * 100 + e.target.value * 6000)
+                              }
+                              disabled={isRunning}
+                            />
+                            <p className="font-semibold text-[56px] text-black dark:text-white mr-2">
+                              :
+                            </p>
+                            <input
+                              type="number"
+                              className="w-16 font-semibold text-[56px] text-black dark:text-white bg-transparent outline-none"
+                              value={seconds.toString().padStart(2, "0")}
+                              onChange={(e) =>
+                                setTimer(minutes * 6000 + e.target.value * 100)
+                              }
+                              disabled={isRunning}
+                              // onChange={handleSecond}
+                            />
+                            {/* <p className="font-semibold text-[56px] text-black dark:text-white">
+            {minutes.toString().padStart(2, "0")}:
+            {seconds.toString().padStart(2, "0")}:
+          </p> */}
+                            <div className="mt-5">
+                              <img
+                                src={darkMode ? triupIconDark : triupIconLight}
+                                onClick={isRunning ? () => {} : increaseSecond}
+                                alt=""
+                                className="w-6 h-6 cursor-pointer hover:bg-opacity-70"
+                              />
+                              <img
+                                src={
+                                  darkMode ? tridownIconDark : tridownIconLight
+                                }
+                                onClick={isRunning ? () => {} : decreaseSecond}
+                                alt=""
+                                className="w-6 h-6 cursor-pointer hover:bg-opacity-70"
+                              />
+                            </div>
+                          </div>
+                          <button
+                            onClick={startAndStop}
+                            className={`w-[169px] h-[53px] rounded-[10px] ${
+                              isRunning ? "bg-red-500" : "bg-success"
+                            }  text-white font-bold text-sm mt-1 hover:bg-opacity-70`}
+                          >
+                            {isRunning ? "STOP " : "START "}
+                            CLOCK
+                          </button>
+                        </div>
+                        {/* <div className="flex">
+        <button className="bg-green-500" onClick={startAndStop}>
+          {isRunning ? "Stop" : "Start"}
+        </button>
+        <button className="bg-red-500" onClick={reset}>
+          Reset
+        </button>
+      </div> */}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -1093,11 +1259,13 @@ const Matchup1 = () => {
                     Away
                   </p>
                   <div className="flex space-x-3 my-3">
-                    <div className="flex rounded-lg bg-light-charcoal dark:bg-[#151515] w-[97px] h-10 justify-center items-center">
-                      <p className="text-black dark:text-white font-medium text-sm">
-                        Fouls: {awayTeamFouls}
-                      </p>
-                    </div>
+                    {league?.displayFouls && (
+                      <div className="flex rounded-lg bg-light-charcoal dark:bg-[#151515] w-[97px] h-10 justify-center items-center">
+                        <p className="text-black dark:text-white font-medium text-sm">
+                          Fouls: {awayTeamFouls}
+                        </p>
+                      </div>
+                    )}
                     <div className="flex rounded-lg bg-light-charcoal dark:bg-[#151515] w-[97px] h-10 justify-center items-center">
                       <p className="text-black dark:text-white font-medium text-sm">
                         TimeOuts: {awayTeamTimeOuts}
@@ -1179,89 +1347,79 @@ const Matchup1 = () => {
                       <p className="text-black dark:text-white">+1</p>
                     </div>
                   </div>
-                  {league?.displayAttempts3 &&
-                    league?.displayAttempts2 &&
-                    league?.displayAttempts1 && (
-                      <div className="grid grid-cols-3 gap-[10px]">
-                        {league?.displayAttempts3 && (
-                          <div
-                            className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
-                            onClick={() =>
-                              handleClickButtons("attempts3", homeTeam?.id)
-                            }
-                          >
-                            <p className="text-black dark:text-white">
-                              MISSED 3
-                            </p>
-                          </div>
-                        )}
-                        {league?.displayAttempts2 && (
-                          <div
-                            className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
-                            onClick={() =>
-                              handleClickButtons("attempts2", homeTeam?.id)
-                            }
-                          >
-                            <p className="text-black dark:text-white">
-                              MISSED 2
-                            </p>
-                          </div>
-                        )}
-                        {league?.displayAttempts1 && (
-                          <div
-                            className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
-                            onClick={() =>
-                              handleClickButtons("attempts1", homeTeam?.id)
-                            }
-                          >
-                            <p className="text-black dark:text-white">
-                              MISSED 1
-                            </p>
-                          </div>
-                        )}
-                      </div>
-                    )}
-                  {league?.displayRebounds &&
-                    league?.displayTurnovers &&
-                    league?.displayFouls && (
-                      <div className="grid grid-cols-3 gap-[10px]">
-                        {league?.displayRebounds && (
-                          <div
-                            className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
-                            onClick={() =>
-                              handleClickButtons("rebounds", homeTeam?.id)
-                            }
-                          >
-                            <p className="text-black dark:text-white">
-                              REBOUND
-                            </p>
-                          </div>
-                        )}
-                        {league?.displayTurnovers && (
-                          <div
-                            className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
-                            onClick={() =>
-                              handleClickButtons("turnovers", homeTeam?.id)
-                            }
-                          >
-                            <p className="text-black dark:text-white">
-                              TURNOVER
-                            </p>
-                          </div>
-                        )}
+                  {(league?.displayAttempts3 ||
+                    league?.displayAttempts2 ||
+                    league?.displayAttempts1) && (
+                    <div className="grid grid-cols-3 gap-[10px]">
+                      {league?.displayAttempts3 && (
+                        <div
+                          className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                          onClick={() =>
+                            handleClickButtons("attempts3", homeTeam?.id)
+                          }
+                        >
+                          <p className="text-black dark:text-white">MISSED 3</p>
+                        </div>
+                      )}
+                      {league?.displayAttempts2 && (
+                        <div
+                          className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                          onClick={() =>
+                            handleClickButtons("attempts2", homeTeam?.id)
+                          }
+                        >
+                          <p className="text-black dark:text-white">MISSED 2</p>
+                        </div>
+                      )}
+                      {league?.displayAttempts1 && (
+                        <div
+                          className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                          onClick={() =>
+                            handleClickButtons("attempts1", homeTeam?.id)
+                          }
+                        >
+                          <p className="text-black dark:text-white">MISSED 1</p>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                  {(league?.displayRebounds ||
+                    league?.displayTurnovers ||
+                    league?.displayFouls) && (
+                    <div className="grid grid-cols-3 gap-[10px]">
+                      {league?.displayRebounds && (
+                        <div
+                          className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                          onClick={() =>
+                            handleClickButtons("rebounds", homeTeam?.id)
+                          }
+                        >
+                          <p className="text-black dark:text-white">REBOUND</p>
+                        </div>
+                      )}
+                      {league?.displayTurnovers && (
+                        <div
+                          className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                          onClick={() =>
+                            handleClickButtons("turnovers", homeTeam?.id)
+                          }
+                        >
+                          <p className="text-black dark:text-white">TURNOVER</p>
+                        </div>
+                      )}
 
-                        {league?.displayFouls && (
-                          <div
-                            className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
-                            onClick={() =>
-                              handleClickButtons("fouls", homeTeam?.id)
-                            }
-                          >
-                            <p className="text-black dark:text-white">FOUL</p>
-                          </div>
-                        )}
-                      </div>
-                    )}
+                      {league?.displayFouls && (
+                        <div
+                          className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                          onClick={() =>
+                            handleClickButtons("fouls", homeTeam?.id)
+                          }
+                        >
+                          <p className="text-black dark:text-white">FOUL</p>
+                        </div>
+                      )}
+                    </div>
+                  )}
                   <div className="grid grid-cols-3 gap-[10px]">
                     <div
                       className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
@@ -1352,88 +1510,78 @@ const Matchup1 = () => {
                       <p className="text-black dark:text-white">+1</p>
                     </div>
                   </div>
-                  {league?.displayAttempts3 &&
-                    league?.displayAttempts2 &&
-                    league?.displayAttempts1 && (
-                      <div className="grid grid-cols-3 gap-[10px]">
-                        {league?.displayAttempts3 && (
-                          <div
-                            className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
-                            onClick={() =>
-                              handleClickButtons("attempts3", awayTeam?.id)
-                            }
-                          >
-                            <p className="text-black dark:text-white">
-                              MISSED 3
-                            </p>
-                          </div>
-                        )}
-                        {league?.displayAttempts2 && (
-                          <div
-                            className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
-                            onClick={() =>
-                              handleClickButtons("attempts2", awayTeam?.id)
-                            }
-                          >
-                            <p className="text-black dark:text-white">
-                              MISSED 2
-                            </p>
-                          </div>
-                        )}
-                        {league?.displayAttempts1 && (
-                          <div
-                            className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
-                            onClick={() =>
-                              handleClickButtons("attempts1", awayTeam?.id)
-                            }
-                          >
-                            <p className="text-black dark:text-white">
-                              MISSED 1
-                            </p>
-                          </div>
-                        )}
-                      </div>
-                    )}
-                  {league?.displayRebounds &&
-                    league?.displayTurnovers &&
-                    league?.displayFouls && (
-                      <div className="grid grid-cols-3 gap-[10px]">
-                        {league?.displayRebounds && (
-                          <div
-                            className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
-                            onClick={() =>
-                              handleClickButtons("rebounds", awayTeam?.id)
-                            }
-                          >
-                            <p className="text-black dark:text-white">
-                              REBOUND
-                            </p>
-                          </div>
-                        )}
-                        {league?.displayTurnovers && (
-                          <div
-                            className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
-                            onClick={() =>
-                              handleClickButtons("turnovers", awayTeam?.id)
-                            }
-                          >
-                            <p className="text-black dark:text-white">
-                              TURNOVER
-                            </p>
-                          </div>
-                        )}
-                        {league?.displayFouls && (
-                          <div
-                            className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
-                            onClick={() =>
-                              handleClickButtons("fouls", awayTeam?.id)
-                            }
-                          >
-                            <p className="text-black dark:text-white">FOUL</p>
-                          </div>
-                        )}
-                      </div>
-                    )}
+                  {(league?.displayAttempts3 ||
+                    league?.displayAttempts2 ||
+                    league?.displayAttempts1) && (
+                    <div className="grid grid-cols-3 gap-[10px]">
+                      {league?.displayAttempts3 && (
+                        <div
+                          className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                          onClick={() =>
+                            handleClickButtons("attempts3", awayTeam?.id)
+                          }
+                        >
+                          <p className="text-black dark:text-white">MISSED 3</p>
+                        </div>
+                      )}
+                      {league?.displayAttempts2 && (
+                        <div
+                          className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                          onClick={() =>
+                            handleClickButtons("attempts2", awayTeam?.id)
+                          }
+                        >
+                          <p className="text-black dark:text-white">MISSED 2</p>
+                        </div>
+                      )}
+                      {league?.displayAttempts1 && (
+                        <div
+                          className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                          onClick={() =>
+                            handleClickButtons("attempts1", awayTeam?.id)
+                          }
+                        >
+                          <p className="text-black dark:text-white">MISSED 1</p>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                  {(league?.displayRebounds ||
+                    league?.displayTurnovers ||
+                    league?.displayFouls) && (
+                    <div className="grid grid-cols-3 gap-[10px]">
+                      {league?.displayRebounds && (
+                        <div
+                          className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                          onClick={() =>
+                            handleClickButtons("rebounds", awayTeam?.id)
+                          }
+                        >
+                          <p className="text-black dark:text-white">REBOUND</p>
+                        </div>
+                      )}
+                      {league?.displayTurnovers && (
+                        <div
+                          className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                          onClick={() =>
+                            handleClickButtons("turnovers", awayTeam?.id)
+                          }
+                        >
+                          <p className="text-black dark:text-white">TURNOVER</p>
+                        </div>
+                      )}
+                      {league?.displayFouls && (
+                        <div
+                          className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                          onClick={() =>
+                            handleClickButtons("fouls", awayTeam?.id)
+                          }
+                        >
+                          <p className="text-black dark:text-white">FOUL</p>
+                        </div>
+                      )}
+                    </div>
+                  )}
                   <div className="grid grid-cols-3 gap-[10px]">
                     <div
                       className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
