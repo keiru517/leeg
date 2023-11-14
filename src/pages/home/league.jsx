@@ -1109,7 +1109,7 @@ const League = () => {
                       <textarea
                         id="message"
                         rows="6"
-                        className="block p-2.5 w-full text-xs text-gray-900 rounded-lg border border-charcoal focus:ring-blue-500 focus:border-blue-500 dark:bg-transparent dark:border-charcoal dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 resize-none outline-none"
+                        className="block p-2.5 w-full text-xs text-gray-900 rounded-lg border border-charcoal focus:ring-blue-500 focus:border-blue-500 dark:bg-transparent dark:border-charcoal dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 resize-none outline-none mt-3"
                         placeholder="Describe your League*"
                         value={leagueDescription}
                         onChange={(e) => setLeagueDescription(e.target.value)}
@@ -1129,16 +1129,16 @@ const League = () => {
                         onChange={(e) => setLeagueEndDate(e.target.value)}
                       />
                     </div>
-                    <div className="flex flex-grow">
+                    <div className="flex flex-grow mt-3">
                       <button
                         onClick={editLeague}
-                        className="bg-primary h-12 text-white font-bold text-sm w-[76px] rounded-default hover:opacity-70"
+                        className="bg-primary h-button text-white font-bold text-sm w-[76px] rounded-default hover:opacity-70"
                       >
                         Save
                       </button>
                       <button
                         onClick={deleteLeague}
-                        className="bg-danger h-12 text-white font-bold text-sm w-[76px] rounded-default hover:opacity-70"
+                        className="bg-danger h-button text-white font-bold text-sm w-[76px] rounded-default hover:opacity-70"
                       >
                         Delete
                       </button>
@@ -1146,7 +1146,7 @@ const League = () => {
                   </div>
                   {/* Stats */}
                   <div className="flex flex-col space-y-3 items-center">
-                    <div className="flex">
+                    <div className="flex justify-between w-2/3">
                       <p className="text-xs dark:text-white text-black">
                         Allow Fan view
                       </p>
@@ -1168,7 +1168,7 @@ const League = () => {
                         onClick={toggleLeagueId}
                       />
                     </div> */}
-                    <div className="flex">
+                    <div className="flex justify-between w-2/3">
                       <p className="text-xs dark:text-white text-black">
                         Display Position
                       </p>
@@ -1179,7 +1179,7 @@ const League = () => {
                         onClick={togglePosition}
                       />
                     </div>
-                    <div className="flex">
+                    <div className="flex justify-between w-2/3">
                       <p className="text-xs dark:text-white text-black">
                         Display 3 Attempts
                       </p>
@@ -1190,7 +1190,7 @@ const League = () => {
                         onClick={toggleAttempts3}
                       />
                     </div>
-                    <div className="flex">
+                    <div className="flex justify-between w-2/3">
                       <p className="text-xs dark:text-white text-black">
                         Display 2 Attempts
                       </p>
@@ -1201,7 +1201,7 @@ const League = () => {
                         onClick={toggleAttempts2}
                       />
                     </div>
-                    <div className="flex">
+                    <div className="flex justify-between w-2/3">
                       <p className="text-xs dark:text-white text-black">
                         Display 1 Attempts
                       </p>
@@ -1212,7 +1212,7 @@ const League = () => {
                         onClick={toggleAttempts1}
                       />
                     </div>
-                    <div className="flex">
+                    <div className="flex justify-between w-2/3">
                       <p className="text-xs dark:text-white text-black">
                         Display Blocks
                       </p>
@@ -1223,7 +1223,7 @@ const League = () => {
                         onClick={toggleBlocks}
                       />
                     </div>
-                    <div className="flex">
+                    <div className="flex justify-between w-2/3">
                       <p className="text-xs dark:text-white text-black">
                         Display Rebounds
                       </p>
@@ -1234,7 +1234,7 @@ const League = () => {
                         onClick={toggleRebounds}
                       />
                     </div>
-                    <div className="flex">
+                    <div className="flex justify-between w-2/3">
                       <p className="text-xs dark:text-white text-black">
                         Display Assists
                       </p>
@@ -1245,7 +1245,7 @@ const League = () => {
                         onClick={toggleAssists}
                       />
                     </div>
-                    <div className="flex">
+                    <div className="flex justify-between w-2/3">
                       <p className="text-xs dark:text-white text-black">
                         Display Fouls
                       </p>
@@ -1256,7 +1256,7 @@ const League = () => {
                         onClick={toggleFouls}
                       />
                     </div>
-                    <div className="flex">
+                    <div className="flex justify-between w-2/3">
                       <p className="text-xs dark:text-white text-black">
                         Display Steals
                       </p>
@@ -1267,7 +1267,7 @@ const League = () => {
                         onClick={toggleSteals}
                       />
                     </div>
-                    <div className="flex">
+                    <div className="flex justify-between w-2/3">
                       <p className="text-xs dark:text-white text-black">
                         Display Turnovers
                       </p>
@@ -1278,7 +1278,7 @@ const League = () => {
                         onClick={toggleTurnovers}
                       />
                     </div>
-                    <div className="flex">
+                    <div className="flex justify-between w-2/3">
                       <p className="text-xs dark:text-white text-black">
                         Require Passowrd to Apply
                       </p>
