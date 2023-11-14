@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router";
-import { useLocation } from 'react-router-dom';
-import Input from "../../components/Input";
-import eyeDisable from "../../assets/img/dark_mode/eye-disable.png";
+import { useLocation, useNavigate } from 'react-router-dom';
 import PasswordInput from "../../components/Input/password";
 import apis from "../../utils/apis";
 import axios from "axios";
 
 const ResetPassword = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+
   const [token, setToken] = useState();
 
   if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -30,8 +29,10 @@ const ResetPassword = () => {
     if (password === passwordConfirm) {
       axios.post(apis.resetPassword, {resetPassLink:token, newPassword:password}).then((res)=>{
         alert(res.data.message);
+        navigate("/signin");
       }).catch(error=>{
         alert(error.response.data.message)
+        
       })
     } else {
       alert("Password does not match!");
