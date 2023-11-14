@@ -200,7 +200,6 @@ export const forgotPassword: RequestHandler =async (req, res) => {
 
 export const resetPassword: RequestHandler =async (req, res) => {
   if (!req.body) return res.status(400).json({message:"No Request Body"});
-  if (!req.body.email) return res.status(400).json({message: "No Email in Request Body"});
   const {resetPassLink, newPassword} = req.body;
   try {
     User.update({
