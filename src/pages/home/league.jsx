@@ -168,7 +168,7 @@ const League = () => {
   );
 
   const [teamKeyword, setTeamKeyword] = useState("");
-  const [filteredTeams, setFilteredTeams] = useState("");
+  const [filteredTeams, setFilteredTeams] = useState(teams);
 
   const [scheduleKeyword, setScheduleKeyword] = useState("");
   const [filteredMatches, setFilteredMatches] = useState([]);
@@ -1203,7 +1203,7 @@ const League = () => {
                     </div>
                     <div className="flex justify-between w-2/3">
                       <p className="text-xs dark:text-white text-black">
-                        Display 1 Attempts
+                        Display FT Attempts
                       </p>
                       <img
                         src={displayAttempts1 ? toggleOn : toggleOff}

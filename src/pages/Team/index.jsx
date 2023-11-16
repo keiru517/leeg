@@ -10,9 +10,12 @@ import Input from "../../components/Input";
 import Select from "../../components/Select";
 import PageTitle from "../../components/PageTitle";
 import MatchTable from "../../components/Table/Match";
+import TeamModal from "../../components/Modal/TeamModal";
 import TeamStatisticsTable from "../../components/Table/TeamStatistics";
 import PlayerStatisticsTable from "../../components/Table/PlayerStatistics";
 import * as actions from "../../actions";
+import editIconDark from "../../assets/img/dark_mode/edit-icon-dark.svg";
+import editIconLight from "../../assets/img/dark_mode/edit-icon-light.svg";
 
 const Team = () => {
   let { leagueId, teamId } = useParams();
@@ -59,6 +62,11 @@ const Team = () => {
     actions.getMatchups(dispatch);
     actions.getPlayers(dispatch);
   }, []);
+
+  const handleEdit = () => {
+    dispatch({ type: actions.OPEN_EDIT_TEAM_DIALOG, payload: team });
+  };
+
   return (
     <div className="flex flex-col flex-grow">
       {/* <PageTitle
@@ -105,6 +113,11 @@ const Team = () => {
             <div className="text-3xl dark:text-white ml-6 font-bold">
               {team?.name}
             </div>
+            <img
+              src={darkMode ? editIconDark : editIconLight}
+              className="w-6 h-6 cursor-pointer ml-3 mt-2"
+              onClick={handleEdit}
+            ></img>
           </div>
         </div>
         <div className="w-full px-2 sm:px-0 h-full flex flex-col flex-grow">
@@ -240,7 +253,7 @@ const Team = () => {
           </Tab.Group>
         </div>
       </div>
-      {/* <LeagueModal /> */}
+      <TeamModal />
     </div>
   );
 };

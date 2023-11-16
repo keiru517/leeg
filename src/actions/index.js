@@ -3,7 +3,7 @@ import apis from "../utils/apis";
 import { useNavigate } from "react-router-dom";
 
 // setting
-export const SET_DARK_MODE = "SET_DARK_MODE"
+export const SET_DARK_MODE = "SET_DARK_MODE";
 // user
 export const GET_USER = "GET_USER";
 export const GET_USERS = "GET_USERS";
@@ -59,7 +59,6 @@ export const CLOSE_LINEUP_DIALOG = "CLOSE_LINEUP_DIALOG";
 // Admin
 export const GET_ADMINS = "GET_ADMINS";
 export const OPEN_ADMIN_DIALOG = "OPEN_ADMIN_DIALOG";
-
 
 // get countries
 export const getCountries = async (dispatch) => {
@@ -131,7 +130,7 @@ export const openInvitePlayerDialog = (payload) => ({
   payload: payload,
 });
 
-// Team actions -----------------------------------
+// Teams
 export const getTeams = async (dispatch) => {
   try {
     const response = await axios.get(apis.getTeams);
@@ -145,14 +144,6 @@ export const getTeams = async (dispatch) => {
       type: GET_TEAMS,
       payload: teams,
     });
-
-    // teams.map(team=>{
-    //   const logoUrl = apis.teamLogoURL(team.id);
-    //   dispatch({
-    //       type: SET_TEAM_LOGO_URL,
-    //       payload: { id: team.id, logoUrl: logoUrl}
-    //   })
-    // })
   } catch (error) {
     dispatch({
       type: GET_TEAMS,
@@ -160,6 +151,31 @@ export const getTeams = async (dispatch) => {
     });
   }
 };
+
+export const updateTeam = async (dispatch, data) => {
+  try {
+    const response = await axios.post(apis.updateTeam, data);
+    const teams = response.data.teams;
+    teams.map((team) => {
+      const logoUrl = apis.teamLogoURL(team.userId, team.id);
+      team.logo = logoUrl;
+    });
+
+    dispatch({
+      type: GET_TEAMS,
+      payload: teams,
+    });
+
+  } catch (error) {
+    dispatch({
+      type: GET_TEAMS,
+      payload: [],
+    });
+  }
+  dispatch({
+    type: CLOSE_TEAM_DIALOG
+  })
+}
 
 export const openCreateTeamDialog = (payload) => ({
   type: OPEN_CREATE_TEAM_DIALOG,
@@ -185,7 +201,7 @@ export const openAddPlayerDialgo = (payload) => ({
   payload: payload,
 });
 
-// Matches Action
+// Matches
 export const getMatches = async (dispatch) => {
   try {
     const response = await axios.get(apis.getMatchtes);
@@ -222,7 +238,9 @@ export const getMatchups = async (dispatch) => {
   }
 };
 
-export const getLogs =async (dispatch) => {
+
+// Logs
+export const getLogs = async (dispatch) => {
   try {
     const response = await axios.get(apis.getLogs);
     const logs = response.data.logs;
@@ -236,7 +254,58 @@ export const getLogs =async (dispatch) => {
       payload: [],
     });
   }
-}
+};
+
+export const createOneLog = (dispatch, data) => {
+  try {
+    axios
+      .post(apis.createOneLog, data)
+      .then((res) => {
+        dispatch({
+          type: GET_LOGS,
+          payload: res.data.logs
+        })
+      })
+      .catch((error) => {
+        alert(error.response.data.message);
+      });
+  } catch (error) {}
+};
+
+export const updateOneLog = (dispatch, data) => {
+  try {
+    axios
+      .post(apis.updateOneLog, data)
+      .then((res) => {
+        dispatch({
+          type: GET_LOGS,
+          payload: res.data.logs
+        })
+      })
+      .catch((error) => {
+        alert(error.response.data.message);
+      });
+  } catch (error) {}
+};
+
+export const removeLog = (dispatch, data) => {
+  try {
+    axios
+      .post(apis.removeLog, data)
+      .then((res) => {
+        dispatch({
+          type: GET_LOGS,
+          payload: res.data.logs
+        })
+      })
+      .catch((error) => {
+        alert(error.response.data.message);
+      });
+  } catch (error) {}
+};
+
+
+
 // player action
 export const getPlayers = async (dispatch) => {
   try {
@@ -300,10 +369,10 @@ export const getUsers = async (dispatch) => {
   try {
     const response = await axios.get(apis.getUsers);
     const users = response.data.users;
-    users.map(user=>{
+    users.map((user) => {
       user.avatar = apis.userAvatarURL(user.id);
-    })
-    
+    });
+
     dispatch({ type: GET_USERS, payload: users });
   } catch (error) {
     dispatch({ type: GET_USERS, payload: [] });

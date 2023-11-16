@@ -25,22 +25,15 @@ const TimePicker = (props) => {
   // }, [match])
   const [isRunning, setIsRunning] = useState(false);
 
-  // useEffect(() => {
-  //   let intervalId;
-  //   if (isRunning) {
-  //     // setting time from 0 to 1 every 10 milisecond using javascript setInterval method
-  //     intervalId = setInterval(() => setTimer(time - 100), 1000);
-  //     setTime(
-  //      time
-  //     );
-  //     // setTime(
-  //     //   minutes.toString().padStart(2, "0") +
-  //     //     ":" +
-  //     //     seconds.toString().padStart(2, "0")
-  //     // );
-  //   }
-  //   return () => clearInterval(intervalId);
-  // }, [isRunning, time]);
+  useEffect(() => {
+
+      setTime(
+        minutes.toString().padStart(2, "0") +
+          ":" +
+          seconds.toString().padStart(2, "0")
+      );
+
+  }, [time]);
 
   // Hours calculation
   const hours = Math.floor(time / 360000);
@@ -54,7 +47,6 @@ const TimePicker = (props) => {
   // Milliseconds calculation
   const milliseconds = time % 100;
 
-  console.log(initialTime, time, minutes);
   // Method to start and stop timer
   const startAndStop = () => {
     setIsRunning(!isRunning);
@@ -67,20 +59,20 @@ const TimePicker = (props) => {
 
   const increaseMinute = () => {
     setTimer(time + 6000);
-    setTime(time + 6000);
+    // setTime(time + 6000);
   };
   const decreaseMinute = () => {
     setTimer(time - 6000);
-    setTime(time - 6000);
+    // setTime(time - 6000);
   };
 
   const increaseSecond = () => {
     setTimer(time + 100);
-    setTime(time + 100);
+    // setTime(time + 100);
   };
   const decreaseSecond = () => {
     setTimer(time - 100);
-    setTime(time - 100);
+    // setTime(time - 100);
   };
 
   return (

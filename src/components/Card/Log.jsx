@@ -11,7 +11,7 @@ import deleteIconDark from "../../assets/img/dark_mode/delete-icon-dark.svg";
 import deleteIconLight from "../../assets/img/dark_mode/delete-icon-light.svg";
 
 const Log = (props) => {
-  const { id, log, removeLogById } = props;
+  const { id, log } = props;
   const dispatch = useDispatch();
 
   const darkMode = useSelector((state) => state.home.dark_mode);
@@ -23,12 +23,12 @@ const Log = (props) => {
     "+3 Attempt": "Miss (3)",
     "+2 Attempt": "Miss (2)",
     "+1 Attempt": "Miss (1)",
-    Rebound: "REB",
-    Turnover: "TOV",
-    Foul: "PF",
-    TimeOut: "T/O",
-    Block: "BLK",
-    Assist: "AST",
+    "Rebound": "REB",
+    "Turnover": "TOV",
+    "Foul": "PF",
+    "TimeOut": "T/O",
+    "Block": "BLK",
+    "Assist": "AST",
   };
 
   const player = useSelector((state) => state.home.matchups).find(
@@ -43,7 +43,7 @@ const Log = (props) => {
     dispatch({ type: actions.OPEN_EDIT_EVENT_DIALOG, payload: id });
   };
   const handleDelete = () => {
-    removeLogById(id);
+    actions.removeLog(dispatch, {id});
   };
 
   return (
@@ -83,7 +83,7 @@ const Log = (props) => {
             {title[log.event]}
           </p>
           <p className="text-black dark:text-white font-medium text-lg">&gt;</p>
-          {log.event !== "TimeOut" && (
+          {(log.event !== "TimeOut" && log.isDirect === 0) && (
             <>
               <p className="text-black dark:text-white font-medium text-lg">
                 #{player?.jerseyNumber}

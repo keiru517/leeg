@@ -41,7 +41,7 @@ const Home = () => {
   const [filteredData, setFilteredData] = useState([]);
   useEffect(() => {
     const searchResult = leagues.filter((league) =>
-      league.name.toLowerCase().includes(keyword.toLowerCase())
+      league.name.toLowerCase().includes(keyword.toLowerCase()) || league.id.toString().padStart(6, '0').includes(keyword.toLowerCase())
     );
     setFilteredData(searchResult);
   }, [keyword]);

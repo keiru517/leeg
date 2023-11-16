@@ -11,9 +11,10 @@ import Select from "../Select";
 import MatchupPlayerList from "../ListItem/MatchupPlayerList";
 
 const SelectPlayerModal = (props) => {
+  let { leagueId, matchId } = useParams();
   const dispatch = useDispatch();
 
-  const { event, playerId, teamId, matchId, handleAction } = props;
+  const {period, event, playerId, teamId, handleAction } = props;
   const title = {
     points3: "+3 Pointer",
     points2: "+2 Pointer",
@@ -32,6 +33,9 @@ const SelectPlayerModal = (props) => {
   const matchups = useSelector((state) => state.home.matchups).filter(
     (matchup) => matchup.matchId == matchId && matchup.attendance === 1
   );
+  const team = useSelector((state) => state.home.teams).find(
+    (team) => team.id == teamId
+  );
 
   const [filteredMatchups, setFilteredMatchups] = useState([]);
 
@@ -40,8 +44,7 @@ const SelectPlayerModal = (props) => {
   }, []);
 
   useEffect(() => {
-    const result = matchups
-      .filter((player) => player.teamId == teamId)
+    const result = matchups.filter((player) => player.teamId == teamId);
     setFilteredMatchups(result);
   }, [teamId]);
 
@@ -70,7 +73,7 @@ const SelectPlayerModal = (props) => {
   const cancelButtonRef = useRef(null);
 
   const closeDialog = () => {
-    dispatch({ type: actions.OPEN_SELECT_PLAYER_DIALOG, payload:false });
+    dispatch({ type: actions.OPEN_SELECT_PLAYER_DIALOG, payload: false });
   };
 
   const handleEdit = () => {
@@ -87,11 +90,15 @@ const SelectPlayerModal = (props) => {
 
   const [playersList, setPlayersList] = useState({});
 
-  const addAction = (id) => {
-    handleAction(teamId, id, title[event]);
-    dispatch({ type: actions.OPEN_SELECT_PLAYER_DIALOG, payload:false });
-
+  const addAction = (playerId) => {
+    handleAction(teamId, playerId, title[event], 0);
+    dispatch({ type: actions.OPEN_SELECT_PLAYER_DIALOG, payload: false });
   };
+  
+  const handleAddDirectScore = () =>{
+    handleAction(teamId, filteredMatchups[0].id, title[event], 1)
+    dispatch({ type: actions.OPEN_SELECT_PLAYER_DIALOG, payload: false });
+  }
 
   return (
     <Transition.Root show={isOpen} as={Fragment}>
@@ -140,6 +147,16 @@ const SelectPlayerModal = (props) => {
                   </div>
                   <div className="flex-col p-default flex justify-between overflow-y-auto h-[500px]">
                     <div>
+                      <div className="flex w-fit items-center mb-3 dark:text-white text-black hover:cursor-pointer"
+                      onClick={handleAddDirectScore}
+                      >
+                        <img
+                          src={team?.logo}
+                          alt=""
+                          className="w-8 h-8 mr-3 rounded-full"
+                        />
+                        {team?.name}
+                      </div>
                       {filteredMatchups.map(({ player }, idx) => (
                         <MatchupPlayerList
                           key={idx}
