@@ -10,16 +10,24 @@ logRouter.get('/all', LogController.all);
 logRouter.post('/createOne', LogController.createOne);
 
 // create a log
+// SERVER_URL/api/log/createOne
+logRouter.post('/createOne', LogController.createOne);
+
+// create logs
 // SERVER_URL/api/log/create
 logRouter.post('/create', LogController.create);
 
-// update a log
+// update a logs
 // SERVER_URL/api/log/update
 logRouter.post('/update', LogController.update);
 
+// update a log
+// SERVER_URL/api/log/updateOne
+logRouter.post('/updateOne', LogController.updateOne);
+
 // delete a log
 // SERVER_URL/api/log/remove/1
-logRouter.delete('/remove/:id', LogController.remove);
+logRouter.post('/remove', LogController.remove);
 
 // get a log
 // SERVER_URL/api/log/info/1

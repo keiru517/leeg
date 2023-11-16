@@ -1,7 +1,5 @@
 import { RequestHandler } from 'express';
 import Matchup from '../models/Matchup';
-import Player from '../models/Player';
-import User from '../models/User';
 import Log from '../models/Log';
 
 // import { Types } from '../types';
@@ -17,68 +15,30 @@ export const all: RequestHandler = async (req, res) => {
   res.json({ logs });
 };
 
-// Create a matchup for a substitute
-// POST SERVER_URL/api/matchup/createOne
+// Create a log whenever the user add a log on the matchup page
+// POST SERVER_URL/api/log/createOne
 export const createOne: RequestHandler = async (req, res) => {
-  const { email, leagueId, matchId, teamId, jerseyNumber, position } = req.body;
-  const user = await User.findOne({
-    where: {
-      email
-    }
-  });
-  if (user) {
-    // create a player
-    const player = await Player.create({
-      leagueId,
-      teamId,
-      userId: user.id,
-      matchId: 0,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      avatar: `${process.env.DOMAIN}/api/user/avatar/${user.id}`,
-      email: user.email,
-      jerseyNumber,
-      position,
-      birthday: user.birthday,
-      isWaitList: 0,
-      isAcceptedList: 0,
-      isDeleted: 0,
-      isSubstitute: 1,
-      state: '',
-      country: '',
-      city: '',
-      address: '',
-      zipCode: ''
-    });
-
-    await Matchup.create({
-      playerId: player.id,
-      userId: user.id,
+  const { leagueId, matchId, period, teamId, playerId, event, time, isDirect } =
+    req.body;
+  try {
+    await Log.create({
       leagueId,
       matchId,
+      period,
       teamId,
-      points: 0,
-      points3: 0,
-      points2: 0,
-      points1: 0,
-      attempts3: 0,
-      attempts2: 0,
-      attempts1: 0,
-      blocks: 0,
-      rebounds: 0,
-      assists: 0,
-      fouls: 0,
-      steals: 0,
-      turnovers: 0,
-      attendance: 1,
-      isDeleted: 0
+      playerId,
+      event,
+      time,
+      isDirect
     });
-    res.status(200).json({ message: 'Added successfully!' });
-  } else {
-    res.status(404).json({ message: 'User not found' });
+    const logs = await Log.findAll();
+
+    res.status(200).json({ logs });
+  } catch (error) {
+    res.status(400).json({ message: 'Error occurred while saving!' });
   }
 };
-// POST SERVER_URL/api/matchup/create
+// POST SERVER_URL/api/log/create
 export const create: RequestHandler = async (req, res) => {
   const { leagueId, matchId, logs } = req.body;
   const playerIds = [
@@ -103,7 +63,7 @@ export const create: RequestHandler = async (req, res) => {
     // Create new logs for the matchup
     const promise = Object.keys(logs).map(async id => {
       const log = logs[id];
-      
+
       await Log.create({
         playerId: log.playerId,
         leagueId,
@@ -112,7 +72,7 @@ export const create: RequestHandler = async (req, res) => {
         event: log.event,
         period: log.period,
         time: log.time,
-        isDeleted: 0
+        isDirect: 0
       });
     });
 
@@ -125,28 +85,31 @@ export const create: RequestHandler = async (req, res) => {
       //     matchId: matchId
       //   }
       // });
-      
+
       // matchups.map(async matchup=>{
-        await Matchup.update({
-          points : 0,
-          points3 : 0,
-          points2 : 0,
-          points1 : 0,
-          attempts3 : 0,
-          attempts2 : 0,
-          attempts1 : 0,
-          blocks : 0,
-          rebounds : 0,
-          assists : 0,
-          fouls : 0,
-          steals : 0,
-          turnovers : 0,
-        }, {
-          where:{
+      await Matchup.update(
+        {
+          points: 0,
+          points3: 0,
+          points2: 0,
+          points1: 0,
+          attempts3: 0,
+          attempts2: 0,
+          attempts1: 0,
+          blocks: 0,
+          rebounds: 0,
+          assists: 0,
+          fouls: 0,
+          steals: 0,
+          turnovers: 0
+        },
+        {
+          where: {
             leagueId: leagueId,
             matchId: matchId
           }
-        })
+        }
+      );
       // })
     } else {
       // update matchup
@@ -159,27 +122,27 @@ export const create: RequestHandler = async (req, res) => {
               matchId: matchId
             }
           });
-    
+
           const points3 = calculateNumberOfEvents(logs, '+3 Pointer', id);
-    
+
           const attempts3 =
             points3 + calculateNumberOfEvents(logs, '+3 Attempt', id);
-    
+
           const points2 = calculateNumberOfEvents(logs, '+2 Pointer', id);
           const attempts2 =
             points2 + calculateNumberOfEvents(logs, '+2 Attempt', id);
           const points1 = calculateNumberOfEvents(logs, '+1 Pointer', id);
-    
+
           const points = points3 * 3 + points2 * 2 + points1;
           const attempts1 =
             points1 + calculateNumberOfEvents(logs, '+1 Attempt', id);
-    
+
           const rebounds = calculateNumberOfEvents(logs, 'Rebound', id);
           const turnovers = calculateNumberOfEvents(logs, 'Turnover', id);
           const fouls = calculateNumberOfEvents(logs, 'Foul', id);
           const blocks = calculateNumberOfEvents(logs, 'Block', id);
           const assists = calculateNumberOfEvents(logs, 'Assist', id);
-    
+
           if (matchup) {
             await matchup.update({
               points,
@@ -196,7 +159,6 @@ export const create: RequestHandler = async (req, res) => {
               assists
             });
           }
-  
         }
       });
     }
@@ -206,7 +168,7 @@ export const create: RequestHandler = async (req, res) => {
   }
 };
 
-// POST SERVER_URL/api/matchup/update
+// POST SERVER_URL/api/log/update
 export const update: RequestHandler = async (req, res) => {
   const matchId = req.body.matchId;
   // const data = req.body.data;
@@ -327,18 +289,56 @@ export const update: RequestHandler = async (req, res) => {
   }
 };
 
-// POST SERVER_URL/api/matchup/remove/1
+// POST SERVER_URL/api/log/updateOne
+export const updateOne: RequestHandler = async (req, res) => {
+  const {
+    logId,
+    leagueId,
+    matchId,
+    period,
+    teamId,
+    playerId,
+    event,
+    time,
+    isDirect
+  } = req.body;
+  try {
+    await Log.update(
+      {
+        leagueId,
+        matchId,
+        period,
+        teamId,
+        playerId,
+        event,
+        time,
+        isDirect
+      },
+      {
+        where: {
+          id: logId
+        }
+      }
+    );
+    const logs = await Log.findAll();
+
+    res.status(200).json({ logs });
+  } catch (error) {
+    res.status(400).json({ message: 'Error occurred while saving!' });
+  }
+};
+// POST SERVER_URL/api/log/remove
 export const remove: RequestHandler = async (req, res) => {
-  const id = Number(req.params.id);
+  const { id } = req.body;
+  console.log(id);
+  const log = await Log.findByPk(id);
+  if (log) {
+    await log.destroy();
+    const logs = await Log.findAll();
 
-  const matchup = await Matchup.findByPk(id);
-  if (matchup) {
-    await matchup.destroy();
-    const matchups = await Matchup.findAll();
-
-    res.json({ message: 'deleted successfully!', matchups: matchups });
+    res.json({ logs });
   } else {
-    res.status(404).json({ message: 'matchup not found' });
+    res.status(404).json({ message: 'Log not found' });
   }
 };
 

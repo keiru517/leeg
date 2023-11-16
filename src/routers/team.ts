@@ -18,7 +18,7 @@ teamRouter.post('/create', upload.single('logo'), TeamController.create);
 
 // update a team
 // SERVER_URL/api/team/update
-teamRouter.post('/update', TeamController.update);
+teamRouter.post('/update', upload.single('logo'), TeamController.update);
 
 // delete a team
 // SERVER_URL/api/team/remove/1

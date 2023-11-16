@@ -55,7 +55,7 @@ module.exports = {
       time: {
         type: Sequelize.STRING
       },
-      isDeleted: {
+      isDirect: {
         type: Sequelize.INTEGER
       },
       createdAt: {

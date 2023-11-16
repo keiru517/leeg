@@ -111,7 +111,7 @@ export namespace Types {
     event: string;
     period: number;
     time: string;
-    isDeleted: number;
+    isDirect: number;
   }
   export interface T_Player extends T_DB {
     leagueId: number;

@@ -26,7 +26,7 @@ export default class Log extends Model<
   declare event: string;
   declare period: number;
   declare time: string;
-  declare isDeleted: number;
+  declare isDirect: number;
   static modelName = 'Log';
 }
 Log.init(
@@ -66,7 +66,7 @@ Log.init(
     event: DataTypes.STRING,
     period: DataTypes.STRING,
     time: DataTypes.STRING,
-    isDeleted: {
+    isDirect: {
       type: DataTypes.INTEGER,
       defaultValue: 0
     }
