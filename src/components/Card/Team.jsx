@@ -34,7 +34,7 @@ const TeamCard = (props) => {
     <div className="flex flex-col overflow-y-auto rounded-default h-[350px]  bg-light-charcoal dark:bg-dark-gray transition ease-in-out delay-150 duration-200 w-full">
       <div className="flex justify-between h-button bg-light-dark-gray dark:bg-charcoal rounded-t-default p-4">
         <div className="flex items-center">
-          <img src={team.logo} className="w-8 h-8 rounded-full"></img>
+          <img src={team.logo} className="w-8 h-8 rounded-full border border-gray-500"></img>
           <Link to={`team/${team.id}`}>
             <p className="text-black dark:text-white text-sm mx-2 underline">{team.name}</p>
           </Link>
@@ -60,7 +60,7 @@ const TeamCard = (props) => {
         )}
       </div>
 
-      <div className="flex flex-grow items-center">
+      <div className="flex flex-grow items-center overflow-y-auto">
         {players.length ? (
           <TeamTable data={players} />
         ) : (

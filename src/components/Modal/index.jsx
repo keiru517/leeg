@@ -59,7 +59,11 @@ const Modal = (props) => {
   };
 
   const goToStep2 = () => {
-    setStep(2);
+    if (sport === "Select Sport*") {
+      alert("Please select Sport!")
+    } else {
+      setStep(2);
+    }
   };
 
   const goToStep3 = () => {

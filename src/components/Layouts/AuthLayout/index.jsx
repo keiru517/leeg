@@ -1,28 +1,31 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { getUserInfo } from "../../../actions";
+import { useNavigate, useLocation } from "react-router-dom";
 import Nav from "../../nav";
 import { setAuthToken } from "../../../utils/authService";
 
 const AuthLayout = (props) => {
   const navigate = useNavigate();
-  const [isLoading, setLoading] = useState(false);
-  const [isLoggedIn, setLoggedIn] = useState(true);
+  const location = useLocation();
+  const [isLoading, setLoading] = useState(true);
+  const [isLoggedIn, setLoggedIn] = useState(false);
   
   const token = localStorage.getItem('token');
-  /*useEffect(()=>{
+  useEffect(()=>{
 
     if (token) {
       setLoggedIn(true)
       setAuthToken(token);
       // navigate('/', {replace:true})
     } else {
-      navigate('/signin', { replace: true})
+      console.log(location.pathname)
+      if (location.pathname !== "/resetpass" ) {
+        navigate('/signin', { replace: true})
+      }
       setLoggedIn(false)
     }
     setLoading(false)
     
-  }, [token])*/
+  }, [token])
 
   return (
     <div className="dark:bg-black bg-light-charcoal flex flex-col flex-grow">

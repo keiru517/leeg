@@ -1,48 +1,74 @@
-import React from "react";
-import logo from "../../assets/img/dark_mode/logo.png";
-import hrLine from "../../assets/img/dark_mode/hr-line.png";
-import Input from "../../components/Input";
-import eyeDisable from "../../assets/img/dark_mode/eye-disable.png";
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from 'react-router-dom';
+import PasswordInput from "../../components/Input/password";
+import apis from "../../utils/apis";
+import axios from "axios";
 
 const ResetPassword = () => {
-  const leagues = [1, 2, 3, 4, 5, 6];
+  const location = useLocation();
+  const navigate = useNavigate();
 
-  const options = ["Sort by", "Ascend", "Descend", "Recent"];
+  const [token, setToken] = useState();
+
+  if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    document.documentElement.classList.add('dark')
+  } else {
+    document.documentElement.classList.remove('dark')
+  }
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    setToken(searchParams.get('token'));
+  }, [location]);
+
+  const [password, setPassword] = useState();
+  const [passwordConfirm, setPasswordConfirm] = useState();
+
+  const handleSubmit = () => {
+    // setStep(3);
+    if (password === passwordConfirm) {
+      axios.post(apis.resetPassword, {resetPassLink:token, newPassword:password}).then((res)=>{
+        alert(res.data.message);
+        navigate("/signin");
+      }).catch(error=>{
+        alert(error.response.data.message)
+        
+      })
+    } else {
+      alert("Password does not match!");
+    }
+  };
+
 
   return (
     <div className="">
       <div className="sm:w-auth sm:mx-auto">
-        {/* <div className="w-[164px] h-[185px] mx-auto">
-          <div className="flex w-[112px] h-[112px] bg-white dark:bg-slate rounded-full items-center mx-auto">
-            <img src={logo} alt="logo" className="mx-auto w-[38px] h-[38px]" />
-          </div>
-          <img src={hrLine} alt="" className="my-7" />
-          <p className="text-font-light-gray text-sm text-center">LEEG.IO</p>
-        </div> */}
-        <div className="bg-slate w-full h-[315px] mt-16 rounded-main p-default flex flex-col">
+        <div className="bg-white dark:bg-slate w-full h-[315px] mt-16 rounded-main p-default flex flex-col">
           <div className="h-[55px] mb-3">
-            <p className="text-white text-2xl font-bold">Reset password!</p>
+            <p className="text-black dark:text-white text-2xl font-bold">Reset password!</p>
             <p className="text-font-light-gray mt-3">
               Please type your password.
             </p>
           </div>
           <div className="my-6 space-y-4">
-            <Input
-              className="bg-transparent rounded-default text-font-dark-gray text-xs"
-              type="password"
-              placeholder="Type Your Password*"
-              option={eyeDisable}
-            ></Input>
-            <Input
-              className="bg-transparent rounded-default text-font-dark-gray text-xs"
-              type="password"
-              placeholder="Retype Your Passowrd*"
-              option={eyeDisable}
-            ></Input>
+            <PasswordInput
+                className="rounded-default text-font-dark-gray text-xs"
+                placeholder="Type Your Password*"
+                value={password}
+                name="password"
+                onChange={(e) => setPassword(e.target.value)}
+            ></PasswordInput>
+            <PasswordInput
+                className="rounded-default text-font-dark-gray text-xs"
+                placeholder="Retype Your Password*"
+                value={passwordConfirm}
+                name="password confirm"
+                onChange={(e) => setPasswordConfirm(e.target.value)}
+            ></PasswordInput>
           </div>
           <div className="flex justify-between mb-4">
-            <button className="w-[377px] h-[48px] bg-primary rounded-lg text-white font-bold hover:bg-opacity-70">
-              Change
+            <button onClick={handleSubmit} className="w-full h-[48px] bg-primary rounded-lg text-white font-bold hover:bg-opacity-70">
+              Submit
             </button>
           </div>
         </div>

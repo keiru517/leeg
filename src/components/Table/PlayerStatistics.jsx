@@ -8,6 +8,7 @@ const PlayerStatistics = (props) => {
   let { leagueId } = useParams();
 
   const league = useSelector(state=>state.home.leagues).find(league=>league.id == leagueId)
+  const matches = useSelector(state=>state.home.matches).filter(match=>match.leagueId == leagueId)
   const displayPosition = league?.displayPosition
   const displayAttempts3 = league?.displayAttempts3
   const displayAttempts2= league?.displayAttempts2
@@ -176,9 +177,11 @@ const PlayerStatistics = (props) => {
               { id, userId, avatar, firstName, lastName, jerseyNumber, position },
               index
             ) => {
+              const pastMatchIds = matches.filter(match=>match.isNew === 0);
               const playerMatchups = matchups.filter(
-                (matchup) => matchup.playerId === id && matchup.attendance === 1
+                (matchup) => matchup.playerId === id && matchup.attendance === 1 && pastMatchIds.includes(matchup.matchId)
               );
+
 
               const totalPoints = playerMatchups.reduce(
                 (sum, matchup) => sum + matchup.points,
@@ -260,7 +263,7 @@ const PlayerStatistics = (props) => {
                       <img
                         src={avatar}
                         alt=""
-                        className="mr-3 w-8 h-8 rounded-default"
+                        className="mr-3 w-8 h-8 rounded-full border border-gray-500"
                       />
                       <Link to={`/league/${leagueId}/player/${userId}`}>
                         {firstName} {lastName}

@@ -11,23 +11,39 @@ import deleteIconDark from "../../assets/img/dark_mode/delete-icon-dark.svg";
 import deleteIconLight from "../../assets/img/dark_mode/delete-icon-light.svg";
 
 const Log = (props) => {
-  const {id, log, removeLogById } = props;
+  const { id, log } = props;
   const dispatch = useDispatch();
 
   const darkMode = useSelector((state) => state.home.dark_mode);
-  
+
+  const title = {
+    "+3 Pointer": "+3",
+    "+2 Pointer": "+2",
+    "+1 Pointer": "+1",
+    "+3 Attempt": "Miss (3)",
+    "+2 Attempt": "Miss (2)",
+    "+1 Attempt": "Miss (1)",
+    "Rebound": "REB",
+    "Turnover": "TOV",
+    "Foul": "PF",
+    "TimeOut": "T/O",
+    "Block": "BLK",
+    "Assist": "AST",
+  };
+
   const player = useSelector((state) => state.home.matchups).find(
     (matchup) => matchup.playerId == log.playerId
-  ).player;
+  )?.player;
   const user = useSelector((state) => state.home.user);
-  const team  = useSelector(state=>state.home.teams).find(team=>team.id == log.teamId);
+  const team = useSelector((state) => state.home.teams).find(
+    (team) => team.id == log.teamId
+  );
 
   const handleEdit = () => {
-    dispatch({type:actions.OPEN_EDIT_EVENT_DIALOG, payload:id})
-  }
+    dispatch({ type: actions.OPEN_EDIT_EVENT_DIALOG, payload: id });
+  };
   const handleDelete = () => {
-    console.log("you clicked the id", id);
-    removeLogById(id);
+    actions.removeLog(dispatch, {id});
   };
 
   return (
@@ -63,17 +79,26 @@ const Log = (props) => {
       <div className="flex justify-between">
         <div className="flex space-x-3 h-[51px] items-center p-4 justify-between">
           <p className="text-black dark:text-white font-medium text-lg">
-            {log.event.split(" ")[0]}
+            {/* {log.event.split(" ")[0]} */}
+            {title[log.event]}
           </p>
           <p className="text-black dark:text-white font-medium text-lg">&gt;</p>
-          <p className="text-black dark:text-white font-medium text-lg">
-            #{player?.jerseyNumber}
-          </p>
-          <p className="text-black dark:text-white font-medium text-lg">
-            {player?.firstName[0]} {player?.lastName}
-          </p>
-          <img src={player?.avatar} alt="" className="w-8 h-8 rounded-full"/>
-          <img src={team?.logo} alt="" className="w-8 h-8 rounded-full"/>
+          {(log.event !== "TimeOut" && log.isDirect === 0) && (
+            <>
+              <p className="text-black dark:text-white font-medium text-lg">
+                #{player?.jerseyNumber}
+              </p>
+              <p className="text-black dark:text-white font-medium text-lg">
+                {player?.firstName[0]} {player?.lastName}
+              </p>
+              <img
+                src={player?.avatar}
+                alt=""
+                className="w-8 h-8 rounded-full"
+              />
+            </>
+          )}
+          <img src={team?.logo} alt="" className="w-8 h-8 rounded-full" />
         </div>
         <div className="flex space-x-3 h-[51px] items-center p-4">
           <p className="text-black dark:text-gray-300 font-medium text-sm">

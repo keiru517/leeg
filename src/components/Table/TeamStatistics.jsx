@@ -8,11 +8,11 @@ const TeamStatistics = () => {
   const team = useSelector(state=>state.home.teams).find(team=>team.id == teamId);
   
   const columns = [
-    "W",
-    "L",
-    "Point Scored",
-    "Point Against",
-    "Diff",
+    "Wins",
+    "Losses",
+    "Points Scored",
+    "Points Against",
+    "Differential",
   ];
 
   return (

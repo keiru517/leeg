@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Tab } from "@headlessui/react";
 import search from "../../assets/img/dark_mode/search.png";
 import backIconDark from "../../assets/img/dark_mode/back-icon-dark.png";
@@ -10,12 +10,17 @@ import Input from "../../components/Input";
 import Select from "../../components/Select";
 import PageTitle from "../../components/PageTitle";
 import MatchTable from "../../components/Table/Match";
+import TeamModal from "../../components/Modal/TeamModal";
 import TeamStatisticsTable from "../../components/Table/TeamStatistics";
 import PlayerStatisticsTable from "../../components/Table/PlayerStatistics";
+import * as actions from "../../actions";
+import editIconDark from "../../assets/img/dark_mode/edit-icon-dark.svg";
+import editIconLight from "../../assets/img/dark_mode/edit-icon-light.svg";
 
 const Team = () => {
   let { leagueId, teamId } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const darkMode = useSelector((state) => state.home.dark_mode);
 
   const team = useSelector((state) => state.home.teams).find(
@@ -37,20 +42,39 @@ const Team = () => {
 
   const matches = useSelector((state) => state.home.matches).filter(
     (match) =>
-      (match.leagueId == leagueId) &&
-      ((match.homeTeamId == teamId) || (match.awayTeamId == teamId)) && (!match.isNew)
+      match.leagueId == leagueId &&
+      (match.homeTeamId == teamId || match.awayTeamId == teamId) &&
+      !match.isNew
   );
 
   const players = useSelector((state) => state.home.players).filter(
-    (player) => player.teamId == teamId && player.isDeleted !== 1
+    (player) => player?.teamId == teamId && player?.isDeleted !== 1
   );
 
   const matchups = useSelector((state) => state.home.matchups);
+
+  useEffect(() => {
+    actions.getUserInfo(dispatch, localStorage.getItem("userId"));
+    actions.getUsers(dispatch);
+    actions.getLeagues(dispatch);
+    actions.getMatches(dispatch);
+    actions.getTeams(dispatch);
+    actions.getMatchups(dispatch);
+    actions.getPlayers(dispatch);
+  }, []);
+
+  const handleEdit = () => {
+    dispatch({ type: actions.OPEN_EDIT_TEAM_DIALOG, payload: team });
+  };
+
   return (
     <div className="flex flex-col flex-grow">
-      <PageTitle backIcon={darkMode ? backIconDark : backIconLight} logo={team?.logo}>
+      {/* <PageTitle
+        backIcon={darkMode ? backIconDark : backIconLight}
+        logo={team?.logo}
+      >
         {team?.name}
-      </PageTitle>
+      </PageTitle> */}
       <p className="font-dark-gray my-[20px]">
         <Link to="/">
           <span className="underline">My Leagues</span>
@@ -65,8 +89,38 @@ const Team = () => {
         </Link>
         <span className="text-sky-500"> &gt; {team?.name}</span>
       </p>
-      <div className="rounded-main bg-white dark:bg-slate flex-grow p-default">
-        <div className="w-full px-2 sm:px-0 h-full flex flex-col">
+      <div className="flex flex-col rounded-main bg-white dark:bg-slate flex-grow p-default">
+        <div className="page-title flex items-center justify-between my-3">
+          <div className="flex items-center">
+            <div
+              className="w-[34px] h-[34px] bg-gray-300 dark:bg-primary items-center flex justify-center rounded-default cursor-pointer hover:opacity-70"
+              onClick={() => navigate(-1)}
+            >
+              <img
+                src={darkMode ? backIconDark : backIconLight}
+                alt=""
+                className="w-[4px] h-[10px] dark:hover:bg-middle-gray rounded-default cursor-pointer"
+              />
+            </div>
+
+            <img
+              src={team?.logo}
+              // src={apis.leagueLogoURL(leagueId)}
+              alt=""
+              className="w-20 h-20 ml-6 rounded-full border border-gray-500"
+            />
+
+            <div className="text-3xl dark:text-white ml-6 font-bold">
+              {team?.name}
+            </div>
+            <img
+              src={darkMode ? editIconDark : editIconLight}
+              className="w-6 h-6 cursor-pointer ml-3 mt-2"
+              onClick={handleEdit}
+            ></img>
+          </div>
+        </div>
+        <div className="w-full px-2 sm:px-0 h-full flex flex-col flex-grow">
           <Tab.Group>
             <Tab.List className="flex justify-start space-x-5 rounded-xl bg-transparent p-1 ">
               {categories.map((category, idx) => (
@@ -199,7 +253,7 @@ const Team = () => {
           </Tab.Group>
         </div>
       </div>
-      {/* <LeagueModal /> */}
+      <TeamModal />
     </div>
   );
 };

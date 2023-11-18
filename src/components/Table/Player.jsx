@@ -78,6 +78,15 @@ const Player = (props) => {
                 Jersey Number
               </Typography>
             </th>
+            <th key={4} className="h-button text-center font-font-dark-gray">
+              <Typography
+                variant="small"
+                color="blue-gray"
+                className="font-normal leading-none "
+              >
+                Team
+              </Typography>
+            </th>
             {displayPosition && (
               <th
                 key={3}
@@ -86,7 +95,7 @@ const Player = (props) => {
                 Position
               </th>
             )}
-            <th key={4} className="h-button text-center font-font-dark-gray">
+            <th key={5} className="h-button text-center font-font-dark-gray">
               <Typography
                 variant="small"
                 color="blue-gray"
@@ -104,7 +113,7 @@ const Player = (props) => {
                 3 Points
               </Typography>
             </th>
-            <th key={6} className="h-button text-center font-font-dark-gray">
+            <th key={7} className="h-button text-center font-font-dark-gray">
               <Typography
                 variant="small"
                 color="blue-gray"
@@ -113,18 +122,18 @@ const Player = (props) => {
                 2 Points
               </Typography>
             </th>
-            <th key={7} className="h-button text-center font-font-dark-gray">
+            <th key={8} className="h-button text-center font-font-dark-gray">
               <Typography
                 variant="small"
                 color="blue-gray"
                 className="font-normal leading-none "
               >
-                Foul Shots
+                Free throws
               </Typography>
             </th>
             {displayAttempts3 ? (
               <th
-                key={8}
+                key={9}
                 className="h-button text-center font-font-dark-gray font-normal  text-sm"
               >
                 3 Attempts
@@ -134,7 +143,7 @@ const Player = (props) => {
             )}
             {displayAttempts2 ? (
               <th
-                key={9}
+                key={10}
                 className="h-button text-center font-font-dark-gray font-normal  text-sm"
               >
                 2 Attempts
@@ -144,17 +153,17 @@ const Player = (props) => {
             )}
             {displayAttempts1 ? (
               <th
-                key={10}
+                key={11}
                 className="h-button text-center font-font-dark-gray font-normal  text-sm"
               >
-                1 Attempts
+                FT Attempts
               </th>
             ) : (
               ""
             )}
             {displayBlocks ? (
               <th
-                key={11}
+                key={12}
                 className="h-button text-center font-font-dark-gray font-normal  text-sm"
               >
                 Blocks
@@ -164,7 +173,7 @@ const Player = (props) => {
             )}
             {displayRebounds ? (
               <th
-                key={12}
+                key={13}
                 className="h-button text-center font-font-dark-gray font-normal  text-sm"
               >
                 Rebounds
@@ -174,7 +183,7 @@ const Player = (props) => {
             )}
             {displayAssists ? (
               <th
-                key={13}
+                key={14}
                 className="h-button text-center font-font-dark-gray font-normal  text-sm"
               >
                 Assists
@@ -184,7 +193,7 @@ const Player = (props) => {
             )}
             {displayFouls ? (
               <th
-                key={14}
+                key={15}
                 className="h-button text-center font-font-dark-gray font-normal  text-sm"
               >
                 Fouls
@@ -194,7 +203,7 @@ const Player = (props) => {
             )}
             {displaySteals ? (
               <th
-                key={15}
+                key={16}
                 className="h-button text-center font-font-dark-gray font-normal  text-sm"
               >
                 Steals
@@ -204,20 +213,14 @@ const Player = (props) => {
             )}
             {displayTurnovers ? (
               <th
-                key={16}
-                className="h-button text-center font-font-dark-gray font-normal  text-sm"
+                key={17}
+                className="h-button text-center font-font-dark-gray font-normal text-sm"
               >
                 Turnovers
               </th>
             ) : (
               ""
             )}
-            <th
-              key={17}
-              className="h-button text-center font-font-dark-gray font-normal  text-sm"
-            >
-              Team
-            </th>
           </tr>
         </thead>
         <tbody className="text-center">
@@ -315,7 +318,29 @@ const Player = (props) => {
                         {player?.jerseyNumber}
                       </Typography>
                     </td>
-                    {league?.displayPosition && (
+                    <td className="">
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="font-normal flex items-center underline"
+                      >
+                        {team ? (
+                          <>
+                            <img
+                              src={team.logo}
+                              alt=""
+                              className="w-8 h-8 mr-2 rounded-full border border-gray-500"
+                            />
+                            <Link to={`team/${player.teamId}`}>
+                              {team.name}
+                            </Link>
+                          </>
+                        ) : (
+                          ""
+                        )}
+                      </Typography>
+                    </td>
+                    {displayPosition && (
                       <td className="">
                         <Typography
                           variant="small"
@@ -479,46 +504,6 @@ const Player = (props) => {
                     ) : (
                       ""
                     )}
-                    <td className="">
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal flex items-center underline"
-                      >
-                        {team ? (
-                          <>
-                            <img
-                              src={team.logo}
-                              alt=""
-                              className="w-8 h-8 mr-2 rounded-default"
-                            />
-                            <Link to={`team/${player.teamId}`}>
-                              {team.name}
-                            </Link>
-                          </>
-                        ) : (
-                          ""
-                        )}
-                      </Typography>
-                    </td>
-                    {/* <td className=""> 
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="font-normal flex items-center justify-center"
-                    >
-                      {player.country}
-                    </Typography>
-                  </td>
-                  <td className="">
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="font-normal"
-                    >
-                      {player.jerseyNumber}
-                    </Typography>
-                  </td> */}
                   </tr>
                 );
               })

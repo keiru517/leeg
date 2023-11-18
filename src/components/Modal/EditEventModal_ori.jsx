@@ -12,10 +12,7 @@ import EventPlayerList from "../ListItem/EventPlayerList";
 import TimePicker from "../Timer/TimePicker";
 
 const EditEventModal = (props) => {
-  const {
-    homeTeam,
-    awayTeam,
-  } = props;
+  const { logs, setLogs, homeTeam, awayTeam, setMatchupResult, setHomeTeamFouls, setAwayTeamFouls, setHomeTeamTimeOuts, setAwayTeamTimeOuts  } = props;
   let { leagueId, matchId } = useParams();
 
   const dispatch = useDispatch();
@@ -34,7 +31,7 @@ const EditEventModal = (props) => {
   const logId = useSelector((state) => state.home.event_dialog.logId);
   const type = useSelector((state) => state.home.event_dialog.type);
 
-  const log = useSelector(state=>state.home.logs).find((log) => log.id == logId);
+  const log = Object.values(logs).find((log) => log.id == logId);
 
   const [playerId, setPlayerId] = useState("");
   const [teamId, setTeamId] = useState("");
@@ -88,6 +85,9 @@ const EditEventModal = (props) => {
     setEvent(log?.event);
   }, [logId]);
 
+  const clickAction = (id) => {
+    console.log("you clicked", id);
+  };
 
   const [canSubmit, setCanSubmit] = useState();
 
@@ -111,18 +111,56 @@ const EditEventModal = (props) => {
         seconds.toString().padStart(2, "0")
     );
 
-    actions.updateOneLog(dispatch, {
-      logId,
-      leagueId,
-      matchId,
-      period: currentPeriod,
-      teamId,
-      playerId,
-      event,
-      isDirect,
-      time,
-    });
+    axios
+      .post(apis.updateOneLog, {
+        logId,
+        leagueId,
+        matchId,
+        period: currentPeriod,
+        teamId,
+        playerId,
+        event,
+        isDirect,
+        time,
+      })
+      .then((res) => {
+        console.log("after response", res.data.logs)
+        setLogs({...res.data.logs});
 
+      })
+      .catch((error) => {
+        alert(error.response.data.message);
+      });
+
+    // let temp = { ...logs };
+    // if (type === "edit") {
+    //   Object.values(temp).map((log, id) => {
+    //     if (log.id == logId) {
+    //       temp[id] = {
+    //         ...temp[id],
+    //         playerId,
+    //         teamId,
+    //         period: currentPeriod,
+    //         time:
+    //           Math.floor((time % 360000) / 6000).toString() +
+    //           ":" +
+    //           Math.floor((time % 6000) / 100).toString(),
+    //         event,
+    //       };
+    //     }
+    //   });
+
+    //   setLogs(temp);
+    // } 
+    // else {
+    //   // temp
+    //   const keys = Object.keys(temp);
+    //   const lastId = keys[keys.length - 1];
+    //   setLogs({
+    //     ...temp,
+    //     [lastId + 1]: { playerId, teamId, period: currentPeriod, time, event },
+    //   });
+    // }
     closeDialog();
   };
 

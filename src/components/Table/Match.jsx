@@ -63,7 +63,7 @@ const MatchTable = (props) => {
                 key={idx}
                 className="h-button text-center font-font-dark-gray font-normal  text-sm"
               >
-                  {head}
+                {head}
               </th>
             ))}
           </tr>
@@ -71,11 +71,23 @@ const MatchTable = (props) => {
         <tbody className="text-center">
           {matches.map(
             (
-              { id, date, location, homeTeamId, awayTeamId, time, homeTeamPoints, awayTeamPoints },
+              {
+                id,
+                date,
+                location,
+                homeTeamId,
+                awayTeamId,
+                time,
+                homeTeamPoints,
+                awayTeamPoints,
+              },
               index
             ) => (
               // <tr onClick={()=>goToMatchup(id)} key={index} className="odd:bg-dark-gray even:bg-charcoal  hover:">
-              <tr key={index} className="odd:bg-light-dark-gray dark:odd:bg-dark-gray even:bg-light-charcoal dark:even:bg-charcoal">
+              <tr
+                key={index}
+                className="odd:bg-light-dark-gray dark:odd:bg-dark-gray even:bg-light-charcoal dark:even:bg-charcoal"
+              >
                 <td className="w-1/7">
                   <Typography
                     variant="small"
@@ -107,7 +119,7 @@ const MatchTable = (props) => {
                   <Typography
                     variant="small"
                     color="blue-gray"
-                    className={`font-normal flex items-center justify-center ${
+                    className={`font-normal flex items-center justify-left sm:pl-8 ${
                       isDeletedTeam(homeTeamId) ? "" : "underline"
                     }`}
                   >
@@ -116,7 +128,7 @@ const MatchTable = (props) => {
                         <img
                           src={teams.find((team) => team.id == homeTeamId).logo}
                           alt=""
-                          className="h-8 w-8 mr-2 rounded-default"
+                          className="h-8 w-8 mr-2 rounded-full border border-gray-500"
                         />
                         {teams.find((team) => team.id == homeTeamId).name}
                         <span className="bg-red-100 text-red-800 text-xs font-medium ml-3 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300 text-right">
@@ -125,15 +137,17 @@ const MatchTable = (props) => {
                       </>
                     ) : (
                       <Link
-                        className="flex items-center"
+                        className="flex items-center space-x-3"
                         to={`/league/${leagueId}/team/${homeTeamId}`}
                       >
                         <img
                           src={teams.find((team) => team.id == homeTeamId).logo}
                           alt=""
-                          className="h-8 w-8 mr-2 rounded-default"
+                          className="h-8 w-8 mr-2 rounded-full border border-gray-500"
                         />
-                        {teams.find((team) => team.id == homeTeamId).name}
+                        <p className="text-black dark:text-white">
+                          {teams.find((team) => team.id == homeTeamId).name}
+                        </p>
                       </Link>
                     )}
                   </Typography>
@@ -142,7 +156,7 @@ const MatchTable = (props) => {
                   <Typography
                     variant="small"
                     color="blue-gray"
-                    className={`font-normal flex items-center justify-center ${
+                    className={`font-normal flex items-center justify-left sm:pl-8 ${
                       isDeletedTeam(awayTeamId) ? "" : "underline"
                     }`}
                   >
@@ -151,7 +165,7 @@ const MatchTable = (props) => {
                         <img
                           src={teams.find((team) => team.id == awayTeamId).logo}
                           alt=""
-                          className="h-8 w-8 mr-2 rounded-default"
+                          className="h-8 w-8 mr-2 rounded-full border border-gray-500"
                         />
                         {teams.find((team) => team.id == awayTeamId).name}
                         <span className="bg-red-100 text-red-800 text-xs font-medium ml-3 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300 text-right">
@@ -160,15 +174,17 @@ const MatchTable = (props) => {
                       </>
                     ) : (
                       <Link
-                        className="flex items-center"
+                        className="flex items-center space-x-3"
                         to={`/league/${leagueId}/team/${awayTeamId}`}
                       >
                         <img
                           src={teams.find((team) => team.id == awayTeamId).logo}
                           alt=""
-                          className="h-8 w-8 mr-2 rounded-default"
+                          className="h-8 w-8 mr-2 rounded-full border border-gray-500"
                         />
-                        {teams.find((team) => team.id == awayTeamId).name}
+                        <p className="text-black dark:text-white">
+                          {teams.find((team) => team.id == awayTeamId).name}
+                        </p>
                       </Link>
                     )}
                   </Typography>

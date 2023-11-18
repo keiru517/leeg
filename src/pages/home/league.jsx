@@ -20,16 +20,15 @@ import StandingTable from "../../components/Table/Standing";
 import AdminTable from "../../components/Table/Admin";
 import PlayerTable from "../../components/Table/Player";
 import RosterTable from "../../components/Table/Roster";
+import TimePicker from "../../components/Timer/TimePicker";
 import calendar from "../../assets/img/dark_mode/calendar.png";
 import apis from "../../utils/apis";
 import * as actions from "../../actions";
 import toggleOn from "../../assets/img/dark_mode/toggle-on.png";
 import toggleOff from "../../assets/img/dark_mode/toggle-off.png";
-// import { Tab } from "@headlessui/react";
 import Tab from '@mui/material/Tab';
 import {TabPanel, TabContext} from '@mui/lab';
 import {Tabs} from "@mui/material";
-// import { makeStyles } from '@material-ui/core/styles';
 
 const League = () => {
   let { leagueId } = useParams();
@@ -63,10 +62,10 @@ const League = () => {
   const players = useSelector((state) => state.home.players).filter(
     (player) => player.leagueId == leagueId && player.isDeleted !== 1
   );
-  
+
   // this is used for Players tab
   const allPlayers = useSelector((state) => state.home.players).filter(
-    (player) => player.leagueId == leagueId
+    (player) => player.leagueId == leagueId && player.isAcceptedList
   );
 
   const matches = useSelector((state) => state.home.matches).filter(
@@ -83,19 +82,18 @@ const League = () => {
     { id: 1, name: "AcceptedList" },
   ];
 
-
   const [value, setValue] = useState("Sort by");
   const [rosterValue, setRosterValue] = useState(rosterOptions[0].name);
   const [rosters, setRosters] = useState([]);
-  useEffect(()=>{
-    var result =  players?.filter(roster=>roster.isWaitList === 1);
+  useEffect(() => {
+    var result = players?.filter((roster) => roster.isWaitList === 1);
     if (rosterValue == "WaitList") {
-      result = players?.filter(roster=>roster.isWaitList === 1)
+      result = players?.filter((roster) => roster.isWaitList === 1);
     } else {
-      result = players?.filter(roster=>roster.isAcceptedList ===1)
+      result = players?.filter((roster) => roster.isAcceptedList === 1);
     }
     setRosters(result);
-  }, [rosterValue])
+  }, [rosterValue]);
 
   var categories = [];
   if (isAdmin) {
@@ -172,7 +170,7 @@ const League = () => {
   );
 
   const [teamKeyword, setTeamKeyword] = useState("");
-  const [filteredTeams, setFilteredTeams] = useState("");
+  const [filteredTeams, setFilteredTeams] = useState(teams);
 
   const [scheduleKeyword, setScheduleKeyword] = useState("");
   const [filteredMatches, setFilteredMatches] = useState([]);
@@ -188,10 +186,10 @@ const League = () => {
     setFilteredWaitListPlayers(waitListPlayers);
     setFilteredAcceptListPlayers(acceptedPlayers);
     setFilteredPlayers(allPlayers);
-    if (rosterValue==='WaitList') {
-      setRosters(players?.filter(roster=>roster.isWaitList === 1));
+    if (rosterValue === "WaitList") {
+      setRosters(players?.filter((roster) => roster.isWaitList === 1));
     } else {
-      setRosters(players?.filter(roster=>roster.isAcceptedList === 1));
+      setRosters(players?.filter((roster) => roster.isAcceptedList === 1));
     }
   }, [
     players.length,
@@ -249,12 +247,6 @@ const League = () => {
     setFilteredPlayers(searchResult);
   }, [playerKeyword]);
 
-  // const useStyles = makeStyles({
-  //   MuiTabRoot: {
-  //     color: 'white',
-  //   },
-  // });
-
   const setWaitListItemChecked = (index, checked) => {
     let temp = { ...waitItemChecked };
     temp[index] = checked;
@@ -308,6 +300,8 @@ const League = () => {
   const [chosenFile, setChosenFile] = useState();
   const [previewURL, setPreviewURL] = useState("");
 
+  const [minute, setMinute] = useState("");
+  const [second, setSecond] = useState("");
   const [isAllowedFan, setIsAllowedFan] = useState("");
   const [displayLeagueId, setDisplayLeagueId] = useState("");
   const [displayPosition, setDisplayPosition] = useState("");
@@ -323,6 +317,8 @@ const League = () => {
   const [requirePassword, setRequirePassword] = useState("");
 
   useEffect(() => {
+    setMinute(league?.minute);
+    setSecond(league?.second);
     setIsAllowedFan(league?.isAllowedFan);
     setDisplayPosition(league?.displayPosition);
     setDisplayAttempts3(league?.displayAttempts3);
@@ -568,6 +564,22 @@ const League = () => {
       });
   };
 
+  const handleTimer = () => {
+    axios
+      .post(apis.updateTimer, {
+        leagueId,
+        minute,
+        second,
+      })
+      .then((res) => {
+        actions.getLeagues(dispatch);
+        alert(res.data.message);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   const deleteLeague = () => {
     dispatch({ type: actions.OPEN_DELETE_LEAGUE_DIALOG, payload: league });
   };
@@ -762,7 +774,11 @@ const League = () => {
                             : ""
                         } rounded-default`}
                       >
-                        <RosterTable rosters={rosters} rosterValue={rosterValue} setRosterValue={setRosterValue}/>
+                        <RosterTable
+                          rosters={rosters}
+                          rosterValue={rosterValue}
+                          setRosterValue={setRosterValue}
+                        />
                         {/* {players.length ? (
                           players.map((player, idx) => (
                             <ListItem
@@ -1380,7 +1396,6 @@ const League = () => {
           </TabContext>
         </div>
       </div>
-
       <LeagueModal />
     </div>
   );

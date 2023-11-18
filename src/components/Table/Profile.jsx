@@ -87,7 +87,7 @@ const Profile = (props) => {
                         teams.find((team) => team.id == match?.homeTeamId)?.logo
                       }
                       alt=""
-                      className="w-8 h-8 rounded-default"
+                      className="w-8 h-8 rounded-full"
                     />
                     <p className="underline">
                       <Link
@@ -105,7 +105,7 @@ const Profile = (props) => {
                         teams.find((team) => team.id == match?.awayTeamId)?.logo
                       }
                       alt=""
-                      className="w-8 h-8 mr-2 rounded-default"
+                      className="w-8 h-8 mr-2 rounded-full"
                     />
                     <p className="underline">
                       <Link

@@ -2,6 +2,7 @@ import { Fragment, useEffect, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { useParams } from "react-router";
 import axios from "axios";
+import ImageCropper from "../ImageCropper";
 import close from "../../assets/img/dark_mode/close.png";
 import deleteIconDark from "../../assets/img/dark_mode/delete-icon-dark.svg";
 import deleteIconLight from "../../assets/img/dark_mode/delete-icon-light.svg";
@@ -10,7 +11,6 @@ import uploadCircle from "../../assets/img/dark_mode/upload-circle.png";
 import Input from "../Input";
 import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../actions";
-import MatchupPlayerList from "../ListItem/MatchupPlayerList";
 import apis from "../../utils/apis";
 import PlayerList from "../ListItem/PlayerList";
 
@@ -101,23 +101,24 @@ const TeamModal = () => {
   };
 
   const editSubmit = () => {
-    dispatch({ type: actions.CLOSE_TEAM_DIALOG });
+    // dispatch({ type: actions.CLOSE_TEAM_DIALOG });
     const formData = new FormData();
+    formData.append("id", team?.id);
     formData.append("userId", user?.id);
-    formData.append("leagueId", leagueId);
     formData.append("logo", chosenFile);
     formData.append("color", color);
     formData.append("name", teamName);
-    axios
-      .post(apis.updateTeam, formData)
-      .then((res) => {
-        actions.getTeams(dispatch);
-        alert(res.data.message);
-      })
-      .catch((error) => {
-        alert(error.response.data.message);
-      });
-    console.log("Clicked edit");
+    actions.updateTeam(dispatch, formData);
+    // axios
+    //   .post(apis.updateTeam, formData)
+    //   .then((res) => {
+    //     actions.getTeams(dispatch);
+    //     alert(res.data.message);
+    //   })
+    //   .catch((error) => {
+    //     alert(error.response.data.message);
+    //   });
+    // console.log("Clicked edit");
   };
 
   const deleteSubmit = () => {
@@ -287,14 +288,16 @@ const TeamModal = () => {
                                 }}
                               >
                                 {previewURL ? (
-                                  <img
-                                    // onClick={() => {
-                                    //   fileUploadRef.current?.click();
-                                    // }}
-                                    src={previewURL}
-                                    className="rounded-full w-[58px] h-[58px]"
-                                    alt=""
-                                  />
+                                  <>
+                                    <img
+                                      // onClick={() => {
+                                      //   fileUploadRef.current?.click();
+                                      // }}
+                                      src={previewURL}
+                                      className="rounded-full w-[58px] h-[58px]"
+                                      alt=""
+                                    />
+                                  </>
                                 ) : type === "create" ? (
                                   color ? (
                                     ""
@@ -428,28 +431,28 @@ const TeamModal = () => {
                     {type === "create" ? (
                       <button
                         onClick={createSubmit}
-                        className="bg-primary rounded-xl w-full hover:bg-opacity-70 h-button text-white"
+                        className="bg-primary rounded-default w-full hover:bg-opacity-70 h-button text-white"
                       >
                         Create Team
                       </button>
                     ) : type === "edit" ? (
                       <button
                         onClick={editSubmit}
-                        className="bg-primary rounded-xl w-full hover:bg-opacity-70 h-button text-white"
+                        className="bg-primary rounded-default w-full hover:bg-opacity-70 h-button text-white"
                       >
                         Edit Team
                       </button>
                     ) : type === "delete" ? (
                       <button
                         onClick={deleteSubmit}
-                        className="bg-danger bg-opacity-10 rounded-xl w-full h-12 text-danger font-semibold hover:bg-opacity-5"
+                        className="bg-danger bg-opacity-10 rounded-default w-full h-12 text-danger font-semibold hover:bg-opacity-5"
                       >
                         Delete Team
                       </button>
                     ) : type === "addPlayer" ? (
                       <button
                         onClick={addPlayers}
-                        className="bg-primary rounded-xl w-full hover:bg-opacity-70 h-button text-white"
+                        className="bg-primary rounded-default w-full hover:bg-opacity-70 h-button text-white"
                       >
                         Confirm
                       </button>

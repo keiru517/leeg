@@ -9,10 +9,15 @@ import * as actions from "../../actions";
 import axios from "axios";
 import apis from "../../utils/apis";
 import LineupTable from "../Table/Lineup";
+import PlayerTable from "../Table/Player";
 
-const LineupsModal = (props) => {
+const PlayerStatsModal = (props) => {
   let { leagueId, matchId } = useParams();
-  const teamId = useSelector((state) => state.home.lineup_dialog.id);
+  const dispatch = useDispatch();
+
+  const status = useSelector((state) => state.home.matchup_player_stats_dialog.open);
+  const teamId = useSelector((state) => state.home.matchup_player_stats_dialog.id);
+  const league = useSelector(state=>state.home.leagues).find(league=>league.id == leagueId);
 
   const players = useSelector((state) => state.home.matchups)
     .filter((matchup) => matchup.matchId == matchId && matchup.teamId == teamId)
@@ -54,31 +59,25 @@ const LineupsModal = (props) => {
       }
     );
 
-  const dispatch = useDispatch();
-
-  const status = useSelector((state) => state.home.lineup_dialog.open);
-
-  const handleAddSubstitute = (id) => {
-    closeDialog();
-    dispatch({ type: actions.OPEN_ADD_SUBSTITUTE_DIALOG, payload: id });
-  };
-
-  const [lineups, setLineups] = useState({});
 
   const handleLineups = () => {
     // console.log(lineups)
-    axios.post(apis.editLineups, {lineups, matchId}).then((res)=>{
-      actions.getMatchups(dispatch);
-      alert(res.data.message);
-    }).catch(()=>{
-      console.log("Error")
-    })
+    // axios.post(apis.editLineups, {lineups, matchId}).then((res)=>{
+    //   actions.getMatchups(dispatch);
+    //   alert(res.data.message);
+    // }).catch(()=>{
+    //   console.log("Error")
+    // })
   }
 
   const closeDialog = () => {
-    dispatch({ type: actions.CLOSE_LINEUP_DIALOG });
+    dispatch({ type: actions.CLOSE_PLAYER_STATS_DIALOG });
   };
   const cancelButtonRef = useRef(null);
+
+  useEffect(() => {
+    actions.getMatchups(dispatch);
+  }, []);
 
   return (
     <Transition.Root show={status} as={Fragment}>
@@ -111,11 +110,11 @@ const LineupsModal = (props) => {
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative transform overflow-hidden rounded-main text-left shadow-xl transition-all sm:my-8 bg-slate h-[609px] md:w-[735px] mx-3 flex flex-col">
+              <Dialog.Panel className="relative transform overflow-hidden rounded-main text-left shadow-xl transition-all sm:my-8 bg-slate h-[609px] md:w-[1287px] mx-3 flex flex-col">
                 <div className="divide-y divide-solid divide-[#3A3A3A] flex flex-col flex-grow">
                   <div className="flex items-center text-left h-[88px] justify-between px-default">
                     <p className="text-2xl text-white font-bold">
-                      Edit Lineups
+                      Player Stats
                     </p>
                     <div className="flex items-center">
                       <img
@@ -127,21 +126,7 @@ const LineupsModal = (props) => {
                   </div>
                   <div className="flex flex-grow flex-col p-default justify-between">
                     <div>
-                      <LineupTable players={players} setLineups={setLineups}></LineupTable>
-                    </div>
-                    <div className="flex space-x-3">
-                      <button
-                        onClick={handleLineups}
-                        className={`bg-primary rounded-default w-full hover:bg-opacity-70 h-button text-white disabled:opacity-10`}
-                      >
-                        Save Lineups
-                      </button>
-                      <button
-                        onClick={() => handleAddSubstitute(teamId)}
-                        className={`bg-primary rounded-default w-full hover:bg-opacity-70 h-button text-white disabled:opacity-10`}
-                      >
-                        Add Substitute
-                      </button>
+                      <PlayerTable players={players} league={league}></PlayerTable>
                     </div>
                   </div>
                 </div>
@@ -154,4 +139,4 @@ const LineupsModal = (props) => {
   );
 };
 
-export default LineupsModal;
+export default PlayerStatsModal;

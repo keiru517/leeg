@@ -7,11 +7,11 @@ const StandingTable = (props) => {
   const columns = [
     "Position",
     "Team",
-    "W",
-    "L",
-    "Point Scored",
-    "Point Against",
-    "Diff",
+    "Wins",
+    "Losses",
+    "Points Scored",
+    "Points Against",
+    "Differential",
   ];
 
   return (
@@ -25,7 +25,9 @@ const StandingTable = (props) => {
                   variant="small"
                   className="font-normal leading-none "
                 >
-                  {head}
+                  <p className="text-black dark:text-white">
+                    {head}
+                  </p>
                 </Typography>
               </th>
             ))}
@@ -34,7 +36,7 @@ const StandingTable = (props) => {
         <tbody className="text-center">
           {teams.sort((a, b)=>b.win-a.win).map(({id, position, name, logo, win, lose, pointScored, pointAgainst, diff }, index) => (
             <tr key={index} className="odd:bg-light-dark-gray dark:odd:bg-dark-gray even:bg-light-charcoal dark:even:bg-charcoal">
-              <td className="w-1/6">
+              <td className="w-1">
                 <Typography
                   variant="small"
                   className="font-normal"
@@ -45,9 +47,9 @@ const StandingTable = (props) => {
               <td className="w-1/6">
                 <Typography
                   variant="small"
-                  className="font-normal flex items-center justify-center underline  px-8"
+                  className="font-normal flex items-center justify-left underline  sm:pl-8 space-x-3"
                 >
-                <img src={logo} alt="" className="h-8 w-8 mr-2 rounded-default" />
+                <img src={logo} alt="" className="h-8 w-8 mr-2 rounded-full" />
                 <Link to={`team/${id}`}>
                   {name}
                 </Link>

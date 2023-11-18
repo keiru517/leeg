@@ -1,7 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import downArrowFilled from "../../../src/assets/img/dark_mode/down-arrow-filled.png";
-import downArrow from "../../../src/assets/img/dark_mode/down-arrow.png";
-import settingsIcon from "../../assets/img/dark_mode/Setting.png";
 import { Link, useNavigate } from "react-router-dom";
 import apis from "../../utils/apis";
 import { useDispatch, useSelector } from "react-redux";
@@ -84,7 +82,7 @@ const SettingsSelect = (props) => {
         <img
           src={user?.avatar}
           // src={apis.userAvatarURL(localStorage.getItem("userId"))}
-          className="w-8 h-8 rounded-lg"
+          className="w-8 h-8 rounded-full border border-gray-500"
           alt=""
         />
         {/* <span className="ml-2">{value}</span> */}

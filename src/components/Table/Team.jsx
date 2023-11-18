@@ -48,7 +48,7 @@ const TeamTable = (props) => {
   return (
     <div className="text-black dark:text-white h-full w-full">
       <table className="w-full table-auto text-left">
-        <thead className="sticky">
+        <thead className="sticky top-0 z-10">
           <tr>
             <th
               key="1"

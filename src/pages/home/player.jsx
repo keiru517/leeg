@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Select from "../../components/Select";
-import ProfileTitle from "../../components/ProfileTitle";
+import line from "../../assets/img/dark_mode/point-line.png";
 import * as actions from "../../actions";
 import ProfileTable from "../../components/Table/Profile";
 import DefaultTeamLogo from "../../assets/img/dark_mode/default-team-logo.jpg";
+import backIconDark from "../../assets/img/dark_mode/back-icon-dark.png";
+import backIconLight from "../../assets/img/dark_mode/back-icon-light.png";
 
 const Player = () => {
   let { leagueId, userId } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const darkMode = useSelector((state) => state.home.dark_mode);
 
   const options = [
     {
@@ -55,26 +59,7 @@ const Player = () => {
 
   return (
     <div className="flex flex-col flex-grow">
-      <ProfileTitle avatar={player?.avatar} team={team}>
-        <div>
-          <div className="flex items-center">
-            <p className="text-[28px] text-black dark:text-white">
-              {player?.firstName} {player?.lastName}{" "}
-            </p>
-            <span className="text-xs font-normal mt-2 text-font-dark-gray">
-              / {player?.email}
-            </span>
-          </div>
-          <div className="flex items-center space-x-2 mt-2">
-            <img src={team?.logo?team.logo:DefaultTeamLogo} alt="" className="w-6 h-6 rounded-default" />
-            <p className="text-black dark:text-white text-xs font-medium">
-              {team?.name} | # {player?.jerseyNumber}
-            </p>
-          </div>
-        </div>
-      </ProfileTitle>
-
-      <p className="font-dark-gray my-[20px]">
+      <p className="font-dark-gray my-3">
         <Link to="/">
           <span className="underline">My Leagues</span>
         </Link>
@@ -98,31 +83,91 @@ const Player = () => {
           {player?.firstName} {player?.lastName}
         </span>
       </p>
-      {/* <div className="flex w-full h-[78px] bg-slate rounded-default ">
-        <div className="w-1/5 border border-light-gray rounded-l-[10px] flex flex-col justify-center">
-          <p className="text-white text-base text-center">Height</p>
-          <p className="text-white text-base text-center">{player.height}</p>
-        </div>
-        <div className="w-1/5 border border-light-gray  flex flex-col justify-center">
-          <p className="text-white text-base text-center">Weight</p>
-          <p className="text-white text-base text-center">{player.weight}</p>
-        </div>
-        <div className="w-1/5 border border-light-gray flex flex-col justify-center">
-          <p className="text-white text-base text-center">Country</p>
-          <p className="text-white text-base text-center">{player.country}</p>
-        </div>
-        <div className="w-1/5 border border-light-gray flex flex-col justify-center">
-          <p className="text-white text-base text-center">Age</p>
-          <p className="text-white text-base text-center">{player.age}</p>
-        </div>
-        <div className="w-1/5 border border-light-gray rounded-r-[10px] flex flex-col justify-center">
-          <p className="text-white text-base text-center">Birthdate</p>
-          <p className="text-white text-base text-center">{player.birthDate}</p>
-        </div>
-      </div> */}
 
-      <div className="flex flex-col flex-grow rounded-main bg-white dark:bg-slate overflow-auto mt-5 p-default">
-        <div className="search flex justify-between space-x-6">
+      <div className="flex flex-col flex-grow rounded-main bg-white dark:bg-slate overflow-auto p-default">
+        <div className="page-title bg-white dark:bg-charcoal flex items-center justify-between p-3">
+          <div className="flex items-center">
+            <div
+              className="w-[34px] h-[34px] bg-gray-300 dark:bg-primary items-center flex justify-center rounded-default cursor-pointer hover:opacity-70"
+              onClick={() => navigate(-1)}
+            >
+              <img
+                src={darkMode ? backIconDark : backIconLight}
+                alt=""
+                className="w-[4px] h-[10px] dark:hover:bg-middle-gray rounded-default cursor-pointer"
+              />
+            </div>
+            {player?.avatar ? (
+              <img
+                src={player?.avatar}
+                alt=""
+                className="w-20 h-20 mx-6 rounded-full border border-gray-500"
+              />
+            ) : (
+              ""
+            )}
+            {/* <p className="text-3xl text-white text-left font-black"> */}
+              <div className="text-3xl text-white text-left font-black">
+                <div className="flex items-center">
+                  <p className="text-[28px] text-black dark:text-white">
+                    {player?.firstName} {player?.lastName}{" "}
+                  </p>
+                  <span className="text-xs font-normal mt-2 text-font-dark-gray">
+                    / {player?.email}
+                  </span>
+                </div>
+                <div className="flex items-center space-x-2 mt-2">
+                  <img
+                    src={team?.logo ? team.logo : DefaultTeamLogo}
+                    alt=""
+                    className="w-6 h-6 rounded-default"
+                  />
+                  <p className="text-black dark:text-white text-xs font-medium">
+                    {team?.name} | # {player?.jerseyNumber}
+                  </p>
+                </div>
+              </div>
+            {/* </p> */}
+            {/* {deleteIcon ? (
+              <img src={deleteIcon} alt="" className="w-6 h-6" />
+            ) : (
+              ""
+            )} */}
+          </div>
+          <button className="w-[377px] h-[102px] bg-primary rounded-default hover:opacity-70 text-white">
+            <div className="w-[297px] mx-auto">
+              <p className="text-xl font-semibold">Season Averages</p>
+              <div className="flex full h-[35px]">
+                <div className="h-full">
+                  <p className="text-[10px] text-[#FFFFFF] opacity-50">PTS</p>
+                  <p className="text-base font-semibold">12.1</p>
+                </div>
+                <img src={line} alt="" className="mx-[19px]" />
+                <div className="h-full">
+                  <p className="text-[10px] text-[#FFFFFF] opacity-50">PTS</p>
+                  <p className="text-base font-semibold">12.1</p>
+                </div>
+                <img src={line} alt="" className="mx-[19px]" />
+                <div className="h-full">
+                  <p className="text-[10px] text-[#FFFFFF] opacity-50">PTS</p>
+                  <p className="text-base font-semibold">12.1</p>
+                </div>
+                <img src={line} alt="" className="mx-[19px]" />
+                <div className="h-full">
+                  <p className="text-[10px] text-[#FFFFFF] opacity-50">PTS</p>
+                  <p className="text-base font-semibold">12.1</p>
+                </div>
+                <img src={line} alt="" className="mx-[19px]" />
+                <div className="h-full">
+                  <p className="text-[10px] text-[#FFFFFF] opacity-50">PTS</p>
+                  <p className="text-base font-semibold">12.1</p>
+                </div>
+                <img src={line} alt="" className="mx-[19px]" />
+              </div>
+            </div>
+          </button>
+        </div>
+        <div className="search flex justify-between space-x-6 mt-3">
           <Select
             className="w-full rounded-lg text-xs h-[42px]"
             options={options}
