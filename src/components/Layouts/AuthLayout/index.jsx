@@ -6,11 +6,11 @@ import { setAuthToken } from "../../../utils/authService";
 
 const AuthLayout = (props) => {
   const navigate = useNavigate();
-  const [isLoading, setLoading] = useState(true);
-  const [isLoggedIn, setLoggedIn] = useState(false);
+  const [isLoading, setLoading] = useState(false);
+  const [isLoggedIn, setLoggedIn] = useState(true);
   
   const token = localStorage.getItem('token');
-  useEffect(()=>{
+  /*useEffect(()=>{
 
     if (token) {
       setLoggedIn(true)
@@ -22,16 +22,18 @@ const AuthLayout = (props) => {
     }
     setLoading(false)
     
-  }, [token])
+  }, [token])*/
 
   return (
-    <div className="p-[20px_26px_51px_26px] dark:bg-black bg-light-charcoal justify-center flex flex-col flex-grow">
+    <div className="dark:bg-black bg-light-charcoal flex flex-col flex-grow">
       {isLoading ? (
         <div className="text-white text-3xl">Page is loading.</div>
       ) : isLoggedIn ? (
         <>
           <Nav />
-          {props.children}
+          <div className="p-[20px_26px_51px_26px]">
+            {props.children}
+          </div>
         </>
       ) : (
         <>

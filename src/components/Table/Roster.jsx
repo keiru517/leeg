@@ -130,7 +130,7 @@ const RosterTable = (props) => {
 
   return (
     <div className="text-black dark:text-white h-full w-full mt-4">
-      <table className="w-full min-w-max table-auto text-left">
+      <table className="w-full table-auto text-left">
         <thead>
           <tr>
             <th>

@@ -35,7 +35,7 @@ const AdminTable = (props) => {
 
   return (
     <div className="text-white h-full w-full">
-      <table className="w-full min-w-max table-auto text-left">
+      <table className="table-auto w-full text-left rounded-md">
         <thead className="sticky">
           <tr>
             <th
@@ -88,7 +88,8 @@ const AdminTable = (props) => {
             ? admins.map((admin, index) => (
                 <tr
                   key={index}
-                  className="odd:bg-light-dark-gray dark:odd:bg-dark-gray even:bg-light-charcoal dark:even:bg-charcoal h-[53px]"
+                  // className="odd:bg-light-dark-gray dark:odd:bg-dark-gray even:bg-light-charcoal dark:even:bg-charcoal h-[53px]"
+                  className="bg-transparent h-[53px]"
                 >
                   <td className="w-4/5">
                     <div className="flex items-center justify-between">
@@ -111,7 +112,7 @@ const AdminTable = (props) => {
                         }
                       </div>
                       {admin.role === 1 ? (
-                        <span className="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
+                        <span className="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
                           Owner
                         </span>
                       ) : (

@@ -16,7 +16,7 @@ const Input = (props) => {
                         alt="" />
                 </div> : ""
             } 
-            <input {...rest} className="bg-transparent outline-none text-black dark:text-white flex-grow h-button " value={value}/>
+            <input {...rest} className="bg-transparent outline-none text-black dark:text-white flex-grow h-button w-full max-w-full" value={value}/>
             {
                 option ? <div>
                     <img src={option} alt="" className="hover:cursor-pointer"/>
