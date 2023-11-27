@@ -1,262 +1,90 @@
-import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { Typography } from "@material-tailwind/react";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router";
-import { AiOutlineCheck } from "react-icons/ai";
-import { Switch } from "@headlessui/react";
-import Option from "../Option";
+import { useState } from "react";
+
+import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import axios from "axios";
+
 import apis from "../../utils/apis";
 import * as actions from "../../actions";
+import Table from "./index";
 
-function Checkbox({ label, name, checked, onChange, disabled }) {
-  return (
-    <Switch.Group>
-      <div className="flex items-center">
-        <Switch.Label className="mr-4">{label}</Switch.Label>
-        <Switch
-          checked={checked}
-          onChange={onChange}
-          name={name}
-          disabled={disabled}
-          className={`
-            relative flex h-5 w-5 items-center justify-center transition-all duration-200 outline-none ring-1 
-            ${!checked && !disabled ? "ring-gray-400" : ""}
-            ${checked && !disabled ? "ring-red-400" : ""} 
-            ${disabled ? "bg-gray-200 ring-gray-200" : ""}  
-          `}
-        >
-          <AiOutlineCheck
-            size="1rem"
-            className={`
-             ${checked ? "scale-100" : "scale-0"} 
-             ${checked && !disabled ? "text-red-400" : "text-gray-400"} 
-             transition-transform duration-200 ease-out`}
-          />
-        </Switch>
-      </div>
-    </Switch.Group>
-  );
-}
-
-const RosterTable = (props) => {
-  const navigate = useNavigate();
+const RosterTable = ({ rosters, rosterList }) => {
   const dispatch = useDispatch();
-  let { leagueId } = useParams();
+  const [selectedItems, setSelectedItems] = useState([]);
 
-  // let { leagueId} = useParams();
-  const user = useSelector((state) => state.home.user);
-  const league = useSelector((state) => state.home.leagues).find(
-    (league) => league.id == leagueId && league.isDeleted !== 1
-  );
-
-  const { rosters, rosterValue, setRosterValue } = props;
-
-  var columns = [];
-  if (league?.userId == user?.id) {
-    var columns = [
-      "Player",
-      "Email",
-      "Date Applied",
-      "Date Accepted",
-      "Team",
-      "Status",
-      // "Action",
-    ];
-  } else {
-    var columns = [
-      "Player",
-      "Email",
-      "Date Applied",
-      "Date Accepted",
-      "Team",
-      "Status",
-    ];
-  }
+  const columns = [
+    {
+      label: 'Player',
+      fixed: true,
+      getValue: (row) => (
+        <Link to={`player/${row.userId}`} className="flex items-center">
+          <img src={row.avatar} alt="" className="h-8 w-8 mr-4 rounded-full" />
+          {row.firstName} {row.lastName}
+        </Link>
+      )
+    },
+    {
+      label: 'Email',
+      getValue: (row) => row.email
+    },
+    {
+      label: 'Date Applied',
+      getValue: (row) => new Date(row.createdAt).toLocaleDateString()
+    },
+    {
+      label: 'Date Accepted',
+      getValue: (row) => new Date(row.updatedAt).toLocaleDateString()
+    },
+    {
+      label: 'Team',
+      getValue: (row) => row.teamId !== 0 ? "Yes" : "No"
+    },
+  ];
 
   const options =
-    rosterValue === "WaitList"
+    rosterList === "WaitList"
       ? [
           { id: 0, name: "Accept" },
-          { id: 1, name: "Remove" },
         ]
       : [{ id: 0, name: "WaitList" }];
 
-  const teams = useSelector((state) => state.home.teams);
 
-  const handleOption = (idx, event) => {
-    const allItemsFalse = Object.values(itemChecked).every((value) => value === false);
-    if (Object.keys(itemChecked).length === 0 || allItemsFalse) {
+  const handleOption = () => {
+    if (selectedItems.length === 0) {
       alert("Please select one or more players!");
     } else {
-      if (rosterValue === "WaitList") {
+      if (rosterList === "WaitList") {
         // if the user clicks Accept
-        if (idx === 0) {
-          axios
-            .post(apis.acceptPlayer, itemChecked)
-            .then((res) => {
+        axios
+            .post(apis.acceptPlayer, selectedItems.map((playerId)=> ({id:playerId})))
+            .then(() => {
               actions.getPlayers(dispatch);
             })
             .catch((error) => alert(error.response.data.message));
-        } else {
-
-        }
       } else {
         axios
-          .post(apis.unacceptPlayer, itemChecked)
-          .then((res) => {
+          .post(apis.unacceptPlayer, selectedItems.map((playerId)=> ({id:playerId})))
+          .then(() => {
             actions.getPlayers(dispatch);
           })
           .catch((error) => alert(error.response.data.message));
       }
     }
-    setItemChecked({});
-  };
-
-  const isDeletedTeam = (teamId) => {
-    const team = teams.find((team) => team.id == teamId);
-    if (team.isDeleted === 1) return true;
-    else return false;
-  };
-
-  const [itemChecked, setItemChecked] = useState({});
-  const setListItemChecked = (index, checked) => {
-    let temp = { ...itemChecked };
-    temp[index] = checked;
-    setItemChecked(temp);
-    console.log(temp)
+    setSelectedItems([]);
   };
 
   return (
     <div className="text-black dark:text-white h-full w-full mt-4">
-      <table className="w-full table-auto text-left">
-        <thead>
-          <tr>
-            <th>
-              <Checkbox
-                name="name"
-                // checked={!!allchecked}
-                // onChange={(checked) => {
-                //   setWaitListItemChecked(player.id, checked);
-                // }}
-              />
-            </th>
-            {columns.map((head, idx) => (
-              <th
-                key={idx}
-                className="h-button text-center font-font-dark-gray font-normal  text-sm"
-              >
-                {head}
-              </th>
-            ))}
-            {league?.userId == user?.id ? (
-              <th>
-                <Option
-                  options={options}
-                  handleClick={(idx, event) => handleOption(idx)}
-                ></Option>
-              </th>
-            ) : (
-              ""
-            )}
-          </tr>
-        </thead>
-        <tbody className="text-center">
-          {rosters.map((player, index) => (
-            // <tr onClick={()=>goToMatchup(id)} key={index} className="odd:bg-dark-gray even:bg-charcoal  hover:">
-            <tr
-              key={index}
-              className="odd:bg-light-dark-gray dark:odd:bg-dark-gray even:bg-light-charcoal dark:even:bg-charcoal"
-            >
-              <td className="">
-                <Typography
-                  variant="small"
-                  color="blue-gray"
-                  className="font-normal"
-                >
-                  <Checkbox
-                    name="name"
-                    checked={!!itemChecked[player.id]}
-                    onChange={(checked) => {
-                      setListItemChecked(player.id, checked);
-                    }}
-                  />
-                </Typography>
-              </td>
-              <td className="w-1/7">
-                <Typography
-                  variant="small"
-                  color="blue-gray"
-                  className="font-normal flex items-center underline px-3"
-                >
-                  <img
-                    src={player.avatar}
-                    alt=""
-                    className="h-8 w-8 sm:mr-2 sm:ml-5 rounded-default"
-                  />
-                  <Link to={`player/${player.userId}`}>
-                    {player.firstName} {player.lastName}
-                  </Link>
-                </Typography>
-              </td>
-              <td className="w-1/7">
-                <Typography
-                  variant="small"
-                  color="blue-gray"
-                  className="font-normal"
-                >
-                  {player.email}
-                </Typography>
-              </td>
-              <td className="w-1/7">
-                <Typography
-                  variant="small"
-                  color="blue-gray"
-                  className="font-normal"
-                >
-                  {player.createdAt}
-                </Typography>
-              </td>
-              <td className="w-1/7">
-                <Typography
-                  variant="small"
-                  color="blue-gray"
-                  className="font-normal"
-                >
-                  {player.updatedAt}
-                </Typography>
-              </td>
-              <td className="w-1/7">
-                <Typography
-                  variant="small"
-                  color="blue-gray"
-                  className="font-normal"
-                >
-                  {player.teamId !== 0 ? "Yes" : "No"}
-                </Typography>
-              </td>
-              <td className="w-1/7">
-                <Typography
-                  variant="small"
-                  color="blue-gray"
-                  className="font-normal"
-                >
-                  {player.isAcceptedList === 1 ? "Accepted" : "Not Accepted"}
-                </Typography>
-              </td>
-              {league?.userId == user?.id && (
-                <td className="w-1/7">
-                  {/* <Option
-                    options={options}
-                    handleClick={(idx) => handleOption(idx, player.id)}
-                  ></Option> */}
-                </td>
-              )}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <Table
+          data={rosters}
+          columns={columns}
+          presentCheckBox
+          selectedItems={selectedItems}
+          setSelectedItems={setSelectedItems}
+          presentOptions
+          options={options}
+          handleOption={handleOption}
+      />
     </div>
   );
 };

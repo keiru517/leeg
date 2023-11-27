@@ -11,7 +11,7 @@ import { useState } from "react";
 
 const TeamTable = (props) => {
   const { data } = props;
-  const { leagueId, teamId } = useParams();
+  const { leagueId} = useParams();
 
   const league = useSelector((state) => state.home.leagues).find(
     (league) => league.id == leagueId
@@ -26,7 +26,7 @@ const TeamTable = (props) => {
 
   const [isOpen, setIsOpen] = useState(false);
   const [playerId, setPlayerId] = useState("");
-  const handleOption = (idx, playerId, event) => {
+  const handleOption = (idx, playerId) => {
     // event.preventDefault();
 
     if (idx === 0) {
@@ -47,7 +47,7 @@ const TeamTable = (props) => {
 
   return (
     <div className="text-black dark:text-white h-full w-full">
-      <table className="w-full table-auto text-left">
+      <table className="w-full table-auto text-left px-4 pb-4">
         <thead className="sticky top-0 z-10">
           <tr>
             <th
@@ -74,7 +74,7 @@ const TeamTable = (props) => {
                 Jersey Number
               </Typography>
             </th>
-            {league?.displayPosition ? (
+            {league?.displayPosition && (
               <th
                 key="3"
                 className="h-button bg-light-charcoal dark:bg-slate text-center w-1/3"
@@ -87,8 +87,6 @@ const TeamTable = (props) => {
                   Position
                 </Typography>
               </th>
-            ) : (
-              ""
             )}
             <th
               key="4"
@@ -108,17 +106,12 @@ const TeamTable = (props) => {
           {data.map((player, idx) => (
             <tr
               key={idx}
-              className="odd:bg-light-dark-gray dark:odd:bg-dark-gray even:bg-light-charcoal dark:even:bg-charcoal"
+              className="dark:text-white text-black"
             >
               <td className="">
                 <Link to={`/league/${leagueId}/player/${player.userId}`}>
                   <div className="flex items-center px-3">
-                    <img
-                      src={player.avatar}
-                      alt=""
-                      className="w-8 h-8 mr-2 rounded-full border border-gray-500 dark:border-gray-100"
-                    />
-                      <span className="font-normal underline">{player.firstName} {player.lastName}</span>
+                    <span className="font-normal">{player.firstName} {player.lastName}</span>
                   </div>
                 </Link>
               </td>

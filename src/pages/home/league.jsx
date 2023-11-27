@@ -1,12 +1,16 @@
 import React, { useState, useEffect, useRef } from "react";
+
 import { useParams } from "react-router";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import Tab from '@mui/material/Tab';
+import {TabPanel, TabContext} from '@mui/lab';
+import {Tabs} from "@mui/material";
+
 import search from "../../assets/img/dark_mode/search.png";
 import Input from "../../components/Input";
-import ListItem from "../../components/ListItem";
 import Select from "../../components/Select";
 import Button from "../../components/Button";
 import TeamCard from "../../components/Card/Team";
@@ -20,15 +24,11 @@ import StandingTable from "../../components/Table/Standing";
 import AdminTable from "../../components/Table/Admin";
 import PlayerTable from "../../components/Table/Player";
 import RosterTable from "../../components/Table/Roster";
-import TimePicker from "../../components/Timer/TimePicker";
 import calendar from "../../assets/img/dark_mode/calendar.png";
 import apis from "../../utils/apis";
 import * as actions from "../../actions";
 import toggleOn from "../../assets/img/dark_mode/toggle-on.png";
 import toggleOff from "../../assets/img/dark_mode/toggle-off.png";
-import Tab from '@mui/material/Tab';
-import {TabPanel, TabContext} from '@mui/lab';
-import {Tabs} from "@mui/material";
 
 const League = () => {
   let { leagueId } = useParams();
@@ -95,9 +95,8 @@ const League = () => {
     setRosters(result);
   }, [rosterValue]);
 
-  var categories = [];
+  let categories;
   if (isAdmin) {
-    // if (league?.userId == user?.id) {
     categories = [
       "Blog",
       "Manage Rosters",
@@ -246,16 +245,6 @@ const League = () => {
     );
     setFilteredPlayers(searchResult);
   }, [playerKeyword]);
-
-  const setWaitListItemChecked = (index, checked) => {
-    let temp = { ...waitItemChecked };
-    temp[index] = checked;
-    setWaitItemChecked(temp);
-  };
-  const setAcceptedListItemChecked = (index, checked) => {
-    acceptedItemChecked[index] = checked;
-    setAcceptedItemChecked({ ...acceptedItemChecked });
-  };
 
   const handleAccept = () => {
     if (Object.keys(waitItemChecked).length < 1) {
@@ -596,10 +585,6 @@ const League = () => {
         </Link>
         <span className="text-sky-500"> &gt; {league?.name}</span>
       </p>
-      {/*<div className="flex items-center space-x-3 mb-[20px]">
-        <img src={league?.logo} className="w-10 h-10 rounded-lg"></img>
-        <p className="text-black dark:text-white text-lg">{league?.name}</p>
-      </div>*/}
       <div className="rounded-default bg-white dark:bg-slate flex-grow p-default">
         <div className="w-full px-2 sm:px-0 h-full flex flex-col">
           <TabContext value={tab}>
@@ -613,7 +598,7 @@ const League = () => {
                     '.MuiTabs-scrollButtons.Mui-disabled': { opacity: 0.3 },
                     '.MuiTabs-scrollButtons': { color: 'white'},
                   }}
-                  //className="flex justify-start space-x-5 rounded-xl bg-transparent p-1"
+
               >
                 {categories.map((category, idx) => (
                   <Tab
@@ -722,7 +707,7 @@ const League = () => {
                 <PlayerModal></PlayerModal>
               </TabPanel>
               {/* Rosters */}
-              {isAdmin ? (
+              {isAdmin && (
                 <TabPanel
                   value="1"
                   sx={{
@@ -756,28 +741,20 @@ const League = () => {
                           </Select>
                         </div>
                         <div className="md:ml-2 col-span-1">
-                          {isAdmin && (
-                              <button
-                                  onClick={handleInvitePlayer}
-                                  className="w-full lg:w-30 h-10 bg-primary hover:bg-opacity-70 rounded-default text-white focus:ring-2 text-sm font-bold float-right "
-                              >
-                                Invite Player
-                              </button>
-                          )}
+                            <button
+                                onClick={handleInvitePlayer}
+                                className="w-full lg:w-30 h-10 bg-primary hover:bg-opacity-70 rounded-default text-white focus:ring-2 text-sm font-bold float-right "
+                            >
+                              Invite Player
+                            </button>
                         </div>
-
                       </div>
                       <div
-                        className={`overflow-y-scroll:auto h-4/6 flex flex-col flex-grow mt-5 ${
-                          players.length
-                            ? ""
-                            : ""
-                        } rounded-default`}
+                        className="overflow-y-scroll:auto h-4/6 flex flex-col flex-grow mt-5 rounded-default"
                       >
                         <RosterTable
                           rosters={rosters}
-                          rosterValue={rosterValue}
-                          setRosterValue={setRosterValue}
+                          rosterList={rosterValue}
                         />
                         {/* {players.length ? (
                           players.map((player, idx) => (
@@ -939,10 +916,8 @@ const League = () => {
                       </div>
                     </div>
                   </div> */}
-                  <PlayerModal></PlayerModal>
+                  <PlayerModal />
                 </TabPanel>
-              ) : (
-                ""
               )}
 
               {/* Teams */}
@@ -955,7 +930,7 @@ const League = () => {
               >
                 <hr className="h-px mb-4 bg-charcoal border-0" />
                 <div className="grid sm:grid-cols-1 md:grid-cols-6 ld:grid-cols-10 sm:space-x-0 md:space-x-3">
-                  <div className="md:col-span-5 lg:grid-cols-9">
+                  <div className="md:col-span-5 lg:grid-cols-9 mb-3 md:mb-0 lg:mb-0">
                     <Input
                         className="rounded-lg h-[42px] text-xs"
                         icon={search}
@@ -1235,7 +1210,6 @@ const League = () => {
                   <AdminModal user={user} leagueId={leagueId} />
                   {/* Stats */}
                   <div className="flex flex-col  space-y-3 border border-dark-gray rounded p-5">
-                    {/*<h1 className="dark:text-white text-black font-medium mb-6">Lorem ipsum</h1>*/}
                     <table className="table-fixed">
                       <thead>
                         <tr>
