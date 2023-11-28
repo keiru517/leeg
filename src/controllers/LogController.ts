@@ -1,6 +1,8 @@
 import { RequestHandler } from 'express';
 import Matchup from '../models/Matchup';
+import Match from '../models/Match';
 import Log from '../models/Log';
+import { calculateNumberOfEvents } from '../helpers';
 
 // import { Types } from '../types';
 
@@ -20,6 +22,7 @@ export const all: RequestHandler = async (req, res) => {
 export const createOne: RequestHandler = async (req, res) => {
   const { leagueId, matchId, period, teamId, playerId, event, time, isDirect } =
     req.body;
+
   try {
     await Log.create({
       leagueId,
@@ -31,7 +34,39 @@ export const createOne: RequestHandler = async (req, res) => {
       time,
       isDirect
     });
+
     const logs = await Log.findAll();
+
+    // Update match result
+    const match = await Match.findByPk(matchId);
+    if (match) {
+      if (teamId == match.homeTeamId) {
+        switch (event) {
+          case '+3 Pointer':
+            match.homeTeamPoints += 3;
+            break;
+          case '+2 Pointer':
+            match.homeTeamPoints += 2;
+            break;
+          case '+1 Pointer':
+            match.homeTeamPoints += 1;
+            break;
+        }
+      } else if (teamId == match.awayTeamId) {
+        switch (event) {
+          case '+3 Pointer':
+            match.awayTeamPoints += 3;
+            break;
+          case '+2 Pointer':
+            match.awayTeamPoints += 2;
+            break;
+          case '+1 Pointer':
+            match.awayTeamPoints += 1;
+            break;
+        }
+      }
+      await match.save();
+    }
 
     res.status(200).json({ logs });
   } catch (error) {
@@ -113,35 +148,35 @@ export const create: RequestHandler = async (req, res) => {
       // })
     } else {
       // update matchup
-      playerIds.map(async (id: any) => {
-        if (id !== '') {
+      playerIds.map(async (playerId: any) => {
+        if (playerId !== '') {
           const matchup = await Matchup.findOne({
             where: {
-              playerId: id,
+              playerId: playerId,
               leagueId: leagueId,
               matchId: matchId
             }
           });
 
-          const points3 = calculateNumberOfEvents(logs, '+3 Pointer', id);
+          const points3 = calculateNumberOfEvents(logs, '+3 Pointer', playerId);
 
           const attempts3 =
-            points3 + calculateNumberOfEvents(logs, '+3 Attempt', id);
+            points3 + calculateNumberOfEvents(logs, '+3 Attempt', playerId);
 
-          const points2 = calculateNumberOfEvents(logs, '+2 Pointer', id);
+          const points2 = calculateNumberOfEvents(logs, '+2 Pointer', playerId);
           const attempts2 =
-            points2 + calculateNumberOfEvents(logs, '+2 Attempt', id);
-          const points1 = calculateNumberOfEvents(logs, '+1 Pointer', id);
+            points2 + calculateNumberOfEvents(logs, '+2 Attempt', playerId);
+          const points1 = calculateNumberOfEvents(logs, '+1 Pointer', playerId);
 
           const points = points3 * 3 + points2 * 2 + points1;
           const attempts1 =
-            points1 + calculateNumberOfEvents(logs, '+1 Attempt', id);
+            points1 + calculateNumberOfEvents(logs, '+1 Attempt', playerId);
 
-          const rebounds = calculateNumberOfEvents(logs, 'Rebound', id);
-          const turnovers = calculateNumberOfEvents(logs, 'Turnover', id);
-          const fouls = calculateNumberOfEvents(logs, 'Foul', id);
-          const blocks = calculateNumberOfEvents(logs, 'Block', id);
-          const assists = calculateNumberOfEvents(logs, 'Assist', id);
+          const rebounds = calculateNumberOfEvents(logs, 'Rebound', playerId);
+          const turnovers = calculateNumberOfEvents(logs, 'Turnover', playerId);
+          const fouls = calculateNumberOfEvents(logs, 'Foul', playerId);
+          const blocks = calculateNumberOfEvents(logs, 'Block', playerId);
+          const assists = calculateNumberOfEvents(logs, 'Assist', playerId);
 
           if (matchup) {
             await matchup.update({
@@ -358,17 +393,4 @@ export const info: RequestHandler = async (req, res) => {
   }
 };
 
-const calculateNumberOfEvents = (
-  logs: any,
-  event: any,
-  // teamId: any,
-  playerId: any
-) => {
-  const logArray = Object.values(logs);
-  const result = logArray.filter(
-    (log: any) => log.event == event && log.playerId == playerId
-  );
 
-  const number = result.length;
-  return number;
-};

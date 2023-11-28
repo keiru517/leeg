@@ -21,6 +21,13 @@ matchupRouter.post('/update', MatchupController.update);
 // SERVER_URL/api/matchup/remove/1
 matchupRouter.delete('/remove/:id', MatchupController.remove);
 
+// Complete matchup
+matchupRouter.post('/complete', MatchupController.complete);
+
+// Incomplete matchup
+matchupRouter.post('/incomplete', MatchupController.incomplete);
+
+// Edit lineups
 matchupRouter.post('/editLineups', MatchupController.editLineups);
 // get a matchup
 // SERVER_URL/api/matchup/info/1

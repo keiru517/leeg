@@ -2,6 +2,9 @@ import { RequestHandler } from 'express';
 import Matchup from '../models/Matchup';
 import Player from '../models/Player';
 import User from '../models/User';
+import Log from '../models/Log';
+import Match from '../models/Match';
+import Team from '../models/Team';
 // import { Types } from '../types';
 
 // GET SERVER_URL/api/matchup/all
@@ -344,32 +347,262 @@ export const remove: RequestHandler = async (req, res) => {
   }
 };
 
+export const complete: RequestHandler = async (req, res) => {
+  const { matchId } = req.body;
+  const match = await Match.findByPk(matchId);
+  console.log(matchId);
+  const logs = await Log.findAll({
+    where: {
+      matchId
+    }
+  });
+
+  try {
+    if (logs) {
+      // const promise = logs.map(async log => {
+        for (const log of logs) {
+        if (match && match.isNew) {
+          const matchup = await Matchup.findOne({
+            where: {
+              matchId: matchId,
+              playerId: log.playerId
+            }
+          });
+
+          if (matchup) {
+            console.log("lock=============", log.event)
+            // update matchup if the match is not new
+            switch (log.event) {
+              case '+3 Pointer':
+                matchup.points3 = matchup.points3 + 1;
+                matchup.points = matchup.points + 3;
+                break;
+              case '+2 Pointer':
+                console.log("====before",log.playerId, matchup.id,  matchup.points2, matchup.points)
+                matchup.points2 = matchup.points2 + 1;
+                matchup.points = matchup.points + 2;
+                console.log("====after",log.playerId, matchup.id, matchup.points2, matchup.points)
+                break;
+              case '+1 Pointer':
+                matchup.points1 = matchup.points1 + 1;
+                matchup.points = matchup.points + 1;
+                break;
+              case '+3 Attempt':
+                matchup.attempts3 = matchup.attempts3 + 1;
+                break;
+              case '+2 Attempt':
+                matchup.attempts2 = matchup.attempts2 + 1;
+                break;
+              case '+1 Attempt':
+                matchup.attempts1 = matchup.attempts1 + 1;
+                break;
+              case 'Rebound':
+                matchup.rebounds = matchup.rebounds + 1;
+                break;
+              case 'Turnover':
+                matchup.turnovers = matchup.turnovers + 1;
+                break;
+              case 'Foul':
+                matchup.fouls = matchup.fouls + 1;
+                break;
+              case 'Block':
+                matchup.blocks = matchup.blocks + 1;
+                break;
+              case 'Assist':
+                matchup.assists = matchup.assists + 1;
+                break;
+            }
+            console.log("==========save", log.playerId)
+            await matchup.save();
+          }
+        }
+      }
+      // });
+
+      // await Promise.all(promise);
+      // Update Team statistics if the match is new
+      if (match && match.isNew) {
+        match.isNew = false;
+        await match.save();
+        const homeTeam = await Team.findByPk(match.homeTeamId);
+        const awayTeam = await Team.findByPk(match.awayTeamId);
+        if (homeTeam && awayTeam) {
+          console.log('================lock', homeTeam.win, awayTeam.lose);
+          if (match.homeTeamPoints > match.awayTeamPoints) {
+            homeTeam.win = homeTeam.win + 1;
+            awayTeam.lose = awayTeam.lose + 1;
+
+            // homeTeam.pointScored = homeTeam.pointScored + match.homeTeamPoints;
+            // homeTeam.pointAgainst = homeTeam.pointAgainst + match.awayTeamPoints;
+            // homeTeam.diff = homeTeam.pointScored - homeTeam.pointAgainst;
+            
+            // awayTeam.pointScored = awayTeam.pointScored + match.awayTeamPoints;
+            // awayTeam.pointAgainst = awayTeam.pointAgainst + match.homeTeamPoints;
+            // awayTeam.diff = awayTeam.pointScored - awayTeam.pointAgainst;
+            
+          } else if (match.homeTeamPoints < match.awayTeamPoints) {
+            homeTeam.lose = homeTeam.lose + 1;
+            awayTeam.win = awayTeam.win + 1;
+
+          }
+          homeTeam.pointScored = homeTeam.pointScored + match.homeTeamPoints;
+          homeTeam.pointAgainst = homeTeam.pointAgainst + match.awayTeamPoints;
+          homeTeam.diff = homeTeam.pointScored - homeTeam.pointAgainst;
+          
+          awayTeam.pointScored = awayTeam.pointScored + match.awayTeamPoints;
+          awayTeam.pointAgainst = awayTeam.pointAgainst + match.homeTeamPoints;
+          awayTeam.diff = awayTeam.pointScored - awayTeam.pointAgainst;
+
+          await homeTeam.save();
+          await awayTeam.save();
+        }
+      }
+    } else {
+      console.log('Logs are not found!');
+    }
+
+    const matchups = await Matchup.findAll({
+      include: [{ model: Player, as: 'player' }]
+    });
+    res.status(200).json({ matchups });
+  } catch (error) {
+    res.status(400).json({ message: 'Error occurred!' });
+  }
+};
+
+export const incomplete: RequestHandler = async (req, res) => {
+  const { matchId } = req.body;
+  const match = await Match.findByPk(matchId);
+  console.log(matchId);
+  const logs = await Log.findAll({
+    where: {
+      matchId
+    }
+  });
+
+  try {
+    if (logs) {
+      // const promise = logs.map(async log => {
+        for (const log of logs) {
+
+        console.log(log.event, log.playerId, log.matchId);
+        const matchup = await Matchup.findOne({
+          where: {
+            matchId: matchId,
+            playerId: log.playerId
+          }
+        });
+        if (matchup) {
+          // update team statistics
+          if (match && !match.isNew) {
+            // update matchup if the match is not new
+            switch (log.event) {
+              case '+3 Pointer':
+                matchup.points3 = matchup.points3 - 1;
+                matchup.points = matchup.points - 3;
+                break;
+              case '+2 Pointer':
+                matchup.points2 = matchup.points2 - 1;
+                matchup.points = matchup.points - 2;
+                break;
+              case '+1 Pointer':
+                matchup.points1 = matchup.points1 - 1;
+                matchup.points = matchup.points - 1;
+                break;
+              case '+3 Attempt':
+                matchup.attempts3 = matchup.attempts3 - 1;
+                break;
+              case '+2 Attempt':
+                matchup.attempts2 = matchup.attempts2 - 1;
+                break;
+              case '+1 Attempt':
+                matchup.attempts1 = matchup.attempts1 - 1;
+                break;
+              case 'Rebound':
+                matchup.rebounds = matchup.rebounds - 1;
+                break;
+              case 'Turnover':
+                matchup.turnovers = matchup.turnovers - 1;
+                break;
+              case 'Foul':
+                matchup.fouls = matchup.fouls - 1;
+                break;
+              case 'Block':
+                matchup.blocks = matchup.blocks - 1;
+                break;
+              case 'Assist':
+                matchup.assists = matchup.assists - 1;
+                break;
+            }
+            await matchup.save();
+          }
+        }
+      }
+      // });
+      // await Promise.all(promise);
+      // Update Team statistics if the match is new
+      if (match && !match.isNew) {
+        match.isNew = true;
+        await match.save();
+        const homeTeam = await Team.findByPk(match.homeTeamId);
+        const awayTeam = await Team.findByPk(match.awayTeamId);
+        if (homeTeam && awayTeam) {
+          console.log('================unlock', homeTeam.win, awayTeam.lose);
+          if (match.homeTeamPoints > match.awayTeamPoints) {
+            homeTeam.win = homeTeam.win - 1;
+            awayTeam.lose = awayTeam.lose - 1;
+          } else if (match.homeTeamPoints < match.awayTeamPoints) {
+            homeTeam.lose = homeTeam.lose - 1;
+            awayTeam.win = awayTeam.win - 1;
+          }
+          homeTeam.pointScored = homeTeam.pointScored - match.homeTeamPoints;
+          homeTeam.pointAgainst = homeTeam.pointAgainst - match.awayTeamPoints;
+          homeTeam.diff = homeTeam.pointScored - homeTeam.pointAgainst;
+          
+          awayTeam.pointScored = awayTeam.pointScored - match.awayTeamPoints;
+          awayTeam.pointAgainst = awayTeam.pointAgainst - match.homeTeamPoints;
+          awayTeam.diff = awayTeam.pointScored - awayTeam.pointAgainst;
+          
+          await homeTeam.save();
+          await awayTeam.save();
+        }
+      }
+    } else {
+      console.log('Logs are not found!');
+    }
+    const matchups = await Matchup.findAll({
+      include: [{ model: Player, as: 'player' }]
+    });
+    res.status(200).json({ matchups });
+  } catch (error) {
+    res.status(400).json({ message: 'Error occurred!' });
+  }
+};
 export const editLineups: RequestHandler = async (req, res) => {
   const lineups = req.body.lineups;
   const matchId = req.body.matchId;
 
-  try{
+  try {
     const promise = Object.keys(lineups).map(async id => {
       // if (!lineups[id]) {
-        await Matchup.update(
-          {
-            attendance: lineups[id]
-          },
-          {
-            where: {
-              matchId,
-              playerId: id
-            }
+      await Matchup.update(
+        {
+          attendance: lineups[id]
+        },
+        {
+          where: {
+            matchId,
+            playerId: id
           }
-        );
+        }
+      );
       // }
     });
     await Promise.all(promise);
-    res.status(200).json({message: 'Saved successfully!'});
-  } catch{
-    res.status(404).json({message: 'Failed!'});
+    res.status(200).json({ message: 'Saved successfully!' });
+  } catch {
+    res.status(404).json({ message: 'Failed!' });
   }
-
 };
 
 // GET SERVER_URL/api/matchup/info/1

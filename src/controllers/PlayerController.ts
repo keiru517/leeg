@@ -303,8 +303,9 @@ export const unaccept: RequestHandler = async (req, res) => {
   var playerFound = false;
 
   const promises = Object.keys(data).map(async id => {
+    
     const player = await Player.findByPk(id);
-    if (player) {
+    if (player && data[id]) {
       player.teamId = 0;
       player.isWaitList = 1;
       player.isAcceptedList = 0;

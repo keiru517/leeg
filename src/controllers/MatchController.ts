@@ -107,17 +107,20 @@ export const update: RequestHandler = async (req, res) => {
 // update the result of the match when admin clicks "Save"
 export const updateResult: RequestHandler = async (req, res) => {
   const data = req.body;
+  console.log(data)
 
   const match = await Match.findByPk(data.matchId);
   if (match) {
-    // match.homeTeamPoints = data.result[0];
-    // match.awayTeamPoints = data.result[1];
+    match.homeTeamPoints = data.result[0];
+    match.awayTeamPoints = data.result[1];
 
     // update team statistics based on the matchup.
-
-    await updateTeamStatistics(match, data.result[0], data.result[1]);
+    if (!match.isNew) {
+      await updateTeamStatistics(match, data.result[0], data.result[1]);
+    }
+    const matches = await Match.findAll();
     // await updateMatchup(match, data.home)
-    res.status(200).json({ message: 'A match has updated successfully!' });
+    res.status(200).json({ matches });
   } else {
     res.status(404).json({ message: 'match not found' });
   }
