@@ -14,7 +14,7 @@ function Checkbox({ label, name, checked, onChange, disabled }) {
   return (
     <Switch.Group>
       <div className="flex items-center">
-        <Switch.Label className="mr-4">{label}</Switch.Label>
+        <Switch.Label className="">{label}</Switch.Label>
         <Switch
           checked={checked}
           onChange={onChange}
@@ -85,10 +85,14 @@ const RosterTable = (props) => {
 
   const teams = useSelector((state) => state.home.teams);
 
-  const handleOption = (idx, event) => {
-    const allItemsFalse = Object.values(itemChecked).every((value) => value === false);
+  const handleOption = (idx) => {
+    // Return true if nothing is selected
+    const allItemsFalse = Object.values(itemChecked).every(
+      (value) => value === false
+    );
+
     if (Object.keys(itemChecked).length === 0 || allItemsFalse) {
-      alert("Please select one or more players!");
+      // alert("Please select one or more players!");
     } else {
       if (rosterValue === "WaitList") {
         // if the user clicks Accept
@@ -100,9 +104,9 @@ const RosterTable = (props) => {
             })
             .catch((error) => alert(error.response.data.message));
         } else {
-
         }
-      } else {
+      } else if (rosterValue === 'AcceptedList') {
+        console.log(itemChecked)
         axios
           .post(apis.unacceptPlayer, itemChecked)
           .then((res) => {
@@ -125,15 +129,32 @@ const RosterTable = (props) => {
     let temp = { ...itemChecked };
     temp[index] = checked;
     setItemChecked(temp);
-    console.log(temp)
   };
+
+const [canSubmit, setCanSubmit] = useState(false);
+  useEffect(() => {
+    // Return true if nothing is selected
+    const allItemsFalse = Object.values(itemChecked).every(
+      (value) => value === false
+    );
+    if (allItemsFalse) {
+      setCanSubmit(false)
+    } else {
+      setCanSubmit(true)
+    }
+  }, [itemChecked]);
+
+  // Set itemchecked as {} when the select option is changed
+  useEffect(() => {
+    setItemChecked({})
+  }, [rosterValue]);
 
   return (
     <div className="text-black dark:text-white h-full w-full mt-4">
       <table className="w-full min-w-max table-auto text-left">
-        <thead>
+        <thead className="sticky top-0 z-20 bg-white dark:bg-slate">
           <tr>
-            <th>
+            {/* <th>
               <Checkbox
                 name="name"
                 // checked={!!allchecked}
@@ -141,7 +162,7 @@ const RosterTable = (props) => {
                 //   setWaitListItemChecked(player.id, checked);
                 // }}
               />
-            </th>
+            </th> */}
             {columns.map((head, idx) => (
               <th
                 key={idx}
@@ -151,13 +172,36 @@ const RosterTable = (props) => {
               </th>
             ))}
             {league?.userId == user?.id ? (
-              <th>
-                <Option
-                  options={options}
-                  handleClick={(idx, event) => handleOption(idx)}
-                ></Option>
+              <th className="text-center cursor-pointer w-20">
+                {rosterValue === "AcceptedList" ? (
+                  <span className="text-black dark:text-white" onClick={()=>handleOption()} >{canSubmit?"❌":"..."}</span>
+                  // <span onClick={()=>handleOption()} className={`${canSubmit?"":"opacity-50"}`}>❌</span>
+                ) : (
+                  <div className="flex justify-center space-x-1">
+                    {
+                      canSubmit ? (
+                        <>
+                          <span onClick={()=>handleOption(1)} className={`${canSubmit?"":"opacity-50"}`}>❌</span>
+                          <span onClick={()=>handleOption(0)} className={`${canSubmit?"":"opacity-50"}`}>✅</span>
+                        </>
+                      ):<span className="text-black dark:text-white">...</span>
+                    }
+                  </div>
+                )}
               </th>
+              // <th>
+              //   <Option
+              //     options={options}
+              //     handleClick={(idx, event) => handleOption(idx)}
+              //   ></Option>
+              // </th>
             ) : (
+              // <th>
+              //   <Option
+              //     options={options}
+              //     handleClick={(idx, event) => handleOption(idx)}
+              //   ></Option>
+              // </th>
               ""
             )}
           </tr>
@@ -169,21 +213,6 @@ const RosterTable = (props) => {
               key={index}
               className="odd:bg-light-dark-gray dark:odd:bg-dark-gray even:bg-light-charcoal dark:even:bg-charcoal"
             >
-              <td className="">
-                <Typography
-                  variant="small"
-                  color="blue-gray"
-                  className="font-normal"
-                >
-                  <Checkbox
-                    name="name"
-                    checked={!!itemChecked[player.id]}
-                    onChange={(checked) => {
-                      setListItemChecked(player.id, checked);
-                    }}
-                  />
-                </Typography>
-              </td>
               <td className="w-1/7">
                 <Typography
                   variant="small"
@@ -246,11 +275,26 @@ const RosterTable = (props) => {
                 </Typography>
               </td>
               {league?.userId == user?.id && (
-                <td className="w-1/7">
-                  {/* <Option
-                    options={options}
-                    handleClick={(idx) => handleOption(idx, player.id)}
-                  ></Option> */}
+                // <td className="w-1/7">
+                //   {/* <Option
+                //     options={options}
+                //     handleClick={(idx) => handleOption(idx, player.id)}
+                //   ></Option> */}
+                // </td>
+                <td className="">
+                  <Typography
+                    variant="small"
+                    color="blue-gray"
+                    className="font-normal flex justify-center"
+                  >
+                    <Checkbox
+                      name="name"
+                      checked={!!itemChecked[player.id]}
+                      onChange={(checked) => {
+                        setListItemChecked(player.id, checked);
+                      }}
+                    />
+                  </Typography>
                 </td>
               )}
             </tr>

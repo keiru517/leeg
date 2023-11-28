@@ -23,7 +23,7 @@ const PlayerStatistics = (props) => {
   return (
     <div className="text-black dark:text-white h-full w-full mt-4">
       <table className="table-auto text-left">
-        <thead>
+        <thead className="sticky top-0 z-20 bg-white dark:bg-slate">
           <tr>
               <th
                 key={1}
@@ -49,11 +49,29 @@ const PlayerStatistics = (props) => {
               >
                 Points
               </th>
+              <th
+                key={5}
+                className="h-button text-center font-font-dark-gray font-normal  text-sm"
+              >
+                3 Points
+              </th>
+              <th
+                key={6}
+                className="h-button text-center font-font-dark-gray font-normal  text-sm"
+              >
+                2 Points
+              </th>
+              <th
+                key={7}
+                className="h-button text-center font-font-dark-gray font-normal  text-sm"
+              >
+                Free throws
+              </th>
               {
                 displayAttempts3?
                 (
                   <th
-                    key={5}
+                    key={8}
                     className="h-button text-center font-font-dark-gray font-normal  text-sm"
                   >
                     3 Attempts
@@ -65,7 +83,7 @@ const PlayerStatistics = (props) => {
                 displayAttempts2?
                 (
                   <th
-                    key={5}
+                    key={9}
                     className="h-button text-center font-font-dark-gray font-normal  text-sm"
                   >
                     2 Attempts
@@ -77,7 +95,7 @@ const PlayerStatistics = (props) => {
                 displayAttempts1?
                 (
                   <th
-                    key={5}
+                    key={10}
                     className="h-button text-center font-font-dark-gray font-normal  text-sm"
                   >
                     1 Attempts
@@ -89,7 +107,7 @@ const PlayerStatistics = (props) => {
                 displayBlocks?
                 (
                   <th
-                    key={5}
+                    key={11}
                     className="h-button text-center font-font-dark-gray font-normal  text-sm"
                   >
                     Blocks
@@ -101,7 +119,7 @@ const PlayerStatistics = (props) => {
                 displayRebounds?
                 (
                   <th
-                    key={5}
+                    key={12}
                     className="h-button text-center font-font-dark-gray font-normal  text-sm"
                   >
                     Rebounds
@@ -113,7 +131,7 @@ const PlayerStatistics = (props) => {
                 displayAssists?
                 (
                   <th
-                    key={5}
+                    key={13}
                     className="h-button text-center font-font-dark-gray font-normal  text-sm"
                   >
                     Assists
@@ -125,7 +143,7 @@ const PlayerStatistics = (props) => {
                 displayFouls?
                 (
                   <th
-                    key={5}
+                    key={14}
                     className="h-button text-center font-font-dark-gray font-normal  text-sm"
                   >
                     Fouls
@@ -137,7 +155,7 @@ const PlayerStatistics = (props) => {
                 displaySteals?
                 (
                   <th
-                    key={5}
+                    key={15}
                     className="h-button text-center font-font-dark-gray font-normal  text-sm"
                   >
                     Steals
@@ -149,7 +167,7 @@ const PlayerStatistics = (props) => {
                 displayTurnovers?
                 (
                   <th
-                    key={5}
+                    key={16}
                     className="h-button text-center font-font-dark-gray font-normal  text-sm"
                   >
                     Turnovers
@@ -158,13 +176,13 @@ const PlayerStatistics = (props) => {
                 :""
               }
               <th
-                key={5}
+                key={17}
                 className="h-button text-center font-font-dark-gray font-normal  text-sm"
               >
                 PPG
               </th>
               <th
-                key={6}
+                key={18}
                 className="h-button text-center font-font-dark-gray font-normal  text-sm"
               >
                 Games Played
@@ -177,11 +195,11 @@ const PlayerStatistics = (props) => {
               { id, userId, avatar, firstName, lastName, jerseyNumber, position },
               index
             ) => {
-              const pastMatchIds = matches.filter(match=>match.isNew === 0);
+              console.log(matches[0].isNew, matchups[0].attendance)
               const playerMatchups = matchups.filter(
-                (matchup) => matchup.playerId === id && matchup.attendance === 1 && pastMatchIds.includes(matchup.matchId)
+                (matchup) => matchup.playerId === id && matchup.attendance === 1
               );
-
+              console.log(playerMatchups)
 
               const totalPoints = playerMatchups.reduce(
                 (sum, matchup) => sum + matchup.points,
@@ -286,6 +304,33 @@ const PlayerStatistics = (props) => {
                       className="font-normal"
                     >
                       {totalPoints}
+                    </Typography>
+                  </td>
+                  <td className="w-1/6">
+                    <Typography
+                      variant="small"
+                      color="blue-gray"
+                      className="font-normal"
+                    >
+                      {totalPoints3}
+                    </Typography>
+                  </td>
+                  <td className="w-1/6">
+                    <Typography
+                      variant="small"
+                      color="blue-gray"
+                      className="font-normal"
+                    >
+                      {totalPoints2}
+                    </Typography>
+                  </td>
+                  <td className="w-1/6">
+                    <Typography
+                      variant="small"
+                      color="blue-gray"
+                      className="font-normal"
+                    >
+                      {totalPoints1}
                     </Typography>
                   </td>
                   {

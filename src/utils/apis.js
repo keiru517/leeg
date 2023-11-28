@@ -60,6 +60,8 @@ export const apis = {
   createMatchup: apiUrl + "/matchup/create",
   createOneMatchup: apiUrl + "/matchup/createOne",
   updateMatchup: apiUrl + "/matchup/update",
+  completeMatchup: apiUrl + "/matchup/complete",
+  incompleteMatchup: apiUrl + "/matchup/incomplete",
   getLogs:apiUrl + "/log/all",
   createOneLog: apiUrl + "/log/createOne",
   updateOneLog: apiUrl + "/log/updateOne",

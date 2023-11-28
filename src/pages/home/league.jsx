@@ -215,25 +215,25 @@ const League = () => {
   }, [acceptListKeyword]);
 
   // Teams
-  useEffect(() => {
-    setFilteredTeams(teams);
-    setFilteredStandings(teams);
-  }, [teams.length]);
+  // useEffect(() => {
+  //   setFilteredTeams(teams);
+  //   setFilteredStandings(teams);
+  // }, [teams.length]);
 
-  useEffect(() => {
-    const searchResult = teams.filter((team) =>
-      team.name.toLowerCase().includes(teamKeyword.toLowerCase())
-    );
-    setFilteredTeams(searchResult);
-  }, [teamKeyword]);
+  // useEffect(() => {
+  //   const searchResult = teams.filter((team) =>
+  //     team.name.toLowerCase().includes(teamKeyword.toLowerCase())
+  //   );
+  //   setFilteredTeams(searchResult);
+  // }, [teamKeyword]);
 
   // Standings
-  useEffect(() => {
-    const searchResult = teams.filter((team) =>
-      team.name.toLowerCase().includes(standingsKeyword.toLowerCase())
-    );
-    setFilteredStandings(searchResult);
-  }, [standingsKeyword]);
+  // useEffect(() => {
+  //   const searchResult = teams.filter((team) =>
+  //     team.name.toLowerCase().includes(standingsKeyword.toLowerCase())
+  //   );
+  //   setFilteredStandings(searchResult);
+  // }, [standingsKeyword]);
 
   // Players
   useEffect(() => {
@@ -756,7 +756,7 @@ const League = () => {
                         } rounded-default`}
                       >
                         <RosterTable
-                          rosters={rosters}
+                          rosters={rosters.filter(roster=>(roster.firstName+roster.lastName).toLowerCase().includes(waitListKeyword.toLowerCase()))}
                           rosterValue={rosterValue}
                           setRosterValue={setRosterValue}
                         />
@@ -939,12 +939,25 @@ const League = () => {
                   value={teamKeyword}
                   onChange={(e) => setTeamKeyword(e.target.value)}
                 />
-                {filteredTeams.length > 0 ? (
+                {teams.filter((team) =>
+                  team.name
+                    .toLowerCase()
+                    .includes(teamKeyword.toLowerCase())
+                ).length > 0 ? (
                   <>
                     <div className="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
-                      {filteredTeams.map((team, idx) => (
+                      {teams
+                        .filter((team) =>
+                          team.name
+                            .toLowerCase()
+                            .includes(teamKeyword.toLowerCase())
+                        )
+                        .map((team, idx) => (
+                          <TeamCard team={team} key={idx}></TeamCard>
+                        ))}
+                      {/* {filteredTeams.map((team, idx) => (
                         <TeamCard team={team} key={idx}></TeamCard>
-                      ))}
+                      ))} */}
                     </div>
                   </>
                 ) : (
@@ -1016,8 +1029,18 @@ const League = () => {
                     {value}
                   </Select>
                 </div>
-                {filteredStandings.length > 0 ? (
-                  <StandingTable teams={filteredStandings}></StandingTable>
+                {teams.filter((team) =>
+                  team.name
+                    .toLowerCase()
+                    .includes(standingsKeyword.toLowerCase())
+                ).length > 0 ? (
+                  <StandingTable
+                    teams={teams.filter((team) =>
+                      team.name
+                        .toLowerCase()
+                        .includes(standingsKeyword.toLowerCase())
+                    )}
+                  ></StandingTable>
                 ) : (
                   <div className="flex items-center flex-grow">
                     <p className="text-2xl text-black dark:text-white w-full text-center">

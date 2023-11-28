@@ -25,11 +25,13 @@ const SignupWithEmail = () => {
   const [inputValue, setInputValue] = useState("");
 
   const [email, setEmail] = useState("");
+  const [isClicked, setIsClicked] = useState(false);
   const handleClick = () => {
     if (!email) {
       alert("Please type your email address!");
     } else {
       // setStep(2);
+      setIsClicked(true);
       sendOTP();
     }
   };
@@ -112,7 +114,8 @@ const SignupWithEmail = () => {
               ></input>
               <button
                 onClick={handleClick}
-                className="w-full h-12 bg-primary font-bold text-white rounded-default hover:bg-opacity-70 my-4"
+                className="w-full h-12 bg-primary font-bold text-white rounded-default hover:bg-opacity-70 my-4 disabled:bg-opacity-50"
+                disabled={isClicked}
               >
                 Create Account
               </button>

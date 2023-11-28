@@ -14,15 +14,17 @@ import Profile from "./pages/profile";
 import AuthLayout from "./components/Layouts/AuthLayout";
 import Player from "./pages/home/player";
 import React from "react";
-import PersonalDetails from "./pages/signup/personalDetails";
+// import PersonalDetails from "./pages/signup/personalDetails";
 import ResetPassword from "./pages/password/resetPassword";
 import SignupWithEmail from "./pages/signup/signupWithEmail";
+import PageNotFound from "./pages/404";
 
 function App() {
   return (
     <Router>
       <AuthLayout>
         <Routes>
+          <Route path="*" element={<PageNotFound />} />
           <Route exact path="/signin" element={<Signin />}></Route>
           <Route
             exact
@@ -35,11 +37,11 @@ function App() {
             path="/signupSuccess"
             element={<SignupSuccess />}
           ></Route>
-          <Route
+          {/* <Route
             exact
             path="/personalDetails"
             element={<PersonalDetails />}
-          ></Route>
+          ></Route> */}
           <Route exact path="/otp" element={<OTP />}></Route>
           <Route exact path="/otpsent" element={<OTPSent />}></Route>
           <Route exact path="/forgotpwd" element={<ForgotPwd />}></Route>
@@ -63,6 +65,7 @@ function App() {
             element={<Matchup />}
           ></Route>
           <Route exact path="/profile" element={<Profile />}></Route>
+
         </Routes>
       </AuthLayout>
     </Router>

@@ -22,6 +22,7 @@ const MatchTable = (props) => {
       "Home",
       "Away",
       "Results",
+      "Status",
       "Action",
     ];
   } else {
@@ -30,7 +31,8 @@ const MatchTable = (props) => {
 
   const options = [
     { id: 0, name: "Edit" },
-    { id: 1, name: "Delete" },
+    { id: 1, name: "Scoreboard" },
+    { id: 2, name: "Delete" },
   ];
 
   const teams = useSelector((state) => state.home.teams);
@@ -40,9 +42,9 @@ const MatchTable = (props) => {
   // }
 
   const handleOption = (idx, matchId) => {
-    if (idx === 0) {
+    if (idx === 1) {
       navigate(`/league/${leagueId}/matchup/${matchId}`);
-    } else if (idx === 1) {
+    } else if (idx === 2) {
       alert("Match has been deleted");
     }
   };
@@ -56,7 +58,7 @@ const MatchTable = (props) => {
   return (
     <div className="text-black dark:text-white h-full w-full mt-4">
       <table className="w-full min-w-max table-auto text-left">
-        <thead>
+        <thead className="sticky top-0 z-20 bg-white dark:bg-slate">
           <tr>
             {columns.map((head, idx) => (
               <th
@@ -80,6 +82,7 @@ const MatchTable = (props) => {
                 time,
                 homeTeamPoints,
                 awayTeamPoints,
+                isNew,
               },
               index
             ) => (
@@ -145,7 +148,11 @@ const MatchTable = (props) => {
                           alt=""
                           className="h-8 w-8 mr-2 rounded-full border border-gray-500"
                         />
-                        <p className="text-black dark:text-white">
+                        <p
+                          className={`text-black dark:text-white ${
+                            homeTeamPoints > awayTeamPoints ? "font-bold" : ""
+                          }`}
+                        >
                           {teams.find((team) => team.id == homeTeamId).name}
                         </p>
                       </Link>
@@ -182,7 +189,11 @@ const MatchTable = (props) => {
                           alt=""
                           className="h-8 w-8 mr-2 rounded-full border border-gray-500"
                         />
-                        <p className="text-black dark:text-white">
+                        <p
+                          className={`text-black dark:text-white ${
+                            homeTeamPoints < awayTeamPoints ? "font-bold" : ""
+                          }`}
+                        >
                           {teams.find((team) => team.id == awayTeamId).name}
                         </p>
                       </Link>
@@ -196,6 +207,15 @@ const MatchTable = (props) => {
                     className="font-normal"
                   >
                     {homeTeamPoints} : {awayTeamPoints}
+                  </Typography>
+                </td>
+                <td className="">
+                  <Typography
+                    variant="small"
+                    color="blue-gray"
+                    className="font-normal"
+                  >
+                    {isNew ? "Incomplete" : "Completed"}
                   </Typography>
                 </td>
                 {league?.userId == user?.id ? (

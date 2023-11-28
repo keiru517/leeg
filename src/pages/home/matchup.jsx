@@ -29,7 +29,7 @@ import downloadIconLight from "../../assets/img/dark_mode/download-icon-light.sv
 import settingIconDark from "../../assets/img/dark_mode/setting-icon-dark.svg";
 import settingIconLight from "../../assets/img/dark_mode/setting-icon-light.svg";
 
-const Matchup1 = () => {
+const Matchup = () => {
   let { leagueId, matchId } = useParams();
   const dispatch = useDispatch();
 
@@ -65,15 +65,24 @@ const Matchup1 = () => {
     });
 
   const options = [
-    { id: 0, name: "Upcoming" },
-    { id: 1, name: "In progress" },
-    { id: 2, name: "Completed" },
+    { id: 0, name: "Incomplete" },
+    { id: 1, name: "Completed" },
   ];
 
-  // const state = allLogs.length > 0? "Upcoming" : "In progress";
-  const [status, setStatus] = useState(
-    allLogs.length > 0 ? "In progress" : "Upcoming"
-  );
+  // const state = allLogs.length > 0? "Incomplete" : "In progress";
+  const [status, setStatus] = useState(match?.isNew ? "Incomplete" : "Completed");
+
+  const handleStatus = (e) => {
+    setStatus(e.name);
+    if (e.id === 1) {
+      actions.completeMatchup(dispatch, { matchId });
+      actions.getTeams(dispatch);
+      // Action to complete
+    } else {
+      actions.incompleteMatchup(dispatch, {matchId});
+      actions.getTeams(dispatch);
+    }
+  };
   const homeTeam = useSelector((state) => state.home.teams).find(
     (team) => team.id == match?.homeTeamId
   );
@@ -187,10 +196,6 @@ const Matchup1 = () => {
     actions.getPlayers(dispatch);
   }, []);
 
-  useEffect(() => {
-    setStatus(allLogs.length > 0 ? "In progress" : "Upcoming")
-  }, [allLogs.length]);
-
   let homeTeamPoints = 0;
   let awayTeamPoints = 0;
   let homeTeamFouls = 0;
@@ -253,6 +258,10 @@ const Matchup1 = () => {
       time,
     });
   };
+
+  // useEffect(() => {
+  //   actions.updateMatchResult(dispatch,{matchId:matchId, result:matchupResult})
+  // }, [homeTeamPoints, awayTeamPoints]);
 
   const handleSubmit = () => {
     axios
@@ -329,22 +338,39 @@ const Matchup1 = () => {
   const [event, setEvent] = useState("");
   const [teamId, setTeamId] = useState("");
   const handleClickButtons = (event, id) => {
-    setEvent(event);
-    setTeamId(id);
-    dispatch({ type: actions.OPEN_SELECT_PLAYER_DIALOG, payload: true });
-    // dispatch to show the modal
+    console.log("isNew?", match?.isNew)
+    if (match?.isNew) {
+      setEvent(event);
+      setTeamId(id);
+      dispatch({ type: actions.OPEN_SELECT_PLAYER_DIALOG, payload: true });
+      // dispatch to show the modal
+    } else {
+      alert("The matchup is locked!");
+    }
   };
   const handleClickTimeout = (teamId) => {
-    setEvent("TimeOut");
-    handleAction(teamId, "", "TimeOut");
+    if (match?.isNew) {
+      setEvent("TimeOut");
+      handleAction(teamId, "", "TimeOut");
+    } else {
+      alert("The matchup is locked!");
+    }
   };
 
   const handleSetting = () => {
-    dispatch({ type: actions.OPEN_MATCHUP_SETTING_DIALOG, payload: true });
+    if (match?.isNew === 0) {
+      dispatch({ type: actions.OPEN_MATCHUP_SETTING_DIALOG, payload: true });
+    } else {
+      alert("The matchup is locked!");
+    }
   };
 
   const handleAddEvent = () => {
-    dispatch({ type: actions.OPEN_ADD_EVENT_DIALOG });
+    if (match?.isNew === 0) {
+      dispatch({ type: actions.OPEN_ADD_EVENT_DIALOG });
+    } else {
+      alert("The matchup is locked!");
+    }
   };
 
   // Timer
@@ -392,7 +418,11 @@ const Matchup1 = () => {
 
   // Method to start and stop timer
   const startAndStop = () => {
-    setIsRunning(!isRunning);
+    if (match?.isNew) {
+      setIsRunning(!isRunning);
+    } else {
+      alert("The matchup is locked!");
+    }
   };
 
   // Method to reset timer back to 0
@@ -439,17 +469,17 @@ const Matchup1 = () => {
           <Select
             className="w-[140px] rounded-lg text-xs h-button"
             options={options}
-            handleClick={(e) => setStatus(e.name)}
+            handleClick={handleStatus}
             value={status}
           >
             {status}
           </Select>
-          <button
+          {/* <button
             onClick={handleSubmit}
             className="w-32 h-button bg-primary hover:bg-opacity-70 rounded-default text-white focus:ring-2 disabled:opacity-10 font-bold justify-end"
           >
             Save
-          </button>
+          </button> */}
         </div>
       </p>
 
@@ -517,7 +547,7 @@ const Matchup1 = () => {
                           className={`flex items-center justify-center rounded-[10px] ${
                             currentPeriod === period
                               ? "bg-success"
-                              : "bg-[#151515]"
+                              : "bg-font-dark-gray dark:bg-[#151515]"
                           } w-16 h-10 cursor-pointer hover:opacity-75`}
                           onClick={() => handlePeriod(period)}
                         >
@@ -642,7 +672,7 @@ const Matchup1 = () => {
             <div className="row-span-3 bg-white dark:bg-slate rounded-main p-[26px]">
               <div className="flex space-x-3">
                 <div className="flex flex-col w-1/2 space-y-[10px]">
-                  <div className="flex dark:bg-charcoal w-full h-12 rounded-t-lg p-4 items-center justify-between">
+                  <div className="flex bg-light-charcoal dark:bg-charcoal w-full h-12 rounded-t-lg p-4 items-center justify-between">
                     <Link
                       to={`/league/${leagueId}/team/${homeTeam?.id}`}
                       className="flex space-x-2 items-center"
@@ -673,7 +703,7 @@ const Matchup1 = () => {
                   </div>
                   <div className="grid grid-cols-3 gap-[10px]">
                     <div
-                      className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                      className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
                       onClick={() =>
                         handleClickButtons("points3", homeTeam?.id)
                       }
@@ -681,7 +711,7 @@ const Matchup1 = () => {
                       <p className="text-black dark:text-white">+3</p>
                     </div>
                     <div
-                      className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                      className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
                       onClick={() =>
                         handleClickButtons("points2", homeTeam?.id)
                       }
@@ -689,7 +719,7 @@ const Matchup1 = () => {
                       <p className="text-black dark:text-white">+2</p>
                     </div>
                     <div
-                      className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                      className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
                       onClick={() =>
                         handleClickButtons("points1", homeTeam?.id)
                       }
@@ -703,7 +733,7 @@ const Matchup1 = () => {
                     <div className="grid grid-cols-3 gap-[10px]">
                       {league?.displayAttempts3 && (
                         <div
-                          className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                          className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
                           onClick={() =>
                             handleClickButtons("attempts3", homeTeam?.id)
                           }
@@ -713,7 +743,7 @@ const Matchup1 = () => {
                       )}
                       {league?.displayAttempts2 && (
                         <div
-                          className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                          className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
                           onClick={() =>
                             handleClickButtons("attempts2", homeTeam?.id)
                           }
@@ -723,7 +753,7 @@ const Matchup1 = () => {
                       )}
                       {league?.displayAttempts1 && (
                         <div
-                          className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                          className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
                           onClick={() =>
                             handleClickButtons("attempts1", homeTeam?.id)
                           }
@@ -739,7 +769,7 @@ const Matchup1 = () => {
                     <div className="grid grid-cols-3 gap-[10px]">
                       {league?.displayRebounds && (
                         <div
-                          className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                          className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
                           onClick={() =>
                             handleClickButtons("rebounds", homeTeam?.id)
                           }
@@ -749,7 +779,7 @@ const Matchup1 = () => {
                       )}
                       {league?.displayTurnovers && (
                         <div
-                          className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                          className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
                           onClick={() =>
                             handleClickButtons("turnovers", homeTeam?.id)
                           }
@@ -760,7 +790,7 @@ const Matchup1 = () => {
 
                       {league?.displayFouls && (
                         <div
-                          className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                          className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
                           onClick={() =>
                             handleClickButtons("fouls", homeTeam?.id)
                           }
@@ -772,14 +802,14 @@ const Matchup1 = () => {
                   )}
                   <div className="grid grid-cols-3 gap-[10px]">
                     <div
-                      className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                      className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
                       onClick={() => handleClickTimeout(homeTeam?.id)}
                     >
                       <p className="text-black dark:text-white">TIMEOUT</p>
                     </div>
                     {league?.displayBlocks && (
                       <div
-                        className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                        className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
                         onClick={() =>
                           handleClickButtons("blocks", homeTeam?.id)
                         }
@@ -789,7 +819,7 @@ const Matchup1 = () => {
                     )}
                     {league?.displayAssists && (
                       <div
-                        className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                        className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
                         onClick={() =>
                           handleClickButtons("assists", homeTeam?.id)
                         }
@@ -801,7 +831,7 @@ const Matchup1 = () => {
                 </div>
 
                 <div className="flex flex-col w-1/2 space-y-[10px]">
-                  <div className="flex dark:bg-charcoal w-full h-12 rounded-t-lg p-4 items-center justify-between">
+                  <div className="flex bg-light-charcoal dark:bg-charcoal w-full h-12 rounded-t-lg p-4 items-center justify-between">
                     <Link
                       to={`/league/${leagueId}/team/${awayTeam?.id}`}
                       className="flex space-x-2 items-center"
@@ -832,7 +862,7 @@ const Matchup1 = () => {
                   </div>
                   <div className="grid grid-cols-3 gap-[10px]">
                     <div
-                      className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                      className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
                       onClick={() =>
                         handleClickButtons("points3", awayTeam?.id)
                       }
@@ -840,7 +870,7 @@ const Matchup1 = () => {
                       <p className="text-black dark:text-white">+3</p>
                     </div>
                     <div
-                      className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                      className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
                       onClick={() =>
                         handleClickButtons("points2", awayTeam?.id)
                       }
@@ -848,7 +878,7 @@ const Matchup1 = () => {
                       <p className="text-black dark:text-white">+2</p>
                     </div>
                     <div
-                      className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                      className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
                       onClick={() =>
                         handleClickButtons("points1", awayTeam?.id)
                       }
@@ -862,7 +892,7 @@ const Matchup1 = () => {
                     <div className="grid grid-cols-3 gap-[10px]">
                       {league?.displayAttempts3 && (
                         <div
-                          className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                          className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
                           onClick={() =>
                             handleClickButtons("attempts3", awayTeam?.id)
                           }
@@ -872,7 +902,7 @@ const Matchup1 = () => {
                       )}
                       {league?.displayAttempts2 && (
                         <div
-                          className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                          className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
                           onClick={() =>
                             handleClickButtons("attempts2", awayTeam?.id)
                           }
@@ -882,7 +912,7 @@ const Matchup1 = () => {
                       )}
                       {league?.displayAttempts1 && (
                         <div
-                          className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                          className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
                           onClick={() =>
                             handleClickButtons("attempts1", awayTeam?.id)
                           }
@@ -898,7 +928,7 @@ const Matchup1 = () => {
                     <div className="grid grid-cols-3 gap-[10px]">
                       {league?.displayRebounds && (
                         <div
-                          className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                          className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
                           onClick={() =>
                             handleClickButtons("rebounds", awayTeam?.id)
                           }
@@ -908,7 +938,7 @@ const Matchup1 = () => {
                       )}
                       {league?.displayTurnovers && (
                         <div
-                          className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                          className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
                           onClick={() =>
                             handleClickButtons("turnovers", awayTeam?.id)
                           }
@@ -918,7 +948,7 @@ const Matchup1 = () => {
                       )}
                       {league?.displayFouls && (
                         <div
-                          className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                          className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
                           onClick={() =>
                             handleClickButtons("fouls", awayTeam?.id)
                           }
@@ -930,14 +960,14 @@ const Matchup1 = () => {
                   )}
                   <div className="grid grid-cols-3 gap-[10px]">
                     <div
-                      className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                      className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
                       onClick={() => handleClickTimeout(awayTeam?.id)}
                     >
                       <p className="text-black dark:text-white">TIMEOUT</p>
                     </div>
                     {league?.displayBlocks && (
                       <div
-                        className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                        className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
                         onClick={() =>
                           handleClickButtons("blocks", awayTeam?.id)
                         }
@@ -947,7 +977,7 @@ const Matchup1 = () => {
                     )}
                     {league?.displayAssists && (
                       <div
-                        className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                        className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
                         onClick={() =>
                           handleClickButtons("assists", awayTeam?.id)
                         }
@@ -1010,4 +1040,4 @@ const Matchup1 = () => {
   );
 };
 
-export default Matchup1;
+export default Matchup;

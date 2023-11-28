@@ -36,7 +36,7 @@ const AdminTable = (props) => {
   return (
     <div className="text-white h-full w-full">
       <table className="w-full min-w-max table-auto text-left">
-        <thead className="sticky">
+        <thead className="sticky top-0 z-20 bg-white dark:bg-slate">
           <tr>
             <th
               key="1"

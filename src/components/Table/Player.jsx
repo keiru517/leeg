@@ -58,7 +58,7 @@ const Player = (props) => {
   return (
     <div className="text-black dark:text-white mt-5 w-full">
       <table className="w-full table-auto text-left">
-        <thead>
+        <thead className="sticky top-0 z-20 bg-white dark:bg-slate">
           <tr>
             <th key={1} className="h-button text-center font-font-dark-gray">
               <Typography

@@ -218,10 +218,26 @@ export const getMatches = async (dispatch) => {
   }
 };
 
+export const updateMatchResult = async (dispatch, data) => {
+  try {
+    const response = await axios.post(apis.updateMatchResult, data);
+    const matches = response.data.matches;
+    dispatch({
+      type: GET_MATCHES,
+      payload: matches,
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_MATCHES,
+      payload: [],
+    });
+  }
+};
+
 export const closeMatchDialog = () => ({
   type: CLOSE_MATCH_DIALOG,
 });
-// matchup action
+// Matchup
 export const getMatchups = async (dispatch) => {
   try {
     const response = await axios.get(apis.getMatchups);
@@ -237,6 +253,42 @@ export const getMatchups = async (dispatch) => {
     });
   }
 };
+
+export const completeMatchup = async (dispatch, data) => {
+  try {
+    const response = await axios.post(apis.completeMatchup, data);
+    
+    const matchups = response.data.matchups;
+    alert(response.status)
+    dispatch({
+      type: GET_MATCHUPS,
+      payload: matchups,
+    });
+  } catch {
+    dispatch({
+      type: GET_MATCHUPS,
+      payload: [],
+    });
+  }
+}
+
+export const incompleteMatchup = async (dispatch, data) => {
+  try {
+    const response = await axios.post(apis.incompleteMatchup, data);
+    
+    const matchups = response.data.matchups;
+    alert(response.status)
+    dispatch({
+      type: GET_MATCHUPS,
+      payload: matchups,
+    });
+  } catch {
+    dispatch({
+      type: GET_MATCHUPS,
+      payload: [],
+    });
+  }
+}
 
 
 // Logs
