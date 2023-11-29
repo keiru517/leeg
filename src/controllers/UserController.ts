@@ -26,7 +26,7 @@ export const signin: RequestHandler = async (req, res) => {
           { id: user.id?.toString(), email: user.email },
           'leeg517',
           {
-            expiresIn: '2m'
+            expiresIn: '2d'
           }
         );
 
