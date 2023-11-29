@@ -23,7 +23,7 @@ const PlayerStatistics = (props) => {
   return (
     <div className="text-black dark:text-white h-full w-full mt-4">
       <table className="table-auto text-left">
-        <thead className="sticky top-0 z-20 bg-white dark:bg-slate">
+        <thead className="sticky top-0 z-10 bg-white dark:bg-slate">
           <tr>
               <th
                 key={1}
