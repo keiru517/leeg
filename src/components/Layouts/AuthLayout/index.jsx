@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { getUserInfo } from "../../../actions";
 import Nav from "../../nav";
-import { setAuthToken } from "../../../utils/authService";
+import { setAuthToken, logoutUser } from "../../../utils/authService";
 import { isExpired, decodeToken } from "react-jwt";
 
 const AuthLayout = (props) => {
@@ -12,11 +12,10 @@ const AuthLayout = (props) => {
   const [isLoggedIn, setLoggedIn] = useState(false);
   
   const token = localStorage.getItem('token');
-  console.log('token',token)
 
   const logoutUser = () => {
-    // localStorage.removeItem("token");
-    // localStorage.removeItem("userId");
+    localStorage.removeItem("token");
+    localStorage.removeItem("userId");
     navigate("/signin", { replace: true });
   };
   
@@ -40,17 +39,14 @@ const AuthLayout = (props) => {
   }, [token]);
 
   useEffect(()=>{
-    console.log("isExpired?", isExpired(token))
     if (token) {
       if (!isExpired(token)) {
         setLoggedIn(true)
         setAuthToken(token);
       } else {
-        console.log("token is but expired")
         setLoggedIn(false)
         logoutUser();
       }
-      // navigate('/', {replace:true})
     } else {
       console.log(location.pathname)
       if (location.pathname !== "/resetpass" ) {

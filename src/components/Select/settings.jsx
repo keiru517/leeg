@@ -46,8 +46,8 @@ const SettingsSelect = (props) => {
   const handleLogOut = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("userId");
-    setExpand(false);
     navigate("/signin", { replace: true });
+    setExpand(false);
   };
 
   useEffect(() => {
