@@ -89,7 +89,7 @@ const SettingsSelect = (props) => {
         <img src={downArrowFilled} alt="" className="mr-2" />
       </div>
       <ul
-        className={`w-[180px] p-2 text-sm z-20 text-gray-700 dark:text-gray-200 absolute right-0 top-12 bg-[#ebebeb] dark:bg-dark-gray rounded-default${
+        className={`w-[180px] p-2 text-sm z-30 text-gray-700 dark:text-gray-200 absolute right-0 top-12 bg-[#ebebeb] dark:bg-dark-gray rounded-default${
           expand ? `` : " hidden"
         }`}
         aria-labelledby="states-button"

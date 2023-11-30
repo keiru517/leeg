@@ -15,8 +15,10 @@ const MatchModal = () => {
 
   const dispatch = useDispatch();
 
+  // const matches = useSelector(state=>state.home.matches).filter(match=>match.leagueId == leagueId);
   const status = useSelector((state) => state.home.match_dialog.open);
-  const team = useSelector((state) => state.home.match_dialog.match);
+  const type = useSelector((state) => state.home.match_dialog.type);
+  const match = useSelector((state) => state.home.match_dialog.match);
   const teams = useSelector((state) => state.home.teams).filter(
     (team) => team.leagueId == leagueId && team.isDeleted !== 1
   );
@@ -36,33 +38,44 @@ const MatchModal = () => {
   };
 
   const handleDelete = () => {
-    dispatch({ type: actions.OPEN_DELETE_TEAM_DIALOG, payload: team });
+    // dispatch({ type: actions.OPEN_DELETE_TEAM_DIALOG, payload: team });
     // dispatch({ type: actions.OPEN_TEAM_DIALOG, payload: true });
   };
 
   const handleEdit = () => {
-    dispatch({
-      type: actions.OPEN_EDIT_TEAM_DIALOG,
-      payload: { open: true, type: "edit", team: team },
-    });
+    // dispatch({
+    //   type: actions.OPEN_EDIT_TEAM_DIALOG,
+    //   payload: { open: true, type: "edit", team: team },
+    // });
     // dispatch({ type: actions.OPEN_TEAM_DIALOG, payload: true });
   };
 
+  useEffect(() => {
+    if (type === "edit") {
+      const homeTeam = teams.find(team=>team.id == match?.homeTeamId)
+      const awayTeam = teams.find(team=>team.id == match?.awayTeamId)
+      setHomeValue({id:homeTeam.id, name:homeTeam.name});
+      setAwayValue({id:awayTeam.id, name: awayTeam.name});
+      setDate(match?.date);
+      setTime(match?.time);
+      setLocation(match?.location)
+    }
+  }, [type]);
   const createSubmit = () => {
-    axios
-      .post(apis.createMatch, {
-        leagueId: leagueId,
-        homeTeamId: homeValue.id,
-        awayTeamId: awayValue.id,
-        date,
-        time,
-        location,
-      })
-      .then((res) => {
-        actions.getMatches(dispatch);
-        dispatch({ type: actions.CLOSE_MATCH_DIALOG });
-      })
-      .catch((error) => alert(error.response.data.message));
+    actions.createMatch(dispatch, {
+      leagueId: leagueId,
+      homeTeamId: homeValue.id,
+      awayTeamId: awayValue.id,
+      date,
+      time,
+      location,
+    });
+    dispatch({type:actions.CLOSE_MATCH_DIALOG});
+  };
+  
+  const updateSubmit = () => {
+    actions.updateMatch(dispatch, {id:match?.id, date, time, location})
+    dispatch({type:actions.CLOSE_MATCH_DIALOG});
   };
 
   const [warning, setWarning] = useState(false);
@@ -106,7 +119,9 @@ const MatchModal = () => {
                 <div className="divide-y divide-solid divide-[#3A3A3A] flex flex-col flex-grow">
                   <div className="flex items-center text-left h-[88px] justify-between px-default">
                     <p className="text-2xl text-black dark:text-white font-bold">
-                      Create Match
+                      {
+                        type === "create"?"Create":"Edit"
+                      } Match
                     </p>
                     <div className="flex items-center">
                       <img
@@ -163,13 +178,23 @@ const MatchModal = () => {
                         ></Input>
                       </div>
                     </div>
+                    {
+                      type === "create"?
                     <button
                       onClick={createSubmit}
                       className="bg-primary rounded-xl w-full hover:bg-opacity-70 h-button text-white disabled:opacity-10"
                       disabled={warning}
                     >
                       Create Match
+                    </button>:
+                    <button
+                      onClick={updateSubmit}
+                      className="bg-primary rounded-xl w-full hover:bg-opacity-70 h-button text-white disabled:opacity-10"
+                      disabled={warning}
+                    >
+                      Update Match
                     </button>
+                    }
                   </div>
                 </div>
               </Dialog.Panel>

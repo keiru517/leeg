@@ -1,10 +1,12 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Typography } from "@material-tailwind/react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Option from "../Option";
+import * as actions from "../../actions";
 
 const MatchTable = (props) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { matches, leagueId } = props;
 
   // let { leagueId} = useParams();
@@ -42,10 +44,18 @@ const MatchTable = (props) => {
   // }
 
   const handleOption = (idx, matchId) => {
-    if (idx === 1) {
+    const match = matches.find((match) => match.id == matchId);
+    if (idx === 0) {
+      dispatch({ type: actions.OPEN_EDIT_MATCH_DIALOG, payload: match });
+    } else if (idx === 1) {
       navigate(`/league/${leagueId}/matchup/${matchId}`);
     } else if (idx === 2) {
-      alert("Match has been deleted");
+      if (!match.isNew) {
+        actions.incompleteMatchup(dispatch, {matchId});
+      }
+      actions.deleteMatch(dispatch, matchId);
+      actions.getTeams(dispatch)
+      actions.getPlayers(dispatch)
     }
   };
 

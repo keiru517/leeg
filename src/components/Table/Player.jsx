@@ -78,18 +78,18 @@ const Player = (props) => {
                 Jersey Number
               </Typography>
             </th>
-            <th key={4} className="h-button text-center font-font-dark-gray">
+            <th key={3} className="h-button text-center font-font-dark-gray">
               <Typography
                 variant="small"
                 color="blue-gray"
-                className="font-normal leading-none "
+                className="font-normal leading-none"
               >
                 Team
               </Typography>
             </th>
             {displayPosition && (
               <th
-                key={3}
+                key={4}
                 className="h-button text-center font-font-dark-gray font-normal  text-sm"
               >
                 Position
@@ -104,7 +104,7 @@ const Player = (props) => {
                 Points
               </Typography>
             </th>
-            <th key={5} className="h-button text-center font-font-dark-gray">
+            <th key={6} className="h-button text-center font-font-dark-gray">
               <Typography
                 variant="small"
                 color="blue-gray"

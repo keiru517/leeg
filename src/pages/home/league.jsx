@@ -67,7 +67,7 @@ const League = () => {
   );
 
   const matches = useSelector((state) => state.home.matches).filter(
-    (match) => match.leagueId == leagueId
+    (match) => match.leagueId == leagueId && match.isDeleted == 0
   );
 
   const options = [
@@ -97,7 +97,7 @@ const League = () => {
   if (isAdmin) {
     // if (league?.userId == user?.id) {
     categories = [
-      "Blog",
+      // "Blog",
       "Manage Rosters",
       "Teams",
       "Schedule",
@@ -106,7 +106,7 @@ const League = () => {
       "Settings",
     ];
   } else {
-    categories = ["Blog", "Teams", "Schedule", "Standings", "Players"];
+    categories = [ "Teams", "Schedule", "Standings", "Players"];
   }
 
   function classNames(...classes) {
@@ -600,7 +600,7 @@ const League = () => {
       </div>
       <div className="rounded-default bg-white dark:bg-slate flex-grow p-default">
         <div className="w-full px-2 sm:px-0 h-full flex flex-col">
-          <Tab.Group defaultIndex={tab}>
+          <Tab.Group>
             <div className="flex justify-between">
               <Tab.List className="flex justify-start space-x-5 rounded-xl bg-transparent p-1 ">
                 {categories.map((category, idx) => (
@@ -621,21 +621,21 @@ const League = () => {
                   </Tab>
                 ))}
               </Tab.List>
-              {tab == 1 && isAdmin ? (
+              {tab == 0 && isAdmin ? (
                 <button
                   onClick={handleInvitePlayer}
                   className="w-36 h-[42px] bg-primary hover:bg-opacity-70 rounded-default text-white focus:ring-2 text-sm font-bold"
                 >
                   Invite Player
                 </button>
-              ) : tab == 2 && isAdmin ? (
+              ) : tab == 1 && isAdmin ? (
                 <button
                   onClick={handleCreateTeam}
                   className="w-36 h-[42px] bg-primary hover:bg-opacity-70 rounded-default text-white focus:ring-2 text-sm font-bold"
                 >
                   Create Team
                 </button>
-              ) : tab == 3 && isAdmin ? (
+              ) : tab == 2 && isAdmin ? (
                 <button
                   onClick={handleCreateMatch}
                   className="w-36 h-[42px] bg-primary hover:bg-opacity-70 rounded-default text-white focus:ring-2 text-sm font-bold"
@@ -648,7 +648,7 @@ const League = () => {
             </div>
             <Tab.Panels className="flex-grow flex items-center ">
               {/* Blog */}
-              <Tab.Panel
+              {/* <Tab.Panel
                 key={0}
                 className={classNames(
                   "rounded-xl flex flex-col justify-between w-full h-full"
@@ -691,31 +691,14 @@ const League = () => {
                           : "dark:bg-light-gray justify-center"
                       } rounded-default`}
                     >
-                      {/* {filteredWaitListPlayers.length ? (
-                        filteredWaitListPlayers.map((player, idx) => (
-                          <ListItem
-                            key={idx}
-                            className="mb-5"
-                            avatar={player.avatar}
-                            name={player.firstName + " " + player.lastName}
-                            email={player.email}
-                            date={player.createdAt}
-                            itemChecked={!!waitItemChecked[player.id]}
-                            setItemChecked={(checked) => {
-                              setWaitListItemChecked(player.id, checked);
-                            }}
-                          ></ListItem>
-                        ))
-                      ) : ( */}
                       <p className="text-black dark:text-white font-medium text-sm">
                         No Blogs to show!
                       </p>
-                      {/* )} */}
                     </div>
                   </div>
                 </div>
                 <PlayerModal></PlayerModal>
-              </Tab.Panel>
+              </Tab.Panel> */}
               {/* Rosters */}
               {isAdmin ? (
                 <Tab.Panel
@@ -756,7 +739,11 @@ const League = () => {
                         } rounded-default`}
                       >
                         <RosterTable
-                          rosters={rosters.filter(roster=>(roster.firstName+roster.lastName).toLowerCase().includes(waitListKeyword.toLowerCase()))}
+                          rosters={rosters.filter((roster) =>
+                            (roster.firstName + roster.lastName)
+                              .toLowerCase()
+                              .includes(waitListKeyword.toLowerCase())
+                          )}
                           rosterValue={rosterValue}
                           setRosterValue={setRosterValue}
                         />
@@ -940,9 +927,7 @@ const League = () => {
                   onChange={(e) => setTeamKeyword(e.target.value)}
                 />
                 {teams.filter((team) =>
-                  team.name
-                    .toLowerCase()
-                    .includes(teamKeyword.toLowerCase())
+                  team.name.toLowerCase().includes(teamKeyword.toLowerCase())
                 ).length > 0 ? (
                   <>
                     <div className="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
@@ -1020,14 +1005,14 @@ const League = () => {
                       setStandingsKeyword(e.target.value);
                     }}
                   />
-                  <Select
+                  {/* <Select
                     className="text-xs"
                     options={options}
                     handleClick={(e) => setValue(e.name)}
                     value={value}
                   >
                     {value}
-                  </Select>
+                  </Select> */}
                 </div>
                 {teams.filter((team) =>
                   team.name
@@ -1066,14 +1051,14 @@ const League = () => {
                       setPlayerKeyword(e.target.value);
                     }}
                   />
-                  <Select
+                  {/* <Select
                     className="text-xs"
                     options={options}
                     handleClick={(e) => setValue(e.name)}
                     value={value}
                   >
                     {value}
-                  </Select>
+                  </Select> */}
                 </div>
                 {filteredPlayers.length > 0 ? (
                   <PlayerTable

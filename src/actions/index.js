@@ -28,6 +28,7 @@ export const SET_TEAM_LOGO_URL = "SET_TEAM_LOGO_URL";
 // Matches
 export const GET_MATCHES = "GET_MATCHES";
 export const OPEN_CREATE_MATCH_DIALOG = "OPEN_CREATE_MATCH_DIALOG";
+export const OPEN_EDIT_MATCH_DIALOG = "OPEN_EDIT_MATCH_DIALOG";
 export const CLOSE_MATCH_DIALOG = "CLOSE_MATCH_DIALOG";
 // Matchups
 export const GET_MATCHUPS = "GET_MATCHUPS";
@@ -165,7 +166,6 @@ export const updateTeam = async (dispatch, data) => {
       type: GET_TEAMS,
       payload: teams,
     });
-
   } catch (error) {
     dispatch({
       type: GET_TEAMS,
@@ -173,9 +173,9 @@ export const updateTeam = async (dispatch, data) => {
     });
   }
   dispatch({
-    type: CLOSE_TEAM_DIALOG
-  })
-}
+    type: CLOSE_TEAM_DIALOG,
+  });
+};
 
 export const openCreateTeamDialog = (payload) => ({
   type: OPEN_CREATE_TEAM_DIALOG,
@@ -218,6 +218,56 @@ export const getMatches = async (dispatch) => {
   }
 };
 
+export const createMatch = async (dispatch, data) => {
+  try {
+    const response = await axios.post(apis.createMatch, data);
+    const matches = response.data.matches;
+    dispatch({
+      type: GET_MATCHES,
+      payload: matches,
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_MATCHES,
+      payload: [],
+    });
+  }
+};
+
+export const updateMatch = async (dispatch, data) => {
+  try {
+    const response = await axios.post(apis.updateMatch, data);
+    const matches = response.data.matches;
+    dispatch({
+      type: GET_MATCHES,
+      payload: matches,
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_MATCHES,
+      payload: [],
+    });
+  }
+};
+
+export const deleteMatch = async (dispatch, matchId) => {
+  try {
+    const response = await axios.get(apis.deleteMatch(matchId));
+    const matches = response.data.matches;
+    dispatch({
+      type: GET_MATCHES,
+      payload: matches,
+    });
+    alert("Deleted successfully!");
+  } catch (error) {
+    dispatch({
+      type: GET_MATCHES,
+      payload: [],
+    });
+    alert("Error occurred!")
+  }
+};
+
 export const updateMatchResult = async (dispatch, data) => {
   try {
     const response = await axios.post(apis.updateMatchResult, data);
@@ -234,9 +284,6 @@ export const updateMatchResult = async (dispatch, data) => {
   }
 };
 
-export const closeMatchDialog = () => ({
-  type: CLOSE_MATCH_DIALOG,
-});
 // Matchup
 export const getMatchups = async (dispatch) => {
   try {
@@ -257,9 +304,9 @@ export const getMatchups = async (dispatch) => {
 export const completeMatchup = async (dispatch, data) => {
   try {
     const response = await axios.post(apis.completeMatchup, data);
-    
+
     const matchups = response.data.matchups;
-    alert(response.status)
+    alert("Status has been changed into Completed!");
     dispatch({
       type: GET_MATCHUPS,
       payload: matchups,
@@ -270,14 +317,14 @@ export const completeMatchup = async (dispatch, data) => {
       payload: [],
     });
   }
-}
+};
 
 export const incompleteMatchup = async (dispatch, data) => {
   try {
     const response = await axios.post(apis.incompleteMatchup, data);
-    
+
     const matchups = response.data.matchups;
-    alert(response.status)
+    alert("Status has been changed into Incompleted");
     dispatch({
       type: GET_MATCHUPS,
       payload: matchups,
@@ -288,8 +335,7 @@ export const incompleteMatchup = async (dispatch, data) => {
       payload: [],
     });
   }
-}
-
+};
 
 // Logs
 export const getLogs = async (dispatch) => {
@@ -315,8 +361,8 @@ export const createOneLog = (dispatch, data) => {
       .then((res) => {
         dispatch({
           type: GET_LOGS,
-          payload: res.data.logs
-        })
+          payload: res.data.logs,
+        });
       })
       .catch((error) => {
         alert(error.response.data.message);
@@ -331,8 +377,8 @@ export const updateOneLog = (dispatch, data) => {
       .then((res) => {
         dispatch({
           type: GET_LOGS,
-          payload: res.data.logs
-        })
+          payload: res.data.logs,
+        });
       })
       .catch((error) => {
         alert(error.response.data.message);
@@ -347,16 +393,14 @@ export const removeLog = (dispatch, data) => {
       .then((res) => {
         dispatch({
           type: GET_LOGS,
-          payload: res.data.logs
-        })
+          payload: res.data.logs,
+        });
       })
       .catch((error) => {
         alert(error.response.data.message);
       });
   } catch (error) {}
 };
-
-
 
 // player action
 export const getPlayers = async (dispatch) => {

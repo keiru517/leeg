@@ -12,46 +12,40 @@ const AuthLayout = (props) => {
   const [isLoggedIn, setLoggedIn] = useState(false);
   
   const token = localStorage.getItem('token');
-
-  const logoutUser = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("userId");
-    navigate("/signin", { replace: true });
-  };
   
-  useEffect(() => {
-    const handleUserActivity = () => {
-      if (token && isExpired(token)) {
-        setLoggedIn(false);
-        logoutUser();
-      }
-    };
+  // useEffect(() => {
+  //   const handleUserActivity = () => {
+  //     if (token && isExpired(token)) {
+  //       setLoggedIn(false);
+  //       logoutUser();
+  //     }
+  //   };
 
-    // Add event listener for user activity (e.g., mousemove, keydown, etc.)
-    document.addEventListener("mousemove", handleUserActivity);
-    document.addEventListener("keydown", handleUserActivity);
+  //   // Add event listener for user activity (e.g., mousemove, keydown, etc.)
+  //   document.addEventListener("mousemove", handleUserActivity);
+  //   document.addEventListener("keydown", handleUserActivity);
 
-    return () => {
-      // Clean up the event listener when the component unmounts
-      document.removeEventListener("mousemove", handleUserActivity);
-      document.removeEventListener("keydown", handleUserActivity);
-    };
-  }, [token]);
+  //   return () => {
+  //     // Clean up the event listener when the component unmounts
+  //     document.removeEventListener("mousemove", handleUserActivity);
+  //     document.removeEventListener("keydown", handleUserActivity);
+  //   };
+  // }, [token]);
 
   useEffect(()=>{
     if (token) {
-      if (!isExpired(token)) {
+      // if (!isExpired(token)) {
         setLoggedIn(true)
         setAuthToken(token);
-      } else {
-        setLoggedIn(false)
-        logoutUser();
-      }
+      // } else {
+      //   setLoggedIn(false)
+      //   logoutUser();
+      // }
     } else {
       console.log(location.pathname)
       if (location.pathname !== "/resetpass" ) {
         navigate('/signin', { replace: true})
-      } 
+      }
       setLoggedIn(false)
     }
     setLoading(false)
