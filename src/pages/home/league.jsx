@@ -12,7 +12,7 @@ import Button from "../../components/Button";
 import TeamCard from "../../components/Card/Team";
 import { Tab } from "@headlessui/react";
 import LeagueModal from "../../components/Modal/LeagueModal";
-import PlayerModal from "../../components/Modal/PlayerModal";
+import InvitePlayerModal from "../../components/Modal/InvitePlayerModal";
 import TeamModal from "../../components/Modal/TeamModal";
 import MatchModal from "../../components/Modal/MatchModal";
 import AdminModal from "../../components/Modal/AdminModal";
@@ -857,7 +857,7 @@ const League = () => {
                       </div>
                     </div>
                   </div> */}
-                  <PlayerModal></PlayerModal>
+                  <InvitePlayerModal></InvitePlayerModal>
                 </Tab.Panel>
               ) : (
                 ""

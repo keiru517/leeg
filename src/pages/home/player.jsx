@@ -6,7 +6,7 @@ import Select from "../../components/Select";
 import line from "../../assets/img/dark_mode/point-line.png";
 import * as actions from "../../actions";
 import ProfileTable from "../../components/Table/Profile";
-import DefaultTeamLogo from "../../assets/img/dark_mode/default-team-logo.jpg";
+import DefaultTeamLogo from "../../assets/img/dark_mode/default-team-logo.png";
 import backIconDark from "../../assets/img/dark_mode/back-icon-dark.png";
 import backIconLight from "../../assets/img/dark_mode/back-icon-light.png";
 

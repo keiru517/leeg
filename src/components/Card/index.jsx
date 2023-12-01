@@ -70,7 +70,7 @@ const Card = (props) => {
           <div className="flex items-center justify-between">
             <div className="flex items-center">
               <img src={league.logo} className="w-10 h-10 rounded-lg"></img>
-              <p className="dark:text-white text-sm ml-5">{league.name} / {league.id.toString().padStart(6, '0')}<br></br><span className="text-xs text-font-dark-gray"> {owner?.email}</span></p>
+              <p className="dark:text-white text-sm ml-5">{league.name} / {league.id.toString().padStart(6, '0')}<br></br><span className="text-xs text-gray-400"> {owner?.email}</span></p>
             </div>
             <div>
               {player?.isAcceptedList === 1 &&
@@ -97,7 +97,7 @@ const Card = (props) => {
                 </div> */}
         </div>
         <div className="h-[75px] mt-4">
-          <p className="dark:text-font-dark-gray text-[10px] text-left">
+          <p className="dark:text-gray-400 text-[10px] text-left">
             Start Date: {league.startDate} End Date: {league.endDate}
           </p>
           <p className="dark:text-[#c6c6c6] text-left text-xs h-[54px] mt-2">

@@ -131,6 +131,14 @@ export const openInvitePlayerDialog = (payload) => ({
   payload: payload,
 });
 
+export const invitePlayer = async (dispatch, data) => {
+  try {
+    const response = await axios.post(apis.invitePlayer, data)
+    alert(response.data.status)
+  } catch (error) {
+    alert(error)
+  }
+}
 // Teams
 export const getTeams = async (dispatch) => {
   try {

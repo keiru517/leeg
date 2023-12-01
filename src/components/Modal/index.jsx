@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../actions";
 import axios from "axios";
 import apis from "../../utils/apis";
+import moment from "moment";
 
 const Modal = (props) => {
   const dispatch = useDispatch();
@@ -199,27 +200,13 @@ const Modal = (props) => {
   const [show2, setShow2] = useState(false);
   const handleChange1 = (selectedDate) => {
     const dateObj = new Date(selectedDate);
-    const formattedDate = dateObj
-      .toLocaleDateString("en", {
-        month: "short",
-        day: "2-digit",
-        year: "numeric",
-      })
-      .replace(/ /g, "/")
-      .replace(",", "");
+    const formattedDate = moment(dateObj).format('DD/MM/YYYY');
     console.log(formattedDate.toString());
     setStartDate(formattedDate.toString());
   };
   const handleChange2 = (selectedDate) => {
     const dateObj = new Date(selectedDate);
-    const formattedDate = dateObj
-      .toLocaleDateString("en", {
-        month: "short",
-        day: "2-digit",
-        year: "numeric",
-      })
-      .replace(/ /g, "/")
-      .replace(",", "");
+    const formattedDate =  moment(dateObj).format('DD/MM/YYYY');
     console.log(formattedDate.toString());
     setEndDate(formattedDate.toString());
   };

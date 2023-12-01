@@ -9,6 +9,7 @@ import Option from "../Option";
 import axios from "axios";
 import apis from "../../utils/apis";
 import * as actions from "../../actions";
+import moment from 'moment';
 
 function Checkbox({ label, name, checked, onChange, disabled }) {
   return (
@@ -105,8 +106,8 @@ const RosterTable = (props) => {
             .catch((error) => alert(error.response.data.message));
         } else {
         }
-      } else if (rosterValue === 'AcceptedList') {
-        console.log(itemChecked)
+      } else if (rosterValue === "AcceptedList") {
+        console.log(itemChecked);
         axios
           .post(apis.unacceptPlayer, itemChecked)
           .then((res) => {
@@ -131,22 +132,22 @@ const RosterTable = (props) => {
     setItemChecked(temp);
   };
 
-const [canSubmit, setCanSubmit] = useState(false);
+  const [canSubmit, setCanSubmit] = useState(false);
   useEffect(() => {
     // Return true if nothing is selected
     const allItemsFalse = Object.values(itemChecked).every(
       (value) => value === false
     );
     if (allItemsFalse) {
-      setCanSubmit(false)
+      setCanSubmit(false);
     } else {
-      setCanSubmit(true)
+      setCanSubmit(true);
     }
   }, [itemChecked]);
 
   // Set itemchecked as {} when the select option is changed
   useEffect(() => {
-    setItemChecked({})
+    setItemChecked({});
   }, [rosterValue]);
 
   return (
@@ -174,28 +175,43 @@ const [canSubmit, setCanSubmit] = useState(false);
             {league?.userId == user?.id ? (
               <th className="text-center cursor-pointer w-20">
                 {rosterValue === "AcceptedList" ? (
-                  <span className="text-black dark:text-white" onClick={()=>handleOption()} >{canSubmit?"❌":"..."}</span>
-                  // <span onClick={()=>handleOption()} className={`${canSubmit?"":"opacity-50"}`}>❌</span>
+                  <span
+                    className="text-black dark:text-white"
+                    onClick={() => handleOption()}
+                  >
+                    {canSubmit ? "❌" : "..."}
+                  </span>
                 ) : (
+                  // <span onClick={()=>handleOption()} className={`${canSubmit?"":"opacity-50"}`}>❌</span>
                   <div className="flex justify-center space-x-1">
-                    {
-                      canSubmit ? (
-                        <>
-                          <span onClick={()=>handleOption(1)} className={`${canSubmit?"":"opacity-50"}`}>❌</span>
-                          <span onClick={()=>handleOption(0)} className={`${canSubmit?"":"opacity-50"}`}>✅</span>
-                        </>
-                      ):<span className="text-black dark:text-white">...</span>
-                    }
+                    {canSubmit ? (
+                      <>
+                        <span
+                          onClick={() => handleOption(1)}
+                          className={`${canSubmit ? "" : "opacity-50"}`}
+                        >
+                          ❌
+                        </span>
+                        <span
+                          onClick={() => handleOption(0)}
+                          className={`${canSubmit ? "" : "opacity-50"}`}
+                        >
+                          ✅
+                        </span>
+                      </>
+                    ) : (
+                      <span className="text-black dark:text-white">...</span>
+                    )}
                   </div>
                 )}
               </th>
+            ) : (
               // <th>
               //   <Option
               //     options={options}
               //     handleClick={(idx, event) => handleOption(idx)}
               //   ></Option>
               // </th>
-            ) : (
               // <th>
               //   <Option
               //     options={options}
@@ -244,7 +260,7 @@ const [canSubmit, setCanSubmit] = useState(false);
                   color="blue-gray"
                   className="font-normal"
                 >
-                  {player.createdAt}
+                  {moment(player.createdAt).format('h:mmA DD/MM/YYYY')}
                 </Typography>
               </td>
               <td className="w-1/7">
@@ -253,7 +269,15 @@ const [canSubmit, setCanSubmit] = useState(false);
                   color="blue-gray"
                   className="font-normal"
                 >
-                  {player.updatedAt}
+                  {/* {new Date(player.createdAt).toLocaleString("en-US", {
+                    hour: "numeric",
+                    minute: "numeric",
+                    hour12: true,
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                  })} */}
+                  {moment(player.createdAt).format('h:mmA DD/MM/YYYY')}
                 </Typography>
               </td>
               <td className="w-1/7">

@@ -70,6 +70,7 @@ export const apis = {
   editLineups: apiUrl + "/matchup/editLineups",
   // player
   getPlayers: apiUrl + "/player/all",
+  invitePlayer: apiUrl + "/player/invite",
   createPlayer: apiUrl + "/player/create",
   updatePlayer: apiUrl + "/player/update",
   removePlayerFromTeam: apiUrl + "/player/removeFromTeam",
