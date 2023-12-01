@@ -13,22 +13,42 @@ const Profile = (props) => {
       player?.teamId !== 0
   );
 
-  const league = useSelector(state=>state.home.leagues).find(league=>league.id == leagueId)
-  const matches = useSelector(state=>state.home.matches).filter(match=>match.leagueId == leagueId)
-  const displayPosition = league?.displayPosition
-  const displayAttempts3 = league?.displayAttempts3
-  const displayAttempts2= league?.displayAttempts2
-  const displayAttempts1= league?.displayAttempts1
-  const displayBlocks= league?.displayBlocks
-  const displayRebounds = league?.displayRebounds
-  const displayAssists = league?.displayAssists
-  const displayFouls= league?.displayFouls
-  const displaySteals= league?.displaySteals
-  const displayTurnovers= league?.displayTurnovers
-
-  const matchups = useSelector((state) => state.home.matchups).filter(
-    (matchup) => matchup.userId == userId && matchup.leagueId == leagueId
+  const league = useSelector((state) => state.home.leagues).find(
+    (league) => league.id == leagueId
   );
+  const matches = useSelector((state) => state.home.matches).filter(
+    (match) => match.leagueId == leagueId
+  );
+  const displayPosition = league?.displayPosition;
+  const displayAttempts3 = league?.displayAttempts3;
+  const displayAttempts2 = league?.displayAttempts2;
+  const displayAttempts1 = league?.displayAttempts1;
+  const displayBlocks = league?.displayBlocks;
+  const displayRebounds = league?.displayRebounds;
+  const displayAssists = league?.displayAssists;
+  const displayFouls = league?.displayFouls;
+  const displaySteals = league?.displaySteals;
+  const displayTurnovers = league?.displayTurnovers;
+
+  const matchups = useSelector((state) => state.home.matchups)
+    .filter((matchup) => {
+      const match = matches.find((m) => m.id == matchup.matchId);
+      console.log(match);
+      return (
+        matchup.userId == userId &&
+        matchup.leagueId == leagueId &&
+        match &&
+        !match.isNew
+      );
+    })
+    .map((matchup) => {
+      const match = matches.find((m) => m.id == matchup.matchId);
+      return { ...matchup, match };
+    });
+  console.log("matchups", matchups);
+  // const matchups = useSelector((state) => state.home.matchups).filter(
+  //   (matchup) => matchup.userId == userId && matchup.leagueId == leagueId
+  // );
 
   return (
     <div className="text-black dark:text-white mt-5 w-full">
@@ -36,7 +56,7 @@ const Profile = (props) => {
         <thead className="sticky top-0 z-10 bg-white dark:bg-slate">
           <tr>
             <th
-              key={1}
+              key={0}
               className="h-button text-center font-font-dark-gray font-normal  text-sm"
             >
               Game Date
@@ -48,32 +68,32 @@ const Profile = (props) => {
               Matchup
             </th>
             <th
-              key={4}
+              key={2}
               className="h-button text-center font-font-dark-gray font-normal text-sm w-[40px]"
             >
               Points
             </th>
             <th
-              key={5}
+              key={3}
               className="h-button text-center font-font-dark-gray font-normal  text-sm"
             >
               3 Points
             </th>
             <th
-              key={6}
+              key={4}
               className="h-button text-center font-font-dark-gray font-normal  text-sm"
             >
               2 Points
             </th>
             <th
-              key={7}
+              key={5}
               className="h-button text-center font-font-dark-gray font-normal  text-sm"
             >
               Free throws
             </th>
             {displayAttempts3 ? (
               <th
-                key={8}
+                key={6}
                 className="h-button text-center font-font-dark-gray font-normal  text-sm"
               >
                 3 Attempts
@@ -83,7 +103,7 @@ const Profile = (props) => {
             )}
             {displayAttempts2 ? (
               <th
-                key={9}
+                key={7}
                 className="h-button text-center font-font-dark-gray font-normal  text-sm"
               >
                 2 Attempts
@@ -93,7 +113,7 @@ const Profile = (props) => {
             )}
             {displayAttempts1 ? (
               <th
-                key={10}
+                key={8}
                 className="h-button text-center font-font-dark-gray font-normal  text-sm"
               >
                 1 Attempts
@@ -103,7 +123,7 @@ const Profile = (props) => {
             )}
             {displayBlocks ? (
               <th
-                key={11}
+                key={9}
                 className="h-button text-center font-font-dark-gray font-normal  text-sm"
               >
                 Blocks
@@ -113,7 +133,7 @@ const Profile = (props) => {
             )}
             {displayRebounds ? (
               <th
-                key={12}
+                key={10}
                 className="h-button text-center font-font-dark-gray font-normal  text-sm"
               >
                 Rebounds
@@ -123,7 +143,7 @@ const Profile = (props) => {
             )}
             {displayAssists ? (
               <th
-                key={13}
+                key={11}
                 className="h-button text-center font-font-dark-gray font-normal  text-sm"
               >
                 Assists
@@ -133,7 +153,7 @@ const Profile = (props) => {
             )}
             {displayFouls ? (
               <th
-                key={14}
+                key={12}
                 className="h-button text-center font-font-dark-gray font-normal  text-sm"
               >
                 Fouls
@@ -143,7 +163,7 @@ const Profile = (props) => {
             )}
             {displaySteals ? (
               <th
-                key={15}
+                key={13}
                 className="h-button text-center font-font-dark-gray font-normal  text-sm"
               >
                 Steals
@@ -153,7 +173,7 @@ const Profile = (props) => {
             )}
             {displayTurnovers ? (
               <th
-                key={16}
+                key={14}
                 className="h-button text-center font-font-dark-gray font-normal text-sm"
               >
                 Turnovers
@@ -165,10 +185,6 @@ const Profile = (props) => {
         </thead>
         <tbody className="text-center">
           {matchups.map((matchup, index) => {
-            const match =matches.find(
-              (match) => match.id === matchup.matchId
-            );
-
             return (
               <tr
                 key={index}
@@ -180,7 +196,7 @@ const Profile = (props) => {
                     color="blue-gray"
                     className="font-normal"
                   >
-                    {match?.date}
+                    {matchup.match?.date}
                   </Typography>
                 </td>
                 <td className="">
@@ -191,36 +207,56 @@ const Profile = (props) => {
                   >
                     <img
                       src={
-                        teams.find((team) => team.id == match?.homeTeamId)?.logo
+                        teams.find(
+                          (team) => team.id == matchup.match?.homeTeamId
+                        )?.logo
                       }
                       alt=""
                       className="w-8 h-8 rounded-full"
                     />
-                    <p className="underline">
+                    <p
+                      className={`underline ${
+                        matchup.match.homeTeamPoints >
+                        matchup.match.awayTeamPoints
+                          ? "font-bold"
+                          : ""
+                      }`}
+                    >
                       <Link
-                        to={`/league/${leagueId}/team/${match?.homeTeamId}`}
+                        to={`/league/${leagueId}/team/${matchup.match?.homeTeamId}`}
                       >
                         {
-                          teams.find((team) => team.id == match?.homeTeamId)
-                            ?.name
+                          teams.find(
+                            (team) => team.id == matchup.match?.homeTeamId
+                          )?.name
                         }
                       </Link>
                     </p>
                     <p className="text-font-dark-gray">VS</p>
                     <img
                       src={
-                        teams.find((team) => team.id == match?.awayTeamId)?.logo
+                        teams.find(
+                          (team) => team.id == matchup.match?.awayTeamId
+                        )?.logo
                       }
                       alt=""
                       className="w-8 h-8 mr-2 rounded-full"
                     />
-                    <p className="underline">
+                    <p
+                      className={`underline ${
+                        matchup.match.awayTeamPoints >
+                        matchup.match.homeTeamPoints
+                          ? "font-bold"
+                          : ""
+                      }`}
+                    >
                       <Link
-                        to={`/league/${leagueId}/team/${match?.awayTeamId}`}
+                        to={`/league/${leagueId}/team/${matchup.match?.awayTeamId}`}
                       >
                         {
-                          teams.find((team) => team.id == match?.awayTeamId)
-                            ?.name
+                          teams.find(
+                            (team) => team.id == matchup.match?.awayTeamId
+                          )?.name
                         }
                       </Link>
                     </p>

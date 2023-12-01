@@ -258,6 +258,8 @@ export const deleteMatch = async (dispatch, matchId) => {
       type: GET_MATCHES,
       payload: matches,
     });
+    getTeams(dispatch)
+    getPlayers(dispatch)
     alert("Deleted successfully!");
   } catch (error) {
     dispatch({

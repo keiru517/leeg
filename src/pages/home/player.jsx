@@ -115,7 +115,7 @@ const Player = () => {
                   {player?.firstName} {player?.lastName}{" "}
                 </p>
                 {isAdmin && (
-                  <span className="text-xs font-normal mt-2 text-font-dark-gray">
+                  <span className="text-xs font-normal mt-2 text-gray-400">
                     / {player?.email}
                   </span>
                 )}
@@ -165,16 +165,16 @@ const Player = () => {
             </div>
           </button> */}
         </div>
-        <div className="search flex justify-between space-x-6 mt-3">
+        {/* <div className="search flex justify-between space-x-6 mt-3">
           <Select
             className="w-full rounded-lg text-xs h-[42px]"
             options={options}
-            handleClick={(e) => setValue(e)}
+            handleClick={(e) => setValue(e.name)}
             value={value}
           >
             {value}
           </Select>
-        </div>
+        </div> */}
         {matches.length > 0 ? (
           <ProfileTable userId={userId} leagueId={leagueId} />
         ) : (

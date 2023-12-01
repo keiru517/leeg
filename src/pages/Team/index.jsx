@@ -51,7 +51,7 @@ const Team = () => {
     (player) => player?.teamId == teamId && player?.isDeleted !== 1
   );
 
-  const matchups = useSelector((state) => state.home.matchups);
+  const matchups = useSelector((state) => state.home.matchups).filter(matchup=>matchup.teamId == teamId);
 
   useEffect(() => {
     actions.getUserInfo(dispatch, localStorage.getItem("userId"));

@@ -263,55 +263,55 @@ const Matchup = () => {
   //   actions.updateMatchResult(dispatch,{matchId:matchId, result:matchupResult})
   // }, [homeTeamPoints, awayTeamPoints]);
 
-  const handleSubmit = () => {
-    axios
-      .post(apis.updateMatchResult, {
-        matchId: matchId,
-        result: matchupResult,
-      })
-      .then((res) => {
-        actions.getMatches(dispatch);
-      })
-      .catch((error) => {
-        console.log(error.response.data.message);
-      });
+  // const handleSubmit = () => {
+  //   axios
+  //     .post(apis.updateMatchResult, {
+  //       matchId: matchId,
+  //       result: matchupResult,
+  //     })
+  //     .then((res) => {
+  //       actions.getMatches(dispatch);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error.response.data.message);
+  //     });
 
-    axios
-      .post(apis.createLogs, {
-        leagueId: leagueId,
-        matchId: matchId,
-        // logs: logs,
-        homeTeamId: homeTeam?.id,
-        awayTeamId: awayTeam?.id,
-      })
-      .then((res) => {
-        alert(res.data.message);
-      })
-      .catch((error) => {
-        alert(error.response.data.message);
-        console.log(error.response.data.message);
-      });
-  };
+  //   axios
+  //     .post(apis.createLogs, {
+  //       leagueId: leagueId,
+  //       matchId: matchId,
+  //       // logs: logs,
+  //       homeTeamId: homeTeam?.id,
+  //       awayTeamId: awayTeam?.id,
+  //     })
+  //     .then((res) => {
+  //       alert(res.data.message);
+  //     })
+  //     .catch((error) => {
+  //       alert(error.response.data.message);
+  //       console.log(error.response.data.message);
+  //     });
+  // };
 
-  const removeSubstitute = (userId) => {
-    axios
-      .post(apis.removeSubstitute, {
-        userId,
-        leagueId,
-        matchId,
-      })
-      .then((res) => {
-        actions.getMatchups(dispatch);
-        actions.getPlayers(dispatch);
-        alert(res.data.message);
-      })
-      .catch((error) => {
-        console.log(error.response.data.message);
-      });
+  // const removeSubstitute = (userId) => {
+  //   axios
+  //     .post(apis.removeSubstitute, {
+  //       userId,
+  //       leagueId,
+  //       matchId,
+  //     })
+  //     .then((res) => {
+  //       actions.getMatchups(dispatch);
+  //       actions.getPlayers(dispatch);
+  //       alert(res.data.message);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error.response.data.message);
+  //     });
 
-    // if the admin remove a substitutue, then the matchup result will be saved automatically
-    handleSubmit();
-  };
+  //   // if the admin remove a substitutue, then the matchup result will be saved automatically
+  //   handleSubmit();
+  // };
 
   const [currentPeriod, setCurrentPeriod] = useState(1);
   const handlePeriod = (period) => {

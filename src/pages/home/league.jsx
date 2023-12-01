@@ -34,7 +34,7 @@ const League = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const tab = queryParams.get("tab");
+  // const tab = queryParams.get("tab");
 
   const user = useSelector((state) => state.home.user);
   const league = useSelector((state) => state.home.leagues).find(
@@ -116,8 +116,10 @@ const League = () => {
   const [waitItemChecked, setWaitItemChecked] = useState({});
   const [acceptedItemChecked, setAcceptedItemChecked] = useState({});
 
-  const handleCategory = (data) => {
-    navigate(`/league/${leagueId}?tab=${data}`);
+  const [tab, setTab] = useState(0);
+  const handleCategory = (idx) => {
+    // navigate(`/league/${leagueId}?tab=${idx}`);
+    setTab(idx);
     setWaitListKeyword("");
     setAcceptListKeyword("");
     setTeamKeyword("");
@@ -605,7 +607,7 @@ const League = () => {
               <Tab.List className="flex justify-start space-x-5 rounded-xl bg-transparent p-1 ">
                 {categories.map((category, idx) => (
                   <Tab
-                    key={category}
+                    key={idx}
                     className={({ selected }) =>
                       classNames(
                         "py-2.5 text-sm font-medium leading-5 text-gray-500 dark:text-gray-300 px-3",
@@ -647,62 +649,10 @@ const League = () => {
               )}
             </div>
             <Tab.Panels className="flex-grow flex items-center ">
-              {/* Blog */}
-              {/* <Tab.Panel
-                key={0}
-                className={classNames(
-                  "rounded-xl flex flex-col justify-between w-full h-full"
-                )}
-              >
-                <hr className="h-px my-4 bg-charcoal border-0" />
-                <div className="flex h-full space-x-4">
-                  <div className="w-full bg-light-charcoal dark:bg-charcoal flex flex-col h-full min-h-[420px] p-default rounded-main">
-                    <div className="flex justify-between w-full">
-                      <p className="text-black dark:text-white text-xl font-semibold">
-                        Blogs for this league
-                      </p>
-                      <p className="text-black dark:text-white text-xl font-semibold">
-                        {filteredWaitListPlayers.length}
-                      </p>
-                    </div>
-                    <hr className="h-px my-5 bg-gray-300 border-0 dark:bg-dark-gray" />
-                    <div className="flex w-full justify-between space-x-10 my-5">
-                      <div className="flex flex-grow space-x-3 ">
-                        <Input
-                          className="flex-grow rounded-lg h-[38px] dark:bg-charcoal text-xs"
-                          icon={search}
-                          placeholder="Search"
-                          value={waitListKeyword}
-                          onChange={(e) => {
-                            setWaitListKeyword(e.target.value);
-                          }}
-                        />
-                      </div>
-                      <div>
-                        <Button className="text-sm bg-success w-[100px] h-[38px] rounded-lg hover:opacity-70">
-                          Add blog
-                        </Button>
-                      </div>
-                    </div>
-                    <div
-                      className={`overflow-y-scroll h-4/6 flex flex-col items-center flex-grow ${
-                        filteredWaitListPlayers.length
-                          ? ""
-                          : "dark:bg-light-gray justify-center"
-                      } rounded-default`}
-                    >
-                      <p className="text-black dark:text-white font-medium text-sm">
-                        No Blogs to show!
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <PlayerModal></PlayerModal>
-              </Tab.Panel> */}
               {/* Rosters */}
               {isAdmin ? (
                 <Tab.Panel
-                  key={1}
+                  key={0}
                   className={classNames(
                     "rounded-xl flex flex-col justify-between w-full h-full"
                   )}
@@ -915,7 +865,7 @@ const League = () => {
 
               {/* Teams */}
               <Tab.Panel
-                key={2}
+                key={1}
                 className={classNames("rounded-xl flex flex-col w-full h-full")}
               >
                 <hr className="h-px my-4 bg-charcoal border-0" />
@@ -957,7 +907,7 @@ const League = () => {
 
               {/* Schedule */}
               <Tab.Panel
-                key={3}
+                key={2}
                 className={classNames("rounded-xl flex flex-col w-full h-full")}
               >
                 <hr className="h-px my-4 bg-charcoal border-0" />
@@ -989,7 +939,7 @@ const League = () => {
 
               {/* Standings */}
               <Tab.Panel
-                key={4}
+                key={3}
                 className={classNames(
                   "rounded-xl flex flex-col justify-between w-full h-full"
                 )}
@@ -1037,7 +987,7 @@ const League = () => {
 
               {/* Players */}
               <Tab.Panel
-                key={5}
+                key={4}
                 className={classNames("rounded-xl flex flex-col w-full h-full")}
               >
                 <hr className="h-px my-4 bg-charcoal border-0" />
@@ -1077,7 +1027,7 @@ const League = () => {
               {/* Settings */}
 
               <Tab.Panel
-                key={6}
+                key={5}
                 className={classNames("rounded-xl flex flex-col w-full h-full")}
               >
                 <hr className="h-px my-4 bg-charcoal border-0" />

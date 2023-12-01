@@ -45,23 +45,26 @@ const MatchTable = (props) => {
 
   const handleOption = (idx, matchId) => {
     const match = matches.find((match) => match.id == matchId);
+    // Clicked Edit
     if (idx === 0) {
       dispatch({ type: actions.OPEN_EDIT_MATCH_DIALOG, payload: match });
-    } else if (idx === 1) {
+    }
+    // Clicked scorebard
+    else if (idx === 1) {
       navigate(`/league/${leagueId}/matchup/${matchId}`);
-    } else if (idx === 2) {
+    } 
+    // Clicked delete
+    else if (idx === 2) {
       if (!match.isNew) {
         actions.incompleteMatchup(dispatch, {matchId});
       }
       actions.deleteMatch(dispatch, matchId);
-      actions.getTeams(dispatch)
-      actions.getPlayers(dispatch)
     }
   };
 
   const isDeletedTeam = (teamId) => {
     const team = teams.find((team) => team.id == teamId);
-    if (team.isDeleted === 1) return true;
+    if (team?.isDeleted === 1) return true;
     else return false;
   };
 
@@ -160,7 +163,7 @@ const MatchTable = (props) => {
                         />
                         <p
                           className={`text-black dark:text-white ${
-                            homeTeamPoints > awayTeamPoints ? "font-bold" : ""
+                            homeTeamPoints > awayTeamPoints && !isNew ? "font-bold" : ""
                           }`}
                         >
                           {teams.find((team) => team.id == homeTeamId).name}
@@ -201,7 +204,7 @@ const MatchTable = (props) => {
                         />
                         <p
                           className={`text-black dark:text-white ${
-                            homeTeamPoints < awayTeamPoints ? "font-bold" : ""
+                            homeTeamPoints < awayTeamPoints && !isNew ? "font-bold" : ""
                           }`}
                         >
                           {teams.find((team) => team.id == awayTeamId).name}
