@@ -350,14 +350,14 @@ export const invite: RequestHandler = async (req, res) => {
           'is inviting you to join their League!',
         text: `
         ${league.name}
-        
+
         League ID: ${league.id.toString().padStart(6, '0')}
         Sport: ${league.sport}
         ${league.description}
         Start Date: ${league.startDate}
         End Date: ${league.endDate}
         
-        Sign up at [Leeg.io](https://leeg.io)!
+        Sign up at Leeg.io! (https://leeg.io)
       `
         // league.name +
         // '\n\n' +
