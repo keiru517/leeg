@@ -11,7 +11,7 @@ const PasswordInput = (props) => {
   const { icon, className, value, ...rest } = props;
   return (
     <div
-      className={`${className} flex space-x-2 border border-dark-gray items-center px-3`}
+      className={`${className} flex space-x-2 border border-dark-gray items-center`}
     >
       {icon ? (
         <div>
@@ -23,7 +23,7 @@ const PasswordInput = (props) => {
       <input
         {...rest}
         type={isShown?"":"password"}
-        className="bg-transparent outline-none text-black dark:text-white flex-grow h-[42px] "
+        className="bg-transparent outline-none text-black dark:text-white flex-grow h-[42px] px-3"
         value={value}
       />
       <div>
@@ -31,7 +31,7 @@ const PasswordInput = (props) => {
           onClick={toggle}
           src={isShown ? eyeEnable : eyeDisable}
           alt=""
-          className="hover:cursor-pointer"
+          className="hover:cursor-pointer pr-3 bg-transparent"
         />
       </div>
     </div>
