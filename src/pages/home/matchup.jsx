@@ -446,7 +446,7 @@ const Matchup = () => {
 
   return (
     <div className="flex flex-col flex-grow">
-      <p className="flex font-dark-gray my-[20px] justify-between truncate w-1/3">
+      <p className="flex font-dark-gray my-[20px] justify-between ">
         <div className="">
           <Link to="/">
             <span className="underline">My Leagues</span>
