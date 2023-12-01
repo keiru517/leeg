@@ -71,7 +71,7 @@ const Signin = () => {
               name="email"
             ></input>
             <PasswordInput
-              className="rounded-default text-font-dark-gray text-xs"
+              className="bg-transparent rounded-default text-font-dark-gray text-xs"
               placeholder="Type Your Password*"
               value={password}
               name="password"

@@ -106,7 +106,7 @@ const League = () => {
       "Settings",
     ];
   } else {
-    categories = [ "Teams", "Schedule", "Standings", "Players"];
+    categories = ["Teams", "Schedule", "Standings", "Players"];
   }
 
   function classNames(...classes) {
@@ -658,10 +658,51 @@ const League = () => {
                   )}
                 >
                   <hr className="h-px my-4 bg-charcoal border-0" />
-                  <div className="h-full ">
+                  <div className="flex space-x-3">
+                    <Input
+                      className="flex-grow rounded-lg h-[38px] bg-transparent text-xs"
+                      icon={search}
+                      placeholder="Search rosters"
+                      value={waitListKeyword}
+                      onChange={(e) => {
+                        setWaitListKeyword(e.target.value);
+                      }}
+                    />
+                    <Select
+                      className="w-[144px] rounded-lg text-xs"
+                      options={rosterOptions}
+                      handleClick={(e) => setRosterValue(e.name)}
+                      value={rosterValue}
+                    >
+                      {rosterValue}
+                    </Select>
+                  </div>
+                  {rosters.filter((roster) =>
+                    (roster.firstName + roster.lastName)
+                      .toLowerCase()
+                      .includes(waitListKeyword.toLowerCase())
+                  ).length > 0 ? (
+                    <RosterTable
+                      rosters={rosters.filter((roster) =>
+                        (roster.firstName + roster.lastName)
+                          .toLowerCase()
+                          .includes(waitListKeyword.toLowerCase())
+                      )}
+                      rosterValue={rosterValue}
+                      setRosterValue={setRosterValue}
+                    />
+                  ) : (
+                    <div className="flex items-center flex-grow">
+                      <p className="text-2xl text-black dark:text-white w-full text-center">
+                        No Rosters to show!
+                      </p>
+                    </div>
+                  )}
+
+                  {/* <div className="h-full">
                     <div className="bg-light-charcoal dark:bg-charcoal flex flex-col h-full min-h-[420px] p-default rounded-main">
                       <div className="flex w-full justify-between space-x-10">
-                        <div className="flex flex-grow space-x-3 ">
+                        <div className="flex flex-grow space-x-3">
                           <Input
                             className="flex-grow rounded-lg h-[38px] dark:bg-charcoal text-xs"
                             icon={search}
@@ -697,163 +738,6 @@ const League = () => {
                           rosterValue={rosterValue}
                           setRosterValue={setRosterValue}
                         />
-                        {/* {players.length ? (
-                          players.map((player, idx) => (
-                            <ListItem
-                              key={idx}
-                              className="mb-5"
-                              avatar={player.avatar}
-                              name={player.firstName + " " + player.lastName}
-                              email={player.email}
-                              date={player.createdAt}
-                              itemChecked={!!waitItemChecked[player.id]}
-                              setItemChecked={(checked) => {
-                                setWaitListItemChecked(player.id, checked);
-                              }}
-                            ></ListItem>
-                          ))
-                        ) : (
-                          <p className="text-black dark:text-white font-medium text-sm">
-                            No waitlisted Players to show!
-                          </p>
-                        )} */}
-                      </div>
-                    </div>
-                  </div>
-                  {/* <div className="h-full grid grid-cols-1 sm:grid-cols-2 sm:space-x-4 sm:space-y-0 space-y-3 ">
-                    <div className="bg-light-charcoal dark:bg-charcoal flex flex-col h-full min-h-[420px] p-default rounded-main">
-                      <div className="flex justify-between w-full">
-                        <p className="text-black dark:text-white text-xl font-semibold">
-                          Waitlisted Players
-                        </p>
-                        <p className="text-black dark:text-white text-xl font-semibold">
-                          {filteredWaitListPlayers.length}
-                        </p>
-                      </div>
-                      <hr className="h-px my-5 bg-gray-300 border-0 dark:bg-dark-gray" />
-                      <div className="flex w-full justify-between space-x-10 my-5">
-                        <div className="flex flex-grow space-x-3 ">
-                          <Input
-                            className="flex-grow rounded-lg h-[38px] dark:bg-charcoal text-xs"
-                            icon={search}
-                            placeholder="Search"
-                            value={waitListKeyword}
-                            onChange={(e) => {
-                              setWaitListKeyword(e.target.value);
-                            }}
-                          />
-                          <Select
-                            className="w-[144px] rounded-lg text-xs"
-                            options={options}
-                            handleClick={(e) => setWaitSortValue(e.name)}
-                            value={waitSortValue}
-                          >
-                            {waitSortValue}
-                          </Select>
-                        </div>
-                        <div>
-                          <Button
-                            onClick={handleAccept}
-                            className="text-sm bg-success w-[72px] h-[38px] rounded-lg hover:opacity-70"
-                          >
-                            Accept
-                          </Button>
-                        </div>
-                      </div>
-                      <div
-                        className={`overflow-y-scroll h-4/6 flex flex-col items-center flex-grow ${
-                          filteredWaitListPlayers.length
-                            ? ""
-                            : "dark:bg-light-gray justify-center"
-                        } rounded-default`}
-                      >
-                        {filteredWaitListPlayers.length ? (
-                          filteredWaitListPlayers.map((player, idx) => (
-                            <ListItem
-                              key={idx}
-                              className="mb-5"
-                              avatar={player.avatar}
-                              name={player.firstName + " " + player.lastName}
-                              email={player.email}
-                              date={player.createdAt}
-                              itemChecked={!!waitItemChecked[player.id]}
-                              setItemChecked={(checked) => {
-                                setWaitListItemChecked(player.id, checked);
-                              }}
-                            ></ListItem>
-                          ))
-                        ) : (
-                          <p className="text-black dark:text-white font-medium text-sm">
-                            No waitlisted Players to show!
-                          </p>
-                        )}
-                      </div>
-                    </div>
-                    <div className="bg-light-charcoal dark:bg-charcoal flex flex-col h-full min-h-[420px] p-default rounded-main">
-                      <div className="flex justify-between w-full">
-                        <p className="text-black dark:text-white text-xl font-semibold">
-                          Available Players
-                        </p>
-                        <p className="text-black dark:text-white text-xl font-semibold">
-                          {filteredAcceptListPlayers.length}
-                        </p>
-                      </div>
-                      <hr className="h-px my-5 bg-gray-300 border-0 dark:bg-dark-gray" />
-                      <div className="flex w-full justify-between space-x-10 my-5">
-                        <div className="flex flex-grow space-x-3 ">
-                          <Input
-                            className="flex-grow rounded-lg h-[38px] dark:bg-charcoal text-xs"
-                            icon={search}
-                            placeholder="Search"
-                            value={acceptListKeyword}
-                            onChange={(e) =>
-                              setAcceptListKeyword(e.target.value)
-                            }
-                          />
-                          <Select
-                            className="w-[144px] rounded-lg text-xs"
-                            options={options}
-                            handleClick={(e) => setAcceptSortValue(e.name)}
-                            value={acceptSortValue}
-                          >
-                            {acceptSortValue}
-                          </Select>
-                        </div>
-                        <div>
-                          <Button
-                            onClick={handleRemove}
-                            className="text-sm bg-danger w-[72px] h-[38px] rounded-lg hover:opacity-70"
-                          >
-                            Remove
-                          </Button>
-                        </div>
-                      </div>
-                      <div
-                        className={`overflow-y-scroll h-4/6 flex flex-col items-center flex-grow space-y-5 ${
-                          filteredAcceptListPlayers.length
-                            ? ""
-                            : "dark:bg-light-gray justify-center"
-                        } rounded-default`}
-                      >
-                        {filteredAcceptListPlayers.length ? (
-                          filteredAcceptListPlayers.map((player, idx) => (
-                            <ListItem
-                              key={idx}
-                              avatar={player.avatar}
-                              name={player.firstName + " " + player.lastName}
-                              email={player.email}
-                              date={player.created_at}
-                              itemChecked={!!acceptedItemChecked[player.id]}
-                              setItemChecked={(checked) => {
-                                setAcceptedListItemChecked(player.id, checked);
-                              }}
-                            ></ListItem>
-                          ))
-                        ) : (
-                          <p className="text-black dark:text-white font-medium text-sm">
-                            No Accepted Players to show!
-                          </p>
-                        )}
                       </div>
                     </div>
                   </div> */}
@@ -870,9 +754,9 @@ const League = () => {
               >
                 <hr className="h-px my-4 bg-charcoal border-0" />
                 <Input
-                  className="rounded-lg h-[42px] text-xs"
+                  className="rounded-lg h-[38px] text-xs"
                   icon={search}
-                  placeholder="Search Teams"
+                  placeholder="Search teams"
                   value={teamKeyword}
                   onChange={(e) => setTeamKeyword(e.target.value)}
                 />
@@ -913,15 +797,6 @@ const League = () => {
                 <hr className="h-px my-4 bg-charcoal border-0" />
                 {matches.length > 0 ? (
                   <>
-                    {/* <Input
-                      className="rounded-lg text-xs"
-                      icon={search}
-                      placeholder="Search Schedules"
-                      value={scheduleKeyword}
-                      onChange={(e)=>{
-                        setScheduleKeyword(e.target.value);
-                      }}
-                    /> */}
                     <MatchTable
                       matches={matches}
                       leagueId={leagueId}
@@ -947,9 +822,9 @@ const League = () => {
                 <hr className="h-px my-4 bg-charcoal border-0" />
                 <div className="flex space-x-3">
                   <Input
-                    className="rounded-lg flex-grow text-xs"
+                    className="rounded-lg flex-grow h-[38px] text-xs"
                     icon={search}
-                    placeholder="Search Standings"
+                    placeholder="Search standings"
                     value={standingsKeyword}
                     onChange={(e) => {
                       setStandingsKeyword(e.target.value);
@@ -993,9 +868,9 @@ const League = () => {
                 <hr className="h-px my-4 bg-charcoal border-0" />
                 <div className="flex space-x-3">
                   <Input
-                    className="rounded-lg flex-grow text-xs"
+                    className="rounded-lg h-[38px] flex-grow text-xs"
                     icon={search}
-                    placeholder="Search Players"
+                    placeholder="Search players"
                     value={playerKeyword}
                     onChange={(e) => {
                       setPlayerKeyword(e.target.value);

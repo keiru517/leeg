@@ -190,7 +190,7 @@ const Signup = () => {
                   <PasswordInput
                     className="bg-transparent rounded-default text-font-dark-gray text-xs"
                     type="password"
-                    placeholder="Retype Your Passowrd*"
+                    placeholder="Retype Your Password*"
                     value={passwordConfirm}
                     name="passwordConfirm"
                     onChange={(e) => {
