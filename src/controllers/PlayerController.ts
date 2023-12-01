@@ -374,6 +374,35 @@ export const invite: RequestHandler = async (req, res) => {
     res.status(400).json({ message: 'Invite Failed!' });
   }
 };
+
+// Remove a player from the league
+export const removeFromLeague: RequestHandler =async (req, res) => {
+  const data = req.body;
+  console.log('data===================', data);
+  var playerFound = false;
+
+  const promises = Object.keys(data).map(async id => {
+    console.log(data[id]);
+    const player = await Player.findByPk(id);
+    if (player) {
+      if (data[id]) {
+        player.isAcceptedList = 0;
+        player.isWaitList = 0;
+        await player.save();
+      }
+      playerFound = true;
+    }
+  });
+
+  await Promise.all(promises);
+
+  if (playerFound) {
+    const players = await Player.findAll();
+    res.status(200).json({players});
+  } else {
+    res.status(404).json({ message: 'Player not found' });
+  }
+}
 // GET SERVER_URL/api/player/info/1
 export const info: RequestHandler = async (req, res) => {
   const id = Number(req.params.id);

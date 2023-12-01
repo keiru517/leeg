@@ -55,22 +55,26 @@ League.init(
       }
     },
     sport: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING
     },
     type: {
       type: DataTypes.INTEGER,
       defaultValue: 0
     },
-    name: DataTypes.STRING,
-    description: DataTypes.STRING,
+    name: {
+      type: DataTypes.STRING(255)
+    },
+    description: {
+      type:DataTypes.STRING(500)
+    },
     logo: DataTypes.STRING,
     startDate: {
       type: DataTypes.STRING,
-      defaultValue: "N/A"
+      defaultValue: 'N/A'
     },
     endDate: {
       type: DataTypes.STRING,
-      defaultValue: "N/A"
+      defaultValue: 'N/A'
     },
     isAllowedFan: {
       type: DataTypes.BOOLEAN,
@@ -123,11 +127,11 @@ League.init(
       defaultValue: false
     },
     requirePassword: {
-      type:DataTypes.BOOLEAN,
-      defaultValue:false
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
     },
     password: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING
     },
     isDeleted: {
       type: DataTypes.INTEGER,

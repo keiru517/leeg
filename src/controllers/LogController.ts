@@ -319,17 +319,8 @@ export const update: RequestHandler = async (req, res) => {
 
 // POST SERVER_URL/api/log/updateOne
 export const updateOne: RequestHandler = async (req, res) => {
-  const {
-    logId,
-    leagueId,
-    matchId,
-    period,
-    teamId,
-    playerId,
-    event,
-    time,
-    isDirect
-  } = req.body;
+  const { logId, leagueId, matchId, period, teamId, playerId, event, time } =
+    req.body;
   try {
     await Log.update(
       {
@@ -340,7 +331,7 @@ export const updateOne: RequestHandler = async (req, res) => {
         playerId,
         event,
         time,
-        isDirect
+        isDirect: 0
       },
       {
         where: {
@@ -349,7 +340,40 @@ export const updateOne: RequestHandler = async (req, res) => {
       }
     );
     const logs = await Log.findAll();
-
+    // Update match result
+    const match = await Match.findByPk(matchId);
+    if (match) {
+      let homeTeamPoints = 0;
+      let awayTeamPoints = 0;
+      for (const log of logs) {
+        switch (log.event) {
+          case '+3 Pointer':
+            if (log.matchId == matchId && log.teamId == match.homeTeamId) {
+              homeTeamPoints += 3;
+            } else if (log.teamId == match.awayTeamId) {
+              awayTeamPoints += 3;
+            }
+            break;
+          case '+2 Pointer':
+            if (log.matchId == matchId && log.teamId == match.homeTeamId) {
+              homeTeamPoints += 2;
+            } else if (log.teamId == match.awayTeamId) {
+              awayTeamPoints += 2;
+            }
+            break;
+          case '+1 Pointer':
+            if (log.matchId == matchId && log.teamId == match.homeTeamId) {
+              homeTeamPoints += 1;
+            } else if (log.teamId == match.awayTeamId) {
+              awayTeamPoints += 1;
+            }
+            break;
+        }
+      }
+      match.homeTeamPoints = homeTeamPoints;
+      match.awayTeamPoints = awayTeamPoints;
+      await match.save()
+    }
     res.status(200).json({ logs });
   } catch (error) {
     res.status(400).json({ message: 'Error occurred while saving!' });

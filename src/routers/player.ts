@@ -38,6 +38,9 @@ playerRouter.post('/unaccept', PlayerController.unaccept);
 
 // invite player
 playerRouter.post('/invite', PlayerController.invite);
+
+// remove a player from league
+playerRouter.post('/removeFromLeague', PlayerController.removeFromLeague);
 // get a player
 // SERVER_URL/api/player/info/1
 playerRouter.get('/info/:id', PlayerController.info);

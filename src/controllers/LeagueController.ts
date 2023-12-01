@@ -19,45 +19,49 @@ export const all: RequestHandler = async (req, res) => {
 // POST SERVER_URL/api/league/create
 export const create: RequestHandler = async (req, res) => {
   const data: Types.T_League = req.body;
-  console.log(data.startDate, data.endDate);
+  try {
+    const directoryPath = absolutePath(`public/upload/${data.userId}/leagues`);
 
-  const directoryPath = absolutePath(`public/upload/${data.userId}/leagues`);
+    if (!existsSync(directoryPath)) {
+      mkdirSync(directoryPath, { recursive: true });
+    }
 
-  if (!existsSync(directoryPath)) {
-    mkdirSync(directoryPath, { recursive: true });
-  }
+    if (req.file) {
+      const extension = path.extname(req.file.originalname);
 
-  if (req.file) {
-    const extension = path.extname(req.file.originalname);
+      const fileName = `${moment().format(
+        FILE_NAME_DATE_TILE_FORMAT
+      )}${extension}`;
+      const filePath = path.join(directoryPath, fileName); // Use path.join to combine paths correctly
 
-    const fileName = `${moment().format(
-      FILE_NAME_DATE_TILE_FORMAT
-    )}${extension}`;
-    const filePath = path.join(directoryPath, fileName); // Use path.join to combine paths correctly
-
-    const buffer = req.file.buffer;
-    writeFileSync(filePath, buffer);
-    data.logo = fileName;
-  } else {
-    const defaultFilePath = absolutePath(`public/league.png`);
-    if (existsSync(defaultFilePath)) {
-      const fileName = `${moment().format(FILE_NAME_DATE_TILE_FORMAT)}.png`;
-      copyFileSync(defaultFilePath, leagueLogoPath(data.userId, fileName));
+      const buffer = req.file.buffer;
+      writeFileSync(filePath, buffer);
       data.logo = fileName;
     } else {
-      data.logo = '';
+      const defaultFilePath = absolutePath(`public/league.png`);
+      if (existsSync(defaultFilePath)) {
+        const fileName = `${moment().format(FILE_NAME_DATE_TILE_FORMAT)}.png`;
+        copyFileSync(defaultFilePath, leagueLogoPath(data.userId, fileName));
+        data.logo = fileName;
+      } else {
+        data.logo = '';
+      }
     }
+
+    const league = await League.create(data);
+    await Admin.create({
+      userId: data.userId,
+      leagueId: league.id,
+      role: 1,
+      isDeleted: 0
+    });
+
+    res.status(200).json({ message: 'A League Created Successfully!' });
+  } catch (error) {
+    res
+      .status(400)
+      .json({ message: 'Error occurred while creating a league!' });
   }
-
-  const league = await League.create(data);
-  await Admin.create({
-    userId: data.userId,
-    leagueId: league.id,
-    role: 1,
-    isDeleted: 0
-  });
-
-  res.status(200).json({ message: 'A League Created Successfully!' });
 };
 
 // POST SERVER_URL/api/league/update
@@ -97,7 +101,7 @@ export const update: RequestHandler = async (req, res) => {
 
 export const updateTimer: RequestHandler = async (req, res) => {
   const { leagueId, minute, second } = req.body;
-  try{
+  try {
     await League.update(
       {
         minute,
@@ -109,10 +113,9 @@ export const updateTimer: RequestHandler = async (req, res) => {
         }
       }
     );
-    res.status(200).json({message:"Updated successfully!"})
-  }
-  catch{
-    res.status(404).json({message:"Error occurred!"})
+    res.status(200).json({ message: 'Updated successfully!' });
+  } catch {
+    res.status(404).json({ message: 'Error occurred!' });
   }
 };
 // POST SERVER_URL/api/league/remove/1

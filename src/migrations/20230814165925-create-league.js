@@ -27,10 +27,10 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       name: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(255)
       },
       description: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(500)
       },
       logo: {
         type: Sequelize.STRING
