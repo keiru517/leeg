@@ -59,6 +59,7 @@ League.init(
     },
     type: {
       type: DataTypes.INTEGER,
+      defaultValue: 0
     },
     name: DataTypes.STRING,
     description: DataTypes.STRING,
