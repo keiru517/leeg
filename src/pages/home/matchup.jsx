@@ -345,7 +345,7 @@ const Matchup = () => {
       dispatch({ type: actions.OPEN_SELECT_PLAYER_DIALOG, payload: true });
       // dispatch to show the modal
     } else {
-      alert("The matchup is locked!");
+      alert("The matchup is completed!");
     }
   };
   const handleClickTimeout = (teamId) => {
@@ -353,23 +353,23 @@ const Matchup = () => {
       setEvent("TimeOut");
       handleAction(teamId, "", "TimeOut");
     } else {
-      alert("The matchup is locked!");
+      alert("The matchup is completed!");
     }
   };
 
   const handleSetting = () => {
-    if (match?.isNew === 0) {
+    if (match?.isNew) {
       dispatch({ type: actions.OPEN_MATCHUP_SETTING_DIALOG, payload: true });
     } else {
-      alert("The matchup is locked!");
+      alert("The matchup is completed!");
     }
   };
 
   const handleAddEvent = () => {
-    if (match?.isNew === 0) {
+    if (match?.isNew) {
       dispatch({ type: actions.OPEN_ADD_EVENT_DIALOG });
     } else {
-      alert("The matchup is locked!");
+      alert("The matchup is completed!");
     }
   };
 

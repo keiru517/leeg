@@ -119,7 +119,6 @@ const EditEventModal = (props) => {
       teamId,
       playerId,
       event,
-      isDirect,
       time,
     });
 

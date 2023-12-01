@@ -182,14 +182,14 @@ const MatchModal = () => {
                       type === "create"?
                     <button
                       onClick={createSubmit}
-                      className="bg-primary rounded-xl w-full hover:bg-opacity-70 h-button text-white disabled:opacity-10"
+                      className="bg-primary rounded-default w-full hover:bg-opacity-70 h-button text-white disabled:opacity-10"
                       disabled={warning}
                     >
                       Create Match
                     </button>:
                     <button
                       onClick={updateSubmit}
-                      className="bg-primary rounded-xl w-full hover:bg-opacity-70 h-button text-white disabled:opacity-10"
+                      className="bg-primary rounded-default w-full hover:bg-opacity-70 h-button text-white disabled:opacity-10"
                       disabled={warning}
                     >
                       Update Match
