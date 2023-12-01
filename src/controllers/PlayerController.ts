@@ -5,7 +5,6 @@ import { Types } from '../types';
 import Matchup from '../models/Matchup';
 import Match from '../models/Match';
 import { Op } from 'sequelize';
-import User from '../models/User';
 import League from '../models/League';
 import nodemailer from 'nodemailer';
 // import Match from '../models/Match';
