@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import * as actions from "../../actions";
 import { useDispatch, useSelector } from "react-redux";
 import { apis } from "../../utils/apis";
@@ -9,14 +9,14 @@ import league_logo from "../../assets/img/dark_mode/league-logo.png";
 const Card = (props) => {
   const { route, league } = props;
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   const user = useSelector((state) => state.home.user);
   const admins = useSelector((state) => state.home.admins).filter(
     (admin) => admin.leagueId == league.id && admin.isDeleted !== 1
   );
 
-  const users = useSelector(state=>state.home.users);
-  const owner = users.find(user=>user.id == league.userId)
+  const users = useSelector((state) => state.home.users);
+  const owner = users.find((user) => user.id == league.userId);
 
   const isAdmin =
     admins.some((admin) => admin.userId == user?.id) ||
@@ -26,7 +26,8 @@ const Card = (props) => {
     (player) => player.userId == user?.id && player.leagueId == league.id
   );
 
-  const handleApply = () => {
+  const handleApply = (e) => {
+    e.stopPropagation();
     console.log("HandleApply", user?.id);
     axios
       .post(apis.applyLeague, {
@@ -44,18 +45,6 @@ const Card = (props) => {
   };
 
   return (
-    <Link
-      to={`${
-        // user can access the leauge if he is the owner or admin or accepted or allowed fan view
-        league?.userId == user?.id ||
-        isAdmin ||
-        player?.isAcceptedList === 1 ||
-        league?.isAllowedFan
-          ? `/${route}/${league.id}`
-          : ``
-      }`}
-    >
-      {/* <div className={`rounded-default h-[185px] bg-charcoal p-default transition ease-in-out delay-150 hover:-translate-y-1 hover:bg-dark-gray duration-200 ${league.isAcceptedList? "cursor-pointer":""}`}> */}
       <div
         className={`rounded-default h-[185px] bg-light-charcoal dark:bg-charcoal p-default hover:bg-light-dark-gray dark:hover:bg-dark-gray duration-200 ${
           isAdmin ||
@@ -65,12 +54,21 @@ const Card = (props) => {
             ? "cursor-pointer transition ease-in-out delay-150 hover:-translate-y-1"
             : ""
         }`}
+        onClick={() => {
+          if (league?.userId == user?.id ||isAdmin ||player?.isAcceptedList === 1 ||league?.isAllowedFan) {
+            navigate(`/${route}/${league.id}`)
+          }
+        }}
       >
         <div className="">
           <div className="flex items-center justify-between">
             <div className="flex items-center">
               <img src={league.logo} className="w-10 h-10 rounded-lg"></img>
-              <p className="dark:text-white text-sm ml-5">{league.name} / {league.id.toString().padStart(6, '0')}<br></br><span className="text-xs text-gray-400"> {owner?.email}</span></p>
+              <p className="dark:text-white text-sm ml-5">
+                {league.name} / {league.id.toString().padStart(6, "0")}
+                <br></br>
+                <span className="text-xs text-gray-400"> {owner?.email}</span>
+              </p>
             </div>
             <div>
               {player?.isAcceptedList === 1 &&
@@ -130,7 +128,6 @@ const Card = (props) => {
           )}
         </div>
       </div>
-    </Link>
   );
 };
 

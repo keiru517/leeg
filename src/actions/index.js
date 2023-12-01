@@ -134,7 +134,7 @@ export const openInvitePlayerDialog = (payload) => ({
 export const invitePlayer = async (dispatch, data) => {
   try {
     const response = await axios.post(apis.invitePlayer, data)
-    alert(response.data.status)
+    alert(response.data.message);
   } catch (error) {
     alert(error)
   }
