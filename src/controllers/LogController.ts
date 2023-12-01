@@ -73,6 +73,7 @@ export const createOne: RequestHandler = async (req, res) => {
     res.status(400).json({ message: 'Error occurred while saving!' });
   }
 };
+
 // POST SERVER_URL/api/log/create
 export const create: RequestHandler = async (req, res) => {
   const { leagueId, matchId, logs } = req.body;
@@ -114,14 +115,6 @@ export const create: RequestHandler = async (req, res) => {
     await Promise.all(promise);
 
     if (playerIds.length === 0) {
-      // const matchups = await Matchup.findAll({
-      //   where:{
-      //     leagueId: leagueId,
-      //     matchId: matchId
-      //   }
-      // });
-
-      // matchups.map(async matchup=>{
       await Matchup.update(
         {
           points: 0,
@@ -370,6 +363,36 @@ export const remove: RequestHandler = async (req, res) => {
   if (log) {
     await log.destroy();
     const logs = await Log.findAll();
+    // Update match result
+    const match = await Match.findByPk(log.matchId);
+    if (match) {
+      if (log.teamId == match.homeTeamId) {
+        switch (log.event) {
+          case '+3 Pointer':
+            match.homeTeamPoints -= 3;
+            break;
+          case '+2 Pointer':
+            match.homeTeamPoints -= 2;
+            break;
+          case '+1 Pointer':
+            match.homeTeamPoints -= 1;
+            break;
+        }
+      } else if (log.teamId == match.awayTeamId) {
+        switch (log.event) {
+          case '+3 Pointer':
+            match.awayTeamPoints -= 3;
+            break;
+          case '+2 Pointer':
+            match.awayTeamPoints -= 2;
+            break;
+          case '+1 Pointer':
+            match.awayTeamPoints -= 1;
+            break;
+        }
+      }
+      await match.save();
+    }
 
     res.json({ logs });
   } else {
@@ -392,5 +415,3 @@ export const info: RequestHandler = async (req, res) => {
     });
   }
 };
-
-

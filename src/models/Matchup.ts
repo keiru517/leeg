@@ -37,7 +37,7 @@ export default class Matchup extends Model<
   declare fouls: number;
   declare steals: number;
   declare turnovers: number;
-  declare attendance:number;
+  declare attendance:boolean;
   declare isDeleted: number;
   static modelName = 'Matchup';
 }

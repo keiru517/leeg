@@ -18,6 +18,10 @@ module.exports = {
         onDelete: 'CASCADE',
         type: Sequelize.INTEGER
       },
+      sport: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
       type: {
         allowNull: false,
         type: Sequelize.INTEGER

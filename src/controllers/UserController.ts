@@ -25,9 +25,9 @@ export const signin: RequestHandler = async (req, res) => {
         const token = jwt.sign(
           { id: user.id?.toString(), email: user.email },
           'leeg517',
-          {
-            expiresIn: '2d'
-          }
+          // {
+          //   expiresIn: '2d'
+          // }
         );
 
         res.cookie('token', token);

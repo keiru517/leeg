@@ -20,6 +20,7 @@ export namespace Types {
   }
   export interface T_League extends T_DB {
     userId: number;
+    sport: string;
     type: number; // 0 - public, 1 - private
     name: string;
     description: string;

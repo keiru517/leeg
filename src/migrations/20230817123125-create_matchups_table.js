@@ -95,7 +95,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       attendance: {
-        type: Sequelize.INTEGER
+        type: Sequelize.BOOLEAN
       },
       isDeleted: {
         type: Sequelize.INTEGER

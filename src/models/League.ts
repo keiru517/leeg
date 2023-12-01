@@ -19,8 +19,10 @@ export default class League extends Model<
 > {
   declare id: CreationOptional<number>;
   declare userId: ForeignKey<number>;
+  declare sport: string;
   declare name: string;
   declare description: string;
+  declare type: number;
   declare logo: string;
   declare startDate: string;
   declare endDate: string;
@@ -52,9 +54,11 @@ League.init(
         key: 'id'
       }
     },
+    sport: {
+      type: DataTypes.STRING,
+    },
     type: {
       type: DataTypes.INTEGER,
-      defaultValue: 0
     },
     name: DataTypes.STRING,
     description: DataTypes.STRING,
