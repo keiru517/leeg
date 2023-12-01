@@ -326,12 +326,8 @@ export const unaccept: RequestHandler = async (req, res) => {
 
 export const invite: RequestHandler = async (req, res) => {
   const { email, leagueId, inviter } = req.body;
-  const user = await User.findOne({
-    where: {
-      email
-    }
-  });
-  if (user) {
+
+  try {
     const league = await League.findOne({
       where: {
         id: leagueId
@@ -342,34 +338,17 @@ export const invite: RequestHandler = async (req, res) => {
       const mailOptions = {
         from: process.env.EMAIL,
         to: email,
-        subject:
-        `${inviter.firstName} ${inviter.lastName} is inviting you to join their League!`,
-        text: 
+        subject: `${inviter.firstName} ${inviter.lastName} is inviting you to join their League!`,
+        text: `
+          ${league.name}
+          League ID: ${league.id.toString().padStart(6, '0')}
+          Sport: ${league.sport}
+          ${league.description}
+          Start Date: ${league.startDate}
+          End Date: ${league.endDate}
+          
+          Sign up at Leeg.io! (https://leeg.io)
         `
-        ${league.name}
-        League ID: ${league.id.toString().padStart(6, '0')}
-        Sport: ${league.sport}
-        ${league.description}
-        Start Date: ${league.startDate}
-        End Date: ${league.endDate}
-        
-        Sign up at Leeg.io! (https://leeg.io)
-      `
-        // league.name +
-        // '\n\n' +
-        // 'Leeg ID: ' +
-        // league.id.toString().padStart(6, '0') +
-        // '\n' +
-        // 'Sport: ' +
-        // league.sport +
-        // '\n' +
-        // league.description + '\n' +
-        // 'Start Date: ' +
-        // league.startDate +
-        // '\n' +
-        // 'End Date: ' +
-        // league.endDate +
-        // '\n\nSign up at <a href="https://leeg.io">Leeg.io!</a>'
       };
       const emailService = nodemailer.createTransport({
         host: 'smtp.gmail.com',
@@ -389,9 +368,11 @@ export const invite: RequestHandler = async (req, res) => {
         }
       });
       res.status(200).json({ message: 'Invited successfully!' });
+    } else {
+      res.status(400).json({ message: 'Invite Failed!' });
     }
-  } else {
-    res.status(400).json({ message: 'There is no user registered!' });
+  } catch (error) {
+    res.status(400).json({ message: 'Invite Failed!' });
   }
 };
 // GET SERVER_URL/api/player/info/1
