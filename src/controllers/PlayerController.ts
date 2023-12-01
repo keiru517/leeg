@@ -346,23 +346,34 @@ export const invite: RequestHandler = async (req, res) => {
           inviter.firstName +
           ' ' +
           inviter.lastName +
+          ' ' +
           'is inviting you to join their League!',
-        text:
-          league.name +
-          '\n' +
-          'Leeg ID: ' +
-          league.id.toString().padStart(6, '0') +
-          '\n' +
-          'Sport: ' +
-          league.sport +
-          '\n' +
-          league.description +
-          'Start Date: ' +
-          league.startDate +
-          '\n' +
-          'End Date: ' +
-          league.endDate +
-          '\nSign up at <a href="https://leeg.io">Leeg.io!</a>'
+        text: `
+        ${league.name}
+        
+        League ID: ${league.id.toString().padStart(6, '0')}
+        Sport: ${league.sport}
+        ${league.description}
+        Start Date: ${league.startDate}
+        End Date: ${league.endDate}
+        
+        Sign up at [Leeg.io](https://leeg.io)!
+      `
+        // league.name +
+        // '\n\n' +
+        // 'Leeg ID: ' +
+        // league.id.toString().padStart(6, '0') +
+        // '\n' +
+        // 'Sport: ' +
+        // league.sport +
+        // '\n' +
+        // league.description + '\n' +
+        // 'Start Date: ' +
+        // league.startDate +
+        // '\n' +
+        // 'End Date: ' +
+        // league.endDate +
+        // '\n\nSign up at <a href="https://leeg.io">Leeg.io!</a>'
       };
       const emailService = nodemailer.createTransport({
         host: 'smtp.gmail.com',
@@ -384,7 +395,7 @@ export const invite: RequestHandler = async (req, res) => {
       res.status(200).json({ message: 'Invited successfully!' });
     }
   } else {
-    res.status(400).json({ message: 'Error occurred!' });
+    res.status(400).json({ message: 'There is no user registered!' });
   }
 };
 // GET SERVER_URL/api/player/info/1
