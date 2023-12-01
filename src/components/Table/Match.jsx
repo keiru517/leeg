@@ -13,7 +13,7 @@ const MatchTable = (props) => {
   const league = useSelector((state) => state.home.leagues).find(
     (league) => league.id == leagueId && league.isDeleted !== 1
   );
-  
+
   const admins = useSelector((state) => state.home.admins).filter(
     (admin) => admin.leagueId == league?.id && admin.isDeleted !== 1
   );
@@ -206,15 +206,13 @@ const MatchTable = (props) => {
                   {homeTeamPoints} : {awayTeamPoints}
                 </td>
                 <td className="">{isNew ? "Incomplete" : "Completed"}</td>
-                {league?.userId == user?.id ? (
+                {isAdmin && (
                   <td className="">
                     <Option
                       options={options}
                       handleClick={(idx) => handleOption(idx, id)}
                     ></Option>
                   </td>
-                ) : (
-                  ""
                 )}
               </tr>
             )
