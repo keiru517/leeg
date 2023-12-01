@@ -345,7 +345,8 @@ export const invite: RequestHandler = async (req, res) => {
         subject:
         `${inviter.firstName} ${inviter.lastName} is inviting you to join their League!`,
         text: 
-        `${league.name}
+        `
+        ${league.name}
         League ID: ${league.id.toString().padStart(6, '0')}
         Sport: ${league.sport}
         ${league.description}
