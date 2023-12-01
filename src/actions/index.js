@@ -139,6 +139,23 @@ export const invitePlayer = async (dispatch, data) => {
     alert(error)
   }
 }
+
+export const removeFromLeague =async (dispatch, data) => {
+  try {
+    const response = await axios.post(apis.removeFromLeague, data);
+    const players = response.data.players;
+    dispatch({
+      type:GET_PLAYERS,
+      payload:players
+    })
+  } catch (error) {
+    dispatch({
+      type:GET_PLAYERS,
+      payload:[]
+    })
+    
+  }
+}
 // Teams
 export const getTeams = async (dispatch) => {
   try {
@@ -470,6 +487,26 @@ export const getAdmins = async (dispatch) => {
     });
   }
 };
+
+export const inviteAdmin = async (dispatch, data) => {
+  try {
+    const response = await axios.post(apis.inviteAdmin, data);
+    const admins = response.data.admins;
+    dispatch({
+      type: GET_ADMINS,
+      payload: admins,
+    });
+    alert("Invite sent!");
+  } catch (error) {
+    dispatch({
+      type: GET_ADMINS,
+      payload: [],
+    });
+    alert("Error occurred!");
+  }
+};
+
+
 
 export const getUsers = async (dispatch) => {
   try {

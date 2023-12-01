@@ -268,20 +268,9 @@ const Player = (props) => {
                       </Link>
                     </td>
                     <td className="">
-                      {/* <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal"
-                      > */}
                         {player?.jerseyNumber}
-                      {/* </Typography> */}
                     </td>
                     <td className="">
-                      {/* <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal flex items-center underline"
-                      > */}
                         {team ? (
                           <div className="flex items-center underline">
                             <img
@@ -289,34 +278,21 @@ const Player = (props) => {
                               alt=""
                               className="w-8 h-8 mr-2 rounded-full border border-gray-500"
                             />
-                            <Link to={`team/${player.teamId}`}>
+                            <Link to={`team/${player.teamId}`} className="truncate w-40">
                               {team.name}
                             </Link>
                           </div>
                         ) : (
                           ""
                         )}
-                      {/* </Typography> */}
                     </td>
                     {displayPosition && (
                       <td className="">
-                        {/* <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-normal"
-                        > */}
                           {player?.position}
-                        {/* </Typography> */}
                       </td>
                     )}
                     <td className="">
-                      {/* <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal"
-                      > */}
                         {totalPoints}
-                      {/* </Typography> */}
                     </td>
                     <td className="">
                         {totalPoints3}

@@ -105,6 +105,9 @@ const RosterTable = (props) => {
             })
             .catch((error) => alert(error.response.data.message));
         } else {
+          console.log("remove", idx)
+          console.log("remove", itemChecked)
+          actions.removeFromLeague(dispatch, itemChecked);
         }
       } else if (rosterValue === "AcceptedList") {
         console.log(itemChecked);

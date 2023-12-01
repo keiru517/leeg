@@ -54,7 +54,7 @@ const Select = (props) => {
         className="w-full h-full flex justify-between items-center"
         onClick={toggle}
       >
-        <span className="ml-4">{value}</span>
+        <span className="ml-4 truncate w-full">{value}</span>
         <img src={downArrowFilled} alt="" className="mr-4" />
       </div>
       <ul
@@ -71,7 +71,7 @@ const Select = (props) => {
                 className="inline-flex w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-middle-gray dark:hover:text-white rounded-default"
                 onClick={() => handleButtonClick(option)}
               >
-                <div className="inline-flex items-center">{option.name}</div>
+                <div className="inline-flex items-center truncate w-full">{option.name}</div>
               </button>
             </li>
           );

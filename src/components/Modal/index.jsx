@@ -323,7 +323,7 @@ const Modal = (props) => {
                         </>
                       ) : step == 2 ? (
                         <>
-                          <div>
+                          <div className="space-y-3">
                             <div
                               className={`${
                                 logoWarning ? "border-2 border-red-500" : ""
@@ -365,22 +365,24 @@ const Modal = (props) => {
                                 Upload League Logo
                               </p>
                             </div>
-                            <Input
-                              className="rounded-default text-xs my-5"
+                            <input
+                              className="border border-charcoal items-center px-3 bg-transparent outline-none text-black dark:text-white flex-grow h-button text-xs w-full"
                               placeholder="Type League Name*"
                               value={leagueName}
                               onChange={(e) => setLeagueName(e.target.value)}
-                            ></Input>
+                              maxLength={100}
+                            ></input>
 
                             <textarea
                               id="message"
                               rows="6"
-                              className="block p-2.5 w-full text-xs text-gray-900 rounded-lg border border-charcoal focus:ring-blue-500 focus:border-blue-500 dark:bg-transparent dark:border-charcoal dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 resize-none outline-none"
+                              className="block p-2.5 w-full text-xs text-gray-900 rounded-default border border-charcoal focus:ring-blue-500 focus:border-blue-500 dark:bg-transparent dark:border-charcoal dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 resize-none outline-none"
                               placeholder="Describe your League"
                               value={leagueDescription}
                               onChange={(e) =>
                                 setLeagueDescription(e.target.value)
                               }
+                              maxLength={500}
                             ></textarea>
                           </div>
                           <div className="flex mt-auto w-full justify-between">

@@ -52,11 +52,11 @@ const MatchTable = (props) => {
     // Clicked scorebard
     else if (idx === 1) {
       navigate(`/league/${leagueId}/matchup/${matchId}`);
-    } 
+    }
     // Clicked delete
     else if (idx === 2) {
       if (!match.isNew) {
-        actions.incompleteMatchup(dispatch, {matchId});
+        actions.incompleteMatchup(dispatch, { matchId });
       }
       actions.deleteMatch(dispatch, matchId);
     }
@@ -104,34 +104,10 @@ const MatchTable = (props) => {
                 key={index}
                 className="odd:bg-light-dark-gray dark:odd:bg-dark-gray even:bg-light-charcoal dark:even:bg-charcoal"
               >
-                <td className="w-1/7">
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal"
-                  >
-                    {date}
-                  </Typography>
-                </td>
-                <td className="w-1/7">
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal"
-                  >
-                    {location}
-                  </Typography>
-                </td>
-                <td className="w-1/7">
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal"
-                  >
-                    {time}
-                  </Typography>
-                </td>
-                <td className="w-1/7">
+                <td className="1/6">{date}</td>
+                <td className="1/6">{location}</td>
+                <td className="1/6">{time}</td>
+                <td className="">
                   <Typography
                     variant="small"
                     color="blue-gray"
@@ -162,8 +138,10 @@ const MatchTable = (props) => {
                           className="h-8 w-8 mr-2 rounded-full border border-gray-500"
                         />
                         <p
-                          className={`text-black dark:text-white ${
-                            homeTeamPoints > awayTeamPoints && !isNew ? "font-bold" : ""
+                          className={`text-black dark:text-white truncate w-32 ${
+                            homeTeamPoints > awayTeamPoints && !isNew
+                              ? "font-bold"
+                              : ""
                           }`}
                         >
                           {teams.find((team) => team.id == homeTeamId).name}
@@ -172,7 +150,7 @@ const MatchTable = (props) => {
                     )}
                   </Typography>
                 </td>
-                <td className="w-1/7">
+                <td className="">
                   <Typography
                     variant="small"
                     color="blue-gray"
@@ -203,8 +181,10 @@ const MatchTable = (props) => {
                           className="h-8 w-8 mr-2 rounded-full border border-gray-500"
                         />
                         <p
-                          className={`text-black dark:text-white ${
-                            homeTeamPoints < awayTeamPoints && !isNew ? "font-bold" : ""
+                          className={`text-black dark:text-white truncate w-32 ${
+                            homeTeamPoints < awayTeamPoints && !isNew
+                              ? "font-bold"
+                              : ""
                           }`}
                         >
                           {teams.find((team) => team.id == awayTeamId).name}
@@ -213,26 +193,12 @@ const MatchTable = (props) => {
                     )}
                   </Typography>
                 </td>
-                <td className="">
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal"
-                  >
-                    {homeTeamPoints} : {awayTeamPoints}
-                  </Typography>
+                <td className="1/6">
+                  {homeTeamPoints} : {awayTeamPoints}
                 </td>
-                <td className="">
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal"
-                  >
-                    {isNew ? "Incomplete" : "Completed"}
-                  </Typography>
-                </td>
+                <td className="">{isNew ? "Incomplete" : "Completed"}</td>
                 {league?.userId == user?.id ? (
-                  <td className="w-1/7">
+                  <td className="">
                     <Option
                       options={options}
                       handleClick={(idx) => handleOption(idx, id)}

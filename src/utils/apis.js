@@ -75,6 +75,7 @@ export const apis = {
   updatePlayer: apiUrl + "/player/update",
   removePlayerFromTeam: apiUrl + "/player/removeFromTeam",
   removeSubstitute: apiUrl + "/player/removeSubstitute",
+  removeFromLeague: apiUrl + "/player/removeFromLeague",
   acceptPlayer: apiUrl + "/player/accept",
   unacceptPlayer: apiUrl + "/player/unaccept",
   addPlayer: apiUrl + "/player/add",

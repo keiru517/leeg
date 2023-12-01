@@ -27,19 +27,20 @@ const AdminModal = (props) => {
     if (email === "") {
       alert("Please type email of the admin you want to add!");
     } else {
-      axios
-        .post(apis.inviteAdmin, { email, leagueId, inviter: user })
-        .then((res) => {
-          dispatch({ type: actions.OPEN_ADMIN_DIALOG, payload: false });
-          actions.getAdmins(dispatch);
-          actions.getLeagues(dispatch);
-          actions.getPlayers(dispatch);
-          alert(res.data.message);
-          setEmail("");
-        })
-        .catch((error) => {
-          alert(error.response.data.message);
-        });
+      actions.inviteAdmin(dispatch, { email, leagueId, inviter: user });
+      // axios
+      //   .post(apis.inviteAdmin, { email, leagueId, inviter: user })
+      //   .then((res) => {
+      //     dispatch({ type: actions.OPEN_ADMIN_DIALOG, payload: false });
+      //     actions.getAdmins(dispatch);
+      //     actions.getLeagues(dispatch);
+      //     actions.getPlayers(dispatch);
+      //     alert(res.data.message);
+      //     setEmail("");
+      //   })
+      //   .catch((error) => {
+      //     alert(error.response.data.message);
+      //   });
     }
   };
 

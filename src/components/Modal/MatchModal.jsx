@@ -35,6 +35,10 @@ const MatchModal = () => {
   const closeDialog = () => {
     // dispatch({ type: actions.OPEN_CREATE_TEAM_DIALOG, payload: false });
     dispatch({ type: actions.CLOSE_MATCH_DIALOG });
+    setWarning(false)
+    setDate("");
+    setTime("");
+    setLocation("");
   };
 
   const handleDelete = () => {
@@ -52,13 +56,13 @@ const MatchModal = () => {
 
   useEffect(() => {
     if (type === "edit") {
-      const homeTeam = teams.find(team=>team.id == match?.homeTeamId)
-      const awayTeam = teams.find(team=>team.id == match?.awayTeamId)
-      setHomeValue({id:homeTeam.id, name:homeTeam.name});
-      setAwayValue({id:awayTeam.id, name: awayTeam.name});
+      const homeTeam = teams.find((team) => team.id == match?.homeTeamId);
+      const awayTeam = teams.find((team) => team.id == match?.awayTeamId);
+      setHomeValue({ id: homeTeam.id, name: homeTeam.name });
+      setAwayValue({ id: awayTeam.id, name: awayTeam.name });
       setDate(match?.date);
       setTime(match?.time);
-      setLocation(match?.location)
+      setLocation(match?.location);
     }
   }, [type]);
   const createSubmit = () => {
@@ -70,12 +74,12 @@ const MatchModal = () => {
       time,
       location,
     });
-    dispatch({type:actions.CLOSE_MATCH_DIALOG});
+    dispatch({ type: actions.CLOSE_MATCH_DIALOG });
   };
-  
+
   const updateSubmit = () => {
-    actions.updateMatch(dispatch, {id:match?.id, date, time, location})
-    dispatch({type:actions.CLOSE_MATCH_DIALOG});
+    actions.updateMatch(dispatch, { id: match?.id, date, time, location });
+    dispatch({ type: actions.CLOSE_MATCH_DIALOG });
   };
 
   const [warning, setWarning] = useState(false);
@@ -119,9 +123,7 @@ const MatchModal = () => {
                 <div className="divide-y divide-solid divide-[#3A3A3A] flex flex-col flex-grow">
                   <div className="flex items-center text-left h-[88px] justify-between px-default">
                     <p className="text-2xl text-black dark:text-white font-bold">
-                      {
-                        type === "create"?"Create":"Edit"
-                      } Match
+                      {type === "create" ? "Create" : "Edit"} Match
                     </p>
                     <div className="flex items-center">
                       <img
@@ -170,31 +172,31 @@ const MatchModal = () => {
                           value={time}
                           onChange={(e) => setTime(e.target.value)}
                         ></Input>
-                        <Input
-                          className="rounded-default col-span-2 text-xs h-12"
+                        <input
+                          className="col-span-2 border border-charcoal items-center px-3 bg-transparent outline-none text-black dark:text-white flex-grow h-button text-xs w-full rounded-default"
                           placeholder="Enter Location"
                           value={location}
                           onChange={(e) => setLocation(e.target.value)}
-                        ></Input>
+                        ></input>
                       </div>
                     </div>
-                    {
-                      type === "create"?
-                    <button
-                      onClick={createSubmit}
-                      className="bg-primary rounded-default w-full hover:bg-opacity-70 h-button text-white disabled:opacity-10"
-                      disabled={warning}
-                    >
-                      Create Match
-                    </button>:
-                    <button
-                      onClick={updateSubmit}
-                      className="bg-primary rounded-default w-full hover:bg-opacity-70 h-button text-white disabled:opacity-10"
-                      disabled={warning}
-                    >
-                      Update Match
-                    </button>
-                    }
+                    {type === "create" ? (
+                      <button
+                        onClick={createSubmit}
+                        className="bg-primary rounded-default w-full hover:bg-opacity-70 h-button text-white disabled:opacity-10"
+                        disabled={warning}
+                      >
+                        Create Match
+                      </button>
+                    ) : (
+                      <button
+                        onClick={updateSubmit}
+                        className="bg-primary rounded-default w-full hover:bg-opacity-70 h-button text-white disabled:opacity-10"
+                        disabled={warning}
+                      >
+                        Update Match
+                      </button>
+                    )}
                   </div>
                 </div>
               </Dialog.Panel>

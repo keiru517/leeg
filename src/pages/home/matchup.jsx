@@ -446,7 +446,7 @@ const Matchup = () => {
 
   return (
     <div className="flex flex-col flex-grow">
-      <p className="flex font-dark-gray my-[20px] justify-between">
+      <p className="flex font-dark-gray my-[20px] justify-between truncate w-1/3">
         <div className="">
           <Link to="/">
             <span className="underline">My Leagues</span>
@@ -463,7 +463,7 @@ const Matchup = () => {
           <span className=""> &gt; </span>
           <span className="text-sky-500">{homeTeam?.name} </span>
           <span> Vs</span>
-          <span className="text-sky-500"> {awayTeam?.name}</span>
+          <span className="text-sky-500 "> {awayTeam?.name}</span>
         </div>
         <div className="flex space-x-3">
           <Select
@@ -494,7 +494,7 @@ const Matchup = () => {
                     alt=""
                     className="w-28 h-28 rounded-full mx-auto border border-gray-500"
                   />
-                  <p className="text-black dark:text-white font-semibold text-2xl mt-5">
+                  <p className="text-black dark:text-white font-semibold text-2xl mt-5 truncate w-52 text-center">
                     {homeTeam?.name}
                   </p>
                   <p className="text-font-dark-gray font-semibold text-xl">
@@ -633,7 +633,7 @@ const Matchup = () => {
                     alt=""
                     className="w-28 h-28 rounded-full mx-auto border border-gray-500"
                   />
-                  <p className="text-black dark:text-white font-semibold text-2xl mt-5">
+                  <p className="text-black dark:text-white font-semibold text-2xl mt-5 text-center truncate w-52">
                     {awayTeam?.name}
                   </p>
                   <p className="text-font-dark-gray font-semibold text-xl">
@@ -682,7 +682,7 @@ const Matchup = () => {
                         alt=""
                         className="w-8 h-8 rounded-full border border-gray-500"
                       />
-                      <p className="text-black dark:text-white underline">
+                      <p className="text-black dark:text-white underline truncate w-40">
                         {homeTeam?.name}
                       </p>
                     </Link>
@@ -841,7 +841,7 @@ const Matchup = () => {
                         alt=""
                         className="w-8 h-8 rounded-full border border-gray-500"
                       />
-                      <p className="text-black dark:text-white underline">
+                      <p className="text-black dark:text-white underline truncate w-40">
                         {awayTeam?.name}
                       </p>
                     </Link>

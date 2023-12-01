@@ -694,7 +694,9 @@ const League = () => {
                   ) : (
                     <div className="flex items-center flex-grow">
                       <p className="text-2xl text-black dark:text-white w-full text-center">
-                        No Rosters to show!
+                        {
+                          rosterValue === "WaitList"? "No WaitList to show!":"Now AcceptedList to show!"
+                        }
                       </p>
                     </div>
                   )}

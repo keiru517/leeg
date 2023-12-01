@@ -240,46 +240,13 @@ const TeamModal = () => {
                   <div className="flex-col p-default flex flex-grow justify-between">
                     <div>
                       {type === "create" || type === "edit" ? (
-                        <>
+                        <div className="space-y-3">
                           <div
                             className={`${
                               logoWarning ? "border-2 border-red-500" : ""
                             } flex w-full h-[86px] bg-light-charcoal dark:bg-charcoal rounded-default items-center justify-between`}
                           >
                             <div className="flex items-center">
-                              {/* {previewURL ? (
-                                <img
-                                  onClick={() => {
-                                    fileUploadRef.current?.click();
-                                  }}
-                                  src={previewURL}
-                                  className="rounded-full w-[58px] h-[58px] mx-2"
-                                  alt=""
-                                  style={{
-                                    filter: `birghtness(100%) hue-rotate(180deg) saturate(150%) sepia(20%)`,
-                                  }}
-                                />
-                              ) : type === "create" ? (
-                                <img
-                                  src={uploadCircle}
-                                  alt=""
-                                  className="mx-2"
-                                  onClick={() => {
-                                    fileUploadRef.current?.click();
-                                  }}
-                                />
-                              ) : type === "edit" ? (
-                                <img
-                                  src={team?.logo}
-                                  onClick={() => {
-                                    fileUploadRef.current?.click();
-                                  }}
-                                  alt=""
-                                  className="rounded-full w-[58px] h-[58px] mx-2"
-                                />
-                              ) : (
-                                ""
-                              )} */}
                               <div
                                 className={`w-[58px] h-[58px] rounded-full mx-2`}
                                 style={{ backgroundColor: color }}
@@ -353,15 +320,16 @@ const TeamModal = () => {
                             </div>
                             <div className="flex items-center"></div>
                           </div>
-                          <Input
+                          <input
                             className={`${
                               nameWarning ? "border-2 border-red-500" : ""
-                            } rounded-default text-xs mt-5`}
+                            } border border-charcoal items-center px-3 bg-transparent outline-none text-black dark:text-white flex-grow h-button text-xs w-full`}
                             placeholder="Type Team Name*"
                             value={teamName}
                             onChange={(e) => setTeamName(e.target.value)}
-                          ></Input>
-                        </>
+                            maxLength={100}
+                          ></input>
+                        </div>
                       ) : type === "delete" ? (
                         <div className="flex flex-col justify-between h-full">
                           <div className="space-y-3">
@@ -394,10 +362,10 @@ const TeamModal = () => {
                           <div className="flex bg-light-charcoal dark:bg-[#4A5462] h-[66px] rounded-default p-4 items-center">
                             <img
                               src={team.logo}
-                              className="w-8 h-8 rounded"
+                              className="w-8 h-8 rounded-full"
                               alt=""
                             />
-                            <p className="text-black dark:text-white underline mx-2 text-sm">
+                            <p className="text-black dark:text-white underline mx-2 text-sm truncate w-40">
                               {team.name}
                             </p>
                             <p className="text-black dark:text-white text-[10px]">
