@@ -52,10 +52,18 @@ const RosterTable = (props) => {
     (league) => league.id == leagueId && league.isDeleted !== 1
   );
 
+  const admins = useSelector((state) => state.home.admins).filter(
+    (admin) => admin.leagueId == league?.id && admin.isDeleted !== 1
+  );
+
+  const isAdmin =
+    admins.some((admin) => admin.userId == user?.id) ||
+    league?.userId == user?.id;
+
   const { rosters, rosterValue, setRosterValue } = props;
 
   var columns = [];
-  if (league?.userId == user?.id) {
+  if (isAdmin) {
     var columns = [
       "Player",
       "Email",
@@ -175,7 +183,7 @@ const RosterTable = (props) => {
                 {head}
               </th>
             ))}
-            {league?.userId == user?.id ? (
+            {isAdmin && (
               <th className="text-center cursor-pointer w-20">
                 {rosterValue === "AcceptedList" ? (
                   <span
@@ -208,20 +216,6 @@ const RosterTable = (props) => {
                   </div>
                 )}
               </th>
-            ) : (
-              // <th>
-              //   <Option
-              //     options={options}
-              //     handleClick={(idx, event) => handleOption(idx)}
-              //   ></Option>
-              // </th>
-              // <th>
-              //   <Option
-              //     options={options}
-              //     handleClick={(idx, event) => handleOption(idx)}
-              //   ></Option>
-              // </th>
-              ""
             )}
           </tr>
         </thead>
