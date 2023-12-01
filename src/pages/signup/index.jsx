@@ -132,7 +132,7 @@ const Signup = () => {
               </div>
               <div className="my-6 space-y-4 ">
                 <div className="grid grid-cols-2 gap-4">
-                  <Input
+                  <input
                     className="w-full flex space-x-2 border border-dark-gray items-center px-3 bg-transparent outline-none  dark:text-white flex-grow h-[42px] rounded-default text-font-dark-gray text-xs"
                     placeholder="Type Your First Name*"
                     value={firstName}
@@ -140,8 +140,8 @@ const Signup = () => {
                     onChange={(e) => {
                       setFirstName(e.target.value);
                     }}
-                    ></Input>
-                  <Input
+                    ></input>
+                  <input
                     className="w-full flex space-x-2 border border-dark-gray items-center px-3 bg-transparent outline-none  dark:text-white flex-grow h-[42px] rounded-default text-font-dark-gray text-xs"
                     placeholder="Type Your Last Name*"
                     value={lastName}
@@ -149,7 +149,7 @@ const Signup = () => {
                     onChange={(e) => {
                       setLastName(e.target.value);
                     }}
-                  ></Input>
+                  ></input>
                   {/* <Input
                       className="bg-transparent rounded-default text-font-dark-gray text-xs"
                       placeholder="Type Your Eamil Address*"
