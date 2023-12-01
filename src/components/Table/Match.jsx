@@ -8,6 +8,12 @@ const MatchTable = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { matches, leagueId } = props;
+
+  const user = useSelector((state) => state.home.user);
+  const league = useSelector((state) => state.home.leagues).find(
+    (league) => league.id == leagueId && league.isDeleted !== 1
+  );
+  
   const admins = useSelector((state) => state.home.admins).filter(
     (admin) => admin.leagueId == league?.id && admin.isDeleted !== 1
   );
@@ -17,10 +23,6 @@ const MatchTable = (props) => {
     league?.userId == user?.id;
 
   // let { leagueId} = useParams();
-  const user = useSelector((state) => state.home.user);
-  const league = useSelector((state) => state.home.leagues).find(
-    (league) => league.id == leagueId && league.isDeleted !== 1
-  );
 
   var columns = [];
   if (isAdmin) {
