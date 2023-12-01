@@ -316,7 +316,7 @@ export const completeMatchup = async (dispatch, data) => {
     const response = await axios.post(apis.completeMatchup, data);
 
     const matchups = response.data.matchups;
-    alert("Status has been changed into Completed!");
+    alert("Completed matchup!");
     dispatch({
       type: GET_MATCHUPS,
       payload: matchups,
@@ -334,7 +334,7 @@ export const incompleteMatchup = async (dispatch, data) => {
     const response = await axios.post(apis.incompleteMatchup, data);
 
     const matchups = response.data.matchups;
-    alert("Status has been changed into Incompleted");
+    alert("Incompleted matchup!");
     dispatch({
       type: GET_MATCHUPS,
       payload: matchups,

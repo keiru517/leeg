@@ -56,85 +56,43 @@ const Player = (props) => {
   // );
 
   return (
-    <div className="text-black dark:text-white mt-5 w-full">
+    <div className="text-black dark:text-white mt-5 w-full text-xs">
       <table className="w-full table-auto text-left">
         <thead className="sticky top-0 z-10 bg-white dark:bg-slate">
           <tr>
-            <th key={1} className="h-button text-center font-font-dark-gray">
-              <Typography
-                variant="small"
-                color="blue-gray"
-                className="font-normal leading-none "
-              >
+            <th key={1} className="h-button text-center font-font-dark-gray font-normal">
                 Player
-              </Typography>
             </th>
-            <th key={2} className="h-button text-center font-font-dark-gray">
-              <Typography
-                variant="small"
-                color="blue-gray"
-                className="font-normal leading-none "
-              >
+            <th key={2} className="h-button text-center font-font-dark-gray font-normal">
                 Jersey Number
-              </Typography>
             </th>
-            <th key={3} className="h-button text-center font-font-dark-gray">
-              <Typography
-                variant="small"
-                color="blue-gray"
-                className="font-normal leading-none"
-              >
+            <th key={3} className="h-button text-center font-font-dark-gray font-normal">
                 Team
-              </Typography>
             </th>
             {displayPosition && (
               <th
                 key={4}
-                className="h-button text-center font-font-dark-gray font-normal  text-sm"
+                className="h-button text-center font-font-dark-gray font-normal"
               >
                 Position
               </th>
             )}
-            <th key={5} className="h-button text-center font-font-dark-gray">
-              <Typography
-                variant="small"
-                color="blue-gray"
-                className="font-normal leading-none "
-              >
+            <th key={5} className="h-button text-center font-font-dark-gray font-normal">
                 Points
-              </Typography>
             </th>
-            <th key={6} className="h-button text-center font-font-dark-gray">
-              <Typography
-                variant="small"
-                color="blue-gray"
-                className="font-normal leading-none "
-              >
+            <th key={6} className="h-button text-center font-font-dark-gray font-normal">
                 3 Points
-              </Typography>
             </th>
-            <th key={7} className="h-button text-center font-font-dark-gray">
-              <Typography
-                variant="small"
-                color="blue-gray"
-                className="font-normal leading-none "
-              >
+            <th key={7} className="h-button text-center font-font-dark-gray font-normal">
                 2 Points
-              </Typography>
             </th>
-            <th key={8} className="h-button text-center font-font-dark-gray">
-              <Typography
-                variant="small"
-                color="blue-gray"
-                className="font-normal leading-none "
-              >
+            <th key={8} className="h-button text-center font-font-dark-gray font-normal">
                 Free throws
-              </Typography>
             </th>
             {displayAttempts3 ? (
               <th
                 key={9}
-                className="h-button text-center font-font-dark-gray font-normal  text-sm"
+                className="h-button text-center font-font-dark-gray font-normal"
               >
                 3 Attempts
               </th>
@@ -144,7 +102,7 @@ const Player = (props) => {
             {displayAttempts2 ? (
               <th
                 key={10}
-                className="h-button text-center font-font-dark-gray font-normal  text-sm"
+                className="h-button text-center font-font-dark-gray font-normal"
               >
                 2 Attempts
               </th>
@@ -154,7 +112,7 @@ const Player = (props) => {
             {displayAttempts1 ? (
               <th
                 key={11}
-                className="h-button text-center font-font-dark-gray font-normal  text-sm"
+                className="h-button text-center font-font-dark-gray font-normal"
               >
                 FT Attempts
               </th>
@@ -164,7 +122,7 @@ const Player = (props) => {
             {displayBlocks ? (
               <th
                 key={12}
-                className="h-button text-center font-font-dark-gray font-normal  text-sm"
+                className="h-button text-center font-font-dark-gray font-normal"
               >
                 Blocks
               </th>
@@ -174,7 +132,7 @@ const Player = (props) => {
             {displayRebounds ? (
               <th
                 key={13}
-                className="h-button text-center font-font-dark-gray font-normal  text-sm"
+                className="h-button text-center font-font-dark-gray font-normal"
               >
                 Rebounds
               </th>
@@ -184,7 +142,7 @@ const Player = (props) => {
             {displayAssists ? (
               <th
                 key={14}
-                className="h-button text-center font-font-dark-gray font-normal  text-sm"
+                className="h-button text-center font-font-dark-gray font-normal"
               >
                 Assists
               </th>
@@ -194,7 +152,7 @@ const Player = (props) => {
             {displayFouls ? (
               <th
                 key={15}
-                className="h-button text-center font-font-dark-gray font-normal  text-sm"
+                className="h-button text-center font-font-dark-gray font-normal"
               >
                 Fouls
               </th>
@@ -204,7 +162,7 @@ const Player = (props) => {
             {displaySteals ? (
               <th
                 key={16}
-                className="h-button text-center font-font-dark-gray font-normal  text-sm"
+                className="h-button text-center font-font-dark-gray font-normal"
               >
                 Steals
               </th>
@@ -214,7 +172,7 @@ const Player = (props) => {
             {displayTurnovers ? (
               <th
                 key={17}
-                className="h-button text-center font-font-dark-gray font-normal text-sm"
+                className="h-button text-center font-font-dark-gray font-normal"
               >
                 Turnovers
               </th>
@@ -310,22 +268,22 @@ const Player = (props) => {
                       </Link>
                     </td>
                     <td className="">
-                      <Typography
+                      {/* <Typography
                         variant="small"
                         color="blue-gray"
                         className="font-normal"
-                      >
+                      > */}
                         {player?.jerseyNumber}
-                      </Typography>
+                      {/* </Typography> */}
                     </td>
                     <td className="">
-                      <Typography
+                      {/* <Typography
                         variant="small"
                         color="blue-gray"
                         className="font-normal flex items-center underline"
-                      >
+                      > */}
                         {team ? (
-                          <>
+                          <div className="flex items-center underline">
                             <img
                               src={team.logo}
                               alt=""
@@ -334,172 +292,100 @@ const Player = (props) => {
                             <Link to={`team/${player.teamId}`}>
                               {team.name}
                             </Link>
-                          </>
+                          </div>
                         ) : (
                           ""
                         )}
-                      </Typography>
+                      {/* </Typography> */}
                     </td>
                     {displayPosition && (
                       <td className="">
-                        <Typography
+                        {/* <Typography
                           variant="small"
                           color="blue-gray"
                           className="font-normal"
-                        >
+                        > */}
                           {player?.position}
-                        </Typography>
+                        {/* </Typography> */}
                       </td>
                     )}
                     <td className="">
-                      <Typography
+                      {/* <Typography
                         variant="small"
                         color="blue-gray"
                         className="font-normal"
-                      >
+                      > */}
                         {totalPoints}
-                      </Typography>
+                      {/* </Typography> */}
                     </td>
                     <td className="">
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal"
-                      >
                         {totalPoints3}
-                      </Typography>
                     </td>
                     <td className="">
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal"
-                      >
                         {totalPoints2}
-                      </Typography>
                     </td>
                     <td className="">
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal"
-                      >
                         {totalPoints1}
-                      </Typography>
                     </td>
                     {displayAttempts3 ? (
                       <td className="">
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-normal"
-                        >
                           {attempts3}
-                        </Typography>
                       </td>
                     ) : (
                       ""
                     )}
                     {displayAttempts2 ? (
                       <td className="">
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-normal"
-                        >
                           {attempts2}
-                        </Typography>
                       </td>
                     ) : (
                       ""
                     )}
                     {displayAttempts1 ? (
                       <td className="">
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-normal"
-                        >
                           {attempts1}
-                        </Typography>
                       </td>
                     ) : (
                       ""
                     )}
                     {displayBlocks ? (
                       <td className="">
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-normal"
-                        >
                           {blocks}
-                        </Typography>
                       </td>
                     ) : (
                       ""
                     )}
                     {displayRebounds ? (
                       <td className="">
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-normal"
-                        >
                           {rebounds}
-                        </Typography>
                       </td>
                     ) : (
                       ""
                     )}
                     {displayAssists ? (
                       <td className="">
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-normal"
-                        >
                           {assists}
-                        </Typography>
                       </td>
                     ) : (
                       ""
                     )}
                     {displayFouls ? (
                       <td className="">
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-normal"
-                        >
                           {fouls}
-                        </Typography>
                       </td>
                     ) : (
                       ""
                     )}
                     {displaySteals ? (
                       <td className="">
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-normal"
-                        >
                           {steals}
-                        </Typography>
                       </td>
                     ) : (
                       ""
                     )}
                     {displayTurnovers ? (
                       <td className="">
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-normal"
-                        >
                           {turnovers}
-                        </Typography>
                       </td>
                     ) : (
                       ""

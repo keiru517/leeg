@@ -98,8 +98,8 @@ const EditEventModal = (props) => {
     }
   }, [type, playerId, teamId, currentPeriod, time, event]);
 
-  const handleUpdate = () => {
-    console.log(playerId, teamId, currentPeriod, time, event);
+  const handleEdit = () => {
+    console.log(playerId, teamId, currentPeriod, time, event, matchId);
     // Minutes calculation
     const minutes = Math.floor((time % 360000) / 6000);
 
@@ -456,7 +456,7 @@ const EditEventModal = (props) => {
                           Cancel
                         </button>
                         <button
-                          onClick={handleUpdate}
+                          onClick={handleEdit}
                           className={`bg-primary rounded-xl w-[231px] hover:bg-opacity-70 h-[53px ] text-white disabled:opacity-10`}
                           disabled={!canSubmit}
                         >

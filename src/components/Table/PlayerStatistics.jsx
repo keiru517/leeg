@@ -26,7 +26,7 @@ const PlayerStatistics = (props) => {
 
   return (
     <div className="text-black dark:text-white h-full w-full mt-4">
-      <table className="table-auto text-left">
+      <table className="table-auto text-left w-full">
         <thead className="sticky top-0 z-10 bg-white dark:bg-slate">
           <tr>
             <th
@@ -265,7 +265,7 @@ const PlayerStatistics = (props) => {
                   key={index}
                   className="odd:bg-light-dark-gray dark:odd:bg-charcoal even:bg-light-charcoal dark:even:bg-dark-gray"
                 >
-                  <td className="w-1/6">
+                  <td className="">
                     <Typography
                       variant="small"
                       color="blue-gray"
@@ -274,7 +274,7 @@ const PlayerStatistics = (props) => {
                       {index + 1}
                     </Typography>
                   </td>
-                  <td className="w-1/6">
+                  <td className="">
                     <Typography
                       variant="small"
                       color="blue-gray"
@@ -290,7 +290,7 @@ const PlayerStatistics = (props) => {
                       </Link>
                     </Typography>
                   </td>
-                  <td className="w-1/6">
+                  <td className="">
                     <Typography
                       variant="small"
                       color="blue-gray"
@@ -299,7 +299,7 @@ const PlayerStatistics = (props) => {
                       {jerseyNumber}
                     </Typography>
                   </td>
-                  <td className="w-1/6">
+                  <td className="">
                     <Typography
                       variant="small"
                       color="blue-gray"
@@ -308,7 +308,7 @@ const PlayerStatistics = (props) => {
                       {totalPoints}
                     </Typography>
                   </td>
-                  <td className="w-1/6">
+                  <td className="">
                     <Typography
                       variant="small"
                       color="blue-gray"
@@ -317,7 +317,7 @@ const PlayerStatistics = (props) => {
                       {totalPoints3}
                     </Typography>
                   </td>
-                  <td className="w-1/6">
+                  <td className="">
                     <Typography
                       variant="small"
                       color="blue-gray"
@@ -326,7 +326,7 @@ const PlayerStatistics = (props) => {
                       {totalPoints2}
                     </Typography>
                   </td>
-                  <td className="w-1/6">
+                  <td className="">
                     <Typography
                       variant="small"
                       color="blue-gray"
@@ -336,7 +336,7 @@ const PlayerStatistics = (props) => {
                     </Typography>
                   </td>
                   {displayAttempts3 ? (
-                    <td className="w-1/6">
+                    <td className="">
                       <Typography
                         variant="small"
                         color="blue-gray"
@@ -349,7 +349,7 @@ const PlayerStatistics = (props) => {
                     ""
                   )}
                   {displayAttempts2 ? (
-                    <td className="w-1/6">
+                    <td className="">
                       <Typography
                         variant="small"
                         color="blue-gray"
@@ -362,7 +362,7 @@ const PlayerStatistics = (props) => {
                     ""
                   )}
                   {displayAttempts1 ? (
-                    <td className="w-1/6">
+                    <td className="">
                       <Typography
                         variant="small"
                         color="blue-gray"
@@ -375,7 +375,7 @@ const PlayerStatistics = (props) => {
                     ""
                   )}
                   {displayBlocks ? (
-                    <td className="w-1/6">
+                    <td className="">
                       <Typography
                         variant="small"
                         color="blue-gray"
@@ -388,7 +388,7 @@ const PlayerStatistics = (props) => {
                     ""
                   )}
                   {displayRebounds ? (
-                    <td className="w-1/6">
+                    <td className="">
                       <Typography
                         variant="small"
                         color="blue-gray"
@@ -401,7 +401,7 @@ const PlayerStatistics = (props) => {
                     ""
                   )}
                   {displayAssists ? (
-                    <td className="w-1/6">
+                    <td className="">
                       <Typography
                         variant="small"
                         color="blue-gray"
@@ -414,7 +414,7 @@ const PlayerStatistics = (props) => {
                     ""
                   )}
                   {displayFouls ? (
-                    <td className="w-1/6">
+                    <td className="">
                       <Typography
                         variant="small"
                         color="blue-gray"
@@ -427,7 +427,7 @@ const PlayerStatistics = (props) => {
                     ""
                   )}
                   {displaySteals ? (
-                    <td className="w-1/6">
+                    <td className="">
                       <Typography
                         variant="small"
                         color="blue-gray"
@@ -440,7 +440,7 @@ const PlayerStatistics = (props) => {
                     ""
                   )}
                   {displayTurnovers ? (
-                    <td className="w-1/6">
+                    <td className="">
                       <Typography
                         variant="small"
                         color="blue-gray"
@@ -461,7 +461,7 @@ const PlayerStatistics = (props) => {
                       {ppg}
                     </Typography>
                   </td>
-                  <td className="w-1/6">
+                  <td className="">
                     <Typography
                       variant="small"
                       color="blue-gray"
@@ -549,7 +549,7 @@ const PlayerStatistics = (props) => {
                   key={index}
                   className="odd:bg-light-dark-gray dark:odd:bg-charcoal even:bg-light-charcoal dark:even:bg-dark-gray"
                 >
-                  <td className="w-1/6">
+                  <td className="">
                     <Typography
                       variant="small"
                       color="blue-gray"
@@ -558,7 +558,7 @@ const PlayerStatistics = (props) => {
                       {index + 1}
                     </Typography>
                   </td>
-                  <td className="w-1/6">
+                  <td className="">
                     <Typography
                       variant="small"
                       color="blue-gray"
@@ -574,7 +574,7 @@ const PlayerStatistics = (props) => {
                       </Link>
                     </Typography>
                   </td>
-                  <td className="w-1/6">
+                  <td className="">
                     <Typography
                       variant="small"
                       color="blue-gray"
@@ -583,7 +583,7 @@ const PlayerStatistics = (props) => {
                       {jerseyNumber}
                     </Typography>
                   </td>
-                  <td className="w-1/6">
+                  <td className="">
                     <Typography
                       variant="small"
                       color="blue-gray"
@@ -592,7 +592,7 @@ const PlayerStatistics = (props) => {
                       {totalPoints}
                     </Typography>
                   </td>
-                  <td className="w-1/6">
+                  <td className="">
                     <Typography
                       variant="small"
                       color="blue-gray"
@@ -601,7 +601,7 @@ const PlayerStatistics = (props) => {
                       {totalPoints3}
                     </Typography>
                   </td>
-                  <td className="w-1/6">
+                  <td className="">
                     <Typography
                       variant="small"
                       color="blue-gray"
@@ -610,7 +610,7 @@ const PlayerStatistics = (props) => {
                       {totalPoints2}
                     </Typography>
                   </td>
-                  <td className="w-1/6">
+                  <td className="">
                     <Typography
                       variant="small"
                       color="blue-gray"
@@ -622,7 +622,7 @@ const PlayerStatistics = (props) => {
                   {
                     displayAttempts3?
                     (
-                    <td className="w-1/6">
+                    <td className="">
                       <Typography
                         variant="small"
                         color="blue-gray"
@@ -636,7 +636,7 @@ const PlayerStatistics = (props) => {
                   {
                     displayAttempts2?
                     (
-                    <td className="w-1/6">
+                    <td className="">
                       <Typography
                         variant="small"
                         color="blue-gray"
@@ -650,7 +650,7 @@ const PlayerStatistics = (props) => {
                   {
                     displayAttempts1?
                     (
-                    <td className="w-1/6">
+                    <td className="">
                       <Typography
                         variant="small"
                         color="blue-gray"
@@ -664,7 +664,7 @@ const PlayerStatistics = (props) => {
                   {
                     displayBlocks?
                     (
-                    <td className="w-1/6">
+                    <td className="">
                       <Typography
                         variant="small"
                         color="blue-gray"
@@ -678,7 +678,7 @@ const PlayerStatistics = (props) => {
                   {
                     displayRebounds?
                     (
-                    <td className="w-1/6">
+                    <td className="">
                       <Typography
                         variant="small"
                         color="blue-gray"
@@ -692,7 +692,7 @@ const PlayerStatistics = (props) => {
                   {
                     displayAssists?
                     (
-                    <td className="w-1/6">
+                    <td className="">
                       <Typography
                         variant="small"
                         color="blue-gray"
@@ -706,7 +706,7 @@ const PlayerStatistics = (props) => {
                   {
                     displayFouls?
                     (
-                    <td className="w-1/6">
+                    <td className="">
                       <Typography
                         variant="small"
                         color="blue-gray"
@@ -720,7 +720,7 @@ const PlayerStatistics = (props) => {
                   {
                     displaySteals?
                     (
-                    <td className="w-1/6">
+                    <td className="">
                       <Typography
                         variant="small"
                         color="blue-gray"
@@ -734,7 +734,7 @@ const PlayerStatistics = (props) => {
                   {
                     displayTurnovers?
                     (
-                    <td className="w-1/6">
+                    <td className="">
                       <Typography
                         variant="small"
                         color="blue-gray"
@@ -754,7 +754,7 @@ const PlayerStatistics = (props) => {
                       {ppg}
                     </Typography>
                   </td>
-                  <td className="w-1/6">
+                  <td className="">
                     <Typography
                       variant="small"
                       color="blue-gray"

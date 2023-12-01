@@ -51,50 +51,50 @@ const Profile = (props) => {
   // );
 
   return (
-    <div className="text-black dark:text-white mt-5 w-full">
+    <div className="text-black dark:text-white mt-5 w-ful text-xs">
       <table className="table-auto text-left w-full">
         <thead className="sticky top-0 z-10 bg-white dark:bg-slate">
           <tr>
             <th
               key={0}
-              className="h-button text-center font-font-dark-gray font-normal  text-sm"
+              className="h-button text-center font-font-dark-gray font-normal"
             >
               Game Date
             </th>
             <th
               key={1}
-              className="h-button text-center font-font-dark-gray font-normal  text-sm"
+              className="h-button text-center font-font-dark-gray font-normal"
             >
               Matchup
             </th>
             <th
               key={2}
-              className="h-button text-center font-font-dark-gray font-normal text-sm w-[40px]"
+              className="h-button text-center font-font-dark-gray font-normal w-[40px]"
             >
               Points
             </th>
             <th
               key={3}
-              className="h-button text-center font-font-dark-gray font-normal  text-sm"
+              className="h-button text-center font-font-dark-gray font-normal"
             >
               3 Points
             </th>
             <th
               key={4}
-              className="h-button text-center font-font-dark-gray font-normal  text-sm"
+              className="h-button text-center font-font-dark-gray font-normal"
             >
               2 Points
             </th>
             <th
               key={5}
-              className="h-button text-center font-font-dark-gray font-normal  text-sm"
+              className="h-button text-center font-font-dark-gray font-normal"
             >
               Free throws
             </th>
             {displayAttempts3 ? (
               <th
                 key={6}
-                className="h-button text-center font-font-dark-gray font-normal  text-sm"
+                className="h-button text-center font-font-dark-gray font-normal"
               >
                 3 Attempts
               </th>
@@ -104,7 +104,7 @@ const Profile = (props) => {
             {displayAttempts2 ? (
               <th
                 key={7}
-                className="h-button text-center font-font-dark-gray font-normal  text-sm"
+                className="h-button text-center font-font-dark-gray font-normal"
               >
                 2 Attempts
               </th>
@@ -114,7 +114,7 @@ const Profile = (props) => {
             {displayAttempts1 ? (
               <th
                 key={8}
-                className="h-button text-center font-font-dark-gray font-normal  text-sm"
+                className="h-button text-center font-font-dark-gray font-normal"
               >
                 1 Attempts
               </th>
@@ -124,7 +124,7 @@ const Profile = (props) => {
             {displayBlocks ? (
               <th
                 key={9}
-                className="h-button text-center font-font-dark-gray font-normal  text-sm"
+                className="h-button text-center font-font-dark-gray font-normal"
               >
                 Blocks
               </th>
@@ -134,7 +134,7 @@ const Profile = (props) => {
             {displayRebounds ? (
               <th
                 key={10}
-                className="h-button text-center font-font-dark-gray font-normal  text-sm"
+                className="h-button text-center font-font-dark-gray font-normal"
               >
                 Rebounds
               </th>
@@ -144,7 +144,7 @@ const Profile = (props) => {
             {displayAssists ? (
               <th
                 key={11}
-                className="h-button text-center font-font-dark-gray font-normal  text-sm"
+                className="h-button text-center font-font-dark-gray font-normal"
               >
                 Assists
               </th>
@@ -154,7 +154,7 @@ const Profile = (props) => {
             {displayFouls ? (
               <th
                 key={12}
-                className="h-button text-center font-font-dark-gray font-normal  text-sm"
+                className="h-button text-center font-font-dark-gray font-normal"
               >
                 Fouls
               </th>
@@ -164,7 +164,7 @@ const Profile = (props) => {
             {displaySteals ? (
               <th
                 key={13}
-                className="h-button text-center font-font-dark-gray font-normal  text-sm"
+                className="h-button text-center font-font-dark-gray font-normal"
               >
                 Steals
               </th>
@@ -174,7 +174,7 @@ const Profile = (props) => {
             {displayTurnovers ? (
               <th
                 key={14}
-                className="h-button text-center font-font-dark-gray font-normal text-sm"
+                className="h-button text-center font-font-dark-gray font-normal"
               >
                 Turnovers
               </th>
@@ -191,20 +191,9 @@ const Profile = (props) => {
                 className="odd:bg-light-dark-gray dark:odd:bg-charcoal even:bg-light-charcoal dark:even:bg-dark-gray"
               >
                 <td className="">
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal"
-                  >
                     {matchup.match?.date}
-                  </Typography>
                 </td>
-                <td className="">
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal flex items-center space-x-2 justify-center"
-                  >
+                <td className="flex items-center space-x-2 justify-center">
                     <img
                       src={
                         teams.find(
@@ -260,157 +249,78 @@ const Profile = (props) => {
                         }
                       </Link>
                     </p>
-                  </Typography>
                 </td>
                 <td className="">
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal"
-                  >
                     {matchup.points}
-                  </Typography>
                 </td>
                 <td className="">
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal"
-                  >
                     {matchup.points3}
-                  </Typography>
                 </td>
                 <td className="">
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal"
-                  >
                     {matchup.points2}
-                  </Typography>
                 </td>
                 <td className="">
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal"
-                  >
                     {matchup.points1}
-                  </Typography>
                 </td>
                 {displayAttempts3 ? (
                   <td className="">
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="font-normal"
-                    >
                       {matchup.attempts3}
-                    </Typography>
                   </td>
                 ) : (
                   ""
                 )}
                 {displayAttempts2 ? (
                   <td className="">
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="font-normal"
-                    >
                       {matchup.attempts2}
-                    </Typography>
                   </td>
                 ) : (
                   ""
                 )}
                 {displayAttempts1 ? (
                   <td className="">
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="font-normal"
-                    >
                       {matchup.attempts1}
-                    </Typography>
                   </td>
                 ) : (
                   ""
                 )}
                 {displayBlocks ? (
                   <td className="">
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="font-normal"
-                    >
                       {matchup.blocks}
-                    </Typography>
                   </td>
                 ) : (
                   ""
                 )}
                 {displayRebounds ? (
                   <td className="">
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="font-normal"
-                    >
                       {matchup.rebounds}
-                    </Typography>
                   </td>
                 ) : (
                   ""
                 )}
                 {displayAssists ? (
                   <td className="">
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="font-normal"
-                    >
                       {matchup.assists}
-                    </Typography>
                   </td>
                 ) : (
                   ""
                 )}
                 {displayFouls ? (
                   <td className="">
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="font-normal"
-                    >
                       {matchup.fouls}
-                    </Typography>
                   </td>
                 ) : (
                   ""
                 )}
                 {displaySteals ? (
                   <td className="">
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="font-normal"
-                    >
                       {matchup.steals}
-                    </Typography>
                   </td>
                 ) : (
                   ""
                 )}
                 {displayTurnovers ? (
                   <td className="">
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="font-normal"
-                    >
                       {matchup.turnovers}
-                    </Typography>
                   </td>
                 ) : (
                   ""
@@ -420,199 +330,6 @@ const Profile = (props) => {
           })}
         </tbody>
       </table>
-      {/* <table className="w-full min-w-max table-auto text-left">
-        <thead>
-          <tr>
-            {columns.map((head, idx) => (
-              <th
-                key={idx}
-                className="h-button text-center font-font-dark-gray"
-              >
-                <Typography
-                  variant="small"
-                  color="blue-gray"
-                  className="font-normal leading-none "
-                >
-                  {head}
-                </Typography>
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody className="text-center">
-          {matchups.map((matchup, idx) => {
-            const match = matches.find((match) => match.id == matchup.matchId);
-            return (
-              <tr
-                key={idx}
-                className="odd:bg-light-dark-gray dark:odd:bg-dark-gray even:bg-light-charcoal dark:even:bg-charcoal h-[53px]"
-              >
-                <td className="">
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal"
-                  >
-                    {match?.date}
-                  </Typography>
-                </td>
-                <td className="">
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal flex items-center space-x-2 justify-center"
-                  >
-                    <img
-                      src={
-                        teams.find((team) => team.id == match?.homeTeamId)?.logo
-                      }
-                      alt=""
-                      className="w-8 h-8 rounded-full"
-                    />
-                    <p className="underline">
-                      <Link
-                        to={`/league/${leagueId}/team/${match?.homeTeamId}`}
-                      >
-                        {
-                          teams.find((team) => team.id == match?.homeTeamId)
-                            ?.name
-                        }
-                      </Link>
-                    </p>
-                    <p className="text-font-dark-gray">VS</p>
-                    <img
-                      src={
-                        teams.find((team) => team.id == match?.awayTeamId)?.logo
-                      }
-                      alt=""
-                      className="w-8 h-8 mr-2 rounded-full"
-                    />
-                    <p className="underline">
-                      <Link
-                        to={`/league/${leagueId}/team/${match?.awayTeamId}`}
-                      >
-                        {
-                          teams.find((team) => team.id == match?.awayTeamId)
-                            ?.name
-                        }
-                      </Link>
-                    </p>
-                  </Typography>
-                </td>
-                <td className="w-1/5">
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal"
-                  >
-                    {matchup.points}
-                  </Typography>
-                </td>
-                <td className="w-1/5">
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal"
-                  >
-                    {matchup.points3}
-                  </Typography>
-                </td>
-                <td className="w-1/5">
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal"
-                  >
-                    {match?.homeTeamPoints} : {match?.awayTeamPoints}
-                  </Typography>
-                </td>
-              </tr>
-            );
-          })}
-          {matches.map((match, idx) => {
-            const points = matchups.find(
-              (matchup) => matchup.playerId == player?.id && matchup.matchId == match.id
-            )?.points;
-            return (
-              <tr
-                key={idx}
-                className="odd:bg-light-dark-gray dark:odd:bg-dark-gray even:bg-light-charcoal dark:even:bg-charcoal h-[53px]"
-              >
-                <td className="">
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal"
-                  >
-                    {match?.date}
-                  </Typography>
-                </td>
-                <td className="">
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal flex items-center space-x-2 justify-center"
-                  >
-                    <img
-                      src={
-                        teams.find((team) => team.id == match?.homeTeamId)?.logo
-                      }
-                      alt=""
-                      className="w-8 h-8 rounded-default"
-                    />
-                    <p className="underline">
-                      <Link
-                        to={`/league/${leagueId}/team/${match?.homeTeamId}`}
-                      >
-                        {
-                          teams.find((team) => team.id == match?.homeTeamId)
-                            ?.name
-                        }
-                      </Link>
-                    </p>
-                    <p className="text-font-dark-gray">VS</p>
-                    <img
-                      src={
-                        teams.find((team) => team.id == match?.awayTeamId)?.logo
-                      }
-                      alt=""
-                      className="w-8 h-8 mr-2 rounded-default"
-                    />
-                    <p className="underline">
-                      <Link
-                        to={`/league/${leagueId}/team/${match?.awayTeamId}`}
-                      >
-                        {
-                          teams.find((team) => team.id == match?.awayTeamId)
-                            ?.name
-                        }
-                      </Link>
-                    </p>
-                  </Typography>
-                </td>
-                <td className="w-1/5">
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal"
-                  >
-                    {points?points:0}
-                  </Typography>
-                </td>
-                <td className="w-1/5">
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal"
-                  >
-                    {match?.homeTeamPoints} : {match?.awayTeamPoints}
-                  </Typography>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table> */}
     </div>
   );
 };

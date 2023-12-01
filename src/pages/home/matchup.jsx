@@ -457,7 +457,7 @@ const Matchup = () => {
           </Link>
 
           <span className=""> &gt; </span>
-          <Link to={`/league/${leagueId}?tab=3`}>
+          <Link to={`/league/${leagueId}`}>
             <span className="underline">Matches</span>
           </Link>
           <span className=""> &gt; </span>
