@@ -276,9 +276,9 @@ const Player = (props) => {
                             <img
                               src={team.logo}
                               alt=""
-                              className="w-8 h-8 mr-2 rounded-full border border-gray-500"
+                              className="w-8 h-8 rounded-full border border-gray-500"
                             />
-                            <Link to={`team/${player.teamId}`} className="truncate">
+                            <Link to={`team/${player.teamId}`} className="truncate w-24">
                               {team.name}
                             </Link>
                           </div>
