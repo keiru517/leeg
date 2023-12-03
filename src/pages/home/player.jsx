@@ -80,8 +80,8 @@ const Player = () => {
   const matches = useSelector((state) => state.home.matches).filter(
     (match) =>
       match.leagueId == leagueId &&
-      (match.homeTeamId == player.teamId ||
-        match.awayTeamId == player.teamId) &&
+      (match.homeTeamId == player?.teamId ||
+        match.awayTeamId == player?.teamId) &&
       !match.isNew
   );
   console.log("matches", matches)
@@ -89,7 +89,7 @@ const Player = () => {
   const matchups = useSelector((state) => state.home.matchups).filter(
     (matchup) => {
       const match = matches.find(match=>match.id == matchup.matchId)
-      return matchup.leagueId == leagueId && matchup.playerId == player?.id && match
+      return matchup.leagueId == leagueId && matchup.playerId == player?.id && matchup.attendance === 1 && match
     }
   );
   console.log("matchups", matchups);

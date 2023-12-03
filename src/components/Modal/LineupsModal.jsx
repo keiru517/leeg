@@ -67,9 +67,10 @@ const LineupsModal = (props) => {
 
   const handleLineups = () => {
     // console.log(lineups)
+    console.log(lineups)
     axios.post(apis.editLineups, {lineups, matchId}).then((res)=>{
-      actions.getMatchups(dispatch);
-      alert(res.data.message);
+      dispatch({type:actions.GET_MATCHUPS, payload:res.data.matchups})
+      alert("Updated lineups!");
     }).catch(()=>{
       console.log("Error")
     })

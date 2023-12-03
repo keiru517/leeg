@@ -291,6 +291,7 @@ const home = (state = initialState, action) => {
         ...state,
         event_dialog: {
           open: false,
+          type: "",
           logId: "",
         },
       };

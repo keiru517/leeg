@@ -12,10 +12,7 @@ import EventPlayerList from "../ListItem/EventPlayerList";
 import TimePicker from "../Timer/TimePicker";
 
 const EditEventModal = (props) => {
-  const {
-    homeTeam,
-    awayTeam,
-  } = props;
+  const { homeTeam, awayTeam } = props;
   let { leagueId, matchId } = useParams();
 
   const dispatch = useDispatch();
@@ -34,14 +31,16 @@ const EditEventModal = (props) => {
   const logId = useSelector((state) => state.home.event_dialog.logId);
   const type = useSelector((state) => state.home.event_dialog.type);
 
-  const log = useSelector(state=>state.home.logs).find((log) => log.id == logId);
+  const log = useSelector((state) => state.home.logs).find(
+    (log) => log.id == logId
+  );
 
   const [playerId, setPlayerId] = useState("");
   const [teamId, setTeamId] = useState("");
   const [currentPeriod, setCurrentPeriod] = useState("");
   const [time, setTime] = useState("");
   const [event, setEvent] = useState("");
-  const [isDirect, setIsDirect] = useState("");
+  const [isDirect, setIsDirect] = useState();
 
   const [numberOfPeriods, setNumberOfPeriods] = useState([]);
   useEffect(() => {
@@ -88,12 +87,11 @@ const EditEventModal = (props) => {
     setEvent(log?.event);
   }, [logId]);
 
-
   const [canSubmit, setCanSubmit] = useState();
 
   useEffect(() => {
     setCanSubmit(type === "edit" ? true : false);
-    if (playerId && teamId && currentPeriod && time && event) {
+    if (teamId && currentPeriod && time && event) {
       setCanSubmit(true);
     }
   }, [type, playerId, teamId, currentPeriod, time, event]);
@@ -111,16 +109,44 @@ const EditEventModal = (props) => {
         seconds.toString().padStart(2, "0")
     );
 
-    actions.updateOneLog(dispatch, {
-      logId,
-      leagueId,
-      matchId,
-      period: currentPeriod,
-      teamId,
-      playerId,
-      event,
-      time,
-    });
+    console.log("IsDirect", isDirect, teamId);
+
+    if (type === "edit") {
+      actions.updateOneLog(dispatch, {
+        logId,
+        leagueId,
+        matchId,
+        period: currentPeriod,
+        teamId,
+        playerId,
+        event,
+        time,
+        isDirect,
+      });
+    } else if (type === "add") {
+      let tempPlayerId;
+      let tempIsDirect = 0;
+      console.log(playerId)
+      if (playerId === undefined) {
+        if (teamId == homeTeam?.id) {
+          tempPlayerId = filteredHomeTeamMatchups[0]?.playerId
+        } else {
+          tempPlayerId = filteredAwayTeamMatchups[0]?.playerId
+        }
+        tempIsDirect = 1;
+      }
+      console.log(leagueId, matchId, currentPeriod, playerId, tempPlayerId, event, time, tempIsDirect, "add")
+      actions.createOneLog(dispatch, {
+        leagueId,
+        matchId,
+        period: currentPeriod,
+        teamId,
+        playerId:playerId == undefined?tempPlayerId:playerId,
+        event,
+        time,
+        isDirect:tempIsDirect,
+      });
+    }
 
     closeDialog();
   };
@@ -165,7 +191,10 @@ const EditEventModal = (props) => {
               <Dialog.Panel className="relative transform overflow-hidden rounded-main text-left shadow-xl transition-all sm:my-8 bg-slate h-[800px] md:w-[735px] mx-3 flex flex-col">
                 <div className="divide-y divide-solid divide-[#3A3A3A] flex flex-col flex-grow">
                   <div className="flex items-center text-left h-[88px] justify-between px-default">
-                    <p className="text-2xl text-white font-bold">Edit Event</p>
+                    <p className="text-2xl text-white font-bold">
+                      {type === "edit" ? "Edit " : "Add "}
+                      Event
+                    </p>
                     <div className="flex items-center">
                       <img
                         src={close}
@@ -346,7 +375,9 @@ const EditEventModal = (props) => {
                       </div>
 
                       <div className="overflow-y-auto h-60">
-                        <Tab.Group defaultIndex={0}>
+                        <Tab.Group
+                          defaultIndex={teamId == homeTeam?.id ? 0 : 1}
+                        >
                           <div className="flex justify-between">
                             <Tab.List className="flex justify-start space-x-5 rounded-xl bg-transparent p-1 ">
                               <Tab
@@ -360,7 +391,7 @@ const EditEventModal = (props) => {
                                       : " rounded-lg hover:bg-white/[0.12] "
                                   )
                                 }
-                                // onClick={() => handleCategory(idx)}
+                                onClick={() => setTeamId(homeTeam?.id)}
                               >
                                 <div className="flex items-center">
                                   <img
@@ -382,7 +413,7 @@ const EditEventModal = (props) => {
                                       : " rounded-lg hover:bg-white/[0.12] "
                                   )
                                 }
-                                // onClick={() => handleCategory(idx)}
+                                onClick={() => setTeamId(awayTeam?.id)}
                               >
                                 <div className="flex items-center">
                                   <img
@@ -412,6 +443,7 @@ const EditEventModal = (props) => {
                                       playerId={playerId}
                                       setPlayerId={setPlayerId}
                                       setTeamId={setTeamId}
+                                      setIsDirect={setIsDirect}
                                     ></EventPlayerList>
                                   )
                                 )}
@@ -433,7 +465,7 @@ const EditEventModal = (props) => {
                                       playerId={playerId}
                                       setPlayerId={setPlayerId}
                                       setTeamId={setTeamId}
-                                      isDirect={isDirect}
+                                      setIsDirect={setIsDirect}
                                       // teamId={awayTeam.id}
                                       // addAction={addAction}
                                     ></EventPlayerList>

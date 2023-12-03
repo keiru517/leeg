@@ -254,8 +254,8 @@ const Matchup = () => {
       teamId,
       playerId,
       event,
-      isDirect,
       time,
+      isDirect,
     });
   };
 
