@@ -6,7 +6,7 @@ import addedIcon from "../../assets/img/dark_mode/circle-added.png";
 import * as actions from "../../actions";
 import { useDispatch } from "react-redux";
 
-const EventPlayerList = ({ className, player, playerId, setPlayerId, setTeamId, checked }) => {
+const EventPlayerList = ({ className, player, playerId, setPlayerId, setTeamId, isDirect }) => {
   const [itemOnechecked, setItemOneChecked] = useState(false);
   const [itemTwochecked, setItemTwoChecked] = useState(false);
   const [itemThreechecked, setItemThreeChecked] = useState(false);
@@ -14,18 +14,19 @@ const EventPlayerList = ({ className, player, playerId, setPlayerId, setTeamId, 
 
   const dispatch = useDispatch();
 
-  const [status, setStatus] = useState(checked ? addedIcon : addIcon);
+  const [isDirectEvent, setIsDirectEvent] = useState(isDirect);
   const handleClick = (playerId, teamId) => {
     dispatch({type: actions.CLOSE_SELECT_PLAYER_DIALOG})
     console.log("playerID", playerId, teamId);
     setPlayerId(playerId)
     setTeamId(teamId)
+    setIsDirectEvent(0);
   };
 
   return (
     <div className={`${className} w-full`}>
       <div
-        className={`flex items-center justify-between ${playerId == player.id?"bg-success":"bg-[#e6e6e6] dark:bg-dark-gray"}  w-full h-14 rounded-default py-1.5 px-4 cursor-pointer hover:opacity-75`}
+        className={`flex items-center justify-between ${playerId == player.id && isDirectEvent === 0?"bg-success":"bg-[#e6e6e6] dark:bg-dark-gray"}  w-full h-14 rounded-default py-1.5 px-4 cursor-pointer hover:opacity-75`}
         onClick={() => handleClick(player?.id, player?.teamId)}
       >
         <div className="flex">

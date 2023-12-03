@@ -433,6 +433,7 @@ const EditEventModal = (props) => {
                                       playerId={playerId}
                                       setPlayerId={setPlayerId}
                                       setTeamId={setTeamId}
+                                      isDirect={isDirect}
                                       // teamId={awayTeam.id}
                                       // addAction={addAction}
                                     ></EventPlayerList>
