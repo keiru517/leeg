@@ -528,10 +528,15 @@ export const getUsers = async (dispatch) => {
 
 export const getUserInfo = async (dispatch, id) => {
   try {
-    const response = await axios.get(apis.getUserInfo(id));
-    const user = response.data.user;
-    user.avatar = apis.userAvatarURL(id);
-    dispatch({ type: GET_USER, payload: user });
+    axios.get(apis.getUserInfo(id)).then((res)=>{
+      const user = res.data.user;
+      user.avatar = apis.userAvatarURL(id);
+      dispatch({ type: GET_USER, payload: user });
+
+    }).catch((error)=>{
+      localStorage.removeItem('userId');
+      localStorage.removeItem('token');
+    })
   } catch (error) {
     dispatch({ type: GET_USER, payload: [] });
   }
