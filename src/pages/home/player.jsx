@@ -243,14 +243,14 @@ const Player = () => {
                     className="flex-grow rounded-lg text-xs h-[42px]"
                     placeholder="Search Leagues"
                   />
-                  <Select
+                  {/* <Select
                     className="w-[144px] rounded-lg text-xs"
                     options={options}
                     handleClick={(e) => setValue(e)}
                     value={value}
                   >
                     {value}
-                  </Select>
+                  </Select> */}
                 </div>
                 {matches.length > 0 ? (
                   <ProfileTable userId={userId} leagueId={leagueId} />

@@ -23,13 +23,24 @@ const Team = () => {
   const navigate = useNavigate();
   const darkMode = useSelector((state) => state.home.dark_mode);
 
+  const league = useSelector((state) => state.home.leagues).find(
+    (league) => league.id == leagueId
+  );
+
+  const user = useSelector((state) => state.home.user);
+
+  const admins = useSelector((state) => state.home.admins).filter(
+    (admin) => admin.leagueId == league?.id && admin.isDeleted !== 1
+  );
+
+  const isAdmin =
+    admins.some((admin) => admin.userId == user?.id) ||
+    league?.userId == user?.id;
+
   const team = useSelector((state) => state.home.teams).find(
     (team) => team.id == teamId
   );
 
-  const league = useSelector((state) => state.home.leagues).find(
-    (league) => league.id == leagueId
-  );
 
   const options = ["Ascend", "Descend", "Recent"];
   const [value, setValue] = useState("Sort by");
@@ -51,7 +62,9 @@ const Team = () => {
     (player) => player?.teamId == teamId && player?.isDeleted !== 1
   );
 
-  const matchups = useSelector((state) => state.home.matchups).filter(matchup=>matchup.teamId == teamId);
+  const matchups = useSelector((state) => state.home.matchups).filter(
+    (matchup) => matchup.teamId == teamId
+  );
 
   useEffect(() => {
     actions.getUserInfo(dispatch, localStorage.getItem("userId"));
@@ -106,11 +119,13 @@ const Team = () => {
             <div className="text-3xl dark:text-white ml-6 font-bold">
               {team?.name}
             </div>
-            <img
-              src={darkMode ? editIconDark : editIconLight}
-              className="w-6 h-6 cursor-pointer ml-3 mt-2"
-              onClick={handleEdit}
-            ></img>
+            {isAdmin && (
+              <img
+                src={darkMode ? editIconDark : editIconLight}
+                className="w-6 h-6 cursor-pointer ml-3 mt-2"
+                onClick={handleEdit}
+              ></img>
+            )}
           </div>
         </div>
         <div className="w-full px-2 sm:px-0 h-full flex flex-col flex-grow mt-3">
@@ -146,14 +161,14 @@ const Team = () => {
                     className="flex-grow rounded-lg text-xs h-[42px]"
                     placeholder="Search Leagues"
                   />
-                  <Select
+                  {/* <Select
                     className="w-[144px] rounded-lg text-xs"
                     options={options}
                     handleClick={(e) => setValue(e)}
                     value={value}
                   >
                     {value}
-                  </Select>
+                  </Select> */}
                 </div>
                 {matches.length > 0 ? (
                   <>

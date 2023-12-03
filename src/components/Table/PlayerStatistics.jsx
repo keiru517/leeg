@@ -189,7 +189,7 @@ const PlayerStatistics = (props) => {
               },
               index
             ) => {
-              console.log(matches[0].isNew, matchups[0].attendance);
+              console.log(matches[0]?.isNew, matchups[0]?.attendance);
               // const playerMatchups = matchups.filter(
               //   (matchup) => matchup.playerId === id && matchup.attendance === 1
               // );

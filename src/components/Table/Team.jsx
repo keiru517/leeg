@@ -12,12 +12,22 @@ import { useState } from "react";
 const TeamTable = (props) => {
   const { data } = props;
   const { leagueId, teamId } = useParams();
+  const dispatch = useDispatch();
 
   const league = useSelector((state) => state.home.leagues).find(
     (league) => league.id == leagueId
   );
 
-  const dispatch = useDispatch();
+  const user = useSelector((state) => state.home.user);
+
+  const admins = useSelector((state) => state.home.admins).filter(
+    (admin) => admin.leagueId == league?.id && admin.isDeleted !== 1
+  );
+
+  const isAdmin =
+    admins.some((admin) => admin.userId == user?.id) ||
+    league?.userId == user?.id;
+
 
   const options = [
     { id: 0, name: "Edit" },
@@ -90,18 +100,20 @@ const TeamTable = (props) => {
             ) : (
               ""
             )}
-            <th
-              key="4"
-              className="h-button bg-light-charcoal dark:bg-slate text-center "
-            >
-              <Typography
-                variant="small"
-                color="blue-gray"
-                className="font-normal leading-none"
+            {isAdmin && (
+              <th
+                key="4"
+                className="h-button bg-light-charcoal dark:bg-slate text-center "
               >
-                Action
-              </Typography>
-            </th>
+                <Typography
+                  variant="small"
+                  color="blue-gray"
+                  className="font-normal leading-none"
+                >
+                  Action
+                </Typography>
+              </th>
+            )}
           </tr>
         </thead>
         <tbody className="text-center">
@@ -118,7 +130,9 @@ const TeamTable = (props) => {
                       alt=""
                       className="w-8 h-8 mr-2 rounded-full border border-gray-500 dark:border-gray-100"
                     />
-                      <span className="font-normal underline">{player.firstName} {player.lastName}</span>
+                    <span className="font-normal underline">
+                      {player.firstName} {player.lastName}
+                    </span>
                   </div>
                 </Link>
               </td>
@@ -143,15 +157,16 @@ const TeamTable = (props) => {
                   </Typography>
                 </td>
               )}
-
-              <td>
-                <Option
-                  options={options}
-                  handleClick={(idx, event) =>
-                    handleOption(idx, player.id, event)
-                  }
-                ></Option>
-              </td>
+              {isAdmin && (
+                <td>
+                  <Option
+                    options={options}
+                    handleClick={(idx, event) =>
+                      handleOption(idx, player.id, event)
+                    }
+                  ></Option>
+                </td>
+              )}
             </tr>
           ))}
         </tbody>
