@@ -86,11 +86,11 @@ const Team = () => {
         <Link to="/">
           <span className="underline">My Leagues</span>
         </Link>
-        <span className="text-sky-500"> &gt; </span>
+        <span className=""> &gt; </span>
         <Link to={`/league/${league?.id}?tab=0`}>
           <span className="underline">{league?.name}</span>
         </Link>
-        <span className="text-sky-500"> &gt; </span>
+        <span className=""> &gt; </span>
         <Link to={`/league/${league?.id}?tab=2`}>
           <span className="underline">Teams</span>
         </Link>
