@@ -1,7 +1,6 @@
 import axios from "axios";
 import apis from "../utils/apis";
 import { useNavigate } from "react-router-dom";
-
 // setting
 export const SET_DARK_MODE = "SET_DARK_MODE";
 // user
@@ -133,29 +132,28 @@ export const openInvitePlayerDialog = (payload) => ({
 
 export const invitePlayer = async (dispatch, data) => {
   try {
-    const response = await axios.post(apis.invitePlayer, data)
+    const response = await axios.post(apis.invitePlayer, data);
     alert(response.data.message);
   } catch (error) {
-    alert(error)
+    alert(error);
   }
-}
+};
 
-export const removeFromLeague =async (dispatch, data) => {
+export const removeFromLeague = async (dispatch, data) => {
   try {
     const response = await axios.post(apis.removeFromLeague, data);
     const players = response.data.players;
     dispatch({
-      type:GET_PLAYERS,
-      payload:players
-    })
+      type: GET_PLAYERS,
+      payload: players,
+    });
   } catch (error) {
     dispatch({
-      type:GET_PLAYERS,
-      payload:[]
-    })
-    
+      type: GET_PLAYERS,
+      payload: [],
+    });
   }
-}
+};
 // Teams
 export const getTeams = async (dispatch) => {
   try {
@@ -283,15 +281,15 @@ export const deleteMatch = async (dispatch, matchId) => {
       type: GET_MATCHES,
       payload: matches,
     });
-    getTeams(dispatch)
-    getPlayers(dispatch)
+    getTeams(dispatch);
+    getPlayers(dispatch);
     alert("Deleted successfully!");
   } catch (error) {
     dispatch({
       type: GET_MATCHES,
       payload: [],
     });
-    alert("Error occurred!")
+    alert("Error occurred!");
   }
 };
 
@@ -338,7 +336,7 @@ export const completeMatchup = async (dispatch, data) => {
       payload: matchups,
     });
     getMatches(dispatch);
-    getTeams(dispatch)
+    getTeams(dispatch);
     alert("Completed matchup!");
   } catch {
     dispatch({
@@ -358,7 +356,7 @@ export const incompleteMatchup = async (dispatch, data) => {
       payload: matchups,
     });
     getMatches(dispatch);
-    getTeams(dispatch)
+    getTeams(dispatch);
     alert("Incompleted matchup!");
   } catch {
     dispatch({
@@ -510,8 +508,6 @@ export const inviteAdmin = async (dispatch, data) => {
   }
 };
 
-
-
 export const getUsers = async (dispatch) => {
   try {
     const response = await axios.get(apis.getUsers);
@@ -526,17 +522,22 @@ export const getUsers = async (dispatch) => {
   }
 };
 
-export const getUserInfo = async (dispatch, id) => {
-  try {
-    axios.get(apis.getUserInfo(id)).then((res)=>{
-      const user = res.data.user;
-      user.avatar = apis.userAvatarURL(id);
-      dispatch({ type: GET_USER, payload: user });
+export const getUserInfo = async (dispatch, id, navigate) => {
+// const navigate = useNavigate();
 
-    }).catch((error)=>{
-      localStorage.removeItem('userId');
-      localStorage.removeItem('token');
-    })
+  try {
+    axios
+      .get(apis.getUserInfo(id))
+      .then((res) => {
+        const user = res.data.user;
+        user.avatar = apis.userAvatarURL(id);
+        dispatch({ type: GET_USER, payload: user });
+      })
+      .catch((error) => {
+        localStorage.removeItem("userId");
+        localStorage.removeItem("token");
+        navigate("/signin");
+      });
   } catch (error) {
     dispatch({ type: GET_USER, payload: [] });
   }
