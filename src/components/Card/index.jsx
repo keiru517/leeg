@@ -28,7 +28,7 @@ const Card = (props) => {
 
   const handleApply = (e) => {
     e.stopPropagation();
-    console.log("HandleApply", user?.id);
+    console.log("HandleApply", user?.id, league.id);
     axios
       .post(apis.applyLeague, {
         userId: user?.id,

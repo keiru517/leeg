@@ -71,7 +71,7 @@ const MatchModal = () => {
     <Transition.Root show={status} as={Fragment}>
       <Dialog
         as="div"
-        className="relative z-10"
+        className="relative z-30"
         initialFocus={cancelButtonRef}
         onClose={closeDialog}
       >
@@ -105,29 +105,35 @@ const MatchModal = () => {
                       <p className="text-2xl text-black dark:text-white font-bold">
                         {type === "create" ? "Create" : "Edit"} Match
                       </p>
-                      <div className="flex space-x-3 items-center ml-5">
-                        <div className="flex">
-                          <img
-                            src={
-                              teams.find((team) => team.id == match.homeTeamId)
-                                ?.logo
-                            }
-                            alt=""
-                            className="w-6 h-6 rounded-full border border-gray-500"
-                          />
+                      {type === "edit" && (
+                        <div className="flex space-x-3 items-center ml-5">
+                          <div className="flex">
+                            <img
+                              src={
+                                teams.find(
+                                  (team) => team.id == match.homeTeamId
+                                )?.logo
+                              }
+                              alt=""
+                              className="w-6 h-6 rounded-full border border-gray-500"
+                            />
+                          </div>
+                          <p className="dark:text-white text-black font-bold">
+                            :
+                          </p>
+                          <div className="flex">
+                            <img
+                              src={
+                                teams.find(
+                                  (team) => team.id == match.awayTeamId
+                                )?.logo
+                              }
+                              alt=""
+                              className="w-6 h-6 rounded-full border border-gray-500"
+                            />
+                          </div>
                         </div>
-                        <p className="dark:text-white text-black font-bold">:</p>
-                        <div className="flex">
-                          <img
-                            src={
-                              teams.find((team) => team.id == match.awayTeamId)
-                                ?.logo
-                            }
-                            alt=""
-                            className="w-6 h-6 rounded-full border border-gray-500"
-                          />
-                        </div>
-                      </div>
+                      )}
                     </div>
 
                     <div className="flex items-center">

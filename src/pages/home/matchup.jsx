@@ -76,11 +76,11 @@ const Matchup = () => {
     setStatus(e.name);
     if (e.id === 1) {
       actions.completeMatchup(dispatch, { matchId });
-      actions.getTeams(dispatch);
+      // actions.getTeams(dispatch);
       // Action to complete
     } else {
       actions.incompleteMatchup(dispatch, {matchId});
-      actions.getTeams(dispatch);
+      // actions.getTeams(dispatch);
     }
   };
   const homeTeam = useSelector((state) => state.home.teams).find(

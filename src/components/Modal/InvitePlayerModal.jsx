@@ -31,7 +31,7 @@ const InvitePlayerModal = (props) => {
     <Transition.Root show={status} as={Fragment}>
       <Dialog
         as="div"
-        className="relative z-10"
+        className="relative z-30"
         initialFocus={cancelButtonRef}
         onClose={closeDialog}
       >

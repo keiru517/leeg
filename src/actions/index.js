@@ -333,11 +333,13 @@ export const completeMatchup = async (dispatch, data) => {
     const response = await axios.post(apis.completeMatchup, data);
 
     const matchups = response.data.matchups;
-    alert("Completed matchup!");
     dispatch({
       type: GET_MATCHUPS,
       payload: matchups,
     });
+    getMatches(dispatch);
+    getTeams(dispatch)
+    alert("Completed matchup!");
   } catch {
     dispatch({
       type: GET_MATCHUPS,
@@ -351,11 +353,13 @@ export const incompleteMatchup = async (dispatch, data) => {
     const response = await axios.post(apis.incompleteMatchup, data);
 
     const matchups = response.data.matchups;
-    alert("Incompleted matchup!");
     dispatch({
       type: GET_MATCHUPS,
       payload: matchups,
     });
+    getMatches(dispatch);
+    getTeams(dispatch)
+    alert("Incompleted matchup!");
   } catch {
     dispatch({
       type: GET_MATCHUPS,
