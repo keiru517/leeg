@@ -19,10 +19,14 @@ const TeamModal = () => {
   const dispatch = useDispatch();
   const darkMode = useSelector((state) => state.home.dark_mode);
   const user = useSelector((state) => state.home.user);
+
   const status = useSelector((state) => state.home.team_dialog.open);
   const type = useSelector((state) => state.home.team_dialog.type);
 
   const team = useSelector((state) => state.home.team_dialog.team);
+  const teams = useSelector((state) => state.home.teams).filter(
+    (team) => team.leagueId == leagueId
+  );
 
   const cancelButtonRef = useRef(null);
 
@@ -42,9 +46,14 @@ const TeamModal = () => {
   );
 
   const [teamName, setTeamName] = useState("");
+  const isNameInTeams = teams.some((team) => team.name === teamName);
+
   useEffect(() => {
     if (teamName?.length > 0) {
       setNameWarning(false);
+    }
+    if (isNameInTeams) {
+      setNameWarning(true)
     }
   }, [teamName]);
 
