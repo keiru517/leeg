@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import logo from "../../assets/img/dark_mode/logo.png";
 import hrLine from "../../assets/img/dark_mode/hr-line.png";
@@ -23,11 +23,10 @@ const Password = () => {
   const [password, setPassword] = useState();
   const [passwordConfirm, setPasswordConfirm] = useState();
 
-  
   const handleSend = () => {
     setStep(2);
     axios
-    .post(apis.forgotPassword, { email })
+      .post(apis.forgotPassword, { email })
       .then((res) => {
         // alert(`We sent an email to ${email} with a link to reset password.`);
         // navigate('/emailSent')
@@ -35,8 +34,7 @@ const Password = () => {
       .catch((error) => {
         alert(error.response.data.message);
       });
-    };
-    
+  };
 
   return (
     <div className="">
@@ -44,24 +42,36 @@ const Password = () => {
         {step === 1 && (
           <div className="bg-white dark:bg-slate w-full h-[251px] mt-16 rounded-main p-default flex flex-col">
             <div className="h-[55px]">
-              <p className="text-black dark:text-white text-2xl font-bold">Forgot password?</p>
+              <p className="text-black dark:text-white text-2xl font-bold">
+                Forgot password?
+              </p>
               <p className="text-font-light-gray mt-3">
                 Please type your email address.
               </p>
             </div>
             <div className="mt-6">
               <Input
-                className="rounded-default text-font-dark-gray text-xs mb-6"
+                className="rounded-default text-font-dark-gray text-xs mb-5"
                 placeholder="Email Address*"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               ></Input>
               <button
                 onClick={handleSend}
-                className="w-full h-12 bg-primary font-bold dark:text-white rounded-default hover:bg-opacity-70"
+                className="w-full h-12 bg-primary font-bold dark:text-white rounded-default hover:bg-opacity-70 mb-3"
               >
                 Send
               </button>
+              <p className="font-dark-gray text-center">
+                Go back to
+                {/* <Link to={"/signup"}> */}
+                <Link to={"/signin"}>
+                  <span className="text-sky-500 font-bold text-sm">
+                    {" "}
+                    Sign In
+                  </span>
+                </Link>
+              </p>
             </div>
           </div>
         )}
