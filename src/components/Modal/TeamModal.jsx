@@ -66,12 +66,7 @@ const TeamModal = () => {
     dispatch({ type: actions.OPEN_DELETE_TEAM_DIALOG, payload: team });
   };
 
-  // const handleEdit = () => {
-  //   dispatch({
-  //     type: actions.OPEN_EDIT_TEAM_DIALOG,
-  //     payload: { open: true, type: "edit", team: team },
-  //   });
-  // };
+  const [keyword, setKeyword] = useState("");
 
   const createSubmit = () => {
     if (!teamName?.length > 0) {
@@ -141,6 +136,7 @@ const TeamModal = () => {
   };
 
   const [playersList, setPlayersList] = useState({});
+
   const addPlayers = () => {
     axios
       .post(apis.addPlayer, {
@@ -362,34 +358,39 @@ const TeamModal = () => {
                           <div className="flex bg-light-charcoal dark:bg-[#4A5462] h-[66px] rounded-default p-4 items-center">
                             <img
                               src={team.logo}
-                              className="w-8 h-8 rounded-full"
+                              className="w-10 h-10 rounded-full border border-gray-500"
                               alt=""
                             />
                             <p className="text-black dark:text-white underline mx-2 text-sm truncate w-40">
                               {team.name}
-                            </p>
-                            <p className="text-black dark:text-white text-[10px]">
-                              {team.waitlist}/{team.max}
                             </p>
                           </div>
                           <Input
                             className="rounded-lg my-[10px] text-xs"
                             icon={search}
                             placeholder="Search Players"
+                            value={keyword}
+                            onChange={(e) => setKeyword(e.target.value)}
                           />
                           <div className="overflow-y-auto h-[260px]">
-                            {players.map((player, idx) => (
-                              <PlayerList
-                                key={idx}
-                                className="mb-5"
-                                player={player}
-                                teamId={team.id}
-                                checked={playersList[player.id]}
-                                setChecked={(checked) => {
-                                  setCheckedList(player.id, checked);
-                                }}
-                              ></PlayerList>
-                            ))}
+                            {players
+                              .filter((player) =>
+                                (player.firstName + player.lastName)
+                                  .toLowerCase()
+                                  .includes(keyword.toLowerCase())
+                              )
+                              .map((player, idx) => (
+                                <PlayerList
+                                  key={idx}
+                                  className="mb-5"
+                                  player={player}
+                                  teamId={team.id}
+                                  checked={playersList[player.id]}
+                                  setChecked={(checked) => {
+                                    setCheckedList(player.id, checked);
+                                  }}
+                                ></PlayerList>
+                              ))}
                           </div>
                         </>
                       ) : (

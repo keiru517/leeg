@@ -52,7 +52,7 @@ const TeamTable = (props) => {
           <tr>
             <th
               key="1"
-              className="h-button bg-light-charcoal dark:bg-slate text-center w-1/3 rounded-none"
+              className="h-button bg-light-charcoal dark:bg-slate text-center rounded-none "
             >
               <Typography
                 variant="small"
@@ -64,7 +64,7 @@ const TeamTable = (props) => {
             </th>
             <th
               key="2"
-              className="h-button bg-light-charcoal dark:bg-slate text-center w-1/3"
+              className="h-button bg-light-charcoal dark:bg-slate text-center "
             >
               <Typography
                 variant="small"
@@ -77,7 +77,7 @@ const TeamTable = (props) => {
             {league?.displayPosition ? (
               <th
                 key="3"
-                className="h-button bg-light-charcoal dark:bg-slate text-center w-1/3"
+                className="h-button bg-light-charcoal dark:bg-slate text-center"
               >
                 <Typography
                   variant="small"
@@ -92,7 +92,7 @@ const TeamTable = (props) => {
             )}
             <th
               key="4"
-              className="h-button bg-light-charcoal dark:bg-slate text-center w-1/3"
+              className="h-button bg-light-charcoal dark:bg-slate text-center "
             >
               <Typography
                 variant="small"
