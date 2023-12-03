@@ -42,13 +42,14 @@ const SignupWithEmail = () => {
         email: email,
       })
       .then((res) => {
-        setStep(2)
+        setStep(2);
         const verifyCode = res.data.code;
         setCode(verifyCode);
       })
       .catch((error) => {
         alert(error.response.data.message);
       });
+    setIsClicked(false);
   };
 
   const reSendOTP = () => {

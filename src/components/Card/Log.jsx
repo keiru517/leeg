@@ -102,11 +102,11 @@ const Log = (props) => {
               <img
                 src={player?.avatar}
                 alt=""
-                className="w-8 h-8 rounded-full"
+                className="w-8 h-8 rounded-full border border-gray-500"
               />
             </>
           )}
-          <img src={team?.logo} alt="" className="w-8 h-8 rounded-full" />
+          <img src={team?.logo} alt="" className="w-8 h-8 rounded-full border-border-gray-500" />
         </div>
         <div className="flex space-x-3 h-[51px] items-center p-4">
           <p className="text-black dark:text-gray-300 font-medium text-sm">

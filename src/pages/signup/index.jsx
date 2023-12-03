@@ -1,17 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import Input from "../../components/Input";
 import PasswordInput from "../../components/Input/password";
-import hrLine from "../../assets/img/dark_mode/hr-line.png";
 import upload from "../../assets/img/dark_mode/upload_photo.png";
-import logo from "../../assets/img/dark_mode/logo.png";
 import apis from "../../utils/apis";
 import axios from "axios";
 
 const Signup = () => {
   const navigate = useNavigate();
   let { email } = useParams();
-  console.log(email);
 
   const [panelHeight, setPanelHeight] = useState("617px");
 
@@ -78,13 +74,6 @@ const Signup = () => {
   return (
     <div className="">
       <div className="sm:w-auth sm:mx-auto">
-        {/* <div className="w-[164px] h-[185px] mx-auto">
-          <div className="flex w-[112px] h-[112px] bg-white dark:bg-slate rounded-full items-center mx-auto">
-            <img src={logo} alt="logo" className="mx-auto w-[38px] h-[38px]" />
-          </div>
-          <img src={hrLine} alt="" className="my-7" />
-          <p className="text-font-light-gray text-sm text-center">LEEG.IO</p>
-        </div> */}
         <div
           className={`bg-white dark:bg-slate w-full h-[${panelHeight}] mt-16 rounded-main p-default flex flex-col`}
         >
@@ -150,32 +139,7 @@ const Signup = () => {
                       setLastName(e.target.value);
                     }}
                   ></input>
-                  {/* <Input
-                      className="bg-transparent rounded-default text-font-dark-gray text-xs"
-                      placeholder="Type Your Eamil Address*"
-                      value={email}
-                      onChange={(e) => {
-                        setEmail(e.target.value);
-                      }}
-                    ></Input> */}
-                  {/* <Input
-                      className="bg-transparent rounded-default text-font-dark-gray text-xs"
-                      placeholder="Type Your Zip Code*"
-                      value={zipCode}
-                      onChange={(e) => {
-                        setZipCode(e.target.value);
-                      }}
-                    ></Input> */}
                 </div>
-                {/* <Input
-                  className="bg-transparent rounded-default text-font-dark-gray text-xs"
-                  option={calendar}
-                  placeholder="Enter Date of Birth*"
-                  value={birthday}
-                  onChange={(e) => {
-                    setBirthday(e.target.value);
-                  }}
-                ></Input> */}
                 <div className="grid grid-cols-2 gap-4">
                   <PasswordInput
                     className="bg-transparent rounded-default text-font-dark-gray text-xs"

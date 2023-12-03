@@ -32,8 +32,8 @@ const MatchModal = () => {
 
   const closeDialog = () => {
     dispatch({ type: actions.CLOSE_MATCH_DIALOG });
-    setHomeValue({ name: "Select Home Team*" })
-    setAwayValue({ name: "Select Away Team*" })
+    setHomeValue({ name: "Select Home Team*" });
+    setAwayValue({ name: "Select Away Team*" });
     setDate("");
     setTime("");
     setLocation("");
@@ -101,9 +101,35 @@ const MatchModal = () => {
               <Dialog.Panel className="relative transform overflow-hidden rounded-main text-left shadow-xl transition-all sm:my-8 bg-white dark:bg-slate h-[609px] md:w-[735px] mx-3 flex flex-col">
                 <div className="divide-y divide-solid divide-[#3A3A3A] flex flex-col flex-grow">
                   <div className="flex items-center text-left h-[88px] justify-between px-default">
-                    <p className="text-2xl text-black dark:text-white font-bold">
-                      {type === "create" ? "Create" : "Edit"} Match
-                    </p>
+                    <div className="flex items-center">
+                      <p className="text-2xl text-black dark:text-white font-bold">
+                        {type === "create" ? "Create" : "Edit"} Match
+                      </p>
+                      <div className="flex space-x-3 items-center ml-5">
+                        <div className="flex">
+                          <img
+                            src={
+                              teams.find((team) => team.id == match.homeTeamId)
+                                ?.logo
+                            }
+                            alt=""
+                            className="w-6 h-6 rounded-full border border-gray-500"
+                          />
+                        </div>
+                        <p className="dark:text-white text-black font-bold">:</p>
+                        <div className="flex">
+                          <img
+                            src={
+                              teams.find((team) => team.id == match.awayTeamId)
+                                ?.logo
+                            }
+                            alt=""
+                            className="w-6 h-6 rounded-full border border-gray-500"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
                     <div className="flex items-center">
                       <img
                         src={close}
@@ -115,24 +141,36 @@ const MatchModal = () => {
                   <div className="flex-col p-default flex flex-grow justify-between ">
                     <div>
                       <div className="grid grid-cols-2 gap-[10px]">
-                        <Select
-                          options={options.filter(option=>option.id != homeValue.id && option.id != awayValue.id)}
-                          // handleClick={e=>handleHome(e)}
-                          handleClick={(e) => setHomeValue(e)}
-                          value={homeValue.name}
-                          className="rounded-default w-full h-12 text-xs"
-                          >
-                          Select Home Team*
-                        </Select>
-                        <Select
-                          options={options.filter(option=>option.id != homeValue.id && option.id != awayValue.id)}
-                          // options={options}
-                          handleClick={(e) => setAwayValue(e)}
-                          value={awayValue.name}
-                          className="rounded-default w-full h-12 text-xs"
-                        >
-                          Select Away Team*
-                        </Select>
+                        {type === "create" && (
+                          <>
+                            <Select
+                              options={options.filter(
+                                (option) =>
+                                  option.id != homeValue.id &&
+                                  option.id != awayValue.id
+                              )}
+                              // handleClick={e=>handleHome(e)}
+                              handleClick={(e) => setHomeValue(e)}
+                              value={homeValue.name}
+                              className="rounded-default w-full h-12 text-xs"
+                            >
+                              Select Home Team*
+                            </Select>
+                            <Select
+                              options={options.filter(
+                                (option) =>
+                                  option.id != homeValue.id &&
+                                  option.id != awayValue.id
+                              )}
+                              // options={options}
+                              handleClick={(e) => setAwayValue(e)}
+                              value={awayValue.name}
+                              className="rounded-default w-full h-12 text-xs"
+                            >
+                              Select Away Team*
+                            </Select>
+                          </>
+                        )}
                         <Input
                           className="rounded-default text-xs h-12"
                           placeholder="Enter Date*"
