@@ -254,7 +254,7 @@ const Player = (props) => {
                     className="odd:bg-light-dark-gray dark:odd:bg-dark-gray even:bg-light-charcoal dark:even:bg-charcoal h-[53px]"
                   >
                     <td className="">
-                      <Link to={`player/${player.userId}`}>
+                      <Link to={`/league/${league?.id}/player/${player.userId}`}>
                         <div className="flex items-center px-3">
                           <img
                             src={player.avatar}
@@ -278,7 +278,7 @@ const Player = (props) => {
                               alt=""
                               className="w-8 h-8 rounded-full border border-gray-500"
                             />
-                            <Link to={`team/${player.teamId}`} className="truncate w-24">
+                            <Link to={`/league/${league?.id}/team/${player.teamId}`} className="truncate w-24">
                               {team.name}
                             </Link>
                           </div>
