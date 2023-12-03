@@ -15,7 +15,6 @@ const MatchModal = () => {
 
   const dispatch = useDispatch();
 
-  // const matches = useSelector(state=>state.home.matches).filter(match=>match.leagueId == leagueId);
   const status = useSelector((state) => state.home.match_dialog.open);
   const type = useSelector((state) => state.home.match_dialog.type);
   const match = useSelector((state) => state.home.match_dialog.match);
@@ -23,7 +22,6 @@ const MatchModal = () => {
     (team) => team.leagueId == leagueId && team.isDeleted !== 1
   );
 
-  // const options = ["Real Madrid", "Manchester City", "FC Barcelona"];
   const options = teams;
   const [homeValue, setHomeValue] = useState({ name: "Select Home Team*" });
   const [awayValue, setAwayValue] = useState({ name: "Select Away Team*" });
@@ -33,25 +31,12 @@ const MatchModal = () => {
   const [location, setLocation] = useState("");
 
   const closeDialog = () => {
-    // dispatch({ type: actions.OPEN_CREATE_TEAM_DIALOG, payload: false });
     dispatch({ type: actions.CLOSE_MATCH_DIALOG });
-    setWarning(false)
+    setHomeValue({ name: "Select Home Team*" })
+    setAwayValue({ name: "Select Away Team*" })
     setDate("");
     setTime("");
     setLocation("");
-  };
-
-  const handleDelete = () => {
-    // dispatch({ type: actions.OPEN_DELETE_TEAM_DIALOG, payload: team });
-    // dispatch({ type: actions.OPEN_TEAM_DIALOG, payload: true });
-  };
-
-  const handleEdit = () => {
-    // dispatch({
-    //   type: actions.OPEN_EDIT_TEAM_DIALOG,
-    //   payload: { open: true, type: "edit", team: team },
-    // });
-    // dispatch({ type: actions.OPEN_TEAM_DIALOG, payload: true });
   };
 
   useEffect(() => {
@@ -81,12 +66,6 @@ const MatchModal = () => {
     actions.updateMatch(dispatch, { id: match?.id, date, time, location });
     dispatch({ type: actions.CLOSE_MATCH_DIALOG });
   };
-
-  const [warning, setWarning] = useState(false);
-  useEffect(() => {
-    if (homeValue.name == awayValue.name) setWarning(true);
-    else setWarning(false);
-  }, [homeValue, awayValue]);
 
   return (
     <Transition.Root show={status} as={Fragment}>
@@ -137,29 +116,23 @@ const MatchModal = () => {
                     <div>
                       <div className="grid grid-cols-2 gap-[10px]">
                         <Select
-                          options={options}
+                          options={options.filter(option=>option.id != homeValue.id && option.id != awayValue.id)}
                           // handleClick={e=>handleHome(e)}
                           handleClick={(e) => setHomeValue(e)}
                           value={homeValue.name}
                           className="rounded-default w-full h-12 text-xs"
-                        >
+                          >
                           Select Home Team*
                         </Select>
                         <Select
-                          options={options}
+                          options={options.filter(option=>option.id != homeValue.id && option.id != awayValue.id)}
+                          // options={options}
                           handleClick={(e) => setAwayValue(e)}
                           value={awayValue.name}
                           className="rounded-default w-full h-12 text-xs"
                         >
                           Select Away Team*
                         </Select>
-                        {warning ? (
-                          <p className="text-red-700 col-span-2">
-                            Can not create a match between the same teams
-                          </p>
-                        ) : (
-                          ""
-                        )}
                         <Input
                           className="rounded-default text-xs h-12"
                           placeholder="Enter Date*"
@@ -184,7 +157,6 @@ const MatchModal = () => {
                       <button
                         onClick={createSubmit}
                         className="bg-primary rounded-default w-full hover:bg-opacity-70 h-button text-white disabled:opacity-10"
-                        disabled={warning}
                       >
                         Create Match
                       </button>
@@ -192,7 +164,6 @@ const MatchModal = () => {
                       <button
                         onClick={updateSubmit}
                         className="bg-primary rounded-default w-full hover:bg-opacity-70 h-button text-white disabled:opacity-10"
-                        disabled={warning}
                       >
                         Update Match
                       </button>

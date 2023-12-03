@@ -3,11 +3,11 @@ import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { Tab } from "@headlessui/react";
+import Input from "../../components/Input";
+import Select from "../../components/Select";
 import search from "../../assets/img/dark_mode/search.png";
 import backIconDark from "../../assets/img/dark_mode/back-icon-dark.png";
 import backIconLight from "../../assets/img/dark_mode/back-icon-light.png";
-import Input from "../../components/Input";
-import Select from "../../components/Select";
 import PageTitle from "../../components/PageTitle";
 import MatchTable from "../../components/Table/Match";
 import TeamModal from "../../components/Modal/TeamModal";
@@ -69,13 +69,7 @@ const Team = () => {
 
   return (
     <div className="flex flex-col flex-grow">
-      {/* <PageTitle
-        backIcon={darkMode ? backIconDark : backIconLight}
-        logo={team?.logo}
-      >
-        {team?.name}
-      </PageTitle> */}
-      <p className="font-dark-gray my-[20px]">
+      <p className="font-dark-gray my-3">
         <Link to="/">
           <span className="underline">My Leagues</span>
         </Link>
@@ -90,7 +84,7 @@ const Team = () => {
         <span className="text-sky-500"> &gt; {team?.name}</span>
       </p>
       <div className="flex flex-col rounded-main bg-white dark:bg-slate flex-grow p-default">
-        <div className="page-title flex items-center justify-between my-3">
+        <div className="page-title bg-white dark:bg-charcoal flex items-center justify-between p-3">
           <div className="flex items-center">
             <div
               className="w-[34px] h-[34px] bg-gray-300 dark:bg-primary items-center flex justify-center rounded-default cursor-pointer hover:opacity-70"
@@ -105,7 +99,6 @@ const Team = () => {
 
             <img
               src={team?.logo}
-              // src={apis.leagueLogoURL(leagueId)}
               alt=""
               className="w-20 h-20 ml-6 rounded-full border border-gray-500"
             />
@@ -120,12 +113,12 @@ const Team = () => {
             ></img>
           </div>
         </div>
-        <div className="w-full px-2 sm:px-0 h-full flex flex-col flex-grow">
+        <div className="w-full px-2 sm:px-0 h-full flex flex-col flex-grow mt-3">
           <Tab.Group>
             <Tab.List className="flex justify-start space-x-5 rounded-xl bg-transparent p-1 ">
               {categories.map((category, idx) => (
                 <Tab
-                  key={category}
+                  key={idx}
                   className={({ selected }) =>
                     classNames(
                       "py-2.5 text-sm font-medium leading-5 text-gray-500 dark:text-gray-300 px-3",
@@ -135,7 +128,6 @@ const Team = () => {
                         : " rounded-lg hover:bg-white/[0.12]"
                     )
                   }
-                  // onClick={() => handleCategory(category)}
                 >
                   {category}
                 </Tab>
@@ -190,22 +182,7 @@ const Team = () => {
                   <>
                     <hr className="h-px my-4 bg-charcoal border-0" />
                     <div className=" flex flex-col space-y-5">
-                      {/* <p className="text-black dark:text-white text-sm font-mediim">
-                        Team Statistics
-                      </p> */}
                       <TeamStatisticsTable />
-                      {/* <p className="text-black dark:text-white text-sm font-mediim">
-                        Player Statistics
-                      </p>
-                      <Input
-                        className="rounded-lg text-xs"
-                        icon={search}
-                        placeholder="Search Schedules"
-                      /> */}
-                      {/* <PlayerStatisticsTable
-                        players={players}
-                        matchups={matchups}
-                      ></PlayerStatisticsTable> */}
                     </div>
                   </>
                 ) : (

@@ -33,7 +33,6 @@ const Profile = (props) => {
   const matchups = useSelector((state) => state.home.matchups)
     .filter((matchup) => {
       const match = matches.find((m) => m.id == matchup.matchId);
-      console.log(match);
       return (
         matchup.userId == userId &&
         matchup.leagueId == leagueId &&
@@ -45,7 +44,6 @@ const Profile = (props) => {
       const match = matches.find((m) => m.id == matchup.matchId);
       return { ...matchup, match };
     });
-  console.log("matchups", matchups);
   // const matchups = useSelector((state) => state.home.matchups).filter(
   //   (matchup) => matchup.userId == userId && matchup.leagueId == leagueId
   // );

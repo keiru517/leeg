@@ -278,7 +278,7 @@ const Player = (props) => {
                               alt=""
                               className="w-8 h-8 mr-2 rounded-full border border-gray-500"
                             />
-                            <Link to={`team/${player.teamId}`} className="truncate w-40">
+                            <Link to={`team/${player.teamId}`} className="truncate">
                               {team.name}
                             </Link>
                           </div>
