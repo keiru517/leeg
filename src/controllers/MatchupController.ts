@@ -361,7 +361,7 @@ export const complete: RequestHandler = async (req, res) => {
     if (logs) {
       // const promise = logs.map(async log => {
         for (const log of logs) {
-        if (match && match.isNew) {
+        if (match && match.isNew && log.isDirect === 0) {
           const matchup = await Matchup.findOne({
             where: {
               matchId: matchId,
@@ -486,55 +486,57 @@ export const incomplete: RequestHandler = async (req, res) => {
         for (const log of logs) {
 
         console.log(log.event, log.playerId, log.matchId);
-        const matchup = await Matchup.findOne({
-          where: {
-            matchId: matchId,
-            playerId: log.playerId
-          }
-        });
-        if (matchup) {
-          // update team statistics
-          if (match && !match.isNew) {
-            // update matchup if the match is not new
-            switch (log.event) {
-              case '+3 Pointer':
-                matchup.points3 = matchup.points3 - 1;
-                matchup.points = matchup.points - 3;
-                break;
-              case '+2 Pointer':
-                matchup.points2 = matchup.points2 - 1;
-                matchup.points = matchup.points - 2;
-                break;
-              case '+1 Pointer':
-                matchup.points1 = matchup.points1 - 1;
-                matchup.points = matchup.points - 1;
-                break;
-              case '+3 Attempt':
-                matchup.attempts3 = matchup.attempts3 - 1;
-                break;
-              case '+2 Attempt':
-                matchup.attempts2 = matchup.attempts2 - 1;
-                break;
-              case '+1 Attempt':
-                matchup.attempts1 = matchup.attempts1 - 1;
-                break;
-              case 'Rebound':
-                matchup.rebounds = matchup.rebounds - 1;
-                break;
-              case 'Turnover':
-                matchup.turnovers = matchup.turnovers - 1;
-                break;
-              case 'Foul':
-                matchup.fouls = matchup.fouls - 1;
-                break;
-              case 'Block':
-                matchup.blocks = matchup.blocks - 1;
-                break;
-              case 'Assist':
-                matchup.assists = matchup.assists - 1;
-                break;
+        if (match && !match.isNew && log.isDirect === 0) {
+          const matchup = await Matchup.findOne({
+            where: {
+              matchId: matchId,
+              playerId: log.playerId
             }
-            await matchup.save();
+          });
+          if (matchup) {
+            // update team statistics
+            // if (match && !match.isNew) {
+              // update matchup if the match is not new
+              switch (log.event) {
+                case '+3 Pointer':
+                  matchup.points3 = matchup.points3 - 1;
+                  matchup.points = matchup.points - 3;
+                  break;
+                case '+2 Pointer':
+                  matchup.points2 = matchup.points2 - 1;
+                  matchup.points = matchup.points - 2;
+                  break;
+                case '+1 Pointer':
+                  matchup.points1 = matchup.points1 - 1;
+                  matchup.points = matchup.points - 1;
+                  break;
+                case '+3 Attempt':
+                  matchup.attempts3 = matchup.attempts3 - 1;
+                  break;
+                case '+2 Attempt':
+                  matchup.attempts2 = matchup.attempts2 - 1;
+                  break;
+                case '+1 Attempt':
+                  matchup.attempts1 = matchup.attempts1 - 1;
+                  break;
+                case 'Rebound':
+                  matchup.rebounds = matchup.rebounds - 1;
+                  break;
+                case 'Turnover':
+                  matchup.turnovers = matchup.turnovers - 1;
+                  break;
+                case 'Foul':
+                  matchup.fouls = matchup.fouls - 1;
+                  break;
+                case 'Block':
+                  matchup.blocks = matchup.blocks - 1;
+                  break;
+                case 'Assist':
+                  matchup.assists = matchup.assists - 1;
+                  break;
+              }
+              await matchup.save();
+            // }
           }
         }
       }
@@ -599,7 +601,10 @@ export const editLineups: RequestHandler = async (req, res) => {
       // }
     });
     await Promise.all(promise);
-    res.status(200).json({ message: 'Saved successfully!' });
+    const matchups = await Matchup.findAll({
+      include: [{ model: Player, as: 'player' }]
+    });
+    res.status(200).json({ matchups });
   } catch {
     res.status(404).json({ message: 'Failed!' });
   }

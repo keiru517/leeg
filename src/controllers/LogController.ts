@@ -319,7 +319,7 @@ export const update: RequestHandler = async (req, res) => {
 
 // POST SERVER_URL/api/log/updateOne
 export const updateOne: RequestHandler = async (req, res) => {
-  const { logId, leagueId, matchId, period, teamId, playerId, event, time } =
+  const { logId, leagueId, matchId, period, teamId, playerId, event, time, isDirect } =
     req.body;
   try {
     await Log.update(
@@ -331,7 +331,7 @@ export const updateOne: RequestHandler = async (req, res) => {
         playerId,
         event,
         time,
-        isDirect: 0
+        isDirect
       },
       {
         where: {

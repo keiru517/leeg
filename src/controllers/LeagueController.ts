@@ -174,7 +174,8 @@ export const apply: RequestHandler = async (req, res) => {
   const player = await Player.findOne({
     where: {
       leagueId: leagueId,
-      userId: userId
+      userId: userId,
+      isDeleted: 0
     }
   });
   if (player) {
