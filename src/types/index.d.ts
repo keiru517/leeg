@@ -123,7 +123,7 @@ export namespace Types {
     lastName: string;
     avatar: string;
     email: string;
-    jerseyNumber: number;
+    jerseyNumber: string;
     position: string;
     birthday: string;
     country: string;

@@ -7,7 +7,6 @@ import Match from '../models/Match';
 import { Op } from 'sequelize';
 import League from '../models/League';
 import nodemailer from 'nodemailer';
-// import Match from '../models/Match';
 
 // GET SERVER_URL/api/player/all
 export const all: RequestHandler = async (req, res) => {
@@ -123,6 +122,7 @@ export const updatePoints: RequestHandler = async (req, res) => {
     res.status(404).json({ message: 'Player not found' });
   }
 };
+
 // POST SERVER_URL/api/player/removeFromTeam
 export const removeFromTeam: RequestHandler = async (req, res) => {
   const id = req.body.id;
@@ -162,28 +162,6 @@ export const removeFromTeam: RequestHandler = async (req, res) => {
         }
       });
     }
-
-    // await Player.create({
-    //   leagueId: player.leagueId,
-    //   teamId: 0,
-    //   matchId: 0,
-    //   userId: player.userId,
-    //   firstName: player.firstName,
-    //   lastName: player.lastName,
-    //   avatar: player.avatar,
-    //   email: player.email,
-    //   jerseyNumber: 0,
-    //   position:"Select Position",
-    //   birthday: player.birthday,
-    //   country: player.country,
-    //   state: player.state,
-    //   city: player.city,
-    //   address: player.address,
-    //   zipCode: player.zipCode,
-    //   isWaitList: player.isWaitList,
-    //   isAcceptedList: player.isAcceptedList,
-    //   isDeleted: 0
-    // });
 
     res.json({ message: 'deleted successfully!' });
   } else {
@@ -273,7 +251,6 @@ export const add: RequestHandler = async (req, res) => {
 // POST SERVER_URL/api/player/accept
 export const accept: RequestHandler = async (req, res) => {
   const data = req.body;
-  console.log('data===================', data);
   var playerFound = false;
 
   const promises = Object.keys(data).map(async id => {
@@ -378,16 +355,15 @@ export const invite: RequestHandler = async (req, res) => {
 // Remove a player from the league
 export const removeFromLeague: RequestHandler =async (req, res) => {
   const data = req.body;
-  console.log('data===================', data);
   var playerFound = false;
 
   const promises = Object.keys(data).map(async id => {
-    console.log(data[id]);
     const player = await Player.findByPk(id);
     if (player) {
       if (data[id]) {
         player.isAcceptedList = 0;
         player.isWaitList = 0;
+        player.isDeleted = 1;
         await player.save();
       }
       playerFound = true;

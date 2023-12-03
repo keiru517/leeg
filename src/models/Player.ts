@@ -21,7 +21,7 @@ export default class Player extends Model<
   declare lastName: string;
   declare avatar: string;
   declare email: string;
-  declare jerseyNumber: number;
+  declare jerseyNumber: string;
   declare position: string;
   declare birthday: string;
   declare country: string;

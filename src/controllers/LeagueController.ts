@@ -166,6 +166,7 @@ export const info: RequestHandler = async (req, res) => {
   }
 };
 
+// apply to the league
 export const apply: RequestHandler = async (req, res) => {
   const userId = Number(req.body.userId);
   const leagueId = Number(req.body.leagueId);
@@ -191,8 +192,8 @@ export const apply: RequestHandler = async (req, res) => {
         lastName: user?.lastName,
         avatar: `${process.env.DOMAIN}/api/user/avatar/${userId}`,
         email: user?.email,
-        jerseyNumber: 0,
-        position: 'Select Position',
+        jerseyNumber: "",
+        position: "",
         birthday: user?.birthday,
         country: user?.country,
         state: user?.state,
