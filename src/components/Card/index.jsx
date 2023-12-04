@@ -119,17 +119,23 @@ const Card = (props) => {
         </div>
         <div className="flex justify-end">
           {player?.isWaitList === 1 ? (
-            <p className="dark:text-yellow-500 text-xs cursor-pointer">
+            <p 
+            className="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-gray-700 dark:text-yellow-300 border border-yellow-300"
+            >
               PENDING
             </p>
           ) : player?.isAcceptedList === 1 ? (
-            <p className="dark:text-green-500 text-xs cursor-pointer">
+            <p 
+            // className="dark:text-green-500 text-xs cursor-pointer"
+              className="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-gray-700 dark:text-green-400 border border-green-400"
+            >
               ACCEPTED
             </p>
           ) : (
             <p
-              onClick={handleApply}
-              className="dark:text-blue-500 text-xs cursor-pointer hover:text-green-500"
+            onClick={handleApply}
+            className="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-gray-700 dark:text-blue-400 border border-blue-400"
+              // className="dark:text-blue-500 text-xs cursor-pointer hover:text-green-500"
             >
               APPLY
             </p>
