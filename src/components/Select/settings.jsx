@@ -72,7 +72,7 @@ const SettingsSelect = (props) => {
   return (
     <div
     ref={ref}
-      className={`${className} flex justify-between dark:text-white text-font-dark-gray rounded-lg shadow w-[100px]  border border-dark-gray relative items-center cursor-pointer select-none`}
+      className={`${className} flex justify-between dark:text-white text-font-dark-gray rounded-lg w-[100px] relative items-center cursor-pointer select-none`}
     >
       <div
         className="w-full h-full flex justify-between items-center"

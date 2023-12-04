@@ -4,11 +4,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { Tab } from "@headlessui/react";
 import Input from "../../components/Input";
-import Select from "../../components/Select";
-import search from "../../assets/img/dark_mode/search.png";
+import searchIconDark from "../../assets/img/dark_mode/search-icon-dark.svg"
+import searchIconLight from "../../assets/img/dark_mode/search-icon-light.svg"
 import backIconDark from "../../assets/img/dark_mode/back-icon-dark.png";
 import backIconLight from "../../assets/img/dark_mode/back-icon-light.png";
-import PageTitle from "../../components/PageTitle";
 import MatchTable from "../../components/Table/Match";
 import TeamModal from "../../components/Modal/TeamModal";
 import TeamStatisticsTable from "../../components/Table/TeamStatistics";
@@ -154,13 +153,13 @@ const Team = () => {
                 key={0}
                 className={classNames("rounded-xl flex flex-col w-full h-full")}
               >
-                <hr className="h-px my-4 bg-charcoal border-0" />
-                <div className="search flex justify-between space-x-3">
-                  <Input
-                    icon={search}
+                <hr className="h-px mt-4 bg-charcoal border-0" />
+                <div className="flex justify-between">
+                  {/* <Input
+                    icon={darkMode?searchIconDark:searchIconLight}
                     className="flex-grow rounded-lg text-xs h-[42px]"
                     placeholder="Search Leagues"
-                  />
+                  /> */}
                   {/* <Select
                     className="w-[144px] rounded-lg text-xs"
                     options={options}
@@ -195,8 +194,8 @@ const Team = () => {
               >
                 {players.length > 0 ? (
                   <>
-                    <hr className="h-px my-4 bg-charcoal border-0" />
-                    <div className=" flex flex-col space-y-5">
+                    <hr className="h-px mt-4 bg-charcoal border-0" />
+                    <div className="flex flex-col space-y-5">
                       <TeamStatisticsTable />
                     </div>
                   </>
@@ -221,7 +220,7 @@ const Team = () => {
                     <div className=" flex flex-col space-y-5">
                       <Input
                         className="rounded-lg text-xs"
-                        icon={search}
+                        icon={darkMode?searchIconDark:searchIconLight}
                         placeholder="Search Schedules"
                       />
                       <div className="flex flex-grow items-center">

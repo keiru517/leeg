@@ -99,15 +99,7 @@ const SignupWithEmail = () => {
 
   return (
     <div className="">
-      {/* <Alert open={true}></Alert> */}
       <div className="sm:w-auth sm:mx-auto">
-        {/* <div className="w-[164px] h-[185px] mx-auto">
-          <div className="flex w-[112px] h-[112px] bg-white dark:bg-slate rounded-full items-center mx-auto">
-            <img src={logo} alt="logo" className="mx-auto w-[38px] h-[38px]" />
-          </div>
-          <img src={hrLine} alt="" className="my-7" />
-          <p className="text-font-light-gray text-sm text-center">LEEG.IO</p>
-        </div> */}
         {step == 1 ? (
           <div className="bg-white dark:bg-slate w-full h-[275px] mt-16 rounded-main p-default flex flex-col">
             <div className="h-[55px]">
@@ -151,16 +143,16 @@ const SignupWithEmail = () => {
               <p className="text-black dark:text-white text-2xl font-bold">
                 Verify Email Address
               </p>
-              <p className="text-font-light-gray text-base mt-3">
+              <p className="text-font-light-gray text-sm sm:text-base mt-3">
                 Enter the Code sent to{" "}
-                <span className="text-black dark:text-white">{email}</span>
+                <span className="text-black dark:text-white text-sm sm:text-base">{email}</span>
               </p>
             </div>
             <div className="flex mb-5 mt-2 space-x-[26px]">
               <div>
                 <input
                   type="number"
-                  className="bg-transparent outline-none dark:text-white text-black text-[52px] w-[75px] text-center h-16 mb-4"
+                  className="bg-transparent outline-none dark:text-white text-black text-[52px] w-[50px] sm:w-[75px] text-center h-16 mb-4"
                   value={first}
                   ref={firstInputRef}
                   // onChange={(e)=>setFirst(e.target.value.toString())}
@@ -188,7 +180,7 @@ const SignupWithEmail = () => {
               <div>
                 <input
                   type="number"
-                  className="bg-transparent outline-none dark:text-white text-black text-[52px] w-[75px] text-center h-16 mb-4"
+                  className="bg-transparent outline-none dark:text-white text-black text-[52px] w-[50px] sm:w-[75px] text-center h-16 mb-4"
                   value={second}
                   ref={secondInputRef}
                   onChange={(e) => {
@@ -219,7 +211,7 @@ const SignupWithEmail = () => {
               <div>
                 <input
                   type="number"
-                  className="bg-transparent outline-none dark:text-white text-black text-[52px] w-[75px] text-center h-16 mb-4"
+                  className="bg-transparent outline-none dark:text-white text-black text-[52px] w-[50px] sm:w-[75px] text-center h-16 mb-4"
                   value={third}
                   ref={thirdInputRef}
                   onChange={(e) => {
@@ -244,7 +236,7 @@ const SignupWithEmail = () => {
               <div>
                 <input
                   type="number"
-                  className="bg-transparent outline-none dark:text-white text-black text-[52px] w-[75px] text-center h-16 mb-4"
+                  className="bg-transparent outline-none dark:text-white text-black text-[52px] w-[50px] sm:w-[75px] text-center h-16 mb-4"
                   value={fourth}
                   ref={fourthInputRef}
                   onChange={(e) => {
