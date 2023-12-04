@@ -31,10 +31,6 @@ import toggleOff from "../../assets/img/dark_mode/toggle-off.png";
 const League = () => {
   let { leagueId } = useParams();
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  // const tab = queryParams.get("tab");
 
   const user = useSelector((state) => state.home.user);
   const league = useSelector((state) => state.home.leagues).find(
@@ -123,7 +119,6 @@ const League = () => {
     setWaitListKeyword("");
     setAcceptListKeyword("");
     setTeamKeyword("");
-    setScheduleKeyword("");
     setStandingsKeyword("");
     setPlayerKeyword("");
   };
@@ -170,13 +165,9 @@ const League = () => {
   );
 
   const [teamKeyword, setTeamKeyword] = useState("");
-  const [filteredTeams, setFilteredTeams] = useState(teams);
 
-  const [scheduleKeyword, setScheduleKeyword] = useState("");
-  const [filteredMatches, setFilteredMatches] = useState([]);
 
   const [standingsKeyword, setStandingsKeyword] = useState("");
-  const [filteredStandings, setFilteredStandings] = useState([]);
 
   const [playerKeyword, setPlayerKeyword] = useState("");
   const [filteredPlayers, setFilteredPlayers] = useState([]);
@@ -590,16 +581,16 @@ const League = () => {
 
   return (
     <div className="flex flex-col flex-grow">
-      <p className="font-dark-gray my-[20px]">
+      <p className="flex font-dark-gray my-3 items-center">
         <Link to="/">
           <span className="underline">My Leagues</span>
         </Link>
-        <span className="text-sky-500"> &gt; {league?.name}</span>
+        <span className="text-sky-500"> &gt; </span>
+        <div className="flex items-center space-x-3 ml-3">
+          <img src={league?.logo} className="w-10 h-10 rounded-lg"></img>
+          <p className="text-black dark:text-white text-lg">{league?.name}</p>
+        </div>
       </p>
-      <div className="flex items-center space-x-3 mb-[20px]">
-        <img src={league?.logo} className="w-10 h-10 rounded-lg"></img>
-        <p className="text-black dark:text-white text-lg">{league?.name}</p>
-      </div>
       <div className="rounded-default bg-white dark:bg-slate flex-grow p-default">
         <div className="w-full px-2 sm:px-0 h-full flex flex-col">
           <Tab.Group>

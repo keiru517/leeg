@@ -31,7 +31,7 @@ const SignupSuccess = () => {
               onClick={() => {
                 navigate("/signin");
               }}
-              className="w-[377px] h-button bg-primary rounded-lg text-white font-bold hover:bg-opacity-70"
+              className="w-[377px] h-button bg-primary rounded-default text-white font-bold hover:bg-opacity-70"
             >
               Sign in
             </button>

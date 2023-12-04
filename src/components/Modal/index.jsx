@@ -118,30 +118,6 @@ const Modal = (props) => {
       .catch((error) => console.log(error.response.data.message));
   };
 
-  // useEffect(() => {
-  //   // Default file path in the assets directory
-  //   const defaultFilePath = '../../assets/img/dark_mode/ronaldo.jpg';
-
-  //   // Fetch the default file asynchronously
-  //   fetch(defaultFilePath)
-  //     .then((response) => response.blob())
-  //     .then((blob) => {
-  //       // Create a default File object with the default file blob and name
-  //       const defaultFile = new File([blob], 'ronaldo.jpg', {
-  //         type: 'image/jpeg',
-  //       });
-  //       console.log(defaultFile)
-  //       // Set the default file as the initial state value
-  //       setChosenFile(defaultFile);
-
-  //       // Optionally, set the preview URL for the initial file
-  //       setPreviewURL(URL.createObjectURL(defaultFile));
-  //     })
-  //     .catch((error) => {
-  //       console.error('Error fetching default file:', error);
-  //     });
-  // }, []);
-
   const options1 = {
     title: "Enter Season Start Date",
     autoHide: true,
@@ -165,7 +141,7 @@ const Modal = (props) => {
       prev: () => <span className="text-xs">&lt;</span>,
       next: () => <span className="text-xs">&gt;</span>,
     },
-    datepickerClassNames: "text-xs top-12",
+    datepickerClassNames: "text-xs top-12 right-5",
     language: "en",
   };
 
@@ -192,7 +168,7 @@ const Modal = (props) => {
       prev: () => <span className="text-xs">&lt;</span>,
       next: () => <span className="text-xs">&gt;</span>,
     },
-    datepickerClassNames: "text-xs top-12",
+    datepickerClassNames: "text-xs top-12 right-5",
     language: "en",
   };
 
@@ -366,7 +342,7 @@ const Modal = (props) => {
                               </p>
                             </div>
                             <input
-                              className="border border-charcoal items-center px-3 bg-transparent outline-none text-black dark:text-white flex-grow h-button text-xs w-full"
+                              className="border border-charcoal items-center px-3 bg-transparent outline-none text-black dark:text-white flex-grow h-button text-xs w-full rounded-default"
                               placeholder="Type League Name*"
                               value={leagueName}
                               onChange={(e) => setLeagueName(e.target.value)}
@@ -388,13 +364,13 @@ const Modal = (props) => {
                           <div className="flex mt-auto w-full justify-between">
                             <button
                               onClick={goToStep1}
-                              className="bg-[#e5e5e5] dark:bg-[#3A3A3A] sm:w-[169px] w-[140px] h-button rounded-default mt-auto text-black dark:text-white font-semibold text-sm dark:hover:bg-middle-gray focus:ring-2"
+                              className="bg-[#e5e5e5] dark:bg-[#3A3A3A] w-28 sm:w-[169px] h-button rounded-default mt-auto text-black dark:text-white font-semibold text-sm dark:hover:bg-middle-gray focus:ring-2"
                             >
                               Back to Step 1
                             </button>
                             <button
                               onClick={goToStep3}
-                              className="bg-primary sm:w-[169px] w-[140px] h-button rounded-default mt-auto text-white font-semibold text-sm hover:bg-sky-600 focus:ring-2"
+                              className="bg-primary w-28 sm:w-[169px] h-button rounded-default mt-auto text-white font-semibold text-sm hover:bg-sky-600 focus:ring-2"
                             >
                               Next: Schedule
                             </button>
@@ -402,7 +378,7 @@ const Modal = (props) => {
                         </>
                       ) : (
                         <>
-                          <div className="w-full h-29 relative">
+                          <div className="relative space-y-3">
                             {/* <Input
                               className="text-xs rounded-default mb-5"
                               // option={calendar}
@@ -411,7 +387,7 @@ const Modal = (props) => {
                               onChange={(e) => setStartDate(e.target.value)}
                             /> */}
                             <Datepicker
-                              classNames="mb-5"
+                              classNames=""
                               options={options1}
                               onChange={handleChange1}
                               show={show1}
@@ -436,13 +412,13 @@ const Modal = (props) => {
                           <div className="flex mt-auto w-full justify-between">
                             <button
                               onClick={goToStep2}
-                              className="bg-[#e5e5e5] dark:bg-[#3A3A3A] sm:w-[169px] w-[140px] h-button rounded-default mt-auto text-black dark:text-white font-semibold text-sm hover:bg-gray-700 focus:ring-2"
+                              className="bg-[#e5e5e5] dark:bg-[#3A3A3A] w-28 sm:w-[169px] h-button rounded-default mt-auto text-black dark:text-white font-semibold text-sm hover:bg-gray-700 focus:ring-2"
                             >
                               Back to Step 2
                             </button>
                             <button
                               onClick={createLeague}
-                              className="bg-primary sm:w-[169px] w-[140px] h-button rounded-default mt-auto text-white font-semibold text-sm hover:bg-sky-600 focus:ring-2"
+                              className="bg-primary w-28 sm:w-[169px] h-button rounded-default mt-auto text-white font-semibold text-sm hover:bg-sky-600 focus:ring-2"
                             >
                               Create League
                             </button>
