@@ -85,12 +85,12 @@ const RosterTable = (props) => {
   }
 
   const options =
-    rosterValue === "WaitList"
+    rosterValue === "Waitlisted"
       ? [
           { id: 0, name: "Accept" },
           { id: 1, name: "Remove" },
         ]
-      : [{ id: 0, name: "WaitList" }];
+      : [{ id: 0, name: "Waitlisted" }];
 
   const teams = useSelector((state) => state.home.teams);
 
@@ -103,7 +103,7 @@ const RosterTable = (props) => {
     if (Object.keys(itemChecked).length === 0 || allItemsFalse) {
       // alert("Please select one or more players!");
     } else {
-      if (rosterValue === "WaitList") {
+      if (rosterValue === "Waitlisted") {
         // if the user clicks Accept
         if (idx === 0) {
           axios
@@ -117,7 +117,7 @@ const RosterTable = (props) => {
           console.log("remove", itemChecked)
           actions.removeFromLeague(dispatch, itemChecked);
         }
-      } else if (rosterValue === "AcceptedList") {
+      } else if (rosterValue === "Accepted") {
         console.log(itemChecked);
         axios
           .post(apis.unacceptPlayer, itemChecked)
@@ -185,7 +185,7 @@ const RosterTable = (props) => {
             ))}
             {isAdmin && (
               <th className="text-center cursor-pointer w-20">
-                {rosterValue === "AcceptedList" ? (
+                {rosterValue === "Accepted" ? (
                   <span
                     className="text-black dark:text-white"
                     onClick={() => handleOption()}
@@ -193,19 +193,18 @@ const RosterTable = (props) => {
                     {canSubmit ? "❌" : "..."}
                   </span>
                 ) : (
-                  // <span onClick={()=>handleOption()} className={`${canSubmit?"":"opacity-50"}`}>❌</span>
                   <div className="flex justify-center space-x-1">
                     {canSubmit ? (
                       <>
                         <span
                           onClick={() => handleOption(1)}
-                          className={`${canSubmit ? "" : "opacity-50"}`}
+                          // className={`${canSubmit ? "" : "opacity-50"}`}
                         >
                           ❌
                         </span>
                         <span
                           onClick={() => handleOption(0)}
-                          className={`${canSubmit ? "" : "opacity-50"}`}
+                          // className={`${canSubmit ? "" : "opacity-50"}`}
                         >
                           ✅
                         </span>
