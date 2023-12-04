@@ -45,11 +45,12 @@ const SignupWithEmail = () => {
         setStep(2);
         const verifyCode = res.data.code;
         setCode(verifyCode);
+        setIsClicked(false);
       })
       .catch((error) => {
         alert(error.response.data.message);
+        setIsClicked(false);
       });
-    setIsClicked(false);
   };
 
   const reSendOTP = () => {
