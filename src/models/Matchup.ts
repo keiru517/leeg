@@ -8,6 +8,7 @@ import {
 import sequelize from '.';
 import { Types } from '../types';
 import Player from './Player';
+import Match from './Match';
 
 type MatchupCreationAttribute = Optional<
   Types.T_Matchup,
@@ -114,4 +115,9 @@ Matchup.init(
 Matchup.belongsTo(Player, {
   foreignKey: 'playerId',
   as: 'player'
+});
+
+Matchup.belongsTo(Match, {
+  foreignKey: 'matchId',
+  as: 'match'
 });

@@ -5,18 +5,15 @@ import User from '../models/User';
 import Log from '../models/Log';
 import Match from '../models/Match';
 import Team from '../models/Team';
-// import { Types } from '../types';
 
 // GET SERVER_URL/api/matchup/all
 export const all: RequestHandler = async (req, res) => {
-  // const matchups = await Matchup.findAll();
   const matchups = await Matchup.findAll({
-    include: [{ model: Player, as: 'player' }]
+    include: [
+      { model: Player, as: 'player' },
+      { model: Match, as: 'match' }
+    ]
   });
-  // const modifiedMatchups = matchups.map((matchup)=>({
-  //   ...matchup,
-  //   firstName: matchup['player.firstName']
-  // }))
   res.json({ matchups });
 };
 
@@ -360,7 +357,7 @@ export const complete: RequestHandler = async (req, res) => {
   try {
     if (logs) {
       // const promise = logs.map(async log => {
-        for (const log of logs) {
+      for (const log of logs) {
         if (match && match.isNew && !log.isDirect) {
           const matchup = await Matchup.findOne({
             where: {
@@ -370,7 +367,7 @@ export const complete: RequestHandler = async (req, res) => {
           });
 
           if (matchup) {
-            console.log("lock=============", log.event)
+            console.log('lock=============', log.event);
             // update matchup if the match is not new
             switch (log.event) {
               case '+3 Pointer':
@@ -378,10 +375,22 @@ export const complete: RequestHandler = async (req, res) => {
                 matchup.points = matchup.points + 3;
                 break;
               case '+2 Pointer':
-                console.log("====before",log.playerId, matchup.id,  matchup.points2, matchup.points)
+                console.log(
+                  '====before',
+                  log.playerId,
+                  matchup.id,
+                  matchup.points2,
+                  matchup.points
+                );
                 matchup.points2 = matchup.points2 + 1;
                 matchup.points = matchup.points + 2;
-                console.log("====after",log.playerId, matchup.id, matchup.points2, matchup.points)
+                console.log(
+                  '====after',
+                  log.playerId,
+                  matchup.id,
+                  matchup.points2,
+                  matchup.points
+                );
                 break;
               case '+1 Pointer':
                 matchup.points1 = matchup.points1 + 1;
@@ -412,7 +421,7 @@ export const complete: RequestHandler = async (req, res) => {
                 matchup.assists = matchup.assists + 1;
                 break;
             }
-            console.log("==========save", log.playerId)
+            console.log('==========save', log.playerId);
             await matchup.save();
           }
         }
@@ -435,20 +444,18 @@ export const complete: RequestHandler = async (req, res) => {
             // homeTeam.pointScored = homeTeam.pointScored + match.homeTeamPoints;
             // homeTeam.pointAgainst = homeTeam.pointAgainst + match.awayTeamPoints;
             // homeTeam.diff = homeTeam.pointScored - homeTeam.pointAgainst;
-            
+
             // awayTeam.pointScored = awayTeam.pointScored + match.awayTeamPoints;
             // awayTeam.pointAgainst = awayTeam.pointAgainst + match.homeTeamPoints;
             // awayTeam.diff = awayTeam.pointScored - awayTeam.pointAgainst;
-            
           } else if (match.homeTeamPoints < match.awayTeamPoints) {
             homeTeam.lose = homeTeam.lose + 1;
             awayTeam.win = awayTeam.win + 1;
-
           }
           homeTeam.pointScored = homeTeam.pointScored + match.homeTeamPoints;
           homeTeam.pointAgainst = homeTeam.pointAgainst + match.awayTeamPoints;
           homeTeam.diff = homeTeam.pointScored - homeTeam.pointAgainst;
-          
+
           awayTeam.pointScored = awayTeam.pointScored + match.awayTeamPoints;
           awayTeam.pointAgainst = awayTeam.pointAgainst + match.homeTeamPoints;
           awayTeam.diff = awayTeam.pointScored - awayTeam.pointAgainst;
@@ -483,8 +490,7 @@ export const incomplete: RequestHandler = async (req, res) => {
   try {
     if (logs) {
       // const promise = logs.map(async log => {
-        for (const log of logs) {
-
+      for (const log of logs) {
         console.log(log.event, log.playerId, log.matchId);
         if (match && !match.isNew && !log.isDirect) {
           const matchup = await Matchup.findOne({
@@ -496,46 +502,46 @@ export const incomplete: RequestHandler = async (req, res) => {
           if (matchup) {
             // update team statistics
             // if (match && !match.isNew) {
-              // update matchup if the match is not new
-              switch (log.event) {
-                case '+3 Pointer':
-                  matchup.points3 = matchup.points3 - 1;
-                  matchup.points = matchup.points - 3;
-                  break;
-                case '+2 Pointer':
-                  matchup.points2 = matchup.points2 - 1;
-                  matchup.points = matchup.points - 2;
-                  break;
-                case '+1 Pointer':
-                  matchup.points1 = matchup.points1 - 1;
-                  matchup.points = matchup.points - 1;
-                  break;
-                case '+3 Attempt':
-                  matchup.attempts3 = matchup.attempts3 - 1;
-                  break;
-                case '+2 Attempt':
-                  matchup.attempts2 = matchup.attempts2 - 1;
-                  break;
-                case '+1 Attempt':
-                  matchup.attempts1 = matchup.attempts1 - 1;
-                  break;
-                case 'Rebound':
-                  matchup.rebounds = matchup.rebounds - 1;
-                  break;
-                case 'Turnover':
-                  matchup.turnovers = matchup.turnovers - 1;
-                  break;
-                case 'Foul':
-                  matchup.fouls = matchup.fouls - 1;
-                  break;
-                case 'Block':
-                  matchup.blocks = matchup.blocks - 1;
-                  break;
-                case 'Assist':
-                  matchup.assists = matchup.assists - 1;
-                  break;
-              }
-              await matchup.save();
+            // update matchup if the match is not new
+            switch (log.event) {
+              case '+3 Pointer':
+                matchup.points3 = matchup.points3 - 1;
+                matchup.points = matchup.points - 3;
+                break;
+              case '+2 Pointer':
+                matchup.points2 = matchup.points2 - 1;
+                matchup.points = matchup.points - 2;
+                break;
+              case '+1 Pointer':
+                matchup.points1 = matchup.points1 - 1;
+                matchup.points = matchup.points - 1;
+                break;
+              case '+3 Attempt':
+                matchup.attempts3 = matchup.attempts3 - 1;
+                break;
+              case '+2 Attempt':
+                matchup.attempts2 = matchup.attempts2 - 1;
+                break;
+              case '+1 Attempt':
+                matchup.attempts1 = matchup.attempts1 - 1;
+                break;
+              case 'Rebound':
+                matchup.rebounds = matchup.rebounds - 1;
+                break;
+              case 'Turnover':
+                matchup.turnovers = matchup.turnovers - 1;
+                break;
+              case 'Foul':
+                matchup.fouls = matchup.fouls - 1;
+                break;
+              case 'Block':
+                matchup.blocks = matchup.blocks - 1;
+                break;
+              case 'Assist':
+                matchup.assists = matchup.assists - 1;
+                break;
+            }
+            await matchup.save();
             // }
           }
         }
@@ -560,11 +566,11 @@ export const incomplete: RequestHandler = async (req, res) => {
           homeTeam.pointScored = homeTeam.pointScored - match.homeTeamPoints;
           homeTeam.pointAgainst = homeTeam.pointAgainst - match.awayTeamPoints;
           homeTeam.diff = homeTeam.pointScored - homeTeam.pointAgainst;
-          
+
           awayTeam.pointScored = awayTeam.pointScored - match.awayTeamPoints;
           awayTeam.pointAgainst = awayTeam.pointAgainst - match.homeTeamPoints;
           awayTeam.diff = awayTeam.pointScored - awayTeam.pointAgainst;
-          
+
           await homeTeam.save();
           await awayTeam.save();
         }
