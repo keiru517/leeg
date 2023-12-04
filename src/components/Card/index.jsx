@@ -46,7 +46,7 @@ const Card = (props) => {
 
   return (
     <div
-      className={`rounded-default h-[185px] bg-light-charcoal dark:bg-charcoal p-default hover:bg-light-dark-gray dark:hover:bg-dark-gray duration-200 ${
+      className={`rounded-default h-[185px] bg-light-charcoal dark:bg-charcoal p-default hover:bg-light-dark-gray dark:hover:bg-dark-gray duration-200 shadow dark:shadow-gray-600 ${
         isAdmin ||
         league?.userId == user?.id ||
         player?.isAcceptedList === 1 ||

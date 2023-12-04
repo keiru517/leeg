@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Card from "../../components/Card";
-import search from "../../assets/img/dark_mode/search.png";
+import searchIconDark from "../../assets/img/dark_mode/search-icon-dark.svg"
+import searchIconLight from "../../assets/img/dark_mode/search-icon-light.svg"
 import Input from "../../components/Input";
 import Select from "../../components/Select";
 import Modal from "../../components/Modal";
@@ -11,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const user = useSelector((state) => state.home.user);
+  const darkMode = useSelector((state) => state.home.dark_mode);
   const leagues = useSelector((state) => state.home.leagues);
 
   const filters = [
@@ -79,14 +81,14 @@ const Home = () => {
       <div className="flex flex-col flex-grow rounded-main dark:bg-slate bg-white overflow-auto p-default sm:mt-3">
         <div className="search flex justify-between space-x-3">
           <Input
-            icon={search}
-            className="flex-grow rounded-lg text-xs"
+            icon={darkMode?searchIconDark:searchIconLight}
+            className="flex-grow rounded-lg text-xs h-[38px]"
             placeholder="Search Leagues"
             value={keyword}
             onChange={(e) => setKeyword(e.target.value)}
           />
           <Select
-            className="w-[144px] rounded-lg text-xs hidden sm:inline"
+            className="w-[144px] rounded-lg text-xs hidden sm:inline h-[38px]"
             options={filters}
             handleClick={handleFilter}
             value={filter}
@@ -102,9 +104,8 @@ const Home = () => {
             </button>
           </div>
         </div>
-        <br></br>
         {filteredData.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-3">
             {filteredData.map((lg, idx) => (
               <Card route="league" league={lg} key={idx} />
             ))}

@@ -11,7 +11,7 @@ const Nav = () => {
   const user = useSelector(state=>state.home.user);
 
   return (
-    <div className="dark:bg-slate  bg-white pl-default rounded-main h-10 flex items-center justify-between">
+    <div className="dark:bg-slate  bg-white pl-default rounded-main h-10 flex items-center justify-between shadow dark:shadow-gray-600">
       <div className="title flex items-center space-x-8">
         <div className="logo flex">
           <div className="flex">
@@ -23,7 +23,7 @@ const Nav = () => {
             </Link>
           </div>
         </div>
-        <img src={line}></img>
+        {/* <img src={line}></img> */}
         {/* <div className="greeting">
           <p className="dark:text-white text-[#33383F] text-lg font-semibold text-left">
             Hello George!

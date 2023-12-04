@@ -4,7 +4,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import search from "../../assets/img/dark_mode/search.png";
+import searchIconDark from "../../assets/img/dark_mode/search-icon-dark.svg"
+import searchIconLight from "../../assets/img/dark_mode/search-icon-light.svg"
 import Input from "../../components/Input";
 import ListItem from "../../components/ListItem";
 import Select from "../../components/Select";
@@ -33,6 +34,7 @@ const League = () => {
   const dispatch = useDispatch();
 
   const user = useSelector((state) => state.home.user);
+  const darkMode = useSelector((state) => state.home.dark_mode);
   const league = useSelector((state) => state.home.leagues).find(
     (league) => league.id == leagueId
   );
@@ -652,7 +654,7 @@ const League = () => {
                   <div className="flex space-x-3">
                     <Input
                       className="flex-grow rounded-lg h-[38px] bg-transparent text-xs"
-                      icon={search}
+                      icon={darkMode?searchIconDark:searchIconLight}
                       placeholder="Search rosters"
                       value={waitListKeyword}
                       onChange={(e) => {
@@ -706,7 +708,7 @@ const League = () => {
                 <hr className="h-px my-4 bg-charcoal border-0" />
                 <Input
                   className="rounded-lg h-[38px] text-xs"
-                  icon={search}
+                  icon={darkMode?searchIconDark:searchIconLight}
                   placeholder="Search teams"
                   value={teamKeyword}
                   onChange={(e) => setTeamKeyword(e.target.value)}
@@ -774,7 +776,7 @@ const League = () => {
                 <div className="flex space-x-3">
                   <Input
                     className="rounded-lg flex-grow h-[38px] text-xs"
-                    icon={search}
+                    icon={darkMode?searchIconDark:searchIconLight}
                     placeholder="Search standings"
                     value={standingsKeyword}
                     onChange={(e) => {
@@ -820,7 +822,7 @@ const League = () => {
                 <div className="flex space-x-3">
                   <Input
                     className="rounded-lg h-[38px] flex-grow text-xs"
-                    icon={search}
+                    icon={darkMode?searchIconDark:searchIconLight}
                     placeholder="Search players"
                     value={playerKeyword}
                     onChange={(e) => {
