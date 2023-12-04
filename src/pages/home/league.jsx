@@ -10,12 +10,14 @@ import {TabPanel, TabContext} from '@mui/lab';
 import {Tabs} from "@mui/material";
 
 import search from "../../assets/img/dark_mode/search.png";
+import searchIconDark from "../../assets/img/dark_mode/search-icon-dark.svg"
+import searchIconLight from "../../assets/img/dark_mode/search-icon-light.svg"
 import Input from "../../components/Input";
 import Select from "../../components/Select";
 import Button from "../../components/Button";
 import TeamCard from "../../components/Card/Team";
 import LeagueModal from "../../components/Modal/LeagueModal";
-import PlayerModal from "../../components/Modal/PlayerModal";
+import InvitePlayerModal from "../../components/Modal/InvitePlayerModal";
 import TeamModal from "../../components/Modal/TeamModal";
 import MatchModal from "../../components/Modal/MatchModal";
 import AdminModal from "../../components/Modal/AdminModal";
@@ -39,6 +41,7 @@ const League = () => {
   const tab = queryParams.get("tab");
 
   const user = useSelector((state) => state.home.user);
+  const darkMode = useSelector((state) => state.home.dark_mode);
   const league = useSelector((state) => state.home.leagues).find(
     (league) => league.id == leagueId
   );
@@ -69,7 +72,7 @@ const League = () => {
   );
 
   const matches = useSelector((state) => state.home.matches).filter(
-    (match) => match.leagueId == leagueId
+    (match) => match.leagueId == leagueId && match.isDeleted == 0
   );
 
   const options = [
@@ -78,8 +81,8 @@ const League = () => {
   ];
 
   const rosterOptions = [
-    { id: 0, name: "WaitList" },
-    { id: 1, name: "AcceptedList" },
+    { id: 0, name: "Waitlisted" },
+    { id: 1, name: "Accepted" },
   ];
 
   const [value, setValue] = useState("Sort by");
@@ -87,7 +90,7 @@ const League = () => {
   const [rosters, setRosters] = useState([]);
   useEffect(() => {
     var result = players?.filter((roster) => roster.isWaitList === 1);
-    if (rosterValue == "WaitList") {
+    if (rosterValue == "Waitlisted") {
       result = players?.filter((roster) => roster.isWaitList === 1);
     } else {
       result = players?.filter((roster) => roster.isAcceptedList === 1);
@@ -117,12 +120,13 @@ const League = () => {
   const [waitItemChecked, setWaitItemChecked] = useState({});
   const [acceptedItemChecked, setAcceptedItemChecked] = useState({});
 
-  const handleCategory = (data) => {
-    navigate(`/league/${leagueId}?tab=${data}`);
+  const [tab, setTab] = useState(0);
+  const handleCategory = (idx) => {
+    // navigate(`/league/${leagueId}?tab=${idx}`);
+    setTab(idx);
     setWaitListKeyword("");
     setAcceptListKeyword("");
     setTeamKeyword("");
-    setScheduleKeyword("");
     setStandingsKeyword("");
     setPlayerKeyword("");
   };
@@ -169,13 +173,9 @@ const League = () => {
   );
 
   const [teamKeyword, setTeamKeyword] = useState("");
-  const [filteredTeams, setFilteredTeams] = useState(teams);
 
-  const [scheduleKeyword, setScheduleKeyword] = useState("");
-  const [filteredMatches, setFilteredMatches] = useState([]);
 
   const [standingsKeyword, setStandingsKeyword] = useState("");
-  const [filteredStandings, setFilteredStandings] = useState([]);
 
   const [playerKeyword, setPlayerKeyword] = useState("");
   const [filteredPlayers, setFilteredPlayers] = useState([]);
@@ -185,7 +185,7 @@ const League = () => {
     setFilteredWaitListPlayers(waitListPlayers);
     setFilteredAcceptListPlayers(acceptedPlayers);
     setFilteredPlayers(allPlayers);
-    if (rosterValue === "WaitList") {
+    if (rosterValue === "Waitlisted") {
       setRosters(players?.filter((roster) => roster.isWaitList === 1));
     } else {
       setRosters(players?.filter((roster) => roster.isAcceptedList === 1));
@@ -216,25 +216,25 @@ const League = () => {
   }, [acceptListKeyword]);
 
   // Teams
-  useEffect(() => {
-    setFilteredTeams(teams);
-    setFilteredStandings(teams);
-  }, [teams.length]);
+  // useEffect(() => {
+  //   setFilteredTeams(teams);
+  //   setFilteredStandings(teams);
+  // }, [teams.length]);
 
-  useEffect(() => {
-    const searchResult = teams.filter((team) =>
-      team.name.toLowerCase().includes(teamKeyword.toLowerCase())
-    );
-    setFilteredTeams(searchResult);
-  }, [teamKeyword]);
+  // useEffect(() => {
+  //   const searchResult = teams.filter((team) =>
+  //     team.name.toLowerCase().includes(teamKeyword.toLowerCase())
+  //   );
+  //   setFilteredTeams(searchResult);
+  // }, [teamKeyword]);
 
   // Standings
-  useEffect(() => {
-    const searchResult = teams.filter((team) =>
-      team.name.toLowerCase().includes(standingsKeyword.toLowerCase())
-    );
-    setFilteredStandings(searchResult);
-  }, [standingsKeyword]);
+  // useEffect(() => {
+  //   const searchResult = teams.filter((team) =>
+  //     team.name.toLowerCase().includes(standingsKeyword.toLowerCase())
+  //   );
+  //   setFilteredStandings(searchResult);
+  // }, [standingsKeyword]);
 
   // Players
   useEffect(() => {
@@ -717,6 +717,54 @@ const League = () => {
                     "rounded-xl justify-between w-full h-full"
                   )}
                 >
+                  <hr className="h-px my-4 bg-charcoal border-0" />
+                  <div className="flex space-x-3">
+                    <Input
+                      className="flex-grow rounded-lg h-[38px] bg-transparent text-xs"
+                      icon={darkMode?searchIconDark:searchIconLight}
+                      placeholder="Search rosters"
+                      value={waitListKeyword}
+                      onChange={(e) => {
+                        setWaitListKeyword(e.target.value);
+                      }}
+                    />
+                    <Select
+                      className="w-[144px] rounded-lg text-xs"
+                      options={rosterOptions}
+                      handleClick={(e) => setRosterValue(e.name)}
+                      value={rosterValue}
+                    >
+                      {rosterValue}
+                    </Select>
+                  </div>
+                  {rosters.filter((roster) =>
+                    (roster.firstName + roster.lastName)
+                      .toLowerCase()
+                      .includes(waitListKeyword.toLowerCase())
+                  ).length > 0 ? (
+                    <RosterTable
+                      rosters={rosters.filter((roster) =>
+                        (roster.firstName + roster.lastName)
+                          .toLowerCase()
+                          .includes(waitListKeyword.toLowerCase())
+                      )}
+                      rosterValue={rosterValue}
+                      setRosterValue={setRosterValue}
+                    />
+                  ) : (
+                    <div className="flex items-center flex-grow">
+                      <p className="text-2xl text-black dark:text-white w-full text-center">
+                        {
+                          rosterValue === "Waitlisted"? "No Waitlist to show!":"Now Accepted to show!"
+                        }
+                      </p>
+                    </div>
+                  )}
+
+                  <InvitePlayerModal></InvitePlayerModal>
+                </Tab.Panel>
+              ) : (
+                ""
                   <hr className="h-px mb-4 bg-charcoal border-0" />
                   <div className="h-full ">
                     <div className="border border-dark-gray flex flex-col h-full min-h-[420px] p-default rounded-main">
@@ -933,7 +981,7 @@ const League = () => {
                   <div className="md:col-span-5 lg:grid-cols-9 mb-3 md:mb-0 lg:mb-0">
                     <Input
                         className="rounded-lg h-[42px] text-xs"
-                        icon={search}
+                        icon={darkMode?searchIconDark:searchIconLight}
                         placeholder="Search Teams"
                         value={teamKeyword}
                         onChange={(e) => setTeamKeyword(e.target.value)}
@@ -952,10 +1000,21 @@ const League = () => {
 
                 </div>
 
-                {filteredTeams.length > 0 ? (
+                {teams.filter((team) =>
+                                   team.name.toLowerCase().includes(teamKeyword.toLowerCase())
+                                 ).length > 0 ? (
                   <>
                     <div className="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
-                      {filteredTeams.map((team, idx) => (
+                      {teams
+                        .filter((team) =>
+                          team.name
+                            .toLowerCase()
+                            .includes(teamKeyword.toLowerCase())
+                        )
+                        .map((team, idx) => (
+                          <TeamCard team={team} key={idx}></TeamCard>
+                        ))}
+                      {/* {filteredTeams.map((team, idx) => (
                         <TeamCard team={team} key={idx}></TeamCard>
                       ))}
                     </div>
@@ -1026,9 +1085,9 @@ const League = () => {
                 <hr className="h-px mb-4 bg-charcoal border-0" />
                 <div className="flex space-x-3">
                   <Input
-                    className="rounded-lg flex-grow text-xs"
-                    icon={search}
-                    placeholder="Search Standings"
+                    className="rounded-lg flex-grow h-[38px] text-xs"
+                    icon={darkMode?searchIconDark:searchIconLight}
+                    placeholder="Search standings"
                     value={standingsKeyword}
                     onChange={(e) => {
                       setStandingsKeyword(e.target.value);
@@ -1043,8 +1102,18 @@ const League = () => {
                     {value}
                   </Select>
                 </div>
-                {filteredStandings.length > 0 ? (
-                  <StandingTable teams={filteredStandings}></StandingTable>
+                {teams.filter((team) =>
+                  team.name
+                    .toLowerCase()
+                    .includes(standingsKeyword.toLowerCase())
+                ).length > 0 ? (
+                  <StandingTable
+                    teams={teams.filter((team) =>
+                      team.name
+                        .toLowerCase()
+                        .includes(standingsKeyword.toLowerCase())
+                    )}
+                  ></StandingTable>
                 ) : (
                   <div className="flex items-center flex-grow">
                     <p className="text-2xl text-black dark:text-white w-full text-center mt-5">
@@ -1066,7 +1135,7 @@ const League = () => {
                 <div className="flex space-x-3">
                   <Input
                     className="rounded-lg flex-grow text-xs"
-                    icon={search}
+                    icon={darkMode?searchIconDark:searchIconLight}
                     placeholder="Search Players"
                     value={playerKeyword}
                     onChange={(e) => {

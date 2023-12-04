@@ -50,7 +50,7 @@ const ListItem = (props) => {
     <div className={`${className} w-full`}>
       <div className="flex items-center justify-between bg-[#e6e6e6] dark:bg-dark-gray w-full h-14 rounded-default py-1.5 px-4">
         <div className="flex">
-          <img src={avatar} className="w-10 h-10 mr-3 rounded-default" alt="" />
+          <img src={avatar} className="w-10 h-10 mr-3 rounded-full border border-gray-500" alt="" />
           <div>
             <p className="text-black dark:text-white text-base underline">{name}</p>
             <div className="flex">

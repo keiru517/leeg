@@ -71,7 +71,7 @@ const Signin = () => {
               name="email"
             ></input>
             <PasswordInput
-              className="rounded-default text-font-dark-gray text-xs"
+              className="bg-transparent rounded-default text-font-dark-gray text-xs"
               placeholder="Type Your Password*"
               value={password}
               name="password"
@@ -86,7 +86,7 @@ const Signin = () => {
           <div className="flex justify-between mb-4">
             <button
               onClick={handleLogin}
-              className="w-[377px] h-button text-white font-bold text-sm bg-primary rounded-default hover:bg-opacity-70"
+              className="w-full h-button text-white font-bold text-sm bg-primary rounded-default hover:bg-opacity-70"
             >
               Login
             </button>

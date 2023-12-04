@@ -1,20 +1,31 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Typography } from "@material-tailwind/react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Option from "../Option";
+import * as actions from "../../actions";
 
 const MatchTable = (props) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { matches, leagueId } = props;
 
-  // let { leagueId} = useParams();
   const user = useSelector((state) => state.home.user);
   const league = useSelector((state) => state.home.leagues).find(
     (league) => league.id == leagueId && league.isDeleted !== 1
   );
 
+  const admins = useSelector((state) => state.home.admins).filter(
+    (admin) => admin.leagueId == league?.id && admin.isDeleted !== 1
+  );
+
+  const isAdmin =
+    admins.some((admin) => admin.userId == user?.id) ||
+    league?.userId == user?.id;
+
+  // let { leagueId} = useParams();
+
   var columns = [];
-  if (league?.userId == user?.id) {
+  if (isAdmin) {
     var columns = [
       "Date",
       "Location",
@@ -22,6 +33,7 @@ const MatchTable = (props) => {
       "Home",
       "Away",
       "Results",
+      "Status",
       "Action",
     ];
   } else {
@@ -30,7 +42,8 @@ const MatchTable = (props) => {
 
   const options = [
     { id: 0, name: "Edit" },
-    { id: 1, name: "Delete" },
+    { id: 1, name: "Scoreboard" },
+    { id: 2, name: "Delete" },
   ];
 
   const teams = useSelector((state) => state.home.teams);
@@ -40,23 +53,34 @@ const MatchTable = (props) => {
   // }
 
   const handleOption = (idx, matchId) => {
+    const match = matches.find((match) => match.id == matchId);
+    // Clicked Edit
     if (idx === 0) {
+      dispatch({ type: actions.OPEN_EDIT_MATCH_DIALOG, payload: match });
+    }
+    // Clicked scorebard
+    else if (idx === 1) {
       navigate(`/league/${leagueId}/matchup/${matchId}`);
-    } else if (idx === 1) {
-      alert("Match has been deleted");
+    }
+    // Clicked delete
+    else if (idx === 2) {
+      if (!match.isNew) {
+        actions.incompleteMatchup(dispatch, { matchId });
+      }
+      actions.deleteMatch(dispatch, matchId);
     }
   };
 
   const isDeletedTeam = (teamId) => {
     const team = teams.find((team) => team.id == teamId);
-    if (team.isDeleted === 1) return true;
+    if (team?.isDeleted === 1) return true;
     else return false;
   };
 
   return (
     <div className="text-black dark:text-white h-full w-full mt-4">
       <table className="w-full min-w-max table-auto text-left">
-        <thead>
+        <thead className="sticky top-0 z-10 bg-white dark:bg-slate">
           <tr>
             {columns.map((head, idx) => (
               <th
@@ -80,6 +104,7 @@ const MatchTable = (props) => {
                 time,
                 homeTeamPoints,
                 awayTeamPoints,
+                isNew,
               },
               index
             ) => (
@@ -88,34 +113,10 @@ const MatchTable = (props) => {
                 key={index}
                 className="odd:bg-light-dark-gray dark:odd:bg-dark-gray even:bg-light-charcoal dark:even:bg-charcoal"
               >
-                <td className="w-1/7">
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal"
-                  >
-                    {date}
-                  </Typography>
-                </td>
-                <td className="w-1/7">
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal"
-                  >
-                    {location}
-                  </Typography>
-                </td>
-                <td className="w-1/7">
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal"
-                  >
-                    {time}
-                  </Typography>
-                </td>
-                <td className="w-1/7">
+                <td className="1/6">{date}</td>
+                <td className="1/6">{location}</td>
+                <td className="1/6">{time}</td>
+                <td className="">
                   <Typography
                     variant="small"
                     color="blue-gray"
@@ -145,14 +146,20 @@ const MatchTable = (props) => {
                           alt=""
                           className="h-8 w-8 mr-2 rounded-full border border-gray-500"
                         />
-                        <p className="text-black dark:text-white">
+                        <p
+                          className={`text-black dark:text-white truncate w-32 ${
+                            homeTeamPoints > awayTeamPoints && !isNew
+                              ? "font-bold"
+                              : ""
+                          }`}
+                        >
                           {teams.find((team) => team.id == homeTeamId).name}
                         </p>
                       </Link>
                     )}
                   </Typography>
                 </td>
-                <td className="w-1/7">
+                <td className="">
                   <Typography
                     variant="small"
                     color="blue-gray"
@@ -182,31 +189,30 @@ const MatchTable = (props) => {
                           alt=""
                           className="h-8 w-8 mr-2 rounded-full border border-gray-500"
                         />
-                        <p className="text-black dark:text-white">
+                        <p
+                          className={`text-black dark:text-white truncate w-32 ${
+                            homeTeamPoints < awayTeamPoints && !isNew
+                              ? "font-bold"
+                              : ""
+                          }`}
+                        >
                           {teams.find((team) => team.id == awayTeamId).name}
                         </p>
                       </Link>
                     )}
                   </Typography>
                 </td>
-                <td className="">
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal"
-                  >
-                    {homeTeamPoints} : {awayTeamPoints}
-                  </Typography>
+                <td className="1/6">
+                  {homeTeamPoints} : {awayTeamPoints}
                 </td>
-                {league?.userId == user?.id ? (
-                  <td className="w-1/7">
+                <td className="">{isNew ? "Incomplete" : "Completed"}</td>
+                {isAdmin && (
+                  <td className="">
                     <Option
                       options={options}
                       handleClick={(idx) => handleOption(idx, id)}
                     ></Option>
                   </td>
-                ) : (
-                  ""
                 )}
               </tr>
             )

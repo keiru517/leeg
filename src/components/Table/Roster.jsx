@@ -6,7 +6,38 @@ import axios from "axios";
 
 import apis from "../../utils/apis";
 import * as actions from "../../actions";
+import moment from 'moment';
 import Table from "./index";
+
+function Checkbox({ label, name, checked, onChange, disabled }) {
+  return (
+    <Switch.Group>
+      <div className="flex items-center">
+        <Switch.Label className="">{label}</Switch.Label>
+        <Switch
+          checked={checked}
+          onChange={onChange}
+          name={name}
+          disabled={disabled}
+          className={`
+            relative flex h-5 w-5 items-center justify-center transition-all duration-200 outline-none ring-1
+            ${!checked && !disabled ? "ring-gray-400" : ""}
+            ${checked && !disabled ? "ring-red-400" : ""}
+            ${disabled ? "bg-gray-200 ring-gray-200" : ""}
+          `}
+        >
+          <AiOutlineCheck
+            size="1rem"
+            className={`
+             ${checked ? "scale-100" : "scale-0"}
+             ${checked && !disabled ? "text-red-400" : "text-gray-400"}
+             transition-transform duration-200 ease-out`}
+          />
+        </Switch>
+      </div>
+    </Switch.Group>
+  );
+}
 
 const RosterTable = ({ rosters, rosterList }) => {
   const dispatch = useDispatch();
@@ -72,6 +103,24 @@ const RosterTable = ({ rosters, rosterList }) => {
     }
     setSelectedItems([]);
   };
+
+  const [canSubmit, setCanSubmit] = useState(false);
+  useEffect(() => {
+    // Return true if nothing is selected
+    const allItemsFalse = Object.values(itemChecked).every(
+      (value) => value === false
+    );
+    if (allItemsFalse) {
+      setCanSubmit(false);
+    } else {
+      setCanSubmit(true);
+    }
+  }, [itemChecked]);
+
+  // Set itemchecked as {} when the select option is changed
+  useEffect(() => {
+    setItemChecked({});
+  }, [rosterValue]);
 
   return (
     <div className="text-black dark:text-white h-full w-full mt-4">

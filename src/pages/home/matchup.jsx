@@ -29,7 +29,7 @@ import downloadIconLight from "../../assets/img/dark_mode/download-icon-light.sv
 import settingIconDark from "../../assets/img/dark_mode/setting-icon-dark.svg";
 import settingIconLight from "../../assets/img/dark_mode/setting-icon-light.svg";
 
-const Matchup1 = () => {
+const Matchup = () => {
   let { leagueId, matchId } = useParams();
   const dispatch = useDispatch();
 
@@ -65,15 +65,26 @@ const Matchup1 = () => {
     });
 
   const options = [
-    { id: 0, name: "Upcoming" },
-    { id: 1, name: "In progress" },
-    { id: 2, name: "Completed" },
+    { id: 0, name: "Incomplete" },
+    { id: 1, name: "Completed" },
   ];
 
-  // const state = allLogs.length > 0? "Upcoming" : "In progress";
+  // const state = allLogs.length > 0? "Incomplete" : "In progress";
   const [status, setStatus] = useState(
-    allLogs.length > 0 ? "In progress" : "Upcoming"
+    match?.isNew ? "Incomplete" : "Completed"
   );
+
+  const handleStatus = (e) => {
+    setStatus(e.name);
+    if (e.id === 1) {
+      actions.completeMatchup(dispatch, { matchId });
+      // actions.getTeams(dispatch);
+      // Action to complete
+    } else {
+      actions.incompleteMatchup(dispatch, { matchId });
+      // actions.getTeams(dispatch);
+    }
+  };
   const homeTeam = useSelector((state) => state.home.teams).find(
     (team) => team.id == match?.homeTeamId
   );
@@ -187,10 +198,6 @@ const Matchup1 = () => {
     actions.getPlayers(dispatch);
   }, []);
 
-  useEffect(() => {
-    setStatus(allLogs.length > 0 ? "In progress" : "Upcoming")
-  }, [allLogs.length]);
-
   let homeTeamPoints = 0;
   let awayTeamPoints = 0;
   let homeTeamFouls = 0;
@@ -249,60 +256,64 @@ const Matchup1 = () => {
       teamId,
       playerId,
       event,
-      isDirect,
       time,
+      isDirect,
     });
   };
 
-  const handleSubmit = () => {
-    axios
-      .post(apis.updateMatchResult, {
-        matchId: matchId,
-        result: matchupResult,
-      })
-      .then((res) => {
-        actions.getMatches(dispatch);
-      })
-      .catch((error) => {
-        console.log(error.response.data.message);
-      });
+  // useEffect(() => {
+  //   actions.updateMatchResult(dispatch,{matchId:matchId, result:matchupResult})
+  // }, [homeTeamPoints, awayTeamPoints]);
 
-    axios
-      .post(apis.createLogs, {
-        leagueId: leagueId,
-        matchId: matchId,
-        // logs: logs,
-        homeTeamId: homeTeam?.id,
-        awayTeamId: awayTeam?.id,
-      })
-      .then((res) => {
-        alert(res.data.message);
-      })
-      .catch((error) => {
-        alert(error.response.data.message);
-        console.log(error.response.data.message);
-      });
-  };
+  // const handleSubmit = () => {
+  //   axios
+  //     .post(apis.updateMatchResult, {
+  //       matchId: matchId,
+  //       result: matchupResult,
+  //     })
+  //     .then((res) => {
+  //       actions.getMatches(dispatch);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error.response.data.message);
+  //     });
 
-  const removeSubstitute = (userId) => {
-    axios
-      .post(apis.removeSubstitute, {
-        userId,
-        leagueId,
-        matchId,
-      })
-      .then((res) => {
-        actions.getMatchups(dispatch);
-        actions.getPlayers(dispatch);
-        alert(res.data.message);
-      })
-      .catch((error) => {
-        console.log(error.response.data.message);
-      });
+  //   axios
+  //     .post(apis.createLogs, {
+  //       leagueId: leagueId,
+  //       matchId: matchId,
+  //       // logs: logs,
+  //       homeTeamId: homeTeam?.id,
+  //       awayTeamId: awayTeam?.id,
+  //     })
+  //     .then((res) => {
+  //       alert(res.data.message);
+  //     })
+  //     .catch((error) => {
+  //       alert(error.response.data.message);
+  //       console.log(error.response.data.message);
+  //     });
+  // };
 
-    // if the admin remove a substitutue, then the matchup result will be saved automatically
-    handleSubmit();
-  };
+  // const removeSubstitute = (userId) => {
+  //   axios
+  //     .post(apis.removeSubstitute, {
+  //       userId,
+  //       leagueId,
+  //       matchId,
+  //     })
+  //     .then((res) => {
+  //       actions.getMatchups(dispatch);
+  //       actions.getPlayers(dispatch);
+  //       alert(res.data.message);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error.response.data.message);
+  //     });
+
+  //   // if the admin remove a substitutue, then the matchup result will be saved automatically
+  //   handleSubmit();
+  // };
 
   const [currentPeriod, setCurrentPeriod] = useState(1);
   const handlePeriod = (period) => {
@@ -328,23 +339,40 @@ const Matchup1 = () => {
   const [time, setTime] = useState("");
   const [event, setEvent] = useState("");
   const [teamId, setTeamId] = useState("");
+
   const handleClickButtons = (event, id) => {
-    setEvent(event);
-    setTeamId(id);
-    dispatch({ type: actions.OPEN_SELECT_PLAYER_DIALOG, payload: true });
-    // dispatch to show the modal
+    if (match?.isNew) {
+      setEvent(event);
+      setTeamId(id);
+      dispatch({ type: actions.OPEN_SELECT_PLAYER_DIALOG, payload: true });
+      // dispatch to show the modal
+    } else {
+      alert("The matchup is completed!");
+    }
   };
   const handleClickTimeout = (teamId) => {
-    setEvent("TimeOut");
-    handleAction(teamId, "", "TimeOut");
+    if (match?.isNew) {
+      setEvent("TimeOut");
+      handleAction(teamId, "", "TimeOut");
+    } else {
+      alert("The matchup is completed!");
+    }
   };
 
   const handleSetting = () => {
-    dispatch({ type: actions.OPEN_MATCHUP_SETTING_DIALOG, payload: true });
+    if (match?.isNew) {
+      dispatch({ type: actions.OPEN_MATCHUP_SETTING_DIALOG, payload: true });
+    } else {
+      alert("The matchup is completed!");
+    }
   };
 
   const handleAddEvent = () => {
-    dispatch({ type: actions.OPEN_ADD_EVENT_DIALOG });
+    if (match?.isNew) {
+      dispatch({ type: actions.OPEN_ADD_EVENT_DIALOG });
+    } else {
+      alert("The matchup is completed!");
+    }
   };
 
   // Timer
@@ -392,7 +420,11 @@ const Matchup1 = () => {
 
   // Method to start and stop timer
   const startAndStop = () => {
-    setIsRunning(!isRunning);
+    if (match?.isNew) {
+      setIsRunning(!isRunning);
+    } else {
+      alert("The matchup is locked!");
+    }
   };
 
   // Method to reset timer back to 0
@@ -416,7 +448,7 @@ const Matchup1 = () => {
 
   return (
     <div className="flex flex-col flex-grow">
-      <p className="flex font-dark-gray my-[20px] justify-between">
+      <p className="flex font-dark-gray my-[20px] justify-between ">
         <div className="">
           <Link to="/">
             <span className="underline">My Leagues</span>
@@ -427,29 +459,29 @@ const Matchup1 = () => {
           </Link>
 
           <span className=""> &gt; </span>
-          <Link to={`/league/${leagueId}?tab=3`}>
+          <Link to={`/league/${leagueId}`}>
             <span className="underline">Matches</span>
           </Link>
           <span className=""> &gt; </span>
           <span className="text-sky-500">{homeTeam?.name} </span>
           <span> Vs</span>
-          <span className="text-sky-500"> {awayTeam?.name}</span>
+          <span className="text-sky-500 "> {awayTeam?.name}</span>
         </div>
         <div className="flex space-x-3">
           <Select
             className="w-[140px] rounded-lg text-xs h-button"
             options={options}
-            handleClick={(e) => setStatus(e.name)}
+            handleClick={handleStatus}
             value={status}
           >
             {status}
           </Select>
-          <button
+          {/* <button
             onClick={handleSubmit}
             className="w-32 h-button bg-primary hover:bg-opacity-70 rounded-default text-white focus:ring-2 disabled:opacity-10 font-bold justify-end"
           >
             Save
-          </button>
+          </button> */}
         </div>
       </p>
 
@@ -464,7 +496,7 @@ const Matchup1 = () => {
                     alt=""
                     className="w-28 h-28 rounded-full mx-auto border border-gray-500"
                   />
-                  <p className="text-black dark:text-white font-semibold text-2xl mt-5">
+                  <p className="text-black dark:text-white font-semibold text-2xl mt-5 truncate w-52 text-center">
                     {homeTeam?.name}
                   </p>
                   <p className="text-font-dark-gray font-semibold text-xl">
@@ -517,7 +549,7 @@ const Matchup1 = () => {
                           className={`flex items-center justify-center rounded-[10px] ${
                             currentPeriod === period
                               ? "bg-success"
-                              : "bg-[#151515]"
+                              : "bg-font-dark-gray dark:bg-[#151515]"
                           } w-16 h-10 cursor-pointer hover:opacity-75`}
                           onClick={() => handlePeriod(period)}
                         >
@@ -603,7 +635,7 @@ const Matchup1 = () => {
                     alt=""
                     className="w-28 h-28 rounded-full mx-auto border border-gray-500"
                   />
-                  <p className="text-black dark:text-white font-semibold text-2xl mt-5">
+                  <p className="text-black dark:text-white font-semibold text-2xl mt-5 text-center truncate w-52">
                     {awayTeam?.name}
                   </p>
                   <p className="text-font-dark-gray font-semibold text-xl">
@@ -642,7 +674,7 @@ const Matchup1 = () => {
             <div className="row-span-3 bg-white dark:bg-slate rounded-main p-[26px]">
               <div className="flex space-x-3">
                 <div className="flex flex-col w-1/2 space-y-[10px]">
-                  <div className="flex dark:bg-charcoal w-full h-12 rounded-t-lg p-4 items-center justify-between">
+                  <div className="flex bg-light-charcoal dark:bg-charcoal w-full h-12 rounded-t-lg p-4 items-center justify-between">
                     <Link
                       to={`/league/${leagueId}/team/${homeTeam?.id}`}
                       className="flex space-x-2 items-center"
@@ -652,7 +684,7 @@ const Matchup1 = () => {
                         alt=""
                         className="w-8 h-8 rounded-full border border-gray-500"
                       />
-                      <p className="text-black dark:text-white underline">
+                      <p className="text-black dark:text-white underline truncate w-40">
                         {homeTeam?.name}
                       </p>
                     </Link>
@@ -663,17 +695,19 @@ const Matchup1 = () => {
                         className="cursor-pointer hover:opacity-75"
                         onClick={() => handlePlayerStats(homeTeam?.id)}
                       />
-                      <img
-                        src={editLineup}
-                        alt=""
-                        className="cursor-pointer hover:opacity-75"
-                        onClick={() => handleLineups(homeTeam?.id)}
-                      />
+                      {match?.isNew && (
+                        <img
+                          src={editLineup}
+                          alt=""
+                          className="cursor-pointer hover:opacity-75"
+                          onClick={() => handleLineups(homeTeam?.id)}
+                        />
+                      )}
                     </div>
                   </div>
                   <div className="grid grid-cols-3 gap-[10px]">
                     <div
-                      className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                      className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
                       onClick={() =>
                         handleClickButtons("points3", homeTeam?.id)
                       }
@@ -681,7 +715,7 @@ const Matchup1 = () => {
                       <p className="text-black dark:text-white">+3</p>
                     </div>
                     <div
-                      className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                      className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
                       onClick={() =>
                         handleClickButtons("points2", homeTeam?.id)
                       }
@@ -689,7 +723,7 @@ const Matchup1 = () => {
                       <p className="text-black dark:text-white">+2</p>
                     </div>
                     <div
-                      className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                      className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
                       onClick={() =>
                         handleClickButtons("points1", homeTeam?.id)
                       }
@@ -703,7 +737,7 @@ const Matchup1 = () => {
                     <div className="grid grid-cols-3 gap-[10px]">
                       {league?.displayAttempts3 && (
                         <div
-                          className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                          className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
                           onClick={() =>
                             handleClickButtons("attempts3", homeTeam?.id)
                           }
@@ -713,7 +747,7 @@ const Matchup1 = () => {
                       )}
                       {league?.displayAttempts2 && (
                         <div
-                          className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                          className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
                           onClick={() =>
                             handleClickButtons("attempts2", homeTeam?.id)
                           }
@@ -723,7 +757,7 @@ const Matchup1 = () => {
                       )}
                       {league?.displayAttempts1 && (
                         <div
-                          className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                          className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
                           onClick={() =>
                             handleClickButtons("attempts1", homeTeam?.id)
                           }
@@ -739,7 +773,7 @@ const Matchup1 = () => {
                     <div className="grid grid-cols-3 gap-[10px]">
                       {league?.displayRebounds && (
                         <div
-                          className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                          className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
                           onClick={() =>
                             handleClickButtons("rebounds", homeTeam?.id)
                           }
@@ -749,7 +783,7 @@ const Matchup1 = () => {
                       )}
                       {league?.displayTurnovers && (
                         <div
-                          className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                          className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
                           onClick={() =>
                             handleClickButtons("turnovers", homeTeam?.id)
                           }
@@ -760,7 +794,7 @@ const Matchup1 = () => {
 
                       {league?.displayFouls && (
                         <div
-                          className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                          className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
                           onClick={() =>
                             handleClickButtons("fouls", homeTeam?.id)
                           }
@@ -772,14 +806,14 @@ const Matchup1 = () => {
                   )}
                   <div className="grid grid-cols-3 gap-[10px]">
                     <div
-                      className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                      className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
                       onClick={() => handleClickTimeout(homeTeam?.id)}
                     >
                       <p className="text-black dark:text-white">TIMEOUT</p>
                     </div>
                     {league?.displayBlocks && (
                       <div
-                        className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                        className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
                         onClick={() =>
                           handleClickButtons("blocks", homeTeam?.id)
                         }
@@ -789,7 +823,7 @@ const Matchup1 = () => {
                     )}
                     {league?.displayAssists && (
                       <div
-                        className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                        className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
                         onClick={() =>
                           handleClickButtons("assists", homeTeam?.id)
                         }
@@ -801,7 +835,7 @@ const Matchup1 = () => {
                 </div>
 
                 <div className="flex flex-col w-1/2 space-y-[10px]">
-                  <div className="flex dark:bg-charcoal w-full h-12 rounded-t-lg p-4 items-center justify-between">
+                  <div className="flex bg-light-charcoal dark:bg-charcoal w-full h-12 rounded-t-lg p-4 items-center justify-between">
                     <Link
                       to={`/league/${leagueId}/team/${awayTeam?.id}`}
                       className="flex space-x-2 items-center"
@@ -811,7 +845,7 @@ const Matchup1 = () => {
                         alt=""
                         className="w-8 h-8 rounded-full border border-gray-500"
                       />
-                      <p className="text-black dark:text-white underline">
+                      <p className="text-black dark:text-white underline truncate w-40">
                         {awayTeam?.name}
                       </p>
                     </Link>
@@ -822,17 +856,19 @@ const Matchup1 = () => {
                         className="cursor-pointer hover:opacity-75"
                         onClick={() => handlePlayerStats(awayTeam?.id)}
                       />
-                      <img
-                        src={editLineup}
-                        alt=""
-                        className="cursor-pointer hover:opacity-75"
-                        onClick={() => handleLineups(awayTeam?.id)}
-                      />
+                      {match?.isNew && (
+                        <img
+                          src={editLineup}
+                          alt=""
+                          className="cursor-pointer hover:opacity-75"
+                          onClick={() => handleLineups(awayTeam?.id)}
+                        />
+                      )}
                     </div>
                   </div>
                   <div className="grid grid-cols-3 gap-[10px]">
                     <div
-                      className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                      className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
                       onClick={() =>
                         handleClickButtons("points3", awayTeam?.id)
                       }
@@ -840,7 +876,7 @@ const Matchup1 = () => {
                       <p className="text-black dark:text-white">+3</p>
                     </div>
                     <div
-                      className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                      className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
                       onClick={() =>
                         handleClickButtons("points2", awayTeam?.id)
                       }
@@ -848,7 +884,7 @@ const Matchup1 = () => {
                       <p className="text-black dark:text-white">+2</p>
                     </div>
                     <div
-                      className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                      className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
                       onClick={() =>
                         handleClickButtons("points1", awayTeam?.id)
                       }
@@ -862,7 +898,7 @@ const Matchup1 = () => {
                     <div className="grid grid-cols-3 gap-[10px]">
                       {league?.displayAttempts3 && (
                         <div
-                          className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                          className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
                           onClick={() =>
                             handleClickButtons("attempts3", awayTeam?.id)
                           }
@@ -872,7 +908,7 @@ const Matchup1 = () => {
                       )}
                       {league?.displayAttempts2 && (
                         <div
-                          className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                          className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
                           onClick={() =>
                             handleClickButtons("attempts2", awayTeam?.id)
                           }
@@ -882,7 +918,7 @@ const Matchup1 = () => {
                       )}
                       {league?.displayAttempts1 && (
                         <div
-                          className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                          className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
                           onClick={() =>
                             handleClickButtons("attempts1", awayTeam?.id)
                           }
@@ -898,7 +934,7 @@ const Matchup1 = () => {
                     <div className="grid grid-cols-3 gap-[10px]">
                       {league?.displayRebounds && (
                         <div
-                          className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                          className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
                           onClick={() =>
                             handleClickButtons("rebounds", awayTeam?.id)
                           }
@@ -908,7 +944,7 @@ const Matchup1 = () => {
                       )}
                       {league?.displayTurnovers && (
                         <div
-                          className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                          className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
                           onClick={() =>
                             handleClickButtons("turnovers", awayTeam?.id)
                           }
@@ -918,7 +954,7 @@ const Matchup1 = () => {
                       )}
                       {league?.displayFouls && (
                         <div
-                          className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                          className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
                           onClick={() =>
                             handleClickButtons("fouls", awayTeam?.id)
                           }
@@ -930,14 +966,14 @@ const Matchup1 = () => {
                   )}
                   <div className="grid grid-cols-3 gap-[10px]">
                     <div
-                      className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                      className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
                       onClick={() => handleClickTimeout(awayTeam?.id)}
                     >
                       <p className="text-black dark:text-white">TIMEOUT</p>
                     </div>
                     {league?.displayBlocks && (
                       <div
-                        className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                        className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
                         onClick={() =>
                           handleClickButtons("blocks", awayTeam?.id)
                         }
@@ -947,7 +983,7 @@ const Matchup1 = () => {
                     )}
                     {league?.displayAssists && (
                       <div
-                        className="flex dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                        className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
                         onClick={() =>
                           handleClickButtons("assists", awayTeam?.id)
                         }
@@ -1010,4 +1046,4 @@ const Matchup1 = () => {
   );
 };
 
-export default Matchup1;
+export default Matchup;

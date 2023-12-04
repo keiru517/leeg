@@ -30,7 +30,7 @@ const MatchupPlayerList = ({ className, player, addAction, checked }) => {
         <div className="flex">
           <img
             src={player?.avatar}
-            className="w-10 h-10 mr-3 rounded-default"
+            className="w-10 h-10 mr-3 rounded-full border border-gray-500"
             alt=""
           />
           <div>

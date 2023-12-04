@@ -208,7 +208,17 @@ const home = (state = initialState, action) => {
         match_dialog: {
           open: true,
           type: "create",
-          team: [],
+          match: [],
+        },
+      };
+
+    case actions.OPEN_EDIT_MATCH_DIALOG:
+      return {
+        ...state,
+        match_dialog: {
+          open: true,
+          type: "edit",
+          match: action.payload,
         },
       };
 
@@ -218,7 +228,7 @@ const home = (state = initialState, action) => {
         match_dialog: {
           open: false,
           type: "",
-          team: [],
+          match: [],
         },
       };
 
@@ -281,6 +291,7 @@ const home = (state = initialState, action) => {
         ...state,
         event_dialog: {
           open: false,
+          type: "",
           logId: "",
         },
       };

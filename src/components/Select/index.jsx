@@ -44,7 +44,7 @@ const Select = (props) => {
   return (
     <div
       ref={ref}
-      className={`${className} flex justify-between z-10 text-black dark:text-gray-400 rounded-lg shadow w-44 dark:bg-transparent border border-dark-gray relative items-center cursor-pointer select-none`}
+      className={`${className} flex justify-between z-20 text-black dark:text-white rounded-lg shadow w-44 dark:bg-transparent border border-dark-gray relative items-center cursor-pointer select-none`}
       //   onClick={() => {
       //     setExpand(true)
       //   }}
@@ -54,11 +54,11 @@ const Select = (props) => {
         className="w-full h-full flex justify-between items-center"
         onClick={toggle}
       >
-        <span className="ml-4">{value}</span>
+        <span className="ml-4 truncate w-full">{value}</span>
         <img src={downArrowFilled} alt="" className="mr-4" />
       </div>
       <ul
-        className={`p-2 text-sm text-gray-700 dark:text-gray-200 absolute top-12 bg-[#ebebeb] dark:bg-light-gray w-full rounded-default${
+        className={`p-2 text-sm text-gray-700 dark:text-white absolute top-12 bg-[#ebebeb] dark:bg-light-gray w-full rounded-default${
           expand ? `` : " hidden"
         }`}
         aria-labelledby="states-button"
@@ -68,10 +68,10 @@ const Select = (props) => {
             <li key={idx}>
               <button
                 type="button"
-                className="inline-flex w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-middle-gray dark:hover:text-white rounded-default"
+                className="inline-flex w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-middle-gray dark:hover:text-white rounded-default"
                 onClick={() => handleButtonClick(option)}
               >
-                <div className="inline-flex items-center">{option.name}</div>
+                <div className="inline-flex items-center truncate w-full">{option.name}</div>
               </button>
             </li>
           );

@@ -67,9 +67,10 @@ const LineupsModal = (props) => {
 
   const handleLineups = () => {
     // console.log(lineups)
+    console.log(lineups)
     axios.post(apis.editLineups, {lineups, matchId}).then((res)=>{
-      actions.getMatchups(dispatch);
-      alert(res.data.message);
+      dispatch({type:actions.GET_MATCHUPS, payload:res.data.matchups})
+      alert("Updated lineups!");
     }).catch(()=>{
       console.log("Error")
     })
@@ -84,7 +85,7 @@ const LineupsModal = (props) => {
     <Transition.Root show={status} as={Fragment}>
       <Dialog
         as="div"
-        className="relative z-10"
+        className="relative z-30"
         initialFocus={cancelButtonRef}
         onClose={closeDialog}
       >
@@ -111,10 +112,10 @@ const LineupsModal = (props) => {
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative transform overflow-hidden rounded-main text-left shadow-xl transition-all sm:my-8 bg-slate h-[609px] md:w-[735px] mx-3 flex flex-col">
+              <Dialog.Panel className="relative transform overflow-hidden rounded-main text-left shadow-xl transition-all sm:my-8 bg-white dark:bg-slate h-[609px] md:w-[735px] mx-3 flex flex-col">
                 <div className="divide-y divide-solid divide-[#3A3A3A] flex flex-col flex-grow">
                   <div className="flex items-center text-left h-[88px] justify-between px-default">
-                    <p className="text-2xl text-white font-bold">
+                    <p className="text-2xl text-black dark:text-white font-bold">
                       Edit Lineups
                     </p>
                     <div className="flex items-center">

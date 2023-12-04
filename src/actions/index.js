@@ -1,7 +1,6 @@
 import axios from "axios";
 import apis from "../utils/apis";
 import { useNavigate } from "react-router-dom";
-
 // setting
 export const SET_DARK_MODE = "SET_DARK_MODE";
 // user
@@ -28,6 +27,7 @@ export const SET_TEAM_LOGO_URL = "SET_TEAM_LOGO_URL";
 // Matches
 export const GET_MATCHES = "GET_MATCHES";
 export const OPEN_CREATE_MATCH_DIALOG = "OPEN_CREATE_MATCH_DIALOG";
+export const OPEN_EDIT_MATCH_DIALOG = "OPEN_EDIT_MATCH_DIALOG";
 export const CLOSE_MATCH_DIALOG = "CLOSE_MATCH_DIALOG";
 // Matchups
 export const GET_MATCHUPS = "GET_MATCHUPS";
@@ -130,6 +130,30 @@ export const openInvitePlayerDialog = (payload) => ({
   payload: payload,
 });
 
+export const invitePlayer = async (dispatch, data) => {
+  try {
+    const response = await axios.post(apis.invitePlayer, data);
+    alert(response.data.message);
+  } catch (error) {
+    alert(error);
+  }
+};
+
+export const removeFromLeague = async (dispatch, data) => {
+  try {
+    const response = await axios.post(apis.removeFromLeague, data);
+    const players = response.data.players;
+    dispatch({
+      type: GET_PLAYERS,
+      payload: players,
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_PLAYERS,
+      payload: [],
+    });
+  }
+};
 // Teams
 export const getTeams = async (dispatch) => {
   try {
@@ -165,7 +189,6 @@ export const updateTeam = async (dispatch, data) => {
       type: GET_TEAMS,
       payload: teams,
     });
-
   } catch (error) {
     dispatch({
       type: GET_TEAMS,
@@ -173,9 +196,9 @@ export const updateTeam = async (dispatch, data) => {
     });
   }
   dispatch({
-    type: CLOSE_TEAM_DIALOG
-  })
-}
+    type: CLOSE_TEAM_DIALOG,
+  });
+};
 
 export const openCreateTeamDialog = (payload) => ({
   type: OPEN_CREATE_TEAM_DIALOG,
@@ -218,10 +241,75 @@ export const getMatches = async (dispatch) => {
   }
 };
 
-export const closeMatchDialog = () => ({
-  type: CLOSE_MATCH_DIALOG,
-});
-// matchup action
+export const createMatch = async (dispatch, data) => {
+  try {
+    const response = await axios.post(apis.createMatch, data);
+    const matches = response.data.matches;
+    dispatch({
+      type: GET_MATCHES,
+      payload: matches,
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_MATCHES,
+      payload: [],
+    });
+  }
+};
+
+export const updateMatch = async (dispatch, data) => {
+  try {
+    const response = await axios.post(apis.updateMatch, data);
+    const matches = response.data.matches;
+    dispatch({
+      type: GET_MATCHES,
+      payload: matches,
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_MATCHES,
+      payload: [],
+    });
+  }
+};
+
+export const deleteMatch = async (dispatch, matchId) => {
+  try {
+    const response = await axios.get(apis.deleteMatch(matchId));
+    const matches = response.data.matches;
+    dispatch({
+      type: GET_MATCHES,
+      payload: matches,
+    });
+    getTeams(dispatch);
+    getPlayers(dispatch);
+    alert("Deleted successfully!");
+  } catch (error) {
+    dispatch({
+      type: GET_MATCHES,
+      payload: [],
+    });
+    alert("Error occurred!");
+  }
+};
+
+export const updateMatchResult = async (dispatch, data) => {
+  try {
+    const response = await axios.post(apis.updateMatchResult, data);
+    const matches = response.data.matches;
+    dispatch({
+      type: GET_MATCHES,
+      payload: matches,
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_MATCHES,
+      payload: [],
+    });
+  }
+};
+
+// Matchup
 export const getMatchups = async (dispatch) => {
   try {
     const response = await axios.get(apis.getMatchups);
@@ -238,6 +326,45 @@ export const getMatchups = async (dispatch) => {
   }
 };
 
+export const completeMatchup = async (dispatch, data) => {
+  try {
+    const response = await axios.post(apis.completeMatchup, data);
+
+    const matchups = response.data.matchups;
+    dispatch({
+      type: GET_MATCHUPS,
+      payload: matchups,
+    });
+    getMatches(dispatch);
+    getTeams(dispatch);
+    alert("Completed matchup!");
+  } catch {
+    dispatch({
+      type: GET_MATCHUPS,
+      payload: [],
+    });
+  }
+};
+
+export const incompleteMatchup = async (dispatch, data) => {
+  try {
+    const response = await axios.post(apis.incompleteMatchup, data);
+
+    const matchups = response.data.matchups;
+    dispatch({
+      type: GET_MATCHUPS,
+      payload: matchups,
+    });
+    getMatches(dispatch);
+    getTeams(dispatch);
+    alert("Incompleted matchup!");
+  } catch {
+    dispatch({
+      type: GET_MATCHUPS,
+      payload: [],
+    });
+  }
+};
 
 // Logs
 export const getLogs = async (dispatch) => {
@@ -263,8 +390,8 @@ export const createOneLog = (dispatch, data) => {
       .then((res) => {
         dispatch({
           type: GET_LOGS,
-          payload: res.data.logs
-        })
+          payload: res.data.logs,
+        });
       })
       .catch((error) => {
         alert(error.response.data.message);
@@ -279,8 +406,8 @@ export const updateOneLog = (dispatch, data) => {
       .then((res) => {
         dispatch({
           type: GET_LOGS,
-          payload: res.data.logs
-        })
+          payload: res.data.logs,
+        });
       })
       .catch((error) => {
         alert(error.response.data.message);
@@ -295,16 +422,14 @@ export const removeLog = (dispatch, data) => {
       .then((res) => {
         dispatch({
           type: GET_LOGS,
-          payload: res.data.logs
-        })
+          payload: res.data.logs,
+        });
       })
       .catch((error) => {
         alert(error.response.data.message);
       });
   } catch (error) {}
 };
-
-
 
 // player action
 export const getPlayers = async (dispatch) => {
@@ -365,6 +490,24 @@ export const getAdmins = async (dispatch) => {
   }
 };
 
+export const inviteAdmin = async (dispatch, data) => {
+  try {
+    const response = await axios.post(apis.inviteAdmin, data);
+    const admins = response.data.admins;
+    dispatch({
+      type: GET_ADMINS,
+      payload: admins,
+    });
+    alert("Invite sent!");
+  } catch (error) {
+    dispatch({
+      type: GET_ADMINS,
+      payload: [],
+    });
+    alert("Error occurred!");
+  }
+};
+
 export const getUsers = async (dispatch) => {
   try {
     const response = await axios.get(apis.getUsers);
@@ -379,12 +522,22 @@ export const getUsers = async (dispatch) => {
   }
 };
 
-export const getUserInfo = async (dispatch, id) => {
+export const getUserInfo = async (dispatch, id, navigate) => {
+// const navigate = useNavigate();
+
   try {
-    const response = await axios.get(apis.getUserInfo(id));
-    const user = response.data.user;
-    user.avatar = apis.userAvatarURL(id);
-    dispatch({ type: GET_USER, payload: user });
+    axios
+      .get(apis.getUserInfo(id))
+      .then((res) => {
+        const user = res.data.user;
+        user.avatar = apis.userAvatarURL(id);
+        dispatch({ type: GET_USER, payload: user });
+      })
+      .catch((error) => {
+        localStorage.removeItem("userId");
+        localStorage.removeItem("token");
+        navigate("/signin");
+      });
   } catch (error) {
     dispatch({ type: GET_USER, payload: [] });
   }

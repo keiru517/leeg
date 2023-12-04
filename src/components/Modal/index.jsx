@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../actions";
 import axios from "axios";
 import apis from "../../utils/apis";
+import moment from "moment";
 
 const Modal = (props) => {
   const dispatch = useDispatch();
@@ -117,30 +118,6 @@ const Modal = (props) => {
       .catch((error) => console.log(error.response.data.message));
   };
 
-  // useEffect(() => {
-  //   // Default file path in the assets directory
-  //   const defaultFilePath = '../../assets/img/dark_mode/ronaldo.jpg';
-
-  //   // Fetch the default file asynchronously
-  //   fetch(defaultFilePath)
-  //     .then((response) => response.blob())
-  //     .then((blob) => {
-  //       // Create a default File object with the default file blob and name
-  //       const defaultFile = new File([blob], 'ronaldo.jpg', {
-  //         type: 'image/jpeg',
-  //       });
-  //       console.log(defaultFile)
-  //       // Set the default file as the initial state value
-  //       setChosenFile(defaultFile);
-
-  //       // Optionally, set the preview URL for the initial file
-  //       setPreviewURL(URL.createObjectURL(defaultFile));
-  //     })
-  //     .catch((error) => {
-  //       console.error('Error fetching default file:', error);
-  //     });
-  // }, []);
-
   const options1 = {
     title: "Enter Season Start Date",
     autoHide: true,
@@ -164,7 +141,7 @@ const Modal = (props) => {
       prev: () => <span className="text-xs">&lt;</span>,
       next: () => <span className="text-xs">&gt;</span>,
     },
-    datepickerClassNames: "text-xs top-12",
+    datepickerClassNames: "text-xs top-12 right-5",
     language: "en",
   };
 
@@ -191,7 +168,7 @@ const Modal = (props) => {
       prev: () => <span className="text-xs">&lt;</span>,
       next: () => <span className="text-xs">&gt;</span>,
     },
-    datepickerClassNames: "text-xs top-12",
+    datepickerClassNames: "text-xs top-12 right-5",
     language: "en",
   };
 
@@ -199,27 +176,13 @@ const Modal = (props) => {
   const [show2, setShow2] = useState(false);
   const handleChange1 = (selectedDate) => {
     const dateObj = new Date(selectedDate);
-    const formattedDate = dateObj
-      .toLocaleDateString("en", {
-        month: "short",
-        day: "2-digit",
-        year: "numeric",
-      })
-      .replace(/ /g, "/")
-      .replace(",", "");
+    const formattedDate = moment(dateObj).format('DD/MM/YYYY');
     console.log(formattedDate.toString());
     setStartDate(formattedDate.toString());
   };
   const handleChange2 = (selectedDate) => {
     const dateObj = new Date(selectedDate);
-    const formattedDate = dateObj
-      .toLocaleDateString("en", {
-        month: "short",
-        day: "2-digit",
-        year: "numeric",
-      })
-      .replace(/ /g, "/")
-      .replace(",", "");
+    const formattedDate =  moment(dateObj).format('DD/MM/YYYY');
     console.log(formattedDate.toString());
     setEndDate(formattedDate.toString());
   };
@@ -234,7 +197,7 @@ const Modal = (props) => {
     <Transition.Root show={status} as={Fragment}>
       <Dialog
         as="div"
-        className="relative z-10"
+        className="relative z-30"
         initialFocus={cancelButtonRef}
         onClose={closeDialog}
       >
@@ -250,7 +213,7 @@ const Modal = (props) => {
           <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
         </Transition.Child>
 
-        <div className="fixed inset-0 z-10 overflow-y-auto">
+        <div className="fixed inset-0 overflow-y-auto">
           <div className="flex min-h-full items-end justify-center text-center sm:items-center sm:p-0">
             <Transition.Child
               as={Fragment}
@@ -336,7 +299,7 @@ const Modal = (props) => {
                         </>
                       ) : step == 2 ? (
                         <>
-                          <div>
+                          <div className="space-y-3">
                             <div
                               className={`${
                                 logoWarning ? "border-2 border-red-500" : ""
@@ -378,34 +341,36 @@ const Modal = (props) => {
                                 Upload League Logo
                               </p>
                             </div>
-                            <Input
-                              className="rounded-default text-xs my-5"
+                            <input
+                              className="border border-charcoal items-center px-3 bg-transparent outline-none text-black dark:text-white flex-grow h-button text-xs w-full rounded-default"
                               placeholder="Type League Name*"
                               value={leagueName}
                               onChange={(e) => setLeagueName(e.target.value)}
-                            ></Input>
+                              maxLength={100}
+                            ></input>
 
                             <textarea
                               id="message"
                               rows="6"
-                              className="block p-2.5 w-full text-xs text-gray-900 rounded-lg border border-charcoal focus:ring-blue-500 focus:border-blue-500 dark:bg-transparent dark:border-charcoal dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 resize-none outline-none"
+                              className="block p-2.5 w-full text-xs text-gray-900 rounded-default border border-charcoal focus:ring-blue-500 focus:border-blue-500 dark:bg-transparent dark:border-charcoal dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 resize-none outline-none"
                               placeholder="Describe your League"
                               value={leagueDescription}
                               onChange={(e) =>
                                 setLeagueDescription(e.target.value)
                               }
+                              maxLength={500}
                             ></textarea>
                           </div>
                           <div className="flex mt-auto w-full justify-between">
                             <button
                               onClick={goToStep1}
-                              className="bg-[#e5e5e5] dark:bg-[#3A3A3A] sm:w-[169px] w-[140px] h-button rounded-default mt-auto text-black dark:text-white font-semibold text-sm dark:hover:bg-middle-gray focus:ring-2"
+                              className="bg-[#e5e5e5] dark:bg-[#3A3A3A] w-28 sm:w-[169px] h-button rounded-default mt-auto text-black dark:text-white font-semibold text-sm dark:hover:bg-middle-gray focus:ring-2"
                             >
                               Back to Step 1
                             </button>
                             <button
                               onClick={goToStep3}
-                              className="bg-primary sm:w-[169px] w-[140px] h-button rounded-default mt-auto text-white font-semibold text-sm hover:bg-sky-600 focus:ring-2"
+                              className="bg-primary w-28 sm:w-[169px] h-button rounded-default mt-auto text-white font-semibold text-sm hover:bg-sky-600 focus:ring-2"
                             >
                               Next: Schedule
                             </button>
@@ -413,7 +378,7 @@ const Modal = (props) => {
                         </>
                       ) : (
                         <>
-                          <div className="w-full h-29 relative">
+                          <div className="relative space-y-3">
                             {/* <Input
                               className="text-xs rounded-default mb-5"
                               // option={calendar}
@@ -422,7 +387,7 @@ const Modal = (props) => {
                               onChange={(e) => setStartDate(e.target.value)}
                             /> */}
                             <Datepicker
-                              classNames="mb-5"
+                              classNames=""
                               options={options1}
                               onChange={handleChange1}
                               show={show1}
@@ -447,13 +412,13 @@ const Modal = (props) => {
                           <div className="flex mt-auto w-full justify-between">
                             <button
                               onClick={goToStep2}
-                              className="bg-[#e5e5e5] dark:bg-[#3A3A3A] sm:w-[169px] w-[140px] h-button rounded-default mt-auto text-black dark:text-white font-semibold text-sm hover:bg-gray-700 focus:ring-2"
+                              className="bg-[#e5e5e5] dark:bg-[#3A3A3A] w-28 sm:w-[169px] h-button rounded-default mt-auto text-black dark:text-white font-semibold text-sm hover:bg-gray-700 focus:ring-2"
                             >
                               Back to Step 2
                             </button>
                             <button
                               onClick={createLeague}
-                              className="bg-primary sm:w-[169px] w-[140px] h-button rounded-default mt-auto text-white font-semibold text-sm hover:bg-sky-600 focus:ring-2"
+                              className="bg-primary w-28 sm:w-[169px] h-button rounded-default mt-auto text-white font-semibold text-sm hover:bg-sky-600 focus:ring-2"
                             >
                               Create League
                             </button>

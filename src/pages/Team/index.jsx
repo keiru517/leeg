@@ -3,12 +3,11 @@ import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { Tab } from "@headlessui/react";
-import search from "../../assets/img/dark_mode/search.png";
+import Input from "../../components/Input";
+import searchIconDark from "../../assets/img/dark_mode/search-icon-dark.svg"
+import searchIconLight from "../../assets/img/dark_mode/search-icon-light.svg"
 import backIconDark from "../../assets/img/dark_mode/back-icon-dark.png";
 import backIconLight from "../../assets/img/dark_mode/back-icon-light.png";
-import Input from "../../components/Input";
-import Select from "../../components/Select";
-import PageTitle from "../../components/PageTitle";
 import MatchTable from "../../components/Table/Match";
 import TeamModal from "../../components/Modal/TeamModal";
 import TeamStatisticsTable from "../../components/Table/TeamStatistics";
@@ -23,13 +22,24 @@ const Team = () => {
   const navigate = useNavigate();
   const darkMode = useSelector((state) => state.home.dark_mode);
 
+  const league = useSelector((state) => state.home.leagues).find(
+    (league) => league.id == leagueId
+  );
+
+  const user = useSelector((state) => state.home.user);
+
+  const admins = useSelector((state) => state.home.admins).filter(
+    (admin) => admin.leagueId == league?.id && admin.isDeleted !== 1
+  );
+
+  const isAdmin =
+    admins.some((admin) => admin.userId == user?.id) ||
+    league?.userId == user?.id;
+
   const team = useSelector((state) => state.home.teams).find(
     (team) => team.id == teamId
   );
 
-  const league = useSelector((state) => state.home.leagues).find(
-    (league) => league.id == leagueId
-  );
 
   const options = ["Ascend", "Descend", "Recent"];
   const [value, setValue] = useState("Sort by");
@@ -51,7 +61,9 @@ const Team = () => {
     (player) => player?.teamId == teamId && player?.isDeleted !== 1
   );
 
-  const matchups = useSelector((state) => state.home.matchups);
+  const matchups = useSelector((state) => state.home.matchups).filter(
+    (matchup) => matchup.teamId == teamId
+  );
 
   useEffect(() => {
     actions.getUserInfo(dispatch, localStorage.getItem("userId"));
@@ -69,28 +81,22 @@ const Team = () => {
 
   return (
     <div className="flex flex-col flex-grow">
-      {/* <PageTitle
-        backIcon={darkMode ? backIconDark : backIconLight}
-        logo={team?.logo}
-      >
-        {team?.name}
-      </PageTitle> */}
-      <p className="font-dark-gray my-[20px]">
+      <p className="font-dark-gray my-3">
         <Link to="/">
           <span className="underline">My Leagues</span>
         </Link>
-        <span className="text-sky-500"> &gt; </span>
+        <span className=""> &gt; </span>
         <Link to={`/league/${league?.id}?tab=0`}>
           <span className="underline">{league?.name}</span>
         </Link>
-        <span className="text-sky-500"> &gt; </span>
+        <span className=""> &gt; </span>
         <Link to={`/league/${league?.id}?tab=2`}>
           <span className="underline">Teams</span>
         </Link>
         <span className="text-sky-500"> &gt; {team?.name}</span>
       </p>
       <div className="flex flex-col rounded-main bg-white dark:bg-slate flex-grow p-default">
-        <div className="page-title flex items-center justify-between my-3">
+        <div className="page-title bg-white dark:bg-charcoal flex items-center justify-between p-3">
           <div className="flex items-center">
             <div
               className="w-[34px] h-[34px] bg-gray-300 dark:bg-primary items-center flex justify-center rounded-default cursor-pointer hover:opacity-70"
@@ -105,7 +111,6 @@ const Team = () => {
 
             <img
               src={team?.logo}
-              // src={apis.leagueLogoURL(leagueId)}
               alt=""
               className="w-20 h-20 ml-6 rounded-full border border-gray-500"
             />
@@ -113,19 +118,21 @@ const Team = () => {
             <div className="text-3xl dark:text-white ml-6 font-bold">
               {team?.name}
             </div>
-            <img
-              src={darkMode ? editIconDark : editIconLight}
-              className="w-6 h-6 cursor-pointer ml-3 mt-2"
-              onClick={handleEdit}
-            ></img>
+            {isAdmin && (
+              <img
+                src={darkMode ? editIconDark : editIconLight}
+                className="w-6 h-6 cursor-pointer ml-3 mt-2"
+                onClick={handleEdit}
+              ></img>
+            )}
           </div>
         </div>
-        <div className="w-full px-2 sm:px-0 h-full flex flex-col flex-grow">
+        <div className="w-full px-2 sm:px-0 h-full flex flex-col flex-grow mt-3">
           <Tab.Group>
             <Tab.List className="flex justify-start space-x-5 rounded-xl bg-transparent p-1 ">
               {categories.map((category, idx) => (
                 <Tab
-                  key={category}
+                  key={idx}
                   className={({ selected }) =>
                     classNames(
                       "py-2.5 text-sm font-medium leading-5 text-gray-500 dark:text-gray-300 px-3",
@@ -135,7 +142,6 @@ const Team = () => {
                         : " rounded-lg hover:bg-white/[0.12]"
                     )
                   }
-                  // onClick={() => handleCategory(category)}
                 >
                   {category}
                 </Tab>
@@ -147,21 +153,21 @@ const Team = () => {
                 key={0}
                 className={classNames("rounded-xl flex flex-col w-full h-full")}
               >
-                <hr className="h-px my-4 bg-charcoal border-0" />
-                <div className="search flex justify-between space-x-3">
-                  <Input
-                    icon={search}
+                <hr className="h-px mt-4 bg-charcoal border-0" />
+                <div className="flex justify-between">
+                  {/* <Input
+                    icon={darkMode?searchIconDark:searchIconLight}
                     className="flex-grow rounded-lg text-xs h-[42px]"
                     placeholder="Search Leagues"
-                  />
-                  <Select
+                  /> */}
+                  {/* <Select
                     className="w-[144px] rounded-lg text-xs"
                     options={options}
                     handleClick={(e) => setValue(e)}
                     value={value}
                   >
                     {value}
-                  </Select>
+                  </Select> */}
                 </div>
                 {matches.length > 0 ? (
                   <>
@@ -188,24 +194,9 @@ const Team = () => {
               >
                 {players.length > 0 ? (
                   <>
-                    <hr className="h-px my-4 bg-charcoal border-0" />
-                    <div className=" flex flex-col space-y-5">
-                      {/* <p className="text-black dark:text-white text-sm font-mediim">
-                        Team Statistics
-                      </p> */}
+                    <hr className="h-px mt-4 bg-charcoal border-0" />
+                    <div className="flex flex-col space-y-5">
                       <TeamStatisticsTable />
-                      {/* <p className="text-black dark:text-white text-sm font-mediim">
-                        Player Statistics
-                      </p>
-                      <Input
-                        className="rounded-lg text-xs"
-                        icon={search}
-                        placeholder="Search Schedules"
-                      /> */}
-                      {/* <PlayerStatisticsTable
-                        players={players}
-                        matchups={matchups}
-                      ></PlayerStatisticsTable> */}
                     </div>
                   </>
                 ) : (
@@ -229,7 +220,7 @@ const Team = () => {
                     <div className=" flex flex-col space-y-5">
                       <Input
                         className="rounded-lg text-xs"
-                        icon={search}
+                        icon={darkMode?searchIconDark:searchIconLight}
                         placeholder="Search Schedules"
                       />
                       <div className="flex flex-grow items-center">

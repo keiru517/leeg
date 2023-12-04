@@ -83,7 +83,7 @@ const PlayerStatsModal = (props) => {
     <Transition.Root show={status} as={Fragment}>
       <Dialog
         as="div"
-        className="relative z-10"
+        className="relative z-30"
         initialFocus={cancelButtonRef}
         onClose={closeDialog}
       >
@@ -99,7 +99,7 @@ const PlayerStatsModal = (props) => {
           <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
         </Transition.Child>
 
-        <div className="fixed inset-0 z-10 overflow-y-auto">
+        <div className="fixed inset-0 overflow-y-auto">
           <div className="flex min-h-full items-end justify-center text-center sm:items-center sm:p-0">
             <Transition.Child
               as={Fragment}
@@ -110,10 +110,10 @@ const PlayerStatsModal = (props) => {
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative transform overflow-hidden rounded-main text-left shadow-xl transition-all sm:my-8 bg-slate h-[609px] md:w-[1287px] mx-3 flex flex-col">
+              <Dialog.Panel className="relative transform overflow-hidden rounded-main text-left shadow-xl transition-all sm:my-8 bg-slate h-[609px] sm:w-[1000px] lg:w-[1700px] mx-3 flex flex-col">
                 <div className="divide-y divide-solid divide-[#3A3A3A] flex flex-col flex-grow">
                   <div className="flex items-center text-left h-[88px] justify-between px-default">
-                    <p className="text-2xl text-white font-bold">
+                    <p className="text-white font-bold sm:text-xl md:text-2xl">
                       Player Stats
                     </p>
                     <div className="flex items-center">
