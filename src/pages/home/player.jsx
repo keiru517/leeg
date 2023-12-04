@@ -73,6 +73,11 @@ const Player = () => {
     (player) => player.userId == userId && player.leagueId == leagueId
   );
 
+  const matchups1 = useSelector(state=>state.home.matchups).filter(matchup=>{
+    return matchup.userId == player.userId && !matchup.match.isNew
+  });
+  console.log("matchups1", matchups1);
+
   const team = useSelector((state) => state.home.teams).find(
     (team) => team.id == player?.teamId
   );
@@ -87,11 +92,15 @@ const Player = () => {
   console.log("matches", matches)
 
   const matchups = useSelector((state) => state.home.matchups).filter(
-    (matchup) => {
-      const match = matches.find(match=>match.id == matchup.matchId)
-      return matchup.leagueId == leagueId && matchup.playerId == player?.id && matchup.attendance === 1 && match
-    }
+    (matchup) => 
+      matchup.leagueId == leagueId && matchup.userId == player?.userId && matchup.attendance === 1 && !matchup.match.isNew
   );
+  // const matchups = useSelector((state) => state.home.matchups).filter(
+  //   (matchup) => {
+  //     const match = matches.find(match=>match.id == matchup.matchId)
+  //     return matchup.leagueId == leagueId && matchup.playerId == player?.id && matchup.attendance === 1 && match
+  //   }
+  // );
   console.log("matchups", matchups);
 
   const totalPoints = matchups.reduce(
