@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import { AiOutlineCheck } from "react-icons/ai";
 import { Switch } from "@headlessui/react";
-import Option from "../Option";
 import axios from "axios";
 import apis from "../../utils/apis";
 import * as actions from "../../actions";
@@ -84,16 +83,6 @@ const RosterTable = (props) => {
     ];
   }
 
-  const options =
-    rosterValue === "Waitlisted"
-      ? [
-          { id: 0, name: "Accept" },
-          { id: 1, name: "Remove" },
-        ]
-      : [{ id: 0, name: "Waitlisted" }];
-
-  const teams = useSelector((state) => state.home.teams);
-
   const handleOption = (idx) => {
     // Return true if nothing is selected
     const allItemsFalse = Object.values(itemChecked).every(
@@ -130,12 +119,6 @@ const RosterTable = (props) => {
     setItemChecked({});
   };
 
-  const isDeletedTeam = (teamId) => {
-    const team = teams.find((team) => team.id == teamId);
-    if (team.isDeleted === 1) return true;
-    else return false;
-  };
-
   const [itemChecked, setItemChecked] = useState({});
   const setListItemChecked = (index, checked) => {
     let temp = { ...itemChecked };
@@ -166,15 +149,6 @@ const RosterTable = (props) => {
       <table className="w-full min-w-max table-auto text-left">
         <thead className="sticky top-0 z-10 bg-white dark:bg-slate">
           <tr>
-            {/* <th>
-              <Checkbox
-                name="name"
-                // checked={!!allchecked}
-                // onChange={(checked) => {
-                //   setWaitListItemChecked(player.id, checked);
-                // }}
-              />
-            </th> */}
             {columns.map((head, idx) => (
               <th
                 key={idx}
@@ -198,13 +172,11 @@ const RosterTable = (props) => {
                       <>
                         <span
                           onClick={() => handleOption(1)}
-                          // className={`${canSubmit ? "" : "opacity-50"}`}
                         >
                           ❌
                         </span>
                         <span
                           onClick={() => handleOption(0)}
-                          // className={`${canSubmit ? "" : "opacity-50"}`}
                         >
                           ✅
                         </span>
@@ -295,12 +267,6 @@ const RosterTable = (props) => {
                 </Typography>
               </td>
               {league?.userId == user?.id && (
-                // <td className="w-1/7">
-                //   {/* <Option
-                //     options={options}
-                //     handleClick={(idx) => handleOption(idx, player.id)}
-                //   ></Option> */}
-                // </td>
                 <td className="">
                   <Typography
                     variant="small"
