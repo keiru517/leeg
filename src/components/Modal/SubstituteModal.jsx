@@ -41,22 +41,26 @@ const SubstituteModal = (props) => {
 
   const createSubmit = () => {
     dispatch({ type: actions.CLOSE_ADD_SUBSTITUTE_DIALOG });
-    axios
-      .post(apis.createOneMatchup, {
-        email,
-        leagueId,
-        matchId,
-        teamId,
-        jerseyNumber,
-        position,
-      })
-      .then((res) => {
-        actions.getPlayers(dispatch);
-        actions.getTeams(dispatch);
-        actions.getMatches(dispatch);
-        actions.getMatchups(dispatch);
-      })
-      .catch((error) => console.log(error.response.data.message));
+    if (position === "Select Position") {
+      setPosition("");
+    }
+      axios
+        .post(apis.createOneMatchup, {
+          email,
+          leagueId,
+          matchId,
+          teamId,
+          jerseyNumber,
+          position,
+        })
+        .then((res) => {
+          actions.getPlayers(dispatch);
+          actions.getTeams(dispatch);
+          actions.getMatches(dispatch);
+          actions.getMatchups(dispatch);
+          alert("Added a substitute successfully!");
+        })
+        .catch((error) => console.log(error.response.data.message));
   };
 
   const closeDialog = () => {
@@ -64,6 +68,7 @@ const SubstituteModal = (props) => {
     dispatch({ type: actions.CLOSE_ADD_SUBSTITUTE_DIALOG });
     setEmail("");
     setJerseyNumber("");
+    setPosition("Select Position");
   };
   const cancelButtonRef = useRef(null);
 
@@ -89,6 +94,7 @@ const SubstituteModal = (props) => {
       setCanAdd(false);
     }
   }, [email]);
+
   return (
     <Transition.Root show={status} as={Fragment}>
       <Dialog
@@ -159,7 +165,7 @@ const SubstituteModal = (props) => {
                         ></Input>
                         <Input
                           className="rounded-default text-xs h-12"
-                          placeholder="Jersey Number*"
+                          placeholder="Jersey Number"
                           value={jerseyNumber}
                           onChange={(e) => setJerseyNumber(e.target.value)}
                         ></Input>
@@ -168,7 +174,7 @@ const SubstituteModal = (props) => {
                           className="w-full h-12 rounded-lg text-xs"
                           options={positions}
                           value={position}
-                          handleClick={(e) => setPosition(e.name)}
+                          handleClick={(e)=>setPosition(e.name)}
                         >
                           {position}
                         </Select>
@@ -189,7 +195,7 @@ const SubstituteModal = (props) => {
                     </div>
                     <button
                       onClick={createSubmit}
-                      className={`bg-primary rounded-xl w-full hover:bg-opacity-70 h-button text-white disabled:opacity-10`}
+                      className={`bg-primary rounded-default w-full hover:bg-opacity-70 h-button text-white disabled:opacity-10`}
                       disabled={!canAdd}
                     >
                       Add Substitute

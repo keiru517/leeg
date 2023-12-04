@@ -70,7 +70,9 @@ const Matchup = () => {
   ];
 
   // const state = allLogs.length > 0? "Incomplete" : "In progress";
-  const [status, setStatus] = useState(match?.isNew ? "Incomplete" : "Completed");
+  const [status, setStatus] = useState(
+    match?.isNew ? "Incomplete" : "Completed"
+  );
 
   const handleStatus = (e) => {
     setStatus(e.name);
@@ -79,7 +81,7 @@ const Matchup = () => {
       // actions.getTeams(dispatch);
       // Action to complete
     } else {
-      actions.incompleteMatchup(dispatch, {matchId});
+      actions.incompleteMatchup(dispatch, { matchId });
       // actions.getTeams(dispatch);
     }
   };
@@ -337,8 +339,8 @@ const Matchup = () => {
   const [time, setTime] = useState("");
   const [event, setEvent] = useState("");
   const [teamId, setTeamId] = useState("");
+
   const handleClickButtons = (event, id) => {
-    console.log("isNew?", match?.isNew)
     if (match?.isNew) {
       setEvent(event);
       setTeamId(id);
@@ -693,12 +695,14 @@ const Matchup = () => {
                         className="cursor-pointer hover:opacity-75"
                         onClick={() => handlePlayerStats(homeTeam?.id)}
                       />
-                      <img
-                        src={editLineup}
-                        alt=""
-                        className="cursor-pointer hover:opacity-75"
-                        onClick={() => handleLineups(homeTeam?.id)}
-                      />
+                      {match?.isNew && (
+                        <img
+                          src={editLineup}
+                          alt=""
+                          className="cursor-pointer hover:opacity-75"
+                          onClick={() => handleLineups(homeTeam?.id)}
+                        />
+                      )}
                     </div>
                   </div>
                   <div className="grid grid-cols-3 gap-[10px]">
@@ -852,12 +856,14 @@ const Matchup = () => {
                         className="cursor-pointer hover:opacity-75"
                         onClick={() => handlePlayerStats(awayTeam?.id)}
                       />
-                      <img
-                        src={editLineup}
-                        alt=""
-                        className="cursor-pointer hover:opacity-75"
-                        onClick={() => handleLineups(awayTeam?.id)}
-                      />
+                      {match?.isNew && (
+                        <img
+                          src={editLineup}
+                          alt=""
+                          className="cursor-pointer hover:opacity-75"
+                          onClick={() => handleLineups(awayTeam?.id)}
+                        />
+                      )}
                     </div>
                   </div>
                   <div className="grid grid-cols-3 gap-[10px]">

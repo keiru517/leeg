@@ -701,48 +701,6 @@ const League = () => {
                     </div>
                   )}
 
-                  {/* <div className="h-full">
-                    <div className="bg-light-charcoal dark:bg-charcoal flex flex-col h-full min-h-[420px] p-default rounded-main">
-                      <div className="flex w-full justify-between space-x-10">
-                        <div className="flex flex-grow space-x-3">
-                          <Input
-                            className="flex-grow rounded-lg h-[38px] dark:bg-charcoal text-xs"
-                            icon={search}
-                            placeholder="Search"
-                            value={waitListKeyword}
-                            onChange={(e) => {
-                              setWaitListKeyword(e.target.value);
-                            }}
-                          />
-                          <Select
-                            className="w-[144px] rounded-lg text-xs"
-                            options={rosterOptions}
-                            handleClick={(e) => setRosterValue(e.name)}
-                            value={rosterValue}
-                          >
-                            {rosterValue}
-                          </Select>
-                        </div>
-                      </div>
-                      <div
-                        className={`overflow-y-scroll:auto h-4/6 flex flex-col items-center flex-grow ${
-                          players.length
-                            ? ""
-                            : "dark:bg-light-gray justify-center"
-                        } rounded-default`}
-                      >
-                        <RosterTable
-                          rosters={rosters.filter((roster) =>
-                            (roster.firstName + roster.lastName)
-                              .toLowerCase()
-                              .includes(waitListKeyword.toLowerCase())
-                          )}
-                          rosterValue={rosterValue}
-                          setRosterValue={setRosterValue}
-                        />
-                      </div>
-                    </div>
-                  </div> */}
                   <InvitePlayerModal></InvitePlayerModal>
                 </Tab.Panel>
               ) : (
