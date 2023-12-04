@@ -1,4 +1,3 @@
-// const OPEN_CREATE_LEAGUE_DIALOG = 'OPEN_CREATE_LEAGUE_DIALOG'
 import * as actions from "../actions";
 
 const initialState = {
@@ -9,6 +8,7 @@ const initialState = {
   teams: [],
   matches: [],
   matchups: [],
+  logs: [],
   players: [],
   admins: [],
   selected_league: [],
@@ -16,6 +16,21 @@ const initialState = {
     open: false,
     type: "create",
     league: [],
+  },
+  select_player_dialog: {
+    open: false,
+  },
+  matchup_setting_dialog: {
+    open: false,
+  },
+  matchup_player_stats_dialog: {
+    open: false,
+    id:""
+  },
+  event_dialog: {
+    open: false,
+    type: "",
+    logId: "",
   },
   player_dialog: {
     open: false,
@@ -37,6 +52,10 @@ const initialState = {
     match: [],
   },
   substitute_dialog: {
+    open: false,
+    id: "",
+  },
+  lineup_dialog: {
     open: false,
     id: "",
   },
@@ -124,6 +143,15 @@ const home = (state = initialState, action) => {
         },
       };
 
+    case actions.OPEN_SELECT_PLAYER_DIALOG:
+      return {
+        ...state,
+        select_player_dialog: {
+          ...state.player_dialog,
+          open: action.payload,
+        },
+      };
+
     case actions.OPEN_CREATE_TEAM_DIALOG:
       return {
         ...state,
@@ -180,7 +208,17 @@ const home = (state = initialState, action) => {
         match_dialog: {
           open: true,
           type: "create",
-          team: [],
+          match: [],
+        },
+      };
+
+    case actions.OPEN_EDIT_MATCH_DIALOG:
+      return {
+        ...state,
+        match_dialog: {
+          open: true,
+          type: "edit",
+          match: action.payload,
         },
       };
 
@@ -190,7 +228,7 @@ const home = (state = initialState, action) => {
         match_dialog: {
           open: false,
           type: "",
-          team: [],
+          match: [],
         },
       };
 
@@ -199,6 +237,63 @@ const home = (state = initialState, action) => {
       return {
         ...state,
         matchups: action.payload,
+      };
+    // logs
+    case actions.GET_LOGS:
+      return {
+        ...state,
+        logs: action.payload,
+      };
+
+    case actions.OPEN_MATCHUP_SETTING_DIALOG:
+      return {
+        ...state,
+        matchup_setting_dialog: {
+          open: action.payload,
+        },
+      };
+    case actions.OPEN_PLAYER_STATS_DIALOG:
+      return {
+        ...state,
+        matchup_player_stats_dialog: {
+          open: true,
+          id:action.payload
+        },
+      };
+    case actions.CLOSE_PLAYER_STATS_DIALOG:
+      return {
+        ...state,
+        matchup_player_stats_dialog: {
+          open: false,
+          id:""
+        },
+      };
+    case actions.OPEN_ADD_EVENT_DIALOG:
+      return {
+        ...state,
+        event_dialog: {
+          open: true,
+          type: "add",
+          logId: "action.payload",
+        },
+      };
+    case actions.OPEN_EDIT_EVENT_DIALOG:
+      return {
+        ...state,
+        event_dialog: {
+          open: true,
+          type: "edit",
+          logId: action.payload,
+        },
+      };
+    case actions.CLOSE_EDIT_EVENT_DIALOG:
+      return {
+        ...state,
+        event_dialog: {
+          open: false,
+          type: "",
+          logId: "",
+        },
       };
 
     case actions.OPEN_ADD_PLAYER_DIALOG:
@@ -246,6 +341,22 @@ const home = (state = initialState, action) => {
       return {
         ...state,
         substitute_dialog: {
+          open: false,
+        },
+      };
+    case actions.OPEN_LINEUP_DIALOG:
+      return {
+        ...state,
+        lineup_dialog: {
+          open: true,
+          id: action.payload,
+        },
+      };
+
+    case actions.CLOSE_LINEUP_DIALOG:
+      return {
+        ...state,
+        lineup_dialog: {
           open: false,
         },
       };

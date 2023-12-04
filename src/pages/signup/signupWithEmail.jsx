@@ -6,10 +6,16 @@ import hrLine from "../../assets/img/dark_mode/hr-line.png";
 import Input from "../../components/Input";
 import otpLine from "../../assets/img/dark_mode/otp-line.png";
 import apis from "../../utils/apis";
+import * as actions from "../../actions";
+import { useDispatch, useSelector } from "react-redux";
 
 const SignupWithEmail = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [step, setStep] = useState(1);
+  useEffect(() => {
+    actions.getUsers(dispatch);
+  }, []);
 
   const [first, setFirst] = useState();
   const [second, setSecond] = useState();
@@ -24,13 +30,21 @@ const SignupWithEmail = () => {
   const [code, setCode] = useState();
   const [inputValue, setInputValue] = useState("");
 
+  const users = useSelector(state=>state.home.users);
   const [email, setEmail] = useState("");
+  // const [isClicked, setIsClicked] = useState(false);
   const handleClick = () => {
     if (!email) {
       alert("Please type your email address!");
     } else {
-      setStep(2);
-      sendOTP();
+      const isRegistered = users.some((user)=>user.email == email);
+      if (isRegistered) {
+        alert("Email has already been registered!");
+      } else {
+        setStep(2);
+        sendOTP();
+      }
+      // setIsClicked(true);
     }
   };
 
@@ -40,11 +54,14 @@ const SignupWithEmail = () => {
         email: email,
       })
       .then((res) => {
+        setStep(2);
         const verifyCode = res.data.code;
         setCode(verifyCode);
+        // setIsClicked(false);
       })
       .catch((error) => {
         alert(error.response.data.message);
+        // setIsClicked(false);
       });
   };
 
@@ -111,7 +128,8 @@ const SignupWithEmail = () => {
               ></input>
               <button
                 onClick={handleClick}
-                className="w-full h-12 bg-primary font-bold text-white rounded-default hover:bg-opacity-70 my-4"
+                className="w-full h-12 bg-primary font-bold text-white rounded-default hover:bg-opacity-70 my-4 disabled:bg-opacity-50"
+                // disabled={isClicked}
               >
                 Create Account
               </button>

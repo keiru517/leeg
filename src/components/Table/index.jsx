@@ -6,7 +6,7 @@ const Table = (props) => {
   return (
     <div className="text-white h-full w-full mt-4">
       <table className="w-full min-w-max table-auto text-left">
-        <thead>
+        <thead className="sticky top-0 z-10 bg-white dark:bg-slate">
           <tr>
             {columns.map((head, idx) => (
               <th

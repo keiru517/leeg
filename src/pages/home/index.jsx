@@ -7,6 +7,7 @@ import Select from "../../components/Select";
 import Modal from "../../components/Modal";
 import PageTitle from "../../components/PageTitle";
 import * as actions from "../../actions";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const user = useSelector((state) => state.home.user);
@@ -21,9 +22,10 @@ const Home = () => {
   const [filter, setFilter] = useState(filters[0].name);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    actions.getUserInfo(dispatch, localStorage.getItem("userId"));
+    actions.getUserInfo(dispatch, localStorage.getItem("userId"), navigate);
     actions.getUsers(dispatch);
     actions.getLeagues(dispatch);
     actions.getTeams(dispatch);
@@ -41,7 +43,7 @@ const Home = () => {
   const [filteredData, setFilteredData] = useState([]);
   useEffect(() => {
     const searchResult = leagues.filter((league) =>
-      league.name.toLowerCase().includes(keyword.toLowerCase())
+      league.name.toLowerCase().includes(keyword.toLowerCase()) || league.id.toString().padStart(6, '0').includes(keyword.toLowerCase())
     );
     setFilteredData(searchResult);
   }, [keyword]);

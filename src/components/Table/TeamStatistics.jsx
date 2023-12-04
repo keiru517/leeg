@@ -8,17 +8,17 @@ const TeamStatistics = () => {
   const team = useSelector(state=>state.home.teams).find(team=>team.id == teamId);
   
   const columns = [
-    "W",
-    "L",
-    "Point Scored",
-    "Point Against",
-    "Diff",
+    "Wins",
+    "Losses",
+    "Points Scored",
+    "Points Against",
+    "Differential",
   ];
 
   return (
     <div className="text-black dark:text-white mt-5 w-full">
       <table className="w-full min-w-max table-auto text-left">
-        <thead>
+        <thead className="sticky top-0 z-10 bg-white dark:bg-slate">
           <tr>
             {columns.map((head, idx) => (
               <th key={idx} className="h-button text-center font-font-dark-gray font-normal  text-sm">

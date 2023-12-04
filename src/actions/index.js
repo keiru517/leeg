@@ -1,9 +1,8 @@
 import axios from "axios";
 import apis from "../utils/apis";
 import { useNavigate } from "react-router-dom";
-
 // setting
-export const SET_DARK_MODE = "SET_DARK_MODE"
+export const SET_DARK_MODE = "SET_DARK_MODE";
 // user
 export const GET_USER = "GET_USER";
 export const GET_USERS = "GET_USERS";
@@ -23,18 +22,28 @@ export const OPEN_CREATE_TEAM_DIALOG = "OPEN_CREATE_TEAM_DIALOG";
 export const OPEN_EDIT_TEAM_DIALOG = "OPEN_EDIT_TEAM_DIALOG";
 export const OPEN_DELETE_TEAM_DIALOG = "OPEN_DELETE_TEAM_DIALOG";
 export const CLOSE_TEAM_DIALOG = "CLOSE_TEAM_DIALOG";
-export const OPEN_ADD_PLAYER_DIALOG = "OPEN_ADD_PLAYER_DIALOG";
 export const SET_TEAM_LOGO_URL = "SET_TEAM_LOGO_URL";
 
 // Matches
 export const GET_MATCHES = "GET_MATCHES";
 export const OPEN_CREATE_MATCH_DIALOG = "OPEN_CREATE_MATCH_DIALOG";
+export const OPEN_EDIT_MATCH_DIALOG = "OPEN_EDIT_MATCH_DIALOG";
 export const CLOSE_MATCH_DIALOG = "CLOSE_MATCH_DIALOG";
 // Matchups
 export const GET_MATCHUPS = "GET_MATCHUPS";
+export const GET_LOGS = "GET_LOGS";
+export const OPEN_MATCHUP_SETTING_DIALOG = "OPEN_MATCHUP_SETTING_DIALOG";
+export const OPEN_EDIT_EVENT_DIALOG = "OPEN_EDIT_EVENT_DIALOG";
+export const OPEN_ADD_EVENT_DIALOG = "OPEN_ADD_EVENT_DIALOG";
+export const CLOSE_EDIT_EVENT_DIALOG = "CLOSE_EDIT_EVENT_DIALOG";
+export const OPEN_PLAYER_STATS_DIALOG = "OPEN_PLAYER_STATS_DIALOG";
+export const CLOSE_PLAYER_STATS_DIALOG = "CLOSE_PLAYER_STATS_DIALOG";
 // player
 export const GET_PLAYERS = "GET_PLAYERS";
 export const OPEN_INVITE_PLAYER_DIALOG = "OPEN_INVITE_PLAYER_DIALOG";
+export const OPEN_SELECT_PLAYER_DIALOG = "OPEN_SELECT_PLAYER_DIALOG";
+export const CLOSE_SELECT_PLAYER_DIALOG = "CLOSE_SELECT_PLAYER_DIALOG";
+export const OPEN_ADD_PLAYER_DIALOG = "OPEN_ADD_PLAYER_DIALOG";
 export const ACCEPT_PLAYER = "ACCEPT_PLAYER";
 export const UNACCEPT_PLAYER = "UNACCEPT_PLAYER";
 export const ADD_PLAYER = "ADD_PLAYER";
@@ -44,10 +53,12 @@ export const CLOSE_JERSEY_NUMBER_MODAL = "CLOSE_JERSEY_NUMBER_MODAL";
 export const OPEN_ADD_SUBSTITUTE_DIALOG = "OPEN_ADD_SUBSTITUTE_DIALOG";
 export const CLOSE_ADD_SUBSTITUTE_DIALOG = "CLOSE_ADD_SUBSTITUTE_DIALOG";
 
+export const OPEN_LINEUP_DIALOG = "OPEN_LINEUP_DIALOG";
+export const CLOSE_LINEUP_DIALOG = "CLOSE_LINEUP_DIALOG";
+
 // Admin
 export const GET_ADMINS = "GET_ADMINS";
 export const OPEN_ADMIN_DIALOG = "OPEN_ADMIN_DIALOG";
-
 
 // get countries
 export const getCountries = async (dispatch) => {
@@ -119,7 +130,31 @@ export const openInvitePlayerDialog = (payload) => ({
   payload: payload,
 });
 
-// Team actions -----------------------------------
+export const invitePlayer = async (dispatch, data) => {
+  try {
+    const response = await axios.post(apis.invitePlayer, data);
+    alert(response.data.message);
+  } catch (error) {
+    alert(error);
+  }
+};
+
+export const removeFromLeague = async (dispatch, data) => {
+  try {
+    const response = await axios.post(apis.removeFromLeague, data);
+    const players = response.data.players;
+    dispatch({
+      type: GET_PLAYERS,
+      payload: players,
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_PLAYERS,
+      payload: [],
+    });
+  }
+};
+// Teams
 export const getTeams = async (dispatch) => {
   try {
     const response = await axios.get(apis.getTeams);
@@ -133,20 +168,36 @@ export const getTeams = async (dispatch) => {
       type: GET_TEAMS,
       payload: teams,
     });
-
-    // teams.map(team=>{
-    //   const logoUrl = apis.teamLogoURL(team.id);
-    //   dispatch({
-    //       type: SET_TEAM_LOGO_URL,
-    //       payload: { id: team.id, logoUrl: logoUrl}
-    //   })
-    // })
   } catch (error) {
     dispatch({
       type: GET_TEAMS,
       payload: [],
     });
   }
+};
+
+export const updateTeam = async (dispatch, data) => {
+  try {
+    const response = await axios.post(apis.updateTeam, data);
+    const teams = response.data.teams;
+    teams.map((team) => {
+      const logoUrl = apis.teamLogoURL(team.userId, team.id);
+      team.logo = logoUrl;
+    });
+
+    dispatch({
+      type: GET_TEAMS,
+      payload: teams,
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_TEAMS,
+      payload: [],
+    });
+  }
+  dispatch({
+    type: CLOSE_TEAM_DIALOG,
+  });
 };
 
 export const openCreateTeamDialog = (payload) => ({
@@ -173,7 +224,7 @@ export const openAddPlayerDialgo = (payload) => ({
   payload: payload,
 });
 
-// Matches Action
+// Matches
 export const getMatches = async (dispatch) => {
   try {
     const response = await axios.get(apis.getMatchtes);
@@ -190,10 +241,75 @@ export const getMatches = async (dispatch) => {
   }
 };
 
-export const closeMatchDialog = () => ({
-  type: CLOSE_MATCH_DIALOG,
-});
-// matchup action
+export const createMatch = async (dispatch, data) => {
+  try {
+    const response = await axios.post(apis.createMatch, data);
+    const matches = response.data.matches;
+    dispatch({
+      type: GET_MATCHES,
+      payload: matches,
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_MATCHES,
+      payload: [],
+    });
+  }
+};
+
+export const updateMatch = async (dispatch, data) => {
+  try {
+    const response = await axios.post(apis.updateMatch, data);
+    const matches = response.data.matches;
+    dispatch({
+      type: GET_MATCHES,
+      payload: matches,
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_MATCHES,
+      payload: [],
+    });
+  }
+};
+
+export const deleteMatch = async (dispatch, matchId) => {
+  try {
+    const response = await axios.get(apis.deleteMatch(matchId));
+    const matches = response.data.matches;
+    dispatch({
+      type: GET_MATCHES,
+      payload: matches,
+    });
+    getTeams(dispatch);
+    getPlayers(dispatch);
+    alert("Deleted successfully!");
+  } catch (error) {
+    dispatch({
+      type: GET_MATCHES,
+      payload: [],
+    });
+    alert("Error occurred!");
+  }
+};
+
+export const updateMatchResult = async (dispatch, data) => {
+  try {
+    const response = await axios.post(apis.updateMatchResult, data);
+    const matches = response.data.matches;
+    dispatch({
+      type: GET_MATCHES,
+      payload: matches,
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_MATCHES,
+      payload: [],
+    });
+  }
+};
+
+// Matchup
 export const getMatchups = async (dispatch) => {
   try {
     const response = await axios.get(apis.getMatchups);
@@ -208,6 +324,111 @@ export const getMatchups = async (dispatch) => {
       payload: [],
     });
   }
+};
+
+export const completeMatchup = async (dispatch, data) => {
+  try {
+    const response = await axios.post(apis.completeMatchup, data);
+
+    const matchups = response.data.matchups;
+    dispatch({
+      type: GET_MATCHUPS,
+      payload: matchups,
+    });
+    getMatches(dispatch);
+    getTeams(dispatch);
+    alert("Completed matchup!");
+  } catch {
+    dispatch({
+      type: GET_MATCHUPS,
+      payload: [],
+    });
+  }
+};
+
+export const incompleteMatchup = async (dispatch, data) => {
+  try {
+    const response = await axios.post(apis.incompleteMatchup, data);
+
+    const matchups = response.data.matchups;
+    dispatch({
+      type: GET_MATCHUPS,
+      payload: matchups,
+    });
+    getMatches(dispatch);
+    getTeams(dispatch);
+    alert("Incompleted matchup!");
+  } catch {
+    dispatch({
+      type: GET_MATCHUPS,
+      payload: [],
+    });
+  }
+};
+
+// Logs
+export const getLogs = async (dispatch) => {
+  try {
+    const response = await axios.get(apis.getLogs);
+    const logs = response.data.logs;
+    dispatch({
+      type: GET_LOGS,
+      payload: logs,
+    });
+  } catch {
+    dispatch({
+      type: GET_LOGS,
+      payload: [],
+    });
+  }
+};
+
+export const createOneLog = (dispatch, data) => {
+  try {
+    axios
+      .post(apis.createOneLog, data)
+      .then((res) => {
+        dispatch({
+          type: GET_LOGS,
+          payload: res.data.logs,
+        });
+      })
+      .catch((error) => {
+        alert(error.response.data.message);
+      });
+  } catch (error) {}
+};
+
+export const updateOneLog = (dispatch, data) => {
+  try {
+    axios
+      .post(apis.updateOneLog, data)
+      .then((res) => {
+        dispatch({
+          type: GET_LOGS,
+          payload: res.data.logs,
+        });
+      })
+      .catch((error) => {
+        alert(error.response.data.message);
+      });
+  } catch (error) {}
+};
+
+export const removeLog = (dispatch, data) => {
+  try {
+    axios
+      .post(apis.removeLog, data)
+      .then((res) => {
+        dispatch({
+          type: GET_LOGS,
+          payload: res.data.logs,
+        });
+      })
+      .catch((error) => {
+        alert(error.response.data.message);
+      });
+  } catch (error) {}
 };
 
 // player action
@@ -269,26 +490,54 @@ export const getAdmins = async (dispatch) => {
   }
 };
 
+export const inviteAdmin = async (dispatch, data) => {
+  try {
+    const response = await axios.post(apis.inviteAdmin, data);
+    const admins = response.data.admins;
+    dispatch({
+      type: GET_ADMINS,
+      payload: admins,
+    });
+    alert("Invite sent!");
+  } catch (error) {
+    dispatch({
+      type: GET_ADMINS,
+      payload: [],
+    });
+    alert("Error occurred!");
+  }
+};
+
 export const getUsers = async (dispatch) => {
   try {
     const response = await axios.get(apis.getUsers);
     const users = response.data.users;
-    users.map(user=>{
+    users.map((user) => {
       user.avatar = apis.userAvatarURL(user.id);
-    })
-    
+    });
+
     dispatch({ type: GET_USERS, payload: users });
   } catch (error) {
     dispatch({ type: GET_USERS, payload: [] });
   }
 };
 
-export const getUserInfo = async (dispatch, id) => {
+export const getUserInfo = async (dispatch, id, navigate) => {
+// const navigate = useNavigate();
+
   try {
-    const response = await axios.get(apis.getUserInfo(id));
-    const user = response.data.user;
-    user.avatar = apis.userAvatarURL(id);
-    dispatch({ type: GET_USER, payload: user });
+    axios
+      .get(apis.getUserInfo(id))
+      .then((res) => {
+        const user = res.data.user;
+        user.avatar = apis.userAvatarURL(id);
+        dispatch({ type: GET_USER, payload: user });
+      })
+      .catch((error) => {
+        localStorage.removeItem("userId");
+        localStorage.removeItem("token");
+        navigate("/signin");
+      });
   } catch (error) {
     dispatch({ type: GET_USER, payload: [] });
   }

@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../actions";
 import axios from "axios";
 import apis from "../../utils/apis";
+import moment from "moment";
 
 const Modal = (props) => {
   const dispatch = useDispatch();
@@ -59,7 +60,11 @@ const Modal = (props) => {
   };
 
   const goToStep2 = () => {
-    setStep(2);
+    if (sport === "Select Sport*") {
+      alert("Please select Sport!")
+    } else {
+      setStep(2);
+    }
   };
 
   const goToStep3 = () => {
@@ -195,27 +200,13 @@ const Modal = (props) => {
   const [show2, setShow2] = useState(false);
   const handleChange1 = (selectedDate) => {
     const dateObj = new Date(selectedDate);
-    const formattedDate = dateObj
-      .toLocaleDateString("en", {
-        month: "short",
-        day: "2-digit",
-        year: "numeric",
-      })
-      .replace(/ /g, "/")
-      .replace(",", "");
+    const formattedDate = moment(dateObj).format('DD/MM/YYYY');
     console.log(formattedDate.toString());
     setStartDate(formattedDate.toString());
   };
   const handleChange2 = (selectedDate) => {
     const dateObj = new Date(selectedDate);
-    const formattedDate = dateObj
-      .toLocaleDateString("en", {
-        month: "short",
-        day: "2-digit",
-        year: "numeric",
-      })
-      .replace(/ /g, "/")
-      .replace(",", "");
+    const formattedDate =  moment(dateObj).format('DD/MM/YYYY');
     console.log(formattedDate.toString());
     setEndDate(formattedDate.toString());
   };
@@ -230,7 +221,7 @@ const Modal = (props) => {
     <Transition.Root show={status} as={Fragment}>
       <Dialog
         as="div"
-        className="relative z-10"
+        className="relative z-30"
         initialFocus={cancelButtonRef}
         onClose={closeDialog}
       >
@@ -246,7 +237,7 @@ const Modal = (props) => {
           <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
         </Transition.Child>
 
-        <div className="fixed inset-0 z-10 overflow-y-auto">
+        <div className="fixed inset-0 overflow-y-auto">
           <div className="flex min-h-full items-end justify-center text-center sm:items-center sm:p-0">
             <Transition.Child
               as={Fragment}
@@ -332,7 +323,7 @@ const Modal = (props) => {
                         </>
                       ) : step == 2 ? (
                         <>
-                          <div>
+                          <div className="space-y-3">
                             <div
                               className={`${
                                 logoWarning ? "border-2 border-red-500" : ""
@@ -374,22 +365,24 @@ const Modal = (props) => {
                                 Upload League Logo
                               </p>
                             </div>
-                            <Input
-                              className="rounded-default text-xs my-5"
+                            <input
+                              className="border border-charcoal items-center px-3 bg-transparent outline-none text-black dark:text-white flex-grow h-button text-xs w-full"
                               placeholder="Type League Name*"
                               value={leagueName}
                               onChange={(e) => setLeagueName(e.target.value)}
-                            ></Input>
+                              maxLength={100}
+                            ></input>
 
                             <textarea
                               id="message"
                               rows="6"
-                              className="block p-2.5 w-full text-xs text-gray-900 rounded-lg border border-charcoal focus:ring-blue-500 focus:border-blue-500 dark:bg-transparent dark:border-charcoal dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 resize-none outline-none"
+                              className="block p-2.5 w-full text-xs text-gray-900 rounded-default border border-charcoal focus:ring-blue-500 focus:border-blue-500 dark:bg-transparent dark:border-charcoal dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 resize-none outline-none"
                               placeholder="Describe your League"
                               value={leagueDescription}
                               onChange={(e) =>
                                 setLeagueDescription(e.target.value)
                               }
+                              maxLength={500}
                             ></textarea>
                           </div>
                           <div className="flex mt-auto w-full justify-between">

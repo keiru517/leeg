@@ -174,7 +174,7 @@ const Profile = () => {
               <div className="flex items-center space-x-3">
                 <img
                   src={previewURL ? previewURL : user?.avatar}
-                  className="w-24 h-24 rounded-lg"
+                  className="w-24 h-24 rounded-full border border-gray-500"
                   alt=""
                 />
                 <div
@@ -202,12 +202,6 @@ const Profile = () => {
               {status === "information" ? (
                 <>
                   <div className="grid grid-cols-3 space-x-3">
-                    {/* <Input
-                      className="text-xs rounded-default"
-                      placeholder="Type Email Address*"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                    ></Input> */}
                     <Input
                       className="text-xs rounded-default"
                       placeholder="Type Your First Name"
@@ -219,6 +213,12 @@ const Profile = () => {
                       placeholder="Type Your Last Name"
                       value={lastName}
                       onChange={(e) => setLastName(e.target.value)}
+                    ></Input>
+                    <Input
+                      className="text-xs rounded-default"
+                      placeholder="Type Email Address*"
+                      value={email}
+                      // onChange={(e) => setEmail(e.target.value)}
                     ></Input>
                   </div>
                 </>
@@ -265,7 +265,7 @@ const Profile = () => {
                   onClick={
                     status === "information" ? goToPassword : goToInformation
                   }
-                  className="text-black dark:text-white font-medium text-sm cursor-pointer hover:opacity-70"
+                  className="text-black dark:text-white font-medium text-sm cursor-pointer hover:opacity-70 w-fit"
                 >
                   {status === "information"
                     ? "Update Password"

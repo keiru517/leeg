@@ -1,6 +1,6 @@
 import { Typography } from "@material-tailwind/react";
-import deleteIconDark from "../../assets/img/dark_mode/delete-icon-dark.png";
-import deleteIconLight from "../../assets/img/dark_mode/delete-icon-light.png";
+import deleteIconDark from "../../assets/img/dark_mode/delete-icon-dark.svg";
+import deleteIconLight from "../../assets/img/dark_mode/delete-icon-light.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import * as actions from "../../actions";
@@ -36,7 +36,7 @@ const AdminTable = (props) => {
   return (
     <div className="text-white h-full w-full">
       <table className="w-full min-w-max table-auto text-left">
-        <thead className="sticky">
+        <thead className="sticky top-0 z-10 bg-white dark:bg-slate">
           <tr>
             <th
               key="1"
@@ -45,7 +45,7 @@ const AdminTable = (props) => {
               <Typography
                 variant="small"
                 color="blue-gray"
-                className="font-normal leading-none text-black bg-text-white"
+                className="font-normal leading-none text-black dark:text-white"
               >
                 Admin
               </Typography>
@@ -99,7 +99,7 @@ const AdminTable = (props) => {
                               ?.avatar
                           }
                           alt=""
-                          className="w-8 h-8 mr-2 rounded-default"
+                          className="w-8 h-8 mr-2 rounded-full border border-gray-500"
                         />
                         {
                           users.find((user) => user?.id == admin.userId)

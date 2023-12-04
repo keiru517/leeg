@@ -1,7 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import downArrowFilled from "../../../src/assets/img/dark_mode/down-arrow-filled.png";
-import downArrow from "../../../src/assets/img/dark_mode/down-arrow.png";
-import settingsIcon from "../../assets/img/dark_mode/Setting.png";
 import { Link, useNavigate } from "react-router-dom";
 import apis from "../../utils/apis";
 import { useDispatch, useSelector } from "react-redux";
@@ -48,8 +46,8 @@ const SettingsSelect = (props) => {
   const handleLogOut = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("userId");
-    setExpand(false);
     navigate("/signin", { replace: true });
+    setExpand(false);
   };
 
   useEffect(() => {
@@ -84,14 +82,14 @@ const SettingsSelect = (props) => {
         <img
           src={user?.avatar}
           // src={apis.userAvatarURL(localStorage.getItem("userId"))}
-          className="w-8 h-8 rounded-lg"
+          className="w-8 h-8 rounded-full border border-gray-500"
           alt=""
         />
         {/* <span className="ml-2">{value}</span> */}
         <img src={downArrowFilled} alt="" className="mr-2" />
       </div>
       <ul
-        className={`w-[180px] p-2 text-sm z-20 text-gray-700 dark:text-gray-200 absolute right-0 top-12 bg-[#ebebeb] dark:bg-dark-gray rounded-default${
+        className={`w-[180px] p-2 text-sm z-30 text-gray-700 dark:text-gray-200 absolute right-0 top-12 bg-[#ebebeb] dark:bg-dark-gray rounded-default${
           expand ? `` : " hidden"
         }`}
         aria-labelledby="states-button"

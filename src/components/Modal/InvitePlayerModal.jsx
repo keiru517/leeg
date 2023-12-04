@@ -1,17 +1,19 @@
 import { Fragment, useRef, useState } from "react";
+import { useParams } from "react-router";
 import { Dialog, Transition } from "@headlessui/react";
 import close from "../../assets/img/dark_mode/close.png";
 import Input from "../Input";
 import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../actions";
 
-const PlayerModal = (props) => {
+const InvitePlayerModal = (props) => {
   const dispatch = useDispatch();
+  let { leagueId} = useParams();
 
   const status = useSelector(state => state.home.player_dialog.open);
+  const user = useSelector(state=>state.home.user);
 
-
-  // const [open, setOpen] = useState(false);
+  const [email, setEmail] = useState("");
 
   const cancelButtonRef = useRef(null);
 
@@ -21,7 +23,7 @@ const PlayerModal = (props) => {
   
   
   const invitePlayer = () => {
-    console.log("invite player")
+    actions.invitePlayer(dispatch, {email:email, leagueId:leagueId, inviter:user})
     dispatch({ type: actions.OPEN_INVITE_PLAYER_DIALOG, payload: false });
   }
 
@@ -29,7 +31,7 @@ const PlayerModal = (props) => {
     <Transition.Root show={status} as={Fragment}>
       <Dialog
         as="div"
-        className="relative z-10"
+        className="relative z-30"
         initialFocus={cancelButtonRef}
         onClose={closeDialog}
       >
@@ -69,8 +71,11 @@ const PlayerModal = (props) => {
                     ></img>
                   </div>
                   <div className="flex-col p-default flex flex-grow justify-between">
-                      <Input className='rounded-default text-xs' placeholder='Copy Link'></Input>
-                      <button onClick={invitePlayer} className='bg-primary rounded-xl w-full hover:bg-sky-600 text-white h-button'>Copy Link</button>
+                      <Input className='rounded-default text-xs' placeholder='Type email address'
+                      value={email}
+                      onChange={(e)=>setEmail(e.target.value)}
+                      ></Input>
+                      <button onClick={invitePlayer} className='bg-primary rounded-default w-full hover:bg-sky-600 text-white h-button'>Invite</button>
                   </div>
                 </div>
               </Dialog.Panel>
@@ -82,4 +87,4 @@ const PlayerModal = (props) => {
   );
 };
 
-export default PlayerModal;
+export default InvitePlayerModal;

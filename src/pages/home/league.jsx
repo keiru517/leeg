@@ -12,7 +12,7 @@ import Button from "../../components/Button";
 import TeamCard from "../../components/Card/Team";
 import { Tab } from "@headlessui/react";
 import LeagueModal from "../../components/Modal/LeagueModal";
-import PlayerModal from "../../components/Modal/PlayerModal";
+import InvitePlayerModal from "../../components/Modal/InvitePlayerModal";
 import TeamModal from "../../components/Modal/TeamModal";
 import MatchModal from "../../components/Modal/MatchModal";
 import AdminModal from "../../components/Modal/AdminModal";
@@ -21,6 +21,7 @@ import StandingTable from "../../components/Table/Standing";
 import AdminTable from "../../components/Table/Admin";
 import PlayerTable from "../../components/Table/Player";
 import RosterTable from "../../components/Table/Roster";
+import TimePicker from "../../components/Timer/TimePicker";
 import calendar from "../../assets/img/dark_mode/calendar.png";
 import apis from "../../utils/apis";
 import * as actions from "../../actions";
@@ -33,7 +34,7 @@ const League = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const tab = queryParams.get("tab");
+  // const tab = queryParams.get("tab");
 
   const user = useSelector((state) => state.home.user);
   const league = useSelector((state) => state.home.leagues).find(
@@ -59,14 +60,14 @@ const League = () => {
   const players = useSelector((state) => state.home.players).filter(
     (player) => player.leagueId == leagueId && player.isDeleted !== 1
   );
-  
+
   // this is used for Players tab
   const allPlayers = useSelector((state) => state.home.players).filter(
-    (player) => player.leagueId == leagueId
+    (player) => player.leagueId == leagueId && player.isAcceptedList
   );
 
   const matches = useSelector((state) => state.home.matches).filter(
-    (match) => match.leagueId == leagueId
+    (match) => match.leagueId == leagueId && match.isDeleted == 0
   );
 
   const options = [
@@ -75,29 +76,28 @@ const League = () => {
   ];
 
   const rosterOptions = [
-    { id: 0, name: "WaitList" },
-    { id: 1, name: "AcceptedList" },
+    { id: 0, name: "Waitlisted" },
+    { id: 1, name: "Accepted" },
   ];
-
 
   const [value, setValue] = useState("Sort by");
   const [rosterValue, setRosterValue] = useState(rosterOptions[0].name);
   const [rosters, setRosters] = useState([]);
-  useEffect(()=>{
-    var result =  players?.filter(roster=>roster.isWaitList === 1);
-    if (rosterValue == "WaitList") {
-      result = players?.filter(roster=>roster.isWaitList === 1)
+  useEffect(() => {
+    var result = players?.filter((roster) => roster.isWaitList === 1);
+    if (rosterValue == "Waitlisted") {
+      result = players?.filter((roster) => roster.isWaitList === 1);
     } else {
-      result = players?.filter(roster=>roster.isAcceptedList ===1)
+      result = players?.filter((roster) => roster.isAcceptedList === 1);
     }
     setRosters(result);
-  }, [rosterValue])
+  }, [rosterValue]);
 
   var categories = [];
   if (isAdmin) {
     // if (league?.userId == user?.id) {
     categories = [
-      "Blog",
+      // "Blog",
       "Manage Rosters",
       "Teams",
       "Schedule",
@@ -106,7 +106,7 @@ const League = () => {
       "Settings",
     ];
   } else {
-    categories = ["Blog", "Teams", "Schedule", "Standings", "Players"];
+    categories = ["Teams", "Schedule", "Standings", "Players"];
   }
 
   function classNames(...classes) {
@@ -116,8 +116,10 @@ const League = () => {
   const [waitItemChecked, setWaitItemChecked] = useState({});
   const [acceptedItemChecked, setAcceptedItemChecked] = useState({});
 
-  const handleCategory = (data) => {
-    navigate(`/league/${leagueId}?tab=${data}`);
+  const [tab, setTab] = useState(0);
+  const handleCategory = (idx) => {
+    // navigate(`/league/${leagueId}?tab=${idx}`);
+    setTab(idx);
     setWaitListKeyword("");
     setAcceptListKeyword("");
     setTeamKeyword("");
@@ -168,7 +170,7 @@ const League = () => {
   );
 
   const [teamKeyword, setTeamKeyword] = useState("");
-  const [filteredTeams, setFilteredTeams] = useState("");
+  const [filteredTeams, setFilteredTeams] = useState(teams);
 
   const [scheduleKeyword, setScheduleKeyword] = useState("");
   const [filteredMatches, setFilteredMatches] = useState([]);
@@ -184,10 +186,10 @@ const League = () => {
     setFilteredWaitListPlayers(waitListPlayers);
     setFilteredAcceptListPlayers(acceptedPlayers);
     setFilteredPlayers(allPlayers);
-    if (rosterValue==='WaitList') {
-      setRosters(players?.filter(roster=>roster.isWaitList === 1));
+    if (rosterValue === "Waitlisted") {
+      setRosters(players?.filter((roster) => roster.isWaitList === 1));
     } else {
-      setRosters(players?.filter(roster=>roster.isAcceptedList === 1));
+      setRosters(players?.filter((roster) => roster.isAcceptedList === 1));
     }
   }, [
     players.length,
@@ -215,25 +217,25 @@ const League = () => {
   }, [acceptListKeyword]);
 
   // Teams
-  useEffect(() => {
-    setFilteredTeams(teams);
-    setFilteredStandings(teams);
-  }, [teams.length]);
+  // useEffect(() => {
+  //   setFilteredTeams(teams);
+  //   setFilteredStandings(teams);
+  // }, [teams.length]);
 
-  useEffect(() => {
-    const searchResult = teams.filter((team) =>
-      team.name.toLowerCase().includes(teamKeyword.toLowerCase())
-    );
-    setFilteredTeams(searchResult);
-  }, [teamKeyword]);
+  // useEffect(() => {
+  //   const searchResult = teams.filter((team) =>
+  //     team.name.toLowerCase().includes(teamKeyword.toLowerCase())
+  //   );
+  //   setFilteredTeams(searchResult);
+  // }, [teamKeyword]);
 
   // Standings
-  useEffect(() => {
-    const searchResult = teams.filter((team) =>
-      team.name.toLowerCase().includes(standingsKeyword.toLowerCase())
-    );
-    setFilteredStandings(searchResult);
-  }, [standingsKeyword]);
+  // useEffect(() => {
+  //   const searchResult = teams.filter((team) =>
+  //     team.name.toLowerCase().includes(standingsKeyword.toLowerCase())
+  //   );
+  //   setFilteredStandings(searchResult);
+  // }, [standingsKeyword]);
 
   // Players
   useEffect(() => {
@@ -298,6 +300,8 @@ const League = () => {
   const [chosenFile, setChosenFile] = useState();
   const [previewURL, setPreviewURL] = useState("");
 
+  const [minute, setMinute] = useState("");
+  const [second, setSecond] = useState("");
   const [isAllowedFan, setIsAllowedFan] = useState("");
   const [displayLeagueId, setDisplayLeagueId] = useState("");
   const [displayPosition, setDisplayPosition] = useState("");
@@ -313,6 +317,8 @@ const League = () => {
   const [requirePassword, setRequirePassword] = useState("");
 
   useEffect(() => {
+    setMinute(league?.minute);
+    setSecond(league?.second);
     setIsAllowedFan(league?.isAllowedFan);
     setDisplayPosition(league?.displayPosition);
     setDisplayAttempts3(league?.displayAttempts3);
@@ -558,6 +564,22 @@ const League = () => {
       });
   };
 
+  const handleTimer = () => {
+    axios
+      .post(apis.updateTimer, {
+        leagueId,
+        minute,
+        second,
+      })
+      .then((res) => {
+        actions.getLeagues(dispatch);
+        alert(res.data.message);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   const deleteLeague = () => {
     dispatch({ type: actions.OPEN_DELETE_LEAGUE_DIALOG, payload: league });
   };
@@ -580,12 +602,12 @@ const League = () => {
       </div>
       <div className="rounded-default bg-white dark:bg-slate flex-grow p-default">
         <div className="w-full px-2 sm:px-0 h-full flex flex-col">
-          <Tab.Group defaultIndex={tab}>
+          <Tab.Group>
             <div className="flex justify-between">
               <Tab.List className="flex justify-start space-x-5 rounded-xl bg-transparent p-1 ">
                 {categories.map((category, idx) => (
                   <Tab
-                    key={category}
+                    key={idx}
                     className={({ selected }) =>
                       classNames(
                         "py-2.5 text-sm font-medium leading-5 text-gray-500 dark:text-gray-300 px-3",
@@ -601,21 +623,21 @@ const League = () => {
                   </Tab>
                 ))}
               </Tab.List>
-              {tab == 1 && isAdmin ? (
+              {tab == 0 && isAdmin ? (
                 <button
                   onClick={handleInvitePlayer}
                   className="w-36 h-[42px] bg-primary hover:bg-opacity-70 rounded-default text-white focus:ring-2 text-sm font-bold"
                 >
                   Invite Player
                 </button>
-              ) : tab == 2 && isAdmin ? (
+              ) : tab == 1 && isAdmin ? (
                 <button
                   onClick={handleCreateTeam}
                   className="w-36 h-[42px] bg-primary hover:bg-opacity-70 rounded-default text-white focus:ring-2 text-sm font-bold"
                 >
                   Create Team
                 </button>
-              ) : tab == 3 && isAdmin ? (
+              ) : tab == 2 && isAdmin ? (
                 <button
                   onClick={handleCreateMatch}
                   className="w-36 h-[42px] bg-primary hover:bg-opacity-70 rounded-default text-white focus:ring-2 text-sm font-bold"
@@ -627,278 +649,59 @@ const League = () => {
               )}
             </div>
             <Tab.Panels className="flex-grow flex items-center ">
-              {/* Blog */}
-              <Tab.Panel
-                key={0}
-                className={classNames(
-                  "rounded-xl flex flex-col justify-between w-full h-full"
-                )}
-              >
-                <hr className="h-px my-4 bg-charcoal border-0" />
-                <div className="flex h-full space-x-4">
-                  <div className="w-full bg-light-charcoal dark:bg-charcoal flex flex-col h-full min-h-[420px] p-default rounded-main">
-                    <div className="flex justify-between w-full">
-                      <p className="text-black dark:text-white text-xl font-semibold">
-                        Blogs for this league
-                      </p>
-                      <p className="text-black dark:text-white text-xl font-semibold">
-                        {filteredWaitListPlayers.length}
-                      </p>
-                    </div>
-                    <hr className="h-px my-5 bg-gray-300 border-0 dark:bg-dark-gray" />
-                    <div className="flex w-full justify-between space-x-10 my-5">
-                      <div className="flex flex-grow space-x-3 ">
-                        <Input
-                          className="flex-grow rounded-lg h-[38px] dark:bg-charcoal text-xs"
-                          icon={search}
-                          placeholder="Search"
-                          value={waitListKeyword}
-                          onChange={(e) => {
-                            setWaitListKeyword(e.target.value);
-                          }}
-                        />
-                      </div>
-                      <div>
-                        <Button
-                          className="text-sm bg-success w-[100px] h-[38px] rounded-lg hover:opacity-70"
-                        >
-                          Add blog
-                        </Button>
-                      </div>
-                    </div>
-                    <div
-                      className={`overflow-y-scroll h-4/6 flex flex-col items-center flex-grow ${
-                        filteredWaitListPlayers.length
-                          ? ""
-                          : "dark:bg-light-gray justify-center"
-                      } rounded-default`}
-                    >
-                      {/* {filteredWaitListPlayers.length ? (
-                        filteredWaitListPlayers.map((player, idx) => (
-                          <ListItem
-                            key={idx}
-                            className="mb-5"
-                            avatar={player.avatar}
-                            name={player.firstName + " " + player.lastName}
-                            email={player.email}
-                            date={player.createdAt}
-                            itemChecked={!!waitItemChecked[player.id]}
-                            setItemChecked={(checked) => {
-                              setWaitListItemChecked(player.id, checked);
-                            }}
-                          ></ListItem>
-                        ))
-                      ) : ( */}
-                      <p className="text-black dark:text-white font-medium text-sm">
-                        No Blogs to show!
-                      </p>
-                      {/* )} */}
-                    </div>
-                  </div>
-                </div>
-                <PlayerModal></PlayerModal>
-              </Tab.Panel>
               {/* Rosters */}
               {isAdmin ? (
                 <Tab.Panel
-                  key={1}
+                  key={0}
                   className={classNames(
                     "rounded-xl flex flex-col justify-between w-full h-full"
                   )}
                 >
                   <hr className="h-px my-4 bg-charcoal border-0" />
-                  <div className="h-full ">
-                    <div className="bg-light-charcoal dark:bg-charcoal flex flex-col h-full min-h-[420px] p-default rounded-main">
-                      <div className="flex w-full justify-between space-x-10">
-                        <div className="flex flex-grow space-x-3 ">
-                          <Input
-                            className="flex-grow rounded-lg h-[38px] dark:bg-charcoal text-xs"
-                            icon={search}
-                            placeholder="Search"
-                            value={waitListKeyword}
-                            onChange={(e) => {
-                              setWaitListKeyword(e.target.value);
-                            }}
-                          />
-                          <Select
-                            className="w-[144px] rounded-lg text-xs"
-                            options={rosterOptions}
-                            handleClick={(e) => setRosterValue(e.name)}
-                            value={rosterValue}
-                          >
-                            {rosterValue}
-                          </Select>
-                        </div>
-                      </div>
-                      <div
-                        className={`overflow-y-scroll:auto h-4/6 flex flex-col items-center flex-grow ${
-                          players.length
-                            ? ""
-                            : "dark:bg-light-gray justify-center"
-                        } rounded-default`}
-                      >
-                        <RosterTable rosters={rosters} rosterValue={rosterValue} setRosterValue={setRosterValue}/>
-                        {/* {players.length ? (
-                          players.map((player, idx) => (
-                            <ListItem
-                              key={idx}
-                              className="mb-5"
-                              avatar={player.avatar}
-                              name={player.firstName + " " + player.lastName}
-                              email={player.email}
-                              date={player.createdAt}
-                              itemChecked={!!waitItemChecked[player.id]}
-                              setItemChecked={(checked) => {
-                                setWaitListItemChecked(player.id, checked);
-                              }}
-                            ></ListItem>
-                          ))
-                        ) : (
-                          <p className="text-black dark:text-white font-medium text-sm">
-                            No waitlisted Players to show!
-                          </p>
-                        )} */}
-                      </div>
-                    </div>
+                  <div className="flex space-x-3">
+                    <Input
+                      className="flex-grow rounded-lg h-[38px] bg-transparent text-xs"
+                      icon={search}
+                      placeholder="Search rosters"
+                      value={waitListKeyword}
+                      onChange={(e) => {
+                        setWaitListKeyword(e.target.value);
+                      }}
+                    />
+                    <Select
+                      className="w-[144px] rounded-lg text-xs"
+                      options={rosterOptions}
+                      handleClick={(e) => setRosterValue(e.name)}
+                      value={rosterValue}
+                    >
+                      {rosterValue}
+                    </Select>
                   </div>
-                  {/* <div className="h-full grid grid-cols-1 sm:grid-cols-2 sm:space-x-4 sm:space-y-0 space-y-3 ">
-                    <div className="bg-light-charcoal dark:bg-charcoal flex flex-col h-full min-h-[420px] p-default rounded-main">
-                      <div className="flex justify-between w-full">
-                        <p className="text-black dark:text-white text-xl font-semibold">
-                          Waitlisted Players
-                        </p>
-                        <p className="text-black dark:text-white text-xl font-semibold">
-                          {filteredWaitListPlayers.length}
-                        </p>
-                      </div>
-                      <hr className="h-px my-5 bg-gray-300 border-0 dark:bg-dark-gray" />
-                      <div className="flex w-full justify-between space-x-10 my-5">
-                        <div className="flex flex-grow space-x-3 ">
-                          <Input
-                            className="flex-grow rounded-lg h-[38px] dark:bg-charcoal text-xs"
-                            icon={search}
-                            placeholder="Search"
-                            value={waitListKeyword}
-                            onChange={(e) => {
-                              setWaitListKeyword(e.target.value);
-                            }}
-                          />
-                          <Select
-                            className="w-[144px] rounded-lg text-xs"
-                            options={options}
-                            handleClick={(e) => setWaitSortValue(e.name)}
-                            value={waitSortValue}
-                          >
-                            {waitSortValue}
-                          </Select>
-                        </div>
-                        <div>
-                          <Button
-                            onClick={handleAccept}
-                            className="text-sm bg-success w-[72px] h-[38px] rounded-lg hover:opacity-70"
-                          >
-                            Accept
-                          </Button>
-                        </div>
-                      </div>
-                      <div
-                        className={`overflow-y-scroll h-4/6 flex flex-col items-center flex-grow ${
-                          filteredWaitListPlayers.length
-                            ? ""
-                            : "dark:bg-light-gray justify-center"
-                        } rounded-default`}
-                      >
-                        {filteredWaitListPlayers.length ? (
-                          filteredWaitListPlayers.map((player, idx) => (
-                            <ListItem
-                              key={idx}
-                              className="mb-5"
-                              avatar={player.avatar}
-                              name={player.firstName + " " + player.lastName}
-                              email={player.email}
-                              date={player.createdAt}
-                              itemChecked={!!waitItemChecked[player.id]}
-                              setItemChecked={(checked) => {
-                                setWaitListItemChecked(player.id, checked);
-                              }}
-                            ></ListItem>
-                          ))
-                        ) : (
-                          <p className="text-black dark:text-white font-medium text-sm">
-                            No waitlisted Players to show!
-                          </p>
-                        )}
-                      </div>
+                  {rosters.filter((roster) =>
+                    (roster.firstName + roster.lastName)
+                      .toLowerCase()
+                      .includes(waitListKeyword.toLowerCase())
+                  ).length > 0 ? (
+                    <RosterTable
+                      rosters={rosters.filter((roster) =>
+                        (roster.firstName + roster.lastName)
+                          .toLowerCase()
+                          .includes(waitListKeyword.toLowerCase())
+                      )}
+                      rosterValue={rosterValue}
+                      setRosterValue={setRosterValue}
+                    />
+                  ) : (
+                    <div className="flex items-center flex-grow">
+                      <p className="text-2xl text-black dark:text-white w-full text-center">
+                        {
+                          rosterValue === "Waitlisted"? "No Waitlist to show!":"Now Accepted to show!"
+                        }
+                      </p>
                     </div>
-                    <div className="bg-light-charcoal dark:bg-charcoal flex flex-col h-full min-h-[420px] p-default rounded-main">
-                      <div className="flex justify-between w-full">
-                        <p className="text-black dark:text-white text-xl font-semibold">
-                          Available Players
-                        </p>
-                        <p className="text-black dark:text-white text-xl font-semibold">
-                          {filteredAcceptListPlayers.length}
-                        </p>
-                      </div>
-                      <hr className="h-px my-5 bg-gray-300 border-0 dark:bg-dark-gray" />
-                      <div className="flex w-full justify-between space-x-10 my-5">
-                        <div className="flex flex-grow space-x-3 ">
-                          <Input
-                            className="flex-grow rounded-lg h-[38px] dark:bg-charcoal text-xs"
-                            icon={search}
-                            placeholder="Search"
-                            value={acceptListKeyword}
-                            onChange={(e) =>
-                              setAcceptListKeyword(e.target.value)
-                            }
-                          />
-                          <Select
-                            className="w-[144px] rounded-lg text-xs"
-                            options={options}
-                            handleClick={(e) => setAcceptSortValue(e.name)}
-                            value={acceptSortValue}
-                          >
-                            {acceptSortValue}
-                          </Select>
-                        </div>
-                        <div>
-                          <Button
-                            onClick={handleRemove}
-                            className="text-sm bg-danger w-[72px] h-[38px] rounded-lg hover:opacity-70"
-                          >
-                            Remove
-                          </Button>
-                        </div>
-                      </div>
-                      <div
-                        className={`overflow-y-scroll h-4/6 flex flex-col items-center flex-grow space-y-5 ${
-                          filteredAcceptListPlayers.length
-                            ? ""
-                            : "dark:bg-light-gray justify-center"
-                        } rounded-default`}
-                      >
-                        {filteredAcceptListPlayers.length ? (
-                          filteredAcceptListPlayers.map((player, idx) => (
-                            <ListItem
-                              key={idx}
-                              avatar={player.avatar}
-                              name={player.firstName + " " + player.lastName}
-                              email={player.email}
-                              date={player.created_at}
-                              itemChecked={!!acceptedItemChecked[player.id]}
-                              setItemChecked={(checked) => {
-                                setAcceptedListItemChecked(player.id, checked);
-                              }}
-                            ></ListItem>
-                          ))
-                        ) : (
-                          <p className="text-black dark:text-white font-medium text-sm">
-                            No Accepted Players to show!
-                          </p>
-                        )}
-                      </div>
-                    </div>
-                  </div> */}
-                  <PlayerModal></PlayerModal>
+                  )}
+
+                  <InvitePlayerModal></InvitePlayerModal>
                 </Tab.Panel>
               ) : (
                 ""
@@ -906,23 +709,34 @@ const League = () => {
 
               {/* Teams */}
               <Tab.Panel
-                key={2}
+                key={1}
                 className={classNames("rounded-xl flex flex-col w-full h-full")}
               >
                 <hr className="h-px my-4 bg-charcoal border-0" />
                 <Input
-                  className="rounded-lg h-[42px] text-xs"
+                  className="rounded-lg h-[38px] text-xs"
                   icon={search}
-                  placeholder="Search Teams"
+                  placeholder="Search teams"
                   value={teamKeyword}
                   onChange={(e) => setTeamKeyword(e.target.value)}
                 />
-                {filteredTeams.length > 0 ? (
+                {teams.filter((team) =>
+                  team.name.toLowerCase().includes(teamKeyword.toLowerCase())
+                ).length > 0 ? (
                   <>
                     <div className="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
-                      {filteredTeams.map((team, idx) => (
+                      {teams
+                        .filter((team) =>
+                          team.name
+                            .toLowerCase()
+                            .includes(teamKeyword.toLowerCase())
+                        )
+                        .map((team, idx) => (
+                          <TeamCard team={team} key={idx}></TeamCard>
+                        ))}
+                      {/* {filteredTeams.map((team, idx) => (
                         <TeamCard team={team} key={idx}></TeamCard>
-                      ))}
+                      ))} */}
                     </div>
                   </>
                 ) : (
@@ -937,21 +751,12 @@ const League = () => {
 
               {/* Schedule */}
               <Tab.Panel
-                key={3}
+                key={2}
                 className={classNames("rounded-xl flex flex-col w-full h-full")}
               >
                 <hr className="h-px my-4 bg-charcoal border-0" />
                 {matches.length > 0 ? (
                   <>
-                    {/* <Input
-                      className="rounded-lg text-xs"
-                      icon={search}
-                      placeholder="Search Schedules"
-                      value={scheduleKeyword}
-                      onChange={(e)=>{
-                        setScheduleKeyword(e.target.value);
-                      }}
-                    /> */}
                     <MatchTable
                       matches={matches}
                       leagueId={leagueId}
@@ -969,7 +774,7 @@ const League = () => {
 
               {/* Standings */}
               <Tab.Panel
-                key={4}
+                key={3}
                 className={classNames(
                   "rounded-xl flex flex-col justify-between w-full h-full"
                 )}
@@ -977,25 +782,35 @@ const League = () => {
                 <hr className="h-px my-4 bg-charcoal border-0" />
                 <div className="flex space-x-3">
                   <Input
-                    className="rounded-lg flex-grow text-xs"
+                    className="rounded-lg flex-grow h-[38px] text-xs"
                     icon={search}
-                    placeholder="Search Standings"
+                    placeholder="Search standings"
                     value={standingsKeyword}
                     onChange={(e) => {
                       setStandingsKeyword(e.target.value);
                     }}
                   />
-                  <Select
+                  {/* <Select
                     className="text-xs"
                     options={options}
                     handleClick={(e) => setValue(e.name)}
                     value={value}
                   >
                     {value}
-                  </Select>
+                  </Select> */}
                 </div>
-                {filteredStandings.length > 0 ? (
-                  <StandingTable teams={filteredStandings}></StandingTable>
+                {teams.filter((team) =>
+                  team.name
+                    .toLowerCase()
+                    .includes(standingsKeyword.toLowerCase())
+                ).length > 0 ? (
+                  <StandingTable
+                    teams={teams.filter((team) =>
+                      team.name
+                        .toLowerCase()
+                        .includes(standingsKeyword.toLowerCase())
+                    )}
+                  ></StandingTable>
                 ) : (
                   <div className="flex items-center flex-grow">
                     <p className="text-2xl text-black dark:text-white w-full text-center">
@@ -1007,28 +822,28 @@ const League = () => {
 
               {/* Players */}
               <Tab.Panel
-                key={5}
+                key={4}
                 className={classNames("rounded-xl flex flex-col w-full h-full")}
               >
                 <hr className="h-px my-4 bg-charcoal border-0" />
                 <div className="flex space-x-3">
                   <Input
-                    className="rounded-lg flex-grow text-xs"
+                    className="rounded-lg h-[38px] flex-grow text-xs"
                     icon={search}
-                    placeholder="Search Players"
+                    placeholder="Search players"
                     value={playerKeyword}
                     onChange={(e) => {
                       setPlayerKeyword(e.target.value);
                     }}
                   />
-                  <Select
+                  {/* <Select
                     className="text-xs"
                     options={options}
                     handleClick={(e) => setValue(e.name)}
                     value={value}
                   >
                     {value}
-                  </Select>
+                  </Select> */}
                 </div>
                 {filteredPlayers.length > 0 ? (
                   <PlayerTable
@@ -1047,7 +862,7 @@ const League = () => {
               {/* Settings */}
 
               <Tab.Panel
-                key={6}
+                key={5}
                 className={classNames("rounded-xl flex flex-col w-full h-full")}
               >
                 <hr className="h-px my-4 bg-charcoal border-0" />
@@ -1087,13 +902,13 @@ const League = () => {
                       <textarea
                         id="message"
                         rows="6"
-                        className="block p-2.5 w-full text-xs text-gray-900 rounded-lg border border-charcoal focus:ring-blue-500 focus:border-blue-500 dark:bg-transparent dark:border-charcoal dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 resize-none outline-none"
+                        className="block p-2.5 w-full text-xs text-gray-900 rounded-lg border border-charcoal focus:ring-blue-500 focus:border-blue-500 dark:bg-transparent dark:border-charcoal dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 resize-none outline-none mt-3"
                         placeholder="Describe your League*"
                         value={leagueDescription}
                         onChange={(e) => setLeagueDescription(e.target.value)}
                       ></textarea>
                       <Input
-                        className="text-xs rounded-default my-5"
+                        className="text-xs rounded-default my-3"
                         option={calendar}
                         placeholder="Enter Season Start Date*"
                         value={leagueStartDate}
@@ -1107,16 +922,16 @@ const League = () => {
                         onChange={(e) => setLeagueEndDate(e.target.value)}
                       />
                     </div>
-                    <div className="flex flex-grow">
+                    <div className="flex flex-grow mt-3">
                       <button
                         onClick={editLeague}
-                        className="bg-primary h-12 text-white font-bold text-sm w-[76px] rounded-default hover:opacity-70"
+                        className="bg-primary h-button text-white font-bold text-sm w-[76px] rounded-default hover:opacity-70"
                       >
                         Save
                       </button>
                       <button
                         onClick={deleteLeague}
-                        className="bg-danger h-12 text-white font-bold text-sm w-[76px] rounded-default hover:opacity-70"
+                        className="bg-danger h-button text-white font-bold text-sm w-[76px] rounded-default hover:opacity-70"
                       >
                         Delete
                       </button>
@@ -1124,7 +939,7 @@ const League = () => {
                   </div>
                   {/* Stats */}
                   <div className="flex flex-col space-y-3 items-center">
-                    <div className="flex">
+                    <div className="flex justify-between w-2/3">
                       <p className="text-xs dark:text-white text-black">
                         Allow Fan view
                       </p>
@@ -1146,7 +961,7 @@ const League = () => {
                         onClick={toggleLeagueId}
                       />
                     </div> */}
-                    <div className="flex">
+                    <div className="flex justify-between w-2/3">
                       <p className="text-xs dark:text-white text-black">
                         Display Position
                       </p>
@@ -1157,7 +972,7 @@ const League = () => {
                         onClick={togglePosition}
                       />
                     </div>
-                    <div className="flex">
+                    <div className="flex justify-between w-2/3">
                       <p className="text-xs dark:text-white text-black">
                         Display 3 Attempts
                       </p>
@@ -1168,7 +983,7 @@ const League = () => {
                         onClick={toggleAttempts3}
                       />
                     </div>
-                    <div className="flex">
+                    <div className="flex justify-between w-2/3">
                       <p className="text-xs dark:text-white text-black">
                         Display 2 Attempts
                       </p>
@@ -1179,9 +994,9 @@ const League = () => {
                         onClick={toggleAttempts2}
                       />
                     </div>
-                    <div className="flex">
+                    <div className="flex justify-between w-2/3">
                       <p className="text-xs dark:text-white text-black">
-                        Display 1 Attempts
+                        Display FT Attempts
                       </p>
                       <img
                         src={displayAttempts1 ? toggleOn : toggleOff}
@@ -1190,7 +1005,7 @@ const League = () => {
                         onClick={toggleAttempts1}
                       />
                     </div>
-                    <div className="flex">
+                    <div className="flex justify-between w-2/3">
                       <p className="text-xs dark:text-white text-black">
                         Display Blocks
                       </p>
@@ -1201,7 +1016,7 @@ const League = () => {
                         onClick={toggleBlocks}
                       />
                     </div>
-                    <div className="flex">
+                    <div className="flex justify-between w-2/3">
                       <p className="text-xs dark:text-white text-black">
                         Display Rebounds
                       </p>
@@ -1212,7 +1027,7 @@ const League = () => {
                         onClick={toggleRebounds}
                       />
                     </div>
-                    <div className="flex">
+                    <div className="flex justify-between w-2/3">
                       <p className="text-xs dark:text-white text-black">
                         Display Assists
                       </p>
@@ -1223,7 +1038,7 @@ const League = () => {
                         onClick={toggleAssists}
                       />
                     </div>
-                    <div className="flex">
+                    <div className="flex justify-between w-2/3">
                       <p className="text-xs dark:text-white text-black">
                         Display Fouls
                       </p>
@@ -1234,7 +1049,7 @@ const League = () => {
                         onClick={toggleFouls}
                       />
                     </div>
-                    <div className="flex">
+                    <div className="flex justify-between w-2/3">
                       <p className="text-xs dark:text-white text-black">
                         Display Steals
                       </p>
@@ -1245,7 +1060,7 @@ const League = () => {
                         onClick={toggleSteals}
                       />
                     </div>
-                    <div className="flex">
+                    <div className="flex justify-between w-2/3">
                       <p className="text-xs dark:text-white text-black">
                         Display Turnovers
                       </p>
@@ -1256,7 +1071,7 @@ const League = () => {
                         onClick={toggleTurnovers}
                       />
                     </div>
-                    <div className="flex">
+                    <div className="flex justify-between w-2/3">
                       <p className="text-xs dark:text-white text-black">
                         Require Passowrd to Apply
                       </p>
@@ -1284,6 +1099,7 @@ const League = () => {
 
                     <AdminTable user={user} leagueId={leagueId} />
                   </div>
+
                   <AdminModal user={user} leagueId={leagueId} />
                 </div>
               </Tab.Panel>

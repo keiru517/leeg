@@ -3,62 +3,91 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router";
 import * as actions from "../../actions";
-import SubstituteModal from "../../components/Modal/SubstituteModal";
-import deleteIconDark from "../../assets/img/dark_mode/delete-icon-dark.png";
-import deleteIconLight from "../../assets/img/dark_mode/delete-icon-light.png";
 import axios from "axios";
 import apis from "../../utils/apis";
-import MatchupTitle from "../../components/MatchupTitle";
+import Log from "../../components/Card/Log";
+import Select from "../../components/Select";
+import leftArrowIcon from "../../assets/img/dark_mode/left-arrow.svg";
+import rightArrowIcon from "../../assets/img/dark_mode/right-arrow.svg";
+import triupIconDark from "../../assets/img/dark_mode/triup-icon-dark.png";
+import tridownIconDark from "../../assets/img/dark_mode/tridown-icon-dark.png";
+import triupIconLight from "../../assets/img/dark_mode/triup-icon-light.png";
+import tridownIconLight from "../../assets/img/dark_mode/tridown-icon-light.png";
+import MatchupSettingModal from "../../components/Modal/MatchupSettingModal";
+import SelectPlayerModal from "../../components/Modal/SelectPlayerModal";
+import EditEventModal from "../../components/Modal/EditEventModal";
+import SubstituteModal from "../../components/Modal/SubstituteModal";
+import LineupsModal from "../../components/Modal/LineupsModal";
+import PlayerStatsModal from "../../components/Modal/PlayerStatsModal";
+import Timer from "../../components/Timer";
+import playerStats from "../../assets/img/dark_mode/player-stats.svg";
+import editLineup from "../../assets/img/dark_mode/edit-lineup.svg";
+import plusIconDark from "../../assets/img/dark_mode/plus-icon-dark.svg";
+import plusIconLight from "../../assets/img/dark_mode/plus-icon-light.svg";
+import downloadIconDark from "../../assets/img/dark_mode/download-icon-dark.svg";
+import downloadIconLight from "../../assets/img/dark_mode/download-icon-light.svg";
+import settingIconDark from "../../assets/img/dark_mode/setting-icon-dark.svg";
+import settingIconLight from "../../assets/img/dark_mode/setting-icon-light.svg";
 
 const Matchup = () => {
   let { leagueId, matchId } = useParams();
   const dispatch = useDispatch();
-  const darkMode = useSelector((state) => state.home.dark_mode);
 
-  useEffect(() => {
-    actions.getUserInfo(dispatch, localStorage.getItem("userId"));
-    actions.getUsers(dispatch);
-    actions.getLeagues(dispatch);
-    actions.getTeams(dispatch);
-    actions.getMatches(dispatch);
-    actions.getMatchups(dispatch);
-    actions.getPlayers(dispatch);
-  }, []);
+  const darkMode = useSelector((state) => state.home.dark_mode);
+  const match = useSelector((state) => state.home.matches).find(
+    (match) => match.id == matchId
+  );
 
   const league = useSelector((state) => state.home.leagues).find(
     (league) => league.id == leagueId
   );
 
-  const displayPosition = league?.displayPosition;
-  const displayAttempts3 = league?.displayAttempts3;
-  const displayAttempts2 = league?.displayAttempts2;
-  const displayAttempts1 = league?.displayAttempts1;
-  const displayBlocks = league?.displayBlocks;
-  const displayRebounds = league?.displayRebounds;
-  const displayAssists = league?.displayAssists;
-  const displayFouls = league?.displayFouls;
-  const displaySteals = league?.displaySteals;
-  const displayTurnovers = league?.displayTurnovers;
+  const allLogs = useSelector((state) => state.home.logs)
+    .filter((log) => log.leagueId == leagueId && log.matchId == matchId)
+    .sort((a, b) => {
+      const timeA = a.time;
+      const timeB = b.time;
 
-  const match = useSelector((state) => state.home.matches).find(
-    (match) => match.id == matchId
+      // Convert time strings into numbers for comparison
+      const [minutesA, secondsA] = timeA.split(":").map(Number);
+      const [minutesB, secondsB] = timeB.split(":").map(Number);
+
+      if (a.period !== b.period) {
+        return a.period - b.period; // Sort in ascending order by period
+      }
+
+      // Compare minutes and seconds
+      if (minutesA !== minutesB) {
+        return minutesB - minutesA;
+      } else {
+        return secondsB - secondsA;
+      }
+    });
+
+  const options = [
+    { id: 0, name: "Incomplete" },
+    { id: 1, name: "Completed" },
+  ];
+
+  // const state = allLogs.length > 0? "Incomplete" : "In progress";
+  const [status, setStatus] = useState(
+    match?.isNew ? "Incomplete" : "Completed"
   );
 
-  const matchups = useSelector((state) => state.home.matchups).filter(
-    (matchup) => matchup.matchId == matchId
-  );
-
+  const handleStatus = (e) => {
+    setStatus(e.name);
+    if (e.id === 1) {
+      actions.completeMatchup(dispatch, { matchId });
+      // actions.getTeams(dispatch);
+      // Action to complete
+    } else {
+      actions.incompleteMatchup(dispatch, { matchId });
+      // actions.getTeams(dispatch);
+    }
+  };
   const homeTeam = useSelector((state) => state.home.teams).find(
     (team) => team.id == match?.homeTeamId
   );
-  // const homeTeamPlayers = useSelector((state) => state.home.players).filter(
-  //   (player) => player.teamId == match?.homeTeamId
-  // );
-  // const homePlayers = useSelector((state) => state.home.players)
-  //   .filter((player) => player.teamId == match?.homeTeamId)
-  //   .map((player) => {
-  //     return { ...player, points: 0, points3: 0, points2: 0, points1: 0 };
-  //   });
 
   const homeTeamMatchups = useSelector((state) => state.home.matchups)
     .filter(
@@ -101,23 +130,14 @@ const Matchup = () => {
     );
 
   const homeTeamPlayers = homeTeamMatchups;
-  // const homeTeamPlayers = match?.isNew ? homePlayers : homeTeamMatchups;
 
   const awayTeam = useSelector((state) => state.home.teams).find(
     (team) => team.id == match?.awayTeamId
   );
-  // const awayTeamPlayers = useSelector((state) => state.home.players).filter(
-  //   (player) => player.teamId == match?.awayTeamId
-  // );
-  // const awayPlayers = useSelector((state) => state.home.players)
-  //   .filter((player) => player.teamId == match?.awayTeamId)
-  //   .map((player) => {
-  //     return { ...player, points: 0, points3: 0, points2: 0, points1: 0 };
-  //   });
 
   const awayTeamMatchups = useSelector((state) => state.home.matchups)
     .filter(
-      (matchup) => matchup.matchId == matchId && matchup.teamId == awayTeam.id
+      (matchup) => matchup.matchId == matchId && matchup.teamId == awayTeam?.id
     )
     .map(
       ({
@@ -156,363 +176,279 @@ const Matchup = () => {
     );
   const awayTeamPlayers = awayTeamMatchups;
 
-  const options = ["Ascend", "Descend", "Recent"];
-  const [value, setValue] = useState("Sort by");
-
   const handleAddSubstitute = (id) => {
     dispatch({ type: actions.OPEN_ADD_SUBSTITUTE_DIALOG, payload: id });
   };
 
-  // const handleHomeInputChange = (index, playerId, matchId, teamId, points) => {
-  //   console.log("Home", index, playerId, matchId, teamId, points);
-  //   let temp = { ...homeInputValues };
-  //   temp[index] = { playerId, matchId, teamId, points };
-  //   setHomeInputValues(temp);
-  // };
-
-  const [homeInput, setHomeInput] = useState([]);
-  const [awayInput, setAwayInput] = useState([]);
+  const handlePlayerStats = (teamId) => {
+    dispatch({ type: actions.OPEN_PLAYER_STATS_DIALOG, payload: teamId });
+  };
+  const handleLineups = (teamId) => {
+    dispatch({ type: actions.OPEN_LINEUP_DIALOG, payload: teamId });
+  };
 
   useEffect(() => {
-    // setHomeInput(homeTeamMatchups);
-    // setAwayInput(awayTeamMatchups);
-    setHomeInput(homeTeamPlayers);
-    setAwayInput(awayTeamPlayers);
-  }, [
-    homeTeamMatchups.length,
-    awayTeamMatchups.length,
-    homeTeamPlayers.length,
-    awayTeamPlayers.length,
-  ]);
-
-  // Handel Home team inputs
-  const handleHomePoints3Change = (index, points3) => {
-    let temp = { ...homeInput };
-    temp[index] = {
-      ...temp[index],
-      points3: Number(points3),
-      points: temp[index].points + 3 * (Number(points3) - temp[index].points3),
-      // points: match?.isNew? temp[index].points || 0 + 3 * Number(points3):temp[index].points || 0 + 3 * (Number(points3) - temp[index].points3),
-    };
-    setHomeInput(temp);
-  };
-
-  const handleHomePoints2Change = (index, points2) => {
-    let temp = { ...homeInput };
-    temp[index] = {
-      ...temp[index],
-      points2: Number(points2),
-      points: temp[index].points + 2 * (Number(points2) - temp[index].points2),
-    };
-    setHomeInput(temp);
-  };
-
-  const handleHomePoints1Change = (index, points1) => {
-    let temp = { ...homeInput };
-    temp[index] = {
-      ...temp[index],
-      points1: Number(points1),
-      points: temp[index].points + 1 * (Number(points1) - temp[index].points1),
-    };
-    setHomeInput(temp);
-  };
-
-  const handleHomeAttempts3Change = (index, attempts3) => {
-    let temp = { ...homeInput };
-    temp[index] = {
-      ...temp[index],
-      attempts3: Number(attempts3),
-      // points: temp[index].points + 3 * (Number(points3) - temp[index].points3),
-      // points: match?.isNew? temp[index].points || 0 + 3 * Number(points3):temp[index].points || 0 + 3 * (Number(points3) - temp[index].points3),
-    };
-    setHomeInput(temp);
-  };
-  const handleHomeAttempts2Change = (index, attempts2) => {
-    let temp = { ...homeInput };
-    temp[index] = {
-      ...temp[index],
-      attempts2: Number(attempts2),
-    };
-    setHomeInput(temp);
-  };
-  const handleHomeAttempts1Change = (index, attempts1) => {
-    let temp = { ...homeInput };
-    temp[index] = {
-      ...temp[index],
-      attempts1: Number(attempts1),
-    };
-    setHomeInput(temp);
-  };
-  const handleHomeBlocksChange = (index, blocks) => {
-    let temp = { ...homeInput };
-    temp[index] = {
-      ...temp[index],
-      blocks: Number(blocks),
-    };
-    setHomeInput(temp);
-  };
-  const handleHomeReboundsChange = (index, rebounds) => {
-    let temp = { ...homeInput };
-    temp[index] = {
-      ...temp[index],
-      rebounds: Number(rebounds),
-    };
-    setHomeInput(temp);
-  };
-  const handleHomeAssistsChange = (index, assists) => {
-    let temp = { ...homeInput };
-    temp[index] = {
-      ...temp[index],
-      assists: Number(assists),
-    };
-    setHomeInput(temp);
-  };
-  const handleHomeFoulsChange = (index, fouls) => {
-    let temp = { ...homeInput };
-    temp[index] = {
-      ...temp[index],
-      fouls: Number(fouls),
-    };
-    setHomeInput(temp);
-  };
-  const handleHomeStealsChange = (index, steals) => {
-    let temp = { ...homeInput };
-    temp[index] = {
-      ...temp[index],
-      steals: Number(steals),
-    };
-    setHomeInput(temp);
-  };
-  const handleHomeTurnoversChange = (index, turnovers) => {
-    let temp = { ...homeInput };
-    temp[index] = {
-      ...temp[index],
-      turnovers: Number(turnovers),
-    };
-    setHomeInput(temp);
-  };
-
-  // Handle Away Team inputs
-  const handleAwayPoints3Change = (index, points3) => {
-    let temp = { ...awayInput };
-    temp[index] = {
-      ...temp[index],
-      points3: Number(points3),
-      points: temp[index].points + 3 * (Number(points3) - temp[index].points3),
-    };
-    setAwayInput(temp);
-  };
-
-  const handleAwayPoints2Change = (index, points2) => {
-    let temp = { ...awayInput };
-    temp[index] = {
-      ...temp[index],
-      points2: Number(points2),
-      points: temp[index].points + 2 * (Number(points2) - temp[index].points2),
-    };
-    setAwayInput(temp);
-  };
-
-  const handleAwayPoints1Change = (index, points1) => {
-    let temp = { ...awayInput };
-    temp[index] = {
-      ...temp[index],
-      points1: Number(points1),
-      points: temp[index].points + 1 * (Number(points1) - temp[index].points1),
-    };
-    setAwayInput(temp);
-  };
-  const handleAwayAttempts3Change = (index, attempts3) => {
-    let temp = { ...awayInput };
-    temp[index] = {
-      ...temp[index],
-      attempts3: Number(attempts3),
-      // points: temp[index].points + 3 * (Number(points3) - temp[index].points3),
-      // points: match?.isNew? temp[index].points || 0 + 3 * Number(points3):temp[index].points || 0 + 3 * (Number(points3) - temp[index].points3),
-    };
-    setAwayInput(temp);
-  };
-  const handleAwayAttempts2Change = (index, attempts2) => {
-    let temp = { ...awayInput };
-    temp[index] = {
-      ...temp[index],
-      attempts2: Number(attempts2),
-    };
-    setAwayInput(temp);
-  };
-  const handleAwayAttempts1Change = (index, attempts1) => {
-    let temp = { ...awayInput };
-    temp[index] = {
-      ...temp[index],
-      attempts1: Number(attempts1),
-    };
-    setAwayInput(temp);
-  };
-  const handleAwayBlocksChange = (index, blocks) => {
-    let temp = { ...awayInput };
-    temp[index] = {
-      ...temp[index],
-      blocks: Number(blocks),
-    };
-    setAwayInput(temp);
-  };
-  const handleAwayReboundsChange = (index, rebounds) => {
-    let temp = { ...awayInput };
-    temp[index] = {
-      ...temp[index],
-      rebounds: Number(rebounds),
-    };
-    setAwayInput(temp);
-  };
-  const handleAwayAssistsChange = (index, assists) => {
-    let temp = { ...awayInput };
-    temp[index] = {
-      ...temp[index],
-      assists: Number(assists),
-    };
-    setAwayInput(temp);
-  };
-  const handleAwayFoulsChange = (index, fouls) => {
-    let temp = { ...awayInput };
-    temp[index] = {
-      ...temp[index],
-      fouls: Number(fouls),
-    };
-    setAwayInput(temp);
-  };
-  const handleAwayStealsChange = (index, steals) => {
-    let temp = { ...awayInput };
-    temp[index] = {
-      ...temp[index],
-      steals: Number(steals),
-    };
-    setAwayInput(temp);
-  };
-  const handleAwayTurnoversChange = (index, turnovers) => {
-    let temp = { ...awayInput };
-    temp[index] = {
-      ...temp[index],
-      turnovers: Number(turnovers),
-    };
-    setAwayInput(temp);
-  };
-
-  const [awayInputValues, setAwayInputValues] = useState(awayTeamMatchups);
-
-  // const handleAwayInputChange = (index, playerId, matchId, teamId, points) => {
-  //   let temp = { ...awayInputValues };
-  //   temp[index] = { playerId, matchId, teamId, points };
-  //   setAwayInputValues(temp);
-  // };
-
-  const [matchupResult, setMatchupResult] = useState([]);
-  // const [mergedObject, setMergedObject] = useState({});
-
-  useEffect(() => {
-    console.log("asdf", homeInput);
-    console.log("asdf", awayInput);
-
-    let homeTeamPoints = 0;
-    Object.keys(homeInput).map((id) => {
-      homeTeamPoints += Number(homeInput[id].points);
-    });
-    let awayTeamPoints = 0;
-    Object.keys(awayInput).map((id) => {
-      awayTeamPoints += Number(awayInput[id].points);
-    });
-    setMatchupResult([homeTeamPoints, awayTeamPoints]);
-  }, [homeInput, awayInput]);
-
-  // useEffect(() => {
-  //   console.log(homeInputValues);
-  //   console.log(awayInputValues);
-
-  //   let homeTeamPoints = 0;
-  //   Object.keys(homeInputValues).map((id) => {
-  //     homeTeamPoints += Number(homeInputValues[id].points);
-  //   });
-  //   let awayTeamPoints = 0;
-  //   Object.keys(awayInputValues).map((id) => {
-  //     awayTeamPoints += Number(awayInputValues[id].points);
-  //   });
-  //   setMatchupResult([homeTeamPoints, awayTeamPoints]);
-  // }, [homeInputValues, awayInputValues]);
-  // }, [matchups]);
-
-  useEffect(() => {
+    actions.getUserInfo(dispatch, localStorage.getItem("userId"));
+    actions.getUsers(dispatch);
+    actions.getLeagues(dispatch);
+    actions.getTeams(dispatch);
+    actions.getMatches(dispatch);
     actions.getMatchups(dispatch);
+    actions.getLogs(dispatch);
+    actions.getPlayers(dispatch);
   }, []);
 
-  const handleSubmit = () => {
-    axios
-      .post(apis.updateMatchResult, {
-        matchId: matchId,
-        result: matchupResult,
-      })
-      .then((res) => {
-        actions.getTeams(dispatch);
-        actions.getMatches(dispatch);
-        actions.getMatchups(dispatch);
-        actions.getPlayers(dispatch);
-      })
-      .catch((error) => console.log(error.response.data.message));
+  let homeTeamPoints = 0;
+  let awayTeamPoints = 0;
+  let homeTeamFouls = 0;
+  let awayTeamFouls = 0;
+  let homeTeamTimeOuts = 0;
+  let awayTeamTimeOuts = 0;
+  allLogs.map((log, id) => {
+    if (log.teamId == homeTeam?.id) {
+      switch (log.event) {
+        case "+3 Pointer":
+          homeTeamPoints += 3;
+          break;
+        case "+2 Pointer":
+          homeTeamPoints += 2;
+          break;
+        case "+1 Pointer":
+          homeTeamPoints += 1;
+          break;
+        case "Foul":
+          homeTeamFouls += 1;
+          break;
+        case "TimeOut":
+          homeTeamTimeOuts += 1;
+          break;
+      }
+    } else if (log.teamId == awayTeam?.id) {
+      switch (log.event) {
+        case "+3 Pointer":
+          awayTeamPoints += 3;
+          break;
+        case "+2 Pointer":
+          awayTeamPoints += 2;
+          break;
+        case "+1 Pointer":
+          awayTeamPoints += 1;
+          break;
+        case "Foul":
+          awayTeamFouls += 1;
+          break;
+        case "TimeOut":
+          awayTeamTimeOuts += 1;
+          break;
+      }
+    }
+  });
 
-    axios
-      .post(apis.updateMatchup, {
-        matchId: matchId,
-        // data: mergedObject,
-        homeInputValues: homeInput,
-        awayInputValues: awayInput,
-      })
-      .then((res) => {
-        actions.getTeams(dispatch);
-        actions.getMatches(dispatch);
-        actions.getMatchups(dispatch);
-        actions.getPlayers(dispatch);
-        alert(res.data.message);
-      })
-      .catch((error) => console.log(error.response.data.message));
+  const matchupResult = [homeTeamPoints, awayTeamPoints];
 
-    // axios
-    //   .post(apis.createMatchup, {
-    //     matchId: matchId,
-    //     homeInputValues: homeInput,
-    //     awayInputValues: awayInput,
-    //   })
-    //   .then((res) => {
-    //     actions.getMatches(dispatch);
-    //     actions.getMatchups(dispatch);
-    //     alert(res.data.message);
-    //   })
-    //   .catch((error) => console.log(error.response.data.message));
+  const [arrow, setArrow] = useState("home");
+  const handleAction = (teamId, playerId, event, isDirect) => {
+    console.log("handleAction", teamId, playerId, event, isDirect, time);
+    actions.createOneLog(dispatch, {
+      leagueId,
+      matchId,
+      period: currentPeriod,
+      teamId,
+      playerId,
+      event,
+      time,
+      isDirect,
+    });
   };
 
-  const removeSubstitute = (userId) => {
-    axios
-      .post(apis.removeSubstitute, {
-        userId,
-        leagueId,
-        matchId,
-      })
-      .then((res) => {
-        actions.getMatchups(dispatch);
-        actions.getPlayers(dispatch);
-        alert(res.data.message);
-      })
-      .catch((error) => {
-        console.log(error.response.data.message);
-      });
+  // useEffect(() => {
+  //   actions.updateMatchResult(dispatch,{matchId:matchId, result:matchupResult})
+  // }, [homeTeamPoints, awayTeamPoints]);
 
-    // if the admin remove a substitutue, then the matchup result will be saved automatically
-    handleSubmit();
+  // const handleSubmit = () => {
+  //   axios
+  //     .post(apis.updateMatchResult, {
+  //       matchId: matchId,
+  //       result: matchupResult,
+  //     })
+  //     .then((res) => {
+  //       actions.getMatches(dispatch);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error.response.data.message);
+  //     });
+
+  //   axios
+  //     .post(apis.createLogs, {
+  //       leagueId: leagueId,
+  //       matchId: matchId,
+  //       // logs: logs,
+  //       homeTeamId: homeTeam?.id,
+  //       awayTeamId: awayTeam?.id,
+  //     })
+  //     .then((res) => {
+  //       alert(res.data.message);
+  //     })
+  //     .catch((error) => {
+  //       alert(error.response.data.message);
+  //       console.log(error.response.data.message);
+  //     });
+  // };
+
+  // const removeSubstitute = (userId) => {
+  //   axios
+  //     .post(apis.removeSubstitute, {
+  //       userId,
+  //       leagueId,
+  //       matchId,
+  //     })
+  //     .then((res) => {
+  //       actions.getMatchups(dispatch);
+  //       actions.getPlayers(dispatch);
+  //       alert(res.data.message);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error.response.data.message);
+  //     });
+
+  //   // if the admin remove a substitutue, then the matchup result will be saved automatically
+  //   handleSubmit();
+  // };
+
+  const [currentPeriod, setCurrentPeriod] = useState(1);
+  const handlePeriod = (period) => {
+    setCurrentPeriod(period);
+    setIsRunning(false);
+  };
+  const [numberOfPeriods, setNumberOfPeriods] = useState([]);
+  const [timeOfPeriod, setTimeOfPeriod] = useState([]);
+  useEffect(() => {
+    setNumberOfPeriods(
+      Array.from({ length: match?.period }, (_, index) => index + 1)
+    );
+  }, [match]);
+
+  useEffect(() => {
+    let tempTimeOfPeriod = [];
+    numberOfPeriods.map(() => {
+      tempTimeOfPeriod.push(match?.timer);
+    });
+    setTimeOfPeriod(tempTimeOfPeriod);
+    setCurrentPeriod(1);
+  }, [numberOfPeriods.length]);
+  const [time, setTime] = useState("");
+  const [event, setEvent] = useState("");
+  const [teamId, setTeamId] = useState("");
+
+  const handleClickButtons = (event, id) => {
+    if (match?.isNew) {
+      setEvent(event);
+      setTeamId(id);
+      dispatch({ type: actions.OPEN_SELECT_PLAYER_DIALOG, payload: true });
+      // dispatch to show the modal
+    } else {
+      alert("The matchup is completed!");
+    }
+  };
+  const handleClickTimeout = (teamId) => {
+    if (match?.isNew) {
+      setEvent("TimeOut");
+      handleAction(teamId, "", "TimeOut");
+    } else {
+      alert("The matchup is completed!");
+    }
+  };
+
+  const handleSetting = () => {
+    if (match?.isNew) {
+      dispatch({ type: actions.OPEN_MATCHUP_SETTING_DIALOG, payload: true });
+    } else {
+      alert("The matchup is completed!");
+    }
+  };
+
+  const handleAddEvent = () => {
+    if (match?.isNew) {
+      dispatch({ type: actions.OPEN_ADD_EVENT_DIALOG });
+    } else {
+      alert("The matchup is completed!");
+    }
+  };
+
+  // Timer
+  const [timer, setTimer] = useState(0);
+
+  useEffect(() => {
+    setTimer(timeOfPeriod[currentPeriod - 1]);
+  }, [currentPeriod]);
+
+  useEffect(() => {
+    setTimer(match?.timer);
+    // setTimer(Math.floor(match?.timer/100) * 6000 + Math.floor(match?.timer%100) * 100)
+  }, [match]);
+  const [isRunning, setIsRunning] = useState(false);
+
+  useEffect(() => {
+    let intervalId;
+    if (isRunning) {
+      // setting timer from 0 to 1 every 10 milisecond using javascript setInterval method
+      intervalId = setInterval(() => setTimer(timer - 100), 1000);
+      setTime(
+        minutes.toString().padStart(2, "0") +
+          ":" +
+          seconds.toString().padStart(2, "0")
+      );
+      let tempTimeOfPeriod = [...timeOfPeriod];
+      tempTimeOfPeriod[currentPeriod - 1] = timer;
+      setTimeOfPeriod(tempTimeOfPeriod);
+    }
+
+    return () => clearInterval(intervalId);
+  }, [isRunning, timer]);
+
+  // Hours calculation
+  const hours = Math.floor(timer / 360000);
+
+  // Minutes calculation
+  const minutes = Math.floor((timer % 360000) / 6000);
+
+  // Seconds calculation
+  const seconds = Math.floor((timer % 6000) / 100);
+
+  // Milliseconds calculation
+  const milliseconds = timer % 100;
+
+  // Method to start and stop timer
+  const startAndStop = () => {
+    if (match?.isNew) {
+      setIsRunning(!isRunning);
+    } else {
+      alert("The matchup is locked!");
+    }
+  };
+
+  // Method to reset timer back to 0
+  const reset = () => {
+    setTimer(match?.timer);
+  };
+
+  const increaseMinute = () => {
+    setTimer(timer + 6000);
+  };
+  const decreaseMinute = () => {
+    setTimer(timer - 6000);
+  };
+
+  const increaseSecond = () => {
+    setTimer(timer + 100);
+  };
+  const decreaseSecond = () => {
+    setTimer(timer - 100);
   };
 
   return (
     <div className="flex flex-col flex-grow">
-      {/* <MatchupTitle handleClick={handleSubmit} result={match?.result}>
-        Matchup Page
-      </MatchupTitle> */}
-      <p className="flex font-dark-gray my-[20px] justify-between">
+      <p className="flex font-dark-gray my-[20px] justify-between ">
         <div className="">
           <Link to="/">
             <span className="underline">My Leagues</span>
@@ -523,1016 +459,590 @@ const Matchup = () => {
           </Link>
 
           <span className=""> &gt; </span>
-          <Link to={`/league/${leagueId}?tab=3`}>
+          <Link to={`/league/${leagueId}`}>
             <span className="underline">Matches</span>
           </Link>
           <span className=""> &gt; </span>
-          <span className="text-sky-500">
-            {/* <Link to={`/league/${leagueId}/team/${team.id}`}> */}
-            {homeTeam?.name}{" "}
-          </span>
+          <span className="text-sky-500">{homeTeam?.name} </span>
           <span> Vs</span>
-          <span className="text-sky-500">
-            {" "}
-            {awayTeam?.name}
-            {/* </Link> */}
-          </span>
+          <span className="text-sky-500 "> {awayTeam?.name}</span>
         </div>
-        <button
-          onClick={handleSubmit}
-          className="w-32 h-button bg-primary hover:bg-opacity-70 rounded-default text-white focus:ring-2 disabled:opacity-10 font-bold justify-end"
-          // disabled={result!=="-:-"}
-        >
-          Save
-        </button>
+        <div className="flex space-x-3">
+          <Select
+            className="w-[140px] rounded-lg text-xs h-button"
+            options={options}
+            handleClick={handleStatus}
+            value={status}
+          >
+            {status}
+          </Select>
+          {/* <button
+            onClick={handleSubmit}
+            className="w-32 h-button bg-primary hover:bg-opacity-70 rounded-default text-white focus:ring-2 disabled:opacity-10 font-bold justify-end"
+          >
+            Save
+          </button> */}
+        </div>
       </p>
 
-      <div className="flex rounded-main bg-white dark:bg-slate p-12 h-[284px] items-center justify-center">
-        <div className="flex space-x-10">
-          <div className="text-center w-[330px]">
-            <img
-              src={homeTeam?.logo}
-              alt=""
-              className="w-28 h-28 rounded-full mx-auto"
-            />
-            <p className="text-black dark:text-white font-semibold text-2xl mt-5">
-              {homeTeam?.name}
-            </p>
-            <p className="text-font-dark-gray font-semibold text-xl">Home</p>
-          </div>
-          <div className="text-center mt-3">
-            <p className="text-black dark:text-white text-sm mt-3">
-              {match?.status}
-            </p>
-            <p className="text-black dark:text-white text-[56px] my-2">
-              {/* {match?.homeTeamPoints}:{match?.awayTeamPoints} */}
-              {matchupResult[0]}:{matchupResult[1]}
-            </p>
-            <p className="text-black dark:text-white text-sm">{match?.date}</p>
-            <p className="text-font-dark-gray text-sm mt-1">
-              {match?.location}
-            </p>
-          </div>
-          <div className="text-center w-[330px]">
-            <img
-              src={awayTeam?.logo}
-              alt=""
-              className="w-28 h-28 rounded-full mx-auto"
-            />
-            <p className="text-black dark:text-white font-semibold text-2xl mt-5">
-              {awayTeam?.name}
-            </p>
-            <p className="text-font-dark-gray font-semibold text-xl">Away</p>
-          </div>
-        </div>
-      </div>
-
-      <div className="flex flex-col flex-grow rounded-main bg-white dark:bg-slate overflow-auto mt-[20px] p-default">
-        {/* <div className="search flex justify-between space-x-3">
-          <Input
-            icon={search}
-            className="flex-grow rounded-lg text-xs"
-            placeholder="Search Leagues"
-          />
-          <Select
-            className="w-[144px] rounded-lg text-xs"
-            options={options}
-            handleClick={(e) => setValue(e)}
-            value={value}
-          >
-            {value}
-          </Select>
-        </div> */}
-        <br></br>
-        <div className="grid grid-cols-2 gap-4">
-          <div className="flex flex-col overflow-y-auto rounded-default h-[350px] bg-light-charcoal dark:bg-dark-gray transition ease-in-out delay-150 duration-200 w-full">
-            <div className="flex justify-between h-button bg-light-dark-gray dark:bg-charcoal rounded-t-default p-4">
-              <div className="flex items-center">
-                <img
-                  src={homeTeam?.logo}
-                  className="w-8 h-8 rounded-default"
-                ></img>
-                <Link to={`/league/${leagueId}/team/${match?.homeTeamId}`}>
-                  <p className="text-black dark:text-white text-sm mx-2 underline">
+      <div className="grid grid-cols-7 gap-3">
+        <div className="col-span-5 rounded-main justify-center">
+          <div className="grid grid-rows-8 gap-3">
+            <div className="flex flex-col row-span-5 bg-white dark:bg-slate rounded-main">
+              <div className="flex justify-between mt-5 mx-10 mb-0">
+                <div className="flex flex-col items-center">
+                  <img
+                    src={homeTeam?.logo}
+                    alt=""
+                    className="w-28 h-28 rounded-full mx-auto border border-gray-500"
+                  />
+                  <p className="text-black dark:text-white font-semibold text-2xl mt-5 truncate w-52 text-center">
                     {homeTeam?.name}
                   </p>
-                </Link>
-                <p className="text-black dark:text-white text-[10px]">
-                  {homeTeam?.waitlist}/{homeTeam?.max}
-                </p>
-              </div>
-              <div
-                onClick={() => handleAddSubstitute(match?.homeTeamId)}
-                className="flex items-center space-x-2 text-sky-500 text-sm cursor-pointer hover:opacity-70"
-              >
-                + Substitute
-              </div>
-            </div>
-
-            <div className="flex flex-grow items-center overflow-x-auto">
-              {/* {homeTeamMatchups.length > 0 ? ( */}
-              {homeTeamPlayers.length > 0 ? (
-                <div className="text-black dark:text-white h-full w-full">
-                  <table className="w-full text-left">
-                    <thead className="sticky">
-                      <tr>
-                        <th
-                          key="1"
-                          className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
+                  <p className="text-font-dark-gray font-semibold text-xl">
+                    Home
+                  </p>
+                  <div className="flex space-x-3 my-3">
+                    {league?.displayFouls && (
+                      <div className="flex rounded-lg bg-light-charcoal dark:bg-[#151515] w-[97px] h-10 justify-center items-center">
+                        <p className="text-black dark:text-white font-medium text-sm">
+                          Fouls: {homeTeamFouls}
+                        </p>
+                      </div>
+                    )}
+                    <div className="flex rounded-lg bg-light-charcoal dark:bg-[#151515] w-[97px] h-10 justify-center items-center">
+                      <p className="text-black dark:text-white font-medium text-sm">
+                        TimeOuts: {homeTeamTimeOuts}
+                      </p>
+                    </div>
+                  </div>
+                  <div
+                    className={`flex items-center justify-center rounded-[10px] ${
+                      arrow === "home" ? "bg-success" : "bg-font-dark-gray"
+                    } w-16 h-10 cursor-pointer hover:bg-opacity-70`}
+                    onClick={() => setArrow("home")}
+                  >
+                    <img
+                      src={leftArrowIcon}
+                      alt=""
+                      className="w-[14px] h-[21px]"
+                    />
+                  </div>
+                </div>
+                <div className="text-center mt-5">
+                  <p className="text-black dark:text-white text-sm mt-3">
+                    {match?.status}
+                  </p>
+                  <p className="text-black dark:text-white text-[56px] my-2">
+                    {matchupResult[0]} - {matchupResult[1]}
+                  </p>
+                  <p className="text-black dark:text-white text-sm">
+                    {match?.date}, {match?.time}
+                  </p>
+                  <p className="text-font-dark-gray text-sm mt-1">
+                    {match?.location}
+                  </p>
+                  <div className="space-y-9 my-3">
+                    <div className="flex space-x-3 justify-center">
+                      {numberOfPeriods.map((period) => (
+                        <div
+                          className={`flex items-center justify-center rounded-[10px] ${
+                            currentPeriod === period
+                              ? "bg-success"
+                              : "bg-font-dark-gray dark:bg-[#151515]"
+                          } w-16 h-10 cursor-pointer hover:opacity-75`}
+                          onClick={() => handlePeriod(period)}
                         >
-                          Player
-                        </th>
-                        <th
-                          key="2"
-                          className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
-                        >
-                          Jersey Number
-                        </th>
-                        {displayPosition ? (
-                          <th
-                            key="3"
-                            className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
-                          >
-                            Position
-                          </th>
-                        ) : (
-                          ""
-                        )}
-                        <th
-                          key="4"
-                          className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
-                        >
-                          Points
-                        </th>
-                        <th
-                          key="5"
-                          className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
-                        >
-                          3 Points
-                        </th>
-                        <th
-                          key="6"
-                          className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
-                        >
-                          2 Points
-                        </th>
-                        <th
-                          key="7"
-                          className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
-                        >
-                          Foul Shots
-                        </th>
-                        {displayAttempts3 ? (
-                          <th
-                            key="8"
-                            className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
-                          >
-                            3 Attempts
-                          </th>
-                        ) : (
-                          ""
-                        )}
-                        {displayAttempts2 ? (
-                          <th
-                            key="9"
-                            className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
-                          >
-                            2 Attempts
-                          </th>
-                        ) : (
-                          ""
-                        )}
-                        {displayAttempts1 ? (
-                          <th
-                            key="10"
-                            className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
-                          >
-                            1 Attempts
-                          </th>
-                        ) : (
-                          ""
-                        )}
-                        {displayBlocks ? (
-                          <th
-                            key="11"
-                            className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
-                          >
-                            Blocks
-                          </th>
-                        ) : (
-                          ""
-                        )}
-                        {displayRebounds ? (
-                          <th
-                            key="12"
-                            className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
-                          >
-                            Rebounds
-                          </th>
-                        ) : (
-                          ""
-                        )}
-                        {displayAssists ? (
-                          <th
-                            key="13"
-                            className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
-                          >
-                            Assists
-                          </th>
-                        ) : (
-                          ""
-                        )}
-                        {displayFouls ? (
-                          <th
-                            key="14"
-                            className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
-                          >
-                            Fouls
-                          </th>
-                        ) : (
-                          ""
-                        )}
-                        {displaySteals ? (
-                          <th
-                            key="15"
-                            className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
-                          >
-                            Steals
-                          </th>
-                        ) : (
-                          ""
-                        )}
-                        {displayTurnovers ? (
-                          <th
-                            key="16"
-                            className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
-                          >
-                            Turnovers
-                          </th>
-                        ) : (
-                          ""
-                        )}
-                        <th
-                          key="17"
-                          className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
-                        >
-                          Action
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody className="text-center">
-                      {/* {homeTeamMatchups.map((matchup, index) => {
-                        const player = homeTeamPlayers.find(
-                          (player) => player.id == matchup.playerId
-                        );
-
-                        return (
-                          <tr
-                            key={index}
-                            className="odd:bg-light-dark-gray dark:odd:bg-dark-gray even:bg-light-charcoal dark:even:bg-charcoal"
-                          >
-                            <td className="">
-                              <div className="flex items-center underline justify-between px-3">
-                                <img
-                                  src={player?.avatar}
-                                  alt=""
-                                  className="w-8 h-8 mr-2 rounded-default"
-                                />
-                                <Link
-                                  to={`/league/${leagueId}/player/${player?.userId}`}
-                                >
-                                  {player?.firstName} {player?.lastName}
-                                </Link>
-                              </div>
-                            </td>
-                            <td className="">{homeInput[index]?.points}</td>
-                            <td className="">
-                              <Input
-                                key={index}
-                                className="w-[50px] rounded-default bg-transparent border-none text-center"
-                                type="number"
-                                value={homeInput[index]?.points3 || 0}
-                                onChange={(e) =>
-                                  handleHomePoints3Change(index, e.target.value)
-                                }
-                              ></Input>
-                            </td>
-                            <td className="">
-                              <Input
-                                key={index}
-                                className="w-[50px] rounded-default bg-transparent border-none text-center"
-                                type="number"
-                                value={homeInput[index]?.points2 || 0}
-                                onChange={(e) =>
-                                  handleHomePoints2Change(index, e.target.value)
-                                }
-                              ></Input>
-                            </td>
-                            <td className="">
-                              <Input
-                                key={index}
-                                className="w-[50px] rounded-default bg-transparent border-none text-center"
-                                type="number"
-                                value={homeInput[index]?.points1 || 0}
-                                onChange={(e) =>
-                                  handleHomePoints1Change(index, e.target.value)
-                                }
-                              ></Input>
-                            </td>
-                            <td className="">{player?.jerseyNumber}</td>
-                          </tr>
-                        );
-                      })} */}
-                      {homeTeamPlayers.map((player, index) => (
-                        <tr
-                          key={index}
-                          className="odd:bg-light-dark-gray dark:odd:bg-dark-gray even:bg-light-charcoal dark:even:bg-charcoal"
-                        >
-                          <td className="">
-                            <div className="flex items-center underline px-3">
+                          <p className="text-white">P{period}</p>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="flex justify-center items-center space-x-2">
+                      <div className="stopwatch-container">
+                        <div className="justify-center items-center">
+                          <div className="flex">
+                            <div className="mt-6">
                               <img
-                                src={player.avatar}
+                                onClick={isRunning ? () => {} : increaseMinute}
+                                src={darkMode ? triupIconDark : triupIconLight}
                                 alt=""
-                                className="w-8 h-8 mr-2 rounded-default"
+                                className="w-6 h-6 cursor-pointer hover:bg-opacity-70"
                               />
-                              <Link
-                                to={`/league/${leagueId}/player/${player.userId}`}
-                              >
-                                {player.firstName} {player.lastName}
-                              </Link>
+                              <img
+                                onClick={isRunning ? () => {} : decreaseMinute}
+                                src={
+                                  darkMode ? tridownIconDark : tridownIconLight
+                                }
+                                alt=""
+                                className="w-6 h-6 cursor-pointer hover:bg-opacity-70"
+                              />
                             </div>
-                          </td>
-                          <td className="">{player?.jerseyNumber}</td>
-                          {displayPosition ? (
-                            <td className="">{homeInput[index]?.position}</td>
-                          ) : (
-                            ""
-                          )}
-                          <td className="">{homeInput[index]?.points}</td>
-                          <td className="">
                             <input
-                              key={index}
-                              className="w-[50px] outline-none rounded-default bg-transparent border-none text-center"
                               type="number"
-                              value={homeInput[index]?.points3}
+                              className="w-[70px] font-semibold text-[56px] text-black dark:text-white bg-transparent outline-none"
+                              value={minutes.toString().padStart(2, "0")}
                               onChange={(e) =>
-                                handleHomePoints3Change(index, e.target.value)
+                                setTimer(seconds * 100 + e.target.value * 6000)
                               }
-                            ></input>
-                          </td>
-                          <td className="">
+                              disabled={isRunning}
+                            />
+                            <p className="font-semibold text-[56px] text-black dark:text-white mr-2">
+                              :
+                            </p>
                             <input
-                              key={index}
-                              className="w-[50px] outline-none rounded-default bg-transparent border-none text-center"
                               type="number"
-                              value={homeInput[index]?.points2}
+                              className="w-[70px] font-semibold text-[56px] text-black dark:text-white bg-transparent outline-none"
+                              value={seconds.toString().padStart(2, "0")}
                               onChange={(e) =>
-                                handleHomePoints2Change(index, e.target.value)
+                                setTimer(minutes * 6000 + e.target.value * 100)
                               }
-                            ></input>
-                          </td>
-                          <td className="">
-                            <input
-                              key={index}
-                              className="w-[50px] outline-none rounded-default bg-transparent border-none text-center"
-                              type="number"
-                              value={homeInput[index]?.points1}
-                              onChange={(e) =>
-                                handleHomePoints1Change(index, e.target.value)
-                              }
-                            ></input>
-                          </td>
-                          {displayAttempts3 && (
-                            <td>
-                              <input
-                                key={index}
-                                className="w-[50px] outline-none rounded-default bg-transparent border-none text-center"
-                                type="number"
-                                value={homeInput[index]?.attempts3 || 0}
-                                onChange={(e) =>
-                                  handleHomeAttempts3Change(
-                                    index,
-                                    e.target.value
-                                  )
-                                }
-                              ></input>
-                            </td>
-                          )}
-                          {displayAttempts2 && (
-                            <td>
-                              <input
-                                key={index}
-                                className="w-[50px] outline-none rounded-default bg-transparent border-none text-center"
-                                type="number"
-                                value={homeInput[index]?.attempts2 || 0}
-                                onChange={(e) =>
-                                  handleHomeAttempts2Change(
-                                    index,
-                                    e.target.value
-                                  )
-                                }
-                              ></input>
-                            </td>
-                          )}
-                          {displayAttempts1 && (
-                            <td>
-                              <input
-                                key={index}
-                                className="w-[50px] outline-none rounded-default bg-transparent border-none text-center"
-                                type="number"
-                                value={homeInput[index]?.attempts1 || 0}
-                                onChange={(e) =>
-                                  handleHomeAttempts1Change(
-                                    index,
-                                    e.target.value
-                                  )
-                                }
-                              ></input>
-                            </td>
-                          )}
-
-                          {displayBlocks && (
-                            <td>
-                              <input
-                                key={index}
-                                className="w-[50px] outline-none rounded-default bg-transparent border-none text-center"
-                                type="number"
-                                value={homeInput[index]?.blocks || 0}
-                                onChange={(e) =>
-                                  handleHomeBlocksChange(index, e.target.value)
-                                }
-                              ></input>
-                            </td>
-                          )}
-                          {displayRebounds && (
-                            <td>
-                              <input
-                                key={index}
-                                className="w-[50px] outline-none rounded-default bg-transparent border-none text-center"
-                                type="number"
-                                value={homeInput[index]?.rebounds || 0}
-                                onChange={(e) =>
-                                  handleHomeReboundsChange(
-                                    index,
-                                    e.target.value
-                                  )
-                                }
-                              ></input>
-                            </td>
-                          )}
-                          {displayAssists && (
-                            <td>
-                              <input
-                                key={index}
-                                className="w-[50px] outline-none rounded-default bg-transparent border-none text-center"
-                                type="number"
-                                value={homeInput[index]?.assists || 0}
-                                onChange={(e) =>
-                                  handleHomeAssistsChange(index, e.target.value)
-                                }
-                              ></input>
-                            </td>
-                          )}
-                          {displayFouls && (
-                            <td>
-                              <input
-                                key={index}
-                                className="w-[50px] outline-none rounded-default bg-transparent border-none text-center"
-                                type="number"
-                                value={homeInput[index]?.fouls || 0}
-                                onChange={(e) =>
-                                  handleHomeFoulsChange(index, e.target.value)
-                                }
-                              ></input>
-                            </td>
-                          )}
-                          {displaySteals && (
-                            <td>
-                              <input
-                                key={index}
-                                className="w-[50px] outline-none rounded-default bg-transparent border-none text-center"
-                                type="number"
-                                value={homeInput[index]?.steals || 0}
-                                onChange={(e) =>
-                                  handleHomeStealsChange(index, e.target.value)
-                                }
-                              ></input>
-                            </td>
-                          )}
-                          {displayTurnovers && (
-                            <td>
-                              <input
-                                key={index}
-                                className="w-[50px] outline-none rounded-default bg-transparent border-none text-center"
-                                type="number"
-                                value={homeInput[index]?.turnovers || 0}
-                                onChange={(e) =>
-                                  handleHomeTurnoversChange(
-                                    index,
-                                    e.target.value
-                                  )
-                                }
-                              ></input>
-                            </td>
-                          )}
-                          <td>
-                            {player.isSubstitute === 1 && (
+                              disabled={isRunning}
+                            />
+                            <div className="mt-6">
+                              <img
+                                src={darkMode ? triupIconDark : triupIconLight}
+                                onClick={isRunning ? () => {} : increaseSecond}
+                                alt=""
+                                className="w-6 h-6 cursor-pointer hover:bg-opacity-70"
+                              />
                               <img
                                 src={
-                                  darkMode ? deleteIconDark : deleteIconLight
+                                  darkMode ? tridownIconDark : tridownIconLight
                                 }
-                                onClick={() => removeSubstitute(player.userId)}
+                                onClick={isRunning ? () => {} : decreaseSecond}
                                 alt=""
-                                className="cursor-pointer"
+                                className="w-6 h-6 cursor-pointer hover:bg-opacity-70"
                               />
-                            )}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                            </div>
+                          </div>
+                          <button
+                            onClick={startAndStop}
+                            className={`w-[169px] h-[53px] rounded-[10px] ${
+                              isRunning ? "bg-red-500" : "bg-success"
+                            }  text-white font-bold text-sm mt-1 hover:bg-opacity-70`}
+                          >
+                            {isRunning ? "STOP " : "START "}
+                            CLOCK
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              ) : (
-                <div className="flex items-center flex-grow">
-                  <p className="text-2xl text-black dark:text-white w-full text-center">
-                    No players to show!
-                  </p>
-                </div>
-              )}
-            </div>
-          </div>
-          <div className="flex flex-col overflow-y-auto rounded-default h-[350px] bg-light-charcoal dark:bg-dark-gray transition ease-in-out delay-150 duration-200 w-full">
-            <div className="flex justify-between h-button bg-light-dark-gray dark:bg-charcoal rounded-t-default p-4">
-              <div className="flex items-center">
-                <img
-                  src={awayTeam?.logo}
-                  className="w-8 h-8 rounded-default"
-                ></img>
-                <Link to={`/league/${leagueId}/team/${match?.awayTeamId}`}>
-                  <p className="text-black dark:text-white text-sm mx-2 underline">
+                <div className="flex flex-col items-center">
+                  <img
+                    src={awayTeam?.logo}
+                    alt=""
+                    className="w-28 h-28 rounded-full mx-auto border border-gray-500"
+                  />
+                  <p className="text-black dark:text-white font-semibold text-2xl mt-5 text-center truncate w-52">
                     {awayTeam?.name}
                   </p>
-                </Link>
-                <p className="text-black dark:text-white text-[10px]">
-                  {awayTeam?.waitlist}/{awayTeam?.max}
-                </p>
-              </div>
-              <div
-                onClick={() => handleAddSubstitute(match?.awayTeamId)}
-                className="flex items-center space-x-2 text-sky-500 text-sm cursor-pointer hover:opacity-70"
-              >
-                + Substitute
+                  <p className="text-font-dark-gray font-semibold text-xl">
+                    Away
+                  </p>
+                  <div className="flex space-x-3 my-3">
+                    {league?.displayFouls && (
+                      <div className="flex rounded-lg bg-light-charcoal dark:bg-[#151515] w-[97px] h-10 justify-center items-center">
+                        <p className="text-black dark:text-white font-medium text-sm">
+                          Fouls: {awayTeamFouls}
+                        </p>
+                      </div>
+                    )}
+                    <div className="flex rounded-lg bg-light-charcoal dark:bg-[#151515] w-[97px] h-10 justify-center items-center">
+                      <p className="text-black dark:text-white font-medium text-sm">
+                        TimeOuts: {awayTeamTimeOuts}
+                      </p>
+                    </div>
+                  </div>
+                  <div
+                    className={`flex items-center justify-center rounded-[10px] ${
+                      arrow === "away" ? "bg-success" : "bg-font-dark-gray"
+                    } w-16 h-10 cursor-pointer hover:bg-opacity-70`}
+                    onClick={() => setArrow("away")}
+                  >
+                    <img
+                      src={rightArrowIcon}
+                      alt=""
+                      className="w-[14px] h-[21px]"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
 
-            <div className="flex flex-grow items-center overflow-x-auto">
-              {/* {awayTeamMatchups.length > 0 ? ( */}
-              {awayTeamPlayers.length > 0 ? (
-                <div className="text-black dark:text-white h-full w-full">
-                  <table className="w-full table-auto text-left">
-                    <thead className="sticky">
-                      <tr>
-                        <th
-                          key="1"
-                          className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
+            <div className="row-span-3 bg-white dark:bg-slate rounded-main p-[26px]">
+              <div className="flex space-x-3">
+                <div className="flex flex-col w-1/2 space-y-[10px]">
+                  <div className="flex bg-light-charcoal dark:bg-charcoal w-full h-12 rounded-t-lg p-4 items-center justify-between">
+                    <Link
+                      to={`/league/${leagueId}/team/${homeTeam?.id}`}
+                      className="flex space-x-2 items-center"
+                    >
+                      <img
+                        src={homeTeam?.logo}
+                        alt=""
+                        className="w-8 h-8 rounded-full border border-gray-500"
+                      />
+                      <p className="text-black dark:text-white underline truncate w-40">
+                        {homeTeam?.name}
+                      </p>
+                    </Link>
+                    <div className="flex space-x-5 ">
+                      <img
+                        src={playerStats}
+                        alt=""
+                        className="cursor-pointer hover:opacity-75"
+                        onClick={() => handlePlayerStats(homeTeam?.id)}
+                      />
+                      {match?.isNew && (
+                        <img
+                          src={editLineup}
+                          alt=""
+                          className="cursor-pointer hover:opacity-75"
+                          onClick={() => handleLineups(homeTeam?.id)}
+                        />
+                      )}
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-3 gap-[10px]">
+                    <div
+                      className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                      onClick={() =>
+                        handleClickButtons("points3", homeTeam?.id)
+                      }
+                    >
+                      <p className="text-black dark:text-white">+3</p>
+                    </div>
+                    <div
+                      className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                      onClick={() =>
+                        handleClickButtons("points2", homeTeam?.id)
+                      }
+                    >
+                      <p className="text-black dark:text-white">+2</p>
+                    </div>
+                    <div
+                      className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                      onClick={() =>
+                        handleClickButtons("points1", homeTeam?.id)
+                      }
+                    >
+                      <p className="text-black dark:text-white">+1</p>
+                    </div>
+                  </div>
+                  {(league?.displayAttempts3 ||
+                    league?.displayAttempts2 ||
+                    league?.displayAttempts1) && (
+                    <div className="grid grid-cols-3 gap-[10px]">
+                      {league?.displayAttempts3 && (
+                        <div
+                          className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                          onClick={() =>
+                            handleClickButtons("attempts3", homeTeam?.id)
+                          }
                         >
-                          Player
-                        </th>
-                        <th
-                          key="2"
-                          className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
+                          <p className="text-black dark:text-white">MISSED 3</p>
+                        </div>
+                      )}
+                      {league?.displayAttempts2 && (
+                        <div
+                          className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                          onClick={() =>
+                            handleClickButtons("attempts2", homeTeam?.id)
+                          }
                         >
-                          Jersey Number
-                        </th>
-                        {displayPosition ? (
-                          <th
-                            key="2"
-                            className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
-                          >
-                            Position
-                          </th>
-                        ) : (
-                          ""
-                        )}
-                        <th
-                          key="3"
-                          className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
+                          <p className="text-black dark:text-white">MISSED 2</p>
+                        </div>
+                      )}
+                      {league?.displayAttempts1 && (
+                        <div
+                          className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                          onClick={() =>
+                            handleClickButtons("attempts1", homeTeam?.id)
+                          }
                         >
-                          Points
-                        </th>
-                        <th
-                          key="4"
-                          className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
+                          <p className="text-black dark:text-white">MISSED 1</p>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                  {(league?.displayRebounds ||
+                    league?.displayTurnovers ||
+                    league?.displayFouls) && (
+                    <div className="grid grid-cols-3 gap-[10px]">
+                      {league?.displayRebounds && (
+                        <div
+                          className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                          onClick={() =>
+                            handleClickButtons("rebounds", homeTeam?.id)
+                          }
                         >
-                          3 Points
-                        </th>
-                        <th
-                          key="5"
-                          className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
+                          <p className="text-black dark:text-white">REBOUND</p>
+                        </div>
+                      )}
+                      {league?.displayTurnovers && (
+                        <div
+                          className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                          onClick={() =>
+                            handleClickButtons("turnovers", homeTeam?.id)
+                          }
                         >
-                          2 Points
-                        </th>
-                        <th
-                          key="6"
-                          className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
-                        >
-                          Foul Shots
-                        </th>
-                        {displayAttempts3 ? (
-                          <th
-                            key="8"
-                            className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
-                          >
-                            3 Attempts
-                          </th>
-                        ) : (
-                          ""
-                        )}
-                        {displayAttempts2 ? (
-                          <th
-                            key="9"
-                            className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
-                          >
-                            2 Attempts
-                          </th>
-                        ) : (
-                          ""
-                        )}
-                        {displayAttempts1 ? (
-                          <th
-                            key="10"
-                            className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
-                          >
-                            1 Attempts
-                          </th>
-                        ) : (
-                          ""
-                        )}
-                        {displayBlocks ? (
-                          <th
-                            key="11"
-                            className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
-                          >
-                            Blocks
-                          </th>
-                        ) : (
-                          ""
-                        )}
-                        {displayRebounds ? (
-                          <th
-                            key="12"
-                            className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
-                          >
-                            Rebounds
-                          </th>
-                        ) : (
-                          ""
-                        )}
-                        {displayAssists ? (
-                          <th
-                            key="13"
-                            className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
-                          >
-                            Assists
-                          </th>
-                        ) : (
-                          ""
-                        )}
-                        {displayFouls ? (
-                          <th
-                            key="14"
-                            className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
-                          >
-                            Fouls
-                          </th>
-                        ) : (
-                          ""
-                        )}
-                        {displaySteals ? (
-                          <th
-                            key="15"
-                            className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
-                          >
-                            Steals
-                          </th>
-                        ) : (
-                          ""
-                        )}
-                        {displayTurnovers ? (
-                          <th
-                            key="16"
-                            className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
-                          >
-                            Turnovers
-                          </th>
-                        ) : (
-                          ""
-                        )}
-                        <th
-                          key="7"
-                          className="h-button bg-light-charcoal dark:bg-slate text-center font-font-dark-gray font-normal text-sm"
-                        >
-                          Action
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody className="text-center">
-                      {/* {awayTeamMatchups.map((matchup, index) => {
-                        const player = awayTeamPlayers.find(
-                          (player) => player.id == matchup.playerId
-                        );
+                          <p className="text-black dark:text-white">TURNOVER</p>
+                        </div>
+                      )}
 
-                        return (
-                          <tr
-                            key={index}
-                            className="odd:bg-light-dark-gray dark:odd:bg-dark-gray even:bg-light-charcoal dark:even:bg-charcoal"
-                          >
-                            <td className="">
-                              <div className="flex items-center underline justify-between px-3">
-                                <img
-                                  src={player?.avatar}
-                                  alt=""
-                                  className="w-8 h-8 mr-2 rounded-default"
-                                />
-                                <Link
-                                  to={`/league/${leagueId}/player/${player?.userId}`}
-                                >
-                                  {player?.firstName} {player?.lastName}
-                                </Link>
-                              </div>
-                            </td>
-                            <td className="">{awayInput[index]?.points}</td>
-                            <td className="">
-                              <Input
-                                key={index}
-                                className="w-[50px] rounded-default bg-transparent border-none text-center"
-                                type="number"
-                                value={awayInput[index]?.points3 || 0}
-                                onChange={(e) =>
-                                  handleAwayPoints3Change(index, e.target.value)
-                                }
-                              ></Input>
-                            </td>
-                            <td className="">
-                              <Input
-                                key={index}
-                                className="w-[50px] rounded-default bg-transparent border-none text-center"
-                                type="number"
-                                value={awayInput[index]?.points2 || 0}
-                                onChange={(e) =>
-                                  handleAwayPoints2Change(index, e.target.value)
-                                }
-                              ></Input>
-                            </td>
-                            <td className="">
-                              <Input
-                                key={index}
-                                className="w-[50px] rounded-default bg-transparent border-none text-center"
-                                type="number"
-                                value={awayInput[index]?.points1 || 0}
-                                onChange={(e) =>
-                                  handleAwayPoints1Change(index, e.target.value)
-                                }
-                              ></Input>
-                            </td>
-                            <td className="">{player?.jerseyNumber}</td>
-                          </tr>
-                        );
-                      })} */}
-                      {awayTeamPlayers.map((player, index) => (
-                        <tr
-                          key={index}
-                          className="odd:bg-light-dark-gray dark:odd:bg-dark-gray even:bg-light-charcoal dark:even:bg-charcoal"
+                      {league?.displayFouls && (
+                        <div
+                          className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                          onClick={() =>
+                            handleClickButtons("fouls", homeTeam?.id)
+                          }
                         >
-                          <td className="">
-                            <div className="flex items-center underline px-3">
-                              <img
-                                src={player.avatar}
-                                alt=""
-                                className="w-8 h-8 mr-2 rounded-default"
-                              />
-                              <Link
-                                to={`/league/${leagueId}/player/${player.userId}`}
-                              >
-                                {player.firstName} {player.lastName}
-                              </Link>
-                            </div>
-                          </td>
-                          <td className="">{player?.jerseyNumber}</td>
-                          {displayPosition ? (
-                            <td className="">
-                              {homeInput[index]?.position || 0}
-                            </td>
-                          ) : (
-                            ""
-                          )}
-                          <td className="">{awayInput[index]?.points || 0}</td>
-                          <td className="">
-                            <input
-                              key={index}
-                              className="w-[50px] outline-none rounded-default bg-transparent border-none text-center"
-                              type="number"
-                              value={awayInput[index]?.points3 || 0}
-                              onChange={(e) =>
-                                handleAwayPoints3Change(index, e.target.value)
-                              }
-                            ></input>
-                          </td>
-                          <td className="">
-                            <input
-                              key={index}
-                              className="w-[50px] outline-none rounded-default bg-transparent border-none text-center"
-                              type="number"
-                              value={awayInput[index]?.points2 || 0}
-                              onChange={(e) =>
-                                handleAwayPoints2Change(index, e.target.value)
-                              }
-                            ></input>
-                          </td>
-                          <td className="">
-                            <input
-                              key={index}
-                              className="w-[50px] outline-none rounded-default bg-transparent border-none text-center"
-                              type="number"
-                              value={awayInput[index]?.points1 || 0}
-                              onChange={(e) =>
-                                handleAwayPoints1Change(index, e.target.value)
-                              }
-                            ></input>
-                          </td>
-                          {displayAttempts3 && (
-                            <td>
-                              <input
-                                key={index}
-                                className="w-[50px] outline-none rounded-default bg-transparent border-none text-center"
-                                type="number"
-                                value={awayInput[index]?.attempts3 || 0}
-                                onChange={(e) =>
-                                  handleAwayAttempts3Change(
-                                    index,
-                                    e.target.value
-                                  )
-                                }
-                              ></input>
-                            </td>
-                          )}
-                          {displayAttempts2 && (
-                            <td>
-                              <input
-                                key={index}
-                                className="w-[50px] outline-none rounded-default bg-transparent border-none text-center"
-                                type="number"
-                                value={awayInput[index]?.attempts2 || 0}
-                                onChange={(e) =>
-                                  handleAwayAttempts2Change(
-                                    index,
-                                    e.target.value
-                                  )
-                                }
-                              ></input>
-                            </td>
-                          )}
-                          {displayAttempts1 && (
-                            <td>
-                              <input
-                                key={index}
-                                className="w-[50px] outline-none rounded-default bg-transparent border-none text-center"
-                                type="number"
-                                value={awayInput[index]?.attempts1 || 0}
-                                onChange={(e) =>
-                                  handleAwayAttempts1Change(
-                                    index,
-                                    e.target.value
-                                  )
-                                }
-                              ></input>
-                            </td>
-                          )}
+                          <p className="text-black dark:text-white">FOUL</p>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                  <div className="grid grid-cols-3 gap-[10px]">
+                    <div
+                      className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                      onClick={() => handleClickTimeout(homeTeam?.id)}
+                    >
+                      <p className="text-black dark:text-white">TIMEOUT</p>
+                    </div>
+                    {league?.displayBlocks && (
+                      <div
+                        className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                        onClick={() =>
+                          handleClickButtons("blocks", homeTeam?.id)
+                        }
+                      >
+                        <p className="text-black dark:text-white">BLOCK</p>
+                      </div>
+                    )}
+                    {league?.displayAssists && (
+                      <div
+                        className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                        onClick={() =>
+                          handleClickButtons("assists", homeTeam?.id)
+                        }
+                      >
+                        <p className="text-black dark:text-white">ASSIST</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
 
-                          {displayBlocks && (
-                            <td>
-                              <input
-                                key={index}
-                                className="w-[50px] outline-none rounded-default bg-transparent border-none text-center"
-                                type="number"
-                                value={awayInput[index]?.blocks || 0}
-                                onChange={(e) =>
-                                  handleAwayBlocksChange(index, e.target.value)
-                                }
-                              ></input>
-                            </td>
-                          )}
-                          {displayRebounds && (
-                            <td>
-                              <input
-                                key={index}
-                                className="w-[50px] outline-none rounded-default bg-transparent border-none text-center"
-                                type="number"
-                                value={awayInput[index]?.rebounds || 0}
-                                onChange={(e) =>
-                                  handleAwayReboundsChange(
-                                    index,
-                                    e.target.value
-                                  )
-                                }
-                              ></input>
-                            </td>
-                          )}
-                          {displayAssists && (
-                            <td>
-                              <input
-                                key={index}
-                                className="w-[50px] outline-none rounded-default bg-transparent border-none text-center"
-                                type="number"
-                                value={awayInput[index]?.assists || 0}
-                                onChange={(e) =>
-                                  handleAwayAssistsChange(index, e.target.value)
-                                }
-                              ></input>
-                            </td>
-                          )}
-                          {displayFouls && (
-                            <td>
-                              <input
-                                key={index}
-                                className="w-[50px] outline-none rounded-default bg-transparent border-none text-center"
-                                type="number"
-                                value={awayInput[index]?.fouls || 0}
-                                onChange={(e) =>
-                                  handleAwayFoulsChange(index, e.target.value)
-                                }
-                              ></input>
-                            </td>
-                          )}
-                          {displaySteals && (
-                            <td>
-                              <input
-                                key={index}
-                                className="w-[50px] outline-none rounded-default bg-transparent border-none text-center"
-                                type="number"
-                                value={awayInput[index]?.steals || 0}
-                                onChange={(e) =>
-                                  handleAwayStealsChange(index, e.target.value)
-                                }
-                              ></input>
-                            </td>
-                          )}
-                          {displayTurnovers && (
-                            <td>
-                              <input
-                                key={index}
-                                className="w-[50px] outline-none rounded-default bg-transparent border-none text-center"
-                                type="number"
-                                value={awayInput[index]?.turnovers || 0}
-                                onChange={(e) =>
-                                  handleAwayTurnoversChange(
-                                    index,
-                                    e.target.value
-                                  )
-                                }
-                              ></input>
-                            </td>
-                          )}
-                          <td>
-                            {player.isSubstitute === 1 ? (
-                              <img
-                                src={
-                                  darkMode ? deleteIconDark : deleteIconLight
-                                }
-                                onClick={() => removeSubstitute(player.userId)}
-                                alt=""
-                                className="cursor-pointer"
-                              />
-                            ) : (
-                              ""
-                            )}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                <div className="flex flex-col w-1/2 space-y-[10px]">
+                  <div className="flex bg-light-charcoal dark:bg-charcoal w-full h-12 rounded-t-lg p-4 items-center justify-between">
+                    <Link
+                      to={`/league/${leagueId}/team/${awayTeam?.id}`}
+                      className="flex space-x-2 items-center"
+                    >
+                      <img
+                        src={awayTeam?.logo}
+                        alt=""
+                        className="w-8 h-8 rounded-full border border-gray-500"
+                      />
+                      <p className="text-black dark:text-white underline truncate w-40">
+                        {awayTeam?.name}
+                      </p>
+                    </Link>
+                    <div className="flex space-x-5 ">
+                      <img
+                        src={playerStats}
+                        alt=""
+                        className="cursor-pointer hover:opacity-75"
+                        onClick={() => handlePlayerStats(awayTeam?.id)}
+                      />
+                      {match?.isNew && (
+                        <img
+                          src={editLineup}
+                          alt=""
+                          className="cursor-pointer hover:opacity-75"
+                          onClick={() => handleLineups(awayTeam?.id)}
+                        />
+                      )}
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-3 gap-[10px]">
+                    <div
+                      className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                      onClick={() =>
+                        handleClickButtons("points3", awayTeam?.id)
+                      }
+                    >
+                      <p className="text-black dark:text-white">+3</p>
+                    </div>
+                    <div
+                      className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                      onClick={() =>
+                        handleClickButtons("points2", awayTeam?.id)
+                      }
+                    >
+                      <p className="text-black dark:text-white">+2</p>
+                    </div>
+                    <div
+                      className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                      onClick={() =>
+                        handleClickButtons("points1", awayTeam?.id)
+                      }
+                    >
+                      <p className="text-black dark:text-white">+1</p>
+                    </div>
+                  </div>
+                  {(league?.displayAttempts3 ||
+                    league?.displayAttempts2 ||
+                    league?.displayAttempts1) && (
+                    <div className="grid grid-cols-3 gap-[10px]">
+                      {league?.displayAttempts3 && (
+                        <div
+                          className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                          onClick={() =>
+                            handleClickButtons("attempts3", awayTeam?.id)
+                          }
+                        >
+                          <p className="text-black dark:text-white">MISSED 3</p>
+                        </div>
+                      )}
+                      {league?.displayAttempts2 && (
+                        <div
+                          className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                          onClick={() =>
+                            handleClickButtons("attempts2", awayTeam?.id)
+                          }
+                        >
+                          <p className="text-black dark:text-white">MISSED 2</p>
+                        </div>
+                      )}
+                      {league?.displayAttempts1 && (
+                        <div
+                          className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                          onClick={() =>
+                            handleClickButtons("attempts1", awayTeam?.id)
+                          }
+                        >
+                          <p className="text-black dark:text-white">MISSED 1</p>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                  {(league?.displayRebounds ||
+                    league?.displayTurnovers ||
+                    league?.displayFouls) && (
+                    <div className="grid grid-cols-3 gap-[10px]">
+                      {league?.displayRebounds && (
+                        <div
+                          className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                          onClick={() =>
+                            handleClickButtons("rebounds", awayTeam?.id)
+                          }
+                        >
+                          <p className="text-black dark:text-white">REBOUND</p>
+                        </div>
+                      )}
+                      {league?.displayTurnovers && (
+                        <div
+                          className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                          onClick={() =>
+                            handleClickButtons("turnovers", awayTeam?.id)
+                          }
+                        >
+                          <p className="text-black dark:text-white">TURNOVER</p>
+                        </div>
+                      )}
+                      {league?.displayFouls && (
+                        <div
+                          className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                          onClick={() =>
+                            handleClickButtons("fouls", awayTeam?.id)
+                          }
+                        >
+                          <p className="text-black dark:text-white">FOUL</p>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                  <div className="grid grid-cols-3 gap-[10px]">
+                    <div
+                      className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                      onClick={() => handleClickTimeout(awayTeam?.id)}
+                    >
+                      <p className="text-black dark:text-white">TIMEOUT</p>
+                    </div>
+                    {league?.displayBlocks && (
+                      <div
+                        className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                        onClick={() =>
+                          handleClickButtons("blocks", awayTeam?.id)
+                        }
+                      >
+                        <p className="text-black dark:text-white">BLOCK</p>
+                      </div>
+                    )}
+                    {league?.displayAssists && (
+                      <div
+                        className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                        onClick={() =>
+                          handleClickButtons("assists", awayTeam?.id)
+                        }
+                      >
+                        <p className="text-black dark:text-white">ASSIST</p>
+                      </div>
+                    )}
+                  </div>
                 </div>
-              ) : (
-                <div className="flex items-center flex-grow">
-                  <p className="text-2xl text-black dark:text-white w-full text-center">
-                    No players to show!
-                  </p>
-                </div>
-              )}
+              </div>
             </div>
           </div>
+        </div>
 
-          {/* <MatchCard teamId={homeTeam.id} />
-          <MatchCard teamId={awayTeam.id} /> */}
+        <div className="flex col-span-2 flex-col flex-grow rounded-main bg-white dark:bg-slate p-default overflow-y-auto">
+          <div className="flex justify-between mb-5">
+            <p className="text-black dark:text-white">Action Log</p>
+            <div className="flex items-center space-x-5">
+              <img
+                onClick={handleSetting}
+                src={darkMode ? settingIconDark : settingIconLight}
+                alt=""
+                className="w-4 h-4 cursor-pointer"
+              />
+              <img
+                onClick={handleAddEvent}
+                src={darkMode ? plusIconDark : plusIconLight}
+                alt=""
+                className="w-3 h-3 cursor-pointer"
+              />
+              <img
+                src={darkMode ? downloadIconDark : downloadIconLight}
+                alt=""
+                className="w-5 h-5 cursor-pointer"
+              />
+            </div>
+          </div>
+          <div className="space-y-3">
+            {Object.values(allLogs).map((log, idx) => (
+              <Log key={idx} log={log} id={log.id}></Log>
+            ))}
+          </div>
         </div>
       </div>
-      {/* <SubstituteModal /> */}
+      <MatchupSettingModal></MatchupSettingModal>
+      <SelectPlayerModal
+        event={event}
+        teamId={teamId}
+        handleAction={handleAction}
+        period={currentPeriod}
+      />
+      <EditEventModal homeTeam={homeTeam} awayTeam={awayTeam} />
       <SubstituteModal
         homeTeamPlayers={homeTeamPlayers}
         awayTeamPlayers={awayTeamPlayers}
       ></SubstituteModal>
+      <LineupsModal></LineupsModal>
+      <PlayerStatsModal></PlayerStatsModal>
     </div>
-    // </div>
   );
 };
 

@@ -2,26 +2,31 @@ import { Fragment, useEffect, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { useParams } from "react-router";
 import axios from "axios";
+import ImageCropper from "../ImageCropper";
 import close from "../../assets/img/dark_mode/close.png";
-import deleteIconDark from "../../assets/img/dark_mode/delete-icon-dark.png";
-import deleteIconLight from "../../assets/img/dark_mode/delete-icon-light.png";
+import deleteIconDark from "../../assets/img/dark_mode/delete-icon-dark.svg";
+import deleteIconLight from "../../assets/img/dark_mode/delete-icon-light.svg";
 import search from "../../assets/img/dark_mode/search.png";
 import uploadCircle from "../../assets/img/dark_mode/upload-circle.png";
 import Input from "../Input";
 import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../actions";
-import PlayerList from "../ListItem/PlayerList";
 import apis from "../../utils/apis";
+import PlayerList from "../ListItem/PlayerList";
 
 const TeamModal = () => {
   let { leagueId } = useParams();
   const dispatch = useDispatch();
   const darkMode = useSelector((state) => state.home.dark_mode);
   const user = useSelector((state) => state.home.user);
+
   const status = useSelector((state) => state.home.team_dialog.open);
   const type = useSelector((state) => state.home.team_dialog.type);
 
   const team = useSelector((state) => state.home.team_dialog.team);
+  const teams = useSelector((state) => state.home.teams).filter(
+    (team) => team.leagueId == leagueId
+  );
 
   const cancelButtonRef = useRef(null);
 
@@ -41,9 +46,14 @@ const TeamModal = () => {
   );
 
   const [teamName, setTeamName] = useState("");
+  const isNameInTeams = teams.some((team) => team.name === teamName);
+
   useEffect(() => {
     if (teamName?.length > 0) {
       setNameWarning(false);
+    }
+    if (isNameInTeams) {
+      setNameWarning(true)
     }
   }, [teamName]);
 
@@ -65,12 +75,7 @@ const TeamModal = () => {
     dispatch({ type: actions.OPEN_DELETE_TEAM_DIALOG, payload: team });
   };
 
-  // const handleEdit = () => {
-  //   dispatch({
-  //     type: actions.OPEN_EDIT_TEAM_DIALOG,
-  //     payload: { open: true, type: "edit", team: team },
-  //   });
-  // };
+  const [keyword, setKeyword] = useState("");
 
   const createSubmit = () => {
     if (!teamName?.length > 0) {
@@ -100,23 +105,24 @@ const TeamModal = () => {
   };
 
   const editSubmit = () => {
-    dispatch({ type: actions.CLOSE_TEAM_DIALOG });
+    // dispatch({ type: actions.CLOSE_TEAM_DIALOG });
     const formData = new FormData();
+    formData.append("id", team?.id);
     formData.append("userId", user?.id);
-    formData.append("leagueId", leagueId);
     formData.append("logo", chosenFile);
     formData.append("color", color);
     formData.append("name", teamName);
-    axios
-      .post(apis.updateTeam, formData)
-      .then((res) => {
-        actions.getTeams(dispatch);
-        alert(res.data.message);
-      })
-      .catch((error) => {
-        alert(error.response.data.message);
-      });
-    console.log("Clicked edit");
+    actions.updateTeam(dispatch, formData);
+    // axios
+    //   .post(apis.updateTeam, formData)
+    //   .then((res) => {
+    //     actions.getTeams(dispatch);
+    //     alert(res.data.message);
+    //   })
+    //   .catch((error) => {
+    //     alert(error.response.data.message);
+    //   });
+    // console.log("Clicked edit");
   };
 
   const deleteSubmit = () => {
@@ -139,6 +145,7 @@ const TeamModal = () => {
   };
 
   const [playersList, setPlayersList] = useState({});
+
   const addPlayers = () => {
     axios
       .post(apis.addPlayer, {
@@ -164,7 +171,7 @@ const TeamModal = () => {
     <Transition.Root show={status} as={Fragment}>
       <Dialog
         as="div"
-        className="relative z-10"
+        className="relative z-30"
         initialFocus={cancelButtonRef}
         onClose={closeDialog}
       >
@@ -238,46 +245,13 @@ const TeamModal = () => {
                   <div className="flex-col p-default flex flex-grow justify-between">
                     <div>
                       {type === "create" || type === "edit" ? (
-                        <>
+                        <div className="space-y-3">
                           <div
                             className={`${
                               logoWarning ? "border-2 border-red-500" : ""
                             } flex w-full h-[86px] bg-light-charcoal dark:bg-charcoal rounded-default items-center justify-between`}
                           >
                             <div className="flex items-center">
-                              {/* {previewURL ? (
-                                <img
-                                  onClick={() => {
-                                    fileUploadRef.current?.click();
-                                  }}
-                                  src={previewURL}
-                                  className="rounded-full w-[58px] h-[58px] mx-2"
-                                  alt=""
-                                  style={{
-                                    filter: `birghtness(100%) hue-rotate(180deg) saturate(150%) sepia(20%)`,
-                                  }}
-                                />
-                              ) : type === "create" ? (
-                                <img
-                                  src={uploadCircle}
-                                  alt=""
-                                  className="mx-2"
-                                  onClick={() => {
-                                    fileUploadRef.current?.click();
-                                  }}
-                                />
-                              ) : type === "edit" ? (
-                                <img
-                                  src={team?.logo}
-                                  onClick={() => {
-                                    fileUploadRef.current?.click();
-                                  }}
-                                  alt=""
-                                  className="rounded-full w-[58px] h-[58px] mx-2"
-                                />
-                              ) : (
-                                ""
-                              )} */}
                               <div
                                 className={`w-[58px] h-[58px] rounded-full mx-2`}
                                 style={{ backgroundColor: color }}
@@ -286,14 +260,16 @@ const TeamModal = () => {
                                 }}
                               >
                                 {previewURL ? (
-                                  <img
-                                    // onClick={() => {
-                                    //   fileUploadRef.current?.click();
-                                    // }}
-                                    src={previewURL}
-                                    className="rounded-full w-[58px] h-[58px]"
-                                    alt=""
-                                  />
+                                  <>
+                                    <img
+                                      // onClick={() => {
+                                      //   fileUploadRef.current?.click();
+                                      // }}
+                                      src={previewURL}
+                                      className="rounded-full w-[58px] h-[58px]"
+                                      alt=""
+                                    />
+                                  </>
                                 ) : type === "create" ? (
                                   color ? (
                                     ""
@@ -349,15 +325,16 @@ const TeamModal = () => {
                             </div>
                             <div className="flex items-center"></div>
                           </div>
-                          <Input
+                          <input
                             className={`${
                               nameWarning ? "border-2 border-red-500" : ""
-                            } rounded-default text-xs mt-5`}
+                            } border border-charcoal items-center px-3 bg-transparent outline-none text-black dark:text-white flex-grow h-button text-xs w-full`}
                             placeholder="Type Team Name*"
                             value={teamName}
                             onChange={(e) => setTeamName(e.target.value)}
-                          ></Input>
-                        </>
+                            maxLength={100}
+                          ></input>
+                        </div>
                       ) : type === "delete" ? (
                         <div className="flex flex-col justify-between h-full">
                           <div className="space-y-3">
@@ -390,34 +367,39 @@ const TeamModal = () => {
                           <div className="flex bg-light-charcoal dark:bg-[#4A5462] h-[66px] rounded-default p-4 items-center">
                             <img
                               src={team.logo}
-                              className="w-8 h-8 rounded"
+                              className="w-10 h-10 rounded-full border border-gray-500"
                               alt=""
                             />
-                            <p className="text-black dark:text-white underline mx-2 text-sm">
+                            <p className="text-black dark:text-white underline mx-2 text-sm truncate w-40">
                               {team.name}
-                            </p>
-                            <p className="text-black dark:text-white text-[10px]">
-                              {team.waitlist}/{team.max}
                             </p>
                           </div>
                           <Input
                             className="rounded-lg my-[10px] text-xs"
                             icon={search}
                             placeholder="Search Players"
+                            value={keyword}
+                            onChange={(e) => setKeyword(e.target.value)}
                           />
                           <div className="overflow-y-auto h-[260px]">
-                            {players.map((player, idx) => (
-                              <PlayerList
-                                key={idx}
-                                className="mb-5"
-                                player={player}
-                                teamId={team.id}
-                                checked={playersList[player.id]}
-                                setChecked={(checked) => {
-                                  setCheckedList(player.id, checked);
-                                }}
-                              ></PlayerList>
-                            ))}
+                            {players
+                              .filter((player) =>
+                                (player.firstName + player.lastName)
+                                  .toLowerCase()
+                                  .includes(keyword.toLowerCase())
+                              )
+                              .map((player, idx) => (
+                                <PlayerList
+                                  key={idx}
+                                  className="mb-5"
+                                  player={player}
+                                  teamId={team.id}
+                                  checked={playersList[player.id]}
+                                  setChecked={(checked) => {
+                                    setCheckedList(player.id, checked);
+                                  }}
+                                ></PlayerList>
+                              ))}
                           </div>
                         </>
                       ) : (
@@ -427,28 +409,28 @@ const TeamModal = () => {
                     {type === "create" ? (
                       <button
                         onClick={createSubmit}
-                        className="bg-primary rounded-xl w-full hover:bg-opacity-70 h-button text-white"
+                        className="bg-primary rounded-default w-full hover:bg-opacity-70 h-button text-white"
                       >
                         Create Team
                       </button>
                     ) : type === "edit" ? (
                       <button
                         onClick={editSubmit}
-                        className="bg-primary rounded-xl w-full hover:bg-opacity-70 h-button text-white"
+                        className="bg-primary rounded-default w-full hover:bg-opacity-70 h-button text-white"
                       >
                         Edit Team
                       </button>
                     ) : type === "delete" ? (
                       <button
                         onClick={deleteSubmit}
-                        className="bg-danger bg-opacity-10 rounded-xl w-full h-12 text-danger font-semibold hover:bg-opacity-5"
+                        className="bg-danger bg-opacity-10 rounded-default w-full h-12 text-danger font-semibold hover:bg-opacity-5"
                       >
                         Delete Team
                       </button>
                     ) : type === "addPlayer" ? (
                       <button
                         onClick={addPlayers}
-                        className="bg-primary rounded-xl w-full hover:bg-opacity-70 h-button text-white"
+                        className="bg-primary rounded-default w-full hover:bg-opacity-70 h-button text-white"
                       >
                         Confirm
                       </button>

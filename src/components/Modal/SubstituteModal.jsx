@@ -41,22 +41,26 @@ const SubstituteModal = (props) => {
 
   const createSubmit = () => {
     dispatch({ type: actions.CLOSE_ADD_SUBSTITUTE_DIALOG });
-    axios
-      .post(apis.createOneMatchup, {
-        email,
-        leagueId,
-        matchId,
-        teamId,
-        jerseyNumber,
-        position,
-      })
-      .then((res) => {
-        actions.getPlayers(dispatch);
-        actions.getTeams(dispatch);
-        actions.getMatches(dispatch);
-        actions.getMatchups(dispatch);
-      })
-      .catch((error) => console.log(error.response.data.message));
+    if (position === "Select Position") {
+      setPosition("");
+    }
+      axios
+        .post(apis.createOneMatchup, {
+          email,
+          leagueId,
+          matchId,
+          teamId,
+          jerseyNumber,
+          position,
+        })
+        .then((res) => {
+          actions.getPlayers(dispatch);
+          actions.getTeams(dispatch);
+          actions.getMatches(dispatch);
+          actions.getMatchups(dispatch);
+          alert("Added a substitute successfully!");
+        })
+        .catch((error) => console.log(error.response.data.message));
   };
 
   const closeDialog = () => {
@@ -64,6 +68,7 @@ const SubstituteModal = (props) => {
     dispatch({ type: actions.CLOSE_ADD_SUBSTITUTE_DIALOG });
     setEmail("");
     setJerseyNumber("");
+    setPosition("Select Position");
   };
   const cancelButtonRef = useRef(null);
 
@@ -89,11 +94,12 @@ const SubstituteModal = (props) => {
       setCanAdd(false);
     }
   }, [email]);
+
   return (
     <Transition.Root show={status} as={Fragment}>
       <Dialog
         as="div"
-        className="relative z-10"
+        className="relative z-30"
         initialFocus={cancelButtonRef}
         onClose={closeDialog}
       >
@@ -120,10 +126,10 @@ const SubstituteModal = (props) => {
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative transform overflow-hidden rounded-main text-left shadow-xl transition-all sm:my-8 bg-slate h-[609px] md:w-[735px] mx-3 flex flex-col">
+              <Dialog.Panel className="relative transform overflow-hidden rounded-main text-left shadow-xl transition-all sm:my-8 bg-white dark:bg-slate h-[609px] md:w-[735px] mx-3 flex flex-col">
                 <div className="divide-y divide-solid divide-[#3A3A3A] flex flex-col flex-grow">
                   <div className="flex items-center text-left h-[88px] justify-between px-default">
-                    <p className="text-2xl text-white font-bold">
+                    <p className="text-2xl text-black dark:text-white font-bold">
                       Add Substitute
                     </p>
                     <div className="flex items-center">
@@ -159,7 +165,7 @@ const SubstituteModal = (props) => {
                         ></Input>
                         <Input
                           className="rounded-default text-xs h-12"
-                          placeholder="Jersey Number*"
+                          placeholder="Jersey Number"
                           value={jerseyNumber}
                           onChange={(e) => setJerseyNumber(e.target.value)}
                         ></Input>
@@ -168,7 +174,7 @@ const SubstituteModal = (props) => {
                           className="w-full h-12 rounded-lg text-xs"
                           options={positions}
                           value={position}
-                          handleClick={(e) => setPosition(e.name)}
+                          handleClick={(e)=>setPosition(e.name)}
                         >
                           {position}
                         </Select>
@@ -189,7 +195,7 @@ const SubstituteModal = (props) => {
                     </div>
                     <button
                       onClick={createSubmit}
-                      className={`bg-primary rounded-xl w-full hover:bg-opacity-70 h-button text-white disabled:opacity-10`}
+                      className={`bg-primary rounded-default w-full hover:bg-opacity-70 h-button text-white disabled:opacity-10`}
                       disabled={!canAdd}
                     >
                       Add Substitute

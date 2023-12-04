@@ -13,12 +13,14 @@ export const apis = {
     return `${apiUrl}/user/avatar/${id}`;
   },
   forgotPassword: apiUrl + "/user/forgotPassword",
+  resetPassword: apiUrl + "/user/resetPassword",
   updateInfo: apiUrl + "/user/updateInfo",
   updatePassword: apiUrl + "/user/updatePassword",
   // leagues
   getLeagues: apiUrl + "/league/all",
   createLeague: apiUrl + "/league/create",
   updateLeague: apiUrl + "/league/update",
+  updateTimer: apiUrl + "/league/updateTimer",
   deleteLeague: (id) => {
     return `${apiUrl}/league/remove/${id}`;
   },
@@ -49,6 +51,7 @@ export const apis = {
   createMatch: apiUrl + "/match/create",
   updateMatch: apiUrl + "/match/update",
   updateMatchResult: apiUrl + "/match/updateResult",
+  updateMatchSettings: apiUrl + "/match/updateSettings",
   deleteMatch: (id) => {
     return `${apiUrl}/match/remove/${id}`;
   },
@@ -57,12 +60,22 @@ export const apis = {
   createMatchup: apiUrl + "/matchup/create",
   createOneMatchup: apiUrl + "/matchup/createOne",
   updateMatchup: apiUrl + "/matchup/update",
+  completeMatchup: apiUrl + "/matchup/complete",
+  incompleteMatchup: apiUrl + "/matchup/incomplete",
+  getLogs:apiUrl + "/log/all",
+  createOneLog: apiUrl + "/log/createOne",
+  updateOneLog: apiUrl + "/log/updateOne",
+  removeLog: apiUrl + "/log/remove",
+  createLogs:apiUrl + "/log/create",
+  editLineups: apiUrl + "/matchup/editLineups",
   // player
   getPlayers: apiUrl + "/player/all",
+  invitePlayer: apiUrl + "/player/invite",
   createPlayer: apiUrl + "/player/create",
   updatePlayer: apiUrl + "/player/update",
   removePlayerFromTeam: apiUrl + "/player/removeFromTeam",
   removeSubstitute: apiUrl + "/player/removeSubstitute",
+  removeFromLeague: apiUrl + "/player/removeFromLeague",
   acceptPlayer: apiUrl + "/player/accept",
   unacceptPlayer: apiUrl + "/player/unaccept",
   addPlayer: apiUrl + "/player/add",

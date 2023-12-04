@@ -7,17 +7,17 @@ const StandingTable = (props) => {
   const columns = [
     "Position",
     "Team",
-    "W",
-    "L",
-    "Point Scored",
-    "Point Against",
-    "Diff",
+    "Wins",
+    "Losses",
+    "Points Scored",
+    "Points Against",
+    "Differential",
   ];
 
   return (
     <div className="text-black dark:text-white h-full w-full mt-4">
       <table className="w-full min-w-max table-auto text-left">
-        <thead>
+        <thead className="sticky top-0 z-10 bg-white dark:bg-slate">
           <tr>
             {columns.map((head, idx) => (
               <th key={idx} className="h-button text-center font-font-dark-gray">
@@ -25,7 +25,9 @@ const StandingTable = (props) => {
                   variant="small"
                   className="font-normal leading-none "
                 >
-                  {head}
+                  <p className="text-black dark:text-white">
+                    {head}
+                  </p>
                 </Typography>
               </th>
             ))}
@@ -34,7 +36,7 @@ const StandingTable = (props) => {
         <tbody className="text-center">
           {teams.sort((a, b)=>b.win-a.win).map(({id, position, name, logo, win, lose, pointScored, pointAgainst, diff }, index) => (
             <tr key={index} className="odd:bg-light-dark-gray dark:odd:bg-dark-gray even:bg-light-charcoal dark:even:bg-charcoal">
-              <td className="w-1/6">
+              <td className="">
                 <Typography
                   variant="small"
                   className="font-normal"
@@ -42,13 +44,13 @@ const StandingTable = (props) => {
                   {index + 1}
                 </Typography>
               </td>
-              <td className="w-1/6">
+              <td className="">
                 <Typography
                   variant="small"
-                  className="font-normal flex items-center justify-center underline  px-8"
+                  className="font-normal flex items-center justify-left underline space-x-3 pl-8"
                 >
-                <img src={logo} alt="" className="h-8 w-8 mr-2 rounded-default" />
-                <Link to={`team/${id}`}>
+                <img src={logo} alt="" className="h-8 w-8 mr-2 rounded-full" />
+                <Link to={`team/${id}`} className="truncate max-w-[160px]">
                   {name}
                 </Link>
                 </Typography>
@@ -78,7 +80,7 @@ const StandingTable = (props) => {
                   {pointScored}
                 </Typography>
               </td>
-              <td className="">
+              <td className="w-1/6">
                 <Typography
                   variant="small"
                   className="font-normal"
