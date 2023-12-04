@@ -92,7 +92,7 @@ const Log = (props) => {
             {title[log.event]}
           </p>
           <p className="text-black dark:text-white font-medium text-lg">&gt;</p>
-          {log.event !== "TimeOut" && log.isDirect === 0 && (
+          {log.event !== "TimeOut" && !log.isDirect && (
             <>
               <p className="text-black dark:text-white font-medium text-lg">
                 #{player?.jerseyNumber}

@@ -76,8 +76,8 @@ const League = () => {
   ];
 
   const rosterOptions = [
-    { id: 0, name: "WaitList" },
-    { id: 1, name: "AcceptedList" },
+    { id: 0, name: "Waitlisted" },
+    { id: 1, name: "Accepted" },
   ];
 
   const [value, setValue] = useState("Sort by");
@@ -85,7 +85,7 @@ const League = () => {
   const [rosters, setRosters] = useState([]);
   useEffect(() => {
     var result = players?.filter((roster) => roster.isWaitList === 1);
-    if (rosterValue == "WaitList") {
+    if (rosterValue == "Waitlisted") {
       result = players?.filter((roster) => roster.isWaitList === 1);
     } else {
       result = players?.filter((roster) => roster.isAcceptedList === 1);
@@ -186,7 +186,7 @@ const League = () => {
     setFilteredWaitListPlayers(waitListPlayers);
     setFilteredAcceptListPlayers(acceptedPlayers);
     setFilteredPlayers(allPlayers);
-    if (rosterValue === "WaitList") {
+    if (rosterValue === "Waitlisted") {
       setRosters(players?.filter((roster) => roster.isWaitList === 1));
     } else {
       setRosters(players?.filter((roster) => roster.isAcceptedList === 1));
@@ -695,7 +695,7 @@ const League = () => {
                     <div className="flex items-center flex-grow">
                       <p className="text-2xl text-black dark:text-white w-full text-center">
                         {
-                          rosterValue === "WaitList"? "No WaitList to show!":"Now AcceptedList to show!"
+                          rosterValue === "Waitlisted"? "No Waitlist to show!":"Now Accepted to show!"
                         }
                       </p>
                     </div>

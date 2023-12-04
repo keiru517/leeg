@@ -125,7 +125,7 @@ const EditEventModal = (props) => {
       });
     } else if (type === "add") {
       let tempPlayerId;
-      let tempIsDirect = 0;
+      let tempIsDirect = false;
       console.log(playerId)
       if (playerId === undefined) {
         if (teamId == homeTeam?.id) {
@@ -133,7 +133,7 @@ const EditEventModal = (props) => {
         } else {
           tempPlayerId = filteredAwayTeamMatchups[0]?.playerId
         }
-        tempIsDirect = 1;
+        tempIsDirect = true;
       }
       console.log(leagueId, matchId, currentPeriod, playerId, tempPlayerId, event, time, tempIsDirect, "add")
       actions.createOneLog(dispatch, {

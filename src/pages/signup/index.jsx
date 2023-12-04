@@ -82,7 +82,7 @@ const Signup = () => {
               Personal Details
             </p>
             <p className="text-font-light-gray mt-3">
-              Sign up to access our admin account ({email}).
+              Username: {email}
             </p>
           </div>
           <div className="">

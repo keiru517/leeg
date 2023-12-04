@@ -96,7 +96,7 @@ const SelectPlayerModal = (props) => {
   };
   
   const handleAddDirectScore = () =>{
-    handleAction(teamId, filteredMatchups[0].playerId, title[event], 1)
+    handleAction(teamId, null, title[event], 1)
     dispatch({ type: actions.OPEN_SELECT_PLAYER_DIALOG, payload: false });
   }
 

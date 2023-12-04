@@ -33,21 +33,15 @@ const EventPlayerList = ({
     dispatch({ type: actions.CLOSE_SELECT_PLAYER_DIALOG });
     setPlayerId(playerId);
     setTeamId(teamId);
-    // setIsDirect(0);
-    setIsDirectEvent(isDirectEvent === 0 ? 1 : 0);
-    setIsDirect(isDirectEvent === 0 ? 1 : 0);
-    // if (selected === 0) {
-    //   setIsDirect(selected)
-    // } else {
-    //   setIsDirect(selected)
-    // }
+    setIsDirectEvent(!isDirectEvent? true : false);
+    setIsDirect(!isDirectEvent? true : false);
   };
 
   return (
     <div className={`${className} w-full`}>
       <div
         className={`flex items-center justify-between ${
-          playerId == player.id && isDirectEvent === 0
+          playerId == player.id && !isDirectEvent
             ? "bg-success"
             : "bg-[#e6e6e6] dark:bg-dark-gray"
         }  w-full h-14 rounded-default py-1.5 px-4 cursor-pointer hover:opacity-75`}
