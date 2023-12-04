@@ -14,8 +14,11 @@ matchRouter.post('/update', MatchController.update);
 // SERVER_URL/api/match/updateResult
 matchRouter.post('/updateResult', MatchController.updateResult);
 
+// SERVER_URL/api/match/updateSettings
+matchRouter.post('/updateSettings', MatchController.updateSettings);
+
 // SERVER_URL/api/match/remove/1
-matchRouter.delete('/remove/:id', MatchController.remove);
+matchRouter.get('/remove/:id', MatchController.remove);
 
 // SERVER_URL/api/match/info/1
 matchRouter.get('/info/:id', MatchController.info);

@@ -3,11 +3,20 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    await queryInterface.createTable('Matches',{
+    await queryInterface.createTable('Logs',{
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
+        type: Sequelize.INTEGER
+      },
+      playerId: {
+        allowNull: true,
+        references: {
+          model: 'Players',
+          key: 'id'
+        },
+        onDelete: 'CASCADE',
         type: Sequelize.INTEGER
       },
       leagueId: {
@@ -19,7 +28,16 @@ module.exports = {
         onDelete: 'CASCADE',
         type: Sequelize.INTEGER
       },
-      homeTeamId: {
+      matchId: {
+        allowNull: false,
+        references: {
+          model: 'Matches',
+          key: 'id'
+        },
+        onDelete: 'CASCADE',
+        type: Sequelize.INTEGER
+      },
+      teamId: {
         allowNull: false,
         references: {
           model: 'Teams',
@@ -28,41 +46,17 @@ module.exports = {
         onDelete: 'CASCADE',
         type: Sequelize.INTEGER
       },
-      awayTeamId: {
-        allowNull: false,
-        references: {
-          model: 'Teams',
-          key: 'id'
-        },
-        onDelete: 'CASCADE',
-        type: Sequelize.INTEGER
-      },
-      date: {
-        type: Sequelize.STRING
-      },
-      time: {
-        type: Sequelize.STRING
-      },
-      location: {
+      event: {
         type: Sequelize.STRING
       },
       period: {
         type: Sequelize.INTEGER
       },
-      timer: {
-        type: Sequelize.INTEGER
+      time: {
+        type: Sequelize.STRING
       },
-      homeTeamPoints: {
-        type: Sequelize.INTEGER
-      },
-      awayTeamPoints: {
-        type: Sequelize.INTEGER
-      },
-      isNew: {
+      isDirect: {
         type: Sequelize.BOOLEAN
-      },
-      isDeleted: {
-        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,
@@ -83,7 +77,7 @@ module.exports = {
   },
 
   async down (queryInterface, Sequelize) {
-    await queryInterface.dropTable('Matches');
+    await queryInterface.dropTable('Logs');
     /**
      * await queryInterface.dropTable('Teams');
      * Add reverting commands here.

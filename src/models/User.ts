@@ -20,7 +20,6 @@ class User extends Model<UserCreationAttributes, UserCreationAttributes> {
   declare address: string;
   declare zipCode: string;
   declare password: string;
-
   static modelName = 'User';
 }
 

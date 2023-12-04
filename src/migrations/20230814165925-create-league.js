@@ -18,15 +18,19 @@ module.exports = {
         onDelete: 'CASCADE',
         type: Sequelize.INTEGER
       },
+      sport: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
       type: {
         allowNull: false,
         type: Sequelize.INTEGER
       },
       name: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(255)
       },
       description: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING(500)
       },
       logo: {
         type: Sequelize.STRING
@@ -36,6 +40,12 @@ module.exports = {
       },
       endDate: {
         type: Sequelize.STRING
+      },
+      minute: {
+        type: Sequelize.INTEGER
+      },
+      second: {
+        type: Sequelize.INTEGER
       },
       isAllowedFan: {
         type: Sequelize.BOOLEAN

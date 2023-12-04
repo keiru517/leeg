@@ -94,6 +94,9 @@ module.exports = {
       turnovers: {
         type: Sequelize.INTEGER
       },
+      attendance: {
+        type: Sequelize.BOOLEAN
+      },
       isDeleted: {
         type: Sequelize.INTEGER
       },

@@ -34,7 +34,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       jerseyNumber: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
       },
       position: {
         type: Sequelize.STRING

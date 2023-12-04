@@ -5,7 +5,8 @@ import { Types } from '../types';
 import Matchup from '../models/Matchup';
 import Match from '../models/Match';
 import { Op } from 'sequelize';
-// import Match from '../models/Match';
+import League from '../models/League';
+import nodemailer from 'nodemailer';
 
 // GET SERVER_URL/api/player/all
 export const all: RequestHandler = async (req, res) => {
@@ -121,6 +122,7 @@ export const updatePoints: RequestHandler = async (req, res) => {
     res.status(404).json({ message: 'Player not found' });
   }
 };
+
 // POST SERVER_URL/api/player/removeFromTeam
 export const removeFromTeam: RequestHandler = async (req, res) => {
   const id = req.body.id;
@@ -161,38 +163,16 @@ export const removeFromTeam: RequestHandler = async (req, res) => {
       });
     }
 
-    // await Player.create({
-    //   leagueId: player.leagueId,
-    //   teamId: 0,
-    //   matchId: 0,
-    //   userId: player.userId,
-    //   firstName: player.firstName,
-    //   lastName: player.lastName,
-    //   avatar: player.avatar,
-    //   email: player.email,
-    //   jerseyNumber: 0,
-    //   position:"Select Position",
-    //   birthday: player.birthday,
-    //   country: player.country,
-    //   state: player.state,
-    //   city: player.city,
-    //   address: player.address,
-    //   zipCode: player.zipCode,
-    //   isWaitList: player.isWaitList,
-    //   isAcceptedList: player.isAcceptedList,
-    //   isDeleted: 0
-    // });
-
     res.json({ message: 'deleted successfully!' });
   } else {
     res.status(404).json({ message: 'player not found' });
   }
 };
 
-export const removeSubstitute: RequestHandler =async (req, res) => {
-  const {userId, leagueId, matchId} = req.body;
+export const removeSubstitute: RequestHandler = async (req, res) => {
+  const { userId, leagueId, matchId } = req.body;
   const matchup = await Matchup.findOne({
-    where:{
+    where: {
       userId,
       leagueId,
       matchId
@@ -200,11 +180,11 @@ export const removeSubstitute: RequestHandler =async (req, res) => {
   });
   if (matchup) {
     await matchup.destroy();
-    res.status(200).json({message:'Removed a substitute successfully!'})
+    res.status(200).json({ message: 'Removed a substitute successfully!' });
   } else {
-    res.status(404).json({message:"Player not found!"});
+    res.status(404).json({ message: 'Player not found!' });
   }
-}
+};
 
 // Add players to the team
 // POST SERVER_URL/api/player/add
@@ -222,16 +202,16 @@ export const add: RequestHandler = async (req, res) => {
       await player.save();
       const matches = await Match.findAll({
         where: {
-          [Op.or]: [{ homeTeamId: teamId}, {awayTeamId: teamId }]
+          [Op.or]: [{ homeTeamId: teamId }, { awayTeamId: teamId }]
         }
       });
 
-      matches.map(async match=>{
+      matches.map(async match => {
         if (match.isNew) {
           await Matchup.create({
-            playerId:player.id,
-            userId:player.userId,
-            leagueId:player.leagueId,
+            playerId: player.id,
+            userId: player.userId,
+            leagueId: player.leagueId,
             matchId: match.id,
             teamId: player.teamId,
             points: 0,
@@ -247,13 +227,13 @@ export const add: RequestHandler = async (req, res) => {
             fouls: 0,
             steals: 0,
             turnovers: 0,
+            attendance: 1,
             isDeleted: 0
-          })
+          });
         }
-
-      })
+      });
       playerFound = true;
-      
+
       // Update matchup
       // If a player is added to a team, we need check all matchups and update it
       // If the match is new, we need to add a matchup
@@ -271,11 +251,10 @@ export const add: RequestHandler = async (req, res) => {
 // POST SERVER_URL/api/player/accept
 export const accept: RequestHandler = async (req, res) => {
   const data = req.body;
-  console.log("data===================", data);
   var playerFound = false;
 
   const promises = Object.keys(data).map(async id => {
-    console.log(data[id])
+    console.log(data[id]);
     const player = await Player.findByPk(id);
     if (player) {
       if (data[id]) {
@@ -303,7 +282,7 @@ export const unaccept: RequestHandler = async (req, res) => {
 
   const promises = Object.keys(data).map(async id => {
     const player = await Player.findByPk(id);
-    if (player) {
+    if (player && data[id]) {
       player.teamId = 0;
       player.isWaitList = 1;
       player.isAcceptedList = 0;
@@ -321,6 +300,85 @@ export const unaccept: RequestHandler = async (req, res) => {
   }
 };
 
+export const invite: RequestHandler = async (req, res) => {
+  const { email, leagueId, inviter } = req.body;
+
+  try {
+    const league = await League.findOne({
+      where: {
+        id: leagueId
+      }
+    });
+    if (league) {
+      // sending invite email
+      const mailOptions = {
+        from: process.env.EMAIL,
+        to: email,
+        subject: `${inviter.firstName} ${inviter.lastName} is inviting you to join their League!`,
+        text: `
+          ${league.name}
+          League ID: ${league.id.toString().padStart(6, '0')}
+          Sport: ${league.sport}
+          ${league.description}
+          Start Date: ${league.startDate}
+          End Date: ${league.endDate}
+          
+          Sign up at Leeg.io! (https://leeg.io)
+        `
+      };
+      const emailService = nodemailer.createTransport({
+        host: 'smtp.gmail.com',
+        port: 587,
+        secure: false,
+        auth: {
+          user: process.env.EMAIL,
+          pass: process.env.PASSWORD
+        }
+      });
+      emailService.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          console.error(error);
+          res.status(500).json({ message: 'Email sending failed' });
+        } else {
+          console.log(`Email sent: ${info.response}`);
+        }
+      });
+      res.status(200).json({ message: 'Invited successfully!' });
+    } else {
+      res.status(400).json({ message: 'Invite Failed!' });
+    }
+  } catch (error) {
+    res.status(400).json({ message: 'Invite Failed!' });
+  }
+};
+
+// Remove a player from the league
+export const removeFromLeague: RequestHandler =async (req, res) => {
+  const data = req.body;
+  var playerFound = false;
+
+  const promises = Object.keys(data).map(async id => {
+    const player = await Player.findByPk(id);
+    if (player) {
+      if (data[id]) {
+        player.isAcceptedList = 0;
+        player.isWaitList = 0;
+        player.isDeleted = 1;
+        await player.save();
+      }
+      playerFound = true;
+    }
+  });
+
+  await Promise.all(promises);
+
+  if (playerFound) {
+    const players = await Player.findAll();
+    res.status(200).json({players});
+  } else {
+    res.status(404).json({ message: 'Player not found' });
+  }
+}
 // GET SERVER_URL/api/player/info/1
 export const info: RequestHandler = async (req, res) => {
   const id = Number(req.params.id);

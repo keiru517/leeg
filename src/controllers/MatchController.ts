@@ -3,6 +3,7 @@ import Match from '../models/Match';
 import Team from '../models/Team';
 import Matchup from '../models/Matchup';
 import Player from '../models/Player';
+import Log from '../models/Log';
 import { Types } from '../types';
 
 // GET SERVER_URL/api/match/all
@@ -15,89 +16,99 @@ export const all: RequestHandler = async (req, res) => {
 export const create: RequestHandler = async (req, res) => {
   const data: Types.T_Match = req.body;
 
-  // await Match.create(data);
-
-  // Create matchup when the user creates a match =====================
-  const match = await Match.create(data);
-  const homeTeamPlayers = await Player.findAll({
-    where: {
-      teamId: match.homeTeamId,
-      isDeleted: 0
-    }
-  });
-
-  homeTeamPlayers.map(async player => {
-    if (!player.isSubstitute) {
-      await Matchup.create({
-        playerId: player.id,
-        userId: player.userId,
-        leagueId: match.leagueId,
-        matchId: match.id,
-        teamId: player.teamId,
-        points: 0,
-        points3: 0,
-        points2: 0,
-        points1: 0,
-        attempts3: 0,
-        attempts2: 0,
-        attempts1: 0,
-        blocks: 0,
-        rebounds: 0,
-        assists: 0,
-        fouls: 0,
-        steals: 0,
-        turnovers: 0,
+  try {
+    // Create matchup when the user creates a match =====================
+    const match = await Match.create(data);
+    const homeTeamPlayers = await Player.findAll({
+      where: {
+        teamId: match.homeTeamId,
         isDeleted: 0
-      });
-    }
-  });
-
-  const awayTeamPlayers = await Player.findAll({
-    where: {
-      teamId: match.awayTeamId,
-      isDeleted: 0
-    }
-  });
-
-  awayTeamPlayers.map(async player => {
-    if (!player.isSubstitute) {
-      await Matchup.create({
-        playerId: player.id,
-        userId: player.userId,
-        leagueId: match.leagueId,
-        matchId: match.id,
-        teamId: player.teamId,
-        points: 0,
-        points3: 0,
-        points2: 0,
-        points1: 0,
-        attempts3: 0,
-        attempts2: 0,
-        attempts1: 0,
-        blocks: 0,
-        rebounds: 0,
-        assists: 0,
-        fouls: 0,
-        steals: 0,
-        turnovers: 0,
+      }
+    });
+  
+    homeTeamPlayers.map(async player => {
+      if (!player.isSubstitute) {
+        await Matchup.create({
+          playerId: player.id,
+          userId: player.userId,
+          leagueId: match.leagueId,
+          matchId: match.id,
+          teamId: player.teamId,
+          points: 0,
+          points3: 0,
+          points2: 0,
+          points1: 0,
+          attempts3: 0,
+          attempts2: 0,
+          attempts1: 0,
+          blocks: 0,
+          rebounds: 0,
+          assists: 0,
+          fouls: 0,
+          steals: 0,
+          turnovers: 0,
+          attendance: 1,
+          isDeleted: 0
+        });
+      }
+    });
+  
+    const awayTeamPlayers = await Player.findAll({
+      where: {
+        teamId: match.awayTeamId,
         isDeleted: 0
-      });
-    }
-  });
-  //  ========================================
-  res.status(200).json({ message: 'A Match Created Successfully!' });
+      }
+    });
+  
+    awayTeamPlayers.map(async player => {
+      if (!player.isSubstitute) {
+        await Matchup.create({
+          playerId: player.id,
+          userId: player.userId,
+          leagueId: match.leagueId,
+          matchId: match.id,
+          teamId: player.teamId,
+          points: 0,
+          points3: 0,
+          points2: 0,
+          points1: 0,
+          attempts3: 0,
+          attempts2: 0,
+          attempts1: 0,
+          blocks: 0,
+          rebounds: 0,
+          assists: 0,
+          fouls: 0,
+          steals: 0,
+          turnovers: 0,
+          attendance: 1,
+          isDeleted: 0
+        });
+      }
+    });
+    //  ========================================
+    const matches = await Match.findAll()
+    res.status(200).json({ matches });
+  } catch (error) {
+    res.status(400).json({message:"Error occurred while creating!"});
+  }
 };
 
 // POST SERVER_URL/api/match/update
 export const update: RequestHandler = async (req, res) => {
-  const data: Types.T_Match = req.body;
-
-  const match = await Match.findByPk(req.body.id);
-  if (match) {
-    await match.update(data);
-    res.status(200).json({ message: 'A match has updated successfully!' });
-  } else {
-    res.status(404).json({ message: 'match not found' });
+  const {id, date, time, location} = req.body;
+  try {
+    await Match.update({
+      date, time, location
+    }, {
+      where:{
+        id
+      }
+    });
+    const matches = await Match.findAll();
+    res.status(200).json({ matches });
+  } catch (error) {
+    res.status(400).json({message:"Error occurred while updating!"})
   }
 };
 
@@ -105,21 +116,42 @@ export const update: RequestHandler = async (req, res) => {
 // update the result of the match when admin clicks "Save"
 export const updateResult: RequestHandler = async (req, res) => {
   const data = req.body;
+  console.log(data)
 
   const match = await Match.findByPk(data.matchId);
   if (match) {
-    // match.homeTeamPoints = data.result[0];
-    // match.awayTeamPoints = data.result[1];
+    match.homeTeamPoints = data.result[0];
+    match.awayTeamPoints = data.result[1];
 
     // update team statistics based on the matchup.
-
-    await updateTeamStatistics(match, data.result[0], data.result[1]);
+    if (!match.isNew) {
+      await updateTeamStatistics(match, data.result[0], data.result[1]);
+    }
+    const matches = await Match.findAll();
     // await updateMatchup(match, data.home)
-    res.status(200).json({ message: 'A match has updated successfully!' });
+    res.status(200).json({ matches });
   } else {
     res.status(404).json({ message: 'match not found' });
   }
 };
+
+// POST SERVER_URL/api/match/updateSettings
+export const updateSettings: RequestHandler =async (req, res) => {
+  const {matchId, period, time} = req.body;
+  try{
+    await Match.update({
+      period:period,
+      timer:time
+    }, {
+      where:{
+        id:matchId
+      }
+    });
+    res.status(200).json({message:"Saved Successfully!"});
+  } catch {
+    res.status(404).json({message: "Error occurred while saving!"});
+  }
+}
 
 // update win, lose, points etc of the team
 const updateTeamStatistics = async (
@@ -213,14 +245,20 @@ const updateTeamStatistics = async (
 export const remove: RequestHandler = async (req, res) => {
   const id = Number(req.params.id);
 
-  const league = await Match.findByPk(id);
-  if (league) {
-    await league.destroy();
-    const leagues = await Match.findAll();
+  const match = await Match.findByPk(id);
+  if (match) {
+    await match.destroy()
+    const matches = await Match.findAll();
+    await Log.destroy({
+      where: {
+        matchId: id,
+      },
+    });
 
-    res.json({ message: 'deleted successfully!', leagues: leagues });
+
+    res.json({ matches});
   } else {
-    res.status(404).json({ message: 'league not found' });
+    res.status(404).json({ message: 'Match not found' });
   }
 };
 

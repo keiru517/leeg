@@ -20,12 +20,15 @@ export namespace Types {
   }
   export interface T_League extends T_DB {
     userId: number;
+    sport: string;
     type: number; // 0 - public, 1 - private
     name: string;
     description: string;
     logo: string;
     startDate: string;
     endDate: string;
+    minute:number;
+    second:number;
     isAllowedFan: boolean;
     displayPosition: boolean;
     displayAttempts3: boolean;
@@ -72,6 +75,8 @@ export namespace Types {
     date: string;
     time: string;
     location: string;
+    period: number;
+    timer: number;
     homeTeamPoints: number;
     awayTeamPoints: number;
     isNew: boolean;
@@ -96,7 +101,18 @@ export namespace Types {
     fouls: number;
     steals: number;
     turnovers: number;
+    attendance: number;
     isDeleted: number;
+  }
+  export interface T_Log extends T_DB {
+    playerId: number;
+    leagueId: number;
+    matchId: number;
+    teamId: number;
+    event: string;
+    period: number;
+    time: string;
+    isDirect: boolean;
   }
   export interface T_Player extends T_DB {
     leagueId: number;
@@ -107,7 +123,7 @@ export namespace Types {
     lastName: string;
     avatar: string;
     email: string;
-    jerseyNumber: number;
+    jerseyNumber: string;
     position: string;
     birthday: string;
     country: string;

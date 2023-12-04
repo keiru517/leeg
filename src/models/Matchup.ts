@@ -8,6 +8,7 @@ import {
 import sequelize from '.';
 import { Types } from '../types';
 import Player from './Player';
+import Match from './Match';
 
 type MatchupCreationAttribute = Optional<
   Types.T_Matchup,
@@ -37,6 +38,7 @@ export default class Matchup extends Model<
   declare fouls: number;
   declare steals: number;
   declare turnovers: number;
+  declare attendance:boolean;
   declare isDeleted: number;
   static modelName = 'Matchup';
 }
@@ -95,6 +97,10 @@ Matchup.init(
     fouls: DataTypes.INTEGER,
     steals: DataTypes.INTEGER,
     turnovers: DataTypes.INTEGER,
+    attendance:{
+      type: DataTypes.INTEGER,
+      defaultValue:1
+    },
     isDeleted: {
       type: DataTypes.INTEGER,
       defaultValue: 0
@@ -109,4 +115,9 @@ Matchup.init(
 Matchup.belongsTo(Player, {
   foreignKey: 'playerId',
   as: 'player'
+});
+
+Matchup.belongsTo(Match, {
+  foreignKey: 'matchId',
+  as: 'match'
 });

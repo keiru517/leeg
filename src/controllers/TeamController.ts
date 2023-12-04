@@ -71,21 +71,66 @@ export const create: RequestHandler = async (req, res) => {
   res.status(200).json({ message: 'A Team Created Successfully!' });
 };
 
-// POST SERVER_URL/api/team/update
 export const update: RequestHandler = async (req, res) => {
-  const data = {
-    name: req.body.name,
-    logo: req.body.logo
-  };
+  const data = req.body;
+  const userId = data.userId;
+  if (req.file) {
+    const extension = path.extname(req.file.originalname);
+    const directoryPath = absolutePath(`public/upload/${userId}/teams`);
 
-  const team = await Team.findByPk(req.body.id);
-  if (team) {
-    await team.update(data);
-    res.status(200).json({ message: 'A team has updated successfully!' });
+    if (!existsSync(directoryPath)) {
+      mkdirSync(directoryPath, { recursive: true });
+    }
+
+    const fileName = `${moment().format(
+      FILE_NAME_DATE_TILE_FORMAT
+    )}${extension}`;
+    const filePath = path.join(directoryPath, fileName); // Use path.join to combine paths correctly
+
+    const buffer = req.file.buffer;
+    writeFileSync(filePath, buffer);
+    data.logo = fileName;
+    // data.logo = filePath;
+    // data.logo = URL.createObjectURL(new Blob([buffer], {type: "image/jpeg"}));
   } else {
-    res.status(404).json({ message: 'team not found' });
+    // Handle case when frontend does not send a file
+    const color = data.color; // Assuming the frontend sends the color value
+
+    // Generate a canvas with the desired size
+    const canvas = createCanvas(58, 58);
+    const ctx = canvas.getContext('2d');
+
+    // Set the background color
+    ctx.fillStyle = color;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Save the canvas as an image file
+    const directoryPath = absolutePath(`public/upload/${userId}/teams`);
+
+    if (!existsSync(directoryPath)) {
+      mkdirSync(directoryPath, { recursive: true });
+    }
+
+    const fileName = `${moment().format(FILE_NAME_DATE_TILE_FORMAT)}.png`; // Use the desired file extension
+    const filePath = path.join(directoryPath, fileName);
+    const buffer = canvas.toBuffer('image/png');
+    writeFileSync(filePath, buffer);
+
+    data.logo = fileName;
   }
+
+  await Team.update({
+    name:req.body.name,
+    logo:data.logo,
+  }, {
+    where:{
+      id:req.body.id
+    }
+  });
+  const teams = await Team.findAll();
+  res.status(200).json({ teams});
 };
+
 
 // DELETE SERVER_URL/api/team/remove/1
 export const remove: RequestHandler = async (req, res) => {

@@ -54,6 +54,14 @@ Match.init(
     date: DataTypes.STRING,
     time: DataTypes.STRING,
     location: DataTypes.STRING,
+    period: {
+      type:DataTypes.INTEGER,
+      defaultValue:4,
+    },
+    timer: {
+      type:DataTypes.INTEGER,
+      defaultValue:20*6000,
+    },
     homeTeamPoints: {
       type: DataTypes.INTEGER,
       defaultValue: 0

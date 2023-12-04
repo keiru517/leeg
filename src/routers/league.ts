@@ -22,6 +22,7 @@ leagueRouter.post('/create', upload.single('logo'), LeagueController.create);
 // SERVER_URL/api/league/update
 leagueRouter.post('/update',upload.single('logo'), LeagueController.update);
 
+leagueRouter.post('/updateTimer', LeagueController.updateTimer);
 // delete a league
 // SERVER_URL/api/league/remove/1
 leagueRouter.delete('/remove/:id', LeagueController.remove);

@@ -19,11 +19,15 @@ export default class League extends Model<
 > {
   declare id: CreationOptional<number>;
   declare userId: ForeignKey<number>;
+  declare sport: string;
   declare name: string;
   declare description: string;
+  declare type: number;
   declare logo: string;
   declare startDate: string;
   declare endDate: string;
+  declare minute: number;
+  declare second: number;
   declare isAllowedFan: boolean;
   declare requirePassword: boolean;
   declare displayPosition: boolean;
@@ -50,71 +54,84 @@ League.init(
         key: 'id'
       }
     },
+    sport: {
+      type: DataTypes.STRING
+    },
     type: {
       type: DataTypes.INTEGER,
       defaultValue: 0
     },
-    name: DataTypes.STRING,
-    description: DataTypes.STRING,
+    name: {
+      type: DataTypes.STRING(255)
+    },
+    description: {
+      type:DataTypes.STRING(500)
+    },
     logo: DataTypes.STRING,
     startDate: {
       type: DataTypes.STRING,
-      defaultValue: "N/A"
+      defaultValue: 'N/A'
     },
     endDate: {
       type: DataTypes.STRING,
-      defaultValue: "N/A"
+      defaultValue: 'N/A'
     },
     isAllowedFan: {
       type: DataTypes.BOOLEAN,
       defaultValue: false
     },
+    minute: {
+      type: DataTypes.INTEGER
+    },
+    second: {
+      type: DataTypes.INTEGER
+    },
     displayPosition: {
       type: DataTypes.BOOLEAN,
-      defaultValue: false
+      defaultValue: true
     },
     displayAttempts3: {
       type: DataTypes.BOOLEAN,
-      defaultValue: false
+      defaultValue: true
     },
     displayAttempts2: {
       type: DataTypes.BOOLEAN,
-      defaultValue: false
+      defaultValue: true
     },
     displayAttempts1: {
       type: DataTypes.BOOLEAN,
-      defaultValue: false
+      defaultValue: true
     },
     displayBlocks: {
       type: DataTypes.BOOLEAN,
-      defaultValue: false
+      defaultValue: true
     },
     displayRebounds: {
       type: DataTypes.BOOLEAN,
-      defaultValue: false
+      defaultValue: true
     },
     displayAssists: {
       type: DataTypes.BOOLEAN,
-      defaultValue: false
+      defaultValue: true
     },
     displayFouls: {
       type: DataTypes.BOOLEAN,
-      defaultValue: false
+      defaultValue: true
     },
     displaySteals: {
       type: DataTypes.BOOLEAN,
-      defaultValue: false
+      defaultValue: true
     },
     displayTurnovers: {
       type: DataTypes.BOOLEAN,
-      defaultValue: false
+      defaultValue: true
     },
     requirePassword: {
-      type:DataTypes.BOOLEAN,
-      defaultValue:false
+      type: DataTypes.BOOLEAN,
+      defaultValue: true
     },
     password: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING
     },
     isDeleted: {
       type: DataTypes.INTEGER,
