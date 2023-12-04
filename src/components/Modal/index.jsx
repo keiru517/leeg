@@ -366,7 +366,7 @@ const Modal = (props) => {
                               </p>
                             </div>
                             <input
-                              className="border border-charcoal items-center px-3 bg-transparent outline-none text-black dark:text-white flex-grow h-button text-xs w-full"
+                              className="border border-charcoal items-center px-3 bg-transparent outline-none text-black dark:text-white flex-grow h-button text-xs w-full rounded-default"
                               placeholder="Type League Name*"
                               value={leagueName}
                               onChange={(e) => setLeagueName(e.target.value)}
