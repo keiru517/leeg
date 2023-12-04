@@ -11,7 +11,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       playerId: {
-        allowNull: false,
+        allowNull: true,
         references: {
           model: 'Players',
           key: 'id'
@@ -56,7 +56,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       isDirect: {
-        type: Sequelize.INTEGER
+        type: Sequelize.BOOLEAN
       },
       createdAt: {
         allowNull: false,

@@ -112,7 +112,7 @@ export namespace Types {
     event: string;
     period: number;
     time: string;
-    isDirect: number;
+    isDirect: boolean;
   }
   export interface T_Player extends T_DB {
     leagueId: number;

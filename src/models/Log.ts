@@ -26,14 +26,14 @@ export default class Log extends Model<
   declare event: string;
   declare period: number;
   declare time: string;
-  declare isDirect: number;
+  declare isDirect: boolean;
   static modelName = 'Log';
 }
 Log.init(
   {
     playerId: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
       references: {
         model: 'Player',
         key: 'id'
@@ -67,8 +67,8 @@ Log.init(
     period: DataTypes.STRING,
     time: DataTypes.STRING,
     isDirect: {
-      type: DataTypes.INTEGER,
-      defaultValue: 0
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
     }
   },
   {

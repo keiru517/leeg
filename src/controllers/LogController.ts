@@ -108,7 +108,7 @@ export const create: RequestHandler = async (req, res) => {
         event: log.event,
         period: log.period,
         time: log.time,
-        isDirect: 0
+        isDirect: false
       });
     });
 
