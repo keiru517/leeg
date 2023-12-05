@@ -2,7 +2,6 @@ import { Typography } from "@material-tailwind/react";
 import {Switch} from "@headlessui/react";
 import {AiOutlineCheck} from "react-icons/ai";
 
-import Option from "../Option";
 import {useEffect, useRef, useState} from "react";
 
 const Checkbox = ({ label, name, checked, onChange, disabled }) => (
@@ -34,7 +33,7 @@ const Checkbox = ({ label, name, checked, onChange, disabled }) => (
 )
 
 
-const Table = ({ columns, data, presentCheckBox, selectedItems, setSelectedItems, presentOptions, options, handleOption }) => {
+const Table = ({ columns, data, presentCheckBox, selectedItems, setSelectedItems, presentOptions, options}) => {
 
     const [columnWidths, setColumnWidths] = useState({});
     const tableRef = useRef(null);
@@ -113,10 +112,7 @@ const Table = ({ columns, data, presentCheckBox, selectedItems, setSelectedItems
             ))}
             {presentOptions && (
                 <th>
-                    <Option
-                        options={options}
-                        handleClick={(idx) => handleOption(idx)}
-                    ></Option>
+                    {options}
                 </th>
             )}
         </thead>

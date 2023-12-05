@@ -1,7 +1,5 @@
 import axios from "axios";
-import { Link } from "react-router-dom";
-import { useState, useEffect, useRef } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import * as actions from "../../actions";
 import { useDispatch, useSelector } from "react-redux";
 import { apis } from "../../utils/apis";
@@ -47,12 +45,12 @@ const Card = (props) => {
 
   return (
     <div
-      className={`rounded-default h-[185px] bg-light-charcoal dark:bg-charcoal p-default hover:bg-light-dark-gray dark:hover:bg-dark-gray duration-200 shadow dark:shadow-gray-600 ${
+      className={`rounded-default h-[230px] bg-light-charcoal dark:bg-charcoal p-default hover:bg-light-dark-gray dark:hover:bg-dark-gray ${
         isAdmin ||
         league?.userId == user?.id ||
         player?.isAcceptedList === 1 ||
         league?.isAllowedFan
-          ? "cursor-pointer transition ease-in-out delay-150 hover:-translate-y-1"
+          ? "cursor-pointer"
           : ""
       }`}
       onClick={() => {
@@ -93,8 +91,6 @@ const Card = (props) => {
             ) : (
                 ""
             )}
-          </div>
-          <div>
             {league?.isAllowedFan ? (
               <span className="bg-yellow-100 text-yellow-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300">
                 Public
@@ -104,8 +100,6 @@ const Card = (props) => {
                 Private
               </span>
             )}
-          </div>
-          <div>
             {player?.isWaitList === 1 ? (
                 <span className="bg-yellow-100 text-yellow-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300">
                 PENDING

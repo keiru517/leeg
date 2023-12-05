@@ -1,45 +1,16 @@
-import { useState } from "react";
+import {useEffect, useState} from "react";
 
-import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import {Link} from "react-router-dom";
+import {useDispatch} from "react-redux";
 import axios from "axios";
 
 import apis from "../../utils/apis";
 import * as actions from "../../actions";
-import moment from 'moment';
 import Table from "./index";
 
-function Checkbox({ label, name, checked, onChange, disabled }) {
-  return (
-    <Switch.Group>
-      <div className="flex items-center">
-        <Switch.Label className="">{label}</Switch.Label>
-        <Switch
-          checked={checked}
-          onChange={onChange}
-          name={name}
-          disabled={disabled}
-          className={`
-            relative flex h-5 w-5 items-center justify-center transition-all duration-200 outline-none ring-1
-            ${!checked && !disabled ? "ring-gray-400" : ""}
-            ${checked && !disabled ? "ring-red-400" : ""}
-            ${disabled ? "bg-gray-200 ring-gray-200" : ""}
-          `}
-        >
-          <AiOutlineCheck
-            size="1rem"
-            className={`
-             ${checked ? "scale-100" : "scale-0"}
-             ${checked && !disabled ? "text-red-400" : "text-gray-400"}
-             transition-transform duration-200 ease-out`}
-          />
-        </Switch>
-      </div>
-    </Switch.Group>
-  );
-}
 
 const RosterTable = ({ rosters, rosterList }) => {
+
   const dispatch = useDispatch();
   const [selectedItems, setSelectedItems] = useState([]);
 
@@ -72,67 +43,71 @@ const RosterTable = ({ rosters, rosterList }) => {
     },
   ];
 
-  const options =
-    rosterList === "WaitList"
-      ? [
-          { id: 0, name: "Accept" },
-        ]
-      : [{ id: 0, name: "WaitList" }];
+  const acceptPlayers = () => {
+    const data = {}
+    selectedItems.forEach((e) => {
+      data[e] = true
+    })
+    axios
+        .post(apis.acceptPlayer, data)
+        .then(() => {
+          actions.getPlayers(dispatch);
+        })
+        .catch((error) => alert(error.response.data.message));
+    setSelectedItems([])
+  }
 
+  const unacceptPlayers = () => {
+    const data = {}
+    selectedItems.forEach((e) => {
+      data[e] = true
+    })
+    axios
+        .post(apis.unacceptPlayer, data)
+        .then(() => {
+          actions.getPlayers(dispatch);
+        })
+        .catch((error) => alert(error.response.data.message));
+    setSelectedItems([])
+  }
 
-  const handleOption = () => {
-    if (selectedItems.length === 0) {
-      alert("Please select one or more players!");
-    } else {
-      if (rosterList === "WaitList") {
-        // if the user clicks Accept
-        axios
-            .post(apis.acceptPlayer, selectedItems.map((playerId)=> ({id:playerId})))
-            .then(() => {
-              actions.getPlayers(dispatch);
-            })
-            .catch((error) => alert(error.response.data.message));
-      } else {
-        axios
-          .post(apis.unacceptPlayer, selectedItems.map((playerId)=> ({id:playerId})))
-          .then(() => {
-            actions.getPlayers(dispatch);
-          })
-          .catch((error) => alert(error.response.data.message));
-      }
-    }
+  const removePlayers = () => {
+    const data = {}
+    selectedItems.forEach((e) => {
+      data[e] = true
+    })
+    actions.removeFromLeague(dispatch, data)
+    setSelectedItems([])
+  }
+
+  useEffect(() => {
     setSelectedItems([]);
-  };
-
-  const [canSubmit, setCanSubmit] = useState(false);
-  useEffect(() => {
-    // Return true if nothing is selected
-    const allItemsFalse = Object.values(itemChecked).every(
-      (value) => value === false
-    );
-    if (allItemsFalse) {
-      setCanSubmit(false);
-    } else {
-      setCanSubmit(true);
-    }
-  }, [itemChecked]);
-
-  // Set itemchecked as {} when the select option is changed
-  useEffect(() => {
-    setItemChecked({});
-  }, [rosterValue]);
+  }, [rosterList]);
 
   return (
     <div className="text-black dark:text-white h-full w-full mt-4">
-      <Table
+        <Table
           data={rosters}
           columns={columns}
           presentCheckBox
           selectedItems={selectedItems}
           setSelectedItems={setSelectedItems}
           presentOptions
-          options={options}
-          handleOption={handleOption}
+          options={
+            <div className="flex justify-center space-x-1">
+              {rosterList === "WaitList" ?
+                      (
+                          <>
+                              <button onClick={() => acceptPlayers()}> ✅ </button>
+                              <button onClick={() => removePlayers()}> ❌ </button>
+                          </>
+
+                      ) : (
+                          <button onClick={() => unacceptPlayers()}> ❌ </button>
+                      )
+              }
+            </div>
+          }
       />
     </div>
   );

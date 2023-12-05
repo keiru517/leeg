@@ -98,11 +98,7 @@ const StandingTable = ({ teams }) => {
           data={teams.sort((a, b)=>b.win-a.win)}
           columns={columns}
           presentCheckBox={false}
-          selectedItems
-          setSelectedItems
           presentOptions={false}
-          options
-          handleOption
       />
     </>
   )
