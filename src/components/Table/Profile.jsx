@@ -49,7 +49,7 @@ const Profile = (props) => {
   // );
 
   return (
-    <div className="text-black dark:text-white mt-5 w-ful text-xs">
+    <div className="text-black dark:text-white mt-5 w-ful text-xs overflow-auto">
       <table className="table-auto text-left w-full">
         <thead className="sticky top-0 z-10 bg-white dark:bg-slate">
           <tr>
@@ -61,7 +61,7 @@ const Profile = (props) => {
             </th>
             <th
               key={1}
-              className="h-button text-center font-font-dark-gray font-normal"
+              className="h-button text-center font-font-dark-gray font-normal min-w-[250px] sticky left-0 bg-white dark:bg-slate border border-gray"
             >
               Matchup
             </th>
@@ -186,12 +186,13 @@ const Profile = (props) => {
             return (
               <tr
                 key={index}
-                className="odd:bg-light-dark-gray dark:odd:bg-charcoal even:bg-light-charcoal dark:even:bg-dark-gray"
+                // className="odd:bg-light-dark-gray dark:odd:bg-charcoal even:bg-light-charcoal dark:even:bg-dark-gray"
+                className=""
               >
                 <td className="">
                     {matchup.match?.date}
                 </td>
-                <td className="flex items-center space-x-2 justify-center">
+                <td className="flex items-center space-x-2 justify-center sticky left-0 bg-white dark:bg-slate border border-1 border-gray">
                     <img
                       src={
                         teams.find(

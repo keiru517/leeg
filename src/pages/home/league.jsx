@@ -598,7 +598,7 @@ const League = () => {
           <p className="">{league?.name}</p>
         </div>
       </p>
-      <div className="rounded-default bg-white dark:bg-slate flex-grow p-default">
+      <div className="rounded-default bg-white dark:bg-slate flex-grow sm:p-default">
         <div className="w-full px-2 sm:px-0 h-full flex flex-col">
           <TabContext value={tab}>
             <div className="flex justify-between">
@@ -874,12 +874,10 @@ const League = () => {
                   </div>
                 </div>
                 {matches.length > 0 ? (
-                  <>
-                    <MatchTable
-                      matches={matches}
-                      leagueId={leagueId}
-                    ></MatchTable>
-                  </>
+                  <MatchTable
+                    matches={matches}
+                    leagueId={leagueId}
+                  ></MatchTable>
                 ) : (
                   <div className="flex items-center flex-grow">
                     <p className="text-2xl text-black dark:text-white w-full text-center mt-5">

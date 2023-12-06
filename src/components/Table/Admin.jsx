@@ -34,7 +34,7 @@ const AdminTable = (props) => {
   };
 
   return (
-    <div className="text-white h-full w-full">
+    <div className="text-white h-full w-full overflow-auto">
       <table className="w-full min-w-max table-auto text-left">
         <thead className="sticky top-0 z-10 bg-white dark:bg-slate">
           <tr>
@@ -90,7 +90,7 @@ const AdminTable = (props) => {
                   key={index}
                   className="odd:bg-light-dark-gray dark:odd:bg-dark-gray even:bg-light-charcoal dark:even:bg-charcoal h-[53px]"
                 >
-                  <td className="w-4/5">
+                  <td className="w-4/5 border border-1 border-gray">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center text-black dark:text-white">
                         <img

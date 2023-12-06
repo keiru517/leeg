@@ -279,7 +279,7 @@ const Player = () => {
                   "rounded-xl flex flex-col w-full h-full "
                 )}
               >
-                <div className="text-black dark:text-white h-full w-full mt-4">
+                <div className="text-black dark:text-white h-full w-full mt-4 overflow-auto">
                   <table className="table-auto text-left w-full">
                     <thead className="sticky top-0 z-10 bg-white dark:bg-slate">
                       <tr>
