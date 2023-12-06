@@ -90,7 +90,7 @@ const Team = () => {
           <span className="">{league?.name}</span>
         </Link>
         <span className=""> &gt; </span>
-        <Link to={`/league/${league?.id}?tab=2`}>
+        <Link to={`/league/${league?.id}?tab=1`}>
           <span className="">Teams</span>
         </Link>
         <span className="text-sky-500"> &gt; {team?.name}</span>
