@@ -2,7 +2,7 @@ import { Typography } from "@material-tailwind/react";
 import { useSelector } from "react-redux";
 import Table from "./index";
 import { Link } from "react-router-dom";
-import {useMemo} from "react";
+import { useMemo } from "react";
 
 const Player = ({ players, league }) => {
   const matchups = useSelector((state) => state.home.matchups);
@@ -47,285 +47,224 @@ const Player = ({ players, league }) => {
   const teams = useSelector((state) => state.home.teams);
 
   const columns = [
-      {
-      label: 'Player',
+    {
+      label: "Player",
       fixed: true,
       getValue: (row) => (
-          <Link to={`player/${row.userId}`} className="flex items-center">
-              <img src={row.avatar} alt="" className="h-8 w-8 mr-4 rounded-full" />
-              {row.firstName} {row.lastName}
-          </Link>
-      )
+        <Link to={`player/${row.userId}`} className="flex items-center">
+          <img src={row.avatar} alt="" className="h-8 w-8 mr-4 rounded-full" />
+          {row.firstName} {row.lastName}
+        </Link>
+      ),
     },
-      {
-      label: 'Jersey Number',
+    {
+      label: "Jersey Number",
       getValue: (row) => (
-          <Typography
-              variant="small"
-              className="font-normal"
-          >
-              {row.jerseyNumber}
-          </Typography>
-      )
+        <Typography variant="small" className="font-normal">
+          {row.jerseyNumber}
+        </Typography>
+      ),
     },
-      {
-      label: 'Team',
-      getValue: (row) => (
+    {
+      label: "Team",
+      getValue: (row) =>
+        row.team && (
           <Link to={`team/${row.teamId}`} className="flex items-center">
-              <img
-                  src={row.team.logo}
-                  alt=""
-                  className="w-8 h-8 mr-2 rounded-full border border-gray-500"
-              />
-              {row.team.name}
+            <img
+              src={row.team?.logo}
+              alt=""
+              className="w-8 h-8 mr-2 rounded-full border border-gray-500"
+            />
+            {row.team?.name}
           </Link>
-      )
+        ),
     },
-      {
-      label: 'Position',
+    {
+      label: "Position",
       condition: displayPosition,
       getValue: (row) => (
-          <Typography
-              variant="small"
-              className="font-normal"
-          >
-              {row.playerPosition}
-          </Typography>
-      )
+        <Typography variant="small" className="font-normal">
+          {row.playerPosition}
+        </Typography>
+      ),
     },
-      {
-      label: 'Points',
+    {
+      label: "Points",
       getValue: (row) => (
-          <Typography
-              variant="small"
-              className="font-normal"
-          >
-              {row.totalPoints}
-          </Typography>
-      )
+        <Typography variant="small" className="font-normal">
+          {row.totalPoints}
+        </Typography>
+      ),
     },
-      {
-      label: '3 Points',
+    {
+      label: "3 Points",
       getValue: (row) => (
-          <Typography
-              variant="small"
-              className="font-normal"
-          >
-              {row.totalPoints3}
-          </Typography>
-      )
+        <Typography variant="small" className="font-normal">
+          {row.totalPoints3}
+        </Typography>
+      ),
     },
-      {
-      label: '2 Points',
+    {
+      label: "2 Points",
       getValue: (row) => (
-          <Typography
-              variant="small"
-              className="font-normal"
-          >
-              {row.totalPoints2}
-          </Typography>
-      )
+        <Typography variant="small" className="font-normal">
+          {row.totalPoints2}
+        </Typography>
+      ),
     },
-      {
-      label: 'Free throws',
+    {
+      label: "Free throws",
       getValue: (row) => (
-          <Typography
-              variant="small"
-              className="font-normal"
-          >
-              {row.totalPoints1}
-          </Typography>
-      )
+        <Typography variant="small" className="font-normal">
+          {row.totalPoints1}
+        </Typography>
+      ),
     },
-      {
-      label: '3 Attempts',
+    {
+      label: "3 Attempts",
       condition: displayAttempts3,
       getValue: (row) => (
-          <Typography
-              variant="small"
-              className="font-normal"
-          >
-              {row.attempts3}
-          </Typography>
-      )
+        <Typography variant="small" className="font-normal">
+          {row.attempts3}
+        </Typography>
+      ),
     },
-      {
-          label: '2 Attempts',
-          condition: displayAttempts2,
-          getValue: (row) => (
-              <Typography
-                  variant="small"
-                  className="font-normal"
-              >
-                  {row.attempts2}
-              </Typography>
-          )
-      },
-      {
-          label: 'FT Attempts',
-          condition: displayAttempts1,
-          getValue: (row) => (
-              <Typography
-                  variant="small"
-                  className="font-normal"
-              >
-                  {row.attempts1}
-
-              </Typography>
-          )
-      },
-      {
-          label: 'Blocks',
-          condition: displayBlocks,
-          getValue: (row) => (
-              <Typography
-                  variant="small"
-                  className="font-normal"
-              >
-                  {row.blocks}
-              </Typography>
-          )
-      },
-      {
-          label: 'Rebounds',
-          condition: displayRebounds,
-          getValue: (row) => (
-              <Typography
-                  variant="small"
-                  className="font-normal"
-              >
-                  {row.rebounds}
-              </Typography>
-          )
-      },
-      {
-          label: 'Assists',
-          condition: displayAssists,
-          getValue: (row) => (
-              <Typography
-                  variant="small"
-                  className="font-normal"
-              >
-                  {row.assists}
-              </Typography>
-          )
-      },
-      {
-          label: 'Fouls',
-          condition: displayFouls,
-          getValue: (row) => (
-              <Typography
-                  variant="small"
-                  className="font-normal"
-              >
-                  {row.fouls}
-              </Typography>
-          )
-      },
-      {
-          label: 'Steals',
-          condition: displaySteals,
-          getValue: (row) => (
-              <Typography
-                  variant="small"
-                  className="font-normal"
-              >
-                  {row.steals}
-              </Typography>
-          )
-      },
-      {
-          label: 'Turnovers',
-          condition: displayTurnovers,
-          getValue: (row) => (
-              <Typography
-                  variant="small"
-                  className="font-normal"
-              >
-                  {row.turnovers}
-              </Typography>
-          )
-      },
-
+    {
+      label: "2 Attempts",
+      condition: displayAttempts2,
+      getValue: (row) => (
+        <Typography variant="small" className="font-normal">
+          {row.attempts2}
+        </Typography>
+      ),
+    },
+    {
+      label: "FT Attempts",
+      condition: displayAttempts1,
+      getValue: (row) => (
+        <Typography variant="small" className="font-normal">
+          {row.attempts1}
+        </Typography>
+      ),
+    },
+    {
+      label: "Blocks",
+      condition: displayBlocks,
+      getValue: (row) => (
+        <Typography variant="small" className="font-normal">
+          {row.blocks}
+        </Typography>
+      ),
+    },
+    {
+      label: "Rebounds",
+      condition: displayRebounds,
+      getValue: (row) => (
+        <Typography variant="small" className="font-normal">
+          {row.rebounds}
+        </Typography>
+      ),
+    },
+    {
+      label: "Assists",
+      condition: displayAssists,
+      getValue: (row) => (
+        <Typography variant="small" className="font-normal">
+          {row.assists}
+        </Typography>
+      ),
+    },
+    {
+      label: "Fouls",
+      condition: displayFouls,
+      getValue: (row) => (
+        <Typography variant="small" className="font-normal">
+          {row.fouls}
+        </Typography>
+      ),
+    },
+    {
+      label: "Steals",
+      condition: displaySteals,
+      getValue: (row) => (
+        <Typography variant="small" className="font-normal">
+          {row.steals}
+        </Typography>
+      ),
+    },
+    {
+      label: "Turnovers",
+      condition: displayTurnovers,
+      getValue: (row) => (
+        <Typography variant="small" className="font-normal">
+          {row.turnovers}
+        </Typography>
+      ),
+    },
   ];
 
-  const data = useMemo(() => updatedPlayers
-      .sort((a, b) => b.points - a.points)
-      .map((player) => {
+  const data = useMemo(
+    () =>
+      updatedPlayers
+        .sort((a, b) => b.points - a.points)
+        .map((player) => {
           const matchup = matchups.filter(
-                  (matchup) =>
-                      matchup.userId == player.userId &&
-                      matchup.leagueId == league.id
-              );
+            (matchup) =>
+              matchup.userId == player.userId && matchup.leagueId == league.id
+          );
           return {
-              totalPoints: matchup.reduce(
-                  (sum, item) => sum + item.points,
-                  0
-              ),
-              totalPoints1: matchup.reduce(
-                  (sum, matchup) => sum + matchup.points1,
-                  0
-              ),
-              totalPoints2: matchup.reduce(
-                  (sum, matchup) => sum + matchup.points2,
-                  0
-              ),
-              totalPoints3: matchup.reduce(
-                  (sum, matchup) => sum + matchup.points3,
-                  0
-              ),
-              attempts1: matchup.reduce(
-                  (sum, matchup) => sum + matchup.attempts1,
-                  0
-              ),
-              attempts2: matchup.reduce(
-                  (sum, matchup) => sum + matchup.attempts2,
-                  0
-              ),
-              attempts3: matchup.reduce(
-                  (sum, matchup) => sum + matchup.attempts3,
-                  0
-              ),
-              blocks: matchup.reduce(
-                  (sum, matchup) => sum + matchup.blocks,
-                  0
-              ),
-              rebounds: matchup.reduce(
-                  (sum, matchup) => sum + matchup.rebounds,
-                  0
-              ),
-              assists: matchup.reduce(
-                  (sum, matchup) => sum + matchup.assists,
-                  0
-              ),
-              fouls: matchup.reduce(
-                  (sum, matchup) => sum + matchup.fouls,
-                  0
-              ),
-              steals: matchup.reduce(
-                  (sum, matchup) => sum + matchup.steals,
-                  0
-              ),
-              turnovers: matchup.reduce(
-                  (sum, matchup) => sum + matchup.turnovers,
-                  0
-              ),
-              playerPosition: player.position,
-              jerseyNumber: player.jerseyNumber,
-              firstName: player.firstName,
-              lastName: player.lastName,
-              avatar: player.avatar,
-              team: teams.find((team) => team.id == player.teamId),
-              teamId: player.teamId
-          }
-      }), [updatedPlayers]);
+            totalPoints: matchup.reduce((sum, item) => sum + item.points, 0),
+            totalPoints1: matchup.reduce(
+              (sum, matchup) => sum + matchup.points1,
+              0
+            ),
+            totalPoints2: matchup.reduce(
+              (sum, matchup) => sum + matchup.points2,
+              0
+            ),
+            totalPoints3: matchup.reduce(
+              (sum, matchup) => sum + matchup.points3,
+              0
+            ),
+            attempts1: matchup.reduce(
+              (sum, matchup) => sum + matchup.attempts1,
+              0
+            ),
+            attempts2: matchup.reduce(
+              (sum, matchup) => sum + matchup.attempts2,
+              0
+            ),
+            attempts3: matchup.reduce(
+              (sum, matchup) => sum + matchup.attempts3,
+              0
+            ),
+            blocks: matchup.reduce((sum, matchup) => sum + matchup.blocks, 0),
+            rebounds: matchup.reduce(
+              (sum, matchup) => sum + matchup.rebounds,
+              0
+            ),
+            assists: matchup.reduce((sum, matchup) => sum + matchup.assists, 0),
+            fouls: matchup.reduce((sum, matchup) => sum + matchup.fouls, 0),
+            steals: matchup.reduce((sum, matchup) => sum + matchup.steals, 0),
+            turnovers: matchup.reduce(
+              (sum, matchup) => sum + matchup.turnovers,
+              0
+            ),
+            playerPosition: player.position,
+            jerseyNumber: player.jerseyNumber,
+            firstName: player.firstName,
+            lastName: player.lastName,
+            avatar: player.avatar,
+            team: teams.find((team) => team.id == player.teamId),
+            teamId: player.teamId,
+          };
+        }),
+    [updatedPlayers]
+  );
 
   return (
     <div className="text-black dark:text-white mt-5 w-full">
-        <Table
-            data={data}
-            columns={columns}
-        />
+      <Table data={data} columns={columns} />
     </div>
   );
 };

@@ -3,8 +3,8 @@ import downArrowFilled from "../../../src/assets/img/dark_mode/down-arrow-filled
 import { Link, useNavigate } from "react-router-dom";
 import apis from "../../utils/apis";
 import { useDispatch, useSelector } from "react-redux";
-import toggleOn from '../../assets/img/dark_mode/toggle-on.png';
-import toggleOff from '../../assets/img/dark_mode/toggle-off.png';
+import toggleOn from "../../assets/img/dark_mode/toggle-on.png";
+import toggleOff from "../../assets/img/dark_mode/toggle-off.png";
 import * as actions from "../../actions";
 
 const SettingsSelect = (props) => {
@@ -21,15 +21,17 @@ const SettingsSelect = (props) => {
     setExpand(!expand);
   };
 
-  const [darkMode, setDarkMode] = useState(localStorage.theme === "dark"?true:false);
+  const [darkMode, setDarkMode] = useState(
+    localStorage.theme === "dark" ? true : false
+  );
 
-  const handleTheme = () =>{
+  const handleTheme = () => {
     setDarkMode(!darkMode);
-    localStorage.setItem("theme", darkMode?"dark":"light")
-  }
+    localStorage.setItem("theme", darkMode ? "dark" : "light");
+  };
 
-  useEffect(()=>{
-    dispatch({type: actions.SET_DARK_MODE, payload:darkMode})
+  useEffect(() => {
+    dispatch({ type: actions.SET_DARK_MODE, payload: darkMode });
     if (darkMode) {
       document.documentElement.classList.add("dark");
       localStorage.setItem("theme", "dark");
@@ -37,7 +39,7 @@ const SettingsSelect = (props) => {
       document.documentElement.classList.remove("dark");
       localStorage.setItem("theme", "light");
     }
-  }, [darkMode])
+  }, [darkMode]);
 
   const handleButtonClick = (data) => {
     setExpand(false);
@@ -102,10 +104,14 @@ const SettingsSelect = (props) => {
             // onClick={()=>setDarkMode(!darkMode)}
           >
             <div className="inline-flex items-center mx-auto">
-                <div className="flex items-center">
-                  Dark mode
-                  <img src={darkMode?toggleOn:toggleOff} className="ml-3 w-8" alt="" />
-                </div>
+              <div className="flex items-center">
+                Dark mode
+                <img
+                  src={darkMode ? toggleOn : toggleOff}
+                  className="ml-3 w-8"
+                  alt=""
+                />
+              </div>
             </div>
           </button>
         </li>
@@ -117,9 +123,7 @@ const SettingsSelect = (props) => {
               onClick={handleButtonClick}
             >
               <div className="inline-flex items-center mx-auto">
-                <div className="flex items-center">
-                  Profile
-                </div>
+                <div className="flex items-center">Profile</div>
               </div>
             </button>
           </Link>

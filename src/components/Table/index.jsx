@@ -35,6 +35,7 @@ const Checkbox = ({ label, name, checked, onChange, disabled }) => (
 
 const Table = ({ columns, data, presentCheckBox, selectedItems, setSelectedItems, presentOptions, options}) => {
 
+  console.log(columns, data)
     const [columnWidths, setColumnWidths] = useState({});
     const tableRef = useRef(null);
 
