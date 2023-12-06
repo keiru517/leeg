@@ -78,14 +78,14 @@ const MatchTable = (props) => {
   };
 
   return (
-    <div className="text-black dark:text-white w-full mt-4 overflow-auto">
+    <div className="text-black dark:text-white h-full w-full mt-4 overflow-auto">
       <table className="w-full min-w-max table-auto text-left">
         <thead className="sticky top-0 z-10 bg-white dark:bg-slate">
           <tr>
             {columns.map((head, idx) => (
               <th
                 key={idx}
-                className="h-button text-center font-font-dark-gray font-normal text-sm"
+                className={`h-button text-center font-font-dark-gray font-normal text-sm ${head==="Action"?"":""}`}
               >
                 {head}
               </th>
@@ -111,7 +111,7 @@ const MatchTable = (props) => {
               // <tr onClick={()=>goToMatchup(id)} key={index} className="odd:bg-dark-gray even:bg-charcoal  hover:">
               <tr
                 key={index}
-                className="odd:bg-light-dark-gray dark:odd:bg-dark-gray even:bg-light-charcoal dark:even:bg-charcoal"
+                // className="odd:bg-light-dark-gray dark:odd:bg-dark-gray even:bg-light-charcoal dark:even:bg-charcoal"
               >
                 <td className="1/6">{date}</td>
                 <td className="1/6">{location}</td>
