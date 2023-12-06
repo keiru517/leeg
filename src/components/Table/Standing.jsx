@@ -14,7 +14,7 @@ const StandingTable = ({ teams }) => {
                       variant="small"
                       className="font-normal"
                   >
-                      {row.id + 1}
+                      {row.id}
                   </Typography>
               )
           },
@@ -97,8 +97,6 @@ const StandingTable = ({ teams }) => {
         <Table
           data={teams.sort((a, b)=>b.win-a.win)}
           columns={columns}
-          presentCheckBox={false}
-          presentOptions={false}
       />
     </>
   )

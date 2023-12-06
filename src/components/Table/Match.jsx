@@ -3,11 +3,11 @@ import { Typography } from "@material-tailwind/react";
 import { useDispatch, useSelector } from "react-redux";
 import Option from "../Option";
 import * as actions from "../../actions";
+import Table from "./index";
 
-const MatchTable = (props) => {
+const MatchTable = ({matches, leagueId}) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { matches, leagueId } = props;
 
   const user = useSelector((state) => state.home.user);
   const league = useSelector((state) => state.home.leagues).find(
@@ -24,21 +24,140 @@ const MatchTable = (props) => {
 
   // let { leagueId} = useParams();
 
-  var columns = [];
-  if (isAdmin) {
-    var columns = [
-      "Date",
-      "Location",
-      "Time",
-      "Home",
-      "Away",
-      "Results",
-      "Status",
-      "Action",
-    ];
-  } else {
-    var columns = ["Date", "Location", "Time", "Home", "Away", "Results"];
-  }
+  const columns = [
+    {
+      label: 'Date',
+      getValue: (row) => row.date
+    },
+    {
+      label: 'Location',
+      getValue: (row) => row.location
+    },
+    {
+      label: 'Time',
+      getValue: (row) => row.time
+    },
+    {
+      label: 'Home',
+      getValue: (row) => (
+        <Typography
+            variant="small"
+            color="blue-gray"
+            className={`font-normal flex items-center justify-left sm:pl-8 ${
+                isDeletedTeam(row.homeTeamId) ? "" : "underline"
+            }`}
+        >
+          {isDeletedTeam(row.homeTeamId) ? (
+              <>
+                <img
+                    src={row.logo}
+                    alt=""
+                    className="h-8 w-8 mr-2 rounded-full border border-gray-500"
+                />
+                {row.name}
+                <span className="bg-red-100 text-red-800 text-xs font-medium ml-3 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300 text-right">
+                    Deleted
+                </span>
+              </>
+          ) : (
+              <Link
+                  className="flex items-center space-x-3"
+                  to={`/league/${leagueId}/team/${row.homeTeamId}`}
+              >
+                <img
+                    src={row.logo}
+                    alt=""
+                    className="h-8 w-8 mr-2 rounded-full border border-gray-500"
+                />
+                <p
+                    className={`text-black dark:text-white truncate w-32 ${
+                        row.homeTeamPoints > row.awayTeamPoints && !row.isNew
+                            ? "font-bold"
+                            : ""
+                    }`}
+                >
+                  {row.name}
+                </p>
+              </Link>
+          )}
+        </Typography>
+      )
+    },
+    {
+      label: 'Away',
+      getValue: (row) => (
+          <Typography
+              variant="small"
+              color="blue-gray"
+              className={`font-normal flex items-center justify-left sm:pl-8 ${
+                  isDeletedTeam(row.awayTeamId) ? "" : "underline"
+              }`}
+          >
+            {isDeletedTeam(row.awayTeamId) ? (
+                <>
+                  <img
+                      src={row.logo}
+                      alt=""
+                      className="h-8 w-8 mr-2 rounded-full border border-gray-500"
+                  />
+                  {row.name}
+                  <span className="bg-red-100 text-red-800 text-xs font-medium ml-3 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300 text-right">
+                    Deleted
+                  </span>
+                </>
+            ) : (
+                <Link
+                    className="flex items-center space-x-3"
+                    to={`/league/${leagueId}/team/${row.awayTeamId}`}
+                >
+                  <img
+                      src={row.logo}
+                      alt=""
+                      className="h-8 w-8 mr-2 rounded-full border border-gray-500"
+                  />
+                  <p
+                      className={`text-black dark:text-white truncate w-32 ${
+                          row.homeTeamPoints < row.awayTeamPoints && !row.isNew
+                              ? "font-bold"
+                              : ""
+                      }`}
+                  >
+                    {row.name}
+                  </p>
+                </Link>
+            )}
+          </Typography>
+      )
+    },
+    {
+      label: 'Results',
+      getValue: (row) => (
+          <Typography>
+            {row.homeTeamPoints} : {row.awayTeamPoints}
+          </Typography>
+      )
+    },
+    {
+      label: 'Status',
+      condition: isAdmin,
+      getValue: (row) => (
+          <Typography>
+            {row.isNew ? "Incomplete" : "Completed"}
+          </Typography>
+      )
+    },
+    {
+      label: "Action",
+      condition: isAdmin,
+      getValue:(row) => (
+          <Option
+              options={options}
+              handleClick={(idx) => handleOption(idx, row.id)}
+          ></Option>
+      )
+    }
+
+  ]
 
   const options = [
     { id: 0, name: "Edit" },
@@ -47,10 +166,6 @@ const MatchTable = (props) => {
   ];
 
   const teams = useSelector((state) => state.home.teams);
-
-  // const goToMatchup = (id) => {
-  //   navigate(`/league/${leagueId}/matchup/${id}`)
-  // }
 
   const handleOption = (idx, matchId) => {
     const match = matches.find((match) => match.id == matchId);
@@ -79,146 +194,11 @@ const MatchTable = (props) => {
 
   return (
     <div className="text-black dark:text-white w-full mt-4">
-      <table className="w-full min-w-max table-auto text-left">
-        <thead className="sticky top-0 z-10 bg-white dark:bg-slate">
-          <tr>
-            {columns.map((head, idx) => (
-              <th
-                key={idx}
-                className="h-button text-center font-font-dark-gray font-normal  text-sm"
-              >
-                {head}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody className="text-center">
-          {matches.map(
-            (
-              {
-                id,
-                date,
-                location,
-                homeTeamId,
-                awayTeamId,
-                time,
-                homeTeamPoints,
-                awayTeamPoints,
-                isNew,
-              },
-              index
-            ) => (
-              // <tr onClick={()=>goToMatchup(id)} key={index} className="odd:bg-dark-gray even:bg-charcoal  hover:">
-              <tr
-                key={index}
-                className="odd:bg-light-dark-gray dark:odd:bg-dark-gray even:bg-light-charcoal dark:even:bg-charcoal"
-              >
-                <td className="1/6">{date}</td>
-                <td className="1/6">{location}</td>
-                <td className="1/6">{time}</td>
-                <td className="">
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className={`font-normal flex items-center justify-left sm:pl-8 ${
-                      isDeletedTeam(homeTeamId) ? "" : "underline"
-                    }`}
-                  >
-                    {isDeletedTeam(homeTeamId) ? (
-                      <>
-                        <img
-                          src={teams.find((team) => team.id == homeTeamId).logo}
-                          alt=""
-                          className="h-8 w-8 mr-2 rounded-full border border-gray-500"
-                        />
-                        {teams.find((team) => team.id == homeTeamId).name}
-                        <span className="bg-red-100 text-red-800 text-xs font-medium ml-3 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300 text-right">
-                          Deleted
-                        </span>
-                      </>
-                    ) : (
-                      <Link
-                        className="flex items-center space-x-3"
-                        to={`/league/${leagueId}/team/${homeTeamId}`}
-                      >
-                        <img
-                          src={teams.find((team) => team.id == homeTeamId).logo}
-                          alt=""
-                          className="h-8 w-8 mr-2 rounded-full border border-gray-500"
-                        />
-                        <p
-                          className={`text-black dark:text-white truncate w-32 ${
-                            homeTeamPoints > awayTeamPoints && !isNew
-                              ? "font-bold"
-                              : ""
-                          }`}
-                        >
-                          {teams.find((team) => team.id == homeTeamId).name}
-                        </p>
-                      </Link>
-                    )}
-                  </Typography>
-                </td>
-                <td className="">
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className={`font-normal flex items-center justify-left sm:pl-8 ${
-                      isDeletedTeam(awayTeamId) ? "" : "underline"
-                    }`}
-                  >
-                    {isDeletedTeam(awayTeamId) ? (
-                      <>
-                        <img
-                          src={teams.find((team) => team.id == awayTeamId).logo}
-                          alt=""
-                          className="h-8 w-8 mr-2 rounded-full border border-gray-500"
-                        />
-                        {teams.find((team) => team.id == awayTeamId).name}
-                        <span className="bg-red-100 text-red-800 text-xs font-medium ml-3 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300 text-right">
-                          Deleted
-                        </span>
-                      </>
-                    ) : (
-                      <Link
-                        className="flex items-center space-x-3"
-                        to={`/league/${leagueId}/team/${awayTeamId}`}
-                      >
-                        <img
-                          src={teams.find((team) => team.id == awayTeamId).logo}
-                          alt=""
-                          className="h-8 w-8 mr-2 rounded-full border border-gray-500"
-                        />
-                        <p
-                          className={`text-black dark:text-white truncate w-32 ${
-                            homeTeamPoints < awayTeamPoints && !isNew
-                              ? "font-bold"
-                              : ""
-                          }`}
-                        >
-                          {teams.find((team) => team.id == awayTeamId).name}
-                        </p>
-                      </Link>
-                    )}
-                  </Typography>
-                </td>
-                <td className="1/6">
-                  {homeTeamPoints} : {awayTeamPoints}
-                </td>
-                <td className="">{isNew ? "Incomplete" : "Completed"}</td>
-                {isAdmin && (
-                  <td className="">
-                    <Option
-                      options={options}
-                      handleClick={(idx) => handleOption(idx, id)}
-                    ></Option>
-                  </td>
-                )}
-              </tr>
-            )
-          )}
-        </tbody>
-      </table>
+      <Table
+          data={matches}
+          columns={columns}
+          optionsPlacement={"rows"}
+      />
     </div>
   );
 };

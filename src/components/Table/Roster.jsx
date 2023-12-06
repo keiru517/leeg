@@ -72,6 +72,7 @@ const RosterTable = ({ rosters, rosterList }) => {
     setSelectedItems([])
   }
 
+  //TODO remove the player from the league
   const removePlayers = () => {
     const data = {}
     selectedItems.forEach((e) => {
@@ -93,10 +94,10 @@ const RosterTable = ({ rosters, rosterList }) => {
           presentCheckBox
           selectedItems={selectedItems}
           setSelectedItems={setSelectedItems}
-          presentOptions
+          optionsPlacement={"header"}
           options={
             <div className="flex justify-center space-x-1">
-              {rosterList === "WaitList" ?
+              {rosterList === "Waitlisted" ?
                       (
                           <>
                               <button onClick={() => acceptPlayers()}> ✅ </button>

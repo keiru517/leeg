@@ -33,9 +33,8 @@ const Checkbox = ({ label, name, checked, onChange, disabled }) => (
 )
 
 
-const Table = ({ columns, data, presentCheckBox, selectedItems, setSelectedItems, presentOptions, options}) => {
+const Table = ({ columns, data, presentCheckBox, selectedItems, setSelectedItems, optionsPlacement, options}) => {
 
-  console.log(columns, data)
     const [columnWidths, setColumnWidths] = useState({});
     const tableRef = useRef(null);
 
@@ -72,21 +71,6 @@ const Table = ({ columns, data, presentCheckBox, selectedItems, setSelectedItems
     <div className="dark:text-white h-full w-full mt-4 overflow-auto">
       <table className="w-full min-w-max table-auto text-left" ref={tableRef}>
         <thead>
-            {presentCheckBox && (
-                <th style={stickyColStyle} className="bg-white dark:bg-slate">
-                    <Checkbox
-                        name="name"
-                        checked={selectedItems.length === data.length}
-                        onChange={(checked) => {
-                            if (checked) {
-                                setSelectedItems(data.map((i) => i.id))
-                            } else{
-                                setSelectedItems([])
-                            }
-                        }}
-                    />
-                </th>
-            )}
             {columns.filter(i => i).map((col, index) => (
               <th
                 key={col.label}
@@ -94,7 +78,7 @@ const Table = ({ columns, data, presentCheckBox, selectedItems, setSelectedItems
                 style={col?.fixed ? {
                     position: 'sticky',
                     left: Object.keys(columnWidths).reduce((acc, i) => {
-                        if ((presentCheckBox && i < index+1) || (i < index)) {
+                        if ((presentCheckBox && i < index) || (i < index)) {
                             acc+=columnWidths[i];
                         }
                         return acc;
@@ -111,37 +95,25 @@ const Table = ({ columns, data, presentCheckBox, selectedItems, setSelectedItems
                 </Typography>
               </th>
             ))}
-            {presentOptions && (
+            {optionsPlacement === "header" && (
                 <th>
                     {options}
                 </th>
+            )}
+            {optionsPlacement === "body" && (
+                <th>Actions</th>
             )}
         </thead>
         <tbody className="text-center">
           {data.map((d, index) => (
             <tr key={index}>
-                {presentCheckBox && (
-                <td style={stickyColStyle} className="border border-1 border-gray bg-white dark:bg-slate">
-                    <Checkbox
-                        name="name"
-                        checked={selectedItems.includes(d.id)}
-                        onChange={(checked) => {
-                            if(checked){
-                                setSelectedItems(oldSelectedItems => [...oldSelectedItems, d.id]);
-                            } else {
-                                setSelectedItems(oldSelectedItems => oldSelectedItems.filter(i => i !== d.id));
-                            }
-                        }}
-                    />
-                </td>
-                )}
               {columns.map((column, index) => (
                 <td
                     className="bg-white dark:bg-slate border border-1 border-gray"
                     style={column?.fixed ? {
                         position: 'sticky',
                         left: Object.keys(columnWidths).reduce((acc, i) => {
-                            if((presentCheckBox && i < index+1) || (i < index)) {
+                            if((presentCheckBox && i < index) || (i < index)) {
                                 acc+=columnWidths[i];
                             }
                             return acc;
@@ -158,8 +130,23 @@ const Table = ({ columns, data, presentCheckBox, selectedItems, setSelectedItems
                   </Typography>
                 </td>
               ))}
-                {presentOptions && (
-                    <td />
+                {optionsPlacement === "header" && (
+                    <td style={stickyColStyle} className="border border-1 border-gray bg-white dark:bg-slate">
+                        <Checkbox
+                            name="name"
+                            checked={selectedItems.includes(d.id)}
+                            onChange={(checked) => {
+                                if(checked){
+                                    setSelectedItems(oldSelectedItems => [...oldSelectedItems, d.id]);
+                                } else {
+                                    setSelectedItems(oldSelectedItems => oldSelectedItems.filter(i => i !== d.id));
+                                }
+                            }}
+                        />
+                    </td>
+                )}
+                {optionsPlacement === "body" && (
+                    <td>{options}</td>
                 )}
             </tr>
           ))}

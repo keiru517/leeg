@@ -128,7 +128,7 @@ const League = () => {
     setWaitListKeyword("");
     setAcceptListKeyword("");
     setTeamKeyword("");
-    setScheduleKeyword("");
+    //setScheduleKeyword("");
     setStandingsKeyword("");
     setPlayerKeyword("");
   };
