@@ -69,7 +69,7 @@ const Table = ({ columns, data, presentCheckBox, selectedItems, setSelectedItems
     }
 
   return (
-    <div className="dark:text-white h-full w-full mt-4 overflow-auto">
+    <div className="dark:text-white w-full mt-4 overflow-auto">
       <table className="w-full min-w-max table-auto text-left" ref={tableRef}>
         <thead>
             {presentCheckBox && (
