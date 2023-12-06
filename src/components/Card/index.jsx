@@ -144,7 +144,7 @@ const Card = (props) => {
         {(isAdmin || player?.isAcceptedList === 1 || league?.isAllowedFan) && (
           <Button
             onClick={() => {
-              navigate(`/${route}/${league.id}`);
+              navigate(`/${route}/${league.id}?tab=0`);
             }}
             className="text-xs border-solid border-2 border-blue-700 w-full rounded mr-2"
           >
