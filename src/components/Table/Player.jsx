@@ -251,6 +251,7 @@ const Player = ({ players, league }) => {
               0
             ),
             playerPosition: player.position,
+            userId: player.userId,
             jerseyNumber: player.jerseyNumber,
             firstName: player.firstName,
             lastName: player.lastName,
