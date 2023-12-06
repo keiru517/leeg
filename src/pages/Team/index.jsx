@@ -4,8 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { Tab } from "@headlessui/react";
 import Input from "../../components/Input";
-import searchIconDark from "../../assets/img/dark_mode/search-icon-dark.svg"
-import searchIconLight from "../../assets/img/dark_mode/search-icon-light.svg"
+import searchIconDark from "../../assets/img/dark_mode/search-icon-dark.svg";
+import searchIconLight from "../../assets/img/dark_mode/search-icon-light.svg";
 import backIconDark from "../../assets/img/dark_mode/back-icon-dark.png";
 import backIconLight from "../../assets/img/dark_mode/back-icon-light.png";
 import MatchTable from "../../components/Table/Match";
@@ -40,9 +40,9 @@ const Team = () => {
     (team) => team.id == teamId
   );
 
-
   const options = ["Ascend", "Descend", "Recent"];
   const [value, setValue] = useState("Sort by");
+  const [keyword, setKeyword] = useState("");
 
   const categories = ["Matches", "Statistics", "Players"];
 
@@ -214,30 +214,40 @@ const Team = () => {
                   "rounded-xl flex flex-col w-full h-full "
                 )}
               >
-                {players.length > 0 ? (
-                  <>
-                    <hr className="h-px my-4 bg-charcoal border-0" />
-                    <div className=" flex flex-col">
-                      <Input
-                        className="rounded-lg text-xs"
-                        icon={darkMode?searchIconDark:searchIconLight}
-                        placeholder="Search Schedules"
-                      />
+                <>
+                  <hr className="h-px my-4 bg-charcoal border-0" />
+                  <div className=" flex flex-col">
+                    <Input
+                      className="rounded-lg text-xs"
+                      icon={darkMode ? searchIconDark : searchIconLight}
+                      placeholder="Search Schedules"
+                      value={keyword}
+                      onChange={(e) => setKeyword(e.target.value)}
+                    />
+                    {players.filter((player) =>
+                      (player.firstName + player.lastName)
+                        .toLowerCase()
+                        .includes(keyword.toLowerCase())
+                    ).length > 0 ? (
                       <div className="flex flex-grow items-center">
                         <PlayerStatisticsTable
-                          players={players}
+                          players={players.filter((player) =>
+                            (player.firstName + player.lastName)
+                              .toLowerCase()
+                              .includes(keyword.toLowerCase())
+                          )}
                           matchups={matchups}
                         ></PlayerStatisticsTable>
                       </div>
-                    </div>
-                  </>
-                ) : (
-                  <div className="flex items-center flex-grow">
-                    <p className="text-2xl text-black dark:text-white w-full text-center">
-                      No Players To Show!
-                    </p>
+                    ) : (
+                      <div className="flex items-center flex-grow">
+                        <p className="text-2xl text-black dark:text-white w-full text-center">
+                          No Players To Show!
+                        </p>
+                      </div>
+                    )}
                   </div>
-                )}
+                </>
               </Tab.Panel>
             </Tab.Panels>
           </Tab.Group>
