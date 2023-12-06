@@ -162,7 +162,8 @@ const RosterTable = (props) => {
               </th>
             ))}
             {isAdmin && (
-              <th className="text-center cursor-pointer w-20 sticky right-0 z-40 bg-white dark:bg-slate">
+              <th className="text-center cursor-pointer w-20">
+              {/* <th className="text-center cursor-pointer w-20 sticky right-0 bg-white dark:bg-slate"> */}
                 {rosterValue === "Accepted" ? (
                   <span
                     className="text-black dark:text-white"
@@ -264,7 +265,8 @@ const RosterTable = (props) => {
                 </Typography>
               </td>
               {league?.userId == user?.id && (
-                <td className="sticky right-0 z-30 bg-white dark:bg-slate">
+                <td className="">
+                {/* <td className="sticky right-0 bg-white dark:bg-slate"> */}
                   <Typography
                     variant="small"
                     color="blue-gray"

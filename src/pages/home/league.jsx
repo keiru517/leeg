@@ -721,7 +721,7 @@ const League = () => {
               {/* Rosters */}
               {isAdmin && (
                 <TabPanel
-                  value="0"
+                  value={isAdmin?"0":""}
                   sx={{
                     padding: "10px !important",
                   }}
@@ -795,14 +795,35 @@ const League = () => {
 
               {/* Teams */}
               <TabPanel
-                value="1"
+                value={isAdmin?"1":"0"}
                 sx={{
                   padding: "10px !important",
                 }}
                 className={classNames("rounded-xl w-full h-full")}
               >
                 <hr className="h-px mb-4 bg-charcoal border-0" />
-                <div className="grid sm:grid-cols-1 md:grid-cols-6 lg:grid-cols-10 sm:space-x-0 md:space-x-3">
+                <div className="flex space-x-1 sm:space-x-3">
+                  <div className="flex-grow">
+                    <Input
+                      className="rounded-lg h-[42px] text-xs"
+                      icon={darkMode ? searchIconDark : searchIconLight}
+                      placeholder="Search Teams"
+                      value={teamKeyword}
+                      onChange={(e) => setTeamKeyword(e.target.value)}
+                    />
+                  </div>
+                  <div className="">
+                    {isAdmin && (
+                      <button
+                        onClick={handleCreateTeam}
+                        className="float-right lg:w-32 h-10 bg-primary hover:bg-opacity-70 rounded-default text-white focus:ring-2 text-sm font-bold w-[100px]"
+                      >
+                        Create Team
+                      </button>
+                    )}
+                  </div>
+                </div>
+                {/* <div className="grid sm:grid-cols-1 md:grid-cols-6 lg:grid-cols-10 sm:space-x-0 md:space-x-3">
                   <div className="md:col-span-5 lg:col-span-9 mb-3 md:mb-0 lg:mb-0">
                     <Input
                       className="rounded-lg h-[42px] text-xs"
@@ -822,7 +843,7 @@ const League = () => {
                       </button>
                     )}
                   </div>
-                </div>
+                </div> */}
 
                 {teams.filter((team) =>
                   team.name.toLowerCase().includes(teamKeyword.toLowerCase())
@@ -846,7 +867,7 @@ const League = () => {
 
               {/* Schedule */}
               <TabPanel
-                value="2"
+                value={isAdmin?"2":"1"}
                 sx={{
                   padding: "10px !important",
                 }}
@@ -854,8 +875,8 @@ const League = () => {
               >
                 <hr className="h-px mb-4 bg-charcoal border-0" />
                 {/* <div className="flex justify-end"> */}
-                <div className="grid sm:grid-cols-1 md:grid-cols-6 lg:grid-cols-10 sm:space-x-0 md:space-x-3">
-                  <div className="md:col-span-5 lg:col-span-9 mb-3 md:mb-0 lg:mb-0">
+                <div className="flex space-x-3">
+                  <div className="flex-grow">
                     <Input
                       className="rounded-lg h-[42px] text-xs"
                       icon={darkMode ? searchIconDark : searchIconLight}
@@ -864,11 +885,11 @@ const League = () => {
                       onChange={(e) => setTeamKeyword(e.target.value)}
                     />
                   </div>
-                  <div className="grid grid-cols-1 md:col-end-7 lg:col-end-11">
+                  <div className="">
                     {isAdmin && (
                       <button
                         onClick={handleCreateMatch}
-                        className="float-right sm:w-full lg:w-32 h-10 bg-primary hover:bg-opacity-70 rounded-default text-white focus:ring-2 text-sm font-bold"
+                        className="float-right lg:w-32 h-10 bg-primary hover:bg-opacity-70 rounded-default text-white focus:ring-2 text-sm font-bold w-[100px]"
                       >
                         Create Match
                       </button>
@@ -892,7 +913,7 @@ const League = () => {
 
               {/* Standings */}
               <TabPanel
-                value="3"
+                value={isAdmin?"3":"2"}
                 sx={{
                   padding: "10px !important",
                 }}
@@ -943,7 +964,7 @@ const League = () => {
 
               {/* Players */}
               <TabPanel
-                value="4"
+                value={isAdmin?"4":"3"}
                 sx={{
                   padding: "10px !important",
                 }}

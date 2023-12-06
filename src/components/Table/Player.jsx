@@ -79,7 +79,7 @@ const Player = ({ players, league }) => {
           </Link>
         ),
     },
-    {
+    displayPosition && {
       label: "Position",
       condition: displayPosition,
       getValue: (row) => (
@@ -120,7 +120,7 @@ const Player = ({ players, league }) => {
         </Typography>
       ),
     },
-    {
+    displayAttempts3 && {
       label: "3 Attempts",
       condition: displayAttempts3,
       getValue: (row) => (
@@ -129,7 +129,7 @@ const Player = ({ players, league }) => {
         </Typography>
       ),
     },
-    {
+    displayAttempts2 && {
       label: "2 Attempts",
       condition: displayAttempts2,
       getValue: (row) => (
@@ -138,7 +138,7 @@ const Player = ({ players, league }) => {
         </Typography>
       ),
     },
-    {
+    displayAttempts1 && {
       label: "FT Attempts",
       condition: displayAttempts1,
       getValue: (row) => (
@@ -147,7 +147,7 @@ const Player = ({ players, league }) => {
         </Typography>
       ),
     },
-    {
+    displayBlocks && {
       label: "Blocks",
       condition: displayBlocks,
       getValue: (row) => (
@@ -156,7 +156,7 @@ const Player = ({ players, league }) => {
         </Typography>
       ),
     },
-    {
+    displayRebounds && {
       label: "Rebounds",
       condition: displayRebounds,
       getValue: (row) => (
@@ -165,7 +165,7 @@ const Player = ({ players, league }) => {
         </Typography>
       ),
     },
-    {
+    displayAssists && {
       label: "Assists",
       condition: displayAssists,
       getValue: (row) => (
@@ -174,7 +174,7 @@ const Player = ({ players, league }) => {
         </Typography>
       ),
     },
-    {
+    displayFouls && {
       label: "Fouls",
       condition: displayFouls,
       getValue: (row) => (
@@ -183,7 +183,7 @@ const Player = ({ players, league }) => {
         </Typography>
       ),
     },
-    {
+    displaySteals && {
       label: "Steals",
       condition: displaySteals,
       getValue: (row) => (
@@ -192,7 +192,7 @@ const Player = ({ players, league }) => {
         </Typography>
       ),
     },
-    {
+    displayTurnovers && {
       label: "Turnovers",
       condition: displayTurnovers,
       getValue: (row) => (
@@ -201,7 +201,8 @@ const Player = ({ players, league }) => {
         </Typography>
       ),
     },
-  ];
+  ].filter(Boolean);
+  console.log(columns)
 
   const data = useMemo(
     () =>

@@ -63,6 +63,7 @@ const PlayerStatistics = (props) => {
         </Typography>
       ),
     },
+    displayPosition &&
     {
       label: "Position",
       condition: displayPosition,
@@ -104,6 +105,7 @@ const PlayerStatistics = (props) => {
         </Typography>
       ),
     },
+    displayAttempts3 &&
     {
       label: "3 Attempts",
       condition: displayAttempts3,
@@ -113,6 +115,7 @@ const PlayerStatistics = (props) => {
         </Typography>
       ),
     },
+    displayAttempts2 &&
     {
       label: "2 Attempts",
       condition: displayAttempts2,
@@ -122,6 +125,7 @@ const PlayerStatistics = (props) => {
         </Typography>
       ),
     },
+    displayAttempts1 && 
     {
       label: "FT Attempts",
       condition: displayAttempts1,
@@ -131,6 +135,7 @@ const PlayerStatistics = (props) => {
         </Typography>
       ),
     },
+    displayBlocks &&
     {
       label: "Blocks",
       condition: displayBlocks,
@@ -140,6 +145,7 @@ const PlayerStatistics = (props) => {
         </Typography>
       ),
     },
+    displayRebounds && 
     {
       label: "Rebounds",
       condition: displayRebounds,
@@ -149,6 +155,7 @@ const PlayerStatistics = (props) => {
         </Typography>
       ),
     },
+    displayAssists &&
     {
       label: "Assists",
       condition: displayAssists,
@@ -158,6 +165,7 @@ const PlayerStatistics = (props) => {
         </Typography>
       ),
     },
+    displayFouls &&
     {
       label: "Fouls",
       condition: displayFouls,
@@ -167,6 +175,7 @@ const PlayerStatistics = (props) => {
         </Typography>
       ),
     },
+    displaySteals &&
     {
       label: "Steals",
       condition: displaySteals,
@@ -176,6 +185,7 @@ const PlayerStatistics = (props) => {
         </Typography>
       ),
     },
+    displayTurnovers &&
     {
       label: "Turnovers",
       condition: displayTurnovers,
@@ -187,7 +197,6 @@ const PlayerStatistics = (props) => {
     },
     {
       label: "PPG",
-      condition: displayTurnovers,
       getValue: (row) => (
         <Typography variant="small" className="font-normal">
           {row.ppg}
@@ -196,14 +205,13 @@ const PlayerStatistics = (props) => {
     },
     {
       label: "Games Played",
-      condition: displayTurnovers,
       getValue: (row) => (
         <Typography variant="small" className="font-normal">
           {row.gp}
         </Typography>
       ),
     },
-  ];
+  ].filter(Boolean);
 
   const data = useMemo(() =>
     players.map(
