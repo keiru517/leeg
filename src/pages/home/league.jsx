@@ -773,7 +773,9 @@ const League = () => {
                                 .toLowerCase()
                                 .includes(waitListKeyword.toLowerCase())
                             )}
-                            rosterList={rosterValue}
+                            // rosterList={rosterValue}
+                            rosterValue={rosterValue}
+                            setRosterValue={setRosterValue}
                           />
                         ) : (
                           <div className="flex items-center flex-grow">

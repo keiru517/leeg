@@ -78,7 +78,7 @@ const MatchTable = (props) => {
   };
 
   return (
-    <div className="text-black dark:text-white w-full mt-4 overflow-auto">
+    <div className="text-black dark:text-white w-full mt-4 overflow-x-auto">
       <table className="w-full min-w-max table-auto text-left">
         <thead className="sticky top-0 z-10 bg-white dark:bg-slate">
           <tr>

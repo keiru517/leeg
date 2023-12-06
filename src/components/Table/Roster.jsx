@@ -84,6 +84,7 @@ const RosterTable = (props) => {
   }
 
   const handleOption = (idx) => {
+    console.log(idx, itemChecked)
     // Return true if nothing is selected
     const allItemsFalse = Object.values(itemChecked).every(
       (value) => value === false
@@ -95,6 +96,7 @@ const RosterTable = (props) => {
       if (rosterValue === "Waitlisted") {
         // if the user clicks Accept
         if (idx === 0) {
+          
           axios
             .post(apis.acceptPlayer, itemChecked)
             .then((res) => {
@@ -153,7 +155,7 @@ const RosterTable = (props) => {
               <th
                 key={idx}
                 className={`h-button text-center font-font-dark-gray font-normal text-sm ${
-                  idx === 0 ? "sticky left-0 z-30 bg-white dark:bg-slate border border-gray" : ""
+                  idx === 0 ? "sticky left-0 bg-white dark:bg-slate border border-gray" : ""
                 }`}
               >
                 {head}
