@@ -197,7 +197,7 @@ export const add: RequestHandler = async (req, res) => {
 
   const promises = Object.keys(playersList).map(async id => {
     const player = await Player.findByPk(id);
-    if (player) {
+    if (player && playersList[id]) {
       player.teamId = teamId;
       await player.save();
       const matches = await Match.findAll({
