@@ -45,15 +45,17 @@ const Card = (props) => {
 
   return (
     <div
-      className={`rounded-default h-[230px] bg-light-charcoal dark:bg-charcoal p-default hover:bg-light-dark-gray dark:hover:bg-dark-gray duration-200 shadow dark:shadow-gray-600 ${
-        isAdmin ||
-        league?.userId == user?.id ||
-        player?.isAcceptedList === 1 ||
-        league?.isAllowedFan
-          ? "cursor-pointer"
-          : ""
-      }`}
+      className={`rounded-default h-[230px] bg-light-charcoal dark:bg-charcoal p-default shadow dark:shadow-gray-600
+      `}
       // onClick={() => {
+      //   ${
+      //    isAdmin ||
+      //    league?.userId == user?.id ||
+      //    player?.isAcceptedList === 1 ||
+      //    league?.isAllowedFan
+      //      ? "cursor-pointer"
+      //      : ""
+      //  }
       //   if (
       //     league?.userId == user?.id ||
       //     isAdmin ||
@@ -146,7 +148,7 @@ const Card = (props) => {
             onClick={() => {
               navigate(`/${route}/${league.id}?tab=0`);
             }}
-            className="text-xs border-solid border-2 border-blue-700 w-full rounded mr-2"
+            className="text-xs border-solid border-2 border-blue-700 w-full rounded mr-2 hover:cursor-pointer hover:bg-gray-700"
           >
             View League
           </Button>
@@ -155,7 +157,7 @@ const Card = (props) => {
         {player?.isWaitList !== 1 && player?.isAcceptedList !== 1 && (
           <Button
             onClick={handleApply}
-            className="text-xs border-solid border-2 border-blue-700 w-full rounded"
+            className="text-xs border-solid border-2 border-blue-700 w-full rounded hover:cursor-pointer hover:bg-gray-700"
           >
             APPLY
           </Button>
