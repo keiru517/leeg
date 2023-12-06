@@ -78,7 +78,7 @@ const MatchTable = (props) => {
   };
 
   return (
-    <div className="text-black dark:text-white h-full w-full mt-4 overflow-auto">
+    <div className="text-black dark:text-white w-full mt-4 overflow-auto">
       <table className="w-full min-w-max table-auto text-left">
         <thead className="sticky top-0 z-10 bg-white dark:bg-slate">
           <tr>
@@ -142,7 +142,7 @@ const MatchTable = (props) => {
                         to={`/league/${leagueId}/team/${homeTeamId}`}
                       >
                         <img
-                          src={teams.find((team) => team.id == homeTeamId).logo}
+                          src={teams.find((team) => team.id == homeTeamId)?.logo}
                           alt=""
                           className="h-8 w-8 mr-2 rounded-full border border-gray-500"
                         />
