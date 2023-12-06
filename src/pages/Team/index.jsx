@@ -217,14 +217,13 @@ const Team = () => {
                 {players.length > 0 ? (
                   <>
                     <hr className="h-px my-4 bg-charcoal border-0" />
-                    <div className=" flex flex-col space-y-5">
+                    <div className=" flex flex-col">
                       <Input
                         className="rounded-lg text-xs"
                         icon={darkMode?searchIconDark:searchIconLight}
                         placeholder="Search Schedules"
                       />
                       <div className="flex flex-grow items-center">
-                        {/* <TeamTable data={players}></TeamTable> */}
                         <PlayerStatisticsTable
                           players={players}
                           matchups={matchups}

@@ -24,7 +24,7 @@ const StandingTable = ({ teams }) => {
               getValue: (row) => (
                   <Typography
                       variant="small"
-                      className="font-normal flex items-center justify-left  sm:pl-8 space-x-3"
+                      className="font-normal flex items-center sm:pl-8 space-x-3"
                   >
                       <img src={row.logo} alt="" className="h-8 w-8 mr-2 rounded-full" />
                       <Link to={`team/${row.id}`}>
