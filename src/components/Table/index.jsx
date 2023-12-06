@@ -177,7 +177,7 @@ const Table = ({
                     color="blue-gray"
                     className="font-normal"
                   >
-                    {column.label === "Position"
+                    {column.label === "#"
                       ? index + 1
                       : column.getValue(d)}
                   </Typography>

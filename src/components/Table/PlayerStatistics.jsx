@@ -28,13 +28,8 @@ const PlayerStatistics = (props) => {
 
   const columns = [
     {
-      label: "Position",
+      label: "#",
       fixed: true,
-      getValue: (row) => (
-        <Typography variant="small" className="font-normal">
-          {row.userId + 1}
-        </Typography>
-      ),
     },
     {
       label: "Player",

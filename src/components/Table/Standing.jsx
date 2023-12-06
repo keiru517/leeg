@@ -6,13 +6,8 @@ import Table from "./index";
 const StandingTable = ({ teams }) => {
   const columns = [
     {
-      label: "Position",
+      label: "#",
       fixed: true,
-      getValue: (row) => (
-        <Typography variant="small" className="font-normal">
-          {row.id + 1}
-        </Typography>
-      ),
     },
     {
       label: "Team",
