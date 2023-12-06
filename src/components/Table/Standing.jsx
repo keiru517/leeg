@@ -1,109 +1,107 @@
 import { Typography } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
 
-const StandingTable = (props) => {
-  const { teams } = props;
+import Table from "./index";
+
+const StandingTable = ({ teams }) => {
 
   const columns = [
-    "Position",
-    "Team",
-    "Wins",
-    "Losses",
-    "Points Scored",
-    "Points Against",
-    "Differential",
-  ];
+          {
+              label: 'Position',
+              fixed: true,
+              getValue: (row) => (
+                  <Typography
+                      variant="small"
+                      className="font-normal"
+                  >
+                      {row.id + 1}
+                  </Typography>
+              )
+          },
+          {
+              label: 'Team',
+              fixed: true,
+              getValue: (row) => (
+                  <Typography
+                      variant="small"
+                      className="font-normal flex items-center justify-left  sm:pl-8 space-x-3"
+                  >
+                      <img src={row.logo} alt="" className="h-8 w-8 mr-2 rounded-full" />
+                      <Link to={`team/${row.id}`}>
+                          {row.name}
+                      </Link>
+                  </Typography>
+              )
+          },
+          {
+              label: 'Wins',
+              getValue: (row) => (
+                  <Typography
+                      variant="small"
+                      className="font-normal"
+                  >
+                      {row.win}
+                  </Typography>
+              )
+          },
+          {
+              label: 'Losses',
+              getValue: (row) => (
+                  <Typography
+                      variant="small"
+                      className="font-normal"
+                  >
+                      {row.lose}
+                  </Typography>
+              )
+          },
+          {
+              label: 'Points Scored',
+              getValue: (row) => (
+                  <Typography
+                      variant="small"
+                      className="font-normal"
+                  >
+                      {row.pointScored}
+                  </Typography>
+              )
+          },
+          {
+              label: 'Points Against',
+              getValue: (row) => (
+                  <Typography
+                      variant="small"
+                      className="font-normal"
+                  >
+                      {row.pointAgainst}
+                  </Typography>
+              )
+          },
+          {
+              label: 'Differential',
+              getValue: (row) => (
+                  <Typography
+                      as="a"
+                      href="#"
+                      variant="small"
+                      className="font-normal"
+                  >
+                      {row.diff}
+                  </Typography>
+              )
+          }
+      ];
 
   return (
-    <div className="text-black dark:text-white h-full w-full mt-4">
-      <table className="w-full min-w-max table-auto text-left">
-        <thead className="sticky top-0 z-10 bg-white dark:bg-slate">
-          <tr>
-            {columns.map((head, idx) => (
-              <th key={idx} className="h-button text-center font-font-dark-gray">
-                <Typography
-                  variant="small"
-                  className="font-normal leading-none "
-                >
-                  <p className="text-black dark:text-white">
-                    {head}
-                  </p>
-                </Typography>
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody className="text-center">
-          {teams.sort((a, b)=>b.win-a.win).map(({id, position, name, logo, win, lose, pointScored, pointAgainst, diff }, index) => (
-            <tr key={index} className="odd:bg-light-dark-gray dark:odd:bg-dark-gray even:bg-light-charcoal dark:even:bg-charcoal">
-              <td className="">
-                <Typography
-                  variant="small"
-                  className="font-normal"
-                >
-                  {index + 1}
-                </Typography>
-              </td>
-              <td className="">
-                <Typography
-                  variant="small"
-                  className="font-normal flex items-center justify-left underline space-x-3 pl-8"
-                >
-                <img src={logo} alt="" className="h-8 w-8 mr-2 rounded-full" />
-                <Link to={`team/${id}`} className="truncate max-w-[160px]">
-                  {name}
-                </Link>
-                </Typography>
-              </td>
-              <td className="w-1/6">
-                <Typography
-                  variant="small"
-                  className="font-normal"
-                >
-                  {win}
-                </Typography>
-              </td>
-              <td  className="w-1/6">
-                {/* <img src={mark} alt="" className="mr-3"/> */}
-                <Typography
-                  variant="small"
-                  className="font-normal"
-                >
-                  {lose}
-                </Typography>
-              </td>
-              <td className="w-1/6">
-                <Typography
-                  variant="small"
-                  className="font-normal"
-                >
-                  {pointScored}
-                </Typography>
-              </td>
-              <td className="w-1/6">
-                <Typography
-                  variant="small"
-                  className="font-normal"
-                >
-                  {pointAgainst}
-                </Typography>
-              </td>
-              <td className="">
-                <Typography
-                  as="a"
-                  href="#"
-                  variant="small"
-                  className="font-normal"
-                >
-                  {diff}
-                </Typography>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
-};
+    <>
+        <Table
+          data={teams.sort((a, b)=>b.win-a.win)}
+          columns={columns}
+          presentCheckBox={false}
+          presentOptions={false}
+      />
+    </>
+  )
+}
 
 export default StandingTable;

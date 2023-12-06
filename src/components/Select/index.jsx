@@ -44,7 +44,7 @@ const Select = (props) => {
   return (
     <div
       ref={ref}
-      className={`${className} flex justify-between z-20 text-black dark:text-white rounded-lg shadow w-44 dark:bg-transparent border border-dark-gray relative items-center cursor-pointer select-none`}
+      className={`${className} flex justify-between z-20 text-black dark:text-white rounded-default shadow w-44 dark:bg-transparent border border-dark-gray relative items-center cursor-pointer select-none`}
       //   onClick={() => {
       //     setExpand(true)
       //   }}

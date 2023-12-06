@@ -969,9 +969,17 @@ const League = () => {
                     {value}
                   </Select>
                 </div>
-                {filteredPlayers.length > 0 ? (
+                {allPlayers.filter((player) =>
+                  (player.firstName + player.lastName)
+                    .toLowerCase()
+                    .includes(playerKeyword.toLowerCase())
+                ).length > 0 ? (
                   <PlayerTable
-                    players={filteredPlayers}
+                    players={allPlayers.filter((player) =>
+                      (player.firstName + player.lastName)
+                        .toLowerCase()
+                        .includes(playerKeyword.toLowerCase())
+                    )}
                     league={league}
                   ></PlayerTable>
                 ) : (
