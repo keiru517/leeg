@@ -149,17 +149,17 @@ const Player = () => {
     <div className="flex flex-col flex-grow">
       <p className="font-dark-gray my-3">
         <Link to="/">
-          <span className="underline">My Leagues</span>
+          <span className="">My Leagues</span>
         </Link>
 
         <span className=""> &gt; </span>
         <Link to={`/league/${league?.id}`}>
-          <span className="underline">{league?.name}</span>
+          <span className="">{league?.name}</span>
         </Link>
         <span className=""> &gt; </span>
         {team && (
           <>
-            <span className="underline">
+            <span className="">
               <Link to={`/league/${leagueId}/team/${team?.id}`}>
                 {team?.name}
               </Link>
@@ -279,7 +279,7 @@ const Player = () => {
                   "rounded-xl flex flex-col w-full h-full "
                 )}
               >
-                <div className="text-black dark:text-white h-full w-full mt-4">
+                <div className="text-black dark:text-white h-full w-full mt-4 overflow-auto">
                   <table className="table-auto text-left w-full">
                     <thead className="sticky top-0 z-10 bg-white dark:bg-slate">
                       <tr>

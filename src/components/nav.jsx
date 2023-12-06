@@ -11,7 +11,7 @@ const Nav = () => {
   const user = useSelector(state=>state.home.user);
 
   return (
-    <div className="dark:bg-slate  bg-white pl-default rounded-main h-10 flex items-center justify-between shadow dark:shadow-gray-600">
+    <div className="dark:bg-slate bg-white p-10 h-10 flex items-center justify-between">
       <div className="title flex items-center space-x-8">
         <div className="logo flex">
           <div className="flex">
@@ -23,20 +23,20 @@ const Nav = () => {
             </Link>
           </div>
         </div>
-        {/* <img src={line}></img> */}
+        {/*<img src={line}></img>*/}
         {/* <div className="greeting">
           <p className="dark:text-white text-[#33383F] text-lg font-semibold text-left">
             Hello George!
           </p>
           <p className="text-sm dark:text-font-dark-gray text-left">
             Welcome to your dashboard
-          </p>s
+          </p>
         </div> */}
       </div>
       <div className="flex space-x-2 items-center">
         <SettingsSelect
-          className="h-10 pl-3 dark:bg-charcoal"
-          value={user?.firstName?.[0] + user?.lastName?.[0]}
+          className="h-10 pl-3"
+          value={user?.firstName + " " + user?.lastName}
         />
       </div>
     </div>

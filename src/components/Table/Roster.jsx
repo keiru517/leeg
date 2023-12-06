@@ -8,7 +8,7 @@ import { Switch } from "@headlessui/react";
 import axios from "axios";
 import apis from "../../utils/apis";
 import * as actions from "../../actions";
-import moment from 'moment';
+import moment from "moment";
 
 function Checkbox({ label, name, checked, onChange, disabled }) {
   return (
@@ -84,6 +84,7 @@ const RosterTable = (props) => {
   }
 
   const handleOption = (idx) => {
+    console.log(idx, itemChecked)
     // Return true if nothing is selected
     const allItemsFalse = Object.values(itemChecked).every(
       (value) => value === false
@@ -95,6 +96,7 @@ const RosterTable = (props) => {
       if (rosterValue === "Waitlisted") {
         // if the user clicks Accept
         if (idx === 0) {
+          
           axios
             .post(apis.acceptPlayer, itemChecked)
             .then((res) => {
@@ -102,8 +104,8 @@ const RosterTable = (props) => {
             })
             .catch((error) => alert(error.response.data.message));
         } else {
-          console.log("remove", idx)
-          console.log("remove", itemChecked)
+          console.log("remove", idx);
+          console.log("remove", itemChecked);
           actions.removeFromLeague(dispatch, itemChecked);
         }
       } else if (rosterValue === "Accepted") {
@@ -145,20 +147,23 @@ const RosterTable = (props) => {
   }, [rosterValue]);
 
   return (
-    <div className="text-black dark:text-white h-full w-full mt-4">
-      <table className="w-full min-w-max table-auto text-left">
-        <thead className="sticky top-0 z-10 bg-white dark:bg-slate">
+    <div className="text-black dark:text-white w-full mt-4 overflow-auto">
+      <table className="w-full min-w-max table-auto text-left ">
+        <thead className="sticky top-0 z-10 ">
           <tr>
             {columns.map((head, idx) => (
               <th
                 key={idx}
-                className="h-button text-center font-font-dark-gray font-normal  text-sm"
+                className={`h-button text-center font-font-dark-gray font-normal text-sm ${
+                  idx === 0 ? "sticky left-0 bg-white dark:bg-slate border border-gray" : ""
+                }`}
               >
                 {head}
               </th>
             ))}
             {isAdmin && (
               <th className="text-center cursor-pointer w-20">
+              {/* <th className="text-center cursor-pointer w-20 sticky right-0 bg-white dark:bg-slate"> */}
                 {rosterValue === "Accepted" ? (
                   <span
                     className="text-black dark:text-white"
@@ -170,16 +175,8 @@ const RosterTable = (props) => {
                   <div className="flex justify-center space-x-1">
                     {canSubmit ? (
                       <>
-                        <span
-                          onClick={() => handleOption(1)}
-                        >
-                          ❌
-                        </span>
-                        <span
-                          onClick={() => handleOption(0)}
-                        >
-                          ✅
-                        </span>
+                        <span onClick={() => handleOption(1)}>❌</span>
+                        <span onClick={() => handleOption(0)}>✅</span>
                       </>
                     ) : (
                       <span className="text-black dark:text-white">...</span>
@@ -195,9 +192,10 @@ const RosterTable = (props) => {
             // <tr onClick={()=>goToMatchup(id)} key={index} className="odd:bg-dark-gray even:bg-charcoal  hover:">
             <tr
               key={index}
-              className="odd:bg-light-dark-gray dark:odd:bg-dark-gray even:bg-light-charcoal dark:even:bg-charcoal"
+              className=""
+              // className="odd:bg-light-dark-gray dark:odd:bg-dark-gray even:bg-light-charcoal dark:even:bg-charcoal"
             >
-              <td className="w-1/7">
+              <td className="w-1/7 sticky z-30 left-0 bg-white dark:bg-slate border border-1 border-gray">
                 <Typography
                   variant="small"
                   color="blue-gray"
@@ -228,7 +226,7 @@ const RosterTable = (props) => {
                   color="blue-gray"
                   className="font-normal"
                 >
-                  {moment(player.createdAt).format('h:mmA DD/MM/YYYY')}
+                  {moment(player.createdAt).format("h:mmA DD/MM/YYYY")}
                 </Typography>
               </td>
               <td className="w-1/7">
@@ -245,7 +243,7 @@ const RosterTable = (props) => {
                     month: "2-digit",
                     year: "numeric",
                   })} */}
-                  {moment(player.createdAt).format('h:mmA DD/MM/YYYY')}
+                  {moment(player.createdAt).format("h:mmA DD/MM/YYYY")}
                 </Typography>
               </td>
               <td className="w-1/7">
@@ -268,6 +266,7 @@ const RosterTable = (props) => {
               </td>
               {league?.userId == user?.id && (
                 <td className="">
+                {/* <td className="sticky right-0 bg-white dark:bg-slate"> */}
                   <Typography
                     variant="small"
                     color="blue-gray"

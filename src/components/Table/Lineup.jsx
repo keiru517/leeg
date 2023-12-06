@@ -80,7 +80,7 @@ const LineupTable = (props) => {
   }, [itemChecked])
 
   return (
-    <div className="text-black dark:text-white h-full w-full mt-4">
+    <div className="text-black dark:text-white h-full w-full mt-4 overflow-auto">
       <table className="w-full min-w-max table-auto text-left">
         <thead className="sticky top-0 z-10 bg-white dark:bg-slate">
           <tr>

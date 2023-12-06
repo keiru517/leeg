@@ -37,7 +37,7 @@ const MatchTable = (props) => {
       "Action",
     ];
   } else {
-    var columns = ["Date", "Location", "Time", "Home", "Away", "Results"];
+    var columns = ["Date", "Location", "Time", "Home", "Away", "Results", "Status"];
   }
 
   const options = [
@@ -78,14 +78,14 @@ const MatchTable = (props) => {
   };
 
   return (
-    <div className="text-black dark:text-white h-full w-full mt-4">
+    <div className="text-black dark:text-white h-5/6 w-full mt-4 overflow-auto">
       <table className="w-full min-w-max table-auto text-left">
         <thead className="sticky top-0 z-10 bg-white dark:bg-slate">
           <tr>
             {columns.map((head, idx) => (
               <th
                 key={idx}
-                className="h-button text-center font-font-dark-gray font-normal  text-sm"
+                className={`h-button text-center font-font-dark-gray font-normal text-sm ${head==="Action"?"":""}`}
               >
                 {head}
               </th>
@@ -111,7 +111,7 @@ const MatchTable = (props) => {
               // <tr onClick={()=>goToMatchup(id)} key={index} className="odd:bg-dark-gray even:bg-charcoal  hover:">
               <tr
                 key={index}
-                className="odd:bg-light-dark-gray dark:odd:bg-dark-gray even:bg-light-charcoal dark:even:bg-charcoal"
+                // className="odd:bg-light-dark-gray dark:odd:bg-dark-gray even:bg-light-charcoal dark:even:bg-charcoal"
               >
                 <td className="1/6">{date}</td>
                 <td className="1/6">{location}</td>
@@ -142,7 +142,7 @@ const MatchTable = (props) => {
                         to={`/league/${leagueId}/team/${homeTeamId}`}
                       >
                         <img
-                          src={teams.find((team) => team.id == homeTeamId).logo}
+                          src={teams.find((team) => team.id == homeTeamId)?.logo}
                           alt=""
                           className="h-8 w-8 mr-2 rounded-full border border-gray-500"
                         />

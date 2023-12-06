@@ -34,6 +34,7 @@ const Matchup = () => {
   const dispatch = useDispatch();
 
   const darkMode = useSelector((state) => state.home.dark_mode);
+  const user = useSelector((state) => state.home.user);
   const match = useSelector((state) => state.home.matches).find(
     (match) => match.id == matchId
   );
@@ -41,6 +42,14 @@ const Matchup = () => {
   const league = useSelector((state) => state.home.leagues).find(
     (league) => league.id == leagueId
   );
+
+  const admins = useSelector((state) => state.home.admins).filter(
+    (admin) => admin.leagueId == league?.id && admin.isDeleted !== 1
+  );
+
+  const isAdmin =
+    admins.some((admin) => admin.userId == user?.id) ||
+    league?.userId == user?.id;
 
   const allLogs = useSelector((state) => state.home.logs)
     .filter((log) => log.leagueId == leagueId && log.matchId == matchId)
@@ -451,16 +460,16 @@ const Matchup = () => {
       <p className="flex font-dark-gray my-[20px] justify-between ">
         <div className="">
           <Link to="/">
-            <span className="underline">My Leagues</span>
+            <span className="">My Leagues</span>
           </Link>
           <span className=""> &gt; </span>
           <Link to={`/league/${leagueId}`}>
-            <span className="underline">{league?.name}</span>
+            <span className="">{league?.name}</span>
           </Link>
 
           <span className=""> &gt; </span>
-          <Link to={`/league/${leagueId}`}>
-            <span className="underline">Matches</span>
+          <Link to={`/league/${leagueId}?tab=${isAdmin?"2":"1"}`}>
+            <span className="">Matches</span>
           </Link>
           <span className=""> &gt; </span>
           <span className="text-sky-500">{homeTeam?.name} </span>

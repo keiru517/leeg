@@ -52,10 +52,7 @@ const AuthLayout = (props) => {
     
   }, [token])
 
-
-
   // useEffect(()=>{
-
   //   if (token) {
   //     setLoggedIn(true)
   //     setAuthToken(token);
@@ -72,17 +69,21 @@ const AuthLayout = (props) => {
   // }, [token])
 
   return (
-    <div className="p-[20px_26px_26px_26px] dark:bg-black bg-light-charcoal justify-center flex flex-col flex-grow">
+    <div className="dark:bg-black bg-light-charcoal justify-center flex flex-col flex-grow">
       {isLoading ? (
         <div className="text-white text-3xl">Page is loading.</div>
       ) : isLoggedIn ? (
         <>
           <Nav />
-          {props.children}
+          <div className="p-[0px_5px_5px_5px] sm:p-[0px_26px_26px_26px] flex flex-col flex-grow">
+            {props.children}
+          </div>
         </>
       ) : (
         <>
-          {props.children}
+          <div className="p-[10px_10px_10px_10px] sm:p-[0px_26px_26px_26px] flex flex-col flex-grow">
+            {props.children}
+          </div>
         </>
       )}
     </div>

@@ -4,8 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { Tab } from "@headlessui/react";
 import Input from "../../components/Input";
-import searchIconDark from "../../assets/img/dark_mode/search-icon-dark.svg"
-import searchIconLight from "../../assets/img/dark_mode/search-icon-light.svg"
+import searchIconDark from "../../assets/img/dark_mode/search-icon-dark.svg";
+import searchIconLight from "../../assets/img/dark_mode/search-icon-light.svg";
 import backIconDark from "../../assets/img/dark_mode/back-icon-dark.png";
 import backIconLight from "../../assets/img/dark_mode/back-icon-light.png";
 import MatchTable from "../../components/Table/Match";
@@ -40,9 +40,9 @@ const Team = () => {
     (team) => team.id == teamId
   );
 
-
   const options = ["Ascend", "Descend", "Recent"];
   const [value, setValue] = useState("Sort by");
+  const [keyword, setKeyword] = useState("");
 
   const categories = ["Matches", "Statistics", "Players"];
 
@@ -83,15 +83,15 @@ const Team = () => {
     <div className="flex flex-col flex-grow">
       <p className="font-dark-gray my-3">
         <Link to="/">
-          <span className="underline">My Leagues</span>
+          <span className="">My Leagues</span>
         </Link>
         <span className=""> &gt; </span>
         <Link to={`/league/${league?.id}?tab=0`}>
-          <span className="underline">{league?.name}</span>
+          <span className="">{league?.name}</span>
         </Link>
         <span className=""> &gt; </span>
-        <Link to={`/league/${league?.id}?tab=2`}>
-          <span className="underline">Teams</span>
+        <Link to={`/league/${league?.id}?tab=1`}>
+          <span className="">Teams</span>
         </Link>
         <span className="text-sky-500"> &gt; {team?.name}</span>
       </p>
@@ -214,31 +214,40 @@ const Team = () => {
                   "rounded-xl flex flex-col w-full h-full "
                 )}
               >
-                {players.length > 0 ? (
-                  <>
-                    <hr className="h-px my-4 bg-charcoal border-0" />
-                    <div className=" flex flex-col space-y-5">
-                      <Input
-                        className="rounded-lg text-xs"
-                        icon={darkMode?searchIconDark:searchIconLight}
-                        placeholder="Search Schedules"
-                      />
+                <>
+                  <hr className="h-px my-4 bg-charcoal border-0" />
+                  <div className=" flex flex-col">
+                    <Input
+                      className="rounded-lg text-xs"
+                      icon={darkMode ? searchIconDark : searchIconLight}
+                      placeholder="Search Schedules"
+                      value={keyword}
+                      onChange={(e) => setKeyword(e.target.value)}
+                    />
+                    {players.filter((player) =>
+                      (player.firstName + player.lastName)
+                        .toLowerCase()
+                        .includes(keyword.toLowerCase())
+                    ).length > 0 ? (
                       <div className="flex flex-grow items-center">
-                        {/* <TeamTable data={players}></TeamTable> */}
                         <PlayerStatisticsTable
-                          players={players}
+                          players={players.filter((player) =>
+                            (player.firstName + player.lastName)
+                              .toLowerCase()
+                              .includes(keyword.toLowerCase())
+                          )}
                           matchups={matchups}
                         ></PlayerStatisticsTable>
                       </div>
-                    </div>
-                  </>
-                ) : (
-                  <div className="flex items-center flex-grow">
-                    <p className="text-2xl text-black dark:text-white w-full text-center">
-                      No Players To Show!
-                    </p>
+                    ) : (
+                      <div className="flex items-center flex-grow">
+                        <p className="text-2xl text-black dark:text-white w-full text-center">
+                          No Players To Show!
+                        </p>
+                      </div>
+                    )}
                   </div>
-                )}
+                </>
               </Tab.Panel>
             </Tab.Panels>
           </Tab.Group>
