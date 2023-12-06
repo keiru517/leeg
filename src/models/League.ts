@@ -78,7 +78,7 @@ League.init(
     },
     isAllowedFan: {
       type: DataTypes.BOOLEAN,
-      defaultValue: false
+      defaultValue: true
     },
     minute: {
       type: DataTypes.INTEGER
