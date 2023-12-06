@@ -585,12 +585,12 @@ const League = () => {
     <div className="flex flex-col flex-grow">
       <p className="flex font-dark-gray my-3 items-center">
         <Link to="/">
-          <span className="underline">My Leagues</span>
+          <span className="">My Leagues</span>
         </Link>
-        <span className="text-sky-500"> &gt; </span>
+        <span className="text-sky-500">&nbsp; &gt; </span>
         <div className="flex items-center space-x-3 ml-3">
-          <img src={league?.logo} className="w-10 h-10 rounded-lg"></img>
-          <p className="text-black dark:text-white text-lg">{league?.name}</p>
+          {/* <img src={league?.logo} className="w-10 h-10 rounded-lg"></img> */}
+          <p className="">{league?.name}</p>
         </div>
       </p>
       <div className="rounded-default bg-white dark:bg-slate flex-grow p-default">
@@ -747,7 +747,7 @@ const League = () => {
                 key={2}
                 className={classNames("rounded-xl flex flex-col w-full h-full")}
               >
-                <hr className="h-px my-4 bg-charcoal border-0" />
+                <hr className="h-px bg-charcoal border-0" />
                 {matches.length > 0 ? (
                   <>
                     <MatchTable
