@@ -11,8 +11,8 @@ const Nav = () => {
   const user = useSelector(state=>state.home.user);
 
   return (
-    <div className="dark:bg-slate bg-white p-10 h-10 flex items-center justify-between">
-      <div className="title flex items-center space-x-8">
+    <div className="dark:bg-slate bg-white py-10 h-10 flex items-center justify-between">
+      <div className="title flex items-center space-x-8 px-3">
         <div className="logo flex">
           <div className="flex">
             <Link to={'/'} className="flex">
