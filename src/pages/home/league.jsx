@@ -609,7 +609,7 @@ const League = () => {
                 selectionFollowsFocus={true}
                 sx={{
                   ".MuiTabs-scrollButtons.Mui-disabled": { opacity: 0.3 },
-                  ".MuiTabs-scrollButtons": { color: "dark:white black" },
+                  ".MuiTabs-scrollButtons": { color: darkMode?"white":"black" },
                 }}
               >
                 {categories.map((category, idx) => (

@@ -126,10 +126,9 @@ th {
   padding: 10px;
 }
 
-thead > tr > th:first-child {
-  /* border-top-left-radius: 10px; */
+/* thead > tr > th:first-child {
   border-right-width: 0px;
-}
+} */
 thead > tr > th:last-child {
   /* border-top-right-radius: 10px; */
   border-right-width: 1px;

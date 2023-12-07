@@ -45,8 +45,7 @@ const Card = (props) => {
 
   return (
     <div
-      className={`rounded-default h-[230px] bg-light-charcoal dark:bg-charcoal p-default shadow dark:shadow-gray-600
-      `}
+      className={`rounded-default h-[230px] bg-light-charcoal dark:bg-charcoal p-default shadow dark:shadow-gray-600`}
       // onClick={() => {
       //   ${
       //    isAdmin ||
@@ -69,7 +68,10 @@ const Card = (props) => {
       <div className="">
         <div className="items-center justify-between">
           <div className="flex items-center">
-            <img src={league.logo} className="w-10 h-10 rounded-lg"></img>
+            <img
+              src={league.logo}
+              className="w-10 h-10 rounded-lg"
+            ></img>
             <p className="dark:text-white text-sm ml-5 truncate max-w-full">
               {league.name} / {league.id.toString().padStart(6, "0")}
               <br></br>
