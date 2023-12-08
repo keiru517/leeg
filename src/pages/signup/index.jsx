@@ -26,10 +26,8 @@ const Signup = () => {
 
   const handleSignup = () => {
     if (password != passwordConfirm) {
-      setIsMatch(false);
-      setPanelHeight("355px");
+      alert("Password doesn't match!");
     } else {
-      setIsMatch(true);
       if (
         !chosenFile ||
         !firstName ||
@@ -45,14 +43,8 @@ const Signup = () => {
         formData.append("firstName", firstName);
         formData.append("lastName", lastName);
         formData.append("email", email);
-        // formData.append("birthday", birthday);
         formData.append("password", password);
         formData.append("passwordConfirm", passwordConfirm);
-        // formData.append("zipCode", zipCode);
-        // formData.append("country", country);
-        // formData.append("state", state);
-        // formData.append("city", city);
-        // formData.append("address", address);
 
         axios
           .post(apis.signup, formData)
@@ -66,10 +58,6 @@ const Signup = () => {
       }
     }
   };
-
-  // password confirmation handler
-  const [isMatch, setIsMatch] = useState(true);
-  useEffect(() => {}, [passwordConfirm]);
 
   return (
     <div className="">
@@ -181,11 +169,6 @@ const Signup = () => {
                     ></Input>
                   </div> */}
               </div>
-              {isMatch ? (
-                ""
-              ) : (
-                <p className="text-red-700 mt-4">Password does not match</p>
-              )}
               <div className="flex justify-between mt-6 space-x-3">
                 <button
                   onClick={handleBack}
