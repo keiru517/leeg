@@ -28,6 +28,7 @@ export const apis = {
   applyLeague: apiUrl + "/league/apply",
   allowFan: apiUrl + "/league/allowFan",
   togglePosition: apiUrl + '/league/togglePosition',
+  toggleJerseyNumber: apiUrl + '/league/toggleJerseyNumber',
   toggleAttempts3: apiUrl + '/league/toggleAttempts3',
   toggleAttempts2: apiUrl + '/league/toggleAttempts2',
   toggleAttempts1: apiUrl + '/league/toggleAttempts1',

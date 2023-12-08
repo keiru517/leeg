@@ -303,6 +303,7 @@ const League = () => {
   const [isAllowedFan, setIsAllowedFan] = useState("");
   const [displayLeagueId, setDisplayLeagueId] = useState("");
   const [displayPosition, setDisplayPosition] = useState("");
+  const [displayJerseyNumber, setDisplayJerseyNumber] = useState("");
   const [displayAttempts3, setDisplayAttempts3] = useState("");
   const [displayAttempts2, setDisplayAttempts2] = useState("");
   const [displayAttempts1, setDisplayAttempts1] = useState("");
@@ -319,6 +320,7 @@ const League = () => {
     setSecond(league?.second);
     setIsAllowedFan(league?.isAllowedFan);
     setDisplayPosition(league?.displayPosition);
+    setDisplayJerseyNumber(league?.displayJerseyNumber);
     setDisplayAttempts3(league?.displayAttempts3);
     setDisplayAttempts2(league?.displayAttempts2);
     setDisplayAttempts1(league?.displayAttempts1);
@@ -375,6 +377,24 @@ const League = () => {
         actions.getMatches(dispatch);
         actions.getMatchups(dispatch);
         setDisplayPosition(!displayPosition);
+      })
+      .catch((error) => {
+        alert(error.response.data.message);
+      });
+  };
+
+  const toggleJerseyNumber = () => {
+    axios
+      .post(apis.toggleJerseyNumber, {
+        leagueId: leagueId,
+        status: !displayJerseyNumber,
+      })
+      .then((res) => {
+        actions.getLeagues(dispatch);
+        actions.getPlayers(dispatch);
+        actions.getMatches(dispatch);
+        actions.getMatchups(dispatch);
+        setDisplayJerseyNumber(!displayJerseyNumber);
       })
       .catch((error) => {
         alert(error.response.data.message);
@@ -1180,6 +1200,19 @@ const League = () => {
                               alt=""
                               className="w-8 cursor-pointer m-auto"
                               onClick={togglePosition}
+                            />
+                          </td>
+                        </tr>
+                        <tr>
+                          <td className="text-xs dark:text-white text-black">
+                            Display JerseyNumber
+                          </td>
+                          <td>
+                            <img
+                              src={displayJerseyNumber ? toggleOn : toggleOff}
+                              alt=""
+                              className="w-8 cursor-pointer m-auto"
+                              onClick={toggleJerseyNumber}
                             />
                           </td>
                         </tr>

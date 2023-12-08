@@ -28,7 +28,6 @@ const TeamTable = (props) => {
     admins.some((admin) => admin.userId == user?.id) ||
     league?.userId == user?.id;
 
-
   const options = [
     { id: 0, name: "Edit" },
     { id: 1, name: "Delete" },
@@ -72,19 +71,21 @@ const TeamTable = (props) => {
                 Player
               </Typography>
             </th>
-            <th
-              key="2"
-              className="h-button bg-light-charcoal dark:bg-slate text-center "
-            >
-              <Typography
-                variant="small"
-                color="blue-gray"
-                className="font-normal leading-none"
+            {league?.displayJerseyNumber && (
+              <th
+                key="2"
+                className="h-button bg-light-charcoal dark:bg-slate text-center "
               >
-                Jersey Number
-              </Typography>
-            </th>
-            {league?.displayPosition ? (
+                <Typography
+                  variant="small"
+                  color="blue-gray"
+                  className="font-normal leading-none"
+                >
+                  Jersey Number
+                </Typography>
+              </th>
+            )}
+            {league?.displayPosition && (
               <th
                 key="3"
                 className="h-button bg-light-charcoal dark:bg-slate text-center"
@@ -97,8 +98,6 @@ const TeamTable = (props) => {
                   Position
                 </Typography>
               </th>
-            ) : (
-              ""
             )}
             {isAdmin && (
               <th
@@ -136,15 +135,17 @@ const TeamTable = (props) => {
                   </div>
                 </Link>
               </td>
-              <td className="">
-                <Typography
-                  variant="small"
-                  color="blue-gray"
-                  className="font-normal"
-                >
-                  {player.jerseyNumber}
-                </Typography>
-              </td>
+              {league?.displayJerseyNumber && (
+                <td className="">
+                  <Typography
+                    variant="small"
+                    color="blue-gray"
+                    className="font-normal"
+                  >
+                    {player.jerseyNumber}
+                  </Typography>
+                </td>
+              )}
 
               {league?.displayPosition && (
                 <td className="">

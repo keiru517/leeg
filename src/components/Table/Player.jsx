@@ -8,6 +8,7 @@ const Player = ({ players, league }) => {
   const matchups = useSelector((state) => state.home.matchups);
 
   const displayPosition = league?.displayPosition;
+  const displayJerseyNumber = league?.displayJerseyNumber;
   const displayAttempts3 = league?.displayAttempts3;
   const displayAttempts2 = league?.displayAttempts2;
   const displayAttempts1 = league?.displayAttempts1;
@@ -58,14 +59,6 @@ const Player = ({ players, league }) => {
       ),
     },
     {
-      label: "Jersey Number",
-      getValue: (row) => (
-        <Typography variant="small" className="font-normal">
-          {row.jerseyNumber}
-        </Typography>
-      ),
-    },
-    {
       label: "Team",
       getValue: (row) =>
         row.team && (
@@ -78,6 +71,15 @@ const Player = ({ players, league }) => {
             {row.team?.name}
           </Link>
         ),
+    },
+    displayJerseyNumber &&
+    {
+      label: "Jersey Number",
+      getValue: (row) => (
+        <Typography variant="small" className="font-normal">
+          {row.jerseyNumber}
+        </Typography>
+      ),
     },
     displayPosition && {
       label: "Position",
