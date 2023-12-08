@@ -31,6 +31,7 @@ export namespace Types {
     second:number;
     isAllowedFan: boolean;
     displayPosition: boolean;
+    displayJerseyNumber: boolean;
     displayAttempts3: boolean;
     displayAttempts2: boolean;
     displayAttempts1: boolean;

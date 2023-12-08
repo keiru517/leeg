@@ -193,8 +193,8 @@ export const apply: RequestHandler = async (req, res) => {
         lastName: user?.lastName,
         avatar: `${process.env.DOMAIN}/api/user/avatar/${userId}`,
         email: user?.email,
-        jerseyNumber: "",
-        position: "",
+        jerseyNumber: '',
+        position: '',
         birthday: user?.birthday,
         country: user?.country,
         state: user?.state,
@@ -240,6 +240,18 @@ export const togglePosition: RequestHandler = async (req, res) => {
   const league = await League.findByPk(leagueId);
   if (league) {
     await league.update({ displayPosition: status });
+    res.status(200).json({ message: 'Success' });
+  } else {
+    res.status(404).json({ message: 'League not found' });
+  }
+};
+
+export const toggleJerseyNumber: RequestHandler = async (req, res) => {
+  const leagueId = req.body.leagueId;
+  const status = req.body.status;
+  const league = await League.findByPk(leagueId);
+  if (league) {
+    await league.update({ displayJerseyNumber: status });
     res.status(200).json({ message: 'Success' });
   } else {
     res.status(404).json({ message: 'League not found' });

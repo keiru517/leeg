@@ -45,6 +45,9 @@ leagueRouter.post('/allowFan', LeagueController.allowFan);
 // Toggle Position
 leagueRouter.post('/togglePosition', LeagueController.togglePosition);
 
+// Toggle Position
+leagueRouter.post('/toggleJerseyNumber', LeagueController.toggleJerseyNumber);
+
 // Toggle 3 points attempts
 leagueRouter.post('/toggleAttempts3', LeagueController.toggleAttempts3);
 
