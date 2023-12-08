@@ -52,7 +52,7 @@ const Signin = () => {
         <img src={hrLine} alt="" className="my-7" />
         <p className="text-font-light-gray text-sm text-center">LEEG.IO</p>
       </div> */}
-      <div className="bg-white dark:bg-slate w-full h-[390px] mt-16 rounded-main p-default flex flex-col">
+      <div className="bg-white dark:bg-slate w-full rounded-main p-default flex flex-col">
         <div>
           <div>
             <p className="text-black dark:text-white text-2xl font-bold">
