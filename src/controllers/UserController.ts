@@ -25,9 +25,6 @@ export const signin: RequestHandler = async (req, res) => {
         const token = jwt.sign(
           { id: user.id?.toString(), email: user.email },
           'leeg517',
-          // {
-          //   expiresIn: '2d'
-          // }
         );
 
         res.cookie('token', token);
@@ -141,7 +138,19 @@ export const signup: RequestHandler = async (req, res) => {
 
         const buffer = req.file.buffer;
         writeFileSync(filePath, buffer);
-        res.status(200).json({ message: 'Singed up successfully!' });
+
+        const token = jwt.sign(
+          { id: user.id?.toString(), email: user.email },
+          'leeg517',
+        );
+
+        res.cookie('token', token);
+
+        res.status(200).json({
+          message: 'Signed in successfully!',
+          token: token,
+          user: user
+        });
       }
     }
   } catch (error) {
