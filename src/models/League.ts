@@ -31,6 +31,7 @@ export default class League extends Model<
   declare isAllowedFan: boolean;
   declare requirePassword: boolean;
   declare displayPosition: boolean;
+  declare displayJerseyNumber: boolean;
   declare displayAttempts3: boolean;
   declare displayAttempts2: boolean;
   declare displayAttempts1: boolean;
@@ -41,7 +42,7 @@ export default class League extends Model<
   declare displaySteals: boolean;
   declare displayTurnovers: boolean;
   declare password: string;
-  declare isDeleted: string;
+  declare isDeleted: boolean;
   static modelName = 'League';
 }
 League.init(
@@ -90,6 +91,10 @@ League.init(
       type: DataTypes.BOOLEAN,
       defaultValue: true
     },
+    displayJerseyNumber: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true
+    },
     displayAttempts3: {
       type: DataTypes.BOOLEAN,
       defaultValue: true
@@ -128,7 +133,7 @@ League.init(
     },
     requirePassword: {
       type: DataTypes.BOOLEAN,
-      defaultValue: true
+      defaultValue: false
     },
     password: {
       type: DataTypes.STRING

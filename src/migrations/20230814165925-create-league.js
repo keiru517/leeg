@@ -53,6 +53,9 @@ module.exports = {
       displayPosition: {
         type: Sequelize.BOOLEAN
       },
+      displayJerseyNumber: {
+        type: Sequelize.BOOLEAN
+      },
       displayAttempts3: {
         type: Sequelize.BOOLEAN
       },

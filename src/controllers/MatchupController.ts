@@ -367,33 +367,21 @@ export const complete: RequestHandler = async (req, res) => {
           });
 
           if (matchup) {
-            console.log('lock=============', log.event);
             // update matchup if the match is not new
             switch (log.event) {
               case '+3 Pointer':
                 matchup.points3 = matchup.points3 + 1;
+                matchup.attempts3 = matchup.attempts3 + 1;
                 matchup.points = matchup.points + 3;
                 break;
               case '+2 Pointer':
-                console.log(
-                  '====before',
-                  log.playerId,
-                  matchup.id,
-                  matchup.points2,
-                  matchup.points
-                );
                 matchup.points2 = matchup.points2 + 1;
+                matchup.attempts2 = matchup.attempts2 + 1;
                 matchup.points = matchup.points + 2;
-                console.log(
-                  '====after',
-                  log.playerId,
-                  matchup.id,
-                  matchup.points2,
-                  matchup.points
-                );
                 break;
               case '+1 Pointer':
                 matchup.points1 = matchup.points1 + 1;
+                matchup.attempts1 = matchup.attempts1 + 1;
                 matchup.points = matchup.points + 1;
                 break;
               case '+3 Attempt':
@@ -506,14 +494,17 @@ export const incomplete: RequestHandler = async (req, res) => {
             switch (log.event) {
               case '+3 Pointer':
                 matchup.points3 = matchup.points3 - 1;
+                matchup.attempts3 = matchup.attempts3 - 1;
                 matchup.points = matchup.points - 3;
                 break;
               case '+2 Pointer':
                 matchup.points2 = matchup.points2 - 1;
+                matchup.attempts2 = matchup.attempts2 - 1;
                 matchup.points = matchup.points - 2;
                 break;
               case '+1 Pointer':
                 matchup.points1 = matchup.points1 - 1;
+                matchup.attempts1 = matchup.attempts1 - 1;
                 matchup.points = matchup.points - 1;
                 break;
               case '+3 Attempt':

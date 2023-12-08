@@ -118,6 +118,7 @@ export const updateTimer: RequestHandler = async (req, res) => {
     res.status(404).json({ message: 'Error occurred!' });
   }
 };
+
 // POST SERVER_URL/api/league/remove/1
 export const remove: RequestHandler = async (req, res) => {
   const id = Number(req.params.id);
@@ -193,8 +194,8 @@ export const apply: RequestHandler = async (req, res) => {
         lastName: user?.lastName,
         avatar: `${process.env.DOMAIN}/api/user/avatar/${userId}`,
         email: user?.email,
-        jerseyNumber: "",
-        position: "",
+        jerseyNumber: '',
+        position: '',
         birthday: user?.birthday,
         country: user?.country,
         state: user?.state,
@@ -208,7 +209,8 @@ export const apply: RequestHandler = async (req, res) => {
       });
     }
   }
-  res.status(200).json({ message: 'Applied successfully!' });
+  const leagues = await League.findAll();
+  res.status(200).json({leagues});
 };
 
 export const allowFan: RequestHandler = async (req, res) => {
@@ -222,17 +224,50 @@ export const allowFan: RequestHandler = async (req, res) => {
     res.status(404).json({ message: 'League not found' });
   }
 };
-// export const toggleLeagueId: RequestHandler =async (req, res) => {
-//   const leagueId = req.body.leagueId;
-//   const status = req.body.status;
-//   const league = await League.findByPk(leagueId);
-//   if (league) {
-//     await league.update({displayLeagueId:status});
-//     res.status(200).json({message: 'Success'})
-//   } else {
-//     res.status(404).json({message: 'League not found'});
-//   }
-// }
+
+export const togglePassword: RequestHandler = async (req, res) => {
+  const leagueId = req.body.leagueId;
+  const status = req.body.status;
+  const league = await League.findByPk(leagueId);
+  if (league) {
+    await league.update({ requirePassword: status });
+    res.status(200).json({ message: 'Success' });
+  } else {
+    res.status(404).json({ message: 'League not found' });
+  }
+};
+
+export const addPassword: RequestHandler =async (req, res) => {
+  const {id, password} = req.body;
+  console.log(req.body)
+  console.log(id, password)
+  const league = await League.findByPk(id);
+  if (league) {
+    await league.update({
+      password,
+      requirePassword:true
+    });
+    const leagues = await League.findAll();
+    res.status(200).json({leagues});
+  } else {
+    res.status(400).json({message:"League not found"});
+  }
+}
+
+export const removePassword: RequestHandler =async (req, res) => {
+  const {id} = req.body;
+  const league = await League.findByPk(id);
+  if (league) {
+    await league.update({
+      password:"",
+      requirePassword:false
+    });
+    const leagues = await League.findAll();
+    res.status(200).json({leagues});
+  } else {
+    res.status(400).json({message:"League not found"});
+  }
+}
 
 export const togglePosition: RequestHandler = async (req, res) => {
   const leagueId = req.body.leagueId;
@@ -240,6 +275,18 @@ export const togglePosition: RequestHandler = async (req, res) => {
   const league = await League.findByPk(leagueId);
   if (league) {
     await league.update({ displayPosition: status });
+    res.status(200).json({ message: 'Success' });
+  } else {
+    res.status(404).json({ message: 'League not found' });
+  }
+};
+
+export const toggleJerseyNumber: RequestHandler = async (req, res) => {
+  const leagueId = req.body.leagueId;
+  const status = req.body.status;
+  const league = await League.findByPk(leagueId);
+  if (league) {
+    await league.update({ displayJerseyNumber: status });
     res.status(200).json({ message: 'Success' });
   } else {
     res.status(404).json({ message: 'League not found' });
@@ -354,14 +401,4 @@ export const toggleTurnovers: RequestHandler = async (req, res) => {
   }
 };
 
-export const togglePassword: RequestHandler = async (req, res) => {
-  const leagueId = req.body.leagueId;
-  const status = req.body.status;
-  const league = await League.findByPk(leagueId);
-  if (league) {
-    await league.update({ requirePassword: status });
-    res.status(200).json({ message: 'Success' });
-  } else {
-    res.status(404).json({ message: 'League not found' });
-  }
-};
+
