@@ -133,7 +133,7 @@ League.init(
     },
     requirePassword: {
       type: DataTypes.BOOLEAN,
-      defaultValue: true
+      defaultValue: false
     },
     password: {
       type: DataTypes.STRING

@@ -41,6 +41,10 @@ leagueRouter.post('/apply', LeagueController.apply);
 // Allow fan view of a league
 leagueRouter.post('/allowFan', LeagueController.allowFan);
 
+leagueRouter.post('/addPassword', LeagueController.addPassword);
+
+leagueRouter.post('/removePassword', LeagueController.removePassword);
+
 
 // Toggle Position
 leagueRouter.post('/togglePosition', LeagueController.togglePosition);
