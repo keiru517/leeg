@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
 import PasswordInput from "../../components/Input/password";
 import upload from "../../assets/img/dark_mode/upload_photo.png";
 import apis from "../../utils/apis";
@@ -8,7 +7,6 @@ import axios from "axios";
 
 const Signup = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   let { email } = useParams();
 
   const [panelHeight, setPanelHeight] = useState("617px");
@@ -47,23 +45,24 @@ const Signup = () => {
         formData.append("firstName", firstName);
         formData.append("lastName", lastName);
         formData.append("email", email);
+        // formData.append("birthday", birthday);
         formData.append("password", password);
         formData.append("passwordConfirm", passwordConfirm);
+        // formData.append("zipCode", zipCode);
+        // formData.append("country", country);
+        // formData.append("state", state);
+        // formData.append("city", city);
+        // formData.append("address", address);
 
         axios
           .post(apis.signup, formData)
           .then((res) => {
             navigate("/signupSuccess");
-          //   localStorage.setItem("token", res.data.token);
-          //   localStorage.setItem("userId", res.data.user.id);
-
-          //   setAuthToken(res.data.token);
-          //   actions.getUserInfo(dispatch, res.data.user.id);
-          //   navigate("/", { replace: true });
-          // })
-          // .catch((error) => {
-          //   alert(error.response.data.message);
-          // });
+          })
+          .catch((error) => {
+            // navigate('/signupSuccess');
+            alert(error.response.data.message);
+          });
       }
     }
   };
