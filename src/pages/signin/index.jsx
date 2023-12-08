@@ -29,13 +29,8 @@ const Signin = () => {
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("userId", res.data.user.id);
 
-        // localStorage.setItem("theme", "dark")
-        // localStorage.setItem("token", res.data.token);
-        // localStorage.setItem("userId", res.data.user.id);
         setAuthToken(res.data.token);
         actions.getUserInfo(dispatch, res.data.user.id);
-        // dispatch({ type: actions.GET_USER, payload: res.data.user });
-
         navigate("/", { replace: true });
       })
       .catch((error) => {
