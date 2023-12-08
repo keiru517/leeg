@@ -27,20 +27,23 @@ const Card = (props) => {
   );
 
   const handleApply = (e) => {
-    e.stopPropagation();
-    console.log("HandleApply", user?.id, league.id);
-    axios
-      .post(apis.applyLeague, {
-        userId: user?.id,
-        leagueId: league?.id,
-      })
-      .then((res) => {
-        alert(res.data.message);
-        actions.getPlayers(dispatch);
-      })
-      .catch((error) => {
-        console.log(error.response.data.message);
-      });
+    if (league?.requirePassword) {
+      dispatch({type:actions.OPEN_APPLY_LEAGUE_PASSWORD_DIALOG, payload:league})
+    } else {
+      actions.applyLeague(dispatch, {userId:user?.id, leagueId:league?.id});
+    }
+    // axios
+    //   .post(apis.applyLeague, {
+    //     userId: user?.id,
+    //     leagueId: league?.id,
+    //   })
+    //   .then((res) => {
+    //     alert(res.data.message);
+    //     actions.getPlayers(dispatch);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error.response.data.message);
+    //   });
   };
 
   return (
@@ -144,13 +147,13 @@ const Card = (props) => {
           {league.description}
         </p>
       </div>
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between space-x-3">
         {(isAdmin || player?.isAcceptedList === 1 || league?.isAllowedFan) && (
           <Button
             onClick={() => {
               navigate(`/${route}/${league.id}?tab=0`);
             }}
-            className="text-xs border-solid border-2 border-blue-700 w-full rounded mr-2 hover:cursor-pointer hover:bg-gray-700"
+            className="text-xs border-solid border-2 border-blue-700 w-full rounded hover:cursor-pointer hover:bg-gray-700"
           >
             View League
           </Button>

@@ -15,6 +15,7 @@ import Tab from "@mui/material/Tab";
 import { TabPanel, TabContext } from "@mui/lab";
 import { Tabs } from "@mui/material";
 import LeagueModal from "../../components/Modal/LeagueModal";
+import LeaguePassowrdModal from "../../components/Modal/LeaguePasswordModal";
 import InvitePlayerModal from "../../components/Modal/InvitePlayerModal";
 import TeamModal from "../../components/Modal/TeamModal";
 import MatchModal from "../../components/Modal/MatchModal";
@@ -102,15 +103,15 @@ const League = () => {
     // if (league?.userId == user?.id) {
     categories = [
       // "Blog",
-      "Manage Rosters",
       "Teams",
-      "Schedule",
+      "Matches",
       "Standings",
       "Players",
+      "Manage Rosters",
       "Settings",
     ];
   } else {
-    categories = ["Teams", "Schedule", "Standings", "Players"];
+    categories = ["Teams", "Matches", "Standings", "Players"];
   }
 
   function classNames(...classes) {
@@ -365,6 +366,32 @@ const League = () => {
       });
   };
 
+  const togglePassword = () => {
+    // if the user allow passwword
+    if (!requirePassword) {
+      dispatch({ type: actions.OPEN_SET_LEAGUE_PASSWORD_DIALOG, payload:league });
+    } else {
+      dispatch({ type: actions.OPEN_REMOVE_LEAGUE_PASSWORD_DIALOG, payload:league });
+    }
+    // setRequirePassword(!requirePassword);
+
+    // axios
+    //   .post(apis.togglePassword, {
+    //     leagueId: leagueId,
+    //     status: !requirePassword,
+    //   })
+    //   .then((res) => {
+    //     actions.getLeagues(dispatch);
+    //     actions.getPlayers(dispatch);
+    //     actions.getMatches(dispatch);
+    //     actions.getMatchups(dispatch);
+    //     setRequirePassword(!requirePassword);
+    //   })
+    //   .catch((error) => {
+    //     alert(error.response.data.message);
+    //   });
+  };
+
   const togglePosition = () => {
     axios
       .post(apis.togglePosition, {
@@ -563,24 +590,7 @@ const League = () => {
       });
   };
 
-  const togglePassword = () => {
-    console.timeLog("password");
-    axios
-      .post(apis.togglePassword, {
-        leagueId: leagueId,
-        status: !requirePassword,
-      })
-      .then((res) => {
-        actions.getLeagues(dispatch);
-        actions.getPlayers(dispatch);
-        actions.getMatches(dispatch);
-        actions.getMatchups(dispatch);
-        setRequirePassword(!requirePassword);
-      })
-      .catch((error) => {
-        alert(error.response.data.message);
-      });
-  };
+
 
   const handleTimer = () => {
     axios
@@ -629,7 +639,9 @@ const League = () => {
                 selectionFollowsFocus={true}
                 sx={{
                   ".MuiTabs-scrollButtons.Mui-disabled": { opacity: 0.3 },
-                  ".MuiTabs-scrollButtons": { color: darkMode?"white":"black" },
+                  ".MuiTabs-scrollButtons": {
+                    color: darkMode ? "white" : "black",
+                  },
                 }}
               >
                 {categories.map((category, idx) => (
@@ -646,16 +658,6 @@ const League = () => {
                         borderBottom: "2px solid rgb(37, 99, 235)",
                       },
                     }}
-                    // className={({ selected }) =>
-                    //     classNames(
-                    //       "py-2.5 text-sm font-medium leading-5 text-gray-500 dark:text-white px-3",
-                    //       " focus:outline-none ",
-                    //       selected
-                    //         ? "divide-[bg-sky-500] text-black dark:text-white border-b-2 border-sky-500"
-                    //         : " rounded-lg hover:bg-white/[0.12] "
-                    //     )
-                    // }
-
                     onClick={() => handleCategory(idx)}
                   />
                 ))}
@@ -738,10 +740,230 @@ const League = () => {
                   </div>
                 </div>
               </TabPanel> */}
+
+
+              {/* Teams */}
+              <TabPanel
+                value={"0"}
+                sx={{
+                  padding: "10px !important",
+                }}
+                className={classNames("rounded-xl w-full h-full")}
+              >
+                <hr className="h-px mb-4 bg-charcoal border-0" />
+                <div className="flex space-x-1 sm:space-x-3">
+                  <div className="flex-grow">
+                    <Input
+                      className="rounded-lg h-[42px] text-xs"
+                      icon={darkMode ? searchIconDark : searchIconLight}
+                      placeholder="Search Teams"
+                      value={teamKeyword}
+                      onChange={(e) => setTeamKeyword(e.target.value)}
+                    />
+                  </div>
+                  <div className="">
+                    {isAdmin && (
+                      <button
+                        onClick={handleCreateTeam}
+                        className="float-right lg:w-32 h-10 bg-primary hover:bg-opacity-70 rounded-default text-white focus:ring-2 text-sm font-bold w-[100px]"
+                      >
+                        Create Team
+                      </button>
+                    )}
+                  </div>
+                </div>
+                {/* <div className="grid sm:grid-cols-1 md:grid-cols-6 lg:grid-cols-10 sm:space-x-0 md:space-x-3">
+                  <div className="md:col-span-5 lg:col-span-9 mb-3 md:mb-0 lg:mb-0">
+                    <Input
+                      className="rounded-lg h-[42px] text-xs"
+                      icon={darkMode ? searchIconDark : searchIconLight}
+                      placeholder="Search Teams"
+                      value={teamKeyword}
+                      onChange={(e) => setTeamKeyword(e.target.value)}
+                    />
+                  </div>
+                  <div className="grid grid-cols-1 md:col-end-7 lg:col-end-11">
+                    {isAdmin && (
+                      <button
+                        onClick={handleCreateTeam}
+                        className="float-right sm:w-full lg:w-32 h-10 bg-primary hover:bg-opacity-70 rounded-default text-white focus:ring-2 text-sm font-bold"
+                      >
+                        Create Team
+                      </button>
+                    )}
+                  </div>
+                </div> */}
+
+                {teams.filter((team) =>
+                  team.name.toLowerCase().includes(teamKeyword.toLowerCase())
+                ).length > 0 ? (
+                  <>
+                    <div className="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
+                      {teams.map((team, idx) => (
+                        <TeamCard team={team} key={idx}></TeamCard>
+                      ))}
+                    </div>
+                  </>
+                ) : (
+                  <div className="flex items-center flex-grow">
+                    <p className="text-2xl text-black dark:text-white w-full text-center mt-5">
+                      No Teams to show!
+                    </p>
+                  </div>
+                )}
+                <TeamModal />
+              </TabPanel>
+
+              {/* Matches */}
+              <TabPanel
+                value={"1"}
+                sx={{
+                  padding: "10px !important",
+                }}
+                className={classNames("rounded-xl w-full h-full")}
+              >
+                <hr className="h-px mb-4 bg-charcoal border-0" />
+                {/* <div className="flex justify-end"> */}
+                <div className="flex space-x-3">
+                  <div className="flex-grow">
+                    <Input
+                      className="rounded-lg h-[42px] text-xs"
+                      icon={darkMode ? searchIconDark : searchIconLight}
+                      placeholder="Search Matches"
+                      value={teamKeyword}
+                      onChange={(e) => setTeamKeyword(e.target.value)}
+                    />
+                  </div>
+                  <div className="">
+                    {isAdmin && (
+                      <button
+                        onClick={handleCreateMatch}
+                        className="float-right lg:w-32 h-10 bg-primary hover:bg-opacity-70 rounded-default text-white focus:ring-2 text-sm font-bold w-[100px]"
+                      >
+                        Create Match
+                      </button>
+                    )}
+                  </div>
+                </div>
+                {matches.length > 0 ? (
+                  <MatchTable
+                    matches={matches}
+                    leagueId={leagueId}
+                  ></MatchTable>
+                ) : (
+                  <div className="flex items-center flex-grow">
+                    <p className="text-2xl text-black dark:text-white w-full text-center mt-5">
+                      No Matches to show!
+                    </p>
+                  </div>
+                )}
+                <MatchModal></MatchModal>
+              </TabPanel>
+
+              {/* Standings */}
+              <TabPanel
+                value={"2"}
+                sx={{
+                  padding: "10px !important",
+                }}
+                className={classNames(
+                  "rounded-xl justify-between w-full h-full"
+                )}
+              >
+                <hr className="h-px mb-4 bg-charcoal border-0" />
+                <div className="flex space-x-3">
+                  <Input
+                    className="rounded-lg flex-grow text-xs"
+                    icon={darkMode ? searchIconDark : searchIconLight}
+                    placeholder="Search Standings"
+                    value={standingsKeyword}
+                    onChange={(e) => {
+                      setStandingsKeyword(e.target.value);
+                    }}
+                  />
+                  <Select
+                    className="text-xs"
+                    options={options}
+                    handleClick={(e) => setValue(e.name)}
+                    value={value}
+                  >
+                    {value}
+                  </Select>
+                </div>
+                {teams.filter((team) =>
+                  team.name
+                    .toLowerCase()
+                    .includes(standingsKeyword.toLowerCase())
+                ).length > 0 ? (
+                  <StandingTable
+                    teams={teams.filter((team) =>
+                      team.name
+                        .toLowerCase()
+                        .includes(standingsKeyword.toLowerCase())
+                    )}
+                  ></StandingTable>
+                ) : (
+                  <div className="flex items-center flex-grow">
+                    <p className="text-2xl text-black dark:text-white w-full text-center mt-5">
+                      No Standings to show!
+                    </p>
+                  </div>
+                )}
+              </TabPanel>
+
+              {/* Players */}
+              <TabPanel
+                value={"3"}
+                sx={{
+                  padding: "10px !important",
+                }}
+                className={classNames("rounded-xl w-full h-full")}
+              >
+                <hr className="h-px mb-4 bg-charcoal border-0" />
+                <div className="flex space-x-3">
+                  <Input
+                    className="rounded-lg flex-grow text-xs"
+                    icon={darkMode ? searchIconDark : searchIconLight}
+                    placeholder="Search Players"
+                    value={playerKeyword}
+                    onChange={(e) => {
+                      setPlayerKeyword(e.target.value);
+                    }}
+                  />
+                  <Select
+                    className="text-xs"
+                    options={options}
+                    handleClick={(e) => setValue(e.name)}
+                    value={value}
+                  >
+                    {value}
+                  </Select>
+                </div>
+                {allPlayers.filter((player) =>
+                  (player.firstName + player.lastName)
+                    .toLowerCase()
+                    .includes(playerKeyword.toLowerCase())
+                ).length > 0 ? (
+                  <PlayerTable
+                    players={allPlayers.filter((player) =>
+                      (player.firstName + player.lastName)
+                        .toLowerCase()
+                        .includes(playerKeyword.toLowerCase())
+                    )}
+                    league={league}
+                  ></PlayerTable>
+                ) : (
+                  <div className="flex items-center flex-grow">
+                    <p className="text-2xl text-black dark:text-white w-full text-center mt-5">
+                      No Players To Show!
+                    </p>
+                  </div>
+                )}
+              </TabPanel>
               {/* Rosters */}
               {isAdmin && (
                 <TabPanel
-                  value={isAdmin?"0":""}
+                  value={"4"}
                   sx={{
                     padding: "10px !important",
                   }}
@@ -812,543 +1034,327 @@ const League = () => {
                   <InvitePlayerModal></InvitePlayerModal>
                 </TabPanel>
               )}
-
-              {/* Teams */}
-              <TabPanel
-                value={isAdmin?"1":"0"}
-                sx={{
-                  padding: "10px !important",
-                }}
-                className={classNames("rounded-xl w-full h-full")}
-              >
-                <hr className="h-px mb-4 bg-charcoal border-0" />
-                <div className="flex space-x-1 sm:space-x-3">
-                  <div className="flex-grow">
-                    <Input
-                      className="rounded-lg h-[42px] text-xs"
-                      icon={darkMode ? searchIconDark : searchIconLight}
-                      placeholder="Search Teams"
-                      value={teamKeyword}
-                      onChange={(e) => setTeamKeyword(e.target.value)}
-                    />
-                  </div>
-                  <div className="">
-                    {isAdmin && (
-                      <button
-                        onClick={handleCreateTeam}
-                        className="float-right lg:w-32 h-10 bg-primary hover:bg-opacity-70 rounded-default text-white focus:ring-2 text-sm font-bold w-[100px]"
-                      >
-                        Create Team
-                      </button>
-                    )}
-                  </div>
-                </div>
-                {/* <div className="grid sm:grid-cols-1 md:grid-cols-6 lg:grid-cols-10 sm:space-x-0 md:space-x-3">
-                  <div className="md:col-span-5 lg:col-span-9 mb-3 md:mb-0 lg:mb-0">
-                    <Input
-                      className="rounded-lg h-[42px] text-xs"
-                      icon={darkMode ? searchIconDark : searchIconLight}
-                      placeholder="Search Teams"
-                      value={teamKeyword}
-                      onChange={(e) => setTeamKeyword(e.target.value)}
-                    />
-                  </div>
-                  <div className="grid grid-cols-1 md:col-end-7 lg:col-end-11">
-                    {isAdmin && (
-                      <button
-                        onClick={handleCreateTeam}
-                        className="float-right sm:w-full lg:w-32 h-10 bg-primary hover:bg-opacity-70 rounded-default text-white focus:ring-2 text-sm font-bold"
-                      >
-                        Create Team
-                      </button>
-                    )}
-                  </div>
-                </div> */}
-
-                {teams.filter((team) =>
-                  team.name.toLowerCase().includes(teamKeyword.toLowerCase())
-                ).length > 0 ? (
-                  <>
-                    <div className="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
-                      {teams.map((team, idx) => (
-                        <TeamCard team={team} key={idx}></TeamCard>
-                      ))}
-                    </div>
-                  </>
-                ) : (
-                  <div className="flex items-center flex-grow">
-                    <p className="text-2xl text-black dark:text-white w-full text-center mt-5">
-                      No Teams to show!
-                    </p>
-                  </div>
-                )}
-                <TeamModal />
-              </TabPanel>
-
-              {/* Schedule */}
-              <TabPanel
-                value={isAdmin?"2":"1"}
-                sx={{
-                  padding: "10px !important",
-                }}
-                className={classNames("rounded-xl w-full h-full")}
-              >
-                <hr className="h-px mb-4 bg-charcoal border-0" />
-                {/* <div className="flex justify-end"> */}
-                <div className="flex space-x-3">
-                  <div className="flex-grow">
-                    <Input
-                      className="rounded-lg h-[42px] text-xs"
-                      icon={darkMode ? searchIconDark : searchIconLight}
-                      placeholder="Search Matches"
-                      value={teamKeyword}
-                      onChange={(e) => setTeamKeyword(e.target.value)}
-                    />
-                  </div>
-                  <div className="">
-                    {isAdmin && (
-                      <button
-                        onClick={handleCreateMatch}
-                        className="float-right lg:w-32 h-10 bg-primary hover:bg-opacity-70 rounded-default text-white focus:ring-2 text-sm font-bold w-[100px]"
-                      >
-                        Create Match
-                      </button>
-                    )}
-                  </div>
-                </div>
-                {matches.length > 0 ? (
-                  <MatchTable
-                    matches={matches}
-                    leagueId={leagueId}
-                  ></MatchTable>
-                ) : (
-                  <div className="flex items-center flex-grow">
-                    <p className="text-2xl text-black dark:text-white w-full text-center mt-5">
-                      No Matches to show!
-                    </p>
-                  </div>
-                )}
-                <MatchModal></MatchModal>
-              </TabPanel>
-
-              {/* Standings */}
-              <TabPanel
-                value={isAdmin?"3":"2"}
-                sx={{
-                  padding: "10px !important",
-                }}
-                className={classNames(
-                  "rounded-xl justify-between w-full h-full"
-                )}
-              >
-                <hr className="h-px mb-4 bg-charcoal border-0" />
-                <div className="flex space-x-3">
-                  <Input
-                    className="rounded-lg flex-grow text-xs"
-                    icon={darkMode ? searchIconDark : searchIconLight}
-                    placeholder="Search Standings"
-                    value={standingsKeyword}
-                    onChange={(e) => {
-                      setStandingsKeyword(e.target.value);
-                    }}
-                  />
-                  <Select
-                    className="text-xs"
-                    options={options}
-                    handleClick={(e) => setValue(e.name)}
-                    value={value}
-                  >
-                    {value}
-                  </Select>
-                </div>
-                {teams.filter((team) =>
-                  team.name
-                    .toLowerCase()
-                    .includes(standingsKeyword.toLowerCase())
-                ).length > 0 ? (
-                  <StandingTable
-                    teams={teams.filter((team) =>
-                      team.name
-                        .toLowerCase()
-                        .includes(standingsKeyword.toLowerCase())
-                    )}
-                  ></StandingTable>
-                ) : (
-                  <div className="flex items-center flex-grow">
-                    <p className="text-2xl text-black dark:text-white w-full text-center mt-5">
-                      No Standings to show!
-                    </p>
-                  </div>
-                )}
-              </TabPanel>
-
-              {/* Players */}
-              <TabPanel
-                value={isAdmin?"4":"3"}
-                sx={{
-                  padding: "10px !important",
-                }}
-                className={classNames("rounded-xl w-full h-full")}
-              >
-                <hr className="h-px mb-4 bg-charcoal border-0" />
-                <div className="flex space-x-3">
-                  <Input
-                    className="rounded-lg flex-grow text-xs"
-                    icon={darkMode ? searchIconDark : searchIconLight}
-                    placeholder="Search Players"
-                    value={playerKeyword}
-                    onChange={(e) => {
-                      setPlayerKeyword(e.target.value);
-                    }}
-                  />
-                  <Select
-                    className="text-xs"
-                    options={options}
-                    handleClick={(e) => setValue(e.name)}
-                    value={value}
-                  >
-                    {value}
-                  </Select>
-                </div>
-                {allPlayers.filter((player) =>
-                  (player.firstName + player.lastName)
-                    .toLowerCase()
-                    .includes(playerKeyword.toLowerCase())
-                ).length > 0 ? (
-                  <PlayerTable
-                    players={allPlayers.filter((player) =>
-                      (player.firstName + player.lastName)
-                        .toLowerCase()
-                        .includes(playerKeyword.toLowerCase())
-                    )}
-                    league={league}
-                  ></PlayerTable>
-                ) : (
-                  <div className="flex items-center flex-grow">
-                    <p className="text-2xl text-black dark:text-white w-full text-center mt-5">
-                      No Players To Show!
-                    </p>
-                  </div>
-                )}
-              </TabPanel>
-
               {/* Settings */}
-              <TabPanel
-                value="5"
-                sx={{
-                  padding: "10px !important",
-                }}
-                className={classNames("rounded-xl w-full h-full")}
-              >
-                <hr className="h-px mb-4 bg-charcoal border-0" />
-                <div className="mt-4 grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-4">
-                  {/* League Settings */}
-                  <div className="flex flex-col  border border-dark-gray rounded p-7">
-                    <div>
-                      <h1 className="dark:text-white text-black font-medium mb-4">
-                        Edit League
-                      </h1>
-                      <div className="grid grid-cols-6 gap-4 mb-6 items-end">
+              {
+                isAdmin && 
+                  <TabPanel
+                    value="5"
+                    sx={{
+                      padding: "10px !important",
+                    }}
+                    className={classNames("rounded-xl w-full h-full")}
+                  >
+                    <hr className="h-px mb-4 bg-charcoal border-0" />
+                    <div className="mt-4 grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-4">
+                      {/* League Settings */}
+                      <div className="flex flex-col  border border-dark-gray rounded p-7">
                         <div>
-                          <input
-                            type="file"
-                            hidden
-                            ref={fileUploadRef}
-                            onChange={(e) => {
-                              const files = e.target.files;
-                              if (files.length) {
-                                const file = files[0];
-                                setChosenFile(file);
-                                setPreviewURL(URL.createObjectURL(file));
-                              }
-                            }}
-                          />
-                          <img
-                            onClick={() => {
-                              fileUploadRef.current?.click();
-                            }}
-                            src={previewURL ? previewURL : league?.logo}
-                            className="rounded-md cursor-pointer"
-                            alt=""
-                          />
-                        </div>
-                        <div className="col-span-5">
-                          <p className="dark:text-white text-black">
-                            League Name
-                          </p>
-                          <Input
-                            className="rounded-lg flex-grow text-xs "
-                            placeholder="League Name"
-                            value={leagueName}
-                            onChange={(e) => setLeagueName(e.target.value)}
-                          ></Input>
-                        </div>
-                      </div>
-                      <div className="mb-4">
-                        <p className="dark:text-white text-black">
-                          League Description
-                        </p>
-                        <textarea
-                          id="message"
-                          rows="6"
-                          className="block p-2.5 w-full text-xs text-gray-900 rounded-lg border border-charcoal focus:ring-blue-500 focus:border-blue-500 dark:bg-transparent dark:border-charcoal dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 resize-none outline-none"
-                          placeholder="Describe your League*"
-                          value={leagueDescription}
-                          onChange={(e) => setLeagueDescription(e.target.value)}
-                        ></textarea>
-                      </div>
-                      <div className="mb-6 grid grid-cols-2 gap-2">
-                        <span>
-                          <p className="dark:text-white text-black">
-                            Start Date
-                          </p>
-                          <Input
-                            className="text-xs rounded-default"
-                            option={calendar}
-                            placeholder="Enter Start Date*"
-                            value={leagueStartDate}
-                            onChange={(e) => setLeagueStartDate(e.target.value)}
-                          />
-                        </span>
-                        <span>
-                          <p className="dark:text-white text-black">End Date</p>
-                          <Input
-                            className="text-xs rounded-default"
-                            option={calendar}
-                            placeholder="Enter End Date*"
-                            value={leagueEndDate}
-                            onChange={(e) => setLeagueEndDate(e.target.value)}
-                          />
-                        </span>
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-2 ">
-                      <button
-                        onClick={editLeague}
-                        className="bg-blue-700 h-10 text-white font-bold text-sm rounded-default hover:bg-blue-600"
-                      >
-                        Save
-                      </button>
-                      <button
-                        onClick={deleteLeague}
-                        className="bg-red-700 h-10 text-white font-bold text-sm rounded-default hover:bg-red-600"
-                      >
-                        Delete
-                      </button>
-                    </div>
-                  </div>
-                  {/* Admin Access */}
-                  <div className="flex flex-col  space-y-3 border border-dark-gray rounded pt-5 p-7 ">
-                    <div className="grid grid-cols-2 items-baseline mb-6">
-                      <h1 className="dark:text-white text-black font-medium">
-                        Admin Access
-                      </h1>
-                      <button
-                        onClick={inviteAdmin}
-                        className="bg-blue-700 h-10 w-15 float-right text-white font-bold text-sm rounded-default hover:bg-blue-600"
-                      >
-                        Invite Admin
-                      </button>
-                    </div>
-                    <AdminTable user={user} leagueId={leagueId} />
-                  </div>
-                  <AdminModal user={user} leagueId={leagueId} />
-                  {/* Stats */}
-                  <div className="flex flex-col  space-y-3 border border-dark-gray rounded p-5">
-                    <table className="table-fixed">
-                      <thead>
-                        <tr>
-                          <th className="dark:text-white text-black">Action</th>
-                          <th></th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td className=" text-xs dark:text-white text-black">
-                            Allow Fan view
-                          </td>
-                          <td>
-                            <img
-                              src={isAllowedFan ? toggleOn : toggleOff}
-                              alt=""
-                              className="w-8 cursor-pointer m-auto"
-                              onClick={toggleFan}
-                            />
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="whitespace-nowrap text-xs dark:text-white text-black">
-                            Require Password to Apply
-                          </td>
-                          <td>
-                            <img
-                              src={requirePassword ? toggleOn : toggleOff}
-                              alt=""
-                              className="w-8 cursor-pointer m-auto"
-                              onClick={togglePassword}
-                            />
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="text-xs dark:text-white text-black">
-                            Display Position
-                          </td>
-                          <td>
-                            <img
-                              src={displayPosition ? toggleOn : toggleOff}
-                              alt=""
-                              className="w-8 cursor-pointer m-auto"
-                              onClick={togglePosition}
-                            />
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="text-xs dark:text-white text-black">
-                            Display JerseyNumber
-                          </td>
-                          <td>
-                            <img
-                              src={displayJerseyNumber ? toggleOn : toggleOff}
-                              alt=""
-                              className="w-8 cursor-pointer m-auto"
-                              onClick={toggleJerseyNumber}
-                            />
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="text-xs dark:text-white text-black">
-                            Display 3 Attempts
-                          </td>
-                          <td>
-                            <img
-                              src={displayAttempts3 ? toggleOn : toggleOff}
-                              alt=""
-                              className="w-8 cursor-pointer m-auto"
-                              onClick={toggleAttempts3}
-                            />
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="text-xs dark:text-white text-black">
-                            Display 2 Attempts
-                          </td>
-                          <td>
-                            <img
-                              src={displayAttempts2 ? toggleOn : toggleOff}
-                              alt=""
-                              className="w-8 cursor-pointer m-auto"
-                              onClick={toggleAttempts2}
-                            />
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="text-xs dark:text-white text-black">
-                            Display 1 Attempts
-                          </td>
-                          <td>
-                            <img
-                              src={displayAttempts1 ? toggleOn : toggleOff}
-                              alt=""
-                              className="w-8 cursor-pointer m-auto"
-                              onClick={toggleAttempts1}
-                            />
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="text-xs dark:text-white text-black">
-                            Display Blocks
-                          </td>
-                          <td>
-                            <img
-                              src={displayBlocks ? toggleOn : toggleOff}
-                              alt=""
-                              className="w-8 cursor-pointer m-auto"
-                              onClick={toggleBlocks}
-                            />
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="text-xs dark:text-white text-black">
-                            Display Rebounds
-                          </td>
-                          <td>
-                            <img
-                              src={displayRebounds ? toggleOn : toggleOff}
-                              alt=""
-                              className="w-8 cursor-pointer m-auto"
-                              onClick={toggleRebounds}
-                            />
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="text-xs dark:text-white text-black">
-                            Display Assists
-                          </td>
-                          <td>
-                            <img
-                              src={displayAssists ? toggleOn : toggleOff}
-                              alt=""
-                              className="w-8 cursor-pointer m-auto"
-                              onClick={toggleAssists}
-                            />
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="text-xs dark:text-white text-black">
-                            Display Fouls
-                          </td>
-                          <td>
-                            <img
-                              src={displayFouls ? toggleOn : toggleOff}
-                              alt=""
-                              className="w-8 cursor-pointer m-auto"
-                              onClick={toggleFouls}
-                            />
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="text-xs dark:text-white text-black">
-                            Display Steals
-                          </td>
-                          <td>
-                            <img
-                              src={displaySteals ? toggleOn : toggleOff}
-                              alt=""
-                              className="w-8 cursor-pointer m-auto"
-                              onClick={toggleSteals}
-                            />
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="text-xs dark:text-white text-black">
-                            Display Turnovers
-                          </td>
-                          <td>
-                            <img
-                              src={displayTurnovers ? toggleOn : toggleOff}
-                              alt=""
-                              className="w-8 cursor-pointer m-auto"
-                              onClick={toggleTurnovers}
-                            />
-                          </td>
-                        </tr>
-                        {/*<tr>
-                          <td>Display League ID</td>
-                          <td>
-                            <img
-                                src={displayLeagueId ? toggleOn : toggleOff}
+                          <h1 className="dark:text-white text-black font-medium mb-4">
+                            Edit League
+                          </h1>
+                          <div className="grid grid-cols-6 gap-4 mb-6 items-end">
+                            <div>
+                              <input
+                                type="file"
+                                hidden
+                                ref={fileUploadRef}
+                                onChange={(e) => {
+                                  const files = e.target.files;
+                                  if (files.length) {
+                                    const file = files[0];
+                                    setChosenFile(file);
+                                    setPreviewURL(URL.createObjectURL(file));
+                                  }
+                                }}
+                              />
+                              <img
+                                onClick={() => {
+                                  fileUploadRef.current?.click();
+                                }}
+                                src={previewURL ? previewURL : league?.logo}
+                                className="rounded-md cursor-pointer"
                                 alt=""
-                                className="w-8 cursor-pointer"
-                                onClick={toggleLeagueId}
-                            />
-                          </td>
-                        </tr>*/}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </TabPanel>
+                              />
+                            </div>
+                            <div className="col-span-5">
+                              <p className="dark:text-white text-black">
+                                League Name
+                              </p>
+                              <Input
+                                className="rounded-lg flex-grow text-xs "
+                                placeholder="League Name"
+                                value={leagueName}
+                                onChange={(e) => setLeagueName(e.target.value)}
+                              ></Input>
+                            </div>
+                          </div>
+                          <div className="mb-4">
+                            <p className="dark:text-white text-black">
+                              League Description
+                            </p>
+                            <textarea
+                              id="message"
+                              rows="6"
+                              className="block p-2.5 w-full text-xs text-gray-900 rounded-lg border border-charcoal focus:ring-blue-500 focus:border-blue-500 dark:bg-transparent dark:border-charcoal dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 resize-none outline-none"
+                              placeholder="Describe your League*"
+                              value={leagueDescription}
+                              onChange={(e) => setLeagueDescription(e.target.value)}
+                            ></textarea>
+                          </div>
+                          <div className="mb-6 grid grid-cols-2 gap-2">
+                            <span>
+                              <p className="dark:text-white text-black">
+                                Start Date
+                              </p>
+                              <Input
+                                className="text-xs rounded-default"
+                                option={calendar}
+                                placeholder="Enter Start Date*"
+                                value={leagueStartDate}
+                                onChange={(e) => setLeagueStartDate(e.target.value)}
+                              />
+                            </span>
+                            <span>
+                              <p className="dark:text-white text-black">End Date</p>
+                              <Input
+                                className="text-xs rounded-default"
+                                option={calendar}
+                                placeholder="Enter End Date*"
+                                value={leagueEndDate}
+                                onChange={(e) => setLeagueEndDate(e.target.value)}
+                              />
+                            </span>
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-2 ">
+                          <button
+                            onClick={editLeague}
+                            className="bg-blue-700 h-10 text-white font-bold text-sm rounded-default hover:bg-blue-600"
+                          >
+                            Save
+                          </button>
+                          <button
+                            onClick={deleteLeague}
+                            className="bg-red-700 h-10 text-white font-bold text-sm rounded-default hover:bg-red-600"
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      </div>
+                      {/* Admin Access */}
+                      <div className="flex flex-col  space-y-3 border border-dark-gray rounded pt-5 p-7 ">
+                        <div className="grid grid-cols-2 items-baseline mb-6">
+                          <h1 className="dark:text-white text-black font-medium">
+                            Admin Access
+                          </h1>
+                          <button
+                            onClick={inviteAdmin}
+                            className="bg-blue-700 h-10 w-15 float-right text-white font-bold text-sm rounded-default hover:bg-blue-600"
+                          >
+                            Invite Admin
+                          </button>
+                        </div>
+                        <AdminTable user={user} leagueId={leagueId} />
+                      </div>
+                      <AdminModal user={user} leagueId={leagueId} />
+                      <LeaguePassowrdModal />
+                      {/* Stats */}
+                      <div className="flex flex-col  space-y-3 border border-dark-gray rounded p-5">
+                        <table className="table-fixed">
+                          <thead>
+                            <tr>
+                              <th className="dark:text-white text-black">Action</th>
+                              <th></th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td className=" text-xs dark:text-white text-black">
+                                Allow Fan view
+                              </td>
+                              <td>
+                                <img
+                                  src={isAllowedFan ? toggleOn : toggleOff}
+                                  alt=""
+                                  className="w-8 cursor-pointer m-auto"
+                                  onClick={toggleFan}
+                                />
+                              </td>
+                            </tr>
+                            <tr>
+                              <td className="whitespace-nowrap text-xs dark:text-white text-black">
+                                Require Password to Apply
+                              </td>
+                              <td>
+                                <img
+                                  src={requirePassword ? toggleOn : toggleOff}
+                                  alt=""
+                                  className="w-8 cursor-pointer m-auto"
+                                  onClick={togglePassword}
+                                />
+                              </td>
+                            </tr>
+                            <tr>
+                              <td className="text-xs dark:text-white text-black">
+                                Display Position
+                              </td>
+                              <td>
+                                <img
+                                  src={displayPosition ? toggleOn : toggleOff}
+                                  alt=""
+                                  className="w-8 cursor-pointer m-auto"
+                                  onClick={togglePosition}
+                                />
+                              </td>
+                            </tr>
+                            <tr>
+                              <td className="text-xs dark:text-white text-black">
+                                Display JerseyNumber
+                              </td>
+                              <td>
+                                <img
+                                  src={displayJerseyNumber ? toggleOn : toggleOff}
+                                  alt=""
+                                  className="w-8 cursor-pointer m-auto"
+                                  onClick={toggleJerseyNumber}
+                                />
+                              </td>
+                            </tr>
+                            <tr>
+                              <td className="text-xs dark:text-white text-black">
+                                Display 3PA
+                              </td>
+                              <td>
+                                <img
+                                  src={displayAttempts3 ? toggleOn : toggleOff}
+                                  alt=""
+                                  className="w-8 cursor-pointer m-auto"
+                                  onClick={toggleAttempts3}
+                                />
+                              </td>
+                            </tr>
+                            <tr>
+                              <td className="text-xs dark:text-white text-black">
+                                Display FGA
+                              </td>
+                              <td>
+                                <img
+                                  src={displayAttempts2 ? toggleOn : toggleOff}
+                                  alt=""
+                                  className="w-8 cursor-pointer m-auto"
+                                  onClick={toggleAttempts2}
+                                />
+                              </td>
+                            </tr>
+                            <tr>
+                              <td className="text-xs dark:text-white text-black">
+                                Display FTA
+                              </td>
+                              <td>
+                                <img
+                                  src={displayAttempts1 ? toggleOn : toggleOff}
+                                  alt=""
+                                  className="w-8 cursor-pointer m-auto"
+                                  onClick={toggleAttempts1}
+                                />
+                              </td>
+                            </tr>
+                            <tr>
+                              <td className="text-xs dark:text-white text-black">
+                                Display Blocks
+                              </td>
+                              <td>
+                                <img
+                                  src={displayBlocks ? toggleOn : toggleOff}
+                                  alt=""
+                                  className="w-8 cursor-pointer m-auto"
+                                  onClick={toggleBlocks}
+                                />
+                              </td>
+                            </tr>
+                            <tr>
+                              <td className="text-xs dark:text-white text-black">
+                                Display Rebounds
+                              </td>
+                              <td>
+                                <img
+                                  src={displayRebounds ? toggleOn : toggleOff}
+                                  alt=""
+                                  className="w-8 cursor-pointer m-auto"
+                                  onClick={toggleRebounds}
+                                />
+                              </td>
+                            </tr>
+                            <tr>
+                              <td className="text-xs dark:text-white text-black">
+                                Display Assists
+                              </td>
+                              <td>
+                                <img
+                                  src={displayAssists ? toggleOn : toggleOff}
+                                  alt=""
+                                  className="w-8 cursor-pointer m-auto"
+                                  onClick={toggleAssists}
+                                />
+                              </td>
+                            </tr>
+                            <tr>
+                              <td className="text-xs dark:text-white text-black">
+                                Display Fouls
+                              </td>
+                              <td>
+                                <img
+                                  src={displayFouls ? toggleOn : toggleOff}
+                                  alt=""
+                                  className="w-8 cursor-pointer m-auto"
+                                  onClick={toggleFouls}
+                                />
+                              </td>
+                            </tr>
+                            <tr>
+                              <td className="text-xs dark:text-white text-black">
+                                Display Steals
+                              </td>
+                              <td>
+                                <img
+                                  src={displaySteals ? toggleOn : toggleOff}
+                                  alt=""
+                                  className="w-8 cursor-pointer m-auto"
+                                  onClick={toggleSteals}
+                                />
+                              </td>
+                            </tr>
+                            <tr>
+                              <td className="text-xs dark:text-white text-black">
+                                Display Turnovers
+                              </td>
+                              <td>
+                                <img
+                                  src={displayTurnovers ? toggleOn : toggleOff}
+                                  alt=""
+                                  className="w-8 cursor-pointer m-auto"
+                                  onClick={toggleTurnovers}
+                                />
+                              </td>
+                            </tr>
+                            {/*<tr>
+                              <td>Display League ID</td>
+                              <td>
+                                <img
+                                    src={displayLeagueId ? toggleOn : toggleOff}
+                                    alt=""
+                                    className="w-8 cursor-pointer"
+                                    onClick={toggleLeagueId}
+                                />
+                              </td>
+                            </tr>*/}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </TabPanel>
+              }
             </div>
           </TabContext>
         </div>

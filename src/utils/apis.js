@@ -26,6 +26,8 @@ export const apis = {
   },
   leagueLogoURL: (userId, id) => `${apiUrl}/league/${userId}/logo/${id}`,
   applyLeague: apiUrl + "/league/apply",
+  addPassword: apiUrl + "/league/addPassword",
+  removePassword: apiUrl + "/league/removePassword",
   allowFan: apiUrl + "/league/allowFan",
   togglePosition: apiUrl + '/league/togglePosition',
   toggleJerseyNumber: apiUrl + '/league/toggleJerseyNumber',

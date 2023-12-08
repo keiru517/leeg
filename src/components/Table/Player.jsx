@@ -72,8 +72,7 @@ const Player = ({ players, league }) => {
           </Link>
         ),
     },
-    displayJerseyNumber &&
-    {
+    displayJerseyNumber && {
       label: "Jersey Number",
       getValue: (row) => (
         <Typography variant="small" className="font-normal">
@@ -91,7 +90,7 @@ const Player = ({ players, league }) => {
       ),
     },
     {
-      label: "Points",
+      label: "PTS",
       getValue: (row) => (
         <Typography variant="small" className="font-normal">
           {row.totalPoints}
@@ -99,31 +98,15 @@ const Player = ({ players, league }) => {
       ),
     },
     {
-      label: "3 Points",
+      label: "3PM",
       getValue: (row) => (
         <Typography variant="small" className="font-normal">
           {row.totalPoints3}
         </Typography>
       ),
     },
-    {
-      label: "2 Points",
-      getValue: (row) => (
-        <Typography variant="small" className="font-normal">
-          {row.totalPoints2}
-        </Typography>
-      ),
-    },
-    {
-      label: "Free throws",
-      getValue: (row) => (
-        <Typography variant="small" className="font-normal">
-          {row.totalPoints1}
-        </Typography>
-      ),
-    },
     displayAttempts3 && {
-      label: "3 Attempts",
+      label: "3PA",
       condition: displayAttempts3,
       getValue: (row) => (
         <Typography variant="small" className="font-normal">
@@ -131,17 +114,53 @@ const Player = ({ players, league }) => {
         </Typography>
       ),
     },
+    displayAttempts3 && {
+      label: "3P%",
+      condition: displayAttempts3,
+      getValue: (row) => (
+        <Typography variant="small" className="font-normal">
+          {isNaN((row.totalPoints3 / row.attempts3) * 100)
+            ? 0
+            : ((row.totalPoints3 / row.attempts3) * 100).toFixed(2)}
+        </Typography>
+      ),
+    },
+    {
+      label: "FGM",
+      getValue: (row) => (
+        <Typography variant="small" className="font-normal">
+          {row.totalPoints2}
+        </Typography>
+      ),
+    },
     displayAttempts2 && {
-      label: "2 Attempts",
-      condition: displayAttempts2,
+      label: "FGA",
       getValue: (row) => (
         <Typography variant="small" className="font-normal">
           {row.attempts2}
         </Typography>
       ),
     },
+    displayAttempts2 && {
+      label: "FG%",
+      getValue: (row) => (
+        <Typography variant="small" className="font-normal">
+          {isNaN((row.totalPoints2 / row.attempts2) * 100)
+            ? 0
+            : ((row.totalPoints2 / row.attempts2) * 100).toFixed(2)}
+        </Typography>
+      ),
+    },
+    {
+      label: "FTM",
+      getValue: (row) => (
+        <Typography variant="small" className="font-normal">
+          {row.totalPoints1}
+        </Typography>
+      ),
+    },
     displayAttempts1 && {
-      label: "FT Attempts",
+      label: "FTA",
       condition: displayAttempts1,
       getValue: (row) => (
         <Typography variant="small" className="font-normal">
@@ -149,8 +168,19 @@ const Player = ({ players, league }) => {
         </Typography>
       ),
     },
+    displayAttempts1 && {
+      label: "FT%",
+      condition: displayAttempts1,
+      getValue: (row) => (
+        <Typography variant="small" className="font-normal">
+          {isNaN((row.totalPoints1 / row.attempts1) * 100)
+            ? 0
+            : ((row.totalPoints1 / row.attempts1) * 100).toFixed(2)}
+        </Typography>
+      ),
+    },
     displayBlocks && {
-      label: "Blocks",
+      label: "BLK",
       condition: displayBlocks,
       getValue: (row) => (
         <Typography variant="small" className="font-normal">
@@ -159,7 +189,7 @@ const Player = ({ players, league }) => {
       ),
     },
     displayRebounds && {
-      label: "Rebounds",
+      label: "REB",
       condition: displayRebounds,
       getValue: (row) => (
         <Typography variant="small" className="font-normal">
@@ -168,7 +198,7 @@ const Player = ({ players, league }) => {
       ),
     },
     displayAssists && {
-      label: "Assists",
+      label: "AST",
       condition: displayAssists,
       getValue: (row) => (
         <Typography variant="small" className="font-normal">
@@ -177,7 +207,7 @@ const Player = ({ players, league }) => {
       ),
     },
     displayFouls && {
-      label: "Fouls",
+      label: "PF",
       condition: displayFouls,
       getValue: (row) => (
         <Typography variant="small" className="font-normal">
@@ -186,7 +216,7 @@ const Player = ({ players, league }) => {
       ),
     },
     displaySteals && {
-      label: "Steals",
+      label: "STL",
       condition: displaySteals,
       getValue: (row) => (
         <Typography variant="small" className="font-normal">
@@ -195,7 +225,7 @@ const Player = ({ players, league }) => {
       ),
     },
     displayTurnovers && {
-      label: "Turnovers",
+      label: "TOV",
       condition: displayTurnovers,
       getValue: (row) => (
         <Typography variant="small" className="font-normal">
@@ -204,7 +234,7 @@ const Player = ({ players, league }) => {
       ),
     },
   ].filter(Boolean);
-  console.log(columns)
+  console.log(columns);
 
   const data = useMemo(
     () =>
