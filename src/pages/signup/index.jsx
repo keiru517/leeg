@@ -53,17 +53,17 @@ const Signup = () => {
         axios
           .post(apis.signup, formData)
           .then((res) => {
-            // navigate("/signupSuccess");
-            localStorage.setItem("token", res.data.token);
-            localStorage.setItem("userId", res.data.user.id);
+            navigate("/signupSuccess");
+          //   localStorage.setItem("token", res.data.token);
+          //   localStorage.setItem("userId", res.data.user.id);
 
-            setAuthToken(res.data.token);
-            actions.getUserInfo(dispatch, res.data.user.id);
-            navigate("/", { replace: true });
-          })
-          .catch((error) => {
-            alert(error.response.data.message);
-          });
+          //   setAuthToken(res.data.token);
+          //   actions.getUserInfo(dispatch, res.data.user.id);
+          //   navigate("/", { replace: true });
+          // })
+          // .catch((error) => {
+          //   alert(error.response.data.message);
+          // });
       }
     }
   };
