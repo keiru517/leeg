@@ -12,6 +12,11 @@ const initialState = {
   players: [],
   admins: [],
   selected_league: [],
+  league_password_dialog: {
+    open: false,
+    type: "",
+    league: [],
+  },
   league_dialog: {
     open: false,
     type: "create",
@@ -25,7 +30,7 @@ const initialState = {
   },
   matchup_player_stats_dialog: {
     open: false,
-    id:""
+    id: "",
   },
   event_dialog: {
     open: false,
@@ -114,6 +119,42 @@ const home = (state = initialState, action) => {
         },
       };
 
+    case actions.OPEN_SET_LEAGUE_PASSWORD_DIALOG:
+      return {
+        ...state,
+        league_password_dialog: {
+          open: true,
+          type: "create",
+          league: action.payload,
+        },
+      };
+    case actions.OPEN_REMOVE_LEAGUE_PASSWORD_DIALOG:
+      return {
+        ...state,
+        league_password_dialog: {
+          open: true,
+          type: "remove",
+          league: action.payload,
+        },
+      };
+    case actions.OPEN_APPLY_LEAGUE_PASSWORD_DIALOG:
+      return {
+        ...state,
+        league_password_dialog: {
+          open: true,
+          type: "apply",
+          league: action.payload,
+        },
+      };
+    case actions.CLOSE_LEAGUE_PASSWORD_DIALOG:
+      return {
+        ...state,
+        league_password_dialog: {
+          open: false,
+          type: "",
+          league: [],
+        },
+      };
     case actions.SET_SELECTED_LEAGUE:
       return {
         ...state,
@@ -257,7 +298,7 @@ const home = (state = initialState, action) => {
         ...state,
         matchup_player_stats_dialog: {
           open: true,
-          id:action.payload
+          id: action.payload,
         },
       };
     case actions.CLOSE_PLAYER_STATS_DIALOG:
@@ -265,7 +306,7 @@ const home = (state = initialState, action) => {
         ...state,
         matchup_player_stats_dialog: {
           open: false,
-          id:""
+          id: "",
         },
       };
     case actions.OPEN_ADD_EVENT_DIALOG:

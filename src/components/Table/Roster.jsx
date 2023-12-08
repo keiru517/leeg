@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { Typography } from "@material-tailwind/react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
@@ -243,7 +243,7 @@ const RosterTable = (props) => {
                     month: "2-digit",
                     year: "numeric",
                   })} */}
-                  {moment(player.createdAt).format("h:mmA DD/MM/YYYY")}
+                  {rosterValue === "Accepted"?moment(player.updatedAt).format("h:mmA DD/MM/YYYY"):""}
                 </Typography>
               </td>
               <td className="w-1/7">

@@ -92,7 +92,7 @@ const MatchTable = (props) => {
             ))}
           </tr>
         </thead>
-        <tbody className="text-center">
+        <tbody className="text-center text-sm">
           {matches.map(
             (
               {

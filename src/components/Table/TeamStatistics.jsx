@@ -33,6 +33,17 @@ const TeamStatistics = () => {
         )
     },
     {
+        label: 'Games Played',
+        getValue: (row) => (
+            <Typography
+                variant="small"
+                className="font-normal"
+            >
+                {row.win + row.lose}
+            </Typography>
+        )
+    },
+    {
         label: 'Points Scored',
         getValue: (row) => (
             <Typography

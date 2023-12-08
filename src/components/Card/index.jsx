@@ -27,26 +27,28 @@ const Card = (props) => {
   );
 
   const handleApply = (e) => {
-    e.stopPropagation();
-    console.log("HandleApply", user?.id, league.id);
-    axios
-      .post(apis.applyLeague, {
-        userId: user?.id,
-        leagueId: league?.id,
-      })
-      .then((res) => {
-        alert(res.data.message);
-        actions.getPlayers(dispatch);
-      })
-      .catch((error) => {
-        console.log(error.response.data.message);
-      });
+    if (league?.requirePassword) {
+      dispatch({type:actions.OPEN_APPLY_LEAGUE_PASSWORD_DIALOG, payload:league})
+    } else {
+      actions.applyLeague(dispatch, {userId:user?.id, leagueId:league?.id});
+    }
+    // axios
+    //   .post(apis.applyLeague, {
+    //     userId: user?.id,
+    //     leagueId: league?.id,
+    //   })
+    //   .then((res) => {
+    //     alert(res.data.message);
+    //     actions.getPlayers(dispatch);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error.response.data.message);
+    //   });
   };
 
   return (
     <div
-      className={`rounded-default h-[230px] bg-light-charcoal dark:bg-charcoal p-default shadow dark:shadow-gray-600
-      `}
+      className={`rounded-default h-[230px] bg-light-charcoal dark:bg-charcoal p-default shadow dark:shadow-gray-600`}
       // onClick={() => {
       //   ${
       //    isAdmin ||
@@ -69,7 +71,10 @@ const Card = (props) => {
       <div className="">
         <div className="items-center justify-between">
           <div className="flex items-center">
-            <img src={league.logo} className="w-10 h-10 rounded-lg"></img>
+            <img
+              src={league.logo}
+              className="w-10 h-10 rounded-lg"
+            ></img>
             <p className="dark:text-white text-sm ml-5 truncate max-w-full">
               {league.name} / {league.id.toString().padStart(6, "0")}
               <br></br>
@@ -142,13 +147,13 @@ const Card = (props) => {
           {league.description}
         </p>
       </div>
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between space-x-3">
         {(isAdmin || player?.isAcceptedList === 1 || league?.isAllowedFan) && (
           <Button
             onClick={() => {
               navigate(`/${route}/${league.id}?tab=0`);
             }}
-            className="text-xs border-solid border-2 border-blue-700 w-full rounded mr-2 hover:cursor-pointer hover:bg-gray-700"
+            className="text-xs border-solid border-2 border-blue-700 w-full rounded hover:cursor-pointer hover:bg-gray-700"
           >
             View League
           </Button>

@@ -14,6 +14,13 @@ export const OPEN_CREATE_LEAGUE_DIALOG = "OPEN_CREATE_LEAGUE_DIALOG";
 export const CLOSE_LEAGUE_DIALOG = "CLOSE_LEAGUE_DIALOG";
 export const OPEN_EDIT_LEAGUE_DIALOG = "OPEN_EDIT_LEAGUE_DIALOG";
 export const OPEN_DELETE_LEAGUE_DIALOG = "OPEN_DELETE_LEAGUE_DIALOG";
+export const OPEN_SET_LEAGUE_PASSWORD_DIALOG =
+  "OPEN_SET_LEAGUE_PASSWORD_DIALOG";
+export const OPEN_REMOVE_LEAGUE_PASSWORD_DIALOG =
+  "OPEN_REMOVE_LEAGUE_PASSWORD_DIALOG";
+export const OPEN_APPLY_LEAGUE_PASSWORD_DIALOG =
+  "OPEN_APPLY_LEAGUE_PASSWORD_DIALOG";
+export const CLOSE_LEAGUE_PASSWORD_DIALOG = "CLOSE_LEAGUE_PASSWORD_DIALOG";
 export const SET_SELECTED_LEAGUE = "SET_SELECTED_LEAGUE";
 // export const SET_LEAGUE_LOGO_URL = "SET_LOGO_URL";
 // Teams
@@ -60,26 +67,6 @@ export const CLOSE_LINEUP_DIALOG = "CLOSE_LINEUP_DIALOG";
 export const GET_ADMINS = "GET_ADMINS";
 export const OPEN_ADMIN_DIALOG = "OPEN_ADMIN_DIALOG";
 
-// get countries
-export const getCountries = async (dispatch) => {
-  try {
-    const response = await axios.get(apis.getCountries, {
-      headers: {
-        "X-CSCAPI-KEY": process.env.REACT_APP_COUNTRY_API_KEY,
-      },
-    });
-    dispatch({
-      type: GET_COUNTRIES,
-      payload: response.data,
-    });
-  } catch (error) {
-    dispatch({
-      type: GET_COUNTRIES,
-      payload: [],
-    });
-  }
-};
-
 // league actions----------------------------------
 
 // Get leagues from the server
@@ -109,6 +96,29 @@ export const getLeagues = async (dispatch) => {
   }
 };
 
+export const applyLeague = async (dispatch, data) => {
+  try {
+    const response = await axios.post(apis.applyLeague, data);
+    const leagues = response.data.leagues;
+    // set logo image to all leagues
+    leagues.map((league) => {
+      const logoUrl = apis.leagueLogoURL(league.userId, league.id);
+      league.logo = logoUrl;
+    });
+    dispatch({
+      type: GET_LEAGUES,
+      payload: leagues,
+    });
+    getPlayers(dispatch)
+    alert("Applied successfully!");
+  } catch (error) {
+    dispatch({
+      type: GET_LEAGUES,
+      payload: [],
+    });
+    alert("Failed to apply!");
+  }
+};
 export const openDeleteLeagueDialog = (payload) => ({
   type: OPEN_DELETE_LEAGUE_DIALOG,
   payload: payload,
@@ -119,12 +129,46 @@ export const setSelectedLeague = (payload) => ({
   payload: payload,
 });
 
-// export const setLeagueLogoUrl = (payload) => ({
-//   type: SET_LEAGUE_LOGO_URL,
-//   payload: payload,
-// });
-
 // Players
+
+export const getPlayers = async (dispatch) => {
+  try {
+    const response = await axios.get(apis.getPlayers);
+
+    const players = response.data.players;
+    // players.map(player=>{
+    //   const avatarUrl = apis.userAvatarURL(player.userId);
+    //   player.avatar = avatarUrl;
+    // })
+    dispatch({
+      type: GET_PLAYERS,
+      payload: players,
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_PLAYERS,
+      payload: [],
+    });
+  }
+};
+
+export const AddPlayer = (payload) => ({
+  type: ADD_PLAYER,
+  payload: payload,
+});
+
+export const RemovePlayer = (payload) => ({
+  type: REMOVE_PLAYER,
+  payload: payload,
+});
+
+export const openAddSubstitueDialog = () => ({
+  type: OPEN_ADD_SUBSTITUTE_DIALOG,
+});
+
+export const closeAddSubstitueDialog = () => ({
+  type: CLOSE_ADD_SUBSTITUTE_DIALOG,
+});
 export const openInvitePlayerDialog = (payload) => ({
   type: OPEN_INVITE_PLAYER_DIALOG,
   payload: payload,
@@ -154,6 +198,48 @@ export const removeFromLeague = async (dispatch, data) => {
     });
   }
 };
+
+export const addPassword = async (dispatch, data) => {
+  try {
+    const response = await axios.post(apis.addPassword, data);
+    const leagues = response.data.leagues;
+    dispatch({
+      type: GET_LEAGUES,
+      payload: leagues,
+    });
+    alert("Password set!");
+  } catch (error) {
+    dispatch({
+      type: GET_LEAGUES,
+      payload: [],
+    });
+    alert("Failed!");
+  }
+};
+
+export const removePassword = async (dispatch, data) => {
+  try {
+    const response = await axios.post(apis.removePassword, data);
+    const leagues = response.data.leagues;
+    // set logo image to all leagues
+    leagues.map((league) => {
+      const logoUrl = apis.leagueLogoURL(league.userId, league.id);
+      league.logo = logoUrl;
+    });
+    dispatch({
+      type: GET_LEAGUES,
+      payload: leagues,
+    });
+    alert("Password removed!");
+  } catch (error) {
+    dispatch({
+      type: GET_LEAGUES,
+      payload: [],
+    });
+    alert("Failed!");
+  }
+};
+
 // Teams
 export const getTeams = async (dispatch) => {
   try {
@@ -431,45 +517,7 @@ export const removeLog = (dispatch, data) => {
   } catch (error) {}
 };
 
-// player action
-export const getPlayers = async (dispatch) => {
-  try {
-    const response = await axios.get(apis.getPlayers);
 
-    const players = response.data.players;
-    // players.map(player=>{
-    //   const avatarUrl = apis.userAvatarURL(player.userId);
-    //   player.avatar = avatarUrl;
-    // })
-    dispatch({
-      type: GET_PLAYERS,
-      payload: players,
-    });
-  } catch (error) {
-    dispatch({
-      type: GET_PLAYERS,
-      payload: [],
-    });
-  }
-};
-
-export const AddPlayer = (payload) => ({
-  type: ADD_PLAYER,
-  payload: payload,
-});
-
-export const RemovePlayer = (payload) => ({
-  type: REMOVE_PLAYER,
-  payload: payload,
-});
-
-export const openAddSubstitueDialog = () => ({
-  type: OPEN_ADD_SUBSTITUTE_DIALOG,
-});
-
-export const closeAddSubstitueDialog = () => ({
-  type: CLOSE_ADD_SUBSTITUTE_DIALOG,
-});
 
 // Admin
 export const getAdmins = async (dispatch) => {
@@ -523,7 +571,7 @@ export const getUsers = async (dispatch) => {
 };
 
 export const getUserInfo = async (dispatch, id, navigate) => {
-// const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   try {
     axios

@@ -9,6 +9,7 @@ import Modal from "../../components/Modal";
 import PageTitle from "../../components/PageTitle";
 import * as actions from "../../actions";
 import { useNavigate } from "react-router-dom";
+import LeaguePasswordModal from "../../components/Modal/LeaguePasswordModal";
 
 const Home = () => {
   const user = useSelector((state) => state.home.user);
@@ -36,13 +37,13 @@ const Home = () => {
     actions.getAdmins(dispatch);
   }, []);
 
-  // set initial values
+  // // set initial values
   useEffect(() => {
     setFilteredData(leagues);
   }, [leagues]);
 
   const [keyword, setKeyword] = useState("");
-  const [filteredData, setFilteredData] = useState([]);
+  const [filteredData, setFilteredData] = useState(leagues);
   useEffect(() => {
     const searchResult = leagues.filter((league) =>
       league.name.toLowerCase().includes(keyword.toLowerCase()) || league.id.toString().padStart(6, '0').includes(keyword.toLowerCase())
@@ -117,6 +118,7 @@ const Home = () => {
         )}{" "}
       </div>
       <Modal />
+      <LeaguePasswordModal />
     </div>
     // </div>
   );
