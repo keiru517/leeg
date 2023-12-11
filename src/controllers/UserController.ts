@@ -145,6 +145,7 @@ export const signup: RequestHandler = async (req, res) => {
         );
 
         res.cookie('token', token);
+        console.log("===========Token", token)
 
         res.status(200).json({
           message: 'Signed in successfully!',
