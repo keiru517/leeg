@@ -129,7 +129,7 @@ const TeamTable = (props) => {
                       alt=""
                       className="w-8 h-8 mr-2 rounded-full border border-gray-500 dark:border-gray-100"
                     />
-                    <span className="font-normal underline">
+                    <span className="font-normal hover:underline">
                       {player.firstName} {player.lastName}
                     </span>
                   </div>

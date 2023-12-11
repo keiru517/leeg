@@ -45,7 +45,7 @@ const TeamCard = (props) => {
         <div className="flex items-center">
           <img src={team.logo} className="w-8 h-8 rounded-full border border-gray-500"></img>
           <Link to={`team/${team.id}`}>
-            <p className="text-black dark:text-white text-sm mx-2 underline truncate max-w-[200px]">{team.name}</p>
+            <p className="text-black dark:text-white text-sm mx-2 hover:underline truncate max-w-[200px]">{team.name}</p>
           </Link>
           <p className="text-black dark:text-white text-xs">
             {players.length}
