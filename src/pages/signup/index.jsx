@@ -5,9 +5,12 @@ import upload from "../../assets/img/dark_mode/upload_photo.png";
 import apis from "../../utils/apis";
 import axios from "axios";
 import * as actions from "../../actions";
+import { useDispatch } from "react-redux";
+
 
 const Signup = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   let { email } = useParams();
 
   const [panelHeight, setPanelHeight] = useState("617px");
