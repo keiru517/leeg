@@ -120,6 +120,10 @@ const Signup = () => {
               </div>
               <div className="my-6 space-y-4 ">
                 <div className="grid grid-cols-2 gap-4">
+                  <input type="text" 
+                  className="hidden"
+                  value={email}
+                  />
                   <input
                     className="w-full flex space-x-2 border border-dark-gray items-center px-3 bg-transparent outline-none  dark:text-white flex-grow h-[42px] rounded-default text-font-dark-gray text-xs"
                     placeholder="Type Your First Name*"
