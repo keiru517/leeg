@@ -154,7 +154,7 @@ export const signup: RequestHandler = async (req, res) => {
       }
     }
   } catch (error) {
-    console.log(error);
+    console.log("==================Error", error);
     res.status(404).json({ message: 'Singup failed!' });
   }
 };
