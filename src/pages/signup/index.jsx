@@ -6,7 +6,7 @@ import apis from "../../utils/apis";
 import axios from "axios";
 import * as actions from "../../actions";
 import { useDispatch } from "react-redux";
-
+import { setAuthToken } from "../../utils/authService";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -54,13 +54,11 @@ const Signup = () => {
           .post(apis.signup, formData)
           .then((res) => {
             // navigate("/signupSuccess");
-            console.log("then", res.data.token, res.data.user.id)
             localStorage.setItem("token", res.data.token);
             localStorage.setItem("userId", res.data.user.id);
             
             setAuthToken(res.data.token);
             actions.getUserInfo(dispatch, res.data.user.id);
-            console.log('after get user info');
             navigate("/", { replace: true });
           })
           .catch((error) => {
