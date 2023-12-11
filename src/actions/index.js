@@ -570,25 +570,39 @@ export const getUsers = async (dispatch) => {
   }
 };
 
-export const getUserInfo = async (dispatch, id, navigate) => {
+export const getUserInfo = async (dispatch, id) => {
   // const navigate = useNavigate();
 
   try {
-    axios
-      .get(apis.getUserInfo(id))
-      .then((res) => {
-        const user = res.data.user;
-        user.avatar = apis.userAvatarURL(id);
-        dispatch({ type: GET_USER, payload: user });
-      })
-      .catch((error) => {
-        localStorage.removeItem("userId");
-        localStorage.removeItem("token");
-        navigate("/signin");
-      });
+    const response = await axios.get(apis.getUserInfo(id));
+    const user = response.data.user;
+    user.avatar = apis.userAvatarURL(id);
+    dispatch({
+      type: GET_USER,
+      payload: user
+    })
   } catch (error) {
-    dispatch({ type: GET_USER, payload: [] });
+    dispatch({
+      type: GET_USER,
+      payload: []
+    })    
   }
+  // try {
+  //   axios
+  //     .get(apis.getUserInfo(id))
+  //     .then((res) => {
+  //       const user = res.data.user;
+  //       user.avatar = apis.userAvatarURL(id);
+  //       dispatch({ type: GET_USER, payload: user });
+  //     })
+  //     .catch((error) => {
+  //       localStorage.removeItem("userId");
+  //       localStorage.removeItem("token");
+  //       navigate("/signin");
+  //     });
+  // } catch (error) {
+  //   dispatch({ type: GET_USER, payload: [] });
+  // }
 };
 // new Promise((resolve, reject) => {
 //   setTimeout(() => {
