@@ -3,11 +3,11 @@ import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Table from "./index";
 
-const TeamStatistics = () => {
+const TeamStatistics = (props) => {
   let { teamId } = useParams();
-
+    const {matches} = props;
   const team = useSelector(state=>state.home.teams).find(team=>team.id == teamId);
-  
+  const matchups = useSelector(state=>state.home.matchups);
 
   const columns = [
     {
@@ -80,6 +80,9 @@ const TeamStatistics = () => {
     }
 ];
 
+// const data = useMemo(
+//     ()=>matchups.filter(matchup=>matchup.match)
+// )
   return (
     <>
         <Table

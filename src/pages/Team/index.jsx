@@ -11,7 +11,7 @@ import backIconLight from "../../assets/img/dark_mode/back-icon-light.png";
 import MatchTable from "../../components/Table/Match";
 import TeamModal from "../../components/Modal/TeamModal";
 import TeamStatisticsTable from "../../components/Table/TeamStatistics";
-import PlayerStatisticsTable from "../../components/Table/PlayerStatistics";
+import TeamPlayerStatisticsTable from "../../components/Table/TeamPlayerStatistics";
 import * as actions from "../../actions";
 import editIconDark from "../../assets/img/dark_mode/edit-icon-dark.svg";
 import editIconLight from "../../assets/img/dark_mode/edit-icon-light.svg";
@@ -192,11 +192,11 @@ const Team = () => {
                   "rounded-xl flex flex-col w-full h-full "
                 )}
               >
-                {players.length > 0 ? (
+                {matches.length > 0 ? (
                   <>
                     <hr className="h-px mt-4 bg-charcoal border-0" />
                     <div className="flex flex-col space-y-5">
-                      <TeamStatisticsTable />
+                      <TeamStatisticsTable matches={matches}/>
                     </div>
                   </>
                 ) : (
@@ -230,14 +230,14 @@ const Team = () => {
                         .includes(keyword.toLowerCase())
                     ).length > 0 ? (
                       <div className="flex flex-grow items-center">
-                        <PlayerStatisticsTable
+                        <TeamPlayerStatisticsTable
                           players={players.filter((player) =>
                             (player.firstName + player.lastName)
                               .toLowerCase()
                               .includes(keyword.toLowerCase())
                           )}
                           matchups={matchups}
-                        ></PlayerStatisticsTable>
+                        ></TeamPlayerStatisticsTable>
                       </div>
                     ) : (
                       <div className="flex items-center flex-grow">

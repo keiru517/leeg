@@ -7,7 +7,8 @@ import { Tab } from "@headlessui/react";
 import Select from "../../components/Select";
 import line from "../../assets/img/dark_mode/point-line.png";
 import * as actions from "../../actions";
-import ProfileTable from "../../components/Table/Profile";
+import ProfileTable from "../../components/Table/PlayerMatchHistory";
+import PlayerStatistics from "../../components/Table/PlayerStatistics";
 import DefaultTeamLogo from "../../assets/img/dark_mode/default-team-logo.png";
 import backIconDark from "../../assets/img/dark_mode/back-icon-dark.png";
 import backIconLight from "../../assets/img/dark_mode/back-icon-light.png";
@@ -65,18 +66,12 @@ const Player = () => {
 
   const categories = ["Match History", "Statistics"];
 
-  const [value, setValue] = useState("Sort by");
   const user = useSelector((state) => state.home.user);
   const admins = useSelector((state) => state.home.admins);
   const isAdmin = admins.some((admin) => admin.userId == user?.id);
   const player = useSelector((state) => state.home.players).find(
     (player) => player.userId == userId && player.leagueId == leagueId
   );
-
-  const matchups1 = useSelector(state=>state.home.matchups).filter(matchup=>{
-    return matchup.userId == player.userId && !matchup.match.isNew
-  });
-  console.log("matchups1", matchups1);
 
   const team = useSelector((state) => state.home.teams).find(
     (team) => team.id == player?.teamId
@@ -89,7 +84,6 @@ const Player = () => {
         match.awayTeamId == player?.teamId) &&
       !match.isNew
   );
-  console.log("matches", matches)
 
   const matchups = useSelector((state) => state.home.matchups).filter(
     (matchup) => 
@@ -101,7 +95,6 @@ const Player = () => {
   //     return matchup.leagueId == leagueId && matchup.playerId == player?.id && matchup.attendance === 1 && match
   //   }
   // );
-  console.log("matchups", matchups);
 
   const totalPoints = matchups.reduce(
     (sum, matchup) => sum + matchup.points,
@@ -280,366 +273,8 @@ const Player = () => {
                 )}
               >
                 <div className="text-black dark:text-white h-full w-full mt-4 overflow-auto">
-                  <table className="table-auto text-left w-full">
-                    <thead className="sticky top-0 z-10 bg-white dark:bg-slate">
-                      <tr>
-
-                        <th
-                          key={4}
-                          className="h-button text-center font-font-dark-gray font-normal  text-sm"
-                        >
-                          Points
-                        </th>
-                        <th
-                          key={5}
-                          className="h-button text-center font-font-dark-gray font-normal  text-sm"
-                        >
-                          3 Points
-                        </th>
-                        <th
-                          key={6}
-                          className="h-button text-center font-font-dark-gray font-normal  text-sm"
-                        >
-                          2 Points
-                        </th>
-                        <th
-                          key={7}
-                          className="h-button text-center font-font-dark-gray font-normal  text-sm"
-                        >
-                          Free throws
-                        </th>
-                        {displayAttempts3 ? (
-                          <th
-                            key={8}
-                            className="h-button text-center font-font-dark-gray font-normal  text-sm"
-                          >
-                            3 Attempts
-                          </th>
-                        ) : (
-                          ""
-                        )}
-                        {displayAttempts2 ? (
-                          <th
-                            key={9}
-                            className="h-button text-center font-font-dark-gray font-normal  text-sm"
-                          >
-                            2 Attempts
-                          </th>
-                        ) : (
-                          ""
-                        )}
-                        {displayAttempts1 ? (
-                          <th
-                            key={10}
-                            className="h-button text-center font-font-dark-gray font-normal  text-sm"
-                          >
-                            1 Attempts
-                          </th>
-                        ) : (
-                          ""
-                        )}
-                        {displayBlocks ? (
-                          <th
-                            key={11}
-                            className="h-button text-center font-font-dark-gray font-normal  text-sm"
-                          >
-                            Blocks
-                          </th>
-                        ) : (
-                          ""
-                        )}
-                        {displayRebounds ? (
-                          <th
-                            key={12}
-                            className="h-button text-center font-font-dark-gray font-normal  text-sm"
-                          >
-                            Rebounds
-                          </th>
-                        ) : (
-                          ""
-                        )}
-                        {displayAssists ? (
-                          <th
-                            key={13}
-                            className="h-button text-center font-font-dark-gray font-normal  text-sm"
-                          >
-                            Assists
-                          </th>
-                        ) : (
-                          ""
-                        )}
-                        {displayFouls ? (
-                          <th
-                            key={14}
-                            className="h-button text-center font-font-dark-gray font-normal  text-sm"
-                          >
-                            Fouls
-                          </th>
-                        ) : (
-                          ""
-                        )}
-                        {displaySteals ? (
-                          <th
-                            key={15}
-                            className="h-button text-center font-font-dark-gray font-normal  text-sm"
-                          >
-                            Steals
-                          </th>
-                        ) : (
-                          ""
-                        )}
-                        {displayTurnovers ? (
-                          <th
-                            key={16}
-                            className="h-button text-center font-font-dark-gray font-normal  text-sm"
-                          >
-                            Turnovers
-                          </th>
-                        ) : (
-                          ""
-                        )}
-                        <th
-                          key={17}
-                          className="h-button text-center font-font-dark-gray font-normal  text-sm"
-                        >
-                          PPG
-                        </th>
-                        <th
-                          key={18}
-                          className="h-button text-center font-font-dark-gray font-normal  text-sm"
-                        >
-                          Games Played
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody className="text-center">
-                      <tr
-                        key={0}
-                        className="odd:bg-light-dark-gray dark:odd:bg-charcoal even:bg-light-charcoal dark:even:bg-dark-gray"
-                      >
-                        {/* <td className="">
-                          <Typography
-                            variant="small"
-                            color="blue-gray"
-                            className="font-normal"
-                          >
-                            {index + 1}
-                          </Typography>
-                        </td> */}
-                        {/* <td className="">
-                          <Typography
-                            variant="small"
-                            color="blue-gray"
-                            className="font-normal flex items-center underline"
-                          >
-                            <img
-                              src={avatar}
-                              alt=""
-                              className="mr-3 w-8 h-8 rounded-full border border-gray-500"
-                            />
-                            <Link to={`/league/${leagueId}/player/${userId}`}>
-                              {firstName} {lastName}
-                            </Link>
-                          </Typography>
-                        </td> */}
-                        {/* <td className="">
-                          <Typography
-                            variant="small"
-                            color="blue-gray"
-                            className="font-normal"
-                          >
-                            {player?.jerseyNumber}
-                          </Typography>
-                        </td> */}
-                        <td className="">
-                          <Typography
-                            variant="small"
-                            color="blue-gray"
-                            className="font-normal"
-                          >
-                            {totalPoints}
-                          </Typography>
-                        </td>
-                        <td className="">
-                          <Typography
-                            variant="small"
-                            color="blue-gray"
-                            className="font-normal"
-                          >
-                            {totalPoints3}
-                          </Typography>
-                        </td>
-                        <td className="">
-                          <Typography
-                            variant="small"
-                            color="blue-gray"
-                            className="font-normal"
-                          >
-                            {totalPoints2}
-                          </Typography>
-                        </td>
-                        <td className="">
-                          <Typography
-                            variant="small"
-                            color="blue-gray"
-                            className="font-normal"
-                          >
-                            {totalPoints1}
-                          </Typography>
-                        </td>
-                        {displayAttempts3 ? (
-                          <td className="">
-                            <Typography
-                              variant="small"
-                              color="blue-gray"
-                              className="font-normal"
-                            >
-                              {attempts3}
-                            </Typography>
-                          </td>
-                        ) : (
-                          ""
-                        )}
-                        {displayAttempts2 ? (
-                          <td className="">
-                            <Typography
-                              variant="small"
-                              color="blue-gray"
-                              className="font-normal"
-                            >
-                              {attempts2}
-                            </Typography>
-                          </td>
-                        ) : (
-                          ""
-                        )}
-                        {displayAttempts1 ? (
-                          <td className="">
-                            <Typography
-                              variant="small"
-                              color="blue-gray"
-                              className="font-normal"
-                            >
-                              {attempts1}
-                            </Typography>
-                          </td>
-                        ) : (
-                          ""
-                        )}
-                        {displayBlocks ? (
-                          <td className="">
-                            <Typography
-                              variant="small"
-                              color="blue-gray"
-                              className="font-normal"
-                            >
-                              {blocks}
-                            </Typography>
-                          </td>
-                        ) : (
-                          ""
-                        )}
-                        {displayRebounds ? (
-                          <td className="">
-                            <Typography
-                              variant="small"
-                              color="blue-gray"
-                              className="font-normal"
-                            >
-                              {rebounds}
-                            </Typography>
-                          </td>
-                        ) : (
-                          ""
-                        )}
-                        {displayAssists ? (
-                          <td className="">
-                            <Typography
-                              variant="small"
-                              color="blue-gray"
-                              className="font-normal"
-                            >
-                              {assists}
-                            </Typography>
-                          </td>
-                        ) : (
-                          ""
-                        )}
-                        {displayFouls ? (
-                          <td className="">
-                            <Typography
-                              variant="small"
-                              color="blue-gray"
-                              className="font-normal"
-                            >
-                              {fouls}
-                            </Typography>
-                          </td>
-                        ) : (
-                          ""
-                        )}
-                        {displaySteals ? (
-                          <td className="">
-                            <Typography
-                              variant="small"
-                              color="blue-gray"
-                              className="font-normal"
-                            >
-                              {steals}
-                            </Typography>
-                          </td>
-                        ) : (
-                          ""
-                        )}
-                        {displayTurnovers ? (
-                          <td className="">
-                            <Typography
-                              variant="small"
-                              color="blue-gray"
-                              className="font-normal"
-                            >
-                              {turnovers}
-                            </Typography>
-                          </td>
-                        ) : (
-                          ""
-                        )}
-                        <td>
-                          <Typography
-                            variant="small"
-                            color="blue-gray"
-                            className="font-normal"
-                          >
-                            {ppg}
-                          </Typography>
-                        </td>
-                        <td className="">
-                          <Typography
-                            variant="small"
-                            color="blue-gray"
-                            className="font-normal"
-                          >
-                            {gp}
-                          </Typography>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
+                  <PlayerStatistics userId={userId} leagueId={leagueId}/>
                 </div>
-                {/* {players.length > 0 ? (
-                  <>
-                    <hr className="h-px my-4 bg-charcoal border-0" />
-                    <div className=" flex flex-col space-y-5">
-                      <TeamStatisticsTable />
-                    </div>
-                  </>
-                ) : (
-                  <div className="flex items-center flex-grow">
-                    <p className="text-2xl text-black dark:text-white w-full text-center">
-                      No Statistics To Show!
-                    </p>
-                  </div>
-                )} */}
               </Tab.Panel>
             </Tab.Panels>
           </Tab.Group>
