@@ -55,7 +55,7 @@ const Signup = () => {
             localStorage.setItem("userId", res.data.user.id);
             
             setAuthToken(res.data.token);
-            actions.getUserInfo(dispatch, res.data.user.id);
+            actions.getUserInfo(dispatch, res.data.user.id, navigate);
             console.log('after get user info');
             navigate("/", { replace: true });
           })

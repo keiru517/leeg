@@ -30,7 +30,7 @@ const Signin = () => {
         localStorage.setItem("userId", res.data.user.id);
 
         setAuthToken(res.data.token);
-        actions.getUserInfo(dispatch, res.data.user.id);
+        actions.getUserInfo(dispatch, res.data.user.id, navigate);
         navigate("/", { replace: true });
       })
       .catch((error) => {
