@@ -4,6 +4,7 @@ import PasswordInput from "../../components/Input/password";
 import upload from "../../assets/img/dark_mode/upload_photo.png";
 import apis from "../../utils/apis";
 import axios from "axios";
+import * as actions from "../../actions";
 
 const Signup = () => {
   const navigate = useNavigate();
