@@ -62,7 +62,7 @@ const Signup = () => {
           .catch((error) => {
             // navigate('/signupSuccess');
             
-            alert(error.response.data.message);
+            alert("Error while signup!");
           });
       }
     }
