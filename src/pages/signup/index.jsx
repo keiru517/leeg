@@ -50,15 +50,18 @@ const Signup = () => {
           .post(apis.signup, formData)
           .then((res) => {
             // navigate("/signupSuccess");
+            console.log("then", res.data.token, res.data.user.id)
             localStorage.setItem("token", res.data.token);
             localStorage.setItem("userId", res.data.user.id);
-    
+            
             setAuthToken(res.data.token);
             actions.getUserInfo(dispatch, res.data.user.id);
+            console.log('after get user info');
             navigate("/", { replace: true });
           })
           .catch((error) => {
             // navigate('/signupSuccess');
+            
             alert(error.response.data.message);
           });
       }
