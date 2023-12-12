@@ -50,7 +50,6 @@ const TeamTable = (props) => {
         .catch((error) => {
           alert(error.response.data.message);
         });
-      // alert("Match has been deleted")
     }
   };
 
@@ -122,18 +121,20 @@ const TeamTable = (props) => {
               className="odd:bg-light-dark-gray dark:odd:bg-dark-gray even:bg-light-charcoal dark:even:bg-charcoal"
             >
               <td className="">
-                <Link to={`/league/${leagueId}/player/${player.userId}`}>
-                  <div className="flex items-center px-3">
+                <div className="flex items-center px-3">
+                  <Link to={`/league/${leagueId}/player/${player.userId}`}>
                     <img
                       src={player.avatar}
                       alt=""
                       className="w-8 h-8 mr-2 rounded-full border border-gray-500 dark:border-gray-100"
                     />
+                  </Link>
+                  <Link to={`/league/${leagueId}/player/${player.userId}`}>
                     <span className="font-normal hover:underline">
                       {player.firstName} {player.lastName}
                     </span>
-                  </div>
-                </Link>
+                  </Link>
+                </div>
               </td>
               {league?.displayJerseyNumber && (
                 <td className="">
