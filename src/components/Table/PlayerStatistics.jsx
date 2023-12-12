@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import { useMemo } from "react";
 
 const PlayerStatistics = ({ userId, leagueId }) => {
-
   const league = useSelector((state) => state.home.leagues).find(
     (league) => league.id == leagueId
   );
@@ -15,11 +14,14 @@ const PlayerStatistics = ({ userId, leagueId }) => {
   );
 
   const matchups = useSelector((state) => state.home.matchups).filter(
-    (matchup) => 
-      matchup.leagueId == leagueId && matchup.userId == player?.userId && matchup.attendance === 1 && !matchup.match.isNew
+    (matchup) =>
+      matchup.leagueId == leagueId &&
+      matchup.userId == player?.userId &&
+      matchup.attendance === 1 &&
+      !matchup.match.isNew
   );
 
-  console.log("matchups", matchups, player)
+  console.log("matchups", matchups, player);
   const displayPosition = league?.displayPosition;
   const displayJerseyNumber = league?.displayJerseyNumber;
   const displayAttempts3 = league?.displayAttempts3;
@@ -31,10 +33,6 @@ const PlayerStatistics = ({ userId, leagueId }) => {
   const displayFouls = league?.displayFouls;
   const displaySteals = league?.displaySteals;
   const displayTurnovers = league?.displayTurnovers;
-
-
-
-  const teams = useSelector((state) => state.home.teams);
 
   const columns = [
     {
@@ -183,69 +181,84 @@ const PlayerStatistics = ({ userId, leagueId }) => {
     },
   ].filter(Boolean);
 
-  const data = useMemo(
-    () =>
-      matchups
-        .sort((a, b) => b.points - a.points)
-        .map((player) => {
-          const matchup = matchups.filter(
-            (matchup) =>
-              matchup.userId == player.userId && matchup.leagueId == league.id
-          );
-          return {
-            totalPoints: matchup.reduce((sum, item) => sum + item.points, 0),
-            totalPoints1: matchup.reduce(
-              (sum, matchup) => sum + matchup.points1,
-              0
-            ),
-            totalPoints2: matchup.reduce(
-              (sum, matchup) => sum + matchup.points2,
-              0
-            ),
-            totalPoints3: matchup.reduce(
-              (sum, matchup) => sum + matchup.points3,
-              0
-            ),
-            attempts1: matchup.reduce(
-              (sum, matchup) => sum + matchup.attempts1,
-              0
-            ),
-            attempts2: matchup.reduce(
-              (sum, matchup) => sum + matchup.attempts2,
-              0
-            ),
-            attempts3: matchup.reduce(
-              (sum, matchup) => sum + matchup.attempts3,
-              0
-            ),
-            blocks: matchup.reduce((sum, matchup) => sum + matchup.blocks, 0),
-            rebounds: matchup.reduce(
-              (sum, matchup) => sum + matchup.rebounds,
-              0
-            ),
-            assists: matchup.reduce((sum, matchup) => sum + matchup.assists, 0),
-            fouls: matchup.reduce((sum, matchup) => sum + matchup.fouls, 0),
-            steals: matchup.reduce((sum, matchup) => sum + matchup.steals, 0),
-            turnovers: matchup.reduce(
-              (sum, matchup) => sum + matchup.turnovers,
-              0
-            ),
-            playerPosition: player.position,
-            userId: player.userId,
-            jerseyNumber: player.jerseyNumber,
-            firstName: player.firstName,
-            lastName: player.lastName,
-            avatar: player.avatar,
-            team: teams.find((team) => team.id == player.teamId),
-            teamId: player.teamId,
-          };
-        }),
-    [matchups]
-  );
+  const data = {
+    totalPoints: matchups.reduce((sum, item) => sum + item.points, 0),
+    totalPoints1: matchups.reduce((sum, matchup) => sum + matchup.points1, 0),
+    totalPoints2: matchups.reduce((sum, matchup) => sum + matchup.points2, 0),
+    totalPoints3: matchups.reduce((sum, matchup) => sum + matchup.points3, 0),
+    attempts1: matchups.reduce((sum, matchup) => sum + matchup.attempts1, 0),
+    attempts2: matchups.reduce((sum, matchup) => sum + matchup.attempts2, 0),
+    attempts3: matchups.reduce((sum, matchup) => sum + matchup.attempts3, 0),
+    blocks: matchups.reduce((sum, matchup) => sum + matchup.blocks, 0),
+    rebounds: matchups.reduce((sum, matchup) => sum + matchup.rebounds, 0),
+    assists: matchups.reduce((sum, matchup) => sum + matchup.assists, 0),
+    fouls: matchups.reduce((sum, matchup) => sum + matchup.fouls, 0),
+    steals: matchups.reduce((sum, matchup) => sum + matchup.steals, 0),
+    turnovers: matchups.reduce((sum, matchup) => sum + matchup.turnovers, 0),
+  };
+  // const data = useMemo(
+  //   () =>
+  //     matchups
+  //       .sort((a, b) => b.points - a.points)
+  //       .map((player) => {
+  //         const matchup = matchups.filter(
+  //           (matchup) =>
+  //             matchup.userId == player.userId && matchup.leagueId == league.id
+  //         );
+  //         return {
+  //           totalPoints: matchup.reduce((sum, item) => sum + item.points, 0),
+  //           totalPoints1: matchup.reduce(
+  //             (sum, matchup) => sum + matchup.points1,
+  //             0
+  //           ),
+  //           totalPoints2: matchup.reduce(
+  //             (sum, matchup) => sum + matchup.points2,
+  //             0
+  //           ),
+  //           totalPoints3: matchup.reduce(
+  //             (sum, matchup) => sum + matchup.points3,
+  //             0
+  //           ),
+  //           attempts1: matchup.reduce(
+  //             (sum, matchup) => sum + matchup.attempts1,
+  //             0
+  //           ),
+  //           attempts2: matchup.reduce(
+  //             (sum, matchup) => sum + matchup.attempts2,
+  //             0
+  //           ),
+  //           attempts3: matchup.reduce(
+  //             (sum, matchup) => sum + matchup.attempts3,
+  //             0
+  //           ),
+  //           blocks: matchup.reduce((sum, matchup) => sum + matchup.blocks, 0),
+  //           rebounds: matchup.reduce(
+  //             (sum, matchup) => sum + matchup.rebounds,
+  //             0
+  //           ),
+  //           assists: matchup.reduce((sum, matchup) => sum + matchup.assists, 0),
+  //           fouls: matchup.reduce((sum, matchup) => sum + matchup.fouls, 0),
+  //           steals: matchup.reduce((sum, matchup) => sum + matchup.steals, 0),
+  //           turnovers: matchup.reduce(
+  //             (sum, matchup) => sum + matchup.turnovers,
+  //             0
+  //           ),
+  //           playerPosition: player.position,
+  //           userId: player.userId,
+  //           jerseyNumber: player.jerseyNumber,
+  //           firstName: player.firstName,
+  //           lastName: player.lastName,
+  //           avatar: player.avatar,
+  //           team: teams.find((team) => team.id == player.teamId),
+  //           teamId: player.teamId,
+  //         };
+  //       }),
+  //   [matchups]
+  // );
 
   return (
     <div className="text-black dark:text-white mt-5 w-full">
-      <Table data={data} columns={columns} />
+      <Table data={[data]} columns={columns} />
     </div>
   );
 };

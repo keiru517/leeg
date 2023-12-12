@@ -172,11 +172,7 @@ const Table = ({
                   <Typography
                     variant="small"
                     color="blue-gray"
-                    className={`font-normal ${
-                      column.label === "Team" || column.label === "Player"
-                        ? "hover:underline"
-                        : ""
-                    }`}
+                    className={`font-normal`}
                   >
                     {column.label === "#" ? index + 1 : column.getValue(d)}
                   </Typography>

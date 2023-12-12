@@ -141,19 +141,19 @@ const Player = () => {
   return (
     <div className="flex flex-col flex-grow">
       <p className="font-dark-gray my-3">
-        <Link to="/">
+        <Link to="/" className="hover:underline">
           <span className="">My Leagues</span>
         </Link>
 
         <span className=""> &gt; </span>
-        <Link to={`/league/${league?.id}`}>
+        <Link to={`/league/${league?.id}`} className="hover:underline">
           <span className="">{league?.name}</span>
         </Link>
         <span className=""> &gt; </span>
         {team && (
           <>
             <span className="">
-              <Link to={`/league/${leagueId}/team/${team?.id}`}>
+              <Link to={`/league/${leagueId}/team/${team?.id}`} className="hover:underline">
                 {team?.name}
               </Link>
             </span>
@@ -169,7 +169,7 @@ const Player = () => {
         <div className="page-title bg-white dark:bg-charcoal flex items-center justify-between p-3">
           <div className="flex items-center">
             <div
-              className="w-[34px] h-[34px] bg-gray-300 dark:bg-primary items-center flex justify-center rounded-default cursor-pointer hover:opacity-70"
+              className="w-6 h-6 sm:w-[34px] sm:h-[34px] bg-gray-300 dark:bg-primary items-center flex justify-center rounded-default cursor-pointer hover:opacity-70"
               onClick={() => navigate(-1)}
             >
               <img
@@ -182,19 +182,19 @@ const Player = () => {
               <img
                 src={player?.avatar}
                 alt=""
-                className="w-20 h-20 mx-6 rounded-full border border-gray-500"
+                className="w-10 h-10 sm:w-20 sm:h-20 mx-6 rounded-full border border-gray-500"
               />
             ) : (
               ""
             )}
             {/* <p className="text-3xl text-white text-left font-black"> */}
-            <div className="text-3xl text-white text-left font-black">
+            <div className="text-sm sm:text-3xl text-white text-left font-black">
               <div className="flex items-center">
-                <p className="text-[28px] text-black dark:text-white">
+                <p className="text-xs sm:text-[28px] text-black dark:text-white">
                   {player?.firstName} {player?.lastName}{" "}
                 </p>
                 {isAdmin && (
-                  <span className="text-xs font-normal mt-2 text-gray-400">
+                  <span className="text-[10px] sm:text-xs sm:mt-2 font-normal text-gray-400">
                     / {player?.email}
                   </span>
                 )}

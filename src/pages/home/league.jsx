@@ -369,9 +369,15 @@ const League = () => {
   const togglePassword = () => {
     // if the user allow passwword
     if (!requirePassword) {
-      dispatch({ type: actions.OPEN_SET_LEAGUE_PASSWORD_DIALOG, payload:league });
+      dispatch({
+        type: actions.OPEN_SET_LEAGUE_PASSWORD_DIALOG,
+        payload: league,
+      });
     } else {
-      dispatch({ type: actions.OPEN_REMOVE_LEAGUE_PASSWORD_DIALOG, payload:league });
+      dispatch({
+        type: actions.OPEN_REMOVE_LEAGUE_PASSWORD_DIALOG,
+        payload: league,
+      });
     }
     // setRequirePassword(!requirePassword);
 
@@ -590,8 +596,6 @@ const League = () => {
       });
   };
 
-
-
   const handleTimer = () => {
     axios
       .post(apis.updateTimer, {
@@ -740,7 +744,6 @@ const League = () => {
                   </div>
                 </div>
               </TabPanel> */}
-
 
               {/* Teams */}
               <TabPanel
@@ -1035,310 +1038,328 @@ const League = () => {
                 </TabPanel>
               )}
               {/* Settings */}
-              {
-                isAdmin && 
-                  <TabPanel
-                    value="5"
-                    sx={{
-                      padding: "10px !important",
-                    }}
-                    className={classNames("rounded-xl w-full h-full")}
-                  >
-                    <hr className="h-px mb-4 bg-charcoal border-0" />
-                    <div className="mt-4 grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-4">
-                      {/* League Settings */}
-                      <div className="flex flex-col  border border-dark-gray rounded p-7">
-                        <div>
-                          <h1 className="dark:text-white text-black font-medium mb-4">
-                            Edit League
-                          </h1>
-                          <div className="grid grid-cols-6 gap-4 mb-6 items-end">
-                            <div>
-                              <input
-                                type="file"
-                                hidden
-                                ref={fileUploadRef}
-                                onChange={(e) => {
-                                  const files = e.target.files;
-                                  if (files.length) {
-                                    const file = files[0];
-                                    setChosenFile(file);
-                                    setPreviewURL(URL.createObjectURL(file));
-                                  }
-                                }}
-                              />
-                              <img
-                                onClick={() => {
-                                  fileUploadRef.current?.click();
-                                }}
-                                src={previewURL ? previewURL : league?.logo}
-                                className="rounded-md cursor-pointer"
-                                alt=""
-                              />
-                            </div>
-                            <div className="col-span-5">
-                              <p className="dark:text-white text-black">
-                                League Name
-                              </p>
-                              <Input
-                                className="rounded-lg flex-grow text-xs "
-                                placeholder="League Name"
-                                value={leagueName}
-                                onChange={(e) => setLeagueName(e.target.value)}
-                              ></Input>
-                            </div>
+              {isAdmin && (
+                <TabPanel
+                  value="5"
+                  sx={{
+                    padding: "10px !important",
+                  }}
+                  className={classNames("rounded-xl w-full h-full")}
+                >
+                  <hr className="h-px mb-4 bg-charcoal border-0" />
+                  <div className="mt-4 grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-4">
+                    {/* League Settings */}
+                    <div className="flex flex-col  border border-dark-gray rounded p-7">
+                      <div>
+                        <h1 className="dark:text-white text-black font-medium mb-4">
+                          Edit League
+                        </h1>
+                        <div className="grid grid-cols-6 gap-4 mb-6 items-end">
+                          <div>
+                            <input
+                              type="file"
+                              hidden
+                              ref={fileUploadRef}
+                              onChange={(e) => {
+                                const files = e.target.files;
+                                if (files.length) {
+                                  const file = files[0];
+                                  setChosenFile(file);
+                                  setPreviewURL(URL.createObjectURL(file));
+                                }
+                              }}
+                            />
+                            <img
+                              onClick={() => {
+                                fileUploadRef.current?.click();
+                              }}
+                              src={previewURL ? previewURL : league?.logo}
+                              className="rounded-md cursor-pointer"
+                              alt=""
+                            />
                           </div>
-                          <div className="mb-4">
+                          <div className="col-span-5">
                             <p className="dark:text-white text-black">
-                              League Description
+                              League Name
                             </p>
-                            <textarea
-                              id="message"
-                              rows="6"
-                              className="block p-2.5 w-full text-xs text-gray-900 rounded-lg border border-charcoal focus:ring-blue-500 focus:border-blue-500 dark:bg-transparent dark:border-charcoal dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 resize-none outline-none"
-                              placeholder="Describe your League*"
-                              value={leagueDescription}
-                              onChange={(e) => setLeagueDescription(e.target.value)}
-                            ></textarea>
-                          </div>
-                          <div className="mb-6 grid grid-cols-2 gap-2">
-                            <span>
-                              <p className="dark:text-white text-black">
-                                Start Date
-                              </p>
-                              <Input
-                                className="text-xs rounded-default"
-                                option={calendar}
-                                placeholder="Enter Start Date*"
-                                value={leagueStartDate}
-                                onChange={(e) => setLeagueStartDate(e.target.value)}
-                              />
-                            </span>
-                            <span>
-                              <p className="dark:text-white text-black">End Date</p>
-                              <Input
-                                className="text-xs rounded-default"
-                                option={calendar}
-                                placeholder="Enter End Date*"
-                                value={leagueEndDate}
-                                onChange={(e) => setLeagueEndDate(e.target.value)}
-                              />
-                            </span>
+                            <Input
+                              className="rounded-lg flex-grow text-xs "
+                              placeholder="League Name"
+                              value={leagueName}
+                              onChange={(e) => setLeagueName(e.target.value)}
+                            ></Input>
                           </div>
                         </div>
+                        <div className="mb-4">
+                          <p className="dark:text-white text-black">
+                            League Description
+                          </p>
+                          <textarea
+                            id="message"
+                            rows="6"
+                            className="block p-2.5 w-full text-xs text-gray-900 rounded-lg border border-charcoal focus:ring-blue-500 focus:border-blue-500 dark:bg-transparent dark:border-charcoal dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 resize-none outline-none"
+                            placeholder="Describe your League*"
+                            value={leagueDescription}
+                            onChange={(e) =>
+                              setLeagueDescription(e.target.value)
+                            }
+                          ></textarea>
+                        </div>
+                        <div className="mb-6 grid grid-cols-2 gap-2">
+                          <span>
+                            <p className="dark:text-white text-black">
+                              Start Date
+                            </p>
+                            <Input
+                              className="text-xs rounded-default"
+                              option={calendar}
+                              placeholder="Enter Start Date*"
+                              value={leagueStartDate}
+                              onChange={(e) =>
+                                setLeagueStartDate(e.target.value)
+                              }
+                            />
+                          </span>
+                          <span>
+                            <p className="dark:text-white text-black">
+                              End Date
+                            </p>
+                            <Input
+                              className="text-xs rounded-default"
+                              option={calendar}
+                              placeholder="Enter End Date*"
+                              value={leagueEndDate}
+                              onChange={(e) => setLeagueEndDate(e.target.value)}
+                            />
+                          </span>
+                        </div>
+                        <div className="mb-6 ">
+                          <span className="">
+                            <p className="dark:text-white text-black">
+                              Password
+                            </p>
+                            <Input
+                              className="text-xs rounded-default"
+                              value={league.password}
+                            />
+                          </span>
+                        </div>
+                      </div>
 
-                        <div className="grid grid-cols-2 gap-2 ">
-                          <button
-                            onClick={editLeague}
-                            className="bg-blue-700 h-10 text-white font-bold text-sm rounded-default hover:bg-blue-600"
-                          >
-                            Save
-                          </button>
-                          <button
-                            onClick={deleteLeague}
-                            className="bg-red-700 h-10 text-white font-bold text-sm rounded-default hover:bg-red-600"
-                          >
-                            Delete
-                          </button>
-                        </div>
+                      <div className="grid grid-cols-2 gap-2 ">
+                        <button
+                          onClick={editLeague}
+                          className="bg-blue-700 h-10 text-white font-bold text-sm rounded-default hover:bg-blue-600"
+                        >
+                          Save
+                        </button>
+                        <button
+                          onClick={deleteLeague}
+                          className="bg-red-700 h-10 text-white font-bold text-sm rounded-default hover:bg-red-600"
+                        >
+                          Delete
+                        </button>
                       </div>
-                      {/* Admin Access */}
-                      <div className="flex flex-col  space-y-3 border border-dark-gray rounded pt-5 p-7 ">
-                        <div className="grid grid-cols-2 items-baseline mb-6">
-                          <h1 className="dark:text-white text-black font-medium">
-                            Admin Access
-                          </h1>
-                          <button
-                            onClick={inviteAdmin}
-                            className="bg-blue-700 h-10 w-15 float-right text-white font-bold text-sm rounded-default hover:bg-blue-600"
-                          >
-                            Invite Admin
-                          </button>
-                        </div>
-                        <AdminTable user={user} leagueId={leagueId} />
+                    </div>
+                    {/* Admin Access */}
+                    <div className="flex flex-col  space-y-3 border border-dark-gray rounded pt-5 p-7 ">
+                      <div className="grid grid-cols-2 items-baseline mb-6">
+                        <h1 className="dark:text-white text-black font-medium">
+                          Admin Access
+                        </h1>
+                        <button
+                          onClick={inviteAdmin}
+                          className="bg-blue-700 h-10 w-15 float-right text-white font-bold text-sm rounded-default hover:bg-blue-600"
+                        >
+                          Invite Admin
+                        </button>
                       </div>
-                      <AdminModal user={user} leagueId={leagueId} />
-                      <LeaguePassowrdModal />
-                      {/* Stats */}
-                      <div className="flex flex-col  space-y-3 border border-dark-gray rounded p-5">
-                        <table className="table-fixed">
-                          <thead>
-                            <tr>
-                              <th className="dark:text-white text-black">Action</th>
-                              <th></th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td className=" text-xs dark:text-white text-black">
-                                Allow Fan view
-                              </td>
-                              <td>
-                                <img
-                                  src={isAllowedFan ? toggleOn : toggleOff}
-                                  alt=""
-                                  className="w-8 cursor-pointer m-auto"
-                                  onClick={toggleFan}
-                                />
-                              </td>
-                            </tr>
-                            <tr>
-                              <td className="whitespace-nowrap text-xs dark:text-white text-black">
-                                Require Password to Apply
-                              </td>
-                              <td>
-                                <img
-                                  src={requirePassword ? toggleOn : toggleOff}
-                                  alt=""
-                                  className="w-8 cursor-pointer m-auto"
-                                  onClick={togglePassword}
-                                />
-                              </td>
-                            </tr>
-                            <tr>
-                              <td className="text-xs dark:text-white text-black">
-                                Display Position
-                              </td>
-                              <td>
-                                <img
-                                  src={displayPosition ? toggleOn : toggleOff}
-                                  alt=""
-                                  className="w-8 cursor-pointer m-auto"
-                                  onClick={togglePosition}
-                                />
-                              </td>
-                            </tr>
-                            <tr>
-                              <td className="text-xs dark:text-white text-black">
-                                Display JerseyNumber
-                              </td>
-                              <td>
-                                <img
-                                  src={displayJerseyNumber ? toggleOn : toggleOff}
-                                  alt=""
-                                  className="w-8 cursor-pointer m-auto"
-                                  onClick={toggleJerseyNumber}
-                                />
-                              </td>
-                            </tr>
-                            <tr>
-                              <td className="text-xs dark:text-white text-black">
-                                Display 3PA
-                              </td>
-                              <td>
-                                <img
-                                  src={displayAttempts3 ? toggleOn : toggleOff}
-                                  alt=""
-                                  className="w-8 cursor-pointer m-auto"
-                                  onClick={toggleAttempts3}
-                                />
-                              </td>
-                            </tr>
-                            <tr>
-                              <td className="text-xs dark:text-white text-black">
-                                Display FGA
-                              </td>
-                              <td>
-                                <img
-                                  src={displayAttempts2 ? toggleOn : toggleOff}
-                                  alt=""
-                                  className="w-8 cursor-pointer m-auto"
-                                  onClick={toggleAttempts2}
-                                />
-                              </td>
-                            </tr>
-                            <tr>
-                              <td className="text-xs dark:text-white text-black">
-                                Display FTA
-                              </td>
-                              <td>
-                                <img
-                                  src={displayAttempts1 ? toggleOn : toggleOff}
-                                  alt=""
-                                  className="w-8 cursor-pointer m-auto"
-                                  onClick={toggleAttempts1}
-                                />
-                              </td>
-                            </tr>
-                            <tr>
-                              <td className="text-xs dark:text-white text-black">
-                                Display Blocks
-                              </td>
-                              <td>
-                                <img
-                                  src={displayBlocks ? toggleOn : toggleOff}
-                                  alt=""
-                                  className="w-8 cursor-pointer m-auto"
-                                  onClick={toggleBlocks}
-                                />
-                              </td>
-                            </tr>
-                            <tr>
-                              <td className="text-xs dark:text-white text-black">
-                                Display Rebounds
-                              </td>
-                              <td>
-                                <img
-                                  src={displayRebounds ? toggleOn : toggleOff}
-                                  alt=""
-                                  className="w-8 cursor-pointer m-auto"
-                                  onClick={toggleRebounds}
-                                />
-                              </td>
-                            </tr>
-                            <tr>
-                              <td className="text-xs dark:text-white text-black">
-                                Display Assists
-                              </td>
-                              <td>
-                                <img
-                                  src={displayAssists ? toggleOn : toggleOff}
-                                  alt=""
-                                  className="w-8 cursor-pointer m-auto"
-                                  onClick={toggleAssists}
-                                />
-                              </td>
-                            </tr>
-                            <tr>
-                              <td className="text-xs dark:text-white text-black">
-                                Display Fouls
-                              </td>
-                              <td>
-                                <img
-                                  src={displayFouls ? toggleOn : toggleOff}
-                                  alt=""
-                                  className="w-8 cursor-pointer m-auto"
-                                  onClick={toggleFouls}
-                                />
-                              </td>
-                            </tr>
-                            <tr>
-                              <td className="text-xs dark:text-white text-black">
-                                Display Steals
-                              </td>
-                              <td>
-                                <img
-                                  src={displaySteals ? toggleOn : toggleOff}
-                                  alt=""
-                                  className="w-8 cursor-pointer m-auto"
-                                  onClick={toggleSteals}
-                                />
-                              </td>
-                            </tr>
-                            <tr>
-                              <td className="text-xs dark:text-white text-black">
-                                Display Turnovers
-                              </td>
-                              <td>
-                                <img
-                                  src={displayTurnovers ? toggleOn : toggleOff}
-                                  alt=""
-                                  className="w-8 cursor-pointer m-auto"
-                                  onClick={toggleTurnovers}
-                                />
-                              </td>
-                            </tr>
-                            {/*<tr>
+                      <AdminTable user={user} leagueId={leagueId} />
+                    </div>
+                    <AdminModal user={user} leagueId={leagueId} />
+                    <LeaguePassowrdModal />
+                    {/* Stats */}
+                    <div className="flex flex-col  space-y-3 border border-dark-gray rounded p-5">
+                      <table className="table-fixed">
+                        <thead>
+                          <tr>
+                            <th className="dark:text-white text-black">
+                              Action
+                            </th>
+                            <th></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td className=" text-xs dark:text-white text-black">
+                              Allow Fan view
+                            </td>
+                            <td>
+                              <img
+                                src={isAllowedFan ? toggleOn : toggleOff}
+                                alt=""
+                                className="w-8 cursor-pointer m-auto"
+                                onClick={toggleFan}
+                              />
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className="whitespace-nowrap text-xs dark:text-white text-black">
+                              Require Password to Apply
+                            </td>
+                            <td>
+                              <img
+                                src={requirePassword ? toggleOn : toggleOff}
+                                alt=""
+                                className="w-8 cursor-pointer m-auto"
+                                onClick={togglePassword}
+                              />
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className="text-xs dark:text-white text-black">
+                              Display Position
+                            </td>
+                            <td>
+                              <img
+                                src={displayPosition ? toggleOn : toggleOff}
+                                alt=""
+                                className="w-8 cursor-pointer m-auto"
+                                onClick={togglePosition}
+                              />
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className="text-xs dark:text-white text-black">
+                              Display JerseyNumber
+                            </td>
+                            <td>
+                              <img
+                                src={displayJerseyNumber ? toggleOn : toggleOff}
+                                alt=""
+                                className="w-8 cursor-pointer m-auto"
+                                onClick={toggleJerseyNumber}
+                              />
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className="text-xs dark:text-white text-black">
+                              Display 3PA
+                            </td>
+                            <td>
+                              <img
+                                src={displayAttempts3 ? toggleOn : toggleOff}
+                                alt=""
+                                className="w-8 cursor-pointer m-auto"
+                                onClick={toggleAttempts3}
+                              />
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className="text-xs dark:text-white text-black">
+                              Display FGA
+                            </td>
+                            <td>
+                              <img
+                                src={displayAttempts2 ? toggleOn : toggleOff}
+                                alt=""
+                                className="w-8 cursor-pointer m-auto"
+                                onClick={toggleAttempts2}
+                              />
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className="text-xs dark:text-white text-black">
+                              Display FTA
+                            </td>
+                            <td>
+                              <img
+                                src={displayAttempts1 ? toggleOn : toggleOff}
+                                alt=""
+                                className="w-8 cursor-pointer m-auto"
+                                onClick={toggleAttempts1}
+                              />
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className="text-xs dark:text-white text-black">
+                              Display Blocks
+                            </td>
+                            <td>
+                              <img
+                                src={displayBlocks ? toggleOn : toggleOff}
+                                alt=""
+                                className="w-8 cursor-pointer m-auto"
+                                onClick={toggleBlocks}
+                              />
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className="text-xs dark:text-white text-black">
+                              Display Rebounds
+                            </td>
+                            <td>
+                              <img
+                                src={displayRebounds ? toggleOn : toggleOff}
+                                alt=""
+                                className="w-8 cursor-pointer m-auto"
+                                onClick={toggleRebounds}
+                              />
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className="text-xs dark:text-white text-black">
+                              Display Assists
+                            </td>
+                            <td>
+                              <img
+                                src={displayAssists ? toggleOn : toggleOff}
+                                alt=""
+                                className="w-8 cursor-pointer m-auto"
+                                onClick={toggleAssists}
+                              />
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className="text-xs dark:text-white text-black">
+                              Display Fouls
+                            </td>
+                            <td>
+                              <img
+                                src={displayFouls ? toggleOn : toggleOff}
+                                alt=""
+                                className="w-8 cursor-pointer m-auto"
+                                onClick={toggleFouls}
+                              />
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className="text-xs dark:text-white text-black">
+                              Display Steals
+                            </td>
+                            <td>
+                              <img
+                                src={displaySteals ? toggleOn : toggleOff}
+                                alt=""
+                                className="w-8 cursor-pointer m-auto"
+                                onClick={toggleSteals}
+                              />
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className="text-xs dark:text-white text-black">
+                              Display Turnovers
+                            </td>
+                            <td>
+                              <img
+                                src={displayTurnovers ? toggleOn : toggleOff}
+                                alt=""
+                                className="w-8 cursor-pointer m-auto"
+                                onClick={toggleTurnovers}
+                              />
+                            </td>
+                          </tr>
+                          {/*<tr>
                               <td>Display League ID</td>
                               <td>
                                 <img
@@ -1349,12 +1370,12 @@ const League = () => {
                                 />
                               </td>
                             </tr>*/}
-                          </tbody>
-                        </table>
-                      </div>
+                        </tbody>
+                      </table>
                     </div>
-                  </TabPanel>
-              }
+                  </div>
+                </TabPanel>
+              )}
             </div>
           </TabContext>
         </div>

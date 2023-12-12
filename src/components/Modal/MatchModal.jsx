@@ -6,8 +6,6 @@ import Input from "../Input";
 import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../actions";
 import { useParams } from "react-router-dom";
-import axios from "axios";
-import apis from "../../utils/apis";
 
 const MatchModal = () => {
   let { leagueId } = useParams();
