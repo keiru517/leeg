@@ -190,11 +190,11 @@ const Player = () => {
             {/* <p className="text-3xl text-white text-left font-black"> */}
             <div className="text-sm sm:text-3xl text-white text-left font-black">
               <div className="flex items-center">
-                <p className="text-xs sm:text-[28px] text-black dark:text-white">
+                <p className="text-lg sm:text-[28px] text-black dark:text-white">
                   {player?.firstName} {player?.lastName}{" "}
                 </p>
                 {isAdmin && (
-                  <span className="text-[10px] sm:text-xs sm:mt-2 font-normal text-gray-400">
+                  <span className="text-[10px] sm:text-xs sm:mt-2 font-normal text-gray-400 sm:inline hidden">
                     / {player?.email}
                   </span>
                 )}

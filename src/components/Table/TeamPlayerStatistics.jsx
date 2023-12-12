@@ -16,6 +16,7 @@ const TeamPlayerStatistics = (props) => {
     (match) => match.leagueId == leagueId
   );
   const displayPosition = league?.displayPosition;
+  const displayJerseyNumber = league?.displayJerseyNumber;
   const displayAttempts3 = league?.displayAttempts3;
   const displayAttempts2 = league?.displayAttempts2;
   const displayAttempts1 = league?.displayAttempts1;
@@ -50,7 +51,7 @@ const TeamPlayerStatistics = (props) => {
         </Typography>
       ),
     },
-    {
+    displayJerseyNumber &&{
       label: "Jersey Number",
       getValue: (row) => (
         <Typography variant="small" className="font-normal">
