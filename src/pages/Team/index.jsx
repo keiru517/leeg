@@ -115,13 +115,13 @@ const Team = () => {
               className="w-10 h-10 sm:w-20 sm:h-20 ml-6 rounded-full border border-gray-500"
             />
 
-            <div className="text-lg sm:text-3xl dark:text-white ml-6 font-bold">
+            <div className="text-2xl sm:text-3xl dark:text-white ml-6 font-bold">
               {team?.name}
             </div>
             {isAdmin && (
               <img
                 src={darkMode ? editIconDark : editIconLight}
-                className="w-4 h-4 sm:w-6 sm:h-6 cursor-pointer ml-3 sm:mt-2"
+                className="w-4 h-4 sm:w-6 sm:h-6 cursor-pointer ml-3 mt-2"
                 onClick={handleEdit}
               ></img>
             )}

@@ -134,39 +134,6 @@ const Profile = () => {
         <span className="text-sky-500"> &gt; Personal Information</span>
       </p>
       <div className="flex flex-grow rounded-main bg-white dark:bg-slate overflow-auto p-default">
-        {/* <div className="flex flex-col space-y-3">
-          <button
-            onClick={goToStep1}
-            className={`${
-              step === 1
-                ? "bg-primary text-white font-bold"
-                : "text-font-dark-gray font-medium"
-            } rounded-default h-button text-sm w-[180px]`}
-          >
-            Personal Information
-          </button>
-          <button
-            onClick={goToStep2}
-            className={`${
-              step === 2
-                ? "bg-primary text-white font-bold"
-                : "text-font-dark-gray font-medium"
-            } rounded-default h-button text-sm w-[180px]`}
-          >
-            Admin Access
-          </button>
-          <button
-            onClick={goToStep3}
-            className={`${
-              step === 3
-                ? "bg-primary text-white font-bold"
-                : "text-font-dark-gray font-medium"
-            } rounded-default h-button text-sm w-[180px]`}
-          >
-            Stats Tracking
-          </button>
-        </div>
-        <img src={verticalLine} alt="" className="mx-5" /> */}
 
         {step === 1 ? (
           <div className="flex flex-col flex-grow">
@@ -201,7 +168,7 @@ const Profile = () => {
               </div>
               {status === "information" ? (
                 <>
-                  <div className="grid grid-cols-3 space-x-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                     <Input
                       className="text-xs rounded-default"
                       placeholder="Type Your First Name"
@@ -223,14 +190,14 @@ const Profile = () => {
                   </div>
                 </>
               ) : (
-                <div className="grid grid-cols-3 space-x-3">
-                  <Input
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  <PasswordInput
                     type="password"
                     className="text-xs rounded-default"
                     placeholder="Type Your Old Password"
                     value={oldPassword}
                     onChange={(e) => setOldPassword(e.target.value)}
-                  ></Input>
+                  ></PasswordInput>
                   <PasswordInput
                     className="rounded-default text-font-dark-gray text-xs"
                     placeholder="Type Your Password*"
