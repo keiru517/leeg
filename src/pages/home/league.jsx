@@ -174,6 +174,7 @@ const League = () => {
   );
 
   const [teamKeyword, setTeamKeyword] = useState("");
+  const [matchKeyword, setMatchKeyword] = useState("");
 
   const [standingsKeyword, setStandingsKeyword] = useState("");
 
@@ -633,7 +634,7 @@ const League = () => {
         </div>
       </p>
       <div className="rounded-default bg-white dark:bg-slate flex-grow sm:p-default">
-        <div className="w-full px-2 sm:px-0 h-full flex flex-col">
+        <div className="w-full px-2 sm:px-0 h-full flex flex-col pt-3">
           <TabContext value={tab}>
             <div className="flex justify-between">
               <Tabs
@@ -659,8 +660,8 @@ const League = () => {
                       "&:hover": { backgroundColor: "#ffffff15" },
                       // "&:hover": { backgroundColor: "#ffffff15" },
                       "&.Mui-selected": {
-                        backgroundColor: "#ffffff15",
-                        color: "white",
+                        backgroundColor: darkMode?"#ffffff15":"#f4f4f4",
+                        color: darkMode?"white":"black",
                         borderBottom: "2px solid rgb(37, 99, 235)",
                       },
                     }}
@@ -841,8 +842,8 @@ const League = () => {
                       className="rounded-lg h-[42px] text-xs"
                       icon={darkMode ? searchIconDark : searchIconLight}
                       placeholder="Search Matches"
-                      value={teamKeyword}
-                      onChange={(e) => setTeamKeyword(e.target.value)}
+                      value={matchKeyword}
+                      onChange={(e) => setMatchKeyword(e.target.value)}
                     />
                   </div>
                   <div className="">
@@ -859,7 +860,7 @@ const League = () => {
                 {matches.length > 0 ? (
                   <MatchTable
                     matches={matches}
-                    leagueId={leagueId}
+                    keyword={matchKeyword}
                   ></MatchTable>
                 ) : (
                   <div className="flex items-center flex-grow">

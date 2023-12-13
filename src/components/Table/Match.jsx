@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { Typography } from "@material-tailwind/react";
 import { useDispatch, useSelector } from "react-redux";
 import Option from "../Option";
@@ -7,7 +7,27 @@ import * as actions from "../../actions";
 const MatchTable = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { matches, leagueId } = props;
+  let { leagueId } = useParams();
+  const { keyword } = props;
+
+  const teams = useSelector((state) => state.home.teams).filter(
+    (team) => team.leagueId == leagueId
+  );
+
+  const matches = useSelector((state) => state.home.matches).filter((match) => {
+    const homeTeam = teams.find((team) => team.id == match.homeTeamId);
+    const awayTeam = teams.find((team) => team.id == match.awayTeamId);
+    return (
+      match.leagueId == leagueId &&
+      match.isDeleted == 0 &&
+      (homeTeam.name.toLowerCase().includes(keyword.toLowerCase()) ||
+        awayTeam.name.toLowerCase().includes(keyword.toLowerCase()) || 
+        match.location.toLowerCase().includes(keyword.toLowerCase()) ||
+        match.date.toLowerCase().includes(keyword.toLowerCase()) || 
+        match.time.toLowerCase().includes(keyword.toLowerCase())  
+        )
+    );
+  });
 
   const user = useSelector((state) => state.home.user);
   const league = useSelector((state) => state.home.leagues).find(
@@ -37,7 +57,15 @@ const MatchTable = (props) => {
       "Action",
     ];
   } else {
-    var columns = ["Date", "Location", "Time", "Home", "Away", "Results", "Status"];
+    var columns = [
+      "Date",
+      "Location",
+      "Time",
+      "Home",
+      "Away",
+      "Results",
+      "Status",
+    ];
   }
 
   const options = [
@@ -45,8 +73,6 @@ const MatchTable = (props) => {
     { id: 1, name: "Scoreboard" },
     { id: 2, name: "Delete" },
   ];
-
-  const teams = useSelector((state) => state.home.teams);
 
   // const goToMatchup = (id) => {
   //   navigate(`/league/${leagueId}/matchup/${id}`)
@@ -85,7 +111,9 @@ const MatchTable = (props) => {
             {columns.map((head, idx) => (
               <th
                 key={idx}
-                className={`h-button text-center font-font-dark-gray font-normal text-sm ${head==="Action"?"":""}`}
+                className={`h-button text-center font-font-dark-gray font-normal text-sm ${
+                  head === "Action" ? "" : ""
+                }`}
               >
                 {head}
               </th>
@@ -142,7 +170,9 @@ const MatchTable = (props) => {
                         to={`/league/${leagueId}/team/${homeTeamId}`}
                       >
                         <img
-                          src={teams.find((team) => team.id == homeTeamId)?.logo}
+                          src={
+                            teams.find((team) => team.id == homeTeamId)?.logo
+                          }
                           alt=""
                           className="h-8 w-8 mr-2 rounded-full border border-gray-500"
                         />
