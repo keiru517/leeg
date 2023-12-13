@@ -148,7 +148,7 @@ const SignupWithEmail = () => {
                 <span className="text-black dark:text-white text-sm sm:text-base">{email}</span>
               </p>
             </div>
-            <div className="flex mb-5 mt-2 space-x-[26px]">
+            <div className="flex mb-5 mt-2 justify-between">
               <div>
                 <input
                   type="number"
@@ -256,7 +256,7 @@ const SignupWithEmail = () => {
             <div className="flex justify-between mb-4">
               <button
                 onClick={handleVerify}
-                className="w-[377px] h-button bg-primary rounded-default font-bold text-white hover:bg-opacity-70"
+                className="w-full h-button bg-primary rounded-default font-bold text-white hover:bg-opacity-70"
               >
                 Verify
               </button>

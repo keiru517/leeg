@@ -199,14 +199,16 @@ const RosterTable = (props) => {
                 <Typography
                   variant="small"
                   color="blue-gray"
-                  className="font-normal flex items-center underline px-3"
+                  className="font-normal flex items-center px-3"
                 >
+                  <Link to={`player/${player.userId}`}>
                   <img
                     src={player.avatar}
                     alt=""
-                    className="h-8 w-8 sm:mr-2 sm:ml-5 rounded-full border border-gray-500"
+                    className="h-8 w-8 mr-2 sm:ml-5 rounded-full border border-gray-500"
                   />
-                  <Link to={`player/${player.userId}`}>
+                  </Link>
+                  <Link to={`player/${player.userId}`} className="hover:underline">
                     {player.firstName} {player.lastName}
                   </Link>
                 </Typography>

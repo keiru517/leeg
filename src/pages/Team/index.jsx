@@ -3,18 +3,18 @@ import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { Tab } from "@headlessui/react";
+import MatchModal from "../../components/Modal/MatchModal";
 import Input from "../../components/Input";
 import searchIconDark from "../../assets/img/dark_mode/search-icon-dark.svg";
 import searchIconLight from "../../assets/img/dark_mode/search-icon-light.svg";
 import backIconDark from "../../assets/img/dark_mode/back-icon-dark.png";
 import backIconLight from "../../assets/img/dark_mode/back-icon-light.png";
 import MatchTable from "../../components/Table/Match";
-import TeamModal from "../../components/Modal/TeamModal";
 import TeamStatisticsTable from "../../components/Table/TeamStatistics";
-import PlayerStatisticsTable from "../../components/Table/PlayerStatistics";
+import TeamPlayerStatisticsTable from "../../components/Table/TeamPlayerStatistics";
 import * as actions from "../../actions";
-import editIconDark from "../../assets/img/dark_mode/edit-icon-dark.svg";
-import editIconLight from "../../assets/img/dark_mode/edit-icon-light.svg";
+import editIconDark from "../../assets/img/dark_mode/edit-icon-dark.png";
+import editIconLight from "../../assets/img/dark_mode/edit-icon-light.png";
 
 const Team = () => {
   let { leagueId, teamId } = useParams();
@@ -83,15 +83,15 @@ const Team = () => {
     <div className="flex flex-col flex-grow">
       <p className="font-dark-gray my-3">
         <Link to="/">
-          <span className="">My Leagues</span>
+          <span className="hover:underline">My Leagues</span>
         </Link>
         <span className=""> &gt; </span>
         <Link to={`/league/${league?.id}?tab=0`}>
-          <span className="">{league?.name}</span>
+          <span className="hover:underline">{league?.name}</span>
         </Link>
         <span className=""> &gt; </span>
         <Link to={`/league/${league?.id}?tab=1`}>
-          <span className="">Teams</span>
+          <span className="hover:underline">Teams</span>
         </Link>
         <span className="text-sky-500"> &gt; {team?.name}</span>
       </p>
@@ -99,7 +99,7 @@ const Team = () => {
         <div className="page-title bg-white dark:bg-charcoal flex items-center justify-between p-3">
           <div className="flex items-center">
             <div
-              className="w-[34px] h-[34px] bg-gray-300 dark:bg-primary items-center flex justify-center rounded-default cursor-pointer hover:opacity-70"
+              className="w-6 h-6 sm:w-[34px] sm:h-[34px] bg-gray-300 dark:bg-primary items-center flex justify-center rounded-default cursor-pointer hover:opacity-70"
               onClick={() => navigate(-1)}
             >
               <img
@@ -112,16 +112,16 @@ const Team = () => {
             <img
               src={team?.logo}
               alt=""
-              className="w-20 h-20 ml-6 rounded-full border border-gray-500"
+              className="w-10 h-10 sm:w-20 sm:h-20 ml-6 rounded-full border border-gray-500"
             />
 
-            <div className="text-3xl dark:text-white ml-6 font-bold">
+            <div className="text-2xl sm:text-3xl dark:text-white ml-6 font-bold">
               {team?.name}
             </div>
             {isAdmin && (
               <img
                 src={darkMode ? editIconDark : editIconLight}
-                className="w-6 h-6 cursor-pointer ml-3 mt-2"
+                className="w-4 h-4 sm:w-6 sm:h-6 cursor-pointer ml-3 mt-2"
                 onClick={handleEdit}
               ></img>
             )}
@@ -192,11 +192,11 @@ const Team = () => {
                   "rounded-xl flex flex-col w-full h-full "
                 )}
               >
-                {players.length > 0 ? (
+                {matches.length > 0 ? (
                   <>
                     <hr className="h-px mt-4 bg-charcoal border-0" />
                     <div className="flex flex-col space-y-5">
-                      <TeamStatisticsTable />
+                      <TeamStatisticsTable matches={matches}/>
                     </div>
                   </>
                 ) : (
@@ -230,14 +230,14 @@ const Team = () => {
                         .includes(keyword.toLowerCase())
                     ).length > 0 ? (
                       <div className="flex flex-grow items-center">
-                        <PlayerStatisticsTable
+                        <TeamPlayerStatisticsTable
                           players={players.filter((player) =>
                             (player.firstName + player.lastName)
                               .toLowerCase()
                               .includes(keyword.toLowerCase())
                           )}
                           matchups={matchups}
-                        ></PlayerStatisticsTable>
+                        ></TeamPlayerStatisticsTable>
                       </div>
                     ) : (
                       <div className="flex items-center flex-grow">
@@ -253,7 +253,7 @@ const Team = () => {
           </Tab.Group>
         </div>
       </div>
-      <TeamModal />
+      <MatchModal />
     </div>
   );
 };

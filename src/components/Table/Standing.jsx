@@ -17,8 +17,12 @@ const StandingTable = ({ teams }) => {
           variant="small"
           className="font-normal flex items-center sm:pl-8 space-x-3"
         >
-          <img src={row.logo} alt="" className="h-8 w-8 mr-2 rounded-full" />
-          <Link to={`team/${row.id}`}>{row.name}</Link>
+          <Link to={`team/${row.id}`}>
+            <img src={row.logo} alt="" className="h-8 w-8 mr-2 rounded-full" />
+          </Link>
+          <Link to={`team/${row.id}`} className="hover:underline">
+            {row.name}
+          </Link>
         </Typography>
       ),
     },

@@ -1,24 +1,27 @@
 import { Typography } from "@material-tailwind/react";
-import { useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { useMemo } from "react";
 import Table from "./index";
 
-const TeamStatistics = (props) => {
-  let { leagueId, teamId } = useParams();
-  const { matches } = props;
-  const team = useSelector((state) => state.home.teams).find(
-    (team) => team.id == teamId
-  );
-  const matchups = useSelector((state) => state.home.matchups).filter(
-    (matchup) => matchup.teamId == team.id
+const PlayerMatchHistory = (props) => {
+  const { leagueId, userId } = props;
+
+  const teams = useSelector((state) => state.home.teams);
+  const player = useSelector((state) => state.home.players).find(
+    (player) =>
+      player.userId == userId &&
+      player.leagueId == leagueId &&
+      player?.teamId !== 0
   );
 
   const league = useSelector((state) => state.home.leagues).find(
     (league) => league.id == leagueId
   );
-
+  const matches = useSelector((state) => state.home.matches).filter(
+    (match) => match.leagueId == leagueId
+  );
   const displayPosition = league?.displayPosition;
-  const displayJerseyNumber = league?.displayJerseyNumber;
   const displayAttempts3 = league?.displayAttempts3;
   const displayAttempts2 = league?.displayAttempts2;
   const displayAttempts1 = league?.displayAttempts1;
@@ -29,73 +32,77 @@ const TeamStatistics = (props) => {
   const displaySteals = league?.displaySteals;
   const displayTurnovers = league?.displayTurnovers;
 
-  const data = {
-    win: team.win,
-    lose: team.lose,
-    pointScored: team.pointScored,
-    pointAgainst: team.pointAgainst,
-    diff: team.diff,
-    totalPoints: matchups.reduce((sum, item) => sum + item.points, 0),
-    totalPoints1: matchups.reduce((sum, matchup) => sum + matchup.points1, 0),
-    totalPoints2: matchups.reduce((sum, matchup) => sum + matchup.points2, 0),
-    totalPoints3: matchups.reduce((sum, matchup) => sum + matchup.points3, 0),
-    attempts1: matchups.reduce((sum, matchup) => sum + matchup.attempts1, 0),
-    attempts2: matchups.reduce((sum, matchup) => sum + matchup.attempts2, 0),
-    attempts3: matchups.reduce((sum, matchup) => sum + matchup.attempts3, 0),
-    blocks: matchups.reduce((sum, matchup) => sum + matchup.blocks, 0),
-    rebounds: matchups.reduce((sum, matchup) => sum + matchup.rebounds, 0),
-    assists: matchups.reduce((sum, matchup) => sum + matchup.assists, 0),
-    fouls: matchups.reduce((sum, matchup) => sum + matchup.fouls, 0),
-    steals: matchups.reduce((sum, matchup) => sum + matchup.steals, 0),
-    turnovers: matchups.reduce((sum, matchup) => sum + matchup.turnovers, 0),
-  };
+  const matchups = useSelector((state) => state.home.matchups);
+  //   .filter((matchup) => {
+  //     const match = matches.find((m) => m.id == matchup.matchId);
+  //     return (
+  //       matchup.userId == userId &&
+  //       matchup.leagueId == leagueId &&
+  //       match &&
+  //       !match.isNew
+  //     );
+  //   })
+  //   .map((matchup) => {
+  //     const match = matches.find((m) => m.id == matchup.matchId);
+  //     return { ...matchup, match };
+  //   });
 
   const columns = [
     {
-      label: "Wins",
+      label: "Game Date",
       getValue: (row) => (
         <Typography variant="small" className="font-normal">
-          {row.win}
+          {row.date}
         </Typography>
       ),
     },
     {
-      label: "Losses",
+      label: "Matchup",
       getValue: (row) => (
-        <Typography variant="small" className="font-normal">
-          {row.lose}
-        </Typography>
+        <div className="flex items-center space-x-2 justify-center sticky left-0">
+          <img
+            src={row.homeTeam.logo}
+            alt=""
+            className="w-8 h-8 rounded-full"
+          />
+          <p
+            className={`underline ${
+              row.homeTeamPoints > row.awayTeamPoints
+                ? "font-bold"
+                : ""
+            }`}
+          >
+            <Link to={`/league/${leagueId}/team/${row.homeTeamId}`}>
+              {row.homeTeam.name}
+            </Link>
+          </p>
+          <p className="text-font-dark-gray">VS</p>
+          <img
+            src={
+              row.awayTeam.logo
+            }
+            alt=""
+            className="w-8 h-8 mr-2 rounded-full"
+          />
+          <p
+            className={`underline ${
+              row.awayTeamPoints > row.homeTeamPoints
+                ? "font-bold"
+                : ""
+            }`}
+          >
+            <Link to={`/league/${leagueId}/team/${row.awayTeamId}`}>
+              {row.awayTeam.name}
+            </Link>
+          </p>
+        </div>
       ),
     },
     {
-      label: "Games Played",
+      label: "PTS",
       getValue: (row) => (
         <Typography variant="small" className="font-normal">
-          {row.win + row.lose}
-        </Typography>
-      ),
-    },
-    {
-      label: "Points Scored",
-      getValue: (row) => (
-        <Typography variant="small" className="font-normal">
-          {row.pointScored}
-        </Typography>
-      ),
-    },
-    {
-      label: "Points Against",
-      getValue: (row) => (
-        <Typography variant="small" className="font-normal">
-          {row.pointAgainst}
-        </Typography>
-      ),
-    },
-    {
-      label: "Differential",
-      getValue: (row) => (
-        <Typography as="a" href="#" variant="small" className="font-normal">
-          {row.diff}
+          {row.totalPoints}
         </Typography>
       ),
     },
@@ -237,20 +244,51 @@ const TeamStatistics = (props) => {
     },
   ].filter(Boolean);
 
-  // const data = useMemo(
-  //     ()=>matchups.filter(matchup=>matchup.match)
-  // )
+  const data = useMemo(
+    () =>
+      matchups
+        .filter((matchup) => {
+          const match = matches.find((m) => m.id == matchup.matchId);
+          return (
+            matchup.userId == userId &&
+            matchup.leagueId == leagueId &&
+            match &&
+            !match.isNew
+          );
+        })
+        .map((matchup) => {
+          const match = matches.find((m) => m.id == matchup.matchId);
+          return {
+            date: match.date,
+            homeTeamId: match.homeTeamId,
+            awayTeamId: match.awayTeamId,
+            homeTeamPoints: match.homeTeamPoints,
+            awayTeamPoints: match.awayTeamPoints,
+            homeTeam: teams.find((team) => team.id == match.homeTeamId),
+            awayTeam: teams.find((team) => team.id == match.awayTeamId),
+            totalPoints: matchup.points,
+            totalPoints1: matchup.points1,
+            totalPoints2: matchup.points2,
+            totalPoints3: matchup.points3,
+            attempts1: matchup.attempts1,
+            attempts2: matchup.attempts2,
+            attempts3: matchup.attempts3,
+            blocks: matchup.blocks,
+            rebounds: matchup.rebounds,
+            assists: matchup.assists,
+            fouls: matchup.fouls,
+            steals: matchup.steals,
+            turnovers: matchup.turnovers,
+          };
+        }),
+    [matchups]
+  );
 
   return (
-    <>
-      <Table
-        data={[data]}
-        columns={columns}
-        presentCheckBox={false}
-        presentOptions={false}
-      />
-    </>
+    <div className="text-black dark:text-white mt-5 w-ful text-xs overflow-auto">
+      <Table data={data} columns={columns} />
+    </div>
   );
 };
 
-export default TeamStatistics;
+export default PlayerMatchHistory;

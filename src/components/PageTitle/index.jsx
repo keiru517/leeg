@@ -84,7 +84,7 @@ const PageTitle = (props) => {
       <div className="flex items-center">
         {backIcon ? (
           <div
-            className="w-[34px] h-[34px] bg-gray-300 dark:bg-primary items-center flex justify-center rounded-default cursor-pointer hover:opacity-70"
+            className="w-6 h-6 sm:w-[34px] sm:h-[34px] bg-gray-300 dark:bg-primary items-center flex justify-center rounded-default cursor-pointer hover:opacity-70"
             onClick={() => navigate(-1)}
           >
             <img
@@ -107,7 +107,7 @@ const PageTitle = (props) => {
           ""
         )}
         {children ? (
-          <p className="text-3xl dark:text-white ml-6 font-bold">{children}</p>
+          <p className="text-2xl sm:text-3xl dark:text-white ml-6 font-bold">{children}</p>
         ) : (
           <>
             <Select

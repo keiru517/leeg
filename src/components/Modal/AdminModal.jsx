@@ -65,7 +65,7 @@ const AdminModal = (props) => {
         </Transition.Child>
 
         <div className="fixed inset-0 z-10 overflow-y-auto">
-          <div className="flex min-h-full items-end justify-center text-center sm:items-center sm:p-0">
+          <div className="flex min-h-full justify-center text-center items-center sm:p-0">
             <Transition.Child
               as={Fragment}
               enter="ease-out duration-300"
@@ -75,7 +75,7 @@ const AdminModal = (props) => {
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative transform overflow-hidden rounded-main text-left shadow-xl transition-all sm:my-8 bg-white dark:bg-slate h-[609px] w-[400px] sm:w-[500px] md:w-[735px] mx-3 flex flex-col">
+              <Dialog.Panel className="relative transform overflow-hidden rounded-main text-left shadow-xl transition-all sm:my-8 bg-white dark:bg-slate h-96 sm:h-[609px] w-[400px] sm:w-[500px] md:w-[735px] mx-3 flex flex-col">
                 <div className="divide-y divide-solid divide-[#3A3A3A] flex flex-col flex-grow">
                   <div className="flex items-center text-left h-[88px] justify-between px-default">
                     <p className="text-2xl text-black dark:text-white font-bold">
@@ -96,7 +96,7 @@ const AdminModal = (props) => {
                     ></Input>
                     <button
                       onClick={inviteAdmin}
-                      className="bg-primary rounded-xl w-full hover:bg-sky-600 text-white h-button"
+                      className="bg-primary rounded-default w-full hover:bg-sky-600 text-white h-button"
                     >
                       Invite Admin
                     </button>

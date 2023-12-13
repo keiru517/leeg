@@ -117,7 +117,7 @@ const Table = ({
                 <Typography
                   variant="small"
                   color="blue-gray"
-                  className="font-normal leading-none "
+                  className="font-normal leading-none"
                 >
                   {col.label}
                 </Typography>
@@ -159,10 +159,7 @@ const Table = ({
                       ? {
                           position: "sticky",
                           left: Object.keys(columnWidths).reduce((acc, i) => {
-                            if (
-                              (presentCheckBox && i < idx + 1) ||
-                              i < idx
-                            ) {
+                            if ((presentCheckBox && i < idx + 1) || i < idx) {
                               acc += columnWidths[i];
                             }
                             return acc;
@@ -175,11 +172,9 @@ const Table = ({
                   <Typography
                     variant="small"
                     color="blue-gray"
-                    className="font-normal"
+                    className={`font-normal`}
                   >
-                    {column.label === "#"
-                      ? index + 1
-                      : column.getValue(d)}
+                    {column.label === "#" ? index + 1 : column.getValue(d)}
                   </Typography>
                 </td>
               ))}

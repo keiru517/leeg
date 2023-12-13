@@ -3,8 +3,11 @@ import { useSelector } from "react-redux";
 import Table from "./index";
 import { Link } from "react-router-dom";
 import { useMemo } from "react";
+import { useParams } from "react-router";
+
 
 const Player = ({ players, league }) => {
+  let { leagueId } = useParams();
   const matchups = useSelector((state) => state.home.matchups);
 
   const displayPosition = league?.displayPosition;
@@ -52,24 +55,34 @@ const Player = ({ players, league }) => {
       label: "Player",
       fixed: true,
       getValue: (row) => (
-        <Link to={`player/${row.userId}`} className="flex items-center">
-          <img src={row.avatar} alt="" className="h-8 w-8 mr-4 rounded-full" />
-          {row.firstName} {row.lastName}
-        </Link>
+        <div className="flex items-center">
+          <Link to={`player/${row.userId}`}>
+            <img
+              src={row.avatar}
+              alt=""
+              className="h-8 w-8 mr-4 rounded-full border border-gray-500"
+            />
+          </Link>
+          <Link to={`/league/${leagueId}/player/${row.userId}`} className="hover:underline">
+            {row.firstName} {row.lastName}
+          </Link>
+        </div>
       ),
     },
     {
       label: "Team",
       getValue: (row) =>
         row.team && (
-          <Link to={`team/${row.teamId}`} className="flex items-center">
-            <img
-              src={row.team?.logo}
-              alt=""
-              className="w-8 h-8 mr-2 rounded-full border border-gray-500"
-            />
-            {row.team?.name}
-          </Link>
+          <div className="flex items-center">
+            <Link to={`team/${row.teamId}`}>
+              <img
+                src={row.team?.logo}
+                alt=""
+                className="w-8 h-8 mr-2 rounded-full border border-gray-500"
+              />
+            </Link>
+            <Link to={`team/${row.teamId}`} className="hover:underline">{row.team?.name}</Link>
+          </div>
         ),
     },
     displayJerseyNumber && {

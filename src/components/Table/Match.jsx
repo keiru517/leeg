@@ -121,7 +121,7 @@ const MatchTable = (props) => {
                     variant="small"
                     color="blue-gray"
                     className={`font-normal flex items-center justify-left sm:pl-8 ${
-                      isDeletedTeam(homeTeamId) ? "" : "underline"
+                      isDeletedTeam(homeTeamId) ? "" : "hover:underline"
                     }`}
                   >
                     {isDeletedTeam(homeTeamId) ? (
@@ -147,7 +147,7 @@ const MatchTable = (props) => {
                           className="h-8 w-8 mr-2 rounded-full border border-gray-500"
                         />
                         <p
-                          className={`text-black dark:text-white truncate w-32 ${
+                          className={`text-black dark:text-white ${
                             homeTeamPoints > awayTeamPoints && !isNew
                               ? "font-bold"
                               : ""
@@ -164,7 +164,7 @@ const MatchTable = (props) => {
                     variant="small"
                     color="blue-gray"
                     className={`font-normal flex items-center justify-left sm:pl-8 ${
-                      isDeletedTeam(awayTeamId) ? "" : "underline"
+                      isDeletedTeam(awayTeamId) ? "" : "hover:underline"
                     }`}
                   >
                     {isDeletedTeam(awayTeamId) ? (
@@ -190,7 +190,7 @@ const MatchTable = (props) => {
                           className="h-8 w-8 mr-2 rounded-full border border-gray-500"
                         />
                         <p
-                          className={`text-black dark:text-white truncate w-32 ${
+                          className={`text-black dark:text-white ${
                             homeTeamPoints < awayTeamPoints && !isNew
                               ? "font-bold"
                               : ""

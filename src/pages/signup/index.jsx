@@ -4,9 +4,13 @@ import PasswordInput from "../../components/Input/password";
 import upload from "../../assets/img/dark_mode/upload_photo.png";
 import apis from "../../utils/apis";
 import axios from "axios";
+import * as actions from "../../actions";
+import { useDispatch } from "react-redux";
+import { setAuthToken } from "../../utils/authService";
 
 const Signup = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   let { email } = useParams();
 
   const [panelHeight, setPanelHeight] = useState("617px");
@@ -49,11 +53,18 @@ const Signup = () => {
         axios
           .post(apis.signup, formData)
           .then((res) => {
-            navigate("/signupSuccess");
+            // navigate("/signupSuccess");
+            localStorage.setItem("token", res.data.token);
+            localStorage.setItem("userId", res.data.user.id);
+            
+            setAuthToken(res.data.token);
+            actions.getUserInfo(dispatch, res.data.user.id);
+            navigate("/", { replace: true });
           })
           .catch((error) => {
             // navigate('/signupSuccess');
-            alert(error.response.data.message);
+            
+            alert("Error while signup!");
           });
       }
     }
@@ -109,6 +120,10 @@ const Signup = () => {
               </div>
               <div className="my-6 space-y-4 ">
                 <div className="grid grid-cols-2 gap-4">
+                  <input type="text" 
+                  className="hidden"
+                  value={email}
+                  />
                   <input
                     className="w-full flex space-x-2 border border-dark-gray items-center px-3 bg-transparent outline-none  dark:text-white flex-grow h-[42px] rounded-default text-font-dark-gray text-xs"
                     placeholder="Type Your First Name*"
