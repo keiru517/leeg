@@ -1141,7 +1141,7 @@ const League = () => {
                             />
                           </span>
                         </div>
-                        <div className="mb-6 ">
+                        {/* <div className="mb-6 ">
                           <span className="">
                             <p className="dark:text-white text-black">
                               Password
@@ -1151,7 +1151,7 @@ const League = () => {
                               value={league?.password}
                             />
                           </span>
-                        </div>
+                        </div> */}
                       </div>
 
                       <div className="grid grid-cols-2 gap-2 ">
@@ -1187,7 +1187,7 @@ const League = () => {
                     <AdminModal user={user} leagueId={leagueId} />
                     <LeaguePassowrdModal />
                     {/* Stats */}
-                    <div className="flex flex-col  space-y-3 border border-dark-gray rounded p-5">
+                    <div className="flex flex-col space-y-3 border border-dark-gray rounded p-5">
                       <table className="table-fixed">
                         <thead>
                           <tr>
@@ -1224,6 +1224,14 @@ const League = () => {
                               />
                             </td>
                           </tr>
+                          {requirePassword && (
+                            <tr>
+                              <td className="whitespace-nowrap text-xs dark:text-white text-black">
+                                Password
+                              </td>
+                              <td className="text-xs dark:text-white text-black">{league?.password}</td>
+                            </tr>
+                          )}
                           <tr>
                             <td className="text-xs dark:text-white text-black">
                               Display Position

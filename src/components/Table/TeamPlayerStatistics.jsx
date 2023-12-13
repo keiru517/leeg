@@ -70,7 +70,7 @@ const TeamPlayerStatistics = (props) => {
       ),
     },
     {
-      label: "Points",
+      label: "PTS",
       getValue: (row) => (
         <Typography variant="small" className="font-normal">
           {row.totalPoints}
@@ -78,32 +78,15 @@ const TeamPlayerStatistics = (props) => {
       ),
     },
     {
-      label: "3 Points",
+      label: "3PM",
       getValue: (row) => (
         <Typography variant="small" className="font-normal">
           {row.totalPoints3}
         </Typography>
       ),
     },
-    {
-      label: "2 Points",
-      getValue: (row) => (
-        <Typography variant="small" className="font-normal">
-          {row.totalPoints2}
-        </Typography>
-      ),
-    },
-    {
-      label: "Free throws",
-      getValue: (row) => (
-        <Typography variant="small" className="font-normal">
-          {row.totalPoints1}
-        </Typography>
-      ),
-    },
-    displayAttempts3 &&
-    {
-      label: "3 Attempts",
+    displayAttempts3 && {
+      label: "3PA",
       condition: displayAttempts3,
       getValue: (row) => (
         <Typography variant="small" className="font-normal">
@@ -111,19 +94,53 @@ const TeamPlayerStatistics = (props) => {
         </Typography>
       ),
     },
-    displayAttempts2 &&
+    displayAttempts3 && {
+      label: "3P%",
+      condition: displayAttempts3,
+      getValue: (row) => (
+        <Typography variant="small" className="font-normal">
+          {isNaN((row.totalPoints3 / row.attempts3) * 100)
+            ? 0
+            : ((row.totalPoints3 / row.attempts3) * 100).toFixed(2)}
+        </Typography>
+      ),
+    },
     {
-      label: "2 Attempts",
-      condition: displayAttempts2,
+      label: "FGM",
+      getValue: (row) => (
+        <Typography variant="small" className="font-normal">
+          {row.totalPoints2}
+        </Typography>
+      ),
+    },
+    displayAttempts2 && {
+      label: "FGA",
       getValue: (row) => (
         <Typography variant="small" className="font-normal">
           {row.attempts2}
         </Typography>
       ),
     },
-    displayAttempts1 && 
+    displayAttempts2 && {
+      label: "FG%",
+      getValue: (row) => (
+        <Typography variant="small" className="font-normal">
+          {isNaN((row.totalPoints2 / row.attempts2) * 100)
+            ? 0
+            : ((row.totalPoints2 / row.attempts2) * 100).toFixed(2)}
+        </Typography>
+      ),
+    },
     {
-      label: "FT Attempts",
+      label: "FTM",
+      getValue: (row) => (
+        <Typography variant="small" className="font-normal">
+          {row.totalPoints1}
+        </Typography>
+      ),
+    },
+    displayAttempts1 && {
+      label: "FTA",
       condition: displayAttempts1,
       getValue: (row) => (
         <Typography variant="small" className="font-normal">
@@ -131,9 +148,19 @@ const TeamPlayerStatistics = (props) => {
         </Typography>
       ),
     },
-    displayBlocks &&
-    {
-      label: "Blocks",
+    displayAttempts1 && {
+      label: "FT%",
+      condition: displayAttempts1,
+      getValue: (row) => (
+        <Typography variant="small" className="font-normal">
+          {isNaN((row.totalPoints1 / row.attempts1) * 100)
+            ? 0
+            : ((row.totalPoints1 / row.attempts1) * 100).toFixed(2)}
+        </Typography>
+      ),
+    },
+    displayBlocks && {
+      label: "BLK",
       condition: displayBlocks,
       getValue: (row) => (
         <Typography variant="small" className="font-normal">
@@ -141,9 +168,8 @@ const TeamPlayerStatistics = (props) => {
         </Typography>
       ),
     },
-    displayRebounds && 
-    {
-      label: "Rebounds",
+    displayRebounds && {
+      label: "REB",
       condition: displayRebounds,
       getValue: (row) => (
         <Typography variant="small" className="font-normal">
@@ -151,9 +177,8 @@ const TeamPlayerStatistics = (props) => {
         </Typography>
       ),
     },
-    displayAssists &&
-    {
-      label: "Assists",
+    displayAssists && {
+      label: "AST",
       condition: displayAssists,
       getValue: (row) => (
         <Typography variant="small" className="font-normal">
@@ -161,9 +186,8 @@ const TeamPlayerStatistics = (props) => {
         </Typography>
       ),
     },
-    displayFouls &&
-    {
-      label: "Fouls",
+    displayFouls && {
+      label: "PF",
       condition: displayFouls,
       getValue: (row) => (
         <Typography variant="small" className="font-normal">
@@ -171,9 +195,8 @@ const TeamPlayerStatistics = (props) => {
         </Typography>
       ),
     },
-    displaySteals &&
-    {
-      label: "Steals",
+    displaySteals && {
+      label: "STL",
       condition: displaySteals,
       getValue: (row) => (
         <Typography variant="small" className="font-normal">
@@ -181,9 +204,8 @@ const TeamPlayerStatistics = (props) => {
         </Typography>
       ),
     },
-    displayTurnovers &&
-    {
-      label: "Turnovers",
+    displayTurnovers && {
+      label: "TOV",
       condition: displayTurnovers,
       getValue: (row) => (
         <Typography variant="small" className="font-normal">
