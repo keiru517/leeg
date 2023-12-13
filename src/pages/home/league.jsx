@@ -647,6 +647,7 @@ const League = () => {
                     color: darkMode ? "white" : "black",
                   },
                 }}
+                value={Number(tab)}
               >
                 {categories.map((category, idx) => (
                   <Tab
@@ -656,6 +657,7 @@ const League = () => {
                       color: "gray",
                       borderRadius: "5px",
                       "&:hover": { backgroundColor: "#ffffff15" },
+                      // "&:hover": { backgroundColor: "#ffffff15" },
                       "&.Mui-selected": {
                         backgroundColor: "#ffffff15",
                         color: "white",
@@ -986,7 +988,7 @@ const League = () => {
                       <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-7 w-full justify-between space-y-5 md:space-y-0 lg:space-y-0">
                         <div className="flex flex-grow space-x-3 md:col-span-4 lg:col-span-6">
                           <Input
-                            className="flex-grow rounded-lg h-[38px] bg-transparent text-xs"
+                            className="flex flex-grow rounded-lg h-[38px] bg-transparent text-xs"
                             icon={darkMode ? searchIconDark : searchIconLight}
                             placeholder="Search"
                             value={waitListKeyword}

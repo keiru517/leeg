@@ -83,15 +83,15 @@ const Team = () => {
     <div className="flex flex-col flex-grow">
       <p className="font-dark-gray my-3">
         <Link to="/">
-          <span className="">My Leagues</span>
+          <span className="hover:underline">My Leagues</span>
         </Link>
         <span className=""> &gt; </span>
         <Link to={`/league/${league?.id}?tab=0`}>
-          <span className="">{league?.name}</span>
+          <span className="hover:underline">{league?.name}</span>
         </Link>
         <span className=""> &gt; </span>
         <Link to={`/league/${league?.id}?tab=1`}>
-          <span className="">Teams</span>
+          <span className="hover:underline">Teams</span>
         </Link>
         <span className="text-sky-500"> &gt; {team?.name}</span>
       </p>

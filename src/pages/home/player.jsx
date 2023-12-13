@@ -146,7 +146,7 @@ const Player = () => {
         </Link>
 
         <span className=""> &gt; </span>
-        <Link to={`/league/${league?.id}`} className="hover:underline">
+        <Link to={`/league/${league?.id}?tab=0`} className="hover:underline">
           <span className="">{league?.name}</span>
         </Link>
         <span className=""> &gt; </span>
