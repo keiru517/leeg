@@ -117,7 +117,7 @@ const Table = ({
                 <Typography
                   variant="small"
                   color="blue-gray"
-                  className="font-normal leading-none "
+                  className="font-normal leading-none"
                 >
                   {col.label}
                 </Typography>

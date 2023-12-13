@@ -224,7 +224,7 @@ const Modal = (props) => {
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative transform overflow-hidden rounded-main pb-4 text-left shadow-xl transition-all sm:my-8 bg-white dark:bg-slate w-[400px] sm:w-[500px] h-[609px] md:w-[735px] mx-3">
+              <Dialog.Panel className="relative transform overflow-hidden rounded-main pb-4 text-left shadow-xl transition-all sm:my-8 bg-white dark:bg-slate w-[400px] sm:w-[500px] sm:h-[609px] md:w-[735px] mx-3">
                 <div className="divide-y divide-solid divide-font-dark-gray dark:divide-[#3A3A3A]">
                   <div className="flex items-center text-left h-[88px] justify-between px-[26px]">
                     <p className="text-2xl text-black dark:text-white font-bold">
@@ -237,7 +237,7 @@ const Modal = (props) => {
                     ></img>
                   </div>
                   <div className="flex divide-x divide-solid divide-font-dark-gray dark:divide-[#3A3A3A]">
-                    <div className="flex flex-col space-y-8 sm:w-[290px] h-[521px] p-default">
+                    <div className="flex flex-col space-y-8 sm:w-[290px] sm:h-[521px] p-default">
                       <div
                         className={
                           step == 1

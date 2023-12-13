@@ -768,7 +768,7 @@ const League = () => {
                     {isAdmin && (
                       <button
                         onClick={handleCreateTeam}
-                        className="float-right lg:w-32 h-10 bg-primary hover:bg-opacity-70 rounded-default text-white focus:ring-2 text-sm font-bold w-[100px]"
+                        className="float-right lg:w-32 h-10 bg-primary hover:bg-opacity-70 rounded-default text-white focus:ring-2 text-xs sm:text-sm font-bold w-[100px]"
                       >
                         Create Team
                       </button>
@@ -802,14 +802,20 @@ const League = () => {
                 ).length > 0 ? (
                   <>
                     <div className="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
-                      {teams.map((team, idx) => (
-                        <TeamCard team={team} key={idx}></TeamCard>
-                      ))}
+                      {teams
+                        .filter((team) =>
+                          team.name
+                            .toLowerCase()
+                            .includes(teamKeyword.toLowerCase())
+                        )
+                        .map((team, idx) => (
+                          <TeamCard team={team} key={idx}></TeamCard>
+                        ))}
                     </div>
                   </>
                 ) : (
                   <div className="flex items-center flex-grow">
-                    <p className="text-2xl text-black dark:text-white w-full text-center mt-5">
+                    <p className="text-xl sm:text-2xl text-black dark:text-white w-full text-center mt-5">
                       No Teams to show!
                     </p>
                   </div>
@@ -841,7 +847,7 @@ const League = () => {
                     {isAdmin && (
                       <button
                         onClick={handleCreateMatch}
-                        className="float-right lg:w-32 h-10 bg-primary hover:bg-opacity-70 rounded-default text-white focus:ring-2 text-sm font-bold w-[100px]"
+                        className="float-right lg:w-32 h-10 bg-primary hover:bg-opacity-70 rounded-default text-white focus:ring-2 text-xs sm:text-sm font-bold w-[100px]"
                       >
                         Create Match
                       </button>
@@ -855,12 +861,12 @@ const League = () => {
                   ></MatchTable>
                 ) : (
                   <div className="flex items-center flex-grow">
-                    <p className="text-2xl text-black dark:text-white w-full text-center mt-5">
+                    <p className="text-xl sm:text-2xl text-black dark:text-white w-full text-center mt-5">
                       No Matches to show!
                     </p>
                   </div>
                 )}
-                <MatchModal></MatchModal>
+                <MatchModal />
               </TabPanel>
 
               {/* Standings */}
@@ -907,7 +913,7 @@ const League = () => {
                   ></StandingTable>
                 ) : (
                   <div className="flex items-center flex-grow">
-                    <p className="text-2xl text-black dark:text-white w-full text-center mt-5">
+                    <p className="text-xl sm:text-2xl text-black dark:text-white w-full text-center mt-5">
                       No Standings to show!
                     </p>
                   </div>
@@ -957,7 +963,7 @@ const League = () => {
                   ></PlayerTable>
                 ) : (
                   <div className="flex items-center flex-grow">
-                    <p className="text-2xl text-black dark:text-white w-full text-center mt-5">
+                    <p className="text-xl sm:text-2xl text-black dark:text-white w-full text-center mt-5">
                       No Players To Show!
                     </p>
                   </div>
@@ -1140,7 +1146,7 @@ const League = () => {
                             </p>
                             <Input
                               className="text-xs rounded-default"
-                              value={league.password}
+                              value={league?.password}
                             />
                           </span>
                         </div>

@@ -40,7 +40,7 @@ const TeamPlayerStatistics = (props) => {
           variant="small"
           className="font-normal flex items-center sm:pl-8 space-x-3"
         >
-          <Link to={`/league/${leagueId}/player/${row.userId}`} className="flex items-center">
+          <Link to={`/league/${leagueId}/player/${row.userId}`} className="flex items-center hover:underline">
             <img
               src={row.avatar}
               alt=""

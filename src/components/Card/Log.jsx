@@ -6,8 +6,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import { apis } from "../../utils/apis";
 import league_logo from "../../assets/img/dark_mode/league-logo.png";
-import editIconDark from "../../assets/img/dark_mode/edit-icon-dark.svg";
-import editIconLight from "../../assets/img/dark_mode/edit-icon-light.svg";
+import editIconDark from "../../assets/img/dark_mode/edit-icon-dark.png";
+import editIconLight from "../../assets/img/dark_mode/edit-icon-light.png";
 import deleteIconDark from "../../assets/img/dark_mode/delete-icon-dark.svg";
 import deleteIconLight from "../../assets/img/dark_mode/delete-icon-light.svg";
 
