@@ -103,11 +103,13 @@ const League = () => {
     // if (league?.userId == user?.id) {
     categories = [
       // "Blog",
-      "Teams",
+      // "Teams",=>manage rosters
+      "Manage Rosters",
       "Matches",
       "Standings",
       "Players",
-      "Manage Rosters",
+      // "Manage Rosters", => Admissions
+      "Admissions",
       "Settings",
     ];
   } else {
@@ -748,7 +750,7 @@ const League = () => {
                 </div>
               </TabPanel> */}
 
-              {/* Teams */}
+              {/* Manage Rosters */}
               <TabPanel
                 value={"0"}
                 sx={{
@@ -893,26 +895,30 @@ const League = () => {
                       setStandingsKeyword(e.target.value);
                     }}
                   />
-                  <Select
+                  {/* <Select
                     className="text-xs"
                     options={options}
                     handleClick={(e) => setValue(e.name)}
                     value={value}
                   >
                     {value}
-                  </Select>
+                  </Select> */}
                 </div>
-                {teams.filter((team) =>
-                  team.name
-                    .toLowerCase()
-                    .includes(standingsKeyword.toLowerCase())
-                ).length > 0 ? (
+                {teams
+                // .filter((team) =>
+                //   team.name
+                //     .toLowerCase()
+                //     .includes(standingsKeyword.toLowerCase())
+                // )
+                .length > 0 ? (
                   <StandingTable
-                    teams={teams.filter((team) =>
-                      team.name
-                        .toLowerCase()
-                        .includes(standingsKeyword.toLowerCase())
-                    )}
+                    // teams={teams.filter((team) =>
+                    //   team.name
+                    //     .toLowerCase()
+                    //     .includes(standingsKeyword.toLowerCase())
+                    // )}
+                    teams={teams}
+                    keyword={standingsKeyword}
                   ></StandingTable>
                 ) : (
                   <div className="flex items-center flex-grow">
@@ -942,14 +948,14 @@ const League = () => {
                       setPlayerKeyword(e.target.value);
                     }}
                   />
-                  <Select
+                  {/* <Select
                     className="text-xs"
                     options={options}
                     handleClick={(e) => setValue(e.name)}
                     value={value}
                   >
                     {value}
-                  </Select>
+                  </Select> */}
                 </div>
                 {allPlayers.filter((player) =>
                   (player.firstName + player.lastName)
@@ -972,7 +978,8 @@ const League = () => {
                   </div>
                 )}
               </TabPanel>
-              {/* Rosters */}
+
+              {/* Admissions */}
               {isAdmin && (
                 <TabPanel
                   value={"4"}

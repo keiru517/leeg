@@ -1,115 +1,91 @@
-import * as React from "react";
-import { DataGrid } from "@mui/x-data-grid";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router";
 import { Typography } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
 
-export default function DataTable() {
-  let { leagueId } = useParams();
+import Table from "./index";
 
-  const darkMode = useSelector((state) => state.home.dark_mode);
-  const teams = useSelector((state) => state.home.teams).filter(
-    (team) => team.leagueId == leagueId && team.isDeleted !== 1
-  );
-
+const StandingTable = ({ teams, keyword }) => {
+  console.log(keyword)
   const columns = [
     {
-      field: "#",
-      headerName: "#",
-      width: 70,
-      cellClassName: darkMode ? "text-white" : "text-black",
-      headerClassName: darkMode ? "text-white" : "text-black",
-      // valueGetter: (params) => params.row.name,
+      label: "#",
+      fixed: true,
     },
     {
-      field: "team",
-      headerName: "Team",
-      width: 130,
-      cellClassName: darkMode ? "text-white" : "text-black",
-      headerClassName: darkMode ? "text-white" : "text-black",
-      valueGetter: (params) => params.row.name,
+      label: "Team",
+      accessor: 'name',
+      fixed: true,
+      getValue: (row) => (
+        <Typography
+          variant="small"
+          className="font-normal flex items-center sm:pl-8 space-x-3"
+        >
+          <Link to={`team/${row.id}`}>
+            <img src={row.logo} alt="" className="h-8 w-8 mr-2 rounded-full" />
+          </Link>
+          <Link to={`team/${row.id}`} className="hover:underline">
+            {row.name}
+          </Link>
+        </Typography>
+      ),
     },
     {
-      field: "wins",
-      headerName: "Wins",
-      width: 90,
-      cellClassName: darkMode ? "text-white" : "text-black",
-      headerClassName: darkMode ? "text-white" : "text-black",
-      valueGetter: (params) => `${params.row.win}`,
+      label: "Wins",
+      accessor: 'win',
+      getValue: (row) => (
+        <Typography variant="small" className="font-normal">
+          {row.win}
+        </Typography>
+      ),
     },
     {
-      field: "losses",
-      headerName: "Losses",
-      width: 90,
-      cellClassName: darkMode ? "text-white" : "text-black",
-      headerClassName: darkMode ? "text-white" : "text-black",
-      valueGetter: (params) => `${params.row.lose}`,
+      label: "Losses",
+      accessor: 'lose',
+      getValue: (row) => (
+        <Typography variant="small" className="font-normal">
+          {row.lose}
+        </Typography>
+      ),
     },
     {
-      field: "ps",
-      headerName: "Points Scored",
-      // description: "This column has a value getter and is not sortable.",
-      cellClassName: darkMode ? "text-white" : "text-black",
-      headerClassName: darkMode ? "text-white" : "text-black",
-      // sortable: false,
-      width: 160,
-      valueGetter: (params) => params.row.pointScored,
+      label: "Points Scored",
+      accessor: 'pointScored',
+      getValue: (row) => (
+        <Typography variant="small" className="font-normal">
+          {row.pointScored}
+        </Typography>
+      ),
     },
     {
-      field: "pa",
-      headerName: "Points Against",
-      // description: "This column has a value getter and is not sortable.",
-      cellClassName: darkMode ? "text-white" : "text-black",
-      headerClassName: darkMode ? "text-white" : "text-black",
-      // sortable: false,
-      width: 160,
-      valueGetter: (params) => params.row.pointAgainst,
+      label: "Points Against",
+      accessor: 'pointAgainst',
+      getValue: (row) => (
+        <Typography variant="small" className="font-normal">
+          {row.pointAgainst}
+        </Typography>
+      ),
     },
     {
-      field: "diff",
-      headerName: "Differential",
-      // description: "This column has a value getter and is not sortable.",
-      cellClassName: darkMode ? "text-white" : "text-black",
-      headerClassName: darkMode ? "text-white" : "text-black",
-      // sortable: false,
-      width: 160,
-      valueGetter: (params) => `${params.row.diff}`,
+      label: "Differential",
+      accessor: 'diff',
+      getValue: (row) => (
+        <Typography as="a" href="#" variant="small" className="font-normal">
+          {row.diff}
+        </Typography>
+      ),
     },
   ];
 
-  const rows = [
-    { id: 1, lastName: "Snow", firstName: "Jon", age: 35 },
-    { id: 2, lastName: "Lannister", firstName: "Cersei", age: 42 },
-    { id: 3, lastName: "Lannister", firstName: "Jaime", age: 45 },
-    { id: 4, lastName: "Stark", firstName: "Arya", age: 16 },
-    { id: 5, lastName: "Targaryen", firstName: "Daenerys", age: null },
-    { id: 6, lastName: "Melisandre", firstName: null, age: 150 },
-    { id: 7, lastName: "Clifford", firstName: "Ferrara", age: 44 },
-    { id: 8, lastName: "Frances", firstName: "Rossini", age: 36 },
-    { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
-  ];
-
+  console.log(teams.filter(team=>team.name.toLowerCase().includes(keyword.toLowerCase())))
   return (
-    <div style={{ height: 400, width: "100%" }}>
-      <DataGrid
-        rows={teams}
+    <>
+      <Table
+        data={teams.filter(team=>team.name.toLowerCase().includes(keyword.toLowerCase())).sort((a, b) => b.win - a.win)}
         columns={columns}
-        initialState={{
-          pagination: {
-            paginationModel: { page: 0, pageSize: 5 },
-          },
-        }}
-        pageSizeOptions={[5, 10]}
-        // checkboxSelection
-        sx={{
-          boxShadow: 2,
-          border: 2,
-        }}
-        // getRowClassName={(params) =>
-        //   params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'
-        // }
+        presentCheckBox={false}
+        presentOptions={false}
       />
-    </div>
+    </>
   );
-}
+};
+
+export default StandingTable;

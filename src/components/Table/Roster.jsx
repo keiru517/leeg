@@ -266,7 +266,7 @@ const RosterTable = (props) => {
                   {player.isAcceptedList === 1 ? "Accepted" : "Not Accepted"}
                 </Typography>
               </td>
-              {league?.userId == user?.id && (
+              {isAdmin && (
                 <td className="">
                 {/* <td className="sticky right-0 bg-white dark:bg-slate"> */}
                   <Typography

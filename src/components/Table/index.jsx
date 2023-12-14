@@ -41,7 +41,7 @@ const Table = ({
   presentOptions,
   options,
 }) => {
-  console.log(columns, data);
+  console.log("index table", data)
   const [columnWidths, setColumnWidths] = useState({});
   const tableRef = useRef(null);
 
@@ -74,6 +74,35 @@ const Table = ({
     zIndex: 1,
   };
 
+  const [sortField, setSortField] = useState("");
+  const [order, setOrder] = useState("asc");
+
+  const handleSortingChange = (accessor) => {
+    const sortOrder =
+      accessor === sortField && order === "asc" ? "desc" : "asc";
+    setSortField(accessor);
+    setOrder(sortOrder);
+    handleSorting(accessor, sortOrder);
+  };
+
+  const [tableData, setTableData] = useState(data);
+  const handleSorting = (sortField, sortOrder) => {
+    if (sortField) {
+      const sorted = [...data].sort((a, b) => {
+       return (
+        a[sortField].toString().localeCompare(b[sortField].toString(), "en", {
+         numeric: true,
+        }) * (sortOrder === "asc" ? 1 : -1)
+       );
+      });
+      setTableData(sorted);
+     }
+   };
+
+   useEffect(() => {
+    setTableData(data)
+   }, [data]);
+
   return (
     <div className="dark:text-white w-full mt-4 overflow-auto">
       <table className="w-full min-w-max table-auto text-left" ref={tableRef}>
@@ -98,7 +127,7 @@ const Table = ({
             .map((col, index) => (
               <th
                 key={col.label}
-                className="h-button text-center font-font-dark-gray bg-white dark:bg-slate"
+                className="h-button text-center font-font-dark-gray bg-white dark:bg-slate hover:cursor-pointer"
                 style={
                   col?.fixed
                     ? {
@@ -113,6 +142,7 @@ const Table = ({
                       }
                     : {}
                 }
+                onClick={() => handleSortingChange(col.accessor)}
               >
                 <Typography
                   variant="small"
@@ -126,7 +156,8 @@ const Table = ({
           {presentOptions && <th>{options}</th>}
         </thead>
         <tbody className="text-center">
-          {data.map((d, index) => (
+          {tableData.map((d, index) => (
+          // {data.map((d, index) => (
             <tr key={index}>
               {presentCheckBox && (
                 <td
