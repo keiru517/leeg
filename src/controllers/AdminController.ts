@@ -89,10 +89,10 @@ export const invite: RequestHandler = async (req, res) => {
         }
       });
 
-      res.status(200).json({ message: 'Invited successfully!' });
+      const admins = await Admin.findAll();
+      res.json({ admins });
+      // res.status(200).json({ message: 'Invited successfully!' });
     }
-  } else {
-    res.status(400).json({ message: 'The email is not resitered!' });
   }
 };
 
