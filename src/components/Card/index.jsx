@@ -26,30 +26,22 @@ const Card = (props) => {
     (player) => player.userId == user?.id && player.leagueId == league.id
   );
 
+  const handleClick = () => {
+     dispatch({type:actions.OPEN_LEAGUE_DETAIL_DIALOG, payload:league})
+  };
   const handleApply = (e) => {
     if (league?.requirePassword) {
       dispatch({type:actions.OPEN_APPLY_LEAGUE_PASSWORD_DIALOG, payload:league})
     } else {
       actions.applyLeague(dispatch, {userId:user?.id, leagueId:league?.id});
     }
-    // axios
-    //   .post(apis.applyLeague, {
-    //     userId: user?.id,
-    //     leagueId: league?.id,
-    //   })
-    //   .then((res) => {
-    //     alert(res.data.message);
-    //     actions.getPlayers(dispatch);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error.response.data.message);
-    //   });
   };
 
   return (
     <div
       className={`rounded-default h-[230px] bg-light-charcoal dark:bg-charcoal p-default shadow dark:shadow-gray-600`}
-      // onClick={() => {
+      onClick={
+        handleClick
       //   ${
       //    isAdmin ||
       //    league?.userId == user?.id ||
@@ -66,7 +58,7 @@ const Card = (props) => {
       //   ) {
       //     navigate(`/${route}/${league.id}`);
       //   }
-      // }}
+      }
     >
       <div className="">
         <div className="items-center justify-between">

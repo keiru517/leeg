@@ -21,6 +21,10 @@ const MatchTable = (props) => {
     (team) => team.leagueId == leagueId
   );
 
+  const matches1 = useSelector((state) => state.home.matches).filter(
+    (match) => match.leagueId == leagueId && match.isDeleted == 0
+  );
+
   const matches = useSelector((state) => state.home.matches).filter((match) => {
     const homeTeam = teams.find((team) => team.id == match.homeTeamId);
     const awayTeam = teams.find((team) => team.id == match.awayTeamId);
@@ -28,17 +32,20 @@ const MatchTable = (props) => {
     const results = match.homeTeamPoints + ":" + match.awayTeamPoints;
 
     return (
-      (match.leagueId == leagueId &&
-        match.isDeleted == 0 &&
-        (homeTeam?.name.toLowerCase().includes(keyword.toLowerCase()) ||
-          awayTeam?.name.toLowerCase().includes(keyword.toLowerCase()) ||
-          match.location?.toLowerCase().includes(keyword.toLowerCase()) ||
-          match.date?.toLowerCase().includes(keyword.toLowerCase()) ||
-          match.time?.toLowerCase().includes(keyword.toLowerCase()))) ||
-      status.toLowerCase().includes(keyword.toLowerCase()) ||
-      results.toLowerCase().includes(keyword.toLowerCase())
+      match.leagueId == leagueId &&
+      match.isDeleted == 0 &&
+      (homeTeam?.name.toLowerCase().includes(keyword.toLowerCase()) ||
+        awayTeam?.name.toLowerCase().includes(keyword.toLowerCase()) ||
+        match.location?.toLowerCase().includes(keyword.toLowerCase()) ||
+        match.date?.toLowerCase().includes(keyword.toLowerCase()) ||
+        match.time?.toLowerCase().includes(keyword.toLowerCase()) ||
+        status.toLowerCase().includes(keyword.toLowerCase()) ||
+        results.toLowerCase().includes(keyword.toLowerCase()))
     );
   });
+
+  console.log(matches);
+  console.log(matches1);
 
   useEffect(() => {
     setTableData(matches);

@@ -19,7 +19,6 @@ import EditEventModal from "../../components/Modal/EditEventModal";
 import SubstituteModal from "../../components/Modal/SubstituteModal";
 import LineupsModal from "../../components/Modal/LineupsModal";
 import PlayerStatsModal from "../../components/Modal/PlayerStatsModal";
-import Timer from "../../components/Timer";
 import playerStats from "../../assets/img/dark_mode/player-stats.svg";
 import editLineup from "../../assets/img/dark_mode/edit-lineup.svg";
 import plusIconDark from "../../assets/img/dark_mode/plus-icon-dark.svg";
@@ -360,9 +359,9 @@ const Matchup = () => {
     }
   };
   const handleClickTimeout = (teamId) => {
-    if (match?.isNew) {
+    if (match?.isNew && isRunning) {
       setEvent("TimeOut");
-      handleAction(teamId, "", "TimeOut");
+      handleAction(teamId, null, "TimeOut", 1);
     } else {
       alert("The matchup is completed!");
     }
@@ -378,7 +377,12 @@ const Matchup = () => {
 
   const handleAddEvent = () => {
     if (match?.isNew) {
-      dispatch({ type: actions.OPEN_ADD_EVENT_DIALOG });
+      if (isRunning) {
+        dispatch({ type: actions.OPEN_ADD_EVENT_DIALOG });
+      } else {
+        alert("Please run the timer!")
+      }
+
     } else {
       alert("The matchup is completed!");
     }
@@ -1049,7 +1053,7 @@ const Matchup = () => {
             </div>
           </div>
 
-          <div className="flex w-1/4 flex-col rounded-main bg-white dark:bg-slate p-default overflow-y-auto">
+          <div className="flex w-1/4 flex-col rounded-main bg-white dark:bg-slate p-default">
           {/* <div className="flex col-span-2 flex-col flex-grow rounded-main bg-white dark:bg-slate p-default overflow-y-auto"> */}
             <div className="flex justify-between mb-5">
               <p className="text-black dark:text-white">Action Log</p>
@@ -1073,7 +1077,7 @@ const Matchup = () => {
                 />
               </div>
             </div>
-            <div className="space-y-3">
+            <div className="space-y-3 overflow-y-auto">
               {Object.values(allLogs).map((log, idx) => (
                 <Log key={idx} log={log} id={log.id}></Log>
               ))}

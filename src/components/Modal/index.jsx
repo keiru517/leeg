@@ -111,7 +111,6 @@ const Modal = (props) => {
         setChosenFile(null);
         setPreviewURL("");
         goToStep1();
-        alert(res.data.message);
 
         // Navigate(-1);
       })

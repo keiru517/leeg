@@ -21,6 +21,8 @@ export const OPEN_REMOVE_LEAGUE_PASSWORD_DIALOG =
 export const OPEN_APPLY_LEAGUE_PASSWORD_DIALOG =
   "OPEN_APPLY_LEAGUE_PASSWORD_DIALOG";
 export const CLOSE_LEAGUE_PASSWORD_DIALOG = "CLOSE_LEAGUE_PASSWORD_DIALOG";
+export const OPEN_LEAGUE_DETAIL_DIALOG = "OPEN_LEAGUE_DETAIL_DIALOG";
+export const CLOSE_LEAGUE_DETAIL_DIALOG = "CLOSE_LEAGUE_DETAIL_DIALOG";
 export const SET_SELECTED_LEAGUE = "SET_SELECTED_LEAGUE";
 // export const SET_LEAGUE_LOGO_URL = "SET_LOGO_URL";
 // Teams
@@ -124,10 +126,6 @@ export const openDeleteLeagueDialog = (payload) => ({
   payload: payload,
 });
 
-export const setSelectedLeague = (payload) => ({
-  type: SET_SELECTED_LEAGUE,
-  payload: payload,
-});
 
 // Players
 

@@ -1065,7 +1065,7 @@ const League = () => {
                   <hr className="h-px mb-4 bg-charcoal border-0" />
                   <div className="mt-4 grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-4">
                     {/* League Settings */}
-                    <div className="flex flex-col  border border-dark-gray rounded p-7">
+                    <div className="flex flex-col border border-dark-gray rounded p-7">
                       <div>
                         <h1 className="dark:text-white text-black font-medium mb-4">
                           Edit League
