@@ -270,18 +270,27 @@ export const updateInfo: RequestHandler = async (req, res) => {
       user.firstName = firstName;
       user.lastName = lastName;
       const extension = path.extname(req.file.originalname);
-      const filePath = userAvatarPath(user.id, user.avatar);
+      const fileName = `avatar${extension}`;
+      // const filePath = userAvatarPath(user.id, user.avatar);
+      const directoryPath = absolutePath(`public/upload/${userId}`);
+
+      if (!existsSync(directoryPath)) {
+        mkdirSync(directoryPath, { recursive: true });
+      }
+      const filePath = path.join(directoryPath, fileName);
       try {
-        fs.unlinkSync(filePath);
+        fs.unlinkSync(path.join(directoryPath, user.avatar));
         console.log('Avatar file deleted successfully');
       } catch (err) {
         console.error('Error deleting avatar file:', err);
       }
-      const fileName = `avatar${extension}`;
       user.avatar = fileName;
       await user.save();
+      
+
       const buffer = req.file.buffer;
       writeFileSync(filePath, buffer);
+
       res.status(200).json({ message: 'Updated successfully!' });
     } else {
       res.status(404).json({ message: 'Update failed!' });
