@@ -12,22 +12,29 @@ const AdminModal = (props) => {
   let { user, leagueId } = props;
 
   const status = useSelector((state) => state.home.admin_dialog.open);
-
+  const users = useSelector(state=>state.home.users);
+  
   // const [open, setOpen] = useState(false);
 
   const cancelButtonRef = useRef(null);
   const [email, setEmail] = useState("");
-
+  
   const closeDialog = () => {
     setEmail("");
     dispatch({ type: actions.OPEN_ADMIN_DIALOG, payload: false });
   };
-
+  
   const inviteAdmin = () => {
     if (email === "") {
       alert("Please type email of the admin you want to add!");
     } else {
-      actions.inviteAdmin(dispatch, { email, leagueId, inviter: user });
+      
+      const isRegisteredUser = users.some(user=>user.email === email ) 
+      if (isRegisteredUser) {
+        actions.inviteAdmin(dispatch, { email, leagueId, inviter: user });
+      } else {
+        alert("This email is not registered");
+      }
       // axios
       //   .post(apis.inviteAdmin, { email, leagueId, inviter: user })
       //   .then((res) => {

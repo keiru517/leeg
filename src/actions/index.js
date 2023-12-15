@@ -523,7 +523,6 @@ export const removeLog = (dispatch, data) => {
 export const getAdmins = async (dispatch) => {
   try {
     const response = await axios.get(apis.getAdmins);
-
     const admins = response.data.admins;
 
     dispatch({
@@ -548,10 +547,7 @@ export const inviteAdmin = async (dispatch, data) => {
     });
     alert("Invite sent!");
   } catch (error) {
-    dispatch({
-      type: GET_ADMINS,
-      payload: [],
-    });
+    getAdmins(dispatch)
     alert("Error occurred!");
   }
 };

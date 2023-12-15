@@ -178,22 +178,23 @@ const MatchTable = (props) => {
                 }`}
                 onClick={() => handleSortingChange(head)}
               >
-              <div className="flex justify-center">
-                {head}
-                <div className="ml-3">
-                  <img
-                    src={darkMode ? triupIconDark : triupIconLight}
-                    alt=""
-                    className="w-3 h-3 cursor-pointer hover:bg-opacity-70"
-                  />
-                  <img
-                    src={darkMode ? tridownIconDark : tridownIconLight}
-                    alt=""
-                    className="w- h-3 cursor-pointer hover:bg-opacity-70"
-                  />
+                <div className="flex justify-center">
+                  {head}
+                  {head !== "Action" && (
+                    <div className="ml-3">
+                      <img
+                        src={darkMode ? triupIconDark : triupIconLight}
+                        alt=""
+                        className="w-3 h-3 cursor-pointer hover:bg-opacity-70"
+                      />
+                      <img
+                        src={darkMode ? tridownIconDark : tridownIconLight}
+                        alt=""
+                        className="w- h-3 cursor-pointer hover:bg-opacity-70"
+                      />
+                    </div>
+                  )}
                 </div>
-              
-              </div>
               </th>
             ))}
           </tr>
