@@ -1,8 +1,12 @@
 import { Typography } from "@material-tailwind/react";
 import { Switch } from "@headlessui/react";
 import { AiOutlineCheck } from "react-icons/ai";
-
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useRef, useState } from "react";
+import triupIconDark from "../../assets/img/dark_mode/triup-icon-dark.png";
+import tridownIconDark from "../../assets/img/dark_mode/tridown-icon-dark.png";
+import triupIconLight from "../../assets/img/dark_mode/triup-icon-light.png";
+import tridownIconLight from "../../assets/img/dark_mode/tridown-icon-light.png";
 
 const Checkbox = ({ label, name, checked, onChange, disabled }) => (
   <Switch.Group>
@@ -41,7 +45,8 @@ const Table = ({
   presentOptions,
   options,
 }) => {
-  console.log("index table", data)
+  const darkMode = useSelector((state) => state.home.dark_mode);
+
   const [columnWidths, setColumnWidths] = useState({});
   const tableRef = useRef(null);
 
@@ -89,19 +94,19 @@ const Table = ({
   const handleSorting = (sortField, sortOrder) => {
     if (sortField) {
       const sorted = [...data].sort((a, b) => {
-       return (
-        a[sortField].toString().localeCompare(b[sortField].toString(), "en", {
-         numeric: true,
-        }) * (sortOrder === "asc" ? 1 : -1)
-       );
+        return (
+          a[sortField].toString().localeCompare(b[sortField].toString(), "en", {
+            numeric: true,
+          }) * (sortOrder === "asc" ? 1 : -1)
+        );
       });
       setTableData(sorted);
-     }
-   };
+    }
+  };
 
-   useEffect(() => {
-    setTableData(data)
-   }, [data]);
+  useEffect(() => {
+    setTableData(data);
+  }, [data]);
 
   return (
     <div className="dark:text-white w-full mt-4 overflow-auto">
@@ -149,7 +154,23 @@ const Table = ({
                   color="blue-gray"
                   className="font-normal leading-none"
                 >
-                  {col.label}
+                  <div className="flex justify-center items-center">
+                    {col.label}
+                    {col.label !== "#" && (
+                      <div className="ml-3">
+                        <img
+                          src={darkMode ? triupIconDark : triupIconLight}
+                          alt=""
+                          className="w-3 h-3 cursor-pointer hover:bg-opacity-70"
+                        />
+                        <img
+                          src={darkMode ? tridownIconDark : tridownIconLight}
+                          alt=""
+                          className="w- h-3 cursor-pointer hover:bg-opacity-70"
+                        />
+                      </div>
+                    )}
+                  </div>
                 </Typography>
               </th>
             ))}
@@ -157,7 +178,7 @@ const Table = ({
         </thead>
         <tbody className="text-center">
           {tableData.map((d, index) => (
-          // {data.map((d, index) => (
+            // {data.map((d, index) => (
             <tr key={index}>
               {presentCheckBox && (
                 <td
@@ -205,7 +226,9 @@ const Table = ({
                     color="blue-gray"
                     className={`font-normal`}
                   >
-                    {column.label === "#" ? index + 1 : column.getValue(d)}
+                    {/* <div className="flex justify-center"> */}
+                      {column.label === "#" ? index + 1 : column.getValue(d)}
+                    {/* </div> */}
                   </Typography>
                 </td>
               ))}

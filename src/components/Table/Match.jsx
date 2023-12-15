@@ -4,6 +4,10 @@ import { Typography } from "@material-tailwind/react";
 import { useDispatch, useSelector } from "react-redux";
 import Option from "../Option";
 import * as actions from "../../actions";
+import triupIconDark from "../../assets/img/dark_mode/triup-icon-dark.png";
+import tridownIconDark from "../../assets/img/dark_mode/tridown-icon-dark.png";
+import triupIconLight from "../../assets/img/dark_mode/triup-icon-light.png";
+import tridownIconLight from "../../assets/img/dark_mode/tridown-icon-light.png";
 
 const MatchTable = (props) => {
   const navigate = useNavigate();
@@ -11,32 +15,33 @@ const MatchTable = (props) => {
   let { leagueId } = useParams();
   const { keyword } = props;
 
+  const darkMode = useSelector((state) => state.home.dark_mode);
+
   const teams = useSelector((state) => state.home.teams).filter(
     (team) => team.leagueId == leagueId
   );
 
-
   const matches = useSelector((state) => state.home.matches).filter((match) => {
     const homeTeam = teams.find((team) => team.id == match.homeTeamId);
     const awayTeam = teams.find((team) => team.id == match.awayTeamId);
-    const status = match.isNew?"Incomplete": "Completed";
+    const status = match.isNew ? "Incomplete" : "Completed";
     const results = match.homeTeamPoints + ":" + match.awayTeamPoints;
 
     return (
-      match.leagueId == leagueId &&
-      match.isDeleted == 0 &&
-      (homeTeam?.name.toLowerCase().includes(keyword.toLowerCase()) ||
-        awayTeam?.name.toLowerCase().includes(keyword.toLowerCase()) ||
-        match.location?.toLowerCase().includes(keyword.toLowerCase()) ||
-        match.date?.toLowerCase().includes(keyword.toLowerCase()) ||
-        match.time?.toLowerCase().includes(keyword.toLowerCase())) ||
-        status.toLowerCase().includes(keyword.toLowerCase()) ||
-        results.toLowerCase().includes(keyword.toLowerCase()) 
+      (match.leagueId == leagueId &&
+        match.isDeleted == 0 &&
+        (homeTeam?.name.toLowerCase().includes(keyword.toLowerCase()) ||
+          awayTeam?.name.toLowerCase().includes(keyword.toLowerCase()) ||
+          match.location?.toLowerCase().includes(keyword.toLowerCase()) ||
+          match.date?.toLowerCase().includes(keyword.toLowerCase()) ||
+          match.time?.toLowerCase().includes(keyword.toLowerCase()))) ||
+      status.toLowerCase().includes(keyword.toLowerCase()) ||
+      results.toLowerCase().includes(keyword.toLowerCase())
     );
   });
 
   useEffect(() => {
-    setTableData(matches)
+    setTableData(matches);
   }, [keyword]);
   const user = useSelector((state) => state.home.user);
   const league = useSelector((state) => state.home.leagues).find(
@@ -173,7 +178,22 @@ const MatchTable = (props) => {
                 }`}
                 onClick={() => handleSortingChange(head)}
               >
+              <div className="flex justify-center">
                 {head}
+                <div className="ml-3">
+                  <img
+                    src={darkMode ? triupIconDark : triupIconLight}
+                    alt=""
+                    className="w-3 h-3 cursor-pointer hover:bg-opacity-70"
+                  />
+                  <img
+                    src={darkMode ? tridownIconDark : tridownIconLight}
+                    alt=""
+                    className="w- h-3 cursor-pointer hover:bg-opacity-70"
+                  />
+                </div>
+              
+              </div>
               </th>
             ))}
           </tr>
