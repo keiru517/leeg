@@ -27,46 +27,30 @@ const Card = (props) => {
   );
 
   const handleClick = () => {
-     dispatch({type:actions.OPEN_LEAGUE_DETAIL_DIALOG, payload:league})
+    dispatch({ type: actions.OPEN_LEAGUE_DETAIL_DIALOG, payload: league });
   };
+
   const handleApply = (e) => {
+    e.stopPropagation();
     if (league?.requirePassword) {
-      dispatch({type:actions.OPEN_APPLY_LEAGUE_PASSWORD_DIALOG, payload:league})
+      dispatch({
+        type: actions.OPEN_APPLY_LEAGUE_PASSWORD_DIALOG,
+        payload: league,
+      });
     } else {
-      actions.applyLeague(dispatch, {userId:user?.id, leagueId:league?.id});
+      actions.applyLeague(dispatch, { userId: user?.id, leagueId: league?.id });
     }
   };
 
   return (
     <div
-      className={`rounded-default h-[230px] bg-light-charcoal dark:bg-charcoal p-default shadow dark:shadow-gray-600`}
-      onClick={
-        handleClick
-      //   ${
-      //    isAdmin ||
-      //    league?.userId == user?.id ||
-      //    player?.isAcceptedList === 1 ||
-      //    league?.isAllowedFan
-      //      ? "cursor-pointer"
-      //      : ""
-      //  }
-      //   if (
-      //     league?.userId == user?.id ||
-      //     isAdmin ||
-      //     player?.isAcceptedList === 1 ||
-      //     league?.isAllowedFan
-      //   ) {
-      //     navigate(`/${route}/${league.id}`);
-      //   }
-      }
+      className={`rounded-default h-[230px] bg-light-charcoal dark:bg-charcoal p-default shadow dark:shadow-gray-600 hover:cursor-pointer`}
+      onClick={handleClick}
     >
       <div className="">
         <div className="items-center justify-between">
           <div className="flex items-center">
-            <img
-              src={league.logo}
-              className="w-10 h-10 rounded-lg"
-            ></img>
+            <img src={league.logo} className="w-10 h-10 rounded-lg"></img>
             <p className="dark:text-white text-sm ml-5 truncate max-w-full">
               {league.name} / {league.id.toString().padStart(6, "0")}
               <br></br>
@@ -112,22 +96,15 @@ const Card = (props) => {
               <p className="bg-yellow-100 text-yellow-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-gray-700 dark:text-yellow-300 border border-yellow-300">
                 Pending
               </p>
-            ) : player?.isAcceptedList === 1 ? (
+            ) : player?.isAcceptedList === 1 && (
               <p
                 // className="dark:text-green-500 text-xs cursor-pointer"
                 className="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-gray-700 dark:text-green-400 border border-green-400"
               >
                 Accepted
               </p>
-            ) : (
-              <p
-                onClick={handleApply}
-                className="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-gray-700 dark:text-blue-400 border border-blue-400"
-                // className="dark:text-blue-500 text-xs cursor-pointer hover:text-green-500"
-              >
-                APPLY
-              </p>
-            )}
+            )
+            }
           </div>
         )}
       </div>
@@ -142,7 +119,8 @@ const Card = (props) => {
       <div className="flex items-center justify-between space-x-3">
         {(isAdmin || player?.isAcceptedList === 1 || league?.isAllowedFan) && (
           <Button
-            onClick={() => {
+            onClick={(e) => {
+              e.stopPropagation()
               navigate(`/${route}/${league.id}?tab=0`);
             }}
             className="text-xs border-solid border-2 border-blue-700 w-full rounded hover:cursor-pointer hover:bg-gray-700"

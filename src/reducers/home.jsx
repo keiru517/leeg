@@ -170,8 +170,8 @@ const home = (state = initialState, action) => {
         return {
           ...state, 
           league_detail_dialog:{
+            ...state.league_detail_dialog,
             open:false,
-            league: []
           }
         }
 

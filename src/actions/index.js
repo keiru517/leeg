@@ -112,7 +112,6 @@ export const applyLeague = async (dispatch, data) => {
       payload: leagues,
     });
     getPlayers(dispatch)
-    alert("Applied successfully!");
   } catch (error) {
     dispatch({
       type: GET_LEAGUES,

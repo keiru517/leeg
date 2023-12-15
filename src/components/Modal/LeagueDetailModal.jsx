@@ -11,31 +11,36 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 const LeagueDetailModal = () => {
-  let { leagueId } = useParams();
   const cancelButtonRef = useRef(null);
 
   const dispatch = useDispatch();
 
   const status = useSelector((state) => state.home.league_detail_dialog.open);
-  const type = useSelector((state) => state.home.league_detail_dialog.type);
   const league = useSelector((state) => state.home.league_detail_dialog.league);
-  const teams = useSelector((state) => state.home.teams).filter(
-    (team) => team.leagueId == leagueId && team.isDeleted !== 1
-  );
 
   const users = useSelector((state) => state.home.users);
+  const user = useSelector((state) => state.home.user);
   const owner = users.find((user) => user.id == league.userId);
 
-  const options = teams;
-  const [homeValue, setHomeValue] = useState({ name: "Select Home Team*" });
-  const [awayValue, setAwayValue] = useState({ name: "Select Away Team*" });
-
-  const [date, setDate] = useState("");
-  const [time, setTime] = useState("");
-  const [location, setLocation] = useState("");
+  const player = useSelector((state) => state.home.players).find(
+    (player) => player.userId == user?.id && player.leagueId == league.id
+  );
+  console.log(user, player);
 
   const closeDialog = () => {
     dispatch({ type: actions.CLOSE_LEAGUE_DETAIL_DIALOG });
+  };
+
+  const handleApply = (e) => {
+    if (league?.requirePassword) {
+      dispatch({
+        type: actions.OPEN_APPLY_LEAGUE_PASSWORD_DIALOG,
+        payload: league,
+      });
+    } else {
+      actions.applyLeague(dispatch, { userId: user?.id, leagueId: league?.id });
+    }
+    closeDialog();
   };
 
   return (
@@ -112,9 +117,7 @@ const LeagueDetailModal = () => {
                           />
                         </div>
                         <div className="col-span-5">
-                          <p className="dark:text-white text-black">
-                            Admin
-                          </p>
+                          <p className="dark:text-white text-black">Admin</p>
                           <Input
                             className="rounded-lg flex-grow text-xs "
                             placeholder="League Name"
@@ -170,6 +173,16 @@ const LeagueDetailModal = () => {
                         </span>
                       </div>
                     </div>
+                    {!player && (
+                      <div className="flex-col flex flex-grow justify-between">
+                        <button
+                          onClick={handleApply}
+                          className="bg-primary rounded-default w-full hover:bg-sky-600 text-white h-button"
+                        >
+                          Apply
+                        </button>
+                      </div>
+                    )}
                   </div>
                 </div>
               </Dialog.Panel>
