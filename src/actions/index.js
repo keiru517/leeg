@@ -583,25 +583,5 @@ export const getUserInfo = async (dispatch, id) => {
       payload: []
     })    
   }
-  // try {
-  //   axios
-  //     .get(apis.getUserInfo(id))
-  //     .then((res) => {
-  //       const user = res.data.user;
-  //       user.avatar = apis.userAvatarURL(id);
-  //       dispatch({ type: GET_USER, payload: user });
-  //     })
-  //     .catch((error) => {
-  //       localStorage.removeItem("userId");
-  //       localStorage.removeItem("token");
-  //       navigate("/signin");
-  //     });
-  // } catch (error) {
-  //   dispatch({ type: GET_USER, payload: [] });
-  // }
 };
-// new Promise((resolve, reject) => {
-//   setTimeout(() => {
-//     resolve(true);
-//   }, 500);
-// });
+

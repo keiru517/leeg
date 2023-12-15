@@ -34,7 +34,13 @@ const Signin = () => {
         navigate("/", { replace: true });
       })
       .catch((error) => {
-        alert(error.response.data.message);
+        console.log(error.request)
+        if (error.request) {
+          alert("Please check your internet connection or server was down. Sorry for the inconvenience!")
+        }
+        if(error.response) {
+          alert(error.response.data.message);
+        }
       });
   };
 

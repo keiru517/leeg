@@ -84,8 +84,10 @@ const Profile = () => {
       formData.append("firstName", firstName);
       formData.append("lastName", lastName);
       axios.post(apis.updateInfo, formData).then((res) => {
-        actions.getUsers(dispatch);
         actions.getUserInfo(dispatch, localStorage.getItem("userId"));
+        actions.getUsers(dispatch);
+        actions.getPlayers(dispatch);
+
         alert("updated");
       });
     } else {
