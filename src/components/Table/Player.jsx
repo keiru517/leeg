@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import { useMemo } from "react";
 import { useParams } from "react-router";
 
-
 const Player = ({ players, league }) => {
   let { leagueId } = useParams();
   const matchups = useSelector((state) => state.home.matchups);
@@ -53,6 +52,7 @@ const Player = ({ players, league }) => {
   const columns = [
     {
       label: "Player",
+      accessor: "firstName",
       fixed: true,
       getValue: (row) => (
         <div className="flex items-center">
@@ -63,7 +63,10 @@ const Player = ({ players, league }) => {
               className="h-8 w-8 mr-4 rounded-full border border-gray-500"
             />
           </Link>
-          <Link to={`/league/${leagueId}/player/${row.userId}`} className="hover:underline">
+          <Link
+            to={`/league/${leagueId}/player/${row.userId}`}
+            className="hover:underline"
+          >
             {row.firstName} {row.lastName}
           </Link>
         </div>
@@ -71,6 +74,7 @@ const Player = ({ players, league }) => {
     },
     {
       label: "Team",
+      accessor: "teamName",
       getValue: (row) =>
         row.team && (
           <div className="flex items-center">
@@ -81,12 +85,15 @@ const Player = ({ players, league }) => {
                 className="w-8 h-8 mr-2 rounded-full border border-gray-500"
               />
             </Link>
-            <Link to={`team/${row.teamId}`} className="hover:underline">{row.team?.name}</Link>
+            <Link to={`team/${row.teamId}`} className="hover:underline">
+              {row.teamName}
+            </Link>
           </div>
         ),
     },
     displayJerseyNumber && {
       label: "Jersey Number",
+      accessor: "jerseyNumber",
       getValue: (row) => (
         <Typography variant="small" className="font-normal">
           {row.jerseyNumber}
@@ -95,6 +102,7 @@ const Player = ({ players, league }) => {
     },
     displayPosition && {
       label: "Position",
+      accessor: "playerPosition",
       condition: displayPosition,
       getValue: (row) => (
         <Typography variant="small" className="font-normal">
@@ -104,6 +112,7 @@ const Player = ({ players, league }) => {
     },
     {
       label: "PTS",
+      accessor: "totalPoints",
       getValue: (row) => (
         <Typography variant="small" className="font-normal">
           {row.totalPoints}
@@ -112,6 +121,7 @@ const Player = ({ players, league }) => {
     },
     {
       label: "3PM",
+      accessor: "totalPoints3",
       getValue: (row) => (
         <Typography variant="small" className="font-normal">
           {row.totalPoints3}
@@ -120,6 +130,7 @@ const Player = ({ players, league }) => {
     },
     displayAttempts3 && {
       label: "3PA",
+      accessor: "attempts3",
       condition: displayAttempts3,
       getValue: (row) => (
         <Typography variant="small" className="font-normal">
@@ -129,6 +140,7 @@ const Player = ({ players, league }) => {
     },
     displayAttempts3 && {
       label: "3P%",
+      accessor: "3p%",
       condition: displayAttempts3,
       getValue: (row) => (
         <Typography variant="small" className="font-normal">
@@ -140,6 +152,7 @@ const Player = ({ players, league }) => {
     },
     {
       label: "FGM",
+      accessor: "totalPoints2",
       getValue: (row) => (
         <Typography variant="small" className="font-normal">
           {row.totalPoints2}
@@ -156,6 +169,7 @@ const Player = ({ players, league }) => {
     },
     displayAttempts2 && {
       label: "FG%",
+      accessor: "fg%",
       getValue: (row) => (
         <Typography variant="small" className="font-normal">
           {isNaN((row.totalPoints2 / row.attempts2) * 100)
@@ -166,6 +180,7 @@ const Player = ({ players, league }) => {
     },
     {
       label: "FTM",
+      accessor: "totalPoints1",
       getValue: (row) => (
         <Typography variant="small" className="font-normal">
           {row.totalPoints1}
@@ -174,6 +189,7 @@ const Player = ({ players, league }) => {
     },
     displayAttempts1 && {
       label: "FTA",
+      accessor: "attempts1",
       condition: displayAttempts1,
       getValue: (row) => (
         <Typography variant="small" className="font-normal">
@@ -194,6 +210,7 @@ const Player = ({ players, league }) => {
     },
     displayBlocks && {
       label: "BLK",
+      accessor: "blocks",
       condition: displayBlocks,
       getValue: (row) => (
         <Typography variant="small" className="font-normal">
@@ -203,6 +220,7 @@ const Player = ({ players, league }) => {
     },
     displayRebounds && {
       label: "REB",
+      accessor: "rebounds",
       condition: displayRebounds,
       getValue: (row) => (
         <Typography variant="small" className="font-normal">
@@ -212,6 +230,7 @@ const Player = ({ players, league }) => {
     },
     displayAssists && {
       label: "AST",
+      accessor: "assists",
       condition: displayAssists,
       getValue: (row) => (
         <Typography variant="small" className="font-normal">
@@ -221,6 +240,7 @@ const Player = ({ players, league }) => {
     },
     displayFouls && {
       label: "PF",
+      accessor: "fouls",
       condition: displayFouls,
       getValue: (row) => (
         <Typography variant="small" className="font-normal">
@@ -231,6 +251,7 @@ const Player = ({ players, league }) => {
     displaySteals && {
       label: "STL",
       condition: displaySteals,
+      accessor: "steals",
       getValue: (row) => (
         <Typography variant="small" className="font-normal">
           {row.steals}
@@ -239,6 +260,7 @@ const Player = ({ players, league }) => {
     },
     displayTurnovers && {
       label: "TOV",
+      accessor: "turnovers",
       condition: displayTurnovers,
       getValue: (row) => (
         <Typography variant="small" className="font-normal">
@@ -284,6 +306,48 @@ const Player = ({ players, league }) => {
               (sum, matchup) => sum + matchup.attempts3,
               0
             ),
+            "3p%": isNaN(
+              (matchup.reduce((sum, matchup) => sum + matchup.points3, 0) /
+                matchup.reduce((sum, matchup) => sum + matchup.attempts3, 0)) *
+                100
+            )
+              ? 0
+              : (
+                  (matchup.reduce((sum, matchup) => sum + matchup.points3, 0) /
+                    matchup.reduce(
+                      (sum, matchup) => sum + matchup.attempts3,
+                      0
+                    )) *
+                  100
+                ).toFixed(2),
+            "fg%": isNaN(
+              (matchup.reduce((sum, matchup) => sum + matchup.points2, 0) /
+                matchup.reduce((sum, matchup) => sum + matchup.attempts2, 0)) *
+                100
+            )
+              ? 0
+              : (
+                  (matchup.reduce((sum, matchup) => sum + matchup.points2, 0) /
+                    matchup.reduce(
+                      (sum, matchup) => sum + matchup.attempts2,
+                      0
+                    )) *
+                  100
+                ).toFixed(2),
+            "ft%": isNaN(
+              (matchup.reduce((sum, matchup) => sum + matchup.points1, 0) /
+                matchup.reduce((sum, matchup) => sum + matchup.attempts1, 0)) *
+                100
+            )
+              ? 0
+              : (
+                  (matchup.reduce((sum, matchup) => sum + matchup.points1, 0) /
+                    matchup.reduce(
+                      (sum, matchup) => sum + matchup.attempts1,
+                      0
+                    )) *
+                  100
+                ).toFixed(2),
             blocks: matchup.reduce((sum, matchup) => sum + matchup.blocks, 0),
             rebounds: matchup.reduce(
               (sum, matchup) => sum + matchup.rebounds,
@@ -303,6 +367,7 @@ const Player = ({ players, league }) => {
             lastName: player.lastName,
             avatar: player.avatar,
             team: teams.find((team) => team.id == player.teamId),
+            teamName: teams.find((team) => team.id == player.teamId)?.name,
             teamId: player.teamId,
           };
         }),

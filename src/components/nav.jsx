@@ -23,20 +23,11 @@ const Nav = () => {
             </Link>
           </div>
         </div>
-        {/*<img src={line}></img>*/}
-        {/* <div className="greeting">
-          <p className="dark:text-white text-[#33383F] text-lg font-semibold text-left">
-            Hello George!
-          </p>
-          <p className="text-sm dark:text-font-dark-gray text-left">
-            Welcome to your dashboard
-          </p>
-        </div> */}
       </div>
       <div className="flex space-x-2 items-center">
         <SettingsSelect
           className="h-10 pl-3"
-          value={user?.firstName + " " + user?.lastName}
+          value={`${user?.firstName || ''} ${user?.lastName || ''}`}
         />
       </div>
     </div>

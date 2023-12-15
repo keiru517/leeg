@@ -10,6 +10,7 @@ import PageTitle from "../../components/PageTitle";
 import * as actions from "../../actions";
 import { useNavigate } from "react-router-dom";
 import LeaguePasswordModal from "../../components/Modal/LeaguePasswordModal";
+import LeagueDetailModal from "../../components/Modal/LeagueDetailModal";
 
 const Home = () => {
   const user = useSelector((state) => state.home.user);
@@ -119,6 +120,7 @@ const Home = () => {
       </div>
       <Modal />
       <LeaguePasswordModal />
+      <LeagueDetailModal />
     </div>
     // </div>
   );

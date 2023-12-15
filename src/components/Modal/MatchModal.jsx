@@ -6,6 +6,9 @@ import Input from "../Input";
 import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../actions";
 import { useParams } from "react-router-dom";
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 const MatchModal = () => {
   let { leagueId } = useParams();
@@ -101,7 +104,8 @@ const MatchModal = () => {
                   <div className="flex items-center text-left h-[88px] justify-between px-default">
                     <div className="flex items-center">
                       <p className="text-2xl text-black dark:text-white font-bold">
-                        {type === "create" ? "Create" : "Edit"} Match
+                        {type === "create" && "Create Match"}
+                        {type === "edit" && "Edit Match"}
                       </p>
                       {type === "edit" && (
                         <div className="flex space-x-3 items-center ml-5">

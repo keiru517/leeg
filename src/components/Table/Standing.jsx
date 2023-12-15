@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 
 import Table from "./index";
 
-const StandingTable = ({ teams }) => {
+const StandingTable = ({ teams, keyword }) => {
+  console.log(keyword)
   const columns = [
     {
       label: "#",
@@ -11,6 +12,7 @@ const StandingTable = ({ teams }) => {
     },
     {
       label: "Team",
+      accessor: 'name',
       fixed: true,
       getValue: (row) => (
         <Typography
@@ -28,6 +30,7 @@ const StandingTable = ({ teams }) => {
     },
     {
       label: "Wins",
+      accessor: 'win',
       getValue: (row) => (
         <Typography variant="small" className="font-normal">
           {row.win}
@@ -36,6 +39,7 @@ const StandingTable = ({ teams }) => {
     },
     {
       label: "Losses",
+      accessor: 'lose',
       getValue: (row) => (
         <Typography variant="small" className="font-normal">
           {row.lose}
@@ -44,6 +48,7 @@ const StandingTable = ({ teams }) => {
     },
     {
       label: "Points Scored",
+      accessor: 'pointScored',
       getValue: (row) => (
         <Typography variant="small" className="font-normal">
           {row.pointScored}
@@ -52,6 +57,7 @@ const StandingTable = ({ teams }) => {
     },
     {
       label: "Points Against",
+      accessor: 'pointAgainst',
       getValue: (row) => (
         <Typography variant="small" className="font-normal">
           {row.pointAgainst}
@@ -60,6 +66,7 @@ const StandingTable = ({ teams }) => {
     },
     {
       label: "Differential",
+      accessor: 'diff',
       getValue: (row) => (
         <Typography as="a" href="#" variant="small" className="font-normal">
           {row.diff}
@@ -68,10 +75,11 @@ const StandingTable = ({ teams }) => {
     },
   ];
 
+  console.log(teams.filter(team=>team.name.toLowerCase().includes(keyword.toLowerCase())))
   return (
     <>
       <Table
-        data={teams.sort((a, b) => b.win - a.win)}
+        data={teams.filter(team=>team.name.toLowerCase().includes(keyword.toLowerCase())).sort((a, b) => b.win - a.win)}
         columns={columns}
         presentCheckBox={false}
         presentOptions={false}

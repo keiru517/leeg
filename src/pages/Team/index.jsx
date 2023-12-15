@@ -172,8 +172,7 @@ const Team = () => {
                 {matches.length > 0 ? (
                   <>
                     <MatchTable
-                      matches={matches}
-                      leagueId={leagueId}
+                      keyword={""}
                     ></MatchTable>
                   </>
                 ) : (

@@ -329,11 +329,11 @@ const EditEventModal = (props) => {
                           </div>
                           <div
                             className={`flex items-center justify-center rounded-[10px] ${
-                              event === "Timeout"
+                              event === "TimeOut"
                                 ? "bg-primary"
                                 : "bg-[#303335]"
                             } w-full h-14 cursor-pointer hover:opacity-75`}
-                            onClick={() => setEvent("Timeout")}
+                            onClick={() => setEvent("TimeOut")}
                           >
                             <p className="text-white">TIMEOUT</p>
                           </div>
@@ -434,7 +434,7 @@ const EditEventModal = (props) => {
                               )}
                             >
                               <div>
-                                {filteredHomeTeamMatchups.map(
+                                {event !== "TimeOut" && filteredHomeTeamMatchups.map(
                                   ({ player }, idx) => (
                                     <EventPlayerList
                                       key={idx}

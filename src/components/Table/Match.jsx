@@ -1,14 +1,55 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { Typography } from "@material-tailwind/react";
 import { useDispatch, useSelector } from "react-redux";
 import Option from "../Option";
 import * as actions from "../../actions";
+import triupIconDark from "../../assets/img/dark_mode/triup-icon-dark.png";
+import tridownIconDark from "../../assets/img/dark_mode/tridown-icon-dark.png";
+import triupIconLight from "../../assets/img/dark_mode/triup-icon-light.png";
+import tridownIconLight from "../../assets/img/dark_mode/tridown-icon-light.png";
 
 const MatchTable = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { matches, leagueId } = props;
+  let { leagueId } = useParams();
+  const { keyword } = props;
 
+  const darkMode = useSelector((state) => state.home.dark_mode);
+
+  const teams = useSelector((state) => state.home.teams).filter(
+    (team) => team.leagueId == leagueId
+  );
+
+  const matches1 = useSelector((state) => state.home.matches).filter(
+    (match) => match.leagueId == leagueId && match.isDeleted == 0
+  );
+
+  const matches = useSelector((state) => state.home.matches).filter((match) => {
+    const homeTeam = teams.find((team) => team.id == match.homeTeamId);
+    const awayTeam = teams.find((team) => team.id == match.awayTeamId);
+    const status = match.isNew ? "Incomplete" : "Completed";
+    const results = match.homeTeamPoints + ":" + match.awayTeamPoints;
+
+    return (
+      match.leagueId == leagueId &&
+      match.isDeleted == 0 &&
+      (homeTeam?.name.toLowerCase().includes(keyword.toLowerCase()) ||
+        awayTeam?.name.toLowerCase().includes(keyword.toLowerCase()) ||
+        match.location?.toLowerCase().includes(keyword.toLowerCase()) ||
+        match.date?.toLowerCase().includes(keyword.toLowerCase()) ||
+        match.time?.toLowerCase().includes(keyword.toLowerCase()) ||
+        status.toLowerCase().includes(keyword.toLowerCase()) ||
+        results.toLowerCase().includes(keyword.toLowerCase()))
+    );
+  });
+
+  console.log(matches);
+  console.log(matches1);
+
+  useEffect(() => {
+    setTableData(matches);
+  }, [keyword]);
   const user = useSelector((state) => state.home.user);
   const league = useSelector((state) => state.home.leagues).find(
     (league) => league.id == leagueId && league.isDeleted !== 1
@@ -27,6 +68,10 @@ const MatchTable = (props) => {
   var columns = [];
   if (isAdmin) {
     var columns = [
+      // {label: "Date", accessor:'date'},
+      // {label: "Location", accessor:'location'},
+      // {label: "Time", accessor:'time'},
+      // {label: "Home", accessor:'time'},
       "Date",
       "Location",
       "Time",
@@ -37,7 +82,15 @@ const MatchTable = (props) => {
       "Action",
     ];
   } else {
-    var columns = ["Date", "Location", "Time", "Home", "Away", "Results", "Status"];
+    var columns = [
+      "Date",
+      "Location",
+      "Time",
+      "Home",
+      "Away",
+      "Results",
+      "Status",
+    ];
   }
 
   const options = [
@@ -45,8 +98,6 @@ const MatchTable = (props) => {
     { id: 1, name: "Scoreboard" },
     { id: 2, name: "Delete" },
   ];
-
-  const teams = useSelector((state) => state.home.teams);
 
   // const goToMatchup = (id) => {
   //   navigate(`/league/${leagueId}/matchup/${id}`)
@@ -77,6 +128,50 @@ const MatchTable = (props) => {
     else return false;
   };
 
+  const [sortField, setSortField] = useState("");
+  const [order, setOrder] = useState("asc");
+
+  const handleSortingChange = (accessor) => {
+    const sortOrder =
+      accessor === sortField && order === "asc" ? "desc" : "asc";
+    setSortField(accessor);
+    setOrder(sortOrder);
+    handleSorting(accessor, sortOrder);
+  };
+
+  const [tableData, setTableData] = useState(matches);
+
+  const handleSorting = (sortField, sortOrder) => {
+    if (sortField) {
+      const sorted = [...matches].sort((a, b) => {
+        if (sortField.toLowerCase() === "home") {
+          a["home"] = teams.find((team) => team.id == a.homeTeamId)?.name;
+          b["home"] = teams.find((team) => team.id == b.homeTeamId)?.name;
+        } else if (sortField.toLowerCase() === "away") {
+          a["away"] = teams.find((team) => team.id == a.awayTeamId)?.name;
+          b["away"] = teams.find((team) => team.id == b.awayTeamId)?.name;
+        } else if (sortField.toLowerCase() === "results") {
+          a["results"] = a.homeTeamPoints + ":" + a.awayTeamPoints;
+          b["results"] = b.homeTeamPoints + ":" + b.awayTeamPoints;
+        } else if (sortField.toLowerCase() === "status") {
+          a["status"] = a.isNew;
+          b["status"] = b.isNew;
+        } else if (sortField.toLowerCase() === "action") {
+          return 1;
+        }
+
+        return (
+          a[sortField.toLowerCase()]
+            .toString()
+            .localeCompare(b[sortField.toLowerCase()].toString(), "en", {
+              numeric: true,
+            }) * (sortOrder === "asc" ? 1 : -1)
+        );
+      });
+      setTableData(sorted);
+    }
+  };
+
   return (
     <div className="text-black dark:text-white h-5/6 w-full mt-4 overflow-auto">
       <table className="w-full min-w-max table-auto text-left">
@@ -85,15 +180,34 @@ const MatchTable = (props) => {
             {columns.map((head, idx) => (
               <th
                 key={idx}
-                className={`h-button text-center font-font-dark-gray font-normal text-sm ${head==="Action"?"":""}`}
+                className={`h-button text-center font-font-dark-gray font-normal text-sm hover:cursor-pointer ${
+                  head === "Action" ? "" : ""
+                }`}
+                onClick={() => handleSortingChange(head)}
               >
-                {head}
+                <div className="flex justify-center">
+                  {head}
+                  {head !== "Action" && (
+                    <div className="ml-3">
+                      <img
+                        src={darkMode ? triupIconDark : triupIconLight}
+                        alt=""
+                        className="w-3 h-3 cursor-pointer hover:bg-opacity-70"
+                      />
+                      <img
+                        src={darkMode ? tridownIconDark : tridownIconLight}
+                        alt=""
+                        className="w- h-3 cursor-pointer hover:bg-opacity-70"
+                      />
+                    </div>
+                  )}
+                </div>
               </th>
             ))}
           </tr>
         </thead>
         <tbody className="text-center text-sm">
-          {matches.map(
+          {tableData.map(
             (
               {
                 id,
@@ -142,7 +256,9 @@ const MatchTable = (props) => {
                         to={`/league/${leagueId}/team/${homeTeamId}`}
                       >
                         <img
-                          src={teams.find((team) => team.id == homeTeamId)?.logo}
+                          src={
+                            teams.find((team) => team.id == homeTeamId)?.logo
+                          }
                           alt=""
                           className="h-8 w-8 mr-2 rounded-full border border-gray-500"
                         />
@@ -153,7 +269,7 @@ const MatchTable = (props) => {
                               : ""
                           }`}
                         >
-                          {teams.find((team) => team.id == homeTeamId).name}
+                          {teams.find((team) => team.id == homeTeamId)?.name}
                         </p>
                       </Link>
                     )}
@@ -170,11 +286,13 @@ const MatchTable = (props) => {
                     {isDeletedTeam(awayTeamId) ? (
                       <>
                         <img
-                          src={teams.find((team) => team.id == awayTeamId).logo}
+                          src={
+                            teams.find((team) => team.id == awayTeamId)?.logo
+                          }
                           alt=""
                           className="h-8 w-8 mr-2 rounded-full border border-gray-500"
                         />
-                        {teams.find((team) => team.id == awayTeamId).name}
+                        {teams.find((team) => team.id == awayTeamId)?.name}
                         <span className="bg-red-100 text-red-800 text-xs font-medium ml-3 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300 text-right">
                           Deleted
                         </span>
@@ -185,7 +303,9 @@ const MatchTable = (props) => {
                         to={`/league/${leagueId}/team/${awayTeamId}`}
                       >
                         <img
-                          src={teams.find((team) => team.id == awayTeamId).logo}
+                          src={
+                            teams.find((team) => team.id == awayTeamId)?.logo
+                          }
                           alt=""
                           className="h-8 w-8 mr-2 rounded-full border border-gray-500"
                         />
@@ -196,7 +316,7 @@ const MatchTable = (props) => {
                               : ""
                           }`}
                         >
-                          {teams.find((team) => team.id == awayTeamId).name}
+                          {teams.find((team) => team.id == awayTeamId)?.name}
                         </p>
                       </Link>
                     )}

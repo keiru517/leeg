@@ -11,7 +11,6 @@ const initialState = {
   logs: [],
   players: [],
   admins: [],
-  selected_league: [],
   league_password_dialog: {
     open: false,
     type: "",
@@ -21,6 +20,10 @@ const initialState = {
     open: false,
     type: "create",
     league: [],
+  },
+  league_detail_dialog: {
+    open:false,
+    league: []
   },
   select_player_dialog: {
     open: false,
@@ -155,11 +158,23 @@ const home = (state = initialState, action) => {
           league: [],
         },
       };
-    case actions.SET_SELECTED_LEAGUE:
-      return {
-        ...state,
-        selected_league: action.payload,
-      };
+      case actions.OPEN_LEAGUE_DETAIL_DIALOG:
+        return {
+          ...state, 
+          league_detail_dialog:{
+            open:true,
+            league: action.payload
+          }
+        }
+      case actions.CLOSE_LEAGUE_DETAIL_DIALOG:
+        return {
+          ...state, 
+          league_detail_dialog:{
+            ...state.league_detail_dialog,
+            open:false,
+          }
+        }
+
 
     // case actions.SET_LEAGUE_LOGO_URL:
     //   return {

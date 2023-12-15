@@ -42,7 +42,7 @@ const TeamCard = (props) => {
   };
 
   return (
-    <div className="flex flex-col overflow-y-auto rounded-default h-[350px]  bg-light-charcoal dark:bg-dark-gray transition ease-in-out delay-150 duration-200 w-full">
+    <div className="flex flex-col overflow-y-auto rounded-default h-[350px] bg-light-charcoal dark:bg-dark-gray transition ease-in-out delay-150 duration-200 w-full">
       <div className="flex justify-between h-button bg-light-dark-gray dark:bg-charcoal rounded-t-default p-4">
         <div className="flex items-center">
           <Link to={`team/${team.id}`}>

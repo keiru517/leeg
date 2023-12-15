@@ -21,6 +21,8 @@ export const OPEN_REMOVE_LEAGUE_PASSWORD_DIALOG =
 export const OPEN_APPLY_LEAGUE_PASSWORD_DIALOG =
   "OPEN_APPLY_LEAGUE_PASSWORD_DIALOG";
 export const CLOSE_LEAGUE_PASSWORD_DIALOG = "CLOSE_LEAGUE_PASSWORD_DIALOG";
+export const OPEN_LEAGUE_DETAIL_DIALOG = "OPEN_LEAGUE_DETAIL_DIALOG";
+export const CLOSE_LEAGUE_DETAIL_DIALOG = "CLOSE_LEAGUE_DETAIL_DIALOG";
 export const SET_SELECTED_LEAGUE = "SET_SELECTED_LEAGUE";
 // export const SET_LEAGUE_LOGO_URL = "SET_LOGO_URL";
 // Teams
@@ -110,7 +112,6 @@ export const applyLeague = async (dispatch, data) => {
       payload: leagues,
     });
     getPlayers(dispatch)
-    alert("Applied successfully!");
   } catch (error) {
     dispatch({
       type: GET_LEAGUES,
@@ -124,10 +125,6 @@ export const openDeleteLeagueDialog = (payload) => ({
   payload: payload,
 });
 
-export const setSelectedLeague = (payload) => ({
-  type: SET_SELECTED_LEAGUE,
-  payload: payload,
-});
 
 // Players
 
@@ -523,7 +520,6 @@ export const removeLog = (dispatch, data) => {
 export const getAdmins = async (dispatch) => {
   try {
     const response = await axios.get(apis.getAdmins);
-
     const admins = response.data.admins;
 
     dispatch({
@@ -548,10 +544,7 @@ export const inviteAdmin = async (dispatch, data) => {
     });
     alert("Invite sent!");
   } catch (error) {
-    dispatch({
-      type: GET_ADMINS,
-      payload: [],
-    });
+    getAdmins(dispatch)
     alert("Error occurred!");
   }
 };
@@ -587,25 +580,5 @@ export const getUserInfo = async (dispatch, id) => {
       payload: []
     })    
   }
-  // try {
-  //   axios
-  //     .get(apis.getUserInfo(id))
-  //     .then((res) => {
-  //       const user = res.data.user;
-  //       user.avatar = apis.userAvatarURL(id);
-  //       dispatch({ type: GET_USER, payload: user });
-  //     })
-  //     .catch((error) => {
-  //       localStorage.removeItem("userId");
-  //       localStorage.removeItem("token");
-  //       navigate("/signin");
-  //     });
-  // } catch (error) {
-  //   dispatch({ type: GET_USER, payload: [] });
-  // }
 };
-// new Promise((resolve, reject) => {
-//   setTimeout(() => {
-//     resolve(true);
-//   }, 500);
-// });
+

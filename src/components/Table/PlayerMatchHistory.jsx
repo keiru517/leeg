@@ -67,9 +67,7 @@ const PlayerMatchHistory = (props) => {
           />
           <p
             className={`underline ${
-              row.homeTeamPoints > row.awayTeamPoints
-                ? "font-bold"
-                : ""
+              row.homeTeamPoints > row.awayTeamPoints ? "font-bold" : ""
             }`}
           >
             <Link to={`/league/${leagueId}/team/${row.homeTeamId}`}>
@@ -78,17 +76,13 @@ const PlayerMatchHistory = (props) => {
           </p>
           <p className="text-font-dark-gray">VS</p>
           <img
-            src={
-              row.awayTeam.logo
-            }
+            src={row.awayTeam.logo}
             alt=""
             className="w-8 h-8 mr-2 rounded-full"
           />
           <p
             className={`underline ${
-              row.awayTeamPoints > row.homeTeamPoints
-                ? "font-bold"
-                : ""
+              row.awayTeamPoints > row.homeTeamPoints ? "font-bold" : ""
             }`}
           >
             <Link to={`/league/${leagueId}/team/${row.awayTeamId}`}>
@@ -100,6 +94,7 @@ const PlayerMatchHistory = (props) => {
     },
     {
       label: "PTS",
+      accessor: "totalPoints",
       getValue: (row) => (
         <Typography variant="small" className="font-normal">
           {row.totalPoints}
@@ -108,6 +103,7 @@ const PlayerMatchHistory = (props) => {
     },
     {
       label: "3PM",
+      accessor: "totalPoints3",
       getValue: (row) => (
         <Typography variant="small" className="font-normal">
           {row.totalPoints3}
@@ -116,6 +112,7 @@ const PlayerMatchHistory = (props) => {
     },
     displayAttempts3 && {
       label: "3PA",
+      accessor: "attempts3",
       condition: displayAttempts3,
       getValue: (row) => (
         <Typography variant="small" className="font-normal">
@@ -125,6 +122,7 @@ const PlayerMatchHistory = (props) => {
     },
     displayAttempts3 && {
       label: "3P%",
+      accessor: "3p%",
       condition: displayAttempts3,
       getValue: (row) => (
         <Typography variant="small" className="font-normal">
@@ -136,6 +134,7 @@ const PlayerMatchHistory = (props) => {
     },
     {
       label: "FGM",
+      accessor: "totalPoints2",
       getValue: (row) => (
         <Typography variant="small" className="font-normal">
           {row.totalPoints2}
@@ -144,6 +143,7 @@ const PlayerMatchHistory = (props) => {
     },
     displayAttempts2 && {
       label: "FGA",
+      accessor: "attempts2",
       getValue: (row) => (
         <Typography variant="small" className="font-normal">
           {row.attempts2}
@@ -152,6 +152,7 @@ const PlayerMatchHistory = (props) => {
     },
     displayAttempts2 && {
       label: "FG%",
+      accessor: "fg%",
       getValue: (row) => (
         <Typography variant="small" className="font-normal">
           {isNaN((row.totalPoints2 / row.attempts2) * 100)
@@ -162,6 +163,7 @@ const PlayerMatchHistory = (props) => {
     },
     {
       label: "FTM",
+      accessor: "totalPoints1",
       getValue: (row) => (
         <Typography variant="small" className="font-normal">
           {row.totalPoints1}
@@ -170,6 +172,7 @@ const PlayerMatchHistory = (props) => {
     },
     displayAttempts1 && {
       label: "FTA",
+      accessor: "attempts1",
       condition: displayAttempts1,
       getValue: (row) => (
         <Typography variant="small" className="font-normal">
@@ -179,6 +182,7 @@ const PlayerMatchHistory = (props) => {
     },
     displayAttempts1 && {
       label: "FT%",
+      accessor: "ft%",
       condition: displayAttempts1,
       getValue: (row) => (
         <Typography variant="small" className="font-normal">
@@ -190,6 +194,7 @@ const PlayerMatchHistory = (props) => {
     },
     displayBlocks && {
       label: "BLK",
+      accessor: "blocks",
       condition: displayBlocks,
       getValue: (row) => (
         <Typography variant="small" className="font-normal">
@@ -199,6 +204,7 @@ const PlayerMatchHistory = (props) => {
     },
     displayRebounds && {
       label: "REB",
+      accessor: "rebounds",
       condition: displayRebounds,
       getValue: (row) => (
         <Typography variant="small" className="font-normal">
@@ -208,6 +214,7 @@ const PlayerMatchHistory = (props) => {
     },
     displayAssists && {
       label: "AST",
+      accessor: "assists",
       condition: displayAssists,
       getValue: (row) => (
         <Typography variant="small" className="font-normal">
@@ -217,6 +224,7 @@ const PlayerMatchHistory = (props) => {
     },
     displayFouls && {
       label: "PF",
+      accessor: "fouls",
       condition: displayFouls,
       getValue: (row) => (
         <Typography variant="small" className="font-normal">
@@ -226,6 +234,7 @@ const PlayerMatchHistory = (props) => {
     },
     displaySteals && {
       label: "STL",
+      accessor: "steals",
       condition: displaySteals,
       getValue: (row) => (
         <Typography variant="small" className="font-normal">
@@ -235,6 +244,7 @@ const PlayerMatchHistory = (props) => {
     },
     displayTurnovers && {
       label: "TOV",
+      accessor: "turnovers",
       condition: displayTurnovers,
       getValue: (row) => (
         <Typography variant="small" className="font-normal">

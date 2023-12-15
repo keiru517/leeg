@@ -1,8 +1,12 @@
 import { Typography } from "@material-tailwind/react";
 import { Switch } from "@headlessui/react";
 import { AiOutlineCheck } from "react-icons/ai";
-
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useRef, useState } from "react";
+import triupIconDark from "../../assets/img/dark_mode/triup-icon-dark.png";
+import tridownIconDark from "../../assets/img/dark_mode/tridown-icon-dark.png";
+import triupIconLight from "../../assets/img/dark_mode/triup-icon-light.png";
+import tridownIconLight from "../../assets/img/dark_mode/tridown-icon-light.png";
 
 const Checkbox = ({ label, name, checked, onChange, disabled }) => (
   <Switch.Group>
@@ -41,7 +45,8 @@ const Table = ({
   presentOptions,
   options,
 }) => {
-  console.log(columns, data);
+  const darkMode = useSelector((state) => state.home.dark_mode);
+
   const [columnWidths, setColumnWidths] = useState({});
   const tableRef = useRef(null);
 
@@ -74,6 +79,35 @@ const Table = ({
     zIndex: 1,
   };
 
+  const [sortField, setSortField] = useState("");
+  const [order, setOrder] = useState("asc");
+
+  const handleSortingChange = (accessor) => {
+    const sortOrder =
+      accessor === sortField && order === "asc" ? "desc" : "asc";
+    setSortField(accessor);
+    setOrder(sortOrder);
+    handleSorting(accessor, sortOrder);
+  };
+
+  const [tableData, setTableData] = useState(data);
+  const handleSorting = (sortField, sortOrder) => {
+    if (sortField) {
+      const sorted = [...data].sort((a, b) => {
+        return (
+          a[sortField].toString().localeCompare(b[sortField].toString(), "en", {
+            numeric: true,
+          }) * (sortOrder === "asc" ? 1 : -1)
+        );
+      });
+      setTableData(sorted);
+    }
+  };
+
+  useEffect(() => {
+    setTableData(data);
+  }, [data]);
+
   return (
     <div className="dark:text-white w-full mt-4 overflow-auto">
       <table className="w-full min-w-max table-auto text-left" ref={tableRef}>
@@ -98,7 +132,7 @@ const Table = ({
             .map((col, index) => (
               <th
                 key={col.label}
-                className="h-button text-center font-font-dark-gray bg-white dark:bg-slate"
+                className="h-button text-center font-font-dark-gray bg-white dark:bg-slate hover:cursor-pointer"
                 style={
                   col?.fixed
                     ? {
@@ -113,20 +147,38 @@ const Table = ({
                       }
                     : {}
                 }
+                onClick={() => handleSortingChange(col.accessor)}
               >
                 <Typography
                   variant="small"
                   color="blue-gray"
                   className="font-normal leading-none"
                 >
-                  {col.label}
+                  <div className="flex justify-center items-center">
+                    {col.label}
+                    {col.label !== "#" && (
+                      <div className="ml-3">
+                        <img
+                          src={darkMode ? triupIconDark : triupIconLight}
+                          alt=""
+                          className="w-3 h-3 cursor-pointer hover:bg-opacity-70"
+                        />
+                        <img
+                          src={darkMode ? tridownIconDark : tridownIconLight}
+                          alt=""
+                          className="w- h-3 cursor-pointer hover:bg-opacity-70"
+                        />
+                      </div>
+                    )}
+                  </div>
                 </Typography>
               </th>
             ))}
           {presentOptions && <th>{options}</th>}
         </thead>
         <tbody className="text-center">
-          {data.map((d, index) => (
+          {tableData.map((d, index) => (
+            // {data.map((d, index) => (
             <tr key={index}>
               {presentCheckBox && (
                 <td
@@ -174,7 +226,9 @@ const Table = ({
                     color="blue-gray"
                     className={`font-normal`}
                   >
-                    {column.label === "#" ? index + 1 : column.getValue(d)}
+                    {/* <div className="flex justify-center"> */}
+                      {column.label === "#" ? index + 1 : column.getValue(d)}
+                    {/* </div> */}
                   </Typography>
                 </td>
               ))}

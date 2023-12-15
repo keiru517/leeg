@@ -61,16 +61,13 @@ const Log = (props) => {
           <p className="text-black dark:text-white font-medium text-lg">
             {log.time}
           </p>
-          {/* <p className="text-black dark:text-white font-medium text-lg">
-            {log.homeTeamPoints} - {log.awayTeamPoints}
-          </p> */}
         </div>
         {match?.isNew ? (
           <div className="flex space-x-3 h-[51px] items-center p-4">
             <img
               src={darkMode ? editIconDark : editIconLight}
               alt=""
-              className="w-4.5 h-4.5 cursor-pointer"
+              className="w-4 h-4 cursor-pointer"
               onClick={handleEdit}
             />
             <img

@@ -103,11 +103,13 @@ const League = () => {
     // if (league?.userId == user?.id) {
     categories = [
       // "Blog",
-      "Teams",
+      // "Teams",=>manage rosters
+      "Manage Rosters",
       "Matches",
       "Standings",
       "Players",
-      "Manage Rosters",
+      // "Manage Rosters", => Admissions
+      "Admissions",
       "Settings",
     ];
   } else {
@@ -174,6 +176,7 @@ const League = () => {
   );
 
   const [teamKeyword, setTeamKeyword] = useState("");
+  const [matchKeyword, setMatchKeyword] = useState("");
 
   const [standingsKeyword, setStandingsKeyword] = useState("");
 
@@ -633,7 +636,7 @@ const League = () => {
         </div>
       </p>
       <div className="rounded-default bg-white dark:bg-slate flex-grow sm:p-default">
-        <div className="w-full px-2 sm:px-0 h-full flex flex-col">
+        <div className="w-full px-2 sm:px-0 h-full flex flex-col pt-3">
           <TabContext value={tab}>
             <div className="flex justify-between">
               <Tabs
@@ -659,8 +662,8 @@ const League = () => {
                       "&:hover": { backgroundColor: "#ffffff15" },
                       // "&:hover": { backgroundColor: "#ffffff15" },
                       "&.Mui-selected": {
-                        backgroundColor: "#ffffff15",
-                        color: "white",
+                        backgroundColor: darkMode?"#ffffff15":"#f4f4f4",
+                        color: darkMode?"white":"black",
                         borderBottom: "2px solid rgb(37, 99, 235)",
                       },
                     }}
@@ -747,7 +750,7 @@ const League = () => {
                 </div>
               </TabPanel> */}
 
-              {/* Teams */}
+              {/* Manage Rosters */}
               <TabPanel
                 value={"0"}
                 sx={{
@@ -841,8 +844,8 @@ const League = () => {
                       className="rounded-lg h-[42px] text-xs"
                       icon={darkMode ? searchIconDark : searchIconLight}
                       placeholder="Search Matches"
-                      value={teamKeyword}
-                      onChange={(e) => setTeamKeyword(e.target.value)}
+                      value={matchKeyword}
+                      onChange={(e) => setMatchKeyword(e.target.value)}
                     />
                   </div>
                   <div className="">
@@ -859,7 +862,7 @@ const League = () => {
                 {matches.length > 0 ? (
                   <MatchTable
                     matches={matches}
-                    leagueId={leagueId}
+                    keyword={matchKeyword}
                   ></MatchTable>
                 ) : (
                   <div className="flex items-center flex-grow">
@@ -892,26 +895,30 @@ const League = () => {
                       setStandingsKeyword(e.target.value);
                     }}
                   />
-                  <Select
+                  {/* <Select
                     className="text-xs"
                     options={options}
                     handleClick={(e) => setValue(e.name)}
                     value={value}
                   >
                     {value}
-                  </Select>
+                  </Select> */}
                 </div>
-                {teams.filter((team) =>
-                  team.name
-                    .toLowerCase()
-                    .includes(standingsKeyword.toLowerCase())
-                ).length > 0 ? (
+                {teams
+                // .filter((team) =>
+                //   team.name
+                //     .toLowerCase()
+                //     .includes(standingsKeyword.toLowerCase())
+                // )
+                .length > 0 ? (
                   <StandingTable
-                    teams={teams.filter((team) =>
-                      team.name
-                        .toLowerCase()
-                        .includes(standingsKeyword.toLowerCase())
-                    )}
+                    // teams={teams.filter((team) =>
+                    //   team.name
+                    //     .toLowerCase()
+                    //     .includes(standingsKeyword.toLowerCase())
+                    // )}
+                    teams={teams}
+                    keyword={standingsKeyword}
                   ></StandingTable>
                 ) : (
                   <div className="flex items-center flex-grow">
@@ -941,14 +948,14 @@ const League = () => {
                       setPlayerKeyword(e.target.value);
                     }}
                   />
-                  <Select
+                  {/* <Select
                     className="text-xs"
                     options={options}
                     handleClick={(e) => setValue(e.name)}
                     value={value}
                   >
                     {value}
-                  </Select>
+                  </Select> */}
                 </div>
                 {allPlayers.filter((player) =>
                   (player.firstName + player.lastName)
@@ -971,7 +978,8 @@ const League = () => {
                   </div>
                 )}
               </TabPanel>
-              {/* Rosters */}
+
+              {/* Admissions */}
               {isAdmin && (
                 <TabPanel
                   value={"4"}
@@ -1057,7 +1065,7 @@ const League = () => {
                   <hr className="h-px mb-4 bg-charcoal border-0" />
                   <div className="mt-4 grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-4">
                     {/* League Settings */}
-                    <div className="flex flex-col  border border-dark-gray rounded p-7">
+                    <div className="flex flex-col border border-dark-gray rounded p-7">
                       <div>
                         <h1 className="dark:text-white text-black font-medium mb-4">
                           Edit League
@@ -1141,7 +1149,7 @@ const League = () => {
                             />
                           </span>
                         </div>
-                        <div className="mb-6 ">
+                        {/* <div className="mb-6 ">
                           <span className="">
                             <p className="dark:text-white text-black">
                               Password
@@ -1151,7 +1159,7 @@ const League = () => {
                               value={league?.password}
                             />
                           </span>
-                        </div>
+                        </div> */}
                       </div>
 
                       <div className="grid grid-cols-2 gap-2 ">
@@ -1187,7 +1195,7 @@ const League = () => {
                     <AdminModal user={user} leagueId={leagueId} />
                     <LeaguePassowrdModal />
                     {/* Stats */}
-                    <div className="flex flex-col  space-y-3 border border-dark-gray rounded p-5">
+                    <div className="flex flex-col space-y-3 border border-dark-gray rounded p-5">
                       <table className="table-fixed">
                         <thead>
                           <tr>
@@ -1224,6 +1232,14 @@ const League = () => {
                               />
                             </td>
                           </tr>
+                          {requirePassword && (
+                            <tr>
+                              <td className="whitespace-nowrap text-xs dark:text-white text-black">
+                                Password
+                              </td>
+                              <td className="text-xs dark:text-white text-black">{league?.password}</td>
+                            </tr>
+                          )}
                           <tr>
                             <td className="text-xs dark:text-white text-black">
                               Display Position
