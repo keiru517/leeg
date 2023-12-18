@@ -242,7 +242,7 @@ const TeamPlayerStatistics = (props) => {
       ),
     },
     {
-      label: "Games Played",
+      label: "GP",
       accessor: "gp",
       getValue: (row) => (
         <Typography variant="small" className="font-normal">

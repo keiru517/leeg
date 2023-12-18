@@ -44,7 +44,7 @@ const Card = (props) => {
 
   return (
     <div
-      className={`rounded-default h-[230px] bg-light-charcoal dark:bg-charcoal p-default shadow dark:shadow-gray-600 hover:cursor-pointer`}
+      className={`rounded-default h-[230px] bg-light-charcoal dark:bg-charcoal p-default shadow dark:shadow-gray-600 hover:cursor-pointer hover:opacity-80`}
       onClick={handleClick}
     >
       <div className="">

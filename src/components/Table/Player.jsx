@@ -268,6 +268,24 @@ const Player = ({ players, league }) => {
         </Typography>
       ),
     },
+    {
+      label: "GP",
+      accessor: "gp",
+      getValue: (row) => (
+        <Typography variant="small" className="font-normal">
+          {row.gp}
+        </Typography>
+      ),
+    },
+    {
+      label: "PPG",
+      accessor: "ppg",
+      getValue: (row) => (
+        <Typography variant="small" className="font-normal">
+          {row.ppg}
+        </Typography>
+      ),
+    },
   ].filter(Boolean);
   console.log(columns);
 
@@ -369,6 +387,8 @@ const Player = ({ players, league }) => {
             team: teams.find((team) => team.id == player.teamId),
             teamName: teams.find((team) => team.id == player.teamId)?.name,
             teamId: player.teamId,
+            gp: matchup.length,
+            ppg: matchup.length===0?0:matchup.reduce((sum, item) => sum + item.points, 0)/matchup.length
           };
         }),
     [updatedPlayers]

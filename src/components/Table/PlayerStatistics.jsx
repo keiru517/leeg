@@ -179,6 +179,24 @@ const PlayerStatistics = ({ userId, leagueId }) => {
         </Typography>
       ),
     },
+    {
+      label: "PPG",
+      accessor: "ppg",
+      getValue: (row) => (
+        <Typography variant="small" className="font-normal">
+          {row.ppg}
+        </Typography>
+      ),
+    },
+    {
+      label: "GP",
+      accessor: "gp",
+      getValue: (row) => (
+        <Typography variant="small" className="font-normal">
+          {row.gp}
+        </Typography>
+      ),
+    },
   ].filter(Boolean);
 
   const data = {
@@ -195,6 +213,14 @@ const PlayerStatistics = ({ userId, leagueId }) => {
     fouls: matchups.reduce((sum, matchup) => sum + matchup.fouls, 0),
     steals: matchups.reduce((sum, matchup) => sum + matchup.steals, 0),
     turnovers: matchups.reduce((sum, matchup) => sum + matchup.turnovers, 0),
+    gp: matchups.length,
+    ppg:
+      matchups.length === 0
+        ? 0
+        : matchups.reduce(
+            (sum, matchup) => sum + matchup.points,
+            0
+          ) / matchups.length,
   };
   // const data = useMemo(
   //   () =>
