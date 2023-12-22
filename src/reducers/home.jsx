@@ -10,6 +10,7 @@ const initialState = {
   matchups: [],
   logs: [],
   players: [],
+  substitutes: [],
   admins: [],
   league_password_dialog: {
     open: false,
@@ -22,8 +23,8 @@ const initialState = {
     league: [],
   },
   league_detail_dialog: {
-    open:false,
-    league: []
+    open: false,
+    league: [],
   },
   select_player_dialog: {
     open: false,
@@ -158,23 +159,22 @@ const home = (state = initialState, action) => {
           league: [],
         },
       };
-      case actions.OPEN_LEAGUE_DETAIL_DIALOG:
-        return {
-          ...state, 
-          league_detail_dialog:{
-            open:true,
-            league: action.payload
-          }
-        }
-      case actions.CLOSE_LEAGUE_DETAIL_DIALOG:
-        return {
-          ...state, 
-          league_detail_dialog:{
-            ...state.league_detail_dialog,
-            open:false,
-          }
-        }
-
+    case actions.OPEN_LEAGUE_DETAIL_DIALOG:
+      return {
+        ...state,
+        league_detail_dialog: {
+          open: true,
+          league: action.payload,
+        },
+      };
+    case actions.CLOSE_LEAGUE_DETAIL_DIALOG:
+      return {
+        ...state,
+        league_detail_dialog: {
+          ...state.league_detail_dialog,
+          open: false,
+        },
+      };
 
     // case actions.SET_LEAGUE_LOGO_URL:
     //   return {
@@ -384,6 +384,11 @@ const home = (state = initialState, action) => {
         admins: action.payload,
       };
 
+    case actions.GET_SUBSTITUES:
+      return {
+        ...state,
+        substitutes: action.payload,
+      };
     case actions.OPEN_ADD_SUBSTITUTE_DIALOG:
       return {
         ...state,

@@ -32,7 +32,7 @@ const LineupsModal = (props) => {
         fouls,
         steals,
         turnovers,
-        attendance
+        attendance,
       }) => {
         return {
           ...player,
@@ -49,10 +49,16 @@ const LineupsModal = (props) => {
           fouls,
           steals,
           turnovers,
-          attendance
+          attendance,
         };
       }
     );
+  const substitutes = useSelector((state) => state.home.substitutes).filter(
+    (substitute) =>
+      substitute.leagueId == leagueId &&
+      substitute.matchId == matchId &&
+      substitute.teamId == teamId
+  );
 
   const dispatch = useDispatch();
 
@@ -67,14 +73,17 @@ const LineupsModal = (props) => {
 
   const handleLineups = () => {
     // console.log(lineups)
-    console.log(lineups)
-    axios.post(apis.editLineups, {lineups, matchId}).then((res)=>{
-      dispatch({type:actions.GET_MATCHUPS, payload:res.data.matchups})
-      alert("Updated lineups!");
-    }).catch(()=>{
-      console.log("Error")
-    })
-  }
+    console.log(lineups);
+    axios
+      .post(apis.editLineups, { lineups, matchId })
+      .then((res) => {
+        dispatch({ type: actions.GET_MATCHUPS, payload: res.data.matchups });
+        alert("Updated lineups!");
+      })
+      .catch(() => {
+        console.log("Error");
+      });
+  };
 
   const closeDialog = () => {
     dispatch({ type: actions.CLOSE_LINEUP_DIALOG });
@@ -128,7 +137,10 @@ const LineupsModal = (props) => {
                   </div>
                   <div className="flex flex-grow flex-col p-default justify-between">
                     <div>
-                      <LineupTable players={players} setLineups={setLineups}></LineupTable>
+                      <LineupTable
+                        players={[...players, ...substitutes]}
+                        setLineups={setLineups}
+                      ></LineupTable>
                     </div>
                     <div className="flex space-x-3">
                       <button

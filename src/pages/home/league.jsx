@@ -156,6 +156,7 @@ const League = () => {
     actions.getMatches(dispatch);
     actions.getMatchups(dispatch);
     actions.getPlayers(dispatch);
+    actions.getSubstitutes(dispatch);
     actions.getAdmins(dispatch);
   }, []);
 
@@ -306,6 +307,7 @@ const League = () => {
   const [second, setSecond] = useState("");
   const [isAllowedFan, setIsAllowedFan] = useState("");
   const [displayLeagueId, setDisplayLeagueId] = useState("");
+  const [displaySubstitutes, setDisplaySubstitutes] = useState("");
   const [displayPosition, setDisplayPosition] = useState("");
   const [displayJerseyNumber, setDisplayJerseyNumber] = useState("");
   const [displayAttempts3, setDisplayAttempts3] = useState("");
@@ -323,6 +325,7 @@ const League = () => {
     setMinute(league?.minute);
     setSecond(league?.second);
     setIsAllowedFan(league?.isAllowedFan);
+    setDisplaySubstitutes(league?.displaySubstitutes);
     setDisplayPosition(league?.displayPosition);
     setDisplayJerseyNumber(league?.displayJerseyNumber);
     setDisplayAttempts3(league?.displayAttempts3);
@@ -399,6 +402,24 @@ const League = () => {
     //   .catch((error) => {
     //     alert(error.response.data.message);
     //   });
+  };
+
+  const toggleSubstitutes = () => {
+    axios
+      .post(apis.toggleSubstitutes, {
+        leagueId: leagueId,
+        status: !displaySubstitutes,
+      })
+      .then((res) => {
+        actions.getLeagues(dispatch);
+        actions.getPlayers(dispatch);
+        actions.getMatches(dispatch);
+        actions.getMatchups(dispatch);
+        setDisplaySubstitutes(!displaySubstitutes);
+      })
+      .catch((error) => {
+        alert(error.response.data.message);
+      });
   };
 
   const togglePosition = () => {
@@ -1242,6 +1263,19 @@ const League = () => {
                           )}
                           <tr>
                             <td className="text-xs dark:text-white text-black">
+                              Display Substitutues
+                            </td>
+                            <td>
+                              <img
+                                src={displaySubstitutes ? toggleOn : toggleOff}
+                                alt=""
+                                className="w-8 cursor-pointer m-auto"
+                                onClick={toggleSubstitutes}
+                              />
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className="text-xs dark:text-white text-black">
                               Display Position
                             </td>
                             <td>
@@ -1255,7 +1289,7 @@ const League = () => {
                           </tr>
                           <tr>
                             <td className="text-xs dark:text-white text-black">
-                              Display JerseyNumber
+                              Display Jersey Number
                             </td>
                             <td>
                               <img

@@ -137,7 +137,10 @@ const Matchup = () => {
       }
     );
 
-  const homeTeamPlayers = homeTeamMatchups;
+    const homeTeamSubstitutes = useSelector(state=>state.home.substitutes).filter(substitute=>substitute.leagueId == leagueId && substitute.matchId == matchId && substitute.teamId == match?.homeTeamId);
+    
+  const homeTeamPlayers = [...homeTeamMatchups, ...homeTeamSubstitutes];
+  console.log(homeTeamPlayers)
 
   const awayTeam = useSelector((state) => state.home.teams).find(
     (team) => team.id == match?.awayTeamId
@@ -204,6 +207,7 @@ const Matchup = () => {
     actions.getMatchups(dispatch);
     actions.getLogs(dispatch);
     actions.getPlayers(dispatch);
+    actions.getSubstitutes(dispatch);
   }, []);
 
   let homeTeamPoints = 0;
@@ -255,8 +259,8 @@ const Matchup = () => {
   const matchupResult = [homeTeamPoints, awayTeamPoints];
 
   const [arrow, setArrow] = useState("home");
-  const handleAction = (teamId, playerId, event, isDirect) => {
-    console.log("handleAction", teamId, playerId, event, isDirect, time);
+  const handleAction = (teamId, playerId, event, isDirect, isSubstitute) => {
+    console.log("handleAction", teamId, playerId, event, isDirect, time, isSubstitute);
     actions.createOneLog(dispatch, {
       leagueId,
       matchId,
@@ -266,6 +270,7 @@ const Matchup = () => {
       event,
       time,
       isDirect,
+      isSubstitute
     });
   };
 

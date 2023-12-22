@@ -20,7 +20,7 @@ const TeamCard = (props) => {
     (player) =>
       player.teamId == team.id &&
       player.isDeleted !== 1 &&
-      player.isSubstitute !== 1
+      !player.isSubstitute
   );
 
   const admins = useSelector((state) => state.home.admins).filter(

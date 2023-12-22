@@ -23,7 +23,7 @@ function Checkbox({ label, name, checked, onChange, disabled }) {
           className={`
             relative flex h-5 w-5 items-center justify-center transition-all duration-200 outline-none ring-1 
             ${!checked && !disabled ? "ring-gray-400" : ""}
-            ${checked && !disabled ? "ring-sky-400" : ""} 
+            ${checked && !disabled ? "ring-sky-400" : ""}
             ${disabled ? "bg-gray-200 ring-gray-200" : ""}  
           `}
         >

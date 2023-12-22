@@ -8,6 +8,8 @@ import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../actions";
 import axios from "axios";
 import apis from "../../utils/apis";
+import PlayerList from "../ListItem/PlayerList";
+import search from "../../assets/img/dark_mode/search.png";
 
 const SubstituteModal = (props) => {
   const { homeTeamPlayers, awayTeamPlayers } = props;
@@ -18,7 +20,25 @@ const SubstituteModal = (props) => {
   const team = useSelector((state) => state.home.teams).find(
     (team) => team.id == teamId
   );
+  const match = useSelector((state) => state.home.matches).find(
+    (match) => match.id == matchId
+  );
 
+  const [keyword, setKeyword] = useState("");
+
+  const players = useSelector((state) => state.home.players).filter(
+    (player) =>
+      player.leagueId == leagueId &&
+      player.teamId != match.homeTeamId &&
+      player.teamId != match.awayTeamId
+  );
+
+  const [playersList, setPlayersList] = useState({});
+  const setCheckedList = (id, checked) => {
+    let temp = { ...playersList };
+    temp[id] = checked;
+    setPlayersList(temp);
+  };
   const dispatch = useDispatch();
 
   const status = useSelector((state) => state.home.substitute_dialog.open);
@@ -40,32 +60,51 @@ const SubstituteModal = (props) => {
   const [jerseyNumber, setJerseyNumber] = useState("");
 
   const createSubmit = () => {
+    console.log(
+      leagueId,
+      teamId,
+      matchId,
+      firstName,
+      lastName,
+      jerseyNumber,
+      position
+    );
+    const formData = new FormData();
+    formData.append("leagueId", leagueId);
+    formData.append("teamId", teamId);
+    formData.append("matchId", matchId);
+    formData.append("firstName", firstName);
+    formData.append("lastName", lastName);
+    formData.append("jerseyNumber", jerseyNumber);
+    formData.append("position", position);
+    actions.createSubstitute(dispatch, formData);
     dispatch({ type: actions.CLOSE_ADD_SUBSTITUTE_DIALOG });
-    if (position === "Select Position") {
-      setPosition("");
-    }
-      axios
-        .post(apis.createOneMatchup, {
-          email,
-          leagueId,
-          matchId,
-          teamId,
-          jerseyNumber,
-          position,
-        })
-        .then((res) => {
-          actions.getPlayers(dispatch);
-          actions.getTeams(dispatch);
-          actions.getMatches(dispatch);
-          actions.getMatchups(dispatch);
-          alert("Added a substitute successfully!");
-        })
-        .catch((error) => console.log(error.response.data.message));
+    // if (position === "Select Position") {
+    //   setPosition("");
+    // }
+    // axios
+    //   .post(apis.createOneMatchup, {
+    //     email,
+    //     leagueId,
+    //     matchId,
+    //     teamId,
+    //     jerseyNumber,
+    //     position,
+    //   })
+    //   .then((res) => {
+    //     actions.getPlayers(dispatch);
+    //     actions.getTeams(dispatch);
+    //     actions.getMatches(dispatch);
+    //     actions.getMatchups(dispatch);
+    //     alert("Added a substitute successfully!");
+    //   })
+    //   .catch((error) => console.log(error.response.data.message));
   };
 
   const closeDialog = () => {
     // dispatch({ type: actions.OPEN_CREATE_TEAM_DIALOG, payload: false });
     dispatch({ type: actions.CLOSE_ADD_SUBSTITUTE_DIALOG });
+    setPlayersList({});
     setEmail("");
     setJerseyNumber("");
     setPosition("Select Position");
@@ -156,28 +195,69 @@ const SubstituteModal = (props) => {
                           </p>
                         </div>
                       </div>
-                      <div className="grid grid-cols-2 gap-4">
-                        <Input
-                          className="rounded-default text-xs h-12 col-span-2"
-                          placeholder="Type email address*"
-                          value={email}
-                          onChange={(e) => setEmail(e.target.value)}
-                        ></Input>
-                        <Input
-                          className="rounded-default text-xs h-12"
-                          placeholder="Jersey Number"
-                          value={jerseyNumber}
-                          onChange={(e) => setJerseyNumber(e.target.value)}
-                        ></Input>
-                        <Select
-                          name="position"
-                          className="w-full h-12 rounded-lg text-xs"
-                          options={positions}
-                          value={position}
-                          handleClick={(e)=>setPosition(e.name)}
-                        >
-                          {position}
-                        </Select>
+                      <div className="grid grid-cols-2 gap-3">
+                        <div>
+                          <label
+                            htmlFor=""
+                            className="text-black dark:text-white text-xs"
+                          >
+                            First Name
+                          </label>
+                          <Input
+                            className="rounded-default text-xs h-12 col-span-2"
+                            placeholder="Type First Name*"
+                            value={firstName}
+                            onChange={(e) => setFirstName(e.target.value)}
+                            required
+                          ></Input>
+                        </div>
+                        <div>
+                          <label
+                            htmlFor=""
+                            className="text-black dark:text-white text-xs"
+                          >
+                            Last Name
+                          </label>
+                          <Input
+                            className="rounded-default text-xs h-12"
+                            placeholder="Type Last Name*"
+                            value={lastName}
+                            onChange={(e) => setLastName(e.target.value)}
+                            required
+                          ></Input>
+                        </div>
+                        <div>
+                          <label
+                            htmlFor=""
+                            className="text-black dark:text-white text-xs"
+                          >
+                            Jersey Number
+                          </label>
+                          <Input
+                            className="rounded-default text-xs h-12"
+                            placeholder="Jersey Number"
+                            value={jerseyNumber}
+                            type="number"
+                            onChange={(e) => setJerseyNumber(e.target.value)}
+                          ></Input>
+                        </div>
+                        <div>
+                          <label
+                            htmlFor=""
+                            className="text-black dark:text-white text-xs"
+                          >
+                            Position
+                          </label>
+                          <Select
+                            name="position"
+                            className="w-full h-12 rounded-lg text-xs"
+                            options={positions}
+                            value={position}
+                            handleClick={(e) => setPosition(e.name)}
+                          >
+                            {position}
+                          </Select>
+                        </div>
 
                         {/* <Input
                           className="rounded-default text-xs h-12"
@@ -196,7 +276,6 @@ const SubstituteModal = (props) => {
                     <button
                       onClick={createSubmit}
                       className={`bg-primary rounded-default w-full hover:bg-opacity-70 h-button text-white disabled:opacity-10`}
-                      disabled={!canAdd}
                     >
                       Add Substitute
                     </button>

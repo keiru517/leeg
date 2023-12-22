@@ -1,30 +1,56 @@
-const Input = (props) => {
-    const {
-        icon,
-        className,
-        option,
-        value,
-        ...rest
-    } = props;
-    return (
-        <div className={
-            `${className} flex space-x-2 border border-dark-gray items-center px-3`
-        }>
-            {
-                icon ? <div>
-                    <img src={icon} className="w-3.5 h-3.5"
-                        alt="" />
-                </div> : ""
-            } 
-            <input {...rest} className="bg-transparent outline-none text-black dark:text-white flex-grow h-[42px] " value={value}/>
-            {
-                option ? <div>
-                    <img src={option} alt="" className="hover:cursor-pointer"/>
-                </div>
-                    : ""
-            }
-        </div>
-    )
-}
- 
-export default Input;
+import React, { useState } from "react";
+import moment from "moment";
+import Datepicker from "tailwind-datepicker-react";
+
+const CDatePicker = ({ date, setDate }) => {
+  const [show, setShow] = useState(false);
+
+  const handleChange = (selectedDate) => {
+    const dateObj = new Date(selectedDate);
+    const formattedDate = moment(dateObj).format("DD/MM/YYYY");
+    setDate(formattedDate.toString());
+  };
+
+  const handleClose = (state) => {
+    setShow(state);
+  };
+
+  const options = {
+    title: "Enter Season Start Date",
+    autoHide: true,
+    todayBtn: true,
+    clearBtn: true,
+    maxDate: new Date("2030-01-01"),
+    minDate: new Date("1950-01-01"),
+    theme: {
+      background: "white",
+      todayBtn: "",
+      clearBtn: "",
+      icons: "",
+      text: "",
+      disabledText: "opacity-30",
+      input: "",
+      inputIcon: "",
+      selected: "",
+    },
+    icons: {
+      // () => ReactElement | JSX.Element
+      prev: () => <span className="text-xs">&lt;</span>,
+      next: () => <span className="text-xs">&gt;</span>,
+    },
+    datepickerClassNames: "text-xs",
+    defaultDate: null,
+    language: "en",
+  };
+  return (
+    <Datepicker
+      classNames=""
+      options={options}
+      onChange={handleChange}
+      show={show}
+      setShow={handleClose}
+    />
+  );
+};
+
+export default CDatePicker;
