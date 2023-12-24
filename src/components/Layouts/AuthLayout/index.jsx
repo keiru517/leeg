@@ -1,18 +1,25 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { getUserInfo } from "../../../actions";
+import { useDispatch } from "react-redux";
+// import { getUserInfo } from "../../../actions";
+import * as actions from "../../../actions";
 import Nav from "../../nav";
 import { setAuthToken, logoutUser } from "../../../utils/authService";
 import { isExpired, decodeToken } from "react-jwt";
 
 const AuthLayout = (props) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   let location = useLocation();
   const [isLoading, setLoading] = useState(true);
   const [isLoggedIn, setLoggedIn] = useState(false);
-  
-  const token = localStorage.getItem('token');
-  
+
+  const token = localStorage.getItem("token");
+
+  useEffect(() => {
+    actions.getUserInfo(dispatch, localStorage.getItem("userId"));
+  }, []);
+
   // useEffect(() => {
   //   const handleUserActivity = () => {
   //     if (token && isExpired(token)) {
@@ -32,25 +39,24 @@ const AuthLayout = (props) => {
   //   };
   // }, [token]);
 
-  useEffect(()=>{
+  useEffect(() => {
     if (token) {
       // if (!isExpired(token)) {
-        setLoggedIn(true)
-        setAuthToken(token);
+      setLoggedIn(true);
+      setAuthToken(token);
       // } else {
       //   setLoggedIn(false)
       //   logoutUser();
       // }
     } else {
-      console.log(location.pathname)
-      if (location.pathname !== "/resetpass" ) {
-        navigate('/signin', { replace: true})
+      console.log(location.pathname);
+      if (location.pathname !== "/resetpass") {
+        navigate("/signin", { replace: true });
       }
-      setLoggedIn(false)
+      setLoggedIn(false);
     }
-    setLoading(false)
-    
-  }, [token])
+    setLoading(false);
+  }, [token]);
 
   // useEffect(()=>{
   //   if (token) {
@@ -61,11 +67,11 @@ const AuthLayout = (props) => {
   //     console.log(location.pathname)
   //     if (location.pathname !== "/resetpass" ) {
   //       navigate('/signin', { replace: true})
-  //     } 
+  //     }
   //     setLoggedIn(false)
   //   }
   //   setLoading(false)
-    
+
   // }, [token])
 
   return (

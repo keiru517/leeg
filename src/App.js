@@ -24,7 +24,6 @@ function App() {
     <Router>
       <AuthLayout>
         <Routes>
-          <Route path="*" element={<PageNotFound />} />
           <Route exact path="/signin" element={<Signin />}></Route>
           <Route
             exact
@@ -65,7 +64,7 @@ function App() {
             element={<Matchup />}
           ></Route>
           <Route exact path="/profile" element={<Profile />}></Route>
-
+          <Route path="*" element={<PageNotFound />}></Route>
         </Routes>
       </AuthLayout>
     </Router>
