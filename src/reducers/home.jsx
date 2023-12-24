@@ -1,7 +1,7 @@
 import * as actions from "../actions";
 
 const initialState = {
-  dark_mode: "",
+  dark_mode: true,
   user: {},
   users: [],
   leagues: [],

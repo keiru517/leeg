@@ -25,12 +25,14 @@ import StandingTable from "../../components/Table/Standing";
 import AdminTable from "../../components/Table/Admin";
 import PlayerTable from "../../components/Table/Player";
 import RosterTable from "../../components/Table/Roster";
-import TimePicker from "../../components/Timer/TimePicker";
+// import TimePicker from "../../components/Timer/TimePicker";
 import calendar from "../../assets/img/dark_mode/calendar.png";
 import apis from "../../utils/apis";
 import * as actions from "../../actions";
 import toggleOn from "../../assets/img/dark_mode/toggle-on.png";
 import toggleOff from "../../assets/img/dark_mode/toggle-off.png";
+import DatePicker from "../../components/DatePicker";
+import TimePicker from "../../components/TimePicker";
 
 const League = () => {
   let { leagueId } = useParams();
@@ -683,8 +685,8 @@ const League = () => {
                       "&:hover": { backgroundColor: "#ffffff15" },
                       // "&:hover": { backgroundColor: "#ffffff15" },
                       "&.Mui-selected": {
-                        backgroundColor: darkMode?"#ffffff15":"#f4f4f4",
-                        color: darkMode?"white":"black",
+                        backgroundColor: darkMode ? "#ffffff15" : "#f4f4f4",
+                        color: darkMode ? "white" : "black",
                         borderBottom: "2px solid rgb(37, 99, 235)",
                       },
                     }}
@@ -925,29 +927,30 @@ const League = () => {
                     {value}
                   </Select> */}
                 </div>
-                {teams
-                // .filter((team) =>
-                //   team.name
-                //     .toLowerCase()
-                //     .includes(standingsKeyword.toLowerCase())
-                // )
-                .length > 0 ? (
-                  <StandingTable
-                    // teams={teams.filter((team) =>
-                    //   team.name
-                    //     .toLowerCase()
-                    //     .includes(standingsKeyword.toLowerCase())
-                    // )}
-                    teams={teams}
-                    keyword={standingsKeyword}
-                  ></StandingTable>
-                ) : (
-                  <div className="flex items-center flex-grow">
-                    <p className="text-xl sm:text-2xl text-black dark:text-white w-full text-center mt-5">
-                      No Standings to show!
-                    </p>
-                  </div>
-                )}
+                {
+                  // .filter((team) =>
+                  //   team.name
+                  //     .toLowerCase()
+                  //     .includes(standingsKeyword.toLowerCase())
+                  // )
+                  teams.length > 0 ? (
+                    <StandingTable
+                      // teams={teams.filter((team) =>
+                      //   team.name
+                      //     .toLowerCase()
+                      //     .includes(standingsKeyword.toLowerCase())
+                      // )}
+                      teams={teams}
+                      keyword={standingsKeyword}
+                    ></StandingTable>
+                  ) : (
+                    <div className="flex items-center flex-grow">
+                      <p className="text-xl sm:text-2xl text-black dark:text-white w-full text-center mt-5">
+                        No Standings to show!
+                      </p>
+                    </div>
+                  )
+                }
               </TabPanel>
 
               {/* Players */}
@@ -1147,7 +1150,12 @@ const League = () => {
                             <p className="dark:text-white text-black">
                               Start Date
                             </p>
-                            <Input
+                            <DatePicker
+                              className="text-xs h-12 rounded px-3 py-2 w-full"
+                              date={leagueStartDate}
+                              setDate={setLeagueStartDate}
+                            ></DatePicker>
+                            {/* <Input
                               className="text-xs rounded-default"
                               option={calendar}
                               placeholder="Enter Start Date*"
@@ -1155,19 +1163,24 @@ const League = () => {
                               onChange={(e) =>
                                 setLeagueStartDate(e.target.value)
                               }
-                            />
+                            /> */}
                           </span>
                           <span>
                             <p className="dark:text-white text-black">
                               End Date
                             </p>
-                            <Input
+                            <DatePicker
+                              className="text-xs h-12 rounded px-3 py-2 w-full"
+                              date={leagueEndDate}
+                              setDate={setLeagueEndDate}
+                            ></DatePicker>
+                            {/* <Input
                               className="text-xs rounded-default"
                               option={calendar}
                               placeholder="Enter End Date*"
                               value={leagueEndDate}
                               onChange={(e) => setLeagueEndDate(e.target.value)}
-                            />
+                            /> */}
                           </span>
                         </div>
                         {/* <div className="mb-6 ">
@@ -1258,7 +1271,9 @@ const League = () => {
                               <td className="whitespace-nowrap text-xs dark:text-white text-black">
                                 Password
                               </td>
-                              <td className="text-xs dark:text-white text-black">{league?.password}</td>
+                              <td className="text-xs dark:text-white text-black">
+                                {league?.password}
+                              </td>
                             </tr>
                           )}
                           <tr>

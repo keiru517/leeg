@@ -44,7 +44,7 @@ const Card = (props) => {
 
   return (
     <div
-      className={`rounded-default h-[230px] bg-light-charcoal dark:bg-charcoal p-default shadow dark:shadow-gray-600 hover:cursor-pointer hover:opacity-80`}
+      className={`rounded-default h-[170px] bg-light-charcoal dark:bg-charcoal p-default shadow dark:shadow-gray-600 hover:cursor-pointer hover:opacity-80`}
       onClick={handleClick}
     >
       <div className="">
@@ -96,15 +96,16 @@ const Card = (props) => {
               <p className="bg-yellow-100 text-yellow-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-gray-700 dark:text-yellow-300 border border-yellow-300">
                 Pending
               </p>
-            ) : player?.isAcceptedList === 1 && (
-              <p
-                // className="dark:text-green-500 text-xs cursor-pointer"
-                className="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-gray-700 dark:text-green-400 border border-green-400"
-              >
-                Accepted
-              </p>
-            )
-            }
+            ) : (
+              player?.isAcceptedList === 1 && (
+                <p
+                  // className="dark:text-green-500 text-xs cursor-pointer"
+                  className="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-gray-700 dark:text-green-400 border border-green-400"
+                >
+                  Accepted
+                </p>
+              )
+            )}
           </div>
         )}
       </div>
@@ -116,7 +117,7 @@ const Card = (props) => {
           {league.description}
         </p>
       </div>
-      <div className="flex items-center justify-between space-x-3">
+      {/* <div className="flex items-center justify-between space-x-3">
         {(isAdmin || player?.isAcceptedList === 1 || league?.isAllowedFan) && (
           <Button
             onClick={(e) => {
@@ -136,8 +137,8 @@ const Card = (props) => {
           >
             APPLY
           </Button>
-        )}
-        {/* <div>
+        )} */}
+      {/* <div>
           {player?.isAcceptedList === 1 &&
           player?.isDeleted !== 1 &&
           player?.teamId !== 0 ? (
@@ -186,7 +187,7 @@ const Card = (props) => {
             </p>
           )}
         </div> */}
-      </div>
+      {/* </div> */}
     </div>
   );
 };

@@ -1,5 +1,6 @@
 import { Fragment, useEffect, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
+import { Link, useNavigate } from "react-router-dom";
 import close from "../../assets/img/dark_mode/close.png";
 import Select from "../Select";
 import Input from "../Input";
@@ -9,11 +10,13 @@ import { useParams } from "react-router-dom";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import Button from "../Button";
 
 const LeagueDetailModal = () => {
   const cancelButtonRef = useRef(null);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const status = useSelector((state) => state.home.league_detail_dialog.open);
   const league = useSelector((state) => state.home.league_detail_dialog.league);
@@ -21,6 +24,13 @@ const LeagueDetailModal = () => {
   const users = useSelector((state) => state.home.users);
   const user = useSelector((state) => state.home.user);
   const owner = users.find((user) => user.id == league.userId);
+
+  const admins = useSelector((state) => state.home.admins).filter(
+    (admin) => admin.leagueId == league.id && admin.isDeleted !== 1
+  );
+  const isAdmin =
+    admins.some((admin) => admin.userId == user?.id) ||
+    league.userId == user?.id;
 
   const player = useSelector((state) => state.home.players).find(
     (player) => player.userId == user?.id && player.leagueId == league.id
@@ -173,7 +183,32 @@ const LeagueDetailModal = () => {
                         </span>
                       </div>
                     </div>
-                    {!player && (
+                    <div className="flex items-center justify-between space-x-2">
+                      {(isAdmin ||
+                        player?.isAcceptedList === 1 ||
+                        league?.isAllowedFan) && (
+                        <Button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            navigate(`/league/${league.id}?tab=0`);
+                          }}
+                          className="text-xs border-solid border-2 border-blue-700 w-full rounded hover:cursor-pointer hover:bg-gray-700"
+                        >
+                          View League
+                        </Button>
+                      )}
+
+                      {player?.isWaitList !== 1 &&
+                        player?.isAcceptedList !== 1 && (
+                          <Button
+                            onClick={handleApply}
+                            className="text-xs border-solid border-2 border-blue-700 w-full rounded hover:cursor-pointer hover:bg-gray-700"
+                          >
+                            APPLY
+                          </Button>
+                        )}
+                    </div>
+                    {/* {!player && (
                       <div className="flex-col flex flex-grow justify-between">
                         <button
                           onClick={handleApply}
@@ -182,7 +217,7 @@ const LeagueDetailModal = () => {
                           Apply
                         </button>
                       </div>
-                    )}
+                    )} */}
                   </div>
                 </div>
               </Dialog.Panel>

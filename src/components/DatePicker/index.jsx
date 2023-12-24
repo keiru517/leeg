@@ -1,55 +1,38 @@
-import React, { useState } from "react";
-import moment from "moment";
-import Datepicker from "tailwind-datepicker-react";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
-const CDatePicker = ({ date, setDate }) => {
-  const [show, setShow] = useState(false);
+const CDatePicker = ({ date, setDate, className }) => {
+  const darkMode = useSelector((state) => state.home.dark_mode);
 
-  const handleChange = (selectedDate) => {
-    const dateObj = new Date(selectedDate);
-    const formattedDate = moment(dateObj).format("DD/MM/YYYY");
-    setDate(formattedDate.toString());
+  const handleDateChange = (e) => {
+    setDate(e.target.value);
   };
 
-  const handleClose = (state) => {
-    setShow(state);
-  };
+  useEffect(() => {
+    // Add custom styles to the time picker icon
+    const iconStyle = document.createElement("style");
+    iconStyle.innerHTML = `
+      input[type="date"]::-webkit-calendar-picker-indicator {
+        filter: invert(${darkMode ? 1 : 0});
+      }
+    `;
+    document.head.appendChild(iconStyle);
 
-  const options = {
-    title: "Enter Season Start Date",
-    autoHide: true,
-    todayBtn: true,
-    clearBtn: true,
-    maxDate: new Date("2030-01-01"),
-    minDate: new Date("1950-01-01"),
-    theme: {
-      background: "white",
-      todayBtn: "",
-      clearBtn: "",
-      icons: "",
-      text: "",
-      disabledText: "opacity-30",
-      input: "",
-      inputIcon: "",
-      selected: "",
-    },
-    icons: {
-      // () => ReactElement | JSX.Element
-      prev: () => <span className="text-xs">&lt;</span>,
-      next: () => <span className="text-xs">&gt;</span>,
-    },
-    datepickerClassNames: "text-xs",
-    defaultDate: null,
-    language: "en",
-  };
+    return () => {
+      // Clean up the custom styles when component is unmounted
+      document.head.removeChild(iconStyle);
+    };
+  }, [darkMode]);
+
   return (
-    <Datepicker
-      classNames=""
-      options={options}
-      onChange={handleChange}
-      show={show}
-      setShow={handleClose}
-    />
+    <div className="w-full">
+      <input
+        type="date"
+        value={date}
+        onChange={handleDateChange}
+        className={`bg-transparent border border-dark-gray text-black dark:text-white ${className}`}
+      />
+    </div>
   );
 };
 
