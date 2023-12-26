@@ -43,7 +43,7 @@ const MatchupSettingModal = (props) => {
       actions.getMatches(dispatch);
       dispatch({type:actions.OPEN_MATCHUP_SETTING_DIALOG, payload:false});
      }).catch((error)=>{
-      alert(error.response.message)
+      alert(error.response.data.message)
      })
   };
 
