@@ -156,7 +156,7 @@ const MatchModal = () => {
                           <>
                             <span>
                               <p className="dark:text-white text-black">
-                                Select Home Team*
+                                Home Team*
                               </p>
                               <Select
                                 options={options.filter(
@@ -164,7 +164,6 @@ const MatchModal = () => {
                                     option.id != homeValue.id &&
                                     option.id != awayValue.id
                                 )}
-                                // handleClick={e=>handleHome(e)}
                                 handleClick={(e) => setHomeValue(e)}
                                 value={homeValue.name}
                                 className="rounded-default w-full h-12 text-xs"
@@ -173,7 +172,7 @@ const MatchModal = () => {
 
                             <span>
                               <p className="dark:text-white text-black">
-                                Select Away Team*
+                                Away Team*
                               </p>
 
                               <Select
@@ -182,31 +181,17 @@ const MatchModal = () => {
                                     option.id != homeValue.id &&
                                     option.id != awayValue.id
                                 )}
-                                // options={options}
                                 handleClick={(e) => setAwayValue(e)}
                                 value={awayValue.name}
                                 className="rounded-default w-full h-12 text-xs"
                               >
-                                Select Away Team*
                               </Select>
                             </span>
                           </>
                         )}
-                        {/* <Input
-                          className="rounded-default text-xs h-12"
-                          placeholder="Enter Date*"
-                          value={date}
-                          onChange={(e) => setDate(e.target.value)}
-                        ></Input>
-                        <Input
-                          className="rounded-default text-xs h-12"
-                          placeholder="Select Time*"
-                          value={time}
-                          onChange={(e) => setTime(e.target.value)}
-                        ></Input> */}
                         <span>
                           <p className="dark:text-white text-black">
-                            Enter Date*
+                            Date
                           </p>
                           <DatePicker
                             date={date}
@@ -217,7 +202,7 @@ const MatchModal = () => {
 
                         <span>
                           <p className="dark:text-white text-black">
-                            Enter Time*
+                            Time
                           </p>
                           <TimePicker
                             time={time}
@@ -228,7 +213,7 @@ const MatchModal = () => {
 
                         <span className="col-span-2">
                           <p className="dark:text-white text-black">
-                            Enter Location
+                            Location
                           </p>
                           <input
                             className="border border-charcoal items-center px-3 bg-transparent outline-none text-black dark:text-white flex-grow h-button text-xs w-full rounded-default"
