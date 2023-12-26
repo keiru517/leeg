@@ -149,6 +149,7 @@ export const updateSettings: RequestHandler =async (req, res) => {
     });
     res.status(200).json({message:"Saved Successfully!"});
   } catch (error) {
+    console.log("==============", error)
     res.status(404).json({message: error});
   }
 }
