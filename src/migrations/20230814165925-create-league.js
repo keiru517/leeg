@@ -50,6 +50,9 @@ module.exports = {
       isAllowedFan: {
         type: Sequelize.BOOLEAN
       },
+      displaySubstitutes: {
+        type: Sequelize.BOOLEAN
+      },
       displayPosition: {
         type: Sequelize.BOOLEAN
       },

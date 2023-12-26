@@ -205,7 +205,7 @@ export const apply: RequestHandler = async (req, res) => {
         isWaitList: 1,
         isAcceptedList: 0,
         isDeleted: 0,
-        isSubstitute: 0
+        isSubstitute: false
       });
     }
   }
@@ -268,6 +268,18 @@ export const removePassword: RequestHandler =async (req, res) => {
     res.status(400).json({message:"League not found"});
   }
 }
+
+export const toggleSubstitutes: RequestHandler = async (req, res) => {
+  const leagueId = req.body.leagueId;
+  const status = req.body.status;
+  const league = await League.findByPk(leagueId);
+  if (league) {
+    await league.update({ displaySubstitutes: status });
+    res.status(200).json({ message: 'Success' });
+  } else {
+    res.status(404).json({ message: 'League not found' });
+  }
+};
 
 export const togglePosition: RequestHandler = async (req, res) => {
   const leagueId = req.body.leagueId;

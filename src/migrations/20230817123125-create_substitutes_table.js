@@ -2,21 +2,12 @@
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up (queryInterface, Sequelize) {
-    await queryInterface.createTable('Logs',{
+  async up(queryInterface, Sequelize) {
+    await queryInterface.createTable('Substitutes', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
-      },
-      playerId: {
-        allowNull: true,
-        references: {
-          model: 'Players',
-          key: 'id'
-        },
-        onDelete: 'CASCADE',
         type: Sequelize.INTEGER
       },
       leagueId: {
@@ -46,16 +37,58 @@ module.exports = {
         onDelete: 'CASCADE',
         type: Sequelize.INTEGER
       },
-      event: {
+      firstName: {
         type: Sequelize.STRING
       },
-      period: {
+      lastName: {
+        type: Sequelize.STRING
+      },
+      jerseyNumber: {
         type: Sequelize.INTEGER
       },
-      time: {
+      position: {
         type: Sequelize.STRING
       },
-      isDirect: {
+      totalPoints: {
+        type: Sequelize.INTEGER
+      },
+      totalPoints3: {
+        type: Sequelize.INTEGER
+      },
+      totalPoints2: {
+        type: Sequelize.INTEGER
+      },
+      totalPoints1: {
+        type: Sequelize.INTEGER
+      },
+      attempts3: {
+        type: Sequelize.INTEGER
+      },
+      attempts2: {
+        type: Sequelize.INTEGER
+      },
+      attempts1: {
+        type: Sequelize.INTEGER
+      },
+      blocks: {
+        type: Sequelize.INTEGER
+      },
+      rebounds: {
+        type: Sequelize.INTEGER
+      },
+      assists: {
+        type: Sequelize.INTEGER
+      },
+      fouls: {
+        type: Sequelize.INTEGER
+      },
+      steals: {
+        type: Sequelize.INTEGER
+      },
+      turnovers: {
+        type: Sequelize.INTEGER
+      },
+      attendance: {
         type: Sequelize.BOOLEAN
       },
       isSubstitute: {
@@ -69,8 +102,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       }
-
-    })
+    });
     /**
      * Add altering commands here.
      *
@@ -79,8 +111,8 @@ module.exports = {
      */
   },
 
-  async down (queryInterface, Sequelize) {
-    await queryInterface.dropTable('Logs');
+  async down(queryInterface, Sequelize) {
+    await queryInterface.dropTable('Substitutes');
     /**
      * await queryInterface.dropTable('Teams');
      * Add reverting commands here.

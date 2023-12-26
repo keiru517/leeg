@@ -30,6 +30,7 @@ export default class League extends Model<
   declare second: number;
   declare isAllowedFan: boolean;
   declare requirePassword: boolean;
+  declare displaySubstitutes: boolean;
   declare displayPosition: boolean;
   declare displayJerseyNumber: boolean;
   declare displayAttempts3: boolean;
@@ -86,6 +87,10 @@ League.init(
     },
     second: {
       type: DataTypes.INTEGER
+    },
+    displaySubstitutes: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true
     },
     displayPosition: {
       type: DataTypes.BOOLEAN,

@@ -1,6 +1,6 @@
 import express from 'express';
 import { config } from 'dotenv';
-import { userRouter, leagueRouter, teamRouter, playerRouter, matchRouter, adminRouter, matchupRouter, logRouter} from './routers';
+import { userRouter, leagueRouter, teamRouter, playerRouter, matchRouter, adminRouter, matchupRouter, logRouter, substituteRouter} from './routers';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 
@@ -18,6 +18,7 @@ app.use('/api/match', matchRouter);
 app.use('/api/admin', adminRouter);
 app.use('/api/matchup', matchupRouter);
 app.use('/api/log', logRouter);
+app.use('/api/substitutes', substituteRouter);
 
 const port = Number(process.env.PORT || '3001');
 app.listen(port, () => console.log(`App listening on port ${port}!`));

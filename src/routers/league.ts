@@ -46,6 +46,9 @@ leagueRouter.post('/addPassword', LeagueController.addPassword);
 leagueRouter.post('/removePassword', LeagueController.removePassword);
 
 
+// Toggle Substitutes
+leagueRouter.post('/toggleSubstitutes', LeagueController.toggleSubstitutes);
+
 // Toggle Position
 leagueRouter.post('/togglePosition', LeagueController.togglePosition);
 
