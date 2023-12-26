@@ -6,7 +6,7 @@ import close from "../../assets/img/dark_mode/close.png";
 import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../actions";
 import apis from "../../utils/apis";
-import TimePicker from "../Timer/TimePicker";
+import TimerInput from "../TimerInput";
 
 const MatchupSettingModal = (props) => {
   const dispatch = useDispatch();
@@ -25,19 +25,17 @@ const MatchupSettingModal = (props) => {
 
   const [period, setPeriod] = useState();
   const [time, setTime] = useState();
+
   useEffect(() => {
-    console.log("EFF")
-    console.log(match?.timer)
     setPeriod(match?.period);
     setTime(match?.timer);
   }, [match]);
 
   useEffect(() => {
-    console.log(time)
-  }, [time]);
-
+    console.log("time:", time)
+  }, [isOpen]);
+  
   const handleSubmit = (e) => {
-    console.log(time)
      axios.post(apis.updateMatchSettings, {matchId, period, time}).then((res)=>{
       alert(res.data.message);
       actions.getMatches(dispatch);
@@ -103,7 +101,7 @@ const MatchupSettingModal = (props) => {
                         onChange={(e) => setPeriod(e.target.value)}
                       />
                       <label htmlFor="" className="text-white">Timer:</label>
-                      <TimePicker initialTime={time} setTime={setTime} className="w-full bg-[#303335] rounded-default"></TimePicker>
+                      <TimerInput initialTime={time} setTime={setTime} className="w-full bg-[#303335] rounded-default"></TimerInput>
                     </div>
                     <button className="bg-primary rounded-default w-full hover:bg-opacity-70 h-button text-white"
                     onClick={handleSubmit}

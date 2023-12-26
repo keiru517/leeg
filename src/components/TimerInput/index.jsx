@@ -27,11 +27,7 @@ const TimePicker = (props) => {
 
   useEffect(() => {
 
-      setTime(
-        minutes.toString().padStart(2, "0") +
-          ":" +
-          seconds.toString().padStart(2, "0")
-      );
+      setTime(time);
 
   }, [time]);
 

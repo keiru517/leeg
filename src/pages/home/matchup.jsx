@@ -293,7 +293,8 @@ const Matchup = () => {
     });
     setTimeOfPeriod(tempTimeOfPeriod);
     setCurrentPeriod(1);
-  }, [numberOfPeriods.length]);
+  }, [numberOfPeriods.length, match.timer]);
+
   const [time, setTime] = useState("");
   const [event, setEvent] = useState("");
   const [teamId, setTeamId] = useState("");
