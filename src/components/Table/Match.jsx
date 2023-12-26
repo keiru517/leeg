@@ -145,10 +145,10 @@ const MatchTable = (props) => {
     setTableData(matches)
   }, [matches.length]);
 
-
+  
   const handleSorting = (sortField, sortOrder) => {
     if (sortField) {
-      const sorted = matches.sort((a, b) => {
+      tableData.sort((a, b) => {
         if (sortField.toLowerCase() === "home") {
           a["home"] = teams.find((team) => team.id == a.homeTeamId)?.name;
           b["home"] = teams.find((team) => team.id == b.homeTeamId)?.name;
@@ -173,7 +173,7 @@ const MatchTable = (props) => {
             }) * (sortOrder === "asc" ? 1 : -1)
         );
       });
-      setTableData(sorted);
+      // setTableData(sorted);
     }
   };
 
