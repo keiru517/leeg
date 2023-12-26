@@ -47,9 +47,9 @@ const MatchTable = (props) => {
   console.log(matches);
   console.log(matches1);
 
-  useEffect(() => {
-    setTableData(matches);
-  }, [keyword]);
+  // useEffect(() => {
+  //   setTableData(matches);
+  // }, [keyword]);
   const user = useSelector((state) => state.home.user);
   const league = useSelector((state) => state.home.leagues).find(
     (league) => league.id == leagueId && league.isDeleted !== 1
@@ -139,11 +139,16 @@ const MatchTable = (props) => {
     handleSorting(accessor, sortOrder);
   };
 
-  const [tableData, setTableData] = useState(matches);
+  const [tableData, setTableData] = useState([]);
+
+  useEffect(() => {
+    setTableData(matches)
+  }, [matches.length]);
+
 
   const handleSorting = (sortField, sortOrder) => {
     if (sortField) {
-      const sorted = [...matches].sort((a, b) => {
+      const sorted = matches.sort((a, b) => {
         if (sortField.toLowerCase() === "home") {
           a["home"] = teams.find((team) => team.id == a.homeTeamId)?.name;
           b["home"] = teams.find((team) => team.id == b.homeTeamId)?.name;

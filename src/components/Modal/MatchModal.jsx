@@ -216,7 +216,7 @@ const MatchModal = () => {
                             Location
                           </p>
                           <input
-                            className="border border-charcoal items-center px-3 bg-transparent outline-none text-black dark:text-white flex-grow h-button text-xs w-full rounded-default"
+                            className="border border-charcoal items-center px-3 bg-transparent outline-none text-black dark:text-white flex-grow h-12 text-xs w-full rounded-default"
                             placeholder="Enter Location"
                             value={location}
                             onChange={(e) => setLocation(e.target.value)}
