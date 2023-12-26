@@ -41,6 +41,11 @@ const LeagueDetailModal = () => {
     dispatch({ type: actions.CLOSE_LEAGUE_DETAIL_DIALOG });
   };
 
+  const handleView = (e) => {
+    navigate(`/league/${league.id}?tab=0`);
+    closeDialog();
+  };
+
   const handleApply = (e) => {
     if (league?.requirePassword) {
       dispatch({
@@ -188,10 +193,7 @@ const LeagueDetailModal = () => {
                         player?.isAcceptedList === 1 ||
                         league?.isAllowedFan) && (
                         <Button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            navigate(`/league/${league.id}?tab=0`);
-                          }}
+                          onClick={handleView}
                           className="text-xs border-solid border-2 border-blue-700 w-full rounded hover:cursor-pointer hover:bg-gray-700"
                         >
                           View League
