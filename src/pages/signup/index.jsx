@@ -53,7 +53,6 @@ const Signup = () => {
         axios
           .post(apis.signup, formData)
           .then((res) => {
-            // navigate("/signupSuccess");
             localStorage.setItem("token", res.data.token);
             localStorage.setItem("userId", res.data.user.id);
             
