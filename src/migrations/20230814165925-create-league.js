@@ -44,7 +44,7 @@ module.exports = {
       period: {
         type: Sequelize.INTEGER
       },
-      number: {
+      time: {
         type: Sequelize.INTEGER
       },
       isAllowedFan: {
