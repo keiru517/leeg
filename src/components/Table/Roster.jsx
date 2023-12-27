@@ -126,6 +126,7 @@ const RosterTable = (props) => {
     let temp = { ...itemChecked };
     temp[index] = checked;
     setItemChecked(temp);
+    console.log(temp)
   };
 
   const [canSubmit, setCanSubmit] = useState(false);

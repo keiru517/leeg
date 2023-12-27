@@ -68,6 +68,8 @@ const League = () => {
     (player) => player.leagueId == leagueId && player.isDeleted !== 1
   );
 
+  const player = players.find((player) => player.userId == user.id);
+
   // this is used for Players tab
   const allPlayers = useSelector((state) => state.home.players).filter(
     (player) => player.leagueId == leagueId && player.isAcceptedList
@@ -106,7 +108,7 @@ const League = () => {
     categories = [
       // "Blog",
       // "Teams",=>manage rosters
-      "Manage Rosters",
+      "Teams",
       "Matches",
       "Standings",
       "Players",
@@ -115,7 +117,7 @@ const League = () => {
       "Settings",
     ];
   } else {
-    categories = ["Teams", "Matches", "Standings", "Players"];
+    categories = ["Teams", "Matches", "Standings", "Players", "Settings"];
   }
 
   function classNames(...classes) {
@@ -642,6 +644,16 @@ const League = () => {
     dispatch({ type: actions.OPEN_DELETE_LEAGUE_DIALOG, payload: league });
   };
 
+  const leaveLeague = (e) => {
+    let player = players.find(
+      (player) => player.userId == user.id && player.leagueId == leagueId
+    );
+    console.log(player);
+    // if (player) {
+    actions.removeFromLeague(dispatch, { [player?.id]: true });
+    navigate("/");
+    // }
+  };
   const inviteAdmin = () => {
     dispatch({ type: actions.OPEN_ADMIN_DIALOG, payload: true });
   };
@@ -773,7 +785,7 @@ const League = () => {
                 </div>
               </TabPanel> */}
 
-              {/* Manage Rosters */}
+              {/* Teams */}
               <TabPanel
                 value={"0"}
                 sx={{
@@ -972,14 +984,6 @@ const League = () => {
                       setPlayerKeyword(e.target.value);
                     }}
                   />
-                  {/* <Select
-                    className="text-xs"
-                    options={options}
-                    handleClick={(e) => setValue(e.name)}
-                    value={value}
-                  >
-                    {value}
-                  </Select> */}
                 </div>
                 {allPlayers.filter((player) =>
                   (player.firstName + player.lastName)
@@ -1078,140 +1082,134 @@ const League = () => {
                 </TabPanel>
               )}
               {/* Settings */}
-              {isAdmin && (
-                <TabPanel
-                  value="5"
-                  sx={{
-                    padding: "10px !important",
-                  }}
-                  className={classNames("rounded-xl w-full h-full")}
-                >
-                  <hr className="h-px mb-4 bg-charcoal border-0" />
-                  <div className="mt-4 grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-4">
-                    {/* League Settings */}
-                    <div className="flex flex-col border border-dark-gray rounded p-7">
-                      <div>
-                        <h1 className="dark:text-white text-black font-medium mb-4">
-                          Edit League
-                        </h1>
-                        <div className="grid grid-cols-6 gap-4 mb-6 items-end">
-                          <div>
-                            <input
-                              type="file"
-                              hidden
-                              ref={fileUploadRef}
-                              onChange={(e) => {
-                                const files = e.target.files;
-                                if (files.length) {
-                                  const file = files[0];
-                                  setChosenFile(file);
-                                  setPreviewURL(URL.createObjectURL(file));
-                                }
-                              }}
-                            />
-                            <img
-                              onClick={() => {
-                                fileUploadRef.current?.click();
-                              }}
-                              src={previewURL ? previewURL : league?.logo}
-                              className="rounded-md cursor-pointer"
-                              alt=""
-                            />
-                          </div>
-                          <div className="col-span-5">
-                            <p className="dark:text-white text-black">
-                              League Name
-                            </p>
-                            <Input
-                              className="rounded-lg flex-grow text-xs "
-                              placeholder="League Name"
-                              value={leagueName}
-                              onChange={(e) => setLeagueName(e.target.value)}
-                            ></Input>
-                          </div>
-                        </div>
-                        <div className="mb-4">
-                          <p className="dark:text-white text-black">
-                            League Description
-                          </p>
-                          <textarea
-                            id="message"
-                            rows="6"
-                            className="block p-2.5 w-full text-xs text-gray-900 rounded-lg border border-charcoal focus:ring-blue-500 focus:border-blue-500 dark:bg-transparent dark:border-charcoal dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 resize-none outline-none"
-                            placeholder="Describe your League*"
-                            value={leagueDescription}
-                            onChange={(e) =>
-                              setLeagueDescription(e.target.value)
-                            }
-                          ></textarea>
-                        </div>
-                        <div className="mb-6 grid grid-cols-2 gap-2">
-                          <span>
-                            <p className="dark:text-white text-black">
-                              Start Date
-                            </p>
-                            <DatePicker
-                              className="text-xs h-12 rounded px-3 py-2 w-full"
-                              date={leagueStartDate}
-                              setDate={setLeagueStartDate}
-                            ></DatePicker>
-                            {/* <Input
-                              className="text-xs rounded-default"
-                              option={calendar}
-                              placeholder="Enter Start Date*"
-                              value={leagueStartDate}
-                              onChange={(e) =>
-                                setLeagueStartDate(e.target.value)
-                              }
-                            /> */}
-                          </span>
-                          <span>
-                            <p className="dark:text-white text-black">
-                              End Date
-                            </p>
-                            <DatePicker
-                              className="text-xs h-12 rounded px-3 py-2 w-full"
-                              date={leagueEndDate}
-                              setDate={setLeagueEndDate}
-                            ></DatePicker>
-                            {/* <Input
-                              className="text-xs rounded-default"
-                              option={calendar}
-                              placeholder="Enter End Date*"
-                              value={leagueEndDate}
-                              onChange={(e) => setLeagueEndDate(e.target.value)}
-                            /> */}
-                          </span>
-                        </div>
-                        {/* <div className="mb-6 ">
-                          <span className="">
-                            <p className="dark:text-white text-black">
-                              Password
-                            </p>
-                            <Input
-                              className="text-xs rounded-default"
-                              value={league?.password}
-                            />
-                          </span>
-                        </div> */}
-                      </div>
+              <TabPanel
+                value={isAdmin ? "5" : "4"}
+                sx={{
+                  padding: "10px !important",
+                }}
+                className={classNames("rounded-xl w-full h-full")}
+              >
+                <hr className="h-px mb-4 bg-charcoal border-0" />
+                <div className="mt-4 grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-4">
+                  {/* League Settings */}
 
-                      <div className="grid grid-cols-2 gap-2 ">
-                        <button
-                          onClick={editLeague}
-                          className="bg-blue-700 h-10 text-white font-bold text-sm rounded-default hover:bg-blue-600"
-                        >
-                          Save
-                        </button>
-                        <button
-                          onClick={deleteLeague}
-                          className="bg-red-700 h-10 text-white font-bold text-sm rounded-default hover:bg-red-600"
-                        >
-                          Delete
-                        </button>
+                  <div className="flex flex-col border border-dark-gray rounded p-7">
+                    <div>
+                      <h1 className="dark:text-white text-black font-medium mb-4">
+                        Edit League
+                      </h1>
+                      <div className="grid grid-cols-6 gap-4 mb-6 items-end">
+                        <div>
+                          <input
+                            type="file"
+                            hidden
+                            ref={fileUploadRef}
+                            onChange={(e) => {
+                              const files = e.target.files;
+                              if (files.length) {
+                                const file = files[0];
+                                setChosenFile(file);
+                                setPreviewURL(URL.createObjectURL(file));
+                              }
+                            }}
+                          />
+                          <img
+                            onClick={() => {
+                              fileUploadRef.current?.click();
+                            }}
+                            src={previewURL ? previewURL : league?.logo}
+                            className="rounded-md cursor-pointer"
+                            alt=""
+                          />
+                        </div>
+                        <div className="col-span-5">
+                          <p className="dark:text-white text-black">
+                            League Name
+                          </p>
+                          <Input
+                            className="rounded-lg flex-grow text-xs "
+                            placeholder="League Name"
+                            value={leagueName}
+                            onChange={(e) => setLeagueName(e.target.value)}
+                          ></Input>
+                        </div>
+                      </div>
+                      <div className="mb-4">
+                        <p className="dark:text-white text-black">
+                          League Description
+                        </p>
+                        <textarea
+                          id="message"
+                          rows="6"
+                          className="block p-2.5 w-full text-xs text-gray-900 rounded-lg border border-charcoal focus:ring-blue-500 focus:border-blue-500 dark:bg-transparent dark:border-charcoal dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 resize-none outline-none"
+                          placeholder="Describe your League*"
+                          value={leagueDescription}
+                          onChange={(e) => setLeagueDescription(e.target.value)}
+                        ></textarea>
+                      </div>
+                      <div className="mb-6 grid grid-cols-2 gap-2">
+                        <span>
+                          <p className="dark:text-white text-black">
+                            Start Date
+                          </p>
+                          <DatePicker
+                            className="text-xs h-12 rounded px-3 py-2 w-full"
+                            date={leagueStartDate}
+                            setDate={setLeagueStartDate}
+                          ></DatePicker>
+                        </span>
+                        <span>
+                          <p className="dark:text-white text-black">End Date</p>
+                          <DatePicker
+                            className="text-xs h-12 rounded px-3 py-2 w-full"
+                            date={leagueEndDate}
+                            setDate={setLeagueEndDate}
+                          ></DatePicker>
+                        </span>
                       </div>
                     </div>
-                    {/* Admin Access */}
+                    {isAdmin && (
+                      <>
+                        <div className="grid grid-cols-2 gap-2 ">
+                          <button
+                            onClick={editLeague}
+                            className="bg-blue-700 h-10 text-white font-bold text-sm rounded-default hover:bg-blue-600"
+                          >
+                            Save
+                          </button>
+                          <button
+                            onClick={deleteLeague}
+                            className="bg-red-700 h-10 text-white font-bold text-sm rounded-default hover:bg-red-600"
+                          >
+                            Delete
+                          </button>
+                        </div>
+                        {(player?.isWaitList || player?.isAcceptedList) && (
+                          <div className="grid grid-cols-2 gap-2 mt-3">
+                            <button
+                              onClick={leaveLeague}
+                              className="bg-yellow-700 h-10 text-white font-bold text-sm rounded-default hover:bg-red-600 col-span-2"
+                            >
+                              Leave
+                            </button>
+                          </div>
+                        )}
+                      </>
+                    )}
+                    {!isAdmin && (
+                      <div className="grid grid-cols-2 gap-2 ">
+                        <button
+                          onClick={leaveLeague}
+                          className="bg-yellow-700 h-10 text-white font-bold text-sm rounded-default hover:bg-red-600 col-span-2"
+                        >
+                          Leave
+                        </button>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Admin Access */}
+                  {isAdmin && (
                     <div className="flex flex-col  space-y-3 border border-dark-gray rounded pt-5 p-7 ">
                       <div className="grid grid-cols-2 items-baseline mb-6">
                         <h1 className="dark:text-white text-black font-medium">
@@ -1226,9 +1224,11 @@ const League = () => {
                       </div>
                       <AdminTable user={user} leagueId={leagueId} />
                     </div>
-                    <AdminModal user={user} leagueId={leagueId} />
-                    <LeaguePassowrdModal />
-                    {/* Stats */}
+                  )}
+                  <AdminModal user={user} leagueId={leagueId} />
+                  <LeaguePassowrdModal />
+                  {/* Stats */}
+                  {isAdmin && (
                     <div className="flex flex-col space-y-3 border border-dark-gray rounded p-5">
                       <table className="table-fixed">
                         <thead>
@@ -1446,9 +1446,9 @@ const League = () => {
                         </tbody>
                       </table>
                     </div>
-                  </div>
-                </TabPanel>
-              )}
+                  )}
+                </div>
+              </TabPanel>
             </div>
           </TabContext>
         </div>

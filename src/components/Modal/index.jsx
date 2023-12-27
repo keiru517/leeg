@@ -15,18 +15,20 @@ import * as actions from "../../actions";
 import axios from "axios";
 import apis from "../../utils/apis";
 import moment from "moment";
+import DatePicker from "../DatePicker";
+import TimePicker from "../TimePicker";
 
 const Modal = (props) => {
   const dispatch = useDispatch();
 
   const status = useSelector((state) => state.home.league_dialog.open);
   const user = useSelector((state) => state.home.user);
-  
+
   // const [open, setOpen] = useState(false);
   const [step, setStep] = useState(1);
-  
+
   const cancelButtonRef = useRef(null);
-  
+
   const sportOptions = [
     { id: 0, name: "Basketball" },
     // { id: 1, name: "Rugby" },
@@ -42,7 +44,7 @@ const Modal = (props) => {
     })
     .replace(/ /g, "/")
     .replace(",", "");
-  
+
   const closeDialog = () => {
     setStep(1);
     setSport("Select Sport*");
@@ -61,7 +63,7 @@ const Modal = (props) => {
 
   const goToStep2 = () => {
     if (sport === "Select Sport*") {
-      alert("Please select Sport!")
+      alert("Please select Sport!");
     } else {
       setStep(2);
     }
@@ -78,8 +80,8 @@ const Modal = (props) => {
   const [sport, setSport] = useState("Select Sport*");
   const [leagueName, setLeagueName] = useState("");
   const [leagueDescription, setLeagueDescription] = useState("");
-  const [startDate, setStartDate] = useState(currentDate);
-  const [endDate, setEndDate] = useState(currentDate);
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
   const fileUploadRef = useRef(null);
 
   const [chosenFile, setChosenFile] = useState(null);
@@ -115,80 +117,6 @@ const Modal = (props) => {
       .catch((error) => console.log(error.response.data.message));
   };
 
-  const options1 = {
-    title: "Enter Season Start Date",
-    autoHide: true,
-    todayBtn: true,
-    clearBtn: true,
-    maxDate: new Date("2030-01-01"),
-    minDate: new Date("1950-01-01"),
-    theme: {
-      background: "bg-gray-700 dark:bg-gray-800",
-      todayBtn: "",
-      clearBtn: "",
-      icons: "",
-      text: "",
-      disabledText: "opacity-30",
-      input: "",
-      inputIcon: "",
-      selected: "",
-    },
-    icons: {
-      // () => ReactElement | JSX.Element
-      prev: () => <span className="text-xs">&lt;</span>,
-      next: () => <span className="text-xs">&gt;</span>,
-    },
-    datepickerClassNames: "text-xs top-12 right-5",
-    language: "en",
-  };
-
-  const options2 = {
-    title: "Enter Season End Date",
-    autoHide: true,
-    todayBtn: true,
-    clearBtn: true,
-    maxDate: new Date("2030-01-01"),
-    minDate: new Date("1950-01-01"),
-    theme: {
-      background: "bg-gray-700 dark:bg-gray-800",
-      todayBtn: "",
-      clearBtn: "",
-      icons: "",
-      text: "",
-      disabledText: "opacity-30",
-      input: "",
-      inputIcon: "",
-      selected: "",
-    },
-    icons: {
-      // () => ReactElement | JSX.Element
-      prev: () => <span className="text-xs">&lt;</span>,
-      next: () => <span className="text-xs">&gt;</span>,
-    },
-    datepickerClassNames: "text-xs top-12 right-5",
-    language: "en",
-  };
-
-  const [show1, setShow1] = useState(false);
-  const [show2, setShow2] = useState(false);
-  const handleChange1 = (selectedDate) => {
-    const dateObj = new Date(selectedDate);
-    const formattedDate = moment(dateObj).format('DD/MM/YYYY');
-    console.log(formattedDate.toString());
-    setStartDate(formattedDate.toString());
-  };
-  const handleChange2 = (selectedDate) => {
-    const dateObj = new Date(selectedDate);
-    const formattedDate =  moment(dateObj).format('DD/MM/YYYY');
-    console.log(formattedDate.toString());
-    setEndDate(formattedDate.toString());
-  };
-  const handleClose1 = (state) => {
-    setShow1(state);
-  };
-  const handleClose2 = (state) => {
-    setShow2(state);
-  };
 
   return (
     <Transition.Root show={status} as={Fragment}>
@@ -376,35 +304,16 @@ const Modal = (props) => {
                       ) : (
                         <>
                           <div className="relative space-y-3">
-                            {/* <Input
-                              className="text-xs rounded-default mb-5"
-                              // option={calendar}
-                              placeholder="Enter Season Start Date*"
-                              value={startDate}
-                              onChange={(e) => setStartDate(e.target.value)}
-                            /> */}
-                            <Datepicker
-                              classNames=""
-                              options={options1}
-                              onChange={handleChange1}
-                              show={show1}
-                              setShow={handleClose1}
-                            />
-
-                            <Datepicker
-                              classNames=""
-                              options={options2}
-                              onChange={handleChange2}
-                              show={show2}
-                              setShow={handleClose2}
-                            />
-                            {/* <Input
-                              className="text-xs rounded-default"
-                              // option={calendar}
-                              placeholder="Enter Season End Date*"
-                              value={endDate}
-                              onChange={(e) => setEndDate(e.target.value)}
-                            /> */}
+                            <DatePicker
+                              date={startDate}
+                              setDate={setStartDate}
+                              className="text-xs h-12 rounded px-3 py-2 w-full"
+                            ></DatePicker>
+                            <DatePicker
+                              date={endDate}
+                              setDate={setEndDate}
+                              className="text-xs h-12 rounded px-3 py-2 w-full"
+                            ></DatePicker>
                           </div>
                           <div className="flex mt-auto w-full justify-between">
                             <button
