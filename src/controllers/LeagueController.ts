@@ -73,6 +73,9 @@ export const update: RequestHandler = async (req, res) => {
     league.description = req.body.description;
     league.startDate = req.body.startDate;
     league.endDate = req.body.endDate;
+    league.period = req.body.period;
+    league.time = req.body.time;
+    
     if (req.file) {
       const extension = path.extname(req.file.originalname);
       const directoryPath = absolutePath(
@@ -101,22 +104,23 @@ export const update: RequestHandler = async (req, res) => {
 
 export const updateTimer: RequestHandler = async (req, res) => {
   const { leagueId, minute, second } = req.body;
-  try {
-    await League.update(
-      {
-        minute,
-        second
-      },
-      {
-        where: {
-          id: leagueId
-        }
-      }
-    );
-    res.status(200).json({ message: 'Updated successfully!' });
-  } catch {
-    res.status(404).json({ message: 'Error occurred!' });
-  }
+  console.log(leagueId, minute, second);
+  // try {
+  //   await League.update(
+  //     {
+  //       minute,
+  //       second
+  //     },
+  //     {
+  //       where: {
+  //         id: leagueId
+  //       }
+  //     }
+  //   );
+  //   res.status(200).json({ message: 'Updated successfully!' });
+  // } catch {
+  //   res.status(404).json({ message: 'Error occurred!' });
+  // }
 };
 
 // POST SERVER_URL/api/league/remove/1

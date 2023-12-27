@@ -26,8 +26,8 @@ export default class League extends Model<
   declare logo: string;
   declare startDate: string;
   declare endDate: string;
-  declare minute: number;
-  declare second: number;
+  declare period: number;
+  declare time: number;
   declare isAllowedFan: boolean;
   declare requirePassword: boolean;
   declare displaySubstitutes: boolean;
@@ -82,11 +82,13 @@ League.init(
       type: DataTypes.BOOLEAN,
       defaultValue: true
     },
-    minute: {
-      type: DataTypes.INTEGER
+    period: {
+      type: DataTypes.INTEGER,
+      defaultValue:4
     },
-    second: {
-      type: DataTypes.INTEGER
+    time: {
+      type: DataTypes.INTEGER,
+      defaultValue: 90000
     },
     displaySubstitutes: {
       type: DataTypes.BOOLEAN,

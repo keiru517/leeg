@@ -41,10 +41,10 @@ module.exports = {
       endDate: {
         type: Sequelize.STRING
       },
-      minute: {
+      period: {
         type: Sequelize.INTEGER
       },
-      second: {
+      number: {
         type: Sequelize.INTEGER
       },
       isAllowedFan: {
