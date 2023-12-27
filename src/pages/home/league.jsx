@@ -32,7 +32,7 @@ import * as actions from "../../actions";
 import toggleOn from "../../assets/img/dark_mode/toggle-on.png";
 import toggleOff from "../../assets/img/dark_mode/toggle-off.png";
 import DatePicker from "../../components/DatePicker";
-import TimePicker from "../../components/TimePicker";
+import TimeInput from "../../components/TimerInput";
 
 const League = () => {
   let { leagueId } = useParams();
@@ -353,6 +353,9 @@ const League = () => {
     formData.append("description", leagueDescription);
     formData.append("startDate", leagueStartDate);
     formData.append("endDate", leagueEndDate);
+    formData.append("period", period);
+    formData.append("time", time);
+    console.log("time", time)
 
     // dispatch({ type: actions.CLOSE_LEAGUE_DIALOG });
     axios.post(apis.updateLeague, formData).then((res) => {
@@ -360,6 +363,9 @@ const League = () => {
       alert(res.data.message);
     });
   };
+
+  const [period, setPeriod] = useState(league.period);
+  const [time, setTime] = useState(league.time);
 
   const toggleFan = () => {
     axios
@@ -1127,7 +1133,7 @@ const League = () => {
                             League Name
                           </p>
                           <Input
-                            className="rounded-lg flex-grow text-xs "
+                            className="rounded-default flex-grow text-xs "
                             placeholder="League Name"
                             value={leagueName}
                             onChange={(e) => setLeagueName(e.target.value)}
@@ -1165,6 +1171,26 @@ const League = () => {
                             date={leagueEndDate}
                             setDate={setLeagueEndDate}
                           ></DatePicker>
+                        </span>
+                      </div>
+                      <div className="mb-6 grid grid-cols-2 gap-2">
+                        <span>
+                          <p className="dark:text-white text-black">Period</p>
+                          <Input
+                            className="rounded-default flex-grow text-xs "
+                            placeholder="League Name"
+                            value={period}
+                            onChange={(e) => setPeriod(e.target.value)}
+                            type="number"
+                          ></Input>
+                        </span>
+                        <span >
+                          <p className="dark:text-white text-black">Time</p>
+                          <TimeInput
+                            initialTime={time}
+                            setTime={setTime}
+                            className="w-full bg-[#303335] rounded-default"
+                          ></TimeInput>
                         </span>
                       </div>
                     </div>

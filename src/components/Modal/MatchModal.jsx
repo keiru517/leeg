@@ -21,6 +21,9 @@ const MatchModal = () => {
     (team) => team.leagueId == leagueId && team.isDeleted !== 1
   );
 
+  const league = useSelector((state) => state.home.leagues).find(
+    (league) => league.id == leagueId
+  );
   const options = teams;
   const [homeValue, setHomeValue] = useState({ name: "Select Home Team*" });
   const [awayValue, setAwayValue] = useState({ name: "Select Away Team*" });
@@ -52,6 +55,8 @@ const MatchModal = () => {
   const createSubmit = () => {
     actions.createMatch(dispatch, {
       leagueId: leagueId,
+      period: league?.period,
+      time: league?.time,
       homeTeamId: homeValue.id,
       awayTeamId: awayValue.id,
       date,
@@ -179,15 +184,12 @@ const MatchModal = () => {
                                 handleClick={(e) => setAwayValue(e)}
                                 value={awayValue.name}
                                 className="rounded-default w-full h-12 text-xs"
-                              >
-                              </Select>
+                              ></Select>
                             </span>
                           </>
                         )}
                         <span>
-                          <p className="dark:text-white text-black">
-                            Date
-                          </p>
+                          <p className="dark:text-white text-black">Date</p>
                           <DatePicker
                             date={date}
                             setDate={setDate}
@@ -196,9 +198,7 @@ const MatchModal = () => {
                         </span>
 
                         <span>
-                          <p className="dark:text-white text-black">
-                            Time
-                          </p>
+                          <p className="dark:text-white text-black">Time</p>
                           <TimePicker
                             time={time}
                             setTime={setTime}
@@ -207,9 +207,7 @@ const MatchModal = () => {
                         </span>
 
                         <span className="col-span-2">
-                          <p className="dark:text-white text-black">
-                            Location
-                          </p>
+                          <p className="dark:text-white text-black">Location</p>
                           <input
                             className="border border-charcoal items-center px-3 bg-transparent outline-none text-black dark:text-white flex-grow h-12 text-xs w-full rounded-default"
                             placeholder="Enter Location"
