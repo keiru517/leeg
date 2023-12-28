@@ -27,6 +27,7 @@ export default class Log extends Model<
   declare period: number;
   declare time: string;
   declare isDirect: boolean;
+  declare isSubstitute: boolean;
   static modelName = 'Log';
 }
 Log.init(
@@ -67,6 +68,10 @@ Log.init(
     period: DataTypes.STRING,
     time: DataTypes.STRING,
     isDirect: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+    },
+    isSubstitute: {
       type: DataTypes.BOOLEAN,
       defaultValue: false
     }

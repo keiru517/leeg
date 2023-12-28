@@ -67,7 +67,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       isSubstitute: {
-        type: Sequelize.INTEGER
+        type: Sequelize.BOOLEAN
       },
       createdAt: {
         allowNull: false,

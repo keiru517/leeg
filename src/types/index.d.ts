@@ -27,9 +27,10 @@ export namespace Types {
     logo: string;
     startDate: string;
     endDate: string;
-    minute:number;
-    second:number;
+    period:number;
+    time:number;
     isAllowedFan: boolean;
+    displaySubstitutes: boolean;
     displayPosition: boolean;
     displayJerseyNumber: boolean;
     displayAttempts3: boolean;
@@ -105,6 +106,30 @@ export namespace Types {
     attendance: number;
     isDeleted: number;
   }
+  export interface T_Substitute extends T_DB {
+    leagueId: number;
+    matchId: number;
+    teamId: number;
+    firstName: string;
+    lastName: string;
+    jerseyNumber: number;
+    position: string;
+    totalPoints: number;
+    totalPoints3: number;
+    totalPoints2: number;
+    totalPoints1: number;
+    attempts3: number;
+    attempts2: number;
+    attempts1: number;
+    blocks: number;
+    rebounds: number;
+    assists: number;
+    fouls: number;
+    steals: number;
+    turnovers: number;
+    attendance: number;
+    isSubstitute: boolean;
+  }
   export interface T_Log extends T_DB {
     playerId: number;
     leagueId: number;
@@ -114,6 +139,7 @@ export namespace Types {
     period: number;
     time: string;
     isDirect: boolean;
+    isSubstitute: boolean;
   }
   export interface T_Player extends T_DB {
     leagueId: number;
@@ -135,7 +161,7 @@ export namespace Types {
     isWaitList: number;
     isAcceptedList: number;
     isDeleted: number;
-    isSubstitute: number;
+    isSubstitute: boolean;
   }
   export interface T_Score extends T_DB {
     playerId: number;

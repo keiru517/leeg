@@ -148,8 +148,9 @@ export const updateSettings: RequestHandler =async (req, res) => {
       }
     });
     res.status(200).json({message:"Saved Successfully!"});
-  } catch {
-    res.status(404).json({message: "Error occurred while saving!"});
+  } catch (error) {
+    console.log("==============", error)
+    res.status(404).json({message: error});
   }
 }
 

@@ -356,9 +356,10 @@ export const invite: RequestHandler = async (req, res) => {
 export const removeFromLeague: RequestHandler =async (req, res) => {
   const data = req.body;
   var playerFound = false;
-
+  console.log(data)
   const promises = Object.keys(data).map(async id => {
     const player = await Player.findByPk(id);
+    console.log("=====", player)
     if (player) {
       if (data[id]) {
         player.isAcceptedList = 0;

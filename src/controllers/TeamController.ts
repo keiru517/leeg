@@ -20,6 +20,7 @@ export const all: RequestHandler = async (req, res) => {
 
 // POST SERVER_URL/api/team/create
 export const create: RequestHandler = async (req, res) => {
+  console.log(req.body)
   const data = req.body;
   const userId = data.userId;
   if (req.file) {

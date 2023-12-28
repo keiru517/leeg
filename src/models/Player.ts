@@ -32,7 +32,7 @@ export default class Player extends Model<
   declare isWaitList: number;
   declare isAcceptedList: number;
   declare isDeleted: number
-  declare isSubstitute: number
+  declare isSubstitute: boolean
   static modelName = 'Player';
 }
 Player.init(
@@ -60,8 +60,8 @@ Player.init(
       defaultValue: 0
     },
     isSubstitute: {
-      type: DataTypes.INTEGER,
-      defaultValue: 0
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
     }
   },
   {

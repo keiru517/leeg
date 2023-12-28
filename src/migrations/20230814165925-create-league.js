@@ -41,13 +41,16 @@ module.exports = {
       endDate: {
         type: Sequelize.STRING
       },
-      minute: {
+      period: {
         type: Sequelize.INTEGER
       },
-      second: {
+      time: {
         type: Sequelize.INTEGER
       },
       isAllowedFan: {
+        type: Sequelize.BOOLEAN
+      },
+      displaySubstitutes: {
         type: Sequelize.BOOLEAN
       },
       displayPosition: {
