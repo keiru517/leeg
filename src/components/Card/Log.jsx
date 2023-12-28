@@ -35,7 +35,7 @@ const Log = (props) => {
   const match = useSelector((state) => state.home.matches).find(
     (match) => match.id == matchId
   );
-  console.log("new?",match.isNew);
+  console.log("new?", match.isNew);
   const player = useSelector((state) => state.home.matchups).find(
     (matchup) => matchup.playerId == log.playerId
   )?.player;
@@ -61,6 +61,11 @@ const Log = (props) => {
           <p className="text-black dark:text-white font-medium text-lg">
             {log.time}
           </p>
+          <div className="flex space-x-3 h-[51px] items-center p-4">
+            <p className="text-black dark:text-gray-300 font-medium text-sm">
+              Added by: {user?.firstName[0]}.{user?.lastName}{" "}
+            </p>
+          </div>
         </div>
         {match?.isNew ? (
           <div className="flex space-x-3 h-[51px] items-center p-4">
@@ -104,13 +109,17 @@ const Log = (props) => {
               />
             </>
           )}
-          <img src={team?.logo} alt="" className="w-8 h-8 rounded-full border-border-gray-500" />
+          <img
+            src={team?.logo}
+            alt=""
+            className="w-8 h-8 rounded-full border-border-gray-500"
+          />
         </div>
-        <div className="flex space-x-3 h-[51px] items-center p-4">
+        {/* <div className="flex space-x-3 h-[51px] items-center p-4">
           <p className="text-black dark:text-gray-300 font-medium text-sm">
             Added by: {user?.firstName[0]}.{user?.lastName[0]}{" "}
           </p>
-        </div>
+        </div> */}
       </div>
     </div>
   );

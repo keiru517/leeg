@@ -24,6 +24,7 @@ export const CLOSE_LEAGUE_PASSWORD_DIALOG = "CLOSE_LEAGUE_PASSWORD_DIALOG";
 export const OPEN_LEAGUE_DETAIL_DIALOG = "OPEN_LEAGUE_DETAIL_DIALOG";
 export const CLOSE_LEAGUE_DETAIL_DIALOG = "CLOSE_LEAGUE_DETAIL_DIALOG";
 export const SET_SELECTED_LEAGUE = "SET_SELECTED_LEAGUE";
+export const LEAVE_LEAGUE = "LEAVE_LEAGUE";
 // export const SET_LEAGUE_LOGO_URL = "SET_LOGO_URL";
 // Teams
 export const GET_TEAMS = "GET_TEAMS";
@@ -59,9 +60,15 @@ export const ADD_PLAYER = "ADD_PLAYER";
 export const REMOVE_PLAYER = "REMOVE_PLAYER";
 export const CLOSE_JERSEY_NUMBER_MODAL = "CLOSE_JERSEY_NUMBER_MODAL";
 
+// Substitute
+export const GET_SUBSTITUES = "GET_SUBSTITUES";
+export const CREATE_SUBSTITUTE = "CREATE_SUBSTITUTE";
+export const REMOVE_SUBSTITUTE = "REMOVE_SUBSTITUTE";
+
 export const OPEN_ADD_SUBSTITUTE_DIALOG = "OPEN_ADD_SUBSTITUTE_DIALOG";
 export const CLOSE_ADD_SUBSTITUTE_DIALOG = "CLOSE_ADD_SUBSTITUTE_DIALOG";
 
+// Lineups
 export const OPEN_LINEUP_DIALOG = "OPEN_LINEUP_DIALOG";
 export const CLOSE_LINEUP_DIALOG = "CLOSE_LINEUP_DIALOG";
 
@@ -111,7 +118,7 @@ export const applyLeague = async (dispatch, data) => {
       type: GET_LEAGUES,
       payload: leagues,
     });
-    getPlayers(dispatch)
+    getPlayers(dispatch);
   } catch (error) {
     dispatch({
       type: GET_LEAGUES,
@@ -120,14 +127,13 @@ export const applyLeague = async (dispatch, data) => {
     alert("Failed to apply!");
   }
 };
+
 export const openDeleteLeagueDialog = (payload) => ({
   type: OPEN_DELETE_LEAGUE_DIALOG,
   payload: payload,
 });
 
-
 // Players
-
 export const getPlayers = async (dispatch) => {
   try {
     const response = await axios.get(apis.getPlayers);
@@ -158,6 +164,39 @@ export const RemovePlayer = (payload) => ({
   type: REMOVE_PLAYER,
   payload: payload,
 });
+
+// Substitutue
+export const getSubstitutes = async (dispatch) => {
+  try {
+    const response = await axios.get(apis.getSubstitutes);
+    const substitutes = response.data.substitutes;
+    dispatch({
+      type: GET_SUBSTITUES,
+      payload: substitutes,
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_SUBSTITUES,
+      payload: [],
+    });
+  }
+};
+
+export const createSubstitute = async (dispatch, data) => {
+  try {
+    const response = await axios.post(apis.createSubstitute, data);
+    const substitutes = response.data.substitutes;
+    dispatch({
+      type: GET_SUBSTITUES,
+      payload: substitutes,
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_SUBSTITUES,
+      payload: [],
+    });
+  }
+};
 
 export const openAddSubstitueDialog = () => ({
   type: OPEN_ADD_SUBSTITUTE_DIALOG,
@@ -420,6 +459,7 @@ export const completeMatchup = async (dispatch, data) => {
     });
     getMatches(dispatch);
     getTeams(dispatch);
+    getSubstitutes(dispatch)
     alert("Completed matchup!");
   } catch {
     dispatch({
@@ -440,6 +480,7 @@ export const incompleteMatchup = async (dispatch, data) => {
     });
     getMatches(dispatch);
     getTeams(dispatch);
+    getSubstitutes(dispatch)
     alert("Incompleted matchup!");
   } catch {
     dispatch({
@@ -514,8 +555,6 @@ export const removeLog = (dispatch, data) => {
   } catch (error) {}
 };
 
-
-
 // Admin
 export const getAdmins = async (dispatch) => {
   try {
@@ -544,7 +583,7 @@ export const inviteAdmin = async (dispatch, data) => {
     });
     alert("Invite sent!");
   } catch (error) {
-    getAdmins(dispatch)
+    getAdmins(dispatch);
     alert("Error occurred!");
   }
 };
@@ -572,13 +611,12 @@ export const getUserInfo = async (dispatch, id) => {
     user.avatar = apis.userAvatarURL(id);
     dispatch({
       type: GET_USER,
-      payload: user
-    })
+      payload: user,
+    });
   } catch (error) {
     dispatch({
       type: GET_USER,
-      payload: []
-    })    
+      payload: [],
+    });
   }
 };
-

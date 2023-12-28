@@ -4,10 +4,11 @@ import { Link, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useMemo } from "react";
 import Table from "./index";
+import DefaultSubstituteAvatar from "../../assets/img/dark_mode/default-substitutue-avatar.png";
 
 const TeamPlayerStatistics = (props) => {
   const { players, matchups } = props;
-  let { leagueId } = useParams();
+  let { leagueId, teamId } = useParams();
 
   const league = useSelector((state) => state.home.leagues).find(
     (league) => league.id == leagueId
@@ -27,6 +28,8 @@ const TeamPlayerStatistics = (props) => {
   const displaySteals = league?.displaySteals;
   const displayTurnovers = league?.displayTurnovers;
 
+  const teams = useSelector((state) => state.home.teams);
+
   const columns = [
     {
       label: "#",
@@ -41,18 +44,21 @@ const TeamPlayerStatistics = (props) => {
           variant="small"
           className="font-normal flex items-center sm:pl-8 space-x-3"
         >
-          <Link to={`/league/${leagueId}/player/${row.userId}`} className="flex items-center hover:underline">
+          <Link
+            to={`/league/${leagueId}/player/${row.userId}`}
+            className="flex items-center hover:underline"
+          >
             <img
               src={row.avatar}
               alt=""
               className="h-8 w-8 mr-4 rounded-full"
-              />
+            />
             {row.firstName} {row.lastName}
           </Link>
         </Typography>
       ),
     },
-    displayJerseyNumber &&{
+    displayJerseyNumber && {
       label: "Jersey Number",
       accessor: "jerseNumber",
       getValue: (row) => (
@@ -61,14 +67,13 @@ const TeamPlayerStatistics = (props) => {
         </Typography>
       ),
     },
-    displayPosition &&
-    {
+    displayPosition && {
       label: "Position",
-      accessor: "playerPosition",
+      accessor: "position",
       condition: displayPosition,
       getValue: (row) => (
         <Typography variant="small" className="font-normal">
-          {row.playerPosition}
+          {row.position}
         </Typography>
       ),
     },
@@ -242,7 +247,7 @@ const TeamPlayerStatistics = (props) => {
       ),
     },
     {
-      label: "Games Played",
+      label: "GP",
       accessor: "gp",
       getValue: (row) => (
         <Typography variant="small" className="font-normal">
@@ -252,97 +257,148 @@ const TeamPlayerStatistics = (props) => {
     },
   ].filter(Boolean);
 
-  const data = useMemo(() =>
-    players.map(
-      (
-        { id, userId, avatar, firstName, lastName, jerseyNumber, position },
-        index
-      ) => {
-        console.log(matches[0]?.isNew, matchups[0]?.attendance);
-        // const playerMatchups = matchups.filter(
-        //   (matchup) => matchup.playerId === id && matchup.attendance === 1
-        // );
-        const playerMatchups = matchups.filter((matchup) => {
-          const match = matches.find((m) => m.id == matchup.matchId);
-          return (
-            matchup.playerId === id &&
-            matchup.attendance === 1 &&
-            match &&
-            !match.isNew
-          );
-        });
-        return {
-          userId: userId,
-          avatar: avatar,
-          firstName: firstName,
-          lastName: lastName,
-          jerseyNumber: jerseyNumber,
-          position: position,
-          totalPoints: playerMatchups.reduce(
-            (sum, matchup) => sum + matchup.points,
-            0
-          ),
-          totalPoints3: playerMatchups.reduce(
-            (sum, matchup) => sum + matchup.points3,
-            0
-          ),
-          totalPoints2: playerMatchups.reduce(
-            (sum, matchup) => sum + matchup.points2,
-            0
-          ),
-          totalPoints1: playerMatchups.reduce(
-            (sum, matchup) => sum + matchup.points1,
-            0
-          ),
-          attempts3: playerMatchups.reduce(
-            (sum, matchup) => sum + matchup.attempts3,
-            0
-          ),
-          attempts2: playerMatchups.reduce(
-            (sum, matchup) => sum + matchup.attempts2,
-            0
-          ),
-          attempts1: playerMatchups.reduce(
-            (sum, matchup) => sum + matchup.attempts1,
-            0
-          ),
-          blocks: playerMatchups.reduce(
-            (sum, matchup) => sum + matchup.blocks,
-            0
-          ),
-          rebounds: playerMatchups.reduce(
-            (sum, matchup) => sum + matchup.rebounds,
-            0
-          ),
-          assists: playerMatchups.reduce(
-            (sum, matchup) => sum + matchup.assists,
-            0
-          ),
-          fouls: playerMatchups.reduce(
-            (sum, matchup) => sum + matchup.fouls,
-            0
-          ),
-          steals: playerMatchups.reduce(
-            (sum, matchup) => sum + matchup.steals,
-            0
-          ),
-          turnovers: playerMatchups.reduce(
-            (sum, matchup) => sum + matchup.turnovers,
-            0
-          ),
+  const substitutes = useSelector((state) => state.home.substitutes).filter(
+    (sub) => sub.leagueId == leagueId && sub.teamId == teamId
+  );
 
-          gp: playerMatchups.length,
+  const data = useMemo(
+    () =>
+      players
+        .map(
+          (
+            { id, userId, avatar, firstName, lastName, jerseyNumber, position },
+            index
+          ) => {
+            console.log(matches[0]?.isNew, matchups[0]?.attendance);
+            // const playerMatchups = matchups.filter(
+            //   (matchup) => matchup.playerId === id && matchup.attendance === 1
+            // );
+            const playerMatchups = matchups.filter((matchup) => {
+              const match = matches.find((m) => m.id == matchup.matchId);
+              return (
+                matchup.playerId === id &&
+                matchup.attendance === 1 &&
+                match &&
+                !match.isNew
+              );
+            });
+            return {
+              userId: userId,
+              avatar: avatar,
+              firstName: firstName,
+              lastName: lastName,
+              jerseyNumber: jerseyNumber,
+              position: position,
+              totalPoints: playerMatchups.reduce(
+                (sum, matchup) => sum + matchup.points,
+                0
+              ),
+              totalPoints3: playerMatchups.reduce(
+                (sum, matchup) => sum + matchup.points3,
+                0
+              ),
+              totalPoints2: playerMatchups.reduce(
+                (sum, matchup) => sum + matchup.points2,
+                0
+              ),
+              totalPoints1: playerMatchups.reduce(
+                (sum, matchup) => sum + matchup.points1,
+                0
+              ),
+              attempts3: playerMatchups.reduce(
+                (sum, matchup) => sum + matchup.attempts3,
+                0
+              ),
+              attempts2: playerMatchups.reduce(
+                (sum, matchup) => sum + matchup.attempts2,
+                0
+              ),
+              attempts1: playerMatchups.reduce(
+                (sum, matchup) => sum + matchup.attempts1,
+                0
+              ),
+              blocks: playerMatchups.reduce(
+                (sum, matchup) => sum + matchup.blocks,
+                0
+              ),
+              rebounds: playerMatchups.reduce(
+                (sum, matchup) => sum + matchup.rebounds,
+                0
+              ),
+              assists: playerMatchups.reduce(
+                (sum, matchup) => sum + matchup.assists,
+                0
+              ),
+              fouls: playerMatchups.reduce(
+                (sum, matchup) => sum + matchup.fouls,
+                0
+              ),
+              steals: playerMatchups.reduce(
+                (sum, matchup) => sum + matchup.steals,
+                0
+              ),
+              turnovers: playerMatchups.reduce(
+                (sum, matchup) => sum + matchup.turnovers,
+                0
+              ),
 
-          ppg:
-            playerMatchups.length === 0
-              ? 0
-              : playerMatchups.reduce(
-                  (sum, matchup) => sum + matchup.points,
-                  0
-                ) / playerMatchups.length,
-        };
-      }
-    )
+              gp: playerMatchups.length,
+
+              ppg:
+                playerMatchups.length === 0
+                  ? 0
+                  : playerMatchups.reduce(
+                      (sum, matchup) => sum + matchup.points,
+                      0
+                    ) / playerMatchups.length,
+            };
+          }
+        )
+        .concat(
+          substitutes
+            .sort((a, b) => b.points - a.points)
+            .map((sub) => {
+              return {
+                firstName: sub.match.isNew ? 0 : sub.firstName,
+                lastName: sub.match.isNew ? 0 : sub.lastName,
+                jerseyNumber: sub.jerseyNumber,
+                position: sub.position,
+                totalPoints: sub.match.isNew ? 0 : sub.totalPoints,
+                totalPoints3: sub.match.isNew ? 0 : sub.totalPoints3,
+                totalPoints2: sub.match.isNew ? 0 : sub.totalPoints2,
+                totalPoints1: sub.match.isNew ? 0 : sub.totalPoints1,
+                attempts3: sub.match.isNew ? 0 : sub.attempts3,
+                attempts2: sub.match.isNew ? 0 : sub.attempts2,
+                attempts1: sub.match.isNew ? 0 : sub.attempts1,
+                "3p%":
+                  sub.match.isNew &&
+                  isNaN((sub.totalPoints3 / sub.attempts3) * 100)
+                    ? 0
+                    : ((sub.totalPoints3 / sub.attempts3) * 100).toFixed(2),
+                "fg%":
+                  sub.match.isNew &&
+                  isNaN((sub.totalPoints2 / sub.attempts2) * 100)
+                    ? 0
+                    : ((sub.totalPoints2 / sub.attempts2) * 100).toFixed(2),
+                "ft%":
+                  sub.match.isNew &&
+                  isNaN((sub.totalPoints1 / sub.attempts1) * 100)
+                    ? 0
+                    : ((sub.totalPoints1 / sub.attempts1) * 100).toFixed(2),
+                blocks: sub.match.isNew ? 0 : sub.blocks,
+                rebounds: sub.match.isNew ? 0 : sub.rebounds,
+                assists: sub.match.isNew ? 0 : sub.assists,
+                fouls: sub.match.isNew ? 0 : sub.fouls,
+                steals: sub.match.isNew ? 0 : sub.steals,
+                turnovers: sub.match.isNew ? 0 : sub.turnovers,
+                avatar: DefaultSubstituteAvatar,
+                team: teams.find((team) => team.id == sub.teamId),
+                teamId: sub.teamId,
+                teamName: teams.find((team) => team.id == sub.teamId)?.name,
+              };
+            })
+        ),
+    [players, substitutes]
   );
 
   return (

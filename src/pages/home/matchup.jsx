@@ -3,8 +3,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router";
 import * as actions from "../../actions";
-import axios from "axios";
-import apis from "../../utils/apis";
 import Log from "../../components/Card/Log";
 import Select from "../../components/Select";
 import leftArrowIcon from "../../assets/img/dark_mode/left-arrow.svg";
@@ -137,7 +135,10 @@ const Matchup = () => {
       }
     );
 
-  const homeTeamPlayers = homeTeamMatchups;
+    const homeTeamSubstitutes = useSelector(state=>state.home.substitutes).filter(substitute=>substitute.leagueId == leagueId && substitute.matchId == matchId && substitute.teamId == match?.homeTeamId);
+    
+  const homeTeamPlayers = [...homeTeamMatchups, ...homeTeamSubstitutes];
+  console.log(homeTeamPlayers)
 
   const awayTeam = useSelector((state) => state.home.teams).find(
     (team) => team.id == match?.awayTeamId
@@ -204,6 +205,7 @@ const Matchup = () => {
     actions.getMatchups(dispatch);
     actions.getLogs(dispatch);
     actions.getPlayers(dispatch);
+    actions.getSubstitutes(dispatch);
   }, []);
 
   let homeTeamPoints = 0;
@@ -255,8 +257,8 @@ const Matchup = () => {
   const matchupResult = [homeTeamPoints, awayTeamPoints];
 
   const [arrow, setArrow] = useState("home");
-  const handleAction = (teamId, playerId, event, isDirect) => {
-    console.log("handleAction", teamId, playerId, event, isDirect, time);
+  const handleAction = (teamId, playerId, event, isDirect, isSubstitute) => {
+    console.log("handleAction", teamId, playerId, event, isDirect, time, isSubstitute);
     actions.createOneLog(dispatch, {
       leagueId,
       matchId,
@@ -266,62 +268,10 @@ const Matchup = () => {
       event,
       time,
       isDirect,
+      isSubstitute
     });
   };
 
-  // useEffect(() => {
-  //   actions.updateMatchResult(dispatch,{matchId:matchId, result:matchupResult})
-  // }, [homeTeamPoints, awayTeamPoints]);
-
-  // const handleSubmit = () => {
-  //   axios
-  //     .post(apis.updateMatchResult, {
-  //       matchId: matchId,
-  //       result: matchupResult,
-  //     })
-  //     .then((res) => {
-  //       actions.getMatches(dispatch);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error.response.data.message);
-  //     });
-
-  //   axios
-  //     .post(apis.createLogs, {
-  //       leagueId: leagueId,
-  //       matchId: matchId,
-  //       // logs: logs,
-  //       homeTeamId: homeTeam?.id,
-  //       awayTeamId: awayTeam?.id,
-  //     })
-  //     .then((res) => {
-  //       alert(res.data.message);
-  //     })
-  //     .catch((error) => {
-  //       alert(error.response.data.message);
-  //       console.log(error.response.data.message);
-  //     });
-  // };
-
-  // const removeSubstitute = (userId) => {
-  //   axios
-  //     .post(apis.removeSubstitute, {
-  //       userId,
-  //       leagueId,
-  //       matchId,
-  //     })
-  //     .then((res) => {
-  //       actions.getMatchups(dispatch);
-  //       actions.getPlayers(dispatch);
-  //       alert(res.data.message);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error.response.data.message);
-  //     });
-
-  //   // if the admin remove a substitutue, then the matchup result will be saved automatically
-  //   handleSubmit();
-  // };
 
   const [currentPeriod, setCurrentPeriod] = useState(1);
   const handlePeriod = (period) => {
@@ -343,7 +293,8 @@ const Matchup = () => {
     });
     setTimeOfPeriod(tempTimeOfPeriod);
     setCurrentPeriod(1);
-  }, [numberOfPeriods.length]);
+  }, [numberOfPeriods.length, match.timer]);
+
   const [time, setTime] = useState("");
   const [event, setEvent] = useState("");
   const [teamId, setTeamId] = useState("");
@@ -377,11 +328,11 @@ const Matchup = () => {
 
   const handleAddEvent = () => {
     if (match?.isNew) {
-      if (isRunning) {
+      // if (isRunning) {
         dispatch({ type: actions.OPEN_ADD_EVENT_DIALOG });
-      } else {
-        alert("Please run the timer!")
-      }
+      // } else {
+      //   alert("Please run the timer!")
+      // }
 
     } else {
       alert("The matchup is completed!");

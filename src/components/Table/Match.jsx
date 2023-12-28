@@ -47,9 +47,9 @@ const MatchTable = (props) => {
   console.log(matches);
   console.log(matches1);
 
-  useEffect(() => {
-    setTableData(matches);
-  }, [keyword]);
+  // useEffect(() => {
+  //   setTableData(matches);
+  // }, [keyword]);
   const user = useSelector((state) => state.home.user);
   const league = useSelector((state) => state.home.leagues).find(
     (league) => league.id == leagueId && league.isDeleted !== 1
@@ -128,7 +128,7 @@ const MatchTable = (props) => {
     else return false;
   };
 
-  const [sortField, setSortField] = useState("");
+  const [sortField, setSortField] = useState("Date");
   const [order, setOrder] = useState("asc");
 
   const handleSortingChange = (accessor) => {
@@ -136,41 +136,33 @@ const MatchTable = (props) => {
       accessor === sortField && order === "asc" ? "desc" : "asc";
     setSortField(accessor);
     setOrder(sortOrder);
-    handleSorting(accessor, sortOrder);
   };
 
-  const [tableData, setTableData] = useState(matches);
-
-  const handleSorting = (sortField, sortOrder) => {
-    if (sortField) {
-      const sorted = [...matches].sort((a, b) => {
-        if (sortField.toLowerCase() === "home") {
-          a["home"] = teams.find((team) => team.id == a.homeTeamId)?.name;
-          b["home"] = teams.find((team) => team.id == b.homeTeamId)?.name;
-        } else if (sortField.toLowerCase() === "away") {
-          a["away"] = teams.find((team) => team.id == a.awayTeamId)?.name;
-          b["away"] = teams.find((team) => team.id == b.awayTeamId)?.name;
-        } else if (sortField.toLowerCase() === "results") {
-          a["results"] = a.homeTeamPoints + ":" + a.awayTeamPoints;
-          b["results"] = b.homeTeamPoints + ":" + b.awayTeamPoints;
-        } else if (sortField.toLowerCase() === "status") {
-          a["status"] = a.isNew;
-          b["status"] = b.isNew;
-        } else if (sortField.toLowerCase() === "action") {
-          return 1;
-        }
-
-        return (
-          a[sortField.toLowerCase()]
-            .toString()
-            .localeCompare(b[sortField.toLowerCase()].toString(), "en", {
-              numeric: true,
-            }) * (sortOrder === "asc" ? 1 : -1)
-        );
-      });
-      setTableData(sorted);
+  matches.sort((a, b) => {
+    if (sortField.toLowerCase() === "home") {
+      a["home"] = teams.find((team) => team.id == a.homeTeamId)?.name;
+      b["home"] = teams.find((team) => team.id == b.homeTeamId)?.name;
+    } else if (sortField.toLowerCase() === "away") {
+      a["away"] = teams.find((team) => team.id == a.awayTeamId)?.name;
+      b["away"] = teams.find((team) => team.id == b.awayTeamId)?.name;
+    } else if (sortField.toLowerCase() === "results") {
+      a["results"] = a.homeTeamPoints + ":" + a.awayTeamPoints;
+      b["results"] = b.homeTeamPoints + ":" + b.awayTeamPoints;
+    } else if (sortField.toLowerCase() === "status") {
+      a["status"] = a.isNew;
+      b["status"] = b.isNew;
+    } else if (sortField.toLowerCase() === "action") {
+      return 1;
     }
-  };
+
+    return (
+      a[sortField.toLowerCase()]
+        .toString()
+        .localeCompare(b[sortField.toLowerCase()].toString(), "en", {
+          numeric: true,
+        }) * (order === "asc" ? 1 : -1)
+    );
+  });
 
   return (
     <div className="text-black dark:text-white h-5/6 w-full mt-4 overflow-auto">
@@ -207,7 +199,7 @@ const MatchTable = (props) => {
           </tr>
         </thead>
         <tbody className="text-center text-sm">
-          {tableData.map(
+          {matches.map(
             (
               {
                 id,

@@ -20,13 +20,11 @@ const PlayerList = ({className, player, setChecked, checked}) => {
       setChecked(false);
       setStatus(addIcon)
       // dispatch({type:actions.REMOVE_PLAYER, payload:id})
-      console.log(id)
     }
     else{
       setChecked(true);
       setStatus(addedIcon)
       // dispatch({type:actions.ADD_PLAYER, payload:id})
-      console.log(id)
     }
       // dispatch
   }

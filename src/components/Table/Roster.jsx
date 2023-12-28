@@ -23,7 +23,7 @@ function Checkbox({ label, name, checked, onChange, disabled }) {
           className={`
             relative flex h-5 w-5 items-center justify-center transition-all duration-200 outline-none ring-1 
             ${!checked && !disabled ? "ring-gray-400" : ""}
-            ${checked && !disabled ? "ring-red-400" : ""} 
+            ${checked && !disabled ? "ring-sky-400" : ""}
             ${disabled ? "bg-gray-200 ring-gray-200" : ""}  
           `}
         >
@@ -31,7 +31,7 @@ function Checkbox({ label, name, checked, onChange, disabled }) {
             size="1rem"
             className={`
              ${checked ? "scale-100" : "scale-0"} 
-             ${checked && !disabled ? "text-red-400" : "text-gray-400"} 
+             ${checked && !disabled ? "text-sky-400" : "text-gray-400"} 
              transition-transform duration-200 ease-out`}
           />
         </Switch>
@@ -126,6 +126,7 @@ const RosterTable = (props) => {
     let temp = { ...itemChecked };
     temp[index] = checked;
     setItemChecked(temp);
+    console.log(temp)
   };
 
   const [canSubmit, setCanSubmit] = useState(false);

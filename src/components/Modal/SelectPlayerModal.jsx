@@ -43,9 +43,16 @@ const SelectPlayerModal = (props) => {
     setFilteredMatchups(matchups);
   }, []);
 
+  const substitutues = useSelector(state=>state.home.substitutes).filter(substitute=>substitute.leagueId == leagueId && substitute.matchId == matchId && substitute.teamId == teamId);
+  console.log('substitue', filteredMatchups)
   useEffect(() => {
-    const result = matchups.filter((player) => player.teamId == teamId);
-    setFilteredMatchups(result);
+    const result = matchups.filter((player) => player.teamId == teamId).map(matchup=>{
+      return {
+        matchup,
+        ...matchup.player
+      }
+    });
+    setFilteredMatchups([...result, ...substitutues]);
   }, [teamId]);
 
   const player = useSelector((state) => state.home.matchups).find(
@@ -91,14 +98,21 @@ const SelectPlayerModal = (props) => {
   const [playersList, setPlayersList] = useState({});
 
   const addAction = (playerId) => {
-    handleAction(teamId, playerId, title[event], 0);
+    handleAction(teamId, playerId, title[event], 0, 0);
     dispatch({ type: actions.OPEN_SELECT_PLAYER_DIALOG, payload: false });
   };
   
   const handleAddDirectScore = () =>{
-    handleAction(teamId, null, title[event], 1)
+    handleAction(teamId, null, title[event], 1, 0)
     dispatch({ type: actions.OPEN_SELECT_PLAYER_DIALOG, payload: false });
   }
+  
+  const handleAddSubstituteScore = (player) => {
+    console.log("subsitute add score", player);
+    // here playerID is the substitute id
+    handleAction(player.teamId, player.id, title[event], 0, 1)
+    dispatch({ type: actions.OPEN_SELECT_PLAYER_DIALOG, payload: false });
+  };
 
   return (
     <Transition.Root show={isOpen} as={Fragment}>
@@ -157,13 +171,14 @@ const SelectPlayerModal = (props) => {
                         />
                         {team?.name}
                       </div>
-                      {filteredMatchups.map(({ player }, idx) => (
+                      {filteredMatchups.map((player, idx) => (
                         <MatchupPlayerList
                           key={idx}
                           className="mb-5"
                           player={player}
                           teamId={teamId}
                           addAction={addAction}
+                          handleAddSubstituteScore={handleAddSubstituteScore}
                         ></MatchupPlayerList>
                       ))}
                     </div>

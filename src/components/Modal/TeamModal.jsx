@@ -53,7 +53,7 @@ const TeamModal = () => {
       setNameWarning(false);
     }
     if (isNameInTeams) {
-      setNameWarning(true)
+      setNameWarning(true);
     }
   }, [teamName]);
 
@@ -91,6 +91,7 @@ const TeamModal = () => {
       formData.append("logo", chosenFile);
       formData.append("color", color);
       formData.append("name", teamName);
+      console.log(formData)
 
       dispatch({ type: actions.CLOSE_TEAM_DIALOG });
       axios.post(apis.createTeam, formData).then((res) => {
@@ -253,50 +254,60 @@ const TeamModal = () => {
                           >
                             <div className="flex items-center">
                               <div
-                                className={`w-[58px] h-[58px] rounded-full mx-2`}
+                                className={`w-full h-[58px] rounded-full mx-2`}
                                 style={{ backgroundColor: color }}
                                 onClick={() => {
                                   fileUploadRef.current?.click();
                                 }}
                               >
                                 {previewURL ? (
-                                  <>
+                                  <div className="flex">
                                     <img
-                                      // onClick={() => {
-                                      //   fileUploadRef.current?.click();
-                                      // }}
                                       src={previewURL}
                                       className="rounded-full w-[58px] h-[58px]"
                                       alt=""
                                     />
-                                  </>
+                                    <p className="text-black dark:text-white font-bold text-sm">
+                                      Upload Logo or
+                                    </p>
+                                  </div>
                                 ) : type === "create" ? (
                                   color ? (
                                     ""
                                   ) : (
-                                    <img
-                                      src={uploadCircle}
-                                      alt=""
-                                      className=""
-                                      // onClick={() => {
-                                      //   fileUploadRef.current?.click();
-                                      // }}
-                                    />
+                                    <div className="flex items-center">
+                                      <img
+                                        src={uploadCircle}
+                                        alt=""
+                                        className=""
+                                        // onClick={() => {
+                                        //   fileUploadRef.current?.click();
+                                        // }}
+                                      />
+                                      <p className="text-black dark:text-white font-bold text-sm ml-3">
+                                        Upload Logo or
+                                      </p>
+                                    </div>
                                   )
-                                ) : type === "edit" ? (
-                                  <img
-                                    src={team?.logo}
-                                    alt=""
-                                    className="rounded-full w-[58px] h-[58px]"
-                                  />
                                 ) : (
-                                  ""
+                                  type === "edit" && (
+                                    <div className="flex items-center">
+                                      <img
+                                        src={team?.logo}
+                                        alt=""
+                                        className="rounded-full w-[58px] h-[58px]"
+                                      />
+                                      <p className="text-black dark:text-white font-bold text-sm ml-3">
+                                        Upload Logo or
+                                      </p>
+                                    </div>
+                                  )
                                 )}
                               </div>
                               <input
                                 id="nativeColorPicker1"
                                 type="color"
-                                className="mr-3 w-[30px]"
+                                className="mr-3 w-[45px]"
                                 value={color}
                                 onChange={(e) => {
                                   setPreviewURL(null);
@@ -320,15 +331,13 @@ const TeamModal = () => {
                                 }}
                               />
                               <p className="text-black dark:text-white font-bold text-sm">
-                                Upload Team Logo
+                                Pick Color
                               </p>
                             </div>
                             <div className="flex items-center"></div>
                           </div>
                           <input
-                            className={`${
-                              nameWarning ? "border-2 border-red-500" : ""
-                            } border border-charcoal items-center px-3 bg-transparent outline-none text-black dark:text-white flex-grow h-button text-xs w-full`}
+                            className={`border border-charcoal items-center px-3 bg-transparent outline-none text-black dark:text-white flex-grow h-button text-xs w-full`}
                             placeholder="Type Team Name*"
                             value={teamName}
                             onChange={(e) => setTeamName(e.target.value)}

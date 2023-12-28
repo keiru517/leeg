@@ -1,18 +1,17 @@
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 
-const CDatePicker = ({ date, setDate, className }) => {
+const CTimePicker = ({ time, setTime, className }) => {
   const darkMode = useSelector((state) => state.home.dark_mode);
-
-  const handleDateChange = (e) => {
-    setDate(e.target.value);
+  const handleTimeChange = (e) => {
+    setTime(e.target.value);
   };
 
   useEffect(() => {
     // Add custom styles to the time picker icon
     const iconStyle = document.createElement("style");
     iconStyle.innerHTML = `
-      input[type="date"]::-webkit-calendar-picker-indicator {
+      input[type="time"]::-webkit-calendar-picker-indicator {
         filter: invert(${darkMode ? 1 : 0});
       }
     `;
@@ -27,13 +26,13 @@ const CDatePicker = ({ date, setDate, className }) => {
   return (
     <div className="w-full">
       <input
-        type="date"
-        value={date}
-        onChange={handleDateChange}
+        type="time"
+        value={time}
+        onChange={handleTimeChange}
         className={`bg-transparent border border-dark-gray text-black dark:text-white ${className}`}
       />
     </div>
   );
 };
 
-export default CDatePicker;
+export default CTimePicker;

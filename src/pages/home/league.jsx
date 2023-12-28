@@ -25,12 +25,14 @@ import StandingTable from "../../components/Table/Standing";
 import AdminTable from "../../components/Table/Admin";
 import PlayerTable from "../../components/Table/Player";
 import RosterTable from "../../components/Table/Roster";
-import TimePicker from "../../components/Timer/TimePicker";
+// import TimePicker from "../../components/Timer/TimePicker";
 import calendar from "../../assets/img/dark_mode/calendar.png";
 import apis from "../../utils/apis";
 import * as actions from "../../actions";
 import toggleOn from "../../assets/img/dark_mode/toggle-on.png";
 import toggleOff from "../../assets/img/dark_mode/toggle-off.png";
+import DatePicker from "../../components/DatePicker";
+import TimeInput from "../../components/TimerInput";
 
 const League = () => {
   let { leagueId } = useParams();
@@ -65,6 +67,8 @@ const League = () => {
   const players = useSelector((state) => state.home.players).filter(
     (player) => player.leagueId == leagueId && player.isDeleted !== 1
   );
+
+  const player = players.find((player) => player.userId == user.id);
 
   // this is used for Players tab
   const allPlayers = useSelector((state) => state.home.players).filter(
@@ -104,7 +108,7 @@ const League = () => {
     categories = [
       // "Blog",
       // "Teams",=>manage rosters
-      "Manage Rosters",
+      "Teams",
       "Matches",
       "Standings",
       "Players",
@@ -113,7 +117,7 @@ const League = () => {
       "Settings",
     ];
   } else {
-    categories = ["Teams", "Matches", "Standings", "Players"];
+    categories = ["Teams", "Matches", "Standings", "Players", "Settings"];
   }
 
   function classNames(...classes) {
@@ -149,13 +153,14 @@ const League = () => {
   );
 
   useEffect(() => {
-    actions.getUserInfo(dispatch, localStorage.getItem("userId"));
+    // actions.getUserInfo(dispatch, localStorage.getItem("userId"));
     actions.getUsers(dispatch);
     actions.getLeagues(dispatch);
     actions.getTeams(dispatch);
     actions.getMatches(dispatch);
     actions.getMatchups(dispatch);
     actions.getPlayers(dispatch);
+    actions.getSubstitutes(dispatch);
     actions.getAdmins(dispatch);
   }, []);
 
@@ -306,6 +311,7 @@ const League = () => {
   const [second, setSecond] = useState("");
   const [isAllowedFan, setIsAllowedFan] = useState("");
   const [displayLeagueId, setDisplayLeagueId] = useState("");
+  const [displaySubstitutes, setDisplaySubstitutes] = useState("");
   const [displayPosition, setDisplayPosition] = useState("");
   const [displayJerseyNumber, setDisplayJerseyNumber] = useState("");
   const [displayAttempts3, setDisplayAttempts3] = useState("");
@@ -323,6 +329,7 @@ const League = () => {
     setMinute(league?.minute);
     setSecond(league?.second);
     setIsAllowedFan(league?.isAllowedFan);
+    setDisplaySubstitutes(league?.displaySubstitutes);
     setDisplayPosition(league?.displayPosition);
     setDisplayJerseyNumber(league?.displayJerseyNumber);
     setDisplayAttempts3(league?.displayAttempts3);
@@ -346,6 +353,9 @@ const League = () => {
     formData.append("description", leagueDescription);
     formData.append("startDate", leagueStartDate);
     formData.append("endDate", leagueEndDate);
+    formData.append("period", period);
+    formData.append("time", time);
+    console.log("time", time)
 
     // dispatch({ type: actions.CLOSE_LEAGUE_DIALOG });
     axios.post(apis.updateLeague, formData).then((res) => {
@@ -353,6 +363,9 @@ const League = () => {
       alert(res.data.message);
     });
   };
+
+  const [period, setPeriod] = useState(league.period);
+  const [time, setTime] = useState(league.time);
 
   const toggleFan = () => {
     axios
@@ -399,6 +412,24 @@ const League = () => {
     //   .catch((error) => {
     //     alert(error.response.data.message);
     //   });
+  };
+
+  const toggleSubstitutes = () => {
+    axios
+      .post(apis.toggleSubstitutes, {
+        leagueId: leagueId,
+        status: !displaySubstitutes,
+      })
+      .then((res) => {
+        actions.getLeagues(dispatch);
+        actions.getPlayers(dispatch);
+        actions.getMatches(dispatch);
+        actions.getMatchups(dispatch);
+        setDisplaySubstitutes(!displaySubstitutes);
+      })
+      .catch((error) => {
+        alert(error.response.data.message);
+      });
   };
 
   const togglePosition = () => {
@@ -619,6 +650,16 @@ const League = () => {
     dispatch({ type: actions.OPEN_DELETE_LEAGUE_DIALOG, payload: league });
   };
 
+  const leaveLeague = (e) => {
+    let player = players.find(
+      (player) => player.userId == user.id && player.leagueId == leagueId
+    );
+    console.log(player);
+    // if (player) {
+    actions.removeFromLeague(dispatch, { [player?.id]: true });
+    navigate("/");
+    // }
+  };
   const inviteAdmin = () => {
     dispatch({ type: actions.OPEN_ADMIN_DIALOG, payload: true });
   };
@@ -662,8 +703,8 @@ const League = () => {
                       "&:hover": { backgroundColor: "#ffffff15" },
                       // "&:hover": { backgroundColor: "#ffffff15" },
                       "&.Mui-selected": {
-                        backgroundColor: darkMode?"#ffffff15":"#f4f4f4",
-                        color: darkMode?"white":"black",
+                        backgroundColor: darkMode ? "#ffffff15" : "#f4f4f4",
+                        color: darkMode ? "white" : "black",
                         borderBottom: "2px solid rgb(37, 99, 235)",
                       },
                     }}
@@ -750,7 +791,7 @@ const League = () => {
                 </div>
               </TabPanel> */}
 
-              {/* Manage Rosters */}
+              {/* Teams */}
               <TabPanel
                 value={"0"}
                 sx={{
@@ -904,29 +945,30 @@ const League = () => {
                     {value}
                   </Select> */}
                 </div>
-                {teams
-                // .filter((team) =>
-                //   team.name
-                //     .toLowerCase()
-                //     .includes(standingsKeyword.toLowerCase())
-                // )
-                .length > 0 ? (
-                  <StandingTable
-                    // teams={teams.filter((team) =>
-                    //   team.name
-                    //     .toLowerCase()
-                    //     .includes(standingsKeyword.toLowerCase())
-                    // )}
-                    teams={teams}
-                    keyword={standingsKeyword}
-                  ></StandingTable>
-                ) : (
-                  <div className="flex items-center flex-grow">
-                    <p className="text-xl sm:text-2xl text-black dark:text-white w-full text-center mt-5">
-                      No Standings to show!
-                    </p>
-                  </div>
-                )}
+                {
+                  // .filter((team) =>
+                  //   team.name
+                  //     .toLowerCase()
+                  //     .includes(standingsKeyword.toLowerCase())
+                  // )
+                  teams.length > 0 ? (
+                    <StandingTable
+                      // teams={teams.filter((team) =>
+                      //   team.name
+                      //     .toLowerCase()
+                      //     .includes(standingsKeyword.toLowerCase())
+                      // )}
+                      teams={teams}
+                      keyword={standingsKeyword}
+                    ></StandingTable>
+                  ) : (
+                    <div className="flex items-center flex-grow">
+                      <p className="text-xl sm:text-2xl text-black dark:text-white w-full text-center mt-5">
+                        No Standings to show!
+                      </p>
+                    </div>
+                  )
+                }
               </TabPanel>
 
               {/* Players */}
@@ -948,14 +990,6 @@ const League = () => {
                       setPlayerKeyword(e.target.value);
                     }}
                   />
-                  {/* <Select
-                    className="text-xs"
-                    options={options}
-                    handleClick={(e) => setValue(e.name)}
-                    value={value}
-                  >
-                    {value}
-                  </Select> */}
                 </div>
                 {allPlayers.filter((player) =>
                   (player.firstName + player.lastName)
@@ -1054,130 +1088,154 @@ const League = () => {
                 </TabPanel>
               )}
               {/* Settings */}
-              {isAdmin && (
-                <TabPanel
-                  value="5"
-                  sx={{
-                    padding: "10px !important",
-                  }}
-                  className={classNames("rounded-xl w-full h-full")}
-                >
-                  <hr className="h-px mb-4 bg-charcoal border-0" />
-                  <div className="mt-4 grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-4">
-                    {/* League Settings */}
-                    <div className="flex flex-col border border-dark-gray rounded p-7">
-                      <div>
-                        <h1 className="dark:text-white text-black font-medium mb-4">
-                          Edit League
-                        </h1>
-                        <div className="grid grid-cols-6 gap-4 mb-6 items-end">
-                          <div>
-                            <input
-                              type="file"
-                              hidden
-                              ref={fileUploadRef}
-                              onChange={(e) => {
-                                const files = e.target.files;
-                                if (files.length) {
-                                  const file = files[0];
-                                  setChosenFile(file);
-                                  setPreviewURL(URL.createObjectURL(file));
-                                }
-                              }}
-                            />
-                            <img
-                              onClick={() => {
-                                fileUploadRef.current?.click();
-                              }}
-                              src={previewURL ? previewURL : league?.logo}
-                              className="rounded-md cursor-pointer"
-                              alt=""
-                            />
-                          </div>
-                          <div className="col-span-5">
-                            <p className="dark:text-white text-black">
-                              League Name
-                            </p>
-                            <Input
-                              className="rounded-lg flex-grow text-xs "
-                              placeholder="League Name"
-                              value={leagueName}
-                              onChange={(e) => setLeagueName(e.target.value)}
-                            ></Input>
-                          </div>
-                        </div>
-                        <div className="mb-4">
-                          <p className="dark:text-white text-black">
-                            League Description
-                          </p>
-                          <textarea
-                            id="message"
-                            rows="6"
-                            className="block p-2.5 w-full text-xs text-gray-900 rounded-lg border border-charcoal focus:ring-blue-500 focus:border-blue-500 dark:bg-transparent dark:border-charcoal dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 resize-none outline-none"
-                            placeholder="Describe your League*"
-                            value={leagueDescription}
-                            onChange={(e) =>
-                              setLeagueDescription(e.target.value)
-                            }
-                          ></textarea>
-                        </div>
-                        <div className="mb-6 grid grid-cols-2 gap-2">
-                          <span>
-                            <p className="dark:text-white text-black">
-                              Start Date
-                            </p>
-                            <Input
-                              className="text-xs rounded-default"
-                              option={calendar}
-                              placeholder="Enter Start Date*"
-                              value={leagueStartDate}
-                              onChange={(e) =>
-                                setLeagueStartDate(e.target.value)
-                              }
-                            />
-                          </span>
-                          <span>
-                            <p className="dark:text-white text-black">
-                              End Date
-                            </p>
-                            <Input
-                              className="text-xs rounded-default"
-                              option={calendar}
-                              placeholder="Enter End Date*"
-                              value={leagueEndDate}
-                              onChange={(e) => setLeagueEndDate(e.target.value)}
-                            />
-                          </span>
-                        </div>
-                        {/* <div className="mb-6 ">
-                          <span className="">
-                            <p className="dark:text-white text-black">
-                              Password
-                            </p>
-                            <Input
-                              className="text-xs rounded-default"
-                              value={league?.password}
-                            />
-                          </span>
-                        </div> */}
-                      </div>
+              <TabPanel
+                value={isAdmin ? "5" : "4"}
+                sx={{
+                  padding: "10px !important",
+                }}
+                className={classNames("rounded-xl w-full h-full")}
+              >
+                <hr className="h-px mb-4 bg-charcoal border-0" />
+                <div className="mt-4 grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-4">
+                  {/* League Settings */}
 
-                      <div className="grid grid-cols-2 gap-2 ">
-                        <button
-                          onClick={editLeague}
-                          className="bg-blue-700 h-10 text-white font-bold text-sm rounded-default hover:bg-blue-600"
-                        >
-                          Save
-                        </button>
-                        <button
-                          onClick={deleteLeague}
-                          className="bg-red-700 h-10 text-white font-bold text-sm rounded-default hover:bg-red-600"
-                        >
-                          Delete
-                        </button>
+                  <div className="flex flex-col border border-dark-gray rounded p-7">
+                    <div>
+                      <h1 className="dark:text-white text-black font-medium mb-4">
+                        Edit League
+                      </h1>
+                      <div className="grid grid-cols-6 gap-4 mb-6 items-end">
+                        <div>
+                          <input
+                            type="file"
+                            hidden
+                            ref={fileUploadRef}
+                            onChange={(e) => {
+                              const files = e.target.files;
+                              if (files.length) {
+                                const file = files[0];
+                                setChosenFile(file);
+                                setPreviewURL(URL.createObjectURL(file));
+                              }
+                            }}
+                          />
+                          <img
+                            onClick={() => {
+                              fileUploadRef.current?.click();
+                            }}
+                            src={previewURL ? previewURL : league?.logo}
+                            className="rounded-md cursor-pointer"
+                            alt=""
+                          />
+                        </div>
+                        <div className="col-span-5">
+                          <p className="dark:text-white text-black">
+                            League Name
+                          </p>
+                          <Input
+                            className="rounded-default flex-grow text-xs "
+                            placeholder="League Name"
+                            value={leagueName}
+                            onChange={(e) => setLeagueName(e.target.value)}
+                          ></Input>
+                        </div>
+                      </div>
+                      <div className="mb-4">
+                        <p className="dark:text-white text-black">
+                          League Description
+                        </p>
+                        <textarea
+                          id="message"
+                          rows="6"
+                          className="block p-2.5 w-full text-xs text-gray-900 rounded-lg border border-charcoal focus:ring-blue-500 focus:border-blue-500 dark:bg-transparent dark:border-charcoal dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 resize-none outline-none"
+                          placeholder="Describe your League*"
+                          value={leagueDescription}
+                          onChange={(e) => setLeagueDescription(e.target.value)}
+                        ></textarea>
+                      </div>
+                      <div className="mb-6 grid grid-cols-2 gap-2">
+                        <span>
+                          <p className="dark:text-white text-black">
+                            Start Date
+                          </p>
+                          <DatePicker
+                            className="text-xs h-12 rounded px-3 py-2 w-full"
+                            date={leagueStartDate}
+                            setDate={setLeagueStartDate}
+                          ></DatePicker>
+                        </span>
+                        <span>
+                          <p className="dark:text-white text-black">End Date</p>
+                          <DatePicker
+                            className="text-xs h-12 rounded px-3 py-2 w-full"
+                            date={leagueEndDate}
+                            setDate={setLeagueEndDate}
+                          ></DatePicker>
+                        </span>
+                      </div>
+                      <div className="mb-6 grid grid-cols-2 gap-2">
+                        <span>
+                          <p className="dark:text-white text-black">Period</p>
+                          <Input
+                            className="rounded-default flex-grow text-xs "
+                            placeholder="League Name"
+                            value={period}
+                            onChange={(e) => setPeriod(e.target.value)}
+                            type="number"
+                          ></Input>
+                        </span>
+                        <span >
+                          <p className="dark:text-white text-black">Time</p>
+                          <TimeInput
+                            initialTime={time}
+                            setTime={setTime}
+                            className="w-full bg-[#303335] rounded-default"
+                          ></TimeInput>
+                        </span>
                       </div>
                     </div>
-                    {/* Admin Access */}
+                    {isAdmin && (
+                      <>
+                        <div className="grid grid-cols-2 gap-2 ">
+                          <button
+                            onClick={editLeague}
+                            className="bg-blue-700 h-10 text-white font-bold text-sm rounded-default hover:bg-blue-600"
+                          >
+                            Save
+                          </button>
+                          <button
+                            onClick={deleteLeague}
+                            className="bg-red-700 h-10 text-white font-bold text-sm rounded-default hover:bg-red-600"
+                          >
+                            Delete
+                          </button>
+                        </div>
+                        {(player?.isWaitList || player?.isAcceptedList) && (
+                          <div className="grid grid-cols-2 gap-2 mt-3">
+                            <button
+                              onClick={leaveLeague}
+                              className="bg-yellow-700 h-10 text-white font-bold text-sm rounded-default hover:bg-red-600 col-span-2"
+                            >
+                              Leave
+                            </button>
+                          </div>
+                        )}
+                      </>
+                    )}
+                    {!isAdmin && (
+                      <div className="grid grid-cols-2 gap-2 ">
+                        <button
+                          onClick={leaveLeague}
+                          className="bg-yellow-700 h-10 text-white font-bold text-sm rounded-default hover:bg-red-600 col-span-2"
+                        >
+                          Leave
+                        </button>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Admin Access */}
+                  {isAdmin && (
                     <div className="flex flex-col  space-y-3 border border-dark-gray rounded pt-5 p-7 ">
                       <div className="grid grid-cols-2 items-baseline mb-6">
                         <h1 className="dark:text-white text-black font-medium">
@@ -1192,9 +1250,11 @@ const League = () => {
                       </div>
                       <AdminTable user={user} leagueId={leagueId} />
                     </div>
-                    <AdminModal user={user} leagueId={leagueId} />
-                    <LeaguePassowrdModal />
-                    {/* Stats */}
+                  )}
+                  <AdminModal user={user} leagueId={leagueId} />
+                  <LeaguePassowrdModal />
+                  {/* Stats */}
+                  {isAdmin && (
                     <div className="flex flex-col space-y-3 border border-dark-gray rounded p-5">
                       <table className="table-fixed">
                         <thead>
@@ -1237,9 +1297,24 @@ const League = () => {
                               <td className="whitespace-nowrap text-xs dark:text-white text-black">
                                 Password
                               </td>
-                              <td className="text-xs dark:text-white text-black">{league?.password}</td>
+                              <td className="text-xs dark:text-white text-black">
+                                {league?.password}
+                              </td>
                             </tr>
                           )}
+                          <tr>
+                            <td className="text-xs dark:text-white text-black">
+                              Display Substitutues
+                            </td>
+                            <td>
+                              <img
+                                src={displaySubstitutes ? toggleOn : toggleOff}
+                                alt=""
+                                className="w-8 cursor-pointer m-auto"
+                                onClick={toggleSubstitutes}
+                              />
+                            </td>
+                          </tr>
                           <tr>
                             <td className="text-xs dark:text-white text-black">
                               Display Position
@@ -1255,7 +1330,7 @@ const League = () => {
                           </tr>
                           <tr>
                             <td className="text-xs dark:text-white text-black">
-                              Display JerseyNumber
+                              Display Jersey Number
                             </td>
                             <td>
                               <img
@@ -1397,9 +1472,9 @@ const League = () => {
                         </tbody>
                       </table>
                     </div>
-                  </div>
-                </TabPanel>
-              )}
+                  )}
+                </div>
+              </TabPanel>
             </div>
           </TabContext>
         </div>

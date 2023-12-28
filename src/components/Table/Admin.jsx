@@ -65,32 +65,13 @@ const AdminTable = (props) => {
           </tr>
         </thead>
         <tbody className="text-center">
-          {/* <tr key={1} className="even:bg-dark-gray odd:bg-charcoal">
-            <td className="w-4/5">
-              <div className="flex items-center underline justify-between">
-                <div className="flex">
-                  <img
-                    src={user?.avatar}
-                    alt=""
-                    className="w-8 h-8 mr-2 rounded-default"
-                  />
-                  {user?.firstName} {user?.lastName}
-                </div>
-
-                <span className="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
-                  Main Admin
-                </span>
-              </div>
-            </td>
-            <td className="w-1/5"></td>
-          </tr> */}
           {admins.length > 0
             ? admins.map((admin, index) => (
                 <tr
                   key={index}
                   className="odd:bg-light-dark-gray dark:odd:bg-dark-gray even:bg-light-charcoal dark:even:bg-charcoal h-[53px]"
                 >
-                  <td className="w-4/5 border border-1 border-gray">
+                  <td className="text-xs w-4/5 border border-1 border-gray">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center text-black dark:text-white">
                         <img
@@ -109,6 +90,12 @@ const AdminTable = (props) => {
                           users.find((user) => user?.id == admin.userId)
                             ?.lastName
                         }
+                        <span className="mx-3 text-gray-500">
+                          {
+                            users.find((user) => user?.id == admin.userId)
+                              ?.email
+                          }
+                        </span>
                       </div>
                       {admin.role === 1 ? (
                         <span className="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">

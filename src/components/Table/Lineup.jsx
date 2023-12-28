@@ -5,6 +5,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import { AiOutlineCheck } from "react-icons/ai";
 import { Switch } from "@headlessui/react";
+import DefaultSubstituteAvatar from "../../assets/img/dark_mode/default-substitutue-avatar.png";
+import deleteIconDark from "../../assets/img/dark_mode/delete-icon-dark.svg";
+import deleteIconLight from "../../assets/img/dark_mode/delete-icon-light.svg";
 import Option from "../Option";
 import axios from "axios";
 import apis from "../../utils/apis";
@@ -23,7 +26,7 @@ function Checkbox({ label, name, checked, onChange, disabled }) {
           className={`
             relative flex h-5 w-5 items-center justify-center transition-all duration-200 outline-none ring-1 
             ${!checked && !disabled ? "ring-gray-400" : ""}
-            ${checked && !disabled ? "ring-red-400" : ""} 
+            ${checked && !disabled ? "ring-sky-400" : ""} 
             ${disabled ? "bg-gray-200 ring-gray-200" : ""}  
           `}
         >
@@ -31,7 +34,7 @@ function Checkbox({ label, name, checked, onChange, disabled }) {
             size="1rem"
             className={`
              ${checked ? "scale-100" : "scale-0"} 
-             ${checked && !disabled ? "text-red-400" : "text-gray-400"} 
+             ${checked && !disabled ? "text-sky-400" : "text-gray-400"} 
              transition-transform duration-200 ease-out`}
           />
         </Switch>
@@ -45,8 +48,8 @@ const LineupTable = (props) => {
   const dispatch = useDispatch();
   let { leagueId } = useParams();
 
-
   const { players, setLineups } = props;
+  const darkMode = useSelector((state) => state.home.dark_mode);
 
   const columns = ["#", "Players"];
 
@@ -60,14 +63,14 @@ const LineupTable = (props) => {
 
   const [itemChecked, setItemChecked] = useState({});
 
-  useEffect(()=>{
-    let temp = {}
-    players.map(player=>{
-      console.log(player.attendance)
-      temp[player.id] = player.attendance===1?true:false;
+  useEffect(() => {
+    let temp = {};
+    players.map((player) => {
+      console.log(player.attendance);
+      temp[player.id] = player.attendance === 1 ? true : false;
     });
     setItemChecked(temp);
-  }, [])
+  }, []);
 
   const setListItemChecked = (index, checked) => {
     let temp = { ...itemChecked };
@@ -75,9 +78,9 @@ const LineupTable = (props) => {
     setItemChecked(temp);
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     setLineups(itemChecked);
-  }, [itemChecked])
+  }, [itemChecked]);
 
   return (
     <div className="text-black dark:text-white h-full w-full mt-4 overflow-auto">
@@ -115,24 +118,36 @@ const LineupTable = (props) => {
                 <Typography
                   variant="small"
                   color="blue-gray"
-                  className="font-normal flex items-center underline px-3"
+                  className="font-normal flex items-center px-3 justify-between"
                 >
-                  <img
-                    src={player.avatar}
-                    alt=""
-                    className="h-8 w-8 sm:mr-2 sm:ml-5 rounded-default border border-gray-500"
-                  />
-                  <Link to={`player/${player.userId}`}>
-                    {player.firstName} {player.lastName}
-                  </Link>
+                  <div className="flex items-center">
+                    <img
+                      src={
+                        player.isSubstitute
+                          ? DefaultSubstituteAvatar
+                          : player.avatar
+                      }
+                      alt=""
+                      className="h-8 w-8 sm:mr-2 sm:ml-5 rounded-full border border-gray-500"
+                    />
+                    <Link to={`player/${player.userId}`} className="underline">
+                      {player.firstName} {player.lastName}
+                    </Link>
+                  </div>
+                  {player.isSubstitute && (
+                    <span className="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
+                      Substitute
+                    </span>
+                  )}
                 </Typography>
               </td>
-              <td className="">
-                <Typography
+              <td className="w-24">
+                {/* <Typography
                   variant="small"
                   color="blue-gray"
-                  className="font-normal"
-                >
+                  className="font-normal flex"
+                > */}
+                <div className="flex space-x-3">
                   <Checkbox
                     name="name"
                     checked={!!itemChecked[player.id]}
@@ -140,7 +155,15 @@ const LineupTable = (props) => {
                       setListItemChecked(player.id, checked);
                     }}
                   />
-                </Typography>
+                  {player.isSubstitute && (
+                    <img
+                      src={darkMode ? deleteIconDark : deleteIconLight}
+                      alt=""
+                      className="w-4.5 h-4.5 cursor-pointer"
+                    />
+                  )}
+                </div>
+                {/* </Typography> */}
               </td>
             </tr>
           ))}

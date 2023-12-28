@@ -9,7 +9,7 @@ import axios from "axios";
 import apis from "../../utils/apis";
 import rightArrowIcon from "../../assets/img/dark_mode/right-arrow.svg";
 import EventPlayerList from "../ListItem/EventPlayerList";
-import TimePicker from "../Timer/TimePicker";
+import TimerInput from "../TimerInput";
 
 const EditEventModal = (props) => {
   const { homeTeam, awayTeam } = props;
@@ -232,11 +232,11 @@ const EditEventModal = (props) => {
                           <div
                             className={`flex items-center justify-center rounded-default bg-[#303335] w-[141px] h-button cursor-pointer`}
                           >
-                            <TimePicker
+                            <TimerInput
                               className="bg-[#303335]"
                               initialTime={time}
                               setTime={setTime}
-                            ></TimePicker>
+                            ></TimerInput>
                           </div>
                         </div>
                       </div>

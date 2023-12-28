@@ -48,6 +48,7 @@ const TeamStatistics = (props) => {
     fouls: matchups.reduce((sum, matchup) => sum + matchup.fouls, 0),
     steals: matchups.reduce((sum, matchup) => sum + matchup.steals, 0),
     turnovers: matchups.reduce((sum, matchup) => sum + matchup.turnovers, 0),
+    ppg: team.win + team.lose === 0? 0 :team.pointScored/(team.win+team.lose)
   };
 
   const columns = [
@@ -80,6 +81,15 @@ const TeamStatistics = (props) => {
       getValue: (row) => (
         <Typography variant="small" className="font-normal">
           {row.pointScored}
+        </Typography>
+      ),
+    },
+    {
+      label: "PPG",
+      accessor: "ppg",
+      getValue: (row) => (
+        <Typography variant="small" className="font-normal">
+          {row.ppg}
         </Typography>
       ),
     },

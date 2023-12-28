@@ -2,13 +2,11 @@ import { Fragment, useEffect, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import close from "../../assets/img/dark_mode/close.png";
 import Select from "../Select";
-import Input from "../Input";
 import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../actions";
 import { useParams } from "react-router-dom";
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import DatePicker from "../DatePicker";
+import TimePicker from "../TimePicker";
 
 const MatchModal = () => {
   let { leagueId } = useParams();
@@ -23,6 +21,9 @@ const MatchModal = () => {
     (team) => team.leagueId == leagueId && team.isDeleted !== 1
   );
 
+  const league = useSelector((state) => state.home.leagues).find(
+    (league) => league.id == leagueId
+  );
   const options = teams;
   const [homeValue, setHomeValue] = useState({ name: "Select Home Team*" });
   const [awayValue, setAwayValue] = useState({ name: "Select Away Team*" });
@@ -54,6 +55,8 @@ const MatchModal = () => {
   const createSubmit = () => {
     actions.createMatch(dispatch, {
       leagueId: leagueId,
+      period: league?.period,
+      time: league?.time,
       homeTeamId: homeValue.id,
       awayTeamId: awayValue.id,
       date,
@@ -151,52 +154,67 @@ const MatchModal = () => {
                       <div className="grid grid-cols-2 gap-[10px]">
                         {type === "create" && (
                           <>
-                            <Select
-                              options={options.filter(
-                                (option) =>
-                                  option.id != homeValue.id &&
-                                  option.id != awayValue.id
-                              )}
-                              // handleClick={e=>handleHome(e)}
-                              handleClick={(e) => setHomeValue(e)}
-                              value={homeValue.name}
-                              className="rounded-default w-full h-12 text-xs"
-                            >
-                              Select Home Team*
-                            </Select>
-                            <Select
-                              options={options.filter(
-                                (option) =>
-                                  option.id != homeValue.id &&
-                                  option.id != awayValue.id
-                              )}
-                              // options={options}
-                              handleClick={(e) => setAwayValue(e)}
-                              value={awayValue.name}
-                              className="rounded-default w-full h-12 text-xs"
-                            >
-                              Select Away Team*
-                            </Select>
+                            <span>
+                              <p className="dark:text-white text-black">
+                                Home Team*
+                              </p>
+                              <Select
+                                options={options.filter(
+                                  (option) =>
+                                    option.id != homeValue.id &&
+                                    option.id != awayValue.id
+                                )}
+                                handleClick={(e) => setHomeValue(e)}
+                                value={homeValue.name}
+                                className="rounded-default w-full h-12 text-xs"
+                              ></Select>
+                            </span>
+
+                            <span>
+                              <p className="dark:text-white text-black">
+                                Away Team*
+                              </p>
+
+                              <Select
+                                options={options.filter(
+                                  (option) =>
+                                    option.id != homeValue.id &&
+                                    option.id != awayValue.id
+                                )}
+                                handleClick={(e) => setAwayValue(e)}
+                                value={awayValue.name}
+                                className="rounded-default w-full h-12 text-xs"
+                              ></Select>
+                            </span>
                           </>
                         )}
-                        <Input
-                          className="rounded-default text-xs h-12"
-                          placeholder="Enter Date*"
-                          value={date}
-                          onChange={(e) => setDate(e.target.value)}
-                        ></Input>
-                        <Input
-                          className="rounded-default text-xs h-12"
-                          placeholder="Select Time*"
-                          value={time}
-                          onChange={(e) => setTime(e.target.value)}
-                        ></Input>
-                        <input
-                          className="col-span-2 border border-charcoal items-center px-3 bg-transparent outline-none text-black dark:text-white flex-grow h-button text-xs w-full rounded-default"
-                          placeholder="Enter Location"
-                          value={location}
-                          onChange={(e) => setLocation(e.target.value)}
-                        ></input>
+                        <span>
+                          <p className="dark:text-white text-black">Date</p>
+                          <DatePicker
+                            date={date}
+                            setDate={setDate}
+                            className="text-xs h-12 rounded px-3 py-2 w-full"
+                          ></DatePicker>
+                        </span>
+
+                        <span>
+                          <p className="dark:text-white text-black">Time</p>
+                          <TimePicker
+                            time={time}
+                            setTime={setTime}
+                            className="text-xs h-12 rounded px-3 py-2 w-full"
+                          ></TimePicker>
+                        </span>
+
+                        <span className="col-span-2">
+                          <p className="dark:text-white text-black">Location</p>
+                          <input
+                            className="border border-charcoal items-center px-3 bg-transparent outline-none text-black dark:text-white flex-grow h-12 text-xs w-full rounded-default"
+                            placeholder="Enter Location"
+                            value={location}
+                            onChange={(e) => setLocation(e.target.value)}
+                          ></input>
+                        </span>
                       </div>
                     </div>
                     {type === "create" ? (
