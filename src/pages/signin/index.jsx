@@ -34,10 +34,6 @@ const Signin = () => {
         navigate("/", { replace: true });
       })
       .catch((error) => {
-        console.log(error.request, error.response)
-        if (error.request) {
-          alert("Please check your internet connection or server was down. Sorry for the inconvenience!")
-        }
         if(error.response && error.response.status !== 502) {
           alert(error.response.data.message);
         }
