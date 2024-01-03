@@ -38,7 +38,7 @@ const MatchupSettingModal = (props) => {
   const handleSubmit = (e) => {
      axios.post(apis.updateMatchSettings, {matchId, period, time}).then((res)=>{
       alert(res.data.message);
-      actions.getMatches(dispatch);
+      actions.getMatch(dispatch, matchId);
       dispatch({type:actions.OPEN_MATCHUP_SETTING_DIALOG, payload:false});
      }).catch((error)=>{
       alert("Error occurred!")

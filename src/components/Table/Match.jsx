@@ -96,7 +96,8 @@ const MatchTable = (props) => {
   const options = [
     { id: 0, name: "Edit" },
     { id: 1, name: "Scoreboard" },
-    { id: 2, name: "Delete" },
+    { id: 2, name: "Mobile Scoreboard" },
+    { id: 3, name: "Delete" },
   ];
 
   // const goToMatchup = (id) => {
@@ -113,8 +114,12 @@ const MatchTable = (props) => {
     else if (idx === 1) {
       navigate(`/league/${leagueId}/matchup/${matchId}`);
     }
-    // Clicked delete
+    // Clicked mobile scorebard
     else if (idx === 2) {
+      navigate(`/league/${leagueId}/matchup_mobile/${matchId}`);
+    }
+    // Clicked delete
+    else if (idx === 3) {
       if (!match.isNew) {
         actions.incompleteMatchup(dispatch, { matchId });
       }

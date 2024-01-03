@@ -1,6 +1,5 @@
 import axios from "axios";
 import apis from "../utils/apis";
-import { useNavigate } from "react-router-dom";
 // setting
 export const SET_DARK_MODE = "SET_DARK_MODE";
 // user
@@ -35,6 +34,7 @@ export const CLOSE_TEAM_DIALOG = "CLOSE_TEAM_DIALOG";
 export const SET_TEAM_LOGO_URL = "SET_TEAM_LOGO_URL";
 
 // Matches
+export const GET_MATCH = "GET_MATCH";
 export const GET_MATCHES = "GET_MATCHES";
 export const OPEN_CREATE_MATCH_DIALOG = "OPEN_CREATE_MATCH_DIALOG";
 export const OPEN_EDIT_MATCH_DIALOG = "OPEN_EDIT_MATCH_DIALOG";
@@ -48,6 +48,8 @@ export const OPEN_ADD_EVENT_DIALOG = "OPEN_ADD_EVENT_DIALOG";
 export const CLOSE_EDIT_EVENT_DIALOG = "CLOSE_EDIT_EVENT_DIALOG";
 export const OPEN_PLAYER_STATS_DIALOG = "OPEN_PLAYER_STATS_DIALOG";
 export const CLOSE_PLAYER_STATS_DIALOG = "CLOSE_PLAYER_STATS_DIALOG";
+export const SET_TIMER = "SET_TIMER";
+export const SET_CURRENT_PERIOD = "SET_CURRENT_PERIOD";
 // player
 export const GET_PLAYERS = "GET_PLAYERS";
 export const OPEN_INVITE_PLAYER_DIALOG = "OPEN_INVITE_PLAYER_DIALOG";
@@ -347,9 +349,25 @@ export const openAddPlayerDialgo = (payload) => ({
 });
 
 // Matches
+export const getMatch = async (dispatch, matchId) => {
+  try {
+    const response = await axios.get(apis.getMatch(matchId));
+    const match = response.data.match;
+    dispatch({
+      type: GET_MATCH,
+      payload: match,
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_MATCH,
+      payload: [],
+    });
+  }
+};
+
 export const getMatches = async (dispatch) => {
   try {
-    const response = await axios.get(apis.getMatchtes);
+    const response = await axios.get(apis.getMatches);
     const matches = response.data.matches;
     dispatch({
       type: GET_MATCHES,
@@ -357,7 +375,7 @@ export const getMatches = async (dispatch) => {
     });
   } catch (error) {
     dispatch({
-      type: GET_LEAGUES,
+      type: GET_MATCHES,
       payload: [],
     });
   }

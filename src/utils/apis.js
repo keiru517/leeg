@@ -5,7 +5,7 @@ export const apis = {
   signup: apiUrl + "/user/signup",
   signin: apiUrl + "/user/signin",
   verifyEmail: apiUrl + "/user/verifyEmail",
-  getUsers: apiUrl + '/user/all',
+  getUsers: apiUrl + "/user/all",
   getUserInfo: (id) => {
     return `${apiUrl}/user/info/${id}`;
   },
@@ -29,19 +29,19 @@ export const apis = {
   addPassword: apiUrl + "/league/addPassword",
   removePassword: apiUrl + "/league/removePassword",
   allowFan: apiUrl + "/league/allowFan",
-  toggleSubstitutes: apiUrl + '/league/toggleSubstitutes',
-  togglePosition: apiUrl + '/league/togglePosition',
-  toggleJerseyNumber: apiUrl + '/league/toggleJerseyNumber',
-  toggleAttempts3: apiUrl + '/league/toggleAttempts3',
-  toggleAttempts2: apiUrl + '/league/toggleAttempts2',
-  toggleAttempts1: apiUrl + '/league/toggleAttempts1',
-  toggleBlocks: apiUrl + '/league/toggleBlocks',
-  toggleRebounds: apiUrl + '/league/toggleRebounds',
-  toggleAssists: apiUrl + '/league/toggleAssists',
-  toggleFouls: apiUrl + '/league/toggleFouls',
-  toggleSteals: apiUrl + '/league/toggleSteals',
-  toggleTurnovers: apiUrl + '/league/toggleTurnovers',
-  togglePassword: apiUrl + '/league/togglePassword',
+  toggleSubstitutes: apiUrl + "/league/toggleSubstitutes",
+  togglePosition: apiUrl + "/league/togglePosition",
+  toggleJerseyNumber: apiUrl + "/league/toggleJerseyNumber",
+  toggleAttempts3: apiUrl + "/league/toggleAttempts3",
+  toggleAttempts2: apiUrl + "/league/toggleAttempts2",
+  toggleAttempts1: apiUrl + "/league/toggleAttempts1",
+  toggleBlocks: apiUrl + "/league/toggleBlocks",
+  toggleRebounds: apiUrl + "/league/toggleRebounds",
+  toggleAssists: apiUrl + "/league/toggleAssists",
+  toggleFouls: apiUrl + "/league/toggleFouls",
+  toggleSteals: apiUrl + "/league/toggleSteals",
+  toggleTurnovers: apiUrl + "/league/toggleTurnovers",
+  togglePassword: apiUrl + "/league/togglePassword",
   // teams
   getTeams: apiUrl + "/team/all",
   createTeam: apiUrl + "/team/create",
@@ -51,7 +51,10 @@ export const apis = {
   },
   teamLogoURL: (userId, id) => `${apiUrl}/team/logo/${userId}/${id}`,
   // matches
-  getMatchtes: apiUrl + "/match/all",
+  getMatch: (id) => {
+    return `${apiUrl}/match/get/${id}`;
+  },
+  getMatches: apiUrl + "/match/all",
   createMatch: apiUrl + "/match/create",
   updateMatch: apiUrl + "/match/update",
   updateMatchResult: apiUrl + "/match/updateResult",
@@ -66,11 +69,11 @@ export const apis = {
   updateMatchup: apiUrl + "/matchup/update",
   completeMatchup: apiUrl + "/matchup/complete",
   incompleteMatchup: apiUrl + "/matchup/incomplete",
-  getLogs:apiUrl + "/log/all",
+  getLogs: apiUrl + "/log/all",
   createOneLog: apiUrl + "/log/createOne",
   updateOneLog: apiUrl + "/log/updateOne",
   removeLog: apiUrl + "/log/remove",
-  createLogs:apiUrl + "/log/create",
+  createLogs: apiUrl + "/log/create",
   editLineups: apiUrl + "/matchup/editLineups",
   // player
   getPlayers: apiUrl + "/player/all",
@@ -88,9 +91,9 @@ export const apis = {
   addPlayer: apiUrl + "/player/add",
   updatePoints: apiUrl + "/player/updatePoints",
   // admin
-  getAdmins: apiUrl + '/admin/all',
-  inviteAdmin: apiUrl + '/admin/invite',
-  removeAdmin: apiUrl + '/admin/remove',
+  getAdmins: apiUrl + "/admin/all",
+  inviteAdmin: apiUrl + "/admin/invite",
+  removeAdmin: apiUrl + "/admin/remove",
   // settings
 };
 

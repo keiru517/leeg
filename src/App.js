@@ -4,6 +4,7 @@ import Home from "./pages/home";
 import League from "./pages/home/league";
 import Team from "./pages/Team";
 import Matchup from "./pages/home/matchup";
+import MatchupMobile from "./pages/Matchup";
 import Signin from "./pages/signin";
 import Signup from "./pages/signup";
 import SignupSuccess from "./pages/signup/signupSuccess";
@@ -36,15 +37,9 @@ function App() {
             path="/signupSuccess"
             element={<SignupSuccess />}
           ></Route>
-          {/* <Route
-            exact
-            path="/personalDetails"
-            element={<PersonalDetails />}
-          ></Route> */}
           <Route exact path="/otp" element={<OTP />}></Route>
           <Route exact path="/otpsent" element={<OTPSent />}></Route>
           <Route exact path="/forgotpwd" element={<ForgotPwd />}></Route>
-          {/* <Route exact path="/emailSent" element={<EmailSent />}></Route> */}
           <Route exact path="/resetpass" element={<ResetPassword />}></Route>
           <Route exact path="/" element={<Home />}></Route>
           <Route exact path="/league/:leagueId" element={<League />}></Route>
@@ -62,6 +57,11 @@ function App() {
             exact
             path="/league/:leagueId/matchup/:matchId"
             element={<Matchup />}
+          ></Route>
+          <Route
+            exact
+            path="/league/:leagueId/matchup_mobile/:matchId"
+            element={<MatchupMobile />}
           ></Route>
           <Route exact path="/profile" element={<Profile />}></Route>
           <Route path="*" element={<PageNotFound />}></Route>
