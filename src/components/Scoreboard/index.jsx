@@ -222,9 +222,17 @@ const Index = (props) => {
               TimeOuts: {homeTeamTimeOuts}
             </p>
           </div>
+          <div
+            className={`lg:hidden flex items-center justify-center rounded-[10px] ${
+              arrow === "home" ? "bg-success" : "bg-font-dark-gray"
+            } w-16 h-10 cursor-pointer hover:bg-opacity-70`}
+            onClick={() => setArrow("home")}
+          >
+            <img src={leftArrowIcon} alt="" className="w-[14px] h-10" />
+          </div>
         </div>
         <div
-          className={`flex items-center justify-center rounded-[10px] ${
+          className={`hidden lg:flex items-center justify-center rounded-[10px] ${
             arrow === "home" ? "bg-success" : "bg-font-dark-gray"
           } w-16 h-10 cursor-pointer hover:bg-opacity-70`}
           onClick={() => setArrow("home")}
@@ -357,9 +365,17 @@ const Index = (props) => {
               TimeOuts: {awayTeamTimeOuts}
             </p>
           </div>
+          <div
+          className={`lg:hidden flex items-center justify-center rounded-[10px] ${
+            arrow === "away" ? "bg-success" : "bg-font-dark-gray"
+          } w-16 h-10 cursor-pointer hover:bg-opacity-70`}
+          onClick={() => setArrow("away")}
+        >
+          <img src={rightArrowIcon} alt="" className="w-[14px] h-10" />
+        </div>
         </div>
         <div
-          className={`flex items-center justify-center rounded-[10px] ${
+          className={`hidden lg:flex items-center justify-center rounded-[10px] ${
             arrow === "away" ? "bg-success" : "bg-font-dark-gray"
           } w-16 h-10 cursor-pointer hover:bg-opacity-70`}
           onClick={() => setArrow("away")}
