@@ -20,7 +20,7 @@ matchRouter.post('/updateSettings', MatchController.updateSettings);
 // SERVER_URL/api/match/remove/1
 matchRouter.get('/remove/:id', MatchController.remove);
 
-// SERVER_URL/api/match/info/1
-matchRouter.get('/info/:id', MatchController.info);
+// SERVER_URL/api/match/get/1
+matchRouter.get('/get/:id', MatchController.info);
 
 export default matchRouter;
