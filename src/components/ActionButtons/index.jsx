@@ -9,7 +9,7 @@ import SelectPlayerModal from "../../components/Modal/SelectPlayerModal";
 
 const Index = (props) => {
   let { leagueId, matchId } = useParams();
-  let { handleAction } = props;
+  let { className, handleAction } = props;
   const dispatch = useDispatch();
   const match = useSelector((state) => state.home.matches).find(
     (match) => match.id == matchId
@@ -55,7 +55,7 @@ const Index = (props) => {
   };
 
   return (
-    <div className="hidden lg:flex flex-col bg-white dark:bg-slate rounded-main p-[26px]">
+    <div className={` ${className} flex-col bg-white dark:bg-slate rounded-main p-[26px]`}>
       <div className="flex space-x-3">
         <div className="flex flex-col w-1/2 space-y-[10px]">
           <div className="flex bg-light-charcoal dark:bg-charcoal w-full h-12 rounded-t-lg p-4 items-center justify-between">

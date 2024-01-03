@@ -201,20 +201,11 @@ const MatchupMobile = () => {
         <div className="flex flex-grow rounded-main justify-center">
           <div className="flex flex-col flex-grow space-y-3">
             <Scoreboard setTime={setTime} />
-            <ActionButtons handleAction={handleAction} />
+            <ActionButtons className="hidden lg:flex" handleAction={handleAction} />
           </div>
         </div>
-        <EventLogs />
+        <EventLogs className="hidden lg:flex w-1/4"/>
       </div>
-      {/* <div className="flex flex-grow space-x-3 h-[816px]">
-        <div className="flex flex-grow rounded-main justify-center">
-          <div className="flex flex-col flex-grow space-y-3">
-            <Scoreboard setTime={setTime} />
-            <ActionButtons handleAction={handleAction} />
-          </div>
-        </div>
-        <EventLogs />
-      </div> */}
       <MatchupSettingModal />
       <EditEventModal homeTeam={homeTeam} awayTeam={awayTeam} />
       <SubstituteModal

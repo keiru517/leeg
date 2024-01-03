@@ -10,8 +10,9 @@ import downloadIconLight from "../../assets/img/dark_mode/download-icon-light.sv
 import settingIconDark from "../../assets/img/dark_mode/setting-icon-dark.svg";
 import settingIconLight from "../../assets/img/dark_mode/setting-icon-light.svg";
 
-const Index = () => {
+const Index = (props) => {
   let { leagueId, matchId } = useParams();
+  let {className} = props
   const dispatch = useDispatch();
 
   const darkMode = useSelector((state) => state.home.dark_mode);
@@ -62,7 +63,7 @@ const Index = () => {
   };
 
   return (
-    <div className="hidden lg:flex w-1/4 flex-col rounded-main bg-white dark:bg-slate p-default">
+    <div className={`${className} flex-col rounded-main bg-white dark:bg-slate p-default`}>
       <div className="flex justify-between mb-5">
         <p className="text-black dark:text-white">Action Log</p>
         <div className="flex items-center space-x-5">

@@ -5,6 +5,7 @@ import League from "./pages/home/league";
 import Team from "./pages/Team";
 import Matchup from "./pages/home/matchup";
 import MatchupMobile from "./pages/Matchup";
+import ActionButtonsPage from "./pages/Matchup/actionButtonsPage";
 import Signin from "./pages/signin";
 import Signup from "./pages/signup";
 import SignupSuccess from "./pages/signup/signupSuccess";
@@ -62,6 +63,11 @@ function App() {
             exact
             path="/league/:leagueId/matchup_mobile/:matchId"
             element={<MatchupMobile />}
+          ></Route>
+          <Route
+            exact
+            path="/league/:leagueId/matchup_mobile/:matchId/actionButtons/:teamId"
+            element={<ActionButtonsPage />}
           ></Route>
           <Route exact path="/profile" element={<Profile />}></Route>
           <Route path="*" element={<PageNotFound />}></Route>
