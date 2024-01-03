@@ -10,6 +10,8 @@ import triupIconLight from "../../assets/img/dark_mode/triup-icon-light.png";
 import tridownIconLight from "../../assets/img/dark_mode/tridown-icon-light.png";
 import menuIconDark from "../../assets/img/dark_mode/menu-icon-dark.svg";
 import menuIconLight from "../../assets/img/dark_mode/menu-icon-light.svg";
+import playerStats from "../../assets/img/dark_mode/player-stats.svg";
+import editLineup from "../../assets/img/dark_mode/edit-lineup.svg";
 
 const Index = (props) => {
   let { leagueId, matchId } = useParams();
@@ -197,9 +199,32 @@ const Index = (props) => {
     setTimer(timer - 100);
   };
 
+  const handlePlayerStats = (teamId) => {
+    dispatch({ type: actions.OPEN_PLAYER_STATS_DIALOG, payload: teamId });
+  };
+
+  const handleLineups = (teamId) => {
+    dispatch({ type: actions.OPEN_LINEUP_DIALOG, payload: teamId });
+  };
   return (
     <div className="flex flex-col lg:flex-row justify-between lg:bg-white lg:dark:bg-slate rounded-main p-default">
       <div className="order-2 lg:order-1 flex flex-col items-center bg-white dark:bg-slate lg:bg-transparent my-3 lg:my-0 rounded-lg p-default">
+        <div className="lg:hidden flex space-x-5 mb-3">
+          <img
+            src={playerStats}
+            alt=""
+            className="cursor-pointer hover:opacity-75"
+            onClick={() => handlePlayerStats(homeTeam?.id)}
+          />
+          {match?.isNew && (
+            <img
+              src={editLineup}
+              alt=""
+              className="cursor-pointer hover:opacity-75"
+              onClick={() => handleLineups(homeTeam?.id)}
+            />
+          )}
+        </div>
         <img
           src={homeTeam?.logo}
           alt=""
@@ -343,6 +368,22 @@ const Index = (props) => {
       </div>
 
       <div className="order-3 flex flex-col items-center bg-white dark:bg-slate lg:bg-transparent rounded-lg p-default">
+        <div className="lg:hidden flex space-x-5 mb-3">
+          <img
+            src={playerStats}
+            alt=""
+            className="cursor-pointer hover:opacity-75"
+            onClick={() => handlePlayerStats(homeTeam?.id)}
+          />
+          {match?.isNew && (
+            <img
+              src={editLineup}
+              alt=""
+              className="cursor-pointer hover:opacity-75"
+              onClick={() => handleLineups(homeTeam?.id)}
+            />
+          )}
+        </div>
         <img
           src={awayTeam?.logo}
           alt=""
@@ -366,13 +407,13 @@ const Index = (props) => {
             </p>
           </div>
           <div
-          className={`lg:hidden flex items-center justify-center rounded-[10px] ${
-            arrow === "away" ? "bg-success" : "bg-font-dark-gray"
-          } w-16 h-10 cursor-pointer hover:bg-opacity-70`}
-          onClick={() => setArrow("away")}
-        >
-          <img src={rightArrowIcon} alt="" className="w-[14px] h-10" />
-        </div>
+            className={`lg:hidden flex items-center justify-center rounded-[10px] ${
+              arrow === "away" ? "bg-success" : "bg-font-dark-gray"
+            } w-16 h-10 cursor-pointer hover:bg-opacity-70`}
+            onClick={() => setArrow("away")}
+          >
+            <img src={rightArrowIcon} alt="" className="w-[14px] h-10" />
+          </div>
         </div>
         <div
           className={`hidden lg:flex items-center justify-center rounded-[10px] ${
