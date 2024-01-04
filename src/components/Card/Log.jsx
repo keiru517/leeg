@@ -35,7 +35,6 @@ const Log = (props) => {
   const match = useSelector((state) => state.home.matches).find(
     (match) => match.id == matchId
   );
-  console.log("new?", match.isNew);
   const player = useSelector((state) => state.home.matchups).find(
     (matchup) => matchup.playerId == log.playerId
   )?.player;

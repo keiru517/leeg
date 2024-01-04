@@ -8,7 +8,7 @@ import * as actions from "../../actions";
 import apis from "../../utils/apis";
 import EventLogs from "../../components/EventLogs";
 
-const AdminModal = (props) => {
+const ActionLogsModal = (props) => {
   const dispatch = useDispatch();
   let { user, leagueId } = props;
 
@@ -69,8 +69,8 @@ const AdminModal = (props) => {
                       className="cursor-pointer hover:opacity-70"
                     ></img>
                   </div>
-                  <div className="flex-col p-default flex flex-grow justify-between">
-                    <EventLogs className="flex w-full h-[816px]"/>
+                  <div className="flex flex-col flex-grow justify-between">
+                    <EventLogs className="flex w-full h-[500px]"/>
                   </div>
                 </div>
               </Dialog.Panel>
@@ -82,4 +82,4 @@ const AdminModal = (props) => {
   );
 };
 
-export default AdminModal;
+export default ActionLogsModal;

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import { useParams } from "react-router";
 import * as actions from "../../actions";
 import leftArrowIcon from "../../assets/img/dark_mode/left-arrow.svg";
@@ -13,7 +13,6 @@ import menuIconDark from "../../assets/img/dark_mode/menu-icon-dark.svg";
 import menuIconLight from "../../assets/img/dark_mode/menu-icon-light.svg";
 import playerStats from "../../assets/img/dark_mode/player-stats.svg";
 import editLineup from "../../assets/img/dark_mode/edit-lineup.svg";
-import ActionLogModal from "../../components/Modal/ActionLogsModal";
 
 const Index = (props) => {
   let { leagueId, matchId } = useParams();
@@ -215,70 +214,83 @@ const Index = (props) => {
     dispatch({ type: actions.OPEN_ACTION_LOGS_DIALOG, payload: true });
   };
 
-  return (
-    <div className="flex flex-col lg:flex-row justify-between lg:bg-white lg:dark:bg-slate rounded-main p-default">
-      {/* HomeTeam */}
-      <Link className="order-2 lg:order-1" to={`actionButtons/${homeTeam?.id}?time=${minutes.toString().padStart(2, "0") +
+  const handleClick = (teamId) => {
+    dispatch({
+      type: actions.OPEN_ACTION_BUTTONS_DIALOG,
+      payload: {
+        open: true,
+        teamId: teamId,
+        time:
+          minutes.toString().padStart(2, "0") +
           ":" +
-          seconds.toString().padStart(2, "0")}`}>
-        <div className="order-2 lg:order-1 flex flex-col items-center bg-white dark:bg-slate lg:bg-transparent my-3 lg:my-0 rounded-lg p-default hover:cursor-pointer">
-          <div className="lg:hidden flex space-x-5 mb-3">
+          seconds.toString().padStart(2, "0"),
+      },
+    });
+  };
+
+  return (
+    <div className="flex flex-col lg:flex-row justify-between lg:bg-white lg:dark:bg-slate rounded-main p-2 sm:p-default">
+      {/* HomeTeam */}
+      <div
+        className="order-2 lg:order-1 flex flex-col items-center bg-white dark:bg-slate lg:bg-transparent my-3 lg:my-0 rounded-lg p-default hover:cursor-pointer"
+        onClick={() => handleClick(homeTeam?.id)}
+      >
+        <div className="lg:hidden flex space-x-5 mb-3">
+          <img
+            src={playerStats}
+            alt=""
+            className="cursor-pointer hover:opacity-75"
+            onClick={(e) => handlePlayerStats(homeTeam?.id, e)}
+          />
+          {match?.isNew && (
             <img
-              src={playerStats}
+              src={editLineup}
               alt=""
               className="cursor-pointer hover:opacity-75"
-              onClick={(e) => handlePlayerStats(homeTeam?.id, e)}
+              onClick={(e) => handleLineups(homeTeam?.id, e)}
             />
-            {match?.isNew && (
-              <img
-                src={editLineup}
-                alt=""
-                className="cursor-pointer hover:opacity-75"
-                onClick={(e) => handleLineups(homeTeam?.id, e)}
-              />
-            )}
-          </div>
-          <img
-            src={homeTeam?.logo}
-            alt=""
-            className="w-28 h-28 rounded-full mx-auto border border-gray-500"
-          />
-          <p className="text-black dark:text-white font-semibold text-2xl mt-5 truncate w-52 text-center">
-            {homeTeam?.name}
-          </p>
-          <p className="text-font-dark-gray font-semibold text-xl">Home</p>
-          <div className="flex space-x-3 my-3">
-            {league?.displayFouls && (
-              <div className="flex rounded-lg bg-light-charcoal dark:bg-[#151515] w-[97px] h-10 justify-center items-center">
-                <p className="text-black dark:text-white font-medium text-sm">
-                  Fouls: {homeTeamFouls}
-                </p>
-              </div>
-            )}
-            <div className="flex rounded-lg bg-light-charcoal dark:bg-[#151515] w-[97px] h-10 justify-center items-center">
-              <p className="text-black dark:text-white font-medium text-sm">
-                TimeOuts: {homeTeamTimeOuts}
+          )}
+        </div>
+        <img
+          src={homeTeam?.logo}
+          alt=""
+          className="w-28 h-28 rounded-full mx-auto border border-gray-500"
+        />
+        <p className="text-black dark:text-white font-semibold text-2xl mt-5 truncate w-52 text-center">
+          {homeTeam?.name}
+        </p>
+        <p className="text-font-dark-gray font-semibold text-xl">Home</p>
+        <div className="flex space-x-3 my-3">
+          {league?.displayFouls && (
+            <div className="flex rounded-lg bg-light-charcoal dark:bg-[#151515] w-[70px] sm:w-[97px] h-10 justify-center items-center">
+              <p className="text-black dark:text-white font-medium text-xs sm:text-sm">
+                Fouls: {homeTeamFouls}
               </p>
             </div>
-            <div
-              className={`lg:hidden flex items-center justify-center rounded-[10px] ${
-                arrow === "home" ? "bg-success" : "bg-font-dark-gray"
-              } w-16 h-10 cursor-pointer hover:bg-opacity-70`}
-              onClick={() => setArrow("home")}
-            >
-              <img src={leftArrowIcon} alt="" className="w-[14px] h-10" />
-            </div>
+          )}
+          <div className="flex rounded-lg bg-light-charcoal dark:bg-[#151515] w-[75px] sm:w-[97px] h-10 justify-center items-center">
+            <p className="text-black dark:text-white font-medium text-xs sm:text-sm">
+              TimeOuts: {homeTeamTimeOuts}
+            </p>
           </div>
           <div
-            className={`hidden lg:flex items-center justify-center rounded-[10px] ${
+            className={`lg:hidden flex items-center justify-center rounded-[10px] ${
               arrow === "home" ? "bg-success" : "bg-font-dark-gray"
-            } w-16 h-10 cursor-pointer hover:bg-opacity-70`}
+            } w-12 sm:w-16 h-10 cursor-pointer hover:bg-opacity-70`}
             onClick={() => setArrow("home")}
           >
-            <img src={leftArrowIcon} alt="" className="w-[14px] h-[21px]" />
+            <img src={leftArrowIcon} alt="" className="w-[14px] h-10" />
           </div>
         </div>
-      </Link>
+        <div
+          className={`hidden lg:flex items-center justify-center rounded-[10px] ${
+            arrow === "home" ? "bg-success" : "bg-font-dark-gray"
+          } w-16 h-10 cursor-pointer hover:bg-opacity-70`}
+          onClick={() => setArrow("home")}
+        >
+          <img src={leftArrowIcon} alt="" className="w-[14px] h-[10px]" />
+        </div>
+      </div>
 
       {/* Period and Timer */}
       <div className="flex flex-col order-1 lg:order-2 text-center lg:mt-5">
@@ -299,7 +311,7 @@ const Index = (props) => {
             className="lg:hidden w-6 h-6 self-end hover:cursor-pointer"
             onClick={openActionLogs}
           />
-          <div className="flex space-x-3 justify-center">
+          <div className="flex space-x-1 sm:space-x-3 justify-center">
             {numberOfPeriods?.map((period) => (
               <div
                 className={`flex items-center justify-center rounded-[10px] ${
@@ -384,7 +396,10 @@ const Index = (props) => {
       </div>
 
       {/* AwayTeam */}
-      <div className="order-3 flex flex-col items-center bg-white dark:bg-slate lg:bg-transparent rounded-lg p-default hover:cursor-pointer">
+      <div
+        className="order-3 flex flex-col items-center bg-white dark:bg-slate lg:bg-transparent rounded-lg p-default hover:cursor-pointer"
+        onClick={() => handleClick(awayTeam?.id)}
+      >
         <div className="lg:hidden flex space-x-5 mb-3">
           <img
             src={playerStats}
@@ -412,21 +427,21 @@ const Index = (props) => {
         <p className="text-font-dark-gray font-semibold text-xl">Away</p>
         <div className="flex space-x-3 my-3">
           {league?.displayFouls && (
-            <div className="flex rounded-lg bg-light-charcoal dark:bg-[#151515] w-[97px] h-10 justify-center items-center">
-              <p className="text-black dark:text-white font-medium text-sm">
+            <div className="flex rounded-lg bg-light-charcoal dark:bg-[#151515] w-[70px] sm:w-[97px] h-10 justify-center items-center">
+              <p className="text-black dark:text-white font-medium text-xs sm:text-sm">
                 Fouls: {awayTeamFouls}
               </p>
             </div>
           )}
-          <div className="flex rounded-lg bg-light-charcoal dark:bg-[#151515] w-[97px] h-10 justify-center items-center">
-            <p className="text-black dark:text-white font-medium text-sm">
+          <div className="flex rounded-lg bg-light-charcoal dark:bg-[#151515] w-[75px] sm:w-[97px] h-10 justify-center items-center">
+            <p className="text-black dark:text-white font-medium text-xs sm:text-sm">
               TimeOuts: {awayTeamTimeOuts}
             </p>
           </div>
           <div
             className={`lg:hidden flex items-center justify-center rounded-[10px] ${
               arrow === "away" ? "bg-success" : "bg-font-dark-gray"
-            } w-16 h-10 cursor-pointer hover:bg-opacity-70`}
+            } w-12 sm:w-16 h-10 cursor-pointer hover:bg-opacity-70`}
             onClick={() => setArrow("away")}
           >
             <img src={rightArrowIcon} alt="" className="w-[14px] h-10" />
@@ -441,7 +456,6 @@ const Index = (props) => {
           <img src={rightArrowIcon} alt="" className="w-[14px] h-[21px]" />
         </div>
       </div>
-      <ActionLogModal></ActionLogModal>
     </div>
   );
 };

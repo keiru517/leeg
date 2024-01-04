@@ -2,23 +2,19 @@ import { Fragment, useEffect, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { useParams } from "react-router";
 import axios from "axios";
-import * as actions from "../../actions";
 import close from "../../assets/img/dark_mode/close.png";
 import Input from "../Input";
 import { useDispatch, useSelector } from "react-redux";
+import * as actions from "../../actions";
 import apis from "../../utils/apis";
 import Select from "../Select";
 import MatchupPlayerList from "../ListItem/MatchupPlayerList";
 
 const SelectPlayerModal = (props) => {
   let { leagueId, matchId } = useParams();
-  let { handleAction } = props;
   const dispatch = useDispatch();
 
-  const event = useSelector(state=>state.matchup.event);
-  const teamId = useSelector(state=>state.matchup.action_buttons_dialog.teamId);
-  const time = useSelector(state=>state.matchup.action_buttons_dialog.time);
-
+  const {period, event, playerId, teamId, handleAction } = props;
   const title = {
     points3: "+3 Pointer",
     points2: "+2 Pointer",
@@ -37,7 +33,6 @@ const SelectPlayerModal = (props) => {
   const matchups = useSelector((state) => state.home.matchups).filter(
     (matchup) => matchup.matchId == matchId && matchup.attendance === 1
   );
-
   const team = useSelector((state) => state.home.teams).find(
     (team) => team.id == teamId
   );
@@ -59,33 +54,47 @@ const SelectPlayerModal = (props) => {
     setFilteredMatchups([...result, ...substitutues]);
   }, [teamId]);
 
+  const player = useSelector((state) => state.home.matchups).find(
+    (player) => player.id == playerId
+  );
+
+  const [jerseyNumber, setJerseyNumber] = useState(0);
+
+  const positions = [
+    { id: 0, name: "Center" },
+    { id: 1, name: "Power Forward" },
+    { id: 2, name: "Small Forward" },
+    { id: 3, name: "Point Guard" },
+    { id: 4, name: "Shooting Guard" },
+  ];
+
+  const [position, setPosition] = useState(
+    player?.position ? player?.position : "Select Position"
+  );
+
+  useEffect(() => {
+    setJerseyNumber(player?.jerseyNumber);
+  }, [player]);
+
   const cancelButtonRef = useRef(null);
 
   const closeDialog = () => {
     dispatch({ type: actions.OPEN_SELECT_PLAYER_DIALOG, payload: false });
-    dispatch({
-      type: actions.OPEN_ACTION_BUTTONS_DIALOG,
-      payload: {
-        open: true,
-        teamId: teamId,
-        time:time
-      },
-    });
   };
 
-  // const handleAction = (teamId, playerId, event, isDirect, isSubstitute) => {
-  //   actions.createOneLog(dispatch, {
-  //     leagueId,
-  //     matchId,
-  //     period: 1,
-  //     teamId,
-  //     playerId,
-  //     event,
-  //     time,
-  //     isDirect,
-  //     isSubstitute,
-  //   });
-  // };
+  const handleEdit = () => {
+    axios
+      .post(apis.updatePlayer, { playerId, jerseyNumber, position })
+      .then((res) => {
+        actions.getPlayers(dispatch);
+        alert(res.data.message);
+      })
+      .catch((error) => {
+        alert(error.response.data.message);
+      });
+  };
+
+  const [playersList, setPlayersList] = useState({});
 
   const addAction = (playerId) => {
     handleAction(teamId, playerId, title[event], 0, 0);
@@ -102,7 +111,7 @@ const SelectPlayerModal = (props) => {
     handleAction(player.teamId, player.id, title[event], 0, 1)
     dispatch({ type: actions.OPEN_SELECT_PLAYER_DIALOG, payload: false });
   };
-console.log("filtered", filteredMatchups)
+
   return (
     <Transition.Root show={isOpen} as={Fragment}>
       <Dialog

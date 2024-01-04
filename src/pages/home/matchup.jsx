@@ -12,7 +12,7 @@ import tridownIconDark from "../../assets/img/dark_mode/tridown-icon-dark.png";
 import triupIconLight from "../../assets/img/dark_mode/triup-icon-light.png";
 import tridownIconLight from "../../assets/img/dark_mode/tridown-icon-light.png";
 import MatchupSettingModal from "../../components/Modal/MatchupSettingModal";
-import SelectPlayerModal from "../../components/Modal/SelectPlayerModal";
+import SelectPlayerModalDesktop from "../../components/Modal/SelectPlayerModalDesktop";
 import EditEventModal from "../../components/Modal/EditEventModal";
 import SubstituteModal from "../../components/Modal/SubstituteModal";
 import LineupsModal from "../../components/Modal/LineupsModal";
@@ -1036,7 +1036,7 @@ const Matchup = () => {
           </div>
         </div>
       <MatchupSettingModal></MatchupSettingModal>
-      <SelectPlayerModal
+      <SelectPlayerModalDesktop
         event={event}
         teamId={teamId}
         handleAction={handleAction}

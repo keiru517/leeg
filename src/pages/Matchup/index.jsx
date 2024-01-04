@@ -12,6 +12,8 @@ import PlayerStatsModal from "../../components/Modal/PlayerStatsModal";
 import Scoreboard from "../../components/Scoreboard";
 import ActionButtons from "../../components/ActionButtons";
 import EventLogs from "../../components/EventLogs";
+import ActionLogModal from "../../components/Modal/ActionLogsModal";
+import ActionButtonsModal from "../../components/Modal/ActionButtonsModal";
 
 const MatchupMobile = () => {
   let { leagueId, matchId } = useParams();
@@ -33,6 +35,8 @@ const MatchupMobile = () => {
   const league = useSelector((state) => state.home.leagues).find(
     (league) => league.id == leagueId
   );
+  const currentPeriod = useSelector((state) => state.matchup.currentPeriod);
+
   const options = [
     { id: 0, name: "Incomplete" },
     { id: 1, name: "Completed" },
@@ -101,8 +105,6 @@ const MatchupMobile = () => {
   );
 
   const homeTeamPlayers = [...homeTeamMatchups, ...homeTeamSubstitutes];
-  console.log(homeTeamPlayers);
-
   const awayTeam = useSelector((state) => state.home.teams).find(
     (team) => team.id == match?.awayTeamId
   );
@@ -152,7 +154,7 @@ const MatchupMobile = () => {
     actions.createOneLog(dispatch, {
       leagueId,
       matchId,
-      period: 1,
+      period: currentPeriod,
       teamId,
       playerId,
       event,
@@ -206,6 +208,8 @@ const MatchupMobile = () => {
         </div>
         <EventLogs className="hidden lg:flex w-1/4"/>
       </div>
+      <ActionLogModal />
+      <ActionButtonsModal handleAction={handleAction}/>
       <MatchupSettingModal />
       <EditEventModal homeTeam={homeTeam} awayTeam={awayTeam} />
       <SubstituteModal
@@ -214,6 +218,7 @@ const MatchupMobile = () => {
       ></SubstituteModal>
       <LineupsModal />
       <PlayerStatsModal />
+
     </div>
   );
 };
