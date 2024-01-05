@@ -3,8 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Home from "./pages/home";
 import League from "./pages/home/league";
 import Team from "./pages/Team";
-import Matchup from "./pages/home/matchup";
-import MatchupMobile from "./pages/Matchup";
+import Matchup from "./pages/Matchup";
 import Signin from "./pages/signin";
 import Signup from "./pages/signup";
 import SignupSuccess from "./pages/signup/signupSuccess";
@@ -15,7 +14,6 @@ import Profile from "./pages/profile";
 import AuthLayout from "./components/Layouts/AuthLayout";
 import Player from "./pages/home/player";
 import React from "react";
-// import PersonalDetails from "./pages/signup/personalDetails";
 import ResetPassword from "./pages/password/resetPassword";
 import SignupWithEmail from "./pages/signup/signupWithEmail";
 import PageNotFound from "./pages/404";
@@ -57,11 +55,6 @@ function App() {
             exact
             path="/league/:leagueId/matchup/:matchId"
             element={<Matchup />}
-          ></Route>
-          <Route
-            exact
-            path="/league/:leagueId/matchup_mobile/:matchId"
-            element={<MatchupMobile />}
           ></Route>
           <Route exact path="/profile" element={<Profile />}></Route>
           <Route path="*" element={<PageNotFound />}></Route>

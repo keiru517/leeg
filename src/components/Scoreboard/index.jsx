@@ -314,18 +314,6 @@ const Index = (props) => {
         </div>
 
         <div className="flex flex-col order-1 lg:order-2 space-y-3 lg:space-y-9 mb-3">
-          {/* <img
-            src={darkMode ? menuIconDark : menuIconLight}
-            alt=""
-            className="lg:hidden w-6 h-6 self-end hover:cursor-pointer"
-            onClick={openActionLogs}
-          /> */}
-          {/* <div
-            className="lg:hidden self-end hover:cursor-pointer text-black dark:text-white text-xs p-2 bg-slate rounded-lg"
-            onClick={openActionLogs}
-          >
-            View Logs
-          </div> */}
           <div className="flex space-x-2 sm:space-x-3 justify-center">
             {numberOfPeriods?.map((period) => (
               <div

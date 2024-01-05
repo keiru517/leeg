@@ -286,16 +286,16 @@ const Modal = (props) => {
                               maxLength={500}
                             ></textarea>
                           </div>
-                          <div className="flex mt-auto w-full justify-between">
+                          <div className="flex mt-3 sm:mt-auto w-full justify-between">
                             <button
                               onClick={goToStep1}
-                              className="bg-[#e5e5e5] dark:bg-[#3A3A3A] w-28 sm:w-[169px] h-button rounded-default mt-auto text-black dark:text-white font-semibold text-sm dark:hover:bg-middle-gray focus:ring-2"
+                              className="bg-[#e5e5e5] dark:bg-[#3A3A3A] w-24 sm:w-28 sm:w-[169px] h-button rounded-default mt-auto text-black dark:text-white font-semibold text-xs sm:text-sm dark:hover:bg-middle-gray focus:ring-2"
                             >
                               Back to Step 1
                             </button>
                             <button
                               onClick={goToStep3}
-                              className="bg-primary w-28 sm:w-[169px] h-button rounded-default mt-auto text-white font-semibold text-sm hover:bg-sky-600 focus:ring-2"
+                              className="bg-primary w-24 sm:w-28 sm:w-[169px] h-button rounded-default mt-auto text-white font-semibold text-xs sm:text-sm hover:bg-sky-600 focus:ring-2"
                             >
                               Next: Schedule
                             </button>

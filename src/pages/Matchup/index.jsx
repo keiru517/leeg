@@ -179,10 +179,10 @@ const MatchupMobile = () => {
           </Link>
 
           <span className="hidden sm:flex"> &gt; </span>
-          <Link to={`/league/${leagueId}?tab=1`} className="hidden sm:flex">
+          <Link to={`/league/${leagueId}?tab=1`} className="">
             <span className="hover:underline">Matches</span>
           </Link>
-          <span className="hidden sm:flex"> &gt; </span>
+          <span className=""> &gt; </span>
           <span className="text-sky-500">{homeTeam?.name} </span>
           <span>&nbsp;vs&nbsp;</span>
           <span className="text-sky-500 "> {awayTeam?.name}</span>

@@ -96,8 +96,8 @@ const MatchTable = (props) => {
   const options = [
     { id: 0, name: "Edit" },
     { id: 1, name: "Scoreboard" },
-    { id: 2, name: "Mobile Scoreboard" },
-    { id: 3, name: "Delete" },
+    // { id: 2, name: "Mobile Scoreboard" },
+    { id: 2, name: "Delete" },
   ];
 
   // const goToMatchup = (id) => {
