@@ -37,8 +37,7 @@ const MatchupSettingModal = (props) => {
   
   const handleSubmit = (e) => {
      axios.post(apis.updateMatchSettings, {matchId, period, time}).then((res)=>{
-      alert(res.data.message);
-      actions.getMatches(dispatch);
+      actions.getMatch(dispatch, matchId);
       dispatch({type:actions.OPEN_MATCHUP_SETTING_DIALOG, payload:false});
      }).catch((error)=>{
       alert("Error occurred!")
@@ -78,7 +77,7 @@ const MatchupSettingModal = (props) => {
             >
               <Dialog.Panel className="relative transform overflow-hidden rounded-main text-left shadow-xl transition-all sm:my-8 bg-white dark:bg-slate h-[609px] w-[400px] sm:w-[500px] md:w-[735px] mx-3 flex flex-col">
                 <div className="divide-y divide-solid divide-[#3A3A3A] flex flex-col flex-grow">
-                  <div className="flex items-center text-left h-[88px] justify-between px-default">
+                  <div className="flex items-center text-left h-16 sm:h-[88px] justify-between px-default">
                     <p className="text-2xl text-black dark:text-white font-bold">
                       Settings
                     </p>
@@ -92,7 +91,7 @@ const MatchupSettingModal = (props) => {
                   </div>
                   <div className="flex-col p-default flex justify-between overflow-y-auto h-[500px]">
                     <div className="flex space-x-3 items-center">
-                      <label htmlFor="" className="text-white">Period:</label>
+                      <label htmlFor="" className="text-black dark:text-white">Period:</label>
                       <input
                         type="number"
                         className="w-full flex space-x-2 border border-dark-gray items-center px-3 bg-transparent outline-none text-black dark:text-white flex-grow h-button rounded-default text-xs"
@@ -100,7 +99,7 @@ const MatchupSettingModal = (props) => {
                         value={period}
                         onChange={(e) => setPeriod(e.target.value)}
                       />
-                      <label htmlFor="" className="text-white">Timer:</label>
+                      <label htmlFor="" className="text-black dark:text-white">Timer:</label>
                       <TimerInput initialTime={time} setTime={setTime} className="w-full bg-[#303335] rounded-default"></TimerInput>
                     </div>
                     <button className="bg-primary rounded-default w-full hover:bg-opacity-70 h-button text-white"

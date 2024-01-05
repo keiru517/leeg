@@ -5,8 +5,6 @@ import { Tab } from "@headlessui/react";
 import close from "../../assets/img/dark_mode/close.png";
 import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../actions";
-import axios from "axios";
-import apis from "../../utils/apis";
 import rightArrowIcon from "../../assets/img/dark_mode/right-arrow.svg";
 import EventPlayerList from "../ListItem/EventPlayerList";
 import TimerInput from "../TimerInput";
@@ -97,20 +95,10 @@ const EditEventModal = (props) => {
   }, [type, playerId, teamId, currentPeriod, time, event]);
 
   const handleEdit = () => {
-    console.log(playerId, teamId, currentPeriod, time, event, matchId);
     // Minutes calculation
     const minutes = Math.floor((time % 360000) / 6000);
-
     // Seconds calculation
     const seconds = Math.floor((time % 6000) / 100);
-    setTime(
-      minutes.toString().padStart(2, "0") +
-        ":" +
-        seconds.toString().padStart(2, "0")
-    );
-
-    console.log("IsDirect", isDirect, teamId);
-
     if (type === "edit") {
       actions.updateOneLog(dispatch, {
         logId,
@@ -120,31 +108,36 @@ const EditEventModal = (props) => {
         teamId,
         playerId,
         event,
-        time,
+        time:
+          minutes.toString().padStart(2, "0") +
+          ":" +
+          seconds.toString().padStart(2, "0"),
         isDirect,
       });
     } else if (type === "add") {
       let tempPlayerId;
       let tempIsDirect = false;
-      console.log(playerId)
       if (playerId === undefined) {
         if (teamId == homeTeam?.id) {
-          tempPlayerId = filteredHomeTeamMatchups[0]?.playerId
+          tempPlayerId = filteredHomeTeamMatchups[0]?.playerId;
         } else {
-          tempPlayerId = filteredAwayTeamMatchups[0]?.playerId
+          tempPlayerId = filteredAwayTeamMatchups[0]?.playerId;
         }
         tempIsDirect = true;
       }
-      console.log(leagueId, matchId, currentPeriod, playerId, tempPlayerId, event, time, tempIsDirect, "add")
+
       actions.createOneLog(dispatch, {
         leagueId,
         matchId,
         period: currentPeriod,
         teamId,
-        playerId:playerId == undefined?tempPlayerId:playerId,
+        playerId: playerId == undefined ? tempPlayerId : playerId,
         event,
-        time,
-        isDirect:tempIsDirect,
+        time:
+          minutes.toString().padStart(2, "0") +
+          ":" +
+          seconds.toString().padStart(2, "0"),
+        isDirect: tempIsDirect,
       });
     }
 
@@ -188,10 +181,10 @@ const EditEventModal = (props) => {
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative transform overflow-hidden rounded-main text-left shadow-xl transition-all sm:my-8 bg-slate h-[800px] w-[400px] sm:w-[500px] md:w-[735px] mx-3 flex flex-col">
+              <Dialog.Panel className="relative transform overflow-hidden rounded-main text-left shadow-xl transition-all sm:my-8 bg-slate h-[700px] sm:h-[800px] w-[400px] sm:w-[500px] md:w-[735px] mx-3 flex flex-col">
                 <div className="divide-y divide-solid divide-[#3A3A3A] flex flex-col flex-grow">
-                  <div className="flex items-center text-left h-[88px] justify-between px-default">
-                    <p className="text-2xl text-white font-bold">
+                  <div className="flex items-center text-left h-16 sm:h-[88px] justify-between px-default">
+                    <p className="text-xl sm:text-2xl text-white font-bold">
                       {type === "edit" ? "Edit " : "Add "}
                       Event
                     </p>
@@ -204,12 +197,12 @@ const EditEventModal = (props) => {
                     </div>
                   </div>
                   <div className="flex flex-grow flex-col p-default justify-between">
-                    <div className="space-y-6">
+                    <div className="space-y-3 sm:space-y-6">
                       <div>
-                        <p className="text-black dark:text-white font-bold text-base">
+                        <p className="text-black dark:text-white font-bold text-sm sm:text-base">
                           Event Time
                         </p>
-                        <div className="flex space-x-3 mt-[10px]">
+                        <div className="flex space-x-3 mt-[10px] text-sm">
                           {numberOfPeriods.map((period) => (
                             <div
                               className={`flex items-center justify-center rounded-[10px] ${
@@ -222,7 +215,7 @@ const EditEventModal = (props) => {
                               <p className="text-white">P{period}</p>
                             </div>
                           ))}
-                          <div className="flex items-center justify-center rounded-[10px] w-16 h-10 cursor-pointer hover:bg-opacity-70">
+                          <div className="hidden sm:flex items-center justify-center rounded-[10px] w-16 h-10 cursor-pointer hover:bg-opacity-70">
                             <img
                               src={rightArrowIcon}
                               alt=""
@@ -241,54 +234,49 @@ const EditEventModal = (props) => {
                         </div>
                       </div>
                       <div>
-                        <p className="text-black dark:text-white font-bold text-base">
-                          Event Time
-                        </p>
-                        <div className="flex space-x-5 mt-[10px]">
+                        <div className="grid grid-cols-3 gap-2 text-sm text-black dark:text-white">
                           <div
                             className={`flex items-center justify-center rounded-[10px] ${
                               event === "+3 Pointer"
                                 ? "bg-primary"
                                 : "bg-[#303335]"
-                            } w-full h-14 cursor-pointer hover:opacity-75`}
+                            } w-full h-10 sm:h-10 sm:h-14 cursor-pointer hover:opacity-75`}
                             onClick={() => setEvent("+3 Pointer")}
                           >
-                            <p className="text-white">+3</p>
+                            +3
                           </div>
-
                           <div
                             className={`flex items-center justify-center rounded-[10px] ${
                               event === "+2 Pointer"
                                 ? "bg-primary"
                                 : "bg-[#303335]"
-                            } w-full h-14 cursor-pointer hover:opacity-75`}
+                            } w-full h-10 sm:h-10 sm:h-14 cursor-pointer hover:opacity-75`}
                             onClick={() => setEvent("+2 Pointer")}
                           >
-                            <p className="text-white">+2</p>
+                            +2
                           </div>
-
                           <div
                             className={`flex items-center justify-center rounded-[10px] ${
                               event === "+1 Pointer"
                                 ? "bg-primary"
                                 : "bg-[#303335]"
-                            } w-full h-14 cursor-pointer hover:opacity-75`}
+                            } w-full h-10 sm:h-10 sm:h-14 cursor-pointer hover:opacity-75`}
                             onClick={() => setEvent("+1 Pointer")}
                           >
-                            <p className="text-white">+1</p>
+                            +1
                           </div>
-                        </div>
-                        <div className="flex space-x-5 mt-[10px]">
                           {league?.displayAttempts3 && (
                             <div
                               className={`flex items-center justify-center rounded-[10px] ${
                                 event === "3 Missed"
                                   ? "bg-primary"
                                   : "bg-[#303335]"
-                              } w-full h-14 cursor-pointer hover:opacity-75`}
+                              } w-full h-10 sm:h-14 cursor-pointer hover:opacity-75`}
                               onClick={() => setEvent("3 Missed")}
                             >
-                              <p className="text-white">Missed 3</p>
+                              <p className="text-black dark:text-white">
+                                MISSED 3
+                              </p>
                             </div>
                           )}
                           {league?.displayAttempts2 && (
@@ -297,10 +285,12 @@ const EditEventModal = (props) => {
                                 event === "2 Missed"
                                   ? "bg-primary"
                                   : "bg-[#303335]"
-                              } w-full h-14 cursor-pointer hover:opacity-75`}
+                              } w-full h-10 sm:h-14 cursor-pointer hover:opacity-75`}
                               onClick={() => setEvent("2 Missed")}
                             >
-                              <p className="text-white">Missed 2</p>
+                              <p className="text-black dark:text-white">
+                                MISSED 2
+                              </p>
                             </div>
                           )}
                           {league?.displayAttempts1 && (
@@ -309,68 +299,93 @@ const EditEventModal = (props) => {
                                 event === "1 Missed"
                                   ? "bg-primary"
                                   : "bg-[#303335]"
-                              } w-full h-14 cursor-pointer hover:opacity-75`}
+                              } w-full h-10 sm:h-14 cursor-pointer hover:opacity-75`}
                               onClick={() => setEvent("1 Missed")}
                             >
-                              <p className="text-white">Missed 1</p>
+                              <p className="text-black dark:text-white">
+                                MISSED 1
+                              </p>
                             </div>
                           )}
-                        </div>
-                        <div className="flex space-x-5 mt-[10px]">
-                          <div
-                            className={`flex items-center justify-center rounded-[10px] ${
-                              event === "Rebound"
-                                ? "bg-primary"
-                                : "bg-[#303335]"
-                            } w-full h-14 cursor-pointer hover:opacity-75`}
-                            onClick={() => setEvent("Rebound")}
-                          >
-                            <p className="text-white">RBOUND</p>
-                          </div>
+                          {league?.displayRebounds && (
+                            <div
+                              className={`flex items-center justify-center rounded-[10px] ${
+                                event === "Rebound"
+                                  ? "bg-primary"
+                                  : "bg-[#303335]"
+                              } w-full h-10 sm:h-14 cursor-pointer hover:opacity-75`}
+                              onClick={() => setEvent("Rebound")}
+                            >
+                              <p className="text-black dark:text-white">
+                                REBOUNDS
+                              </p>
+                            </div>
+                          )}
+                          {league?.displayTurnovers && (
+                            <div
+                              className={`flex items-center justify-center rounded-[10px] ${
+                                event === "Turnover"
+                                  ? "bg-primary"
+                                  : "bg-[#303335]"
+                              } w-full h-10 sm:h-14 cursor-pointer hover:opacity-75`}
+                              onClick={() => setEvent("Turnover")}
+                            >
+                              <p className="text-black dark:text-white">
+                                TURNOVER
+                              </p>
+                            </div>
+                          )}
+                          {league?.displayFouls && (
+                            <div
+                              className={`flex items-center justify-center rounded-[10px] ${
+                                event === "Foul" ? "bg-primary" : "bg-[#303335]"
+                              } w-full h-10 sm:h-14 cursor-pointer hover:opacity-75`}
+                              onClick={() => setEvent("Foul")}
+                            >
+                              <p className="text-black dark:text-white">FOUL</p>
+                            </div>
+                          )}
+
                           <div
                             className={`flex items-center justify-center rounded-[10px] ${
                               event === "TimeOut"
                                 ? "bg-primary"
                                 : "bg-[#303335]"
-                            } w-full h-14 cursor-pointer hover:opacity-75`}
+                            } w-full h-10 sm:h-14 cursor-pointer hover:opacity-75`}
                             onClick={() => setEvent("TimeOut")}
                           >
-                            <p className="text-white">TIMEOUT</p>
+                            <p className="text-black dark:text-white">
+                              TIMEOUT
+                            </p>
                           </div>
-                          <div
-                            className={`flex items-center justify-center rounded-[10px] ${
-                              event === "Turnover"
-                                ? "bg-primary"
-                                : "bg-[#303335]"
-                            } w-full h-14 cursor-pointer hover:opacity-75`}
-                            onClick={() => setEvent("Turnover")}
-                          >
-                            <p className="text-white">TURNOVER</p>
-                          </div>
-                          <div
-                            className={`flex items-center justify-center rounded-[10px] ${
-                              event === "Foul" ? "bg-primary" : "bg-[#303335]"
-                            } w-full h-14 cursor-pointer hover:opacity-75`}
-                            onClick={() => setEvent("Foul")}
-                          >
-                            <p className="text-white">FOUL</p>
-                          </div>
-                          <div
-                            className={`flex items-center justify-center rounded-[10px] ${
-                              event === "Block" ? "bg-primary" : "bg-[#303335]"
-                            } w-full h-14 cursor-pointer hover:opacity-75`}
-                            onClick={() => setEvent("Block")}
-                          >
-                            <p className="text-white">BLOCK</p>
-                          </div>
-                          <div
-                            className={`flex items-center justify-center rounded-[10px] ${
-                              event === "Assist" ? "bg-primary" : "bg-[#303335]"
-                            } w-full h-14 cursor-pointer hover:opacity-75`}
-                            onClick={() => setEvent("Assist")}
-                          >
-                            <p className="text-white">ASSIST</p>
-                          </div>
+                          {league?.displayBlocks && (
+                            <div
+                              className={`flex items-center justify-center rounded-[10px] ${
+                                event === "Block"
+                                  ? "bg-primary"
+                                  : "bg-[#303335]"
+                              } w-full h-10 sm:h-14 cursor-pointer hover:opacity-75`}
+                              onClick={() => setEvent("Block")}
+                            >
+                              <p className="text-black dark:text-white">
+                                BLOCK
+                              </p>
+                            </div>
+                          )}
+                          {league?.displayAssists && (
+                            <div
+                              className={`flex items-center justify-center rounded-[10px] ${
+                                event === "Assist"
+                                  ? "bg-primary"
+                                  : "bg-[#303335]"
+                              } w-full h-10 sm:h-14 cursor-pointer hover:opacity-75`}
+                              onClick={() => setEvent("Assist")}
+                            >
+                              <p className="text-black dark:text-white">
+                                ASSIST
+                              </p>
+                            </div>
+                          )}
                         </div>
                       </div>
 
@@ -434,19 +449,20 @@ const EditEventModal = (props) => {
                               )}
                             >
                               <div>
-                                {event !== "TimeOut" && filteredHomeTeamMatchups.map(
-                                  ({ player }, idx) => (
-                                    <EventPlayerList
-                                      key={idx}
-                                      className="mb-5"
-                                      player={player}
-                                      playerId={playerId}
-                                      setPlayerId={setPlayerId}
-                                      setTeamId={setTeamId}
-                                      setIsDirect={setIsDirect}
-                                    ></EventPlayerList>
-                                  )
-                                )}
+                                {event !== "TimeOut" &&
+                                  filteredHomeTeamMatchups.map(
+                                    ({ player }, idx) => (
+                                      <EventPlayerList
+                                        key={idx}
+                                        className="mb-2 sm:mb-5"
+                                        player={player}
+                                        playerId={playerId}
+                                        setPlayerId={setPlayerId}
+                                        setTeamId={setTeamId}
+                                        setIsDirect={setIsDirect}
+                                      ></EventPlayerList>
+                                    )
+                                  )}
                               </div>
                             </Tab.Panel>
                             <Tab.Panel
@@ -460,7 +476,7 @@ const EditEventModal = (props) => {
                                   ({ player }, idx) => (
                                     <EventPlayerList
                                       key={idx}
-                                      className="mb-5"
+                                      className="mb-2 sm:mb-5"
                                       player={player}
                                       playerId={playerId}
                                       setPlayerId={setPlayerId}
@@ -481,16 +497,16 @@ const EditEventModal = (props) => {
                     {/* Buttons */}
                     <div>
                       <hr className="border border-gray-600 w-full" />
-                      <div className="flex justify-between mt-5">
+                      <div className="flex justify-between mt-5 px-5 sm:px-0">
                         <button
                           onClick={closeDialog}
-                          className={`bg-red-600 rounded-xl w-[147px] hover:bg-opacity-70 h-[53px] text-white disabled:opacity-10`}
+                          className={`bg-red-600 rounded-default w-24 sm:w-[147px] w-10 sm:h-[53px] hover:bg-opacity-70  text-white disabled:opacity-10`}
                         >
                           Cancel
                         </button>
                         <button
                           onClick={handleEdit}
-                          className={`bg-primary rounded-xl w-[231px] hover:bg-opacity-70 h-[53px ] text-white disabled:opacity-10`}
+                          className={`bg-primary rounded-default w-24 sm:w-[231px] h-10 sm:h-[53px] hover:bg-opacity-70 text-white disabled:opacity-10`}
                           disabled={!canSubmit}
                         >
                           Save

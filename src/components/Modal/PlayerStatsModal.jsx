@@ -112,7 +112,7 @@ const PlayerStatsModal = (props) => {
             >
               <Dialog.Panel className="relative transform overflow-hidden rounded-main text-left shadow-xl transition-all sm:my-8 bg-white dark:bg-slate h-[609px] w-[400px] sm:w-[500px] md:w-[735px] mx-3 flex flex-col">
                 <div className="divide-y divide-solid divide-[#3A3A3A] flex flex-col flex-grow">
-                  <div className="flex items-center text-left h-[88px] justify-between px-default">
+                  <div className="flex items-center text-left h-16 sm:h-[88px] justify-between px-default">
                     <p className="text-black dark:text-white font-bold sm:text-xl md:text-2xl">
                       Player Stats
                     </p>

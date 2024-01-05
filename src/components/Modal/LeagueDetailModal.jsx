@@ -91,7 +91,7 @@ const LeagueDetailModal = () => {
             >
               <Dialog.Panel className="relative transform overflow-hidden rounded-main text-left shadow-xl transition-all sm:my-8 bg-white dark:bg-slate w-[400px] mx-3 flex flex-col">
                 <div className="divide-y divide-solid divide-[#3A3A3A] flex flex-col flex-grow">
-                  <div className="flex items-center text-left h-[88px] justify-between px-default">
+                  <div className="flex items-center text-left h-16 sm:h-[88px] justify-between px-default">
                     <div className="flex items-center">
                       <p className="text-2xl text-black dark:text-white font-bold">
                         League Information

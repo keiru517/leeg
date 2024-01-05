@@ -35,7 +35,6 @@ const Log = (props) => {
   const match = useSelector((state) => state.home.matches).find(
     (match) => match.id == matchId
   );
-  console.log("new?", match.isNew);
   const player = useSelector((state) => state.home.matchups).find(
     (matchup) => matchup.playerId == log.playerId
   )?.player;
@@ -87,40 +86,41 @@ const Log = (props) => {
         )}
       </div>
       <hr className="border border-[#686868] w-full" />
-      <div className="flex justify-between">
         <div className="flex space-x-3 h-[51px] items-center p-4 justify-between">
-          <p className="text-black dark:text-white font-medium text-lg">
-            {/* {log.event.split(" ")[0]} */}
-            {title[log.event]}
-          </p>
-          <p className="text-black dark:text-white font-medium text-lg">&gt;</p>
-          {log.event !== "TimeOut" && !log.isDirect && (
-            <>
-              <p className="text-black dark:text-white font-medium text-lg">
-                #{player?.jerseyNumber}
-              </p>
-              <p className="text-black dark:text-white font-medium text-lg">
-                {player?.firstName[0]} {player?.lastName}
-              </p>
-              <img
-                src={player?.avatar}
-                alt=""
-                className="w-8 h-8 rounded-full border border-gray-500"
-              />
-            </>
-          )}
-          <img
-            src={team?.logo}
-            alt=""
-            className="w-8 h-8 rounded-full border-border-gray-500"
-          />
+          <div className="flex">
+            <p className="text-black dark:text-white font-medium text-lg">
+              {/* {log.event.split(" ")[0]} */}
+              {title[log.event]}
+            </p>
+          </div>
+          <div className="flex">
+            {log.event !== "TimeOut" && !log.isDirect && (
+              <>
+                <p className="text-black dark:text-white font-medium text-lg">
+                  #{player?.jerseyNumber}
+                </p>
+                <p className="text-black dark:text-white font-medium text-lg">
+                  {player?.firstName[0]} {player?.lastName}
+                </p>
+                <img
+                  src={player?.avatar}
+                  alt=""
+                  className="w-8 h-8 rounded-full border border-gray-500"
+                />
+              </>
+            )}
+            <img
+              src={team?.logo}
+              alt=""
+              className="w-8 h-8 rounded-full border-border-gray-500"
+            />
+          </div>
         </div>
         {/* <div className="flex space-x-3 h-[51px] items-center p-4">
           <p className="text-black dark:text-gray-300 font-medium text-sm">
             Added by: {user?.firstName[0]}.{user?.lastName[0]}{" "}
           </p>
         </div> */}
-      </div>
     </div>
   );
 };
