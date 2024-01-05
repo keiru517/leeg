@@ -189,7 +189,7 @@ const MatchupMobile = () => {
         </div>
         <div className="flex space-x-3">
           <Select
-            className="w-[120px] sm:w-[140px] rounded-lg text-xs h-button"
+            className="w-[115px] sm:w-[140px] rounded-lg text-xs h-button"
             options={options}
             handleClick={handleStatus}
             value={status}

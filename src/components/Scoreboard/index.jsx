@@ -385,7 +385,7 @@ const Index = (props) => {
 
                 <button
                   onClick={startAndStop}
-                  className={`w-[100px] lg:w-[169px] h-[40px] sm:h-[53px] rounded-default ${
+                  className={`w-[120px] lg:w-[169px] h-[40px] sm:h-[53px] rounded-default ${
                     isRunning ? "bg-red-500" : "bg-success"
                   }  text-white font-bold text-sm hover:bg-opacity-70 ml-3 lg:ml-0`}
                 >
