@@ -5,8 +5,6 @@ import { Tab } from "@headlessui/react";
 import close from "../../assets/img/dark_mode/close.png";
 import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../actions";
-import axios from "axios";
-import apis from "../../utils/apis";
 import rightArrowIcon from "../../assets/img/dark_mode/right-arrow.svg";
 import EventPlayerList from "../ListItem/EventPlayerList";
 import TimerInput from "../TimerInput";
@@ -97,20 +95,10 @@ const EditEventModal = (props) => {
   }, [type, playerId, teamId, currentPeriod, time, event]);
 
   const handleEdit = () => {
-    console.log(playerId, teamId, currentPeriod, time, event, matchId);
     // Minutes calculation
     const minutes = Math.floor((time % 360000) / 6000);
-
     // Seconds calculation
     const seconds = Math.floor((time % 6000) / 100);
-    setTime(
-      minutes.toString().padStart(2, "0") +
-        ":" +
-        seconds.toString().padStart(2, "0")
-    );
-
-    console.log("IsDirect", isDirect, teamId);
-
     if (type === "edit") {
       actions.updateOneLog(dispatch, {
         logId,
@@ -120,31 +108,43 @@ const EditEventModal = (props) => {
         teamId,
         playerId,
         event,
-        time,
+        time:
+          minutes.toString().padStart(2, "0") +
+          ":" +
+          seconds.toString().padStart(2, "0"),
         isDirect,
       });
     } else if (type === "add") {
       let tempPlayerId;
       let tempIsDirect = false;
-      console.log(playerId)
       if (playerId === undefined) {
         if (teamId == homeTeam?.id) {
-          tempPlayerId = filteredHomeTeamMatchups[0]?.playerId
+          tempPlayerId = filteredHomeTeamMatchups[0]?.playerId;
         } else {
-          tempPlayerId = filteredAwayTeamMatchups[0]?.playerId
+          tempPlayerId = filteredAwayTeamMatchups[0]?.playerId;
         }
         tempIsDirect = true;
       }
-      console.log(leagueId, matchId, currentPeriod, playerId, tempPlayerId, event, time, tempIsDirect, "add")
+      console.log(
+        leagueId,
+        matchId,
+        currentPeriod,
+        playerId,
+        tempPlayerId,
+        event,
+        time,
+        tempIsDirect,
+        "add"
+      );
       actions.createOneLog(dispatch, {
         leagueId,
         matchId,
         period: currentPeriod,
         teamId,
-        playerId:playerId == undefined?tempPlayerId:playerId,
+        playerId: playerId == undefined ? tempPlayerId : playerId,
         event,
         time,
-        isDirect:tempIsDirect,
+        isDirect: tempIsDirect,
       });
     }
 
@@ -434,19 +434,20 @@ const EditEventModal = (props) => {
                               )}
                             >
                               <div>
-                                {event !== "TimeOut" && filteredHomeTeamMatchups.map(
-                                  ({ player }, idx) => (
-                                    <EventPlayerList
-                                      key={idx}
-                                      className="mb-5"
-                                      player={player}
-                                      playerId={playerId}
-                                      setPlayerId={setPlayerId}
-                                      setTeamId={setTeamId}
-                                      setIsDirect={setIsDirect}
-                                    ></EventPlayerList>
-                                  )
-                                )}
+                                {event !== "TimeOut" &&
+                                  filteredHomeTeamMatchups.map(
+                                    ({ player }, idx) => (
+                                      <EventPlayerList
+                                        key={idx}
+                                        className="mb-5"
+                                        player={player}
+                                        playerId={playerId}
+                                        setPlayerId={setPlayerId}
+                                        setTeamId={setTeamId}
+                                        setIsDirect={setIsDirect}
+                                      ></EventPlayerList>
+                                    )
+                                  )}
                               </div>
                             </Tab.Panel>
                             <Tab.Panel
