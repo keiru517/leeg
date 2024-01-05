@@ -113,7 +113,7 @@ const ActionButtonsModal = (props) => {
             >
               <Dialog.Panel className="relative transform overflow-hidden rounded-main text-left shadow-xl transition-all sm:my-8 bg-white dark:bg-slate h-full w-[400px] sm:w-[500px] md:w-[735px] mx-3 flex flex-col">
                 <div className="divide-y divide-solid divide-[#3A3A3A] flex flex-col flex-grow">
-                  <div className="flex items-center text-left h-[88px] justify-between px-default">
+                  <div className="flex items-center text-left h-16 sm:h-[88px] justify-between px-default">
                     <p className="text-2xl text-black dark:text-white font-bold"></p>
                     <img
                       src={close}
@@ -135,26 +135,26 @@ const ActionButtonsModal = (props) => {
                     <div className="flex flex-col flex-grow overflow-auto sm:mt-3">
                       <div className="grid grid-cols-3 gap-2 text-sm">
                         <div
-                          className="flex dark:bg-[#282A2C] bg-white h-20 text-black dark:text-white items-center justify-center rounded-xl hover:cursor-pointer"
+                          className="flex dark:bg-[#282A2C] bg-light-charcoal h-20 text-black dark:text-white items-center justify-center rounded-xl hover:cursor-pointer border border-gray-500"
                           onClick={() => handleClickButtons("points3", teamId)}
                         >
                           +3
                         </div>
                         <div
-                          className="flex dark:bg-[#282A2C] bg-white h-20 text-black dark:text-white items-center justify-center rounded-xl hover:cursor-pointer"
+                          className="flex dark:bg-[#282A2C] bg-light-charcoal h-20 text-black dark:text-white items-center justify-center rounded-xl hover:cursor-pointer border border-gray-500"
                           onClick={() => handleClickButtons("points2", teamId)}
                         >
                           +2
                         </div>
                         <div
-                          className="flex dark:bg-[#282A2C] bg-white h-20 text-black dark:text-white items-center justify-center rounded-xl hover:cursor-pointer"
+                          className="flex dark:bg-[#282A2C] bg-light-charcoal h-20 text-black dark:text-white items-center justify-center rounded-xl hover:cursor-pointer border border-gray-500"
                           onClick={() => handleClickButtons("points1", teamId)}
                         >
                           +1
                         </div>
                         {league?.displayAttempts3 && (
                           <div
-                            className="flex dark:bg-[#282A2C] bg-white h-20 text-black dark:text-white items-center justify-center rounded-xl hover:cursor-pointer"
+                            className="flex dark:bg-[#282A2C] bg-light-charcoal h-20 text-black dark:text-white items-center justify-center rounded-xl hover:cursor-pointer border border-gray-500"
                             onClick={() =>
                               handleClickButtons("attempts3", teamId)
                             }
@@ -166,7 +166,7 @@ const ActionButtonsModal = (props) => {
                         )}
                         {league?.displayAttempts2 && (
                           <div
-                            className="flex dark:bg-[#282A2C] bg-white h-20 text-black dark:text-white items-center justify-center rounded-xl hover:cursor-pointer"
+                            className="flex dark:bg-[#282A2C] bg-light-charcoal h-20 text-black dark:text-white items-center justify-center rounded-xl hover:cursor-pointer border border-gray-500"
                             onClick={() =>
                               handleClickButtons("attempts2", teamId)
                             }
@@ -178,7 +178,7 @@ const ActionButtonsModal = (props) => {
                         )}
                         {league?.displayAttempts1 && (
                           <div
-                            className="flex dark:bg-[#282A2C] bg-white h-20 text-black dark:text-white items-center justify-center rounded-xl hover:cursor-pointer"
+                            className="flex dark:bg-[#282A2C] bg-light-charcoal h-20 text-black dark:text-white items-center justify-center rounded-xl hover:cursor-pointer border border-gray-500"
                             onClick={() =>
                               handleClickButtons("attempts1", teamId)
                             }
@@ -190,7 +190,7 @@ const ActionButtonsModal = (props) => {
                         )}
                         {league?.displayRebounds && (
                           <div
-                            className="flex dark:bg-[#282A2C] bg-white h-20 text-black dark:text-white items-center justify-center rounded-xl hover:cursor-pointer"
+                            className="flex dark:bg-[#282A2C] bg-light-charcoal h-20 text-black dark:text-white items-center justify-center rounded-xl hover:cursor-pointer border border-gray-500"
                             onClick={() =>
                               handleClickButtons("rebounds", teamId)
                             }
@@ -202,7 +202,7 @@ const ActionButtonsModal = (props) => {
                         )}
                         {league?.displayTurnovers && (
                           <div
-                            className="flex dark:bg-[#282A2C] bg-white h-20 text-black dark:text-white items-center justify-center rounded-xl hover:cursor-pointer"
+                            className="flex dark:bg-[#282A2C] bg-light-charcoal h-20 text-black dark:text-white items-center justify-center rounded-xl hover:cursor-pointer border border-gray-500"
                             onClick={() =>
                               handleClickButtons("turnovers", teamId)
                             }
@@ -214,7 +214,7 @@ const ActionButtonsModal = (props) => {
                         )}
                         {league?.displayFouls && (
                           <div
-                            className="flex dark:bg-[#282A2C] bg-white h-20 text-black dark:text-white items-center justify-center rounded-xl hover:cursor-pointer"
+                            className="flex dark:bg-[#282A2C] bg-light-charcoal h-20 text-black dark:text-white items-center justify-center rounded-xl hover:cursor-pointer border border-gray-500"
                             onClick={() => handleClickButtons("fouls", teamId)}
                           >
                             <p className="text-black dark:text-white">FOUL</p>
@@ -222,14 +222,14 @@ const ActionButtonsModal = (props) => {
                         )}
 
                         <div
-                          className="flex dark:bg-[#282A2C] bg-white h-20 text-black dark:text-white items-center justify-center rounded-xl hover:cursor-pointer"
+                          className="flex dark:bg-[#282A2C] bg-light-charcoal h-20 text-black dark:text-white items-center justify-center rounded-xl hover:cursor-pointer border border-gray-500"
                           onClick={() => handleClickTimeout(teamId)}
                         >
                           <p className="text-black dark:text-white">TIMEOUT</p>
                         </div>
                         {league?.displayBlocks && (
                           <div
-                            className="flex dark:bg-[#282A2C] bg-white h-20 text-black dark:text-white items-center justify-center rounded-xl hover:cursor-pointer"
+                            className="flex dark:bg-[#282A2C] bg-light-charcoal h-20 text-black dark:text-white items-center justify-center rounded-xl hover:cursor-pointer border border-gray-500"
                             onClick={() => handleClickButtons("blocks", teamId)}
                           >
                             <p className="text-black dark:text-white">BLOCK</p>
@@ -237,7 +237,7 @@ const ActionButtonsModal = (props) => {
                         )}
                         {league?.displayAssists && (
                           <div
-                            className="flex dark:bg-[#282A2C] bg-white h-20 text-black dark:text-white items-center justify-center rounded-xl hover:cursor-pointer"
+                            className="flex dark:bg-[#282A2C] bg-light-charcoal h-20 text-black dark:text-white items-center justify-center rounded-xl hover:cursor-pointer border border-gray-500"
                             onClick={() =>
                               handleClickButtons("assists", teamId)
                             }

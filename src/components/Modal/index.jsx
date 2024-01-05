@@ -151,7 +151,7 @@ const Modal = (props) => {
             >
               <Dialog.Panel className="relative transform overflow-hidden rounded-main pb-4 text-left shadow-xl transition-all sm:my-8 bg-white dark:bg-slate w-[400px] sm:w-[500px] sm:h-[609px] md:w-[735px] mx-3">
                 <div className="divide-y divide-solid divide-font-dark-gray dark:divide-[#3A3A3A]">
-                  <div className="flex items-center text-left h-[88px] justify-between px-[26px]">
+                  <div className="flex items-center text-left h-16 sm:h-[88px] justify-between px-[26px]">
                     <p className="text-2xl text-black dark:text-white font-bold">
                       Create League
                     </p>

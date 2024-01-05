@@ -111,7 +111,7 @@ console.log("filtered", filteredMatchups)
     <Transition.Root show={isOpen} as={Fragment}>
       <Dialog
         as="div"
-        className="relative z-10"
+        className="relative z-30"
         initialFocus={cancelButtonRef}
         onClose={closeDialog}
       >
@@ -140,7 +140,7 @@ console.log("filtered", filteredMatchups)
             >
               <Dialog.Panel className="relative transform overflow-hidden rounded-main text-left shadow-xl transition-all sm:my-8 bg-white dark:bg-slate h-[609px] w-[400px] sm:w-[500px] md:w-[735px] mx-3 flex flex-col">
                 <div className="divide-y divide-solid divide-[#3A3A3A] flex flex-col flex-grow">
-                  <div className="flex items-center text-left h-[88px] justify-between px-default">
+                  <div className="flex items-center text-left h-16 sm:h-[88px] justify-between px-default">
                     <p className="text-2xl text-black dark:text-white font-bold">
                       {title[event]}
                     </p>
