@@ -481,7 +481,6 @@ export const completeMatchup = async (dispatch, data) => {
     getMatches(dispatch);
     getTeams(dispatch);
     getSubstitutes(dispatch)
-    alert("Completed matchup!");
   } catch {
     dispatch({
       type: GET_MATCHUPS,
@@ -502,7 +501,6 @@ export const incompleteMatchup = async (dispatch, data) => {
     getMatches(dispatch);
     getTeams(dispatch);
     getSubstitutes(dispatch)
-    alert("Incompleted matchup!");
   } catch {
     dispatch({
       type: GET_MATCHUPS,

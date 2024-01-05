@@ -168,23 +168,23 @@ const MatchupMobile = () => {
 
   return (
     <div className="flex flex-col flex-grow">
-      <p className="flex font-dark-gray my-[20px] justify-between ">
-        <div className="">
-          <Link to="/">
+      <p className="flex font-dark-gray my-3 sm:my-[20px] justify-between ">
+        <div className="flex items-center">
+          <Link to="/" className="hidden sm:flex">
             <span className="hover:underline">My Leagues</span>
           </Link>
-          <span className=""> &gt; </span>
-          <Link to={`/league/${leagueId}?tab=0`}>
+          <span className="hidden sm:flex"> &gt; </span>
+          <Link to={`/league/${leagueId}?tab=0`} className="hidden sm:flex">
             <span className="hover:underline">{league?.name}</span>
           </Link>
 
-          <span className=""> &gt; </span>
-          <Link to={`/league/${leagueId}?tab=1`}>
+          <span className="hidden sm:flex"> &gt; </span>
+          <Link to={`/league/${leagueId}?tab=1`} className="hidden sm:flex">
             <span className="hover:underline">Matches</span>
           </Link>
-          <span className=""> &gt; </span>
+          <span className="hidden sm:flex"> &gt; </span>
           <span className="text-sky-500">{homeTeam?.name} </span>
-          <span> Vs</span>
+          <span>&nbsp;vs&nbsp;</span>
           <span className="text-sky-500 "> {awayTeam?.name}</span>
         </div>
         <div className="flex space-x-3">

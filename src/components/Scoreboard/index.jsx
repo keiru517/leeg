@@ -231,15 +231,7 @@ const Index = (props) => {
   return (
     <div className="flex flex-col lg:flex-row justify-between lg:bg-white lg:dark:bg-slate rounded-main p-2 sm:p-default">
       {/* HomeTeam */}
-      <div
-        className="order-2 lg:order-1 flex flex-col items-center bg-white dark:bg-slate lg:bg-transparent my-3 lg:my-0 rounded-lg p-default hover:cursor-pointer"
-        onClick={() => {
-          const isMobile = window.innerWidth <= 768; // Adjust the threshold as needed
-          if (isMobile) {
-            handleClick(homeTeam?.id);
-          }
-        }}
-      >
+      <div className="order-2 lg:order-1 flex flex-col items-center bg-white dark:bg-slate lg:bg-transparent my-3 lg:my-0 rounded-lg p-default">
         <div className="lg:hidden flex space-x-5 mb-3">
           <img
             src={playerStats}
@@ -259,7 +251,13 @@ const Index = (props) => {
         <img
           src={homeTeam?.logo}
           alt=""
-          className="w-28 h-28 rounded-full mx-auto border border-gray-500"
+          className="w-28 h-28 rounded-full mx-auto border border-gray-500 hover:cursor-pointer"
+          onClick={() => {
+            const isMobile = window.innerWidth <= 768; // Adjust the threshold as needed
+            if (isMobile) {
+              handleClick(homeTeam?.id);
+            }
+          }}
         />
         <p className="text-black dark:text-white font-semibold text-2xl mt-5 truncate w-52 text-center">
           {homeTeam?.name}
@@ -299,8 +297,14 @@ const Index = (props) => {
 
       {/* Period and Timer */}
       <div className="flex flex-col order-1 lg:order-2 text-center lg:mt-5">
-        <div className="order-2 lg:order-1 bg-white dark:bg-slate lg:bg-transparent rounded-lg p-2">
-          <div className="text-black dark:text-white text-[56px] lg:my-2">
+        <div className="order-2 lg:order-1 flex flex-col bg-white dark:bg-slate lg:bg-transparent rounded-lg p-2">
+          <div
+            className="lg:hidden self-end hover:cursor-pointer text-black dark:text-white text-xs p-2 bg-light-charcoal dark:bg-charcoal rounded-lg"
+            onClick={openActionLogs}
+          >
+            View Logs
+          </div>
+          <div className="text-black dark:text-white text-[42px] sm:text-[56px] lg:my-2">
             {matchupResult[0]} - {matchupResult[1]}
           </div>
           <div className="text-black dark:text-white text-sm">
@@ -310,23 +314,29 @@ const Index = (props) => {
         </div>
 
         <div className="flex flex-col order-1 lg:order-2 space-y-3 lg:space-y-9 mb-3">
-          <img
+          {/* <img
             src={darkMode ? menuIconDark : menuIconLight}
             alt=""
             className="lg:hidden w-6 h-6 self-end hover:cursor-pointer"
             onClick={openActionLogs}
-          />
-          <div className="flex space-x-1 sm:space-x-3 justify-center">
+          /> */}
+          {/* <div
+            className="lg:hidden self-end hover:cursor-pointer text-black dark:text-white text-xs p-2 bg-slate rounded-lg"
+            onClick={openActionLogs}
+          >
+            View Logs
+          </div> */}
+          <div className="flex space-x-2 sm:space-x-3 justify-center">
             {numberOfPeriods?.map((period) => (
               <div
                 className={`flex items-center justify-center rounded-[10px] ${
                   currentPeriod === period
                     ? "bg-success"
                     : "bg-font-dark-gray dark:bg-[#151515]"
-                } w-16 h-10 cursor-pointer hover:opacity-75`}
+                } w-12 sm:w-16 h-10 cursor-pointer hover:opacity-75`}
                 onClick={() => handlePeriod(period)}
               >
-                <p className="text-white">P{period}</p>
+                <p className="text-white text-sm">P{period}</p>
               </div>
             ))}
           </div>
@@ -334,7 +344,7 @@ const Index = (props) => {
             <div className="stopwatch-container">
               <div className="flex flex-row lg:flex-col justify-center items-center">
                 <div className="flex">
-                  <div className="mt-4 lg:mt-6">
+                  <div className="mt-2 lg:mt-6">
                     <img
                       onClick={isRunning ? () => {} : increaseMinute}
                       src={darkMode ? triupIconDark : triupIconLight}
@@ -350,26 +360,26 @@ const Index = (props) => {
                   </div>
                   <input
                     type="number"
-                    className="w-[50px] lg:w-[70px] font-semibold text-[40px] lg:text-[56px] text-black dark:text-white bg-transparent outline-none"
+                    className="w-[40px] lg:w-[70px] font-semibold text-[30px] lg:text-[56px] text-black dark:text-white bg-transparent outline-none"
                     value={minutes.toString().padStart(2, "0")}
                     onChange={(e) =>
                       setTimer(seconds * 100 + e.target.value * 6000)
                     }
                     disabled={isRunning}
                   />
-                  <p className="font-semibold text-[40px] lg:text-[56px] text-black dark:text-white mr-2">
+                  <p className="font-semibold text-[30px] lg:text-[56px] text-black dark:text-white mr-2">
                     :
                   </p>
                   <input
                     type="number"
-                    className="w-[50px] lg:w-[70px] font-semibold text-[40px] lg:text-[56px] text-black dark:text-white bg-transparent outline-none"
+                    className="w-[40px] lg:w-[70px] font-semibold text-[30px] lg:text-[56px] text-black dark:text-white bg-transparent outline-none"
                     value={seconds.toString().padStart(2, "0")}
                     onChange={(e) =>
                       setTimer(minutes * 6000 + e.target.value * 100)
                     }
                     disabled={isRunning}
                   />
-                  <div className="mt-4 lg:mt-6">
+                  <div className="mt-2 lg:mt-6">
                     <img
                       src={darkMode ? triupIconDark : triupIconLight}
                       onClick={isRunning ? () => {} : increaseSecond}
@@ -387,7 +397,7 @@ const Index = (props) => {
 
                 <button
                   onClick={startAndStop}
-                  className={`w-[100px] lg:w-[169px] h-[53px] rounded-default ${
+                  className={`w-[100px] lg:w-[169px] h-[40px] sm:h-[53px] rounded-default ${
                     isRunning ? "bg-red-500" : "bg-success"
                   }  text-white font-bold text-sm hover:bg-opacity-70 ml-3 lg:ml-0`}
                 >
@@ -401,15 +411,7 @@ const Index = (props) => {
       </div>
 
       {/* AwayTeam */}
-      <div
-        className="order-3 flex flex-col items-center bg-white dark:bg-slate lg:bg-transparent rounded-lg p-default hover:cursor-pointer"
-        onClick={() => {
-          const isMobile = window.innerWidth <= 768; // Adjust the threshold as needed
-          if (isMobile) {
-            handleClick(awayTeam?.id);
-          }
-        }}
-      >
+      <div className="order-3 flex flex-col items-center bg-white dark:bg-slate lg:bg-transparent rounded-lg p-default">
         <div className="lg:hidden flex space-x-5 mb-3">
           <img
             src={playerStats}
@@ -429,7 +431,13 @@ const Index = (props) => {
         <img
           src={awayTeam?.logo}
           alt=""
-          className="w-28 h-28 rounded-full mx-auto border border-gray-500"
+          className="w-28 h-28 rounded-full mx-auto border border-gray-500 hover:cursor-pointer"
+          onClick={() => {
+            const isMobile = window.innerWidth <= 768; // Adjust the threshold as needed
+            if (isMobile) {
+              handleClick(awayTeam?.id);
+            }
+          }}
         />
         <p className="text-black dark:text-white font-semibold text-2xl mt-5 text-center truncate w-52">
           {awayTeam?.name}

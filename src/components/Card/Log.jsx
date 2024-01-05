@@ -92,7 +92,6 @@ const Log = (props) => {
               {/* {log.event.split(" ")[0]} */}
               {title[log.event]}
             </p>
-            <p className="text-black dark:text-white font-medium text-lg">&gt;</p>
           </div>
           <div className="flex">
             {log.event !== "TimeOut" && !log.isDirect && (

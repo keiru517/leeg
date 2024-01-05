@@ -72,17 +72,9 @@ const SelectPlayerModal = (props) => {
 
   const closeDialog = () => {
     dispatch({ type: actions.OPEN_SELECT_PLAYER_DIALOG, payload: false });
-    const isMobile = window.innerWidth <= 768;
-    if (isMobile) {
-      dispatch({
-        type: actions.OPEN_ACTION_BUTTONS_DIALOG,
-        payload: {
-          open: true,
-          teamId: teamId,
-          time:time
-        },
-      });
-    }
+    dispatch({
+      type: actions.CLOSE_ACTION_BUTTONS_DIALOG,
+    });
   };
 
   // const handleAction = (teamId, playerId, event, isDirect, isSubstitute) => {
