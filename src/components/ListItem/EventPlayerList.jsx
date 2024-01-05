@@ -44,17 +44,17 @@ const EventPlayerList = ({
           playerId == player.id && !isDirectEvent
             ? "bg-success"
             : "bg-[#e6e6e6] dark:bg-dark-gray"
-        }  w-full h-14 rounded-default py-1.5 px-4 cursor-pointer hover:opacity-75`}
+        }  w-full h-10 sm:h-14 rounded-default py-1.5 px-4 cursor-pointer hover:opacity-75`}
         onClick={() => handleClick(player?.id, player?.teamId)}
       >
         <div className="flex">
           <img
             src={player?.avatar}
-            className="w-10 h-10 mr-3 rounded-full border border-gray-500"
+            className="w-8 h-8 sm:w-10 sm:h-10 mr-3 rounded-full border border-gray-500"
             alt=""
           />
           <div>
-            <p className="text-black dark:text-white text-base underline">
+            <p className="text-black dark:text-white text-sm sm:text-base underline">
               {player?.firstName} {player?.lastName}
             </p>
             <div className="flex">

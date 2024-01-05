@@ -61,8 +61,8 @@ const Index = (props) => {
       }
     });
 
-  let homeTeamPoints = match.homeTeamPoints;
-  let awayTeamPoints = match.awayTeamPoints;
+  let homeTeamPoints = 0;
+  let awayTeamPoints = 0;
   let homeTeamFouls = 0;
   let awayTeamFouls = 0;
   let homeTeamTimeOuts = 0;
@@ -233,7 +233,12 @@ const Index = (props) => {
       {/* HomeTeam */}
       <div
         className="order-2 lg:order-1 flex flex-col items-center bg-white dark:bg-slate lg:bg-transparent my-3 lg:my-0 rounded-lg p-default hover:cursor-pointer"
-        onClick={() => handleClick(homeTeam?.id)}
+        onClick={() => {
+          const isMobile = window.innerWidth <= 768; // Adjust the threshold as needed
+          if (isMobile) {
+            handleClick(homeTeam?.id);
+          }
+        }}
       >
         <div className="lg:hidden flex space-x-5 mb-3">
           <img
@@ -398,7 +403,12 @@ const Index = (props) => {
       {/* AwayTeam */}
       <div
         className="order-3 flex flex-col items-center bg-white dark:bg-slate lg:bg-transparent rounded-lg p-default hover:cursor-pointer"
-        onClick={() => handleClick(awayTeam?.id)}
+        onClick={() => {
+          const isMobile = window.innerWidth <= 768; // Adjust the threshold as needed
+          if (isMobile) {
+            handleClick(awayTeam?.id);
+          }
+        }}
       >
         <div className="lg:hidden flex space-x-5 mb-3">
           <img

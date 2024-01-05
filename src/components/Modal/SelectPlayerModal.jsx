@@ -16,8 +16,7 @@ const SelectPlayerModal = (props) => {
   const dispatch = useDispatch();
 
   const event = useSelector(state=>state.matchup.event);
-  const teamId = useSelector(state=>state.matchup.action_buttons_dialog.teamId);
-  const time = useSelector(state=>state.matchup.action_buttons_dialog.time);
+  const {teamId, time} = useSelector(state=>state.matchup.action_buttons_dialog);
 
   const title = {
     points3: "+3 Pointer",
@@ -42,35 +41,48 @@ const SelectPlayerModal = (props) => {
     (team) => team.id == teamId
   );
 
-  const [filteredMatchups, setFilteredMatchups] = useState([]);
+  // const [filteredMatchups, setFilteredMatchups] = useState([]);
 
-  useEffect(() => {
-    setFilteredMatchups(matchups);
-  }, []);
+  // useEffect(() => {
+  //   setFilteredMatchups(matchups);
+  // }, []);
+
+  // const substitutues = useSelector(state=>state.home.substitutes).filter(substitute=>substitute.leagueId == leagueId && substitute.matchId == matchId && substitute.teamId == teamId);
+  // useEffect(() => {
+  //   const result = matchups.filter((player) => player.teamId == teamId).map(matchup=>{
+  //     return {
+  //       matchup,
+  //       ...matchup.player
+  //     }
+  //   });
+  //   setFilteredMatchups([...result, ...substitutues]);
+  // }, [teamId]);
 
   const substitutues = useSelector(state=>state.home.substitutes).filter(substitute=>substitute.leagueId == leagueId && substitute.matchId == matchId && substitute.teamId == teamId);
-  useEffect(() => {
-    const result = matchups.filter((player) => player.teamId == teamId).map(matchup=>{
-      return {
-        matchup,
-        ...matchup.player
-      }
-    });
-    setFilteredMatchups([...result, ...substitutues]);
-  }, [teamId]);
+  const result = matchups.filter((player) => player.teamId == teamId).map(matchup=>{
+    return {
+      matchup,
+      ...matchup.player
+    }
+  });
+
+  const filteredMatchups = [...result, ...substitutues]
 
   const cancelButtonRef = useRef(null);
 
   const closeDialog = () => {
     dispatch({ type: actions.OPEN_SELECT_PLAYER_DIALOG, payload: false });
-    dispatch({
-      type: actions.OPEN_ACTION_BUTTONS_DIALOG,
-      payload: {
-        open: true,
-        teamId: teamId,
-        time:time
-      },
-    });
+    const isMobile = window.innerWidth <= 768;
+    if (isMobile) {
+      dispatch({
+        type: actions.OPEN_ACTION_BUTTONS_DIALOG,
+        payload: {
+          open: true,
+          teamId: teamId,
+          time:time
+        },
+      });
+    }
   };
 
   // const handleAction = (teamId, playerId, event, isDirect, isSubstitute) => {

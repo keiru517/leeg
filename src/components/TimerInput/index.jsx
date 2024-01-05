@@ -72,7 +72,7 @@ const TimePicker = (props) => {
   };
 
   return (
-    <div className="stopwatch-container w-full">
+    <div className="stopwatch-container w-[110px]">
       <div className="flex justify-center items-center">
         <div className="mt-1">
           <img
