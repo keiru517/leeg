@@ -91,7 +91,7 @@ const MatchupSettingModal = (props) => {
                   </div>
                   <div className="flex-col p-default flex justify-between overflow-y-auto h-[500px]">
                     <div className="flex space-x-3 items-center">
-                      <label htmlFor="" className="text-white">Period:</label>
+                      <label htmlFor="" className="text-black dark:text-white">Period:</label>
                       <input
                         type="number"
                         className="w-full flex space-x-2 border border-dark-gray items-center px-3 bg-transparent outline-none text-black dark:text-white flex-grow h-button rounded-default text-xs"
@@ -99,7 +99,7 @@ const MatchupSettingModal = (props) => {
                         value={period}
                         onChange={(e) => setPeriod(e.target.value)}
                       />
-                      <label htmlFor="" className="text-white">Timer:</label>
+                      <label htmlFor="" className="text-black dark:text-white">Timer:</label>
                       <TimerInput initialTime={time} setTime={setTime} className="w-full bg-[#303335] rounded-default"></TimerInput>
                     </div>
                     <button className="bg-primary rounded-default w-full hover:bg-opacity-70 h-button text-white"

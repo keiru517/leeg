@@ -169,7 +169,7 @@ const MatchupMobile = () => {
   return (
     <div className="flex flex-col flex-grow">
       <p className="flex font-dark-gray my-3 sm:my-[20px] justify-between ">
-        <div className="flex items-center">
+        <div className="flex items-center text-sm">
           <Link to="/" className="hidden sm:flex">
             <span className="hover:underline">My Leagues</span>
           </Link>
@@ -189,7 +189,7 @@ const MatchupMobile = () => {
         </div>
         <div className="flex space-x-3">
           <Select
-            className="w-[140px] rounded-lg text-xs h-button"
+            className="w-[120px] sm:w-[140px] rounded-lg text-xs h-button"
             options={options}
             handleClick={handleStatus}
             value={status}
