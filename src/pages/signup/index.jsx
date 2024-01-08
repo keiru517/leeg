@@ -121,6 +121,7 @@ const Signup = () => {
                 <div className="grid grid-cols-2 gap-4">
                   <input type="text" 
                   className="hidden"
+                  name="email"
                   value={email}
                   />
                   <input
