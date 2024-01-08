@@ -75,7 +75,7 @@ const AuthLayout = (props) => {
   // }, [token])
 
   return (
-    <div className="dark:bg-black bg-light-charcoal justify-center flex flex-col flex-grow">
+    <div className="dark:bg-black bg-light-charcoal justify-center flex flex-col flex-grow overflow-y-auto">
       {isLoading ? (
         <div className="text-white text-3xl">Page is loading.</div>
       ) : isLoggedIn ? (

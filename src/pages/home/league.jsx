@@ -364,8 +364,8 @@ const League = () => {
     });
   };
 
-  const [period, setPeriod] = useState(league.period);
-  const [time, setTime] = useState(league.time);
+  const [period, setPeriod] = useState(league?.period);
+  const [time, setTime] = useState(league?.time);
 
   const toggleFan = () => {
     axios
