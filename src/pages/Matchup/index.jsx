@@ -191,14 +191,14 @@ const MatchupMobile = () => {
             to={`/league/${leagueId}/team/${homeTeam?.id}`}
             className="flex space-x-2 items-center"
           >
-            <span className="text-sky-500">{homeTeam?.name} </span>
+            <span className="text-sky-500 hover:underline">{homeTeam?.name} </span>
           </Link>
           <span>&nbsp;vs&nbsp;</span>
           <Link
             to={`/league/${leagueId}/team/${awayTeam?.id}`}
             className="flex space-x-2 items-center"
           >
-            <span className="text-sky-500"> {awayTeam?.name}</span>
+            <span className="text-sky-500 hover:underline"> {awayTeam?.name}</span>
           </Link>
         </div>
         <div className="flex space-x-3">
