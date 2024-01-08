@@ -21,10 +21,6 @@ const MatchTable = (props) => {
     (team) => team.leagueId == leagueId
   );
 
-  const matches1 = useSelector((state) => state.home.matches).filter(
-    (match) => match.leagueId == leagueId && match.isDeleted == 0
-  );
-
   const matches = useSelector((state) => state.home.matches).filter((match) => {
     const homeTeam = teams.find((team) => team.id == match.homeTeamId);
     const awayTeam = teams.find((team) => team.id == match.awayTeamId);
@@ -44,12 +40,6 @@ const MatchTable = (props) => {
     );
   });
 
-  console.log(matches);
-  console.log(matches1);
-
-  // useEffect(() => {
-  //   setTableData(matches);
-  // }, [keyword]);
   const user = useSelector((state) => state.home.user);
   const league = useSelector((state) => state.home.leagues).find(
     (league) => league.id == leagueId && league.isDeleted !== 1
@@ -68,10 +58,6 @@ const MatchTable = (props) => {
   var columns = [];
   if (isAdmin) {
     var columns = [
-      // {label: "Date", accessor:'date'},
-      // {label: "Location", accessor:'location'},
-      // {label: "Time", accessor:'time'},
-      // {label: "Home", accessor:'time'},
       "Date",
       "Location",
       "Time",
@@ -96,13 +82,8 @@ const MatchTable = (props) => {
   const options = [
     { id: 0, name: "Edit" },
     { id: 1, name: "Scoreboard" },
-    // { id: 2, name: "Mobile Scoreboard" },
     { id: 2, name: "Delete" },
   ];
-
-  // const goToMatchup = (id) => {
-  //   navigate(`/league/${leagueId}/matchup/${id}`)
-  // }
 
   const handleOption = (idx, matchId) => {
     const match = matches.find((match) => match.id == matchId);
@@ -114,12 +95,8 @@ const MatchTable = (props) => {
     else if (idx === 1) {
       navigate(`/league/${leagueId}/matchup/${matchId}`);
     }
-    // Clicked mobile scorebard
-    else if (idx === 2) {
-      navigate(`/league/${leagueId}/matchup_mobile/${matchId}`);
-    }
     // Clicked delete
-    else if (idx === 3) {
+    else if (idx === 2) {
       if (!match.isNew) {
         actions.incompleteMatchup(dispatch, { matchId });
       }
