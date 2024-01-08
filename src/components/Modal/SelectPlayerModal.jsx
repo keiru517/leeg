@@ -41,23 +41,6 @@ const SelectPlayerModal = (props) => {
     (team) => team.id == teamId
   );
 
-  // const [filteredMatchups, setFilteredMatchups] = useState([]);
-
-  // useEffect(() => {
-  //   setFilteredMatchups(matchups);
-  // }, []);
-
-  // const substitutues = useSelector(state=>state.home.substitutes).filter(substitute=>substitute.leagueId == leagueId && substitute.matchId == matchId && substitute.teamId == teamId);
-  // useEffect(() => {
-  //   const result = matchups.filter((player) => player.teamId == teamId).map(matchup=>{
-  //     return {
-  //       matchup,
-  //       ...matchup.player
-  //     }
-  //   });
-  //   setFilteredMatchups([...result, ...substitutues]);
-  // }, [teamId]);
-
   const substitutues = useSelector(state=>state.home.substitutes).filter(substitute=>substitute.leagueId == leagueId && substitute.matchId == matchId && substitute.teamId == teamId);
   const result = matchups.filter((player) => player.teamId == teamId).map(matchup=>{
     return {
@@ -76,20 +59,6 @@ const SelectPlayerModal = (props) => {
       type: actions.CLOSE_ACTION_BUTTONS_DIALOG,
     });
   };
-
-  // const handleAction = (teamId, playerId, event, isDirect, isSubstitute) => {
-  //   actions.createOneLog(dispatch, {
-  //     leagueId,
-  //     matchId,
-  //     period: 1,
-  //     teamId,
-  //     playerId,
-  //     event,
-  //     time,
-  //     isDirect,
-  //     isSubstitute,
-  //   });
-  // };
 
   const addAction = (playerId) => {
     handleAction(teamId, playerId, title[event], 0, 0);

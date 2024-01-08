@@ -1,5 +1,12 @@
 import * as actions from "../actions";
 
+// const timer = useSelector(state=>state.matchup.match.timer);
+// const minutes = Math.floor((timer % 360000) / 6000);
+
+// // Seconds calculation
+// const seconds = Math.floor((timer % 6000) / 100);
+// const time = minutes + ':' + seconds;
+
 const initialState = {
   match: {},
   action_logs_dialog: {
@@ -33,7 +40,10 @@ const matchup = (state = initialState, action) => {
     case actions.SET_TIMER:
       return {
         ...state,
-        timer: action.payload,
+        action_buttons_dialog: {
+          ...state.action_buttons_dialog,
+          time: action.payload,
+        },
       };
     case actions.OPEN_ACTION_LOGS_DIALOG:
       return {

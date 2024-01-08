@@ -32,6 +32,10 @@ const MatchupMobile = () => {
   const match = useSelector((state) => state.home.matches).find(
     (match) => match.id == matchId
   );
+  useEffect(()=>{
+    dispatch({type:actions.SET_TIMER, payload:Math.floor((match?.timer % 360000) / 6000).toString().padStart(2, "0")+":" + Math.floor((match.timer % 6000) / 100).toString().padStart(2, "0")});
+    setTime(Math.floor((match?.timer % 360000) / 6000).toString().padStart(2, "0")+":" + Math.floor((match.timer % 6000) / 100).toString().padStart(2, "0"))
+  }, [match?.id])
   const league = useSelector((state) => state.home.leagues).find(
     (league) => league.id == leagueId
   );
@@ -213,7 +217,7 @@ const MatchupMobile = () => {
         <div className="flex flex-grow rounded-main justify-center">
           <div className="flex flex-col flex-grow space-y-3">
             <Scoreboard setTime={setTime} />
-            <ActionButtons className="hidden lg:flex" handleAction={handleAction} />
+            <ActionButtons className="hidden lg:flex" time={time} handleAction={handleAction} />
           </div>
         </div>
         <EventLogs className="hidden lg:flex w-1/4" />
