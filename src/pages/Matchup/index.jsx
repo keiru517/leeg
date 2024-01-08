@@ -32,6 +32,10 @@ const MatchupMobile = () => {
   const match = useSelector((state) => state.home.matches).find(
     (match) => match.id == matchId
   );
+  useEffect(()=>{
+    dispatch({type:actions.SET_TIMER, payload:Math.floor((match?.timer % 360000) / 6000).toString().padStart(2, "0")+":" + Math.floor((match.timer % 6000) / 100).toString().padStart(2, "0")});
+    setTime(Math.floor((match?.timer % 360000) / 6000).toString().padStart(2, "0")+":" + Math.floor((match.timer % 6000) / 100).toString().padStart(2, "0"))
+  }, [match?.id])
   const league = useSelector((state) => state.home.leagues).find(
     (league) => league.id == leagueId
   );
@@ -171,21 +175,31 @@ const MatchupMobile = () => {
       <p className="flex font-dark-gray my-3 sm:my-[20px] justify-between ">
         <div className="flex items-center text-sm">
           <Link to="/" className="hidden sm:flex">
-            <span className="hover:underline">My Leagues</span>
+            <span className="hover:underline text-sky-500">My Leagues</span>
           </Link>
-          <span className="hidden sm:flex"> &gt; </span>
+          <span className="hidden sm:flex">&nbsp; &gt; &nbsp;</span>
           <Link to={`/league/${leagueId}?tab=0`} className="hidden sm:flex">
-            <span className="hover:underline">{league?.name}</span>
+            <span className="hover:underline text-sky-500">{league?.name}</span>
           </Link>
 
-          <span className="hidden sm:flex"> &gt; </span>
+          <span className="hidden sm:flex">&nbsp; &gt; &nbsp;</span>
           <Link to={`/league/${leagueId}?tab=1`} className="">
-            <span className="hover:underline">Matches</span>
+            <span className="hover:underline text-sky-500">Matches &nbsp;</span>
           </Link>
-          <span className=""> &gt; </span>
-          <span className="text-sky-500">{homeTeam?.name} </span>
+          <span className="">&gt; &nbsp;</span>
+          <Link
+            to={`/league/${leagueId}/team/${homeTeam?.id}`}
+            className="flex space-x-2 items-center"
+          >
+            <span className="text-sky-500">{homeTeam?.name} </span>
+          </Link>
           <span>&nbsp;vs&nbsp;</span>
-          <span className="text-sky-500 "> {awayTeam?.name}</span>
+          <Link
+            to={`/league/${leagueId}/team/${awayTeam?.id}`}
+            className="flex space-x-2 items-center"
+          >
+            <span className="text-sky-500"> {awayTeam?.name}</span>
+          </Link>
         </div>
         <div className="flex space-x-3">
           <Select
@@ -203,13 +217,13 @@ const MatchupMobile = () => {
         <div className="flex flex-grow rounded-main justify-center">
           <div className="flex flex-col flex-grow space-y-3">
             <Scoreboard setTime={setTime} />
-            <ActionButtons className="hidden lg:flex" handleAction={handleAction} />
+            <ActionButtons className="hidden lg:flex" time={time} handleAction={handleAction} />
           </div>
         </div>
-        <EventLogs className="hidden lg:flex w-1/4"/>
+        <EventLogs className="hidden lg:flex w-1/4" />
       </div>
       <ActionLogModal />
-      <ActionButtonsModal handleAction={handleAction}/>
+      <ActionButtonsModal handleAction={handleAction} />
       <MatchupSettingModal />
       <EditEventModal homeTeam={homeTeam} awayTeam={awayTeam} />
       <SubstituteModal

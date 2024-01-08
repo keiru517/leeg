@@ -138,7 +138,7 @@ const Index = (props) => {
   }, [numberOfPeriods.length, match?.timer]);
 
   // Timer
-  const [timer, setTimer] = useState(0);
+  const [timer, setTimer] = useState(match?.timer);
   // const timer = useSelector(state=>state.matchup.timer);
   useEffect(() => {
     setTimer(timeOfPeriod[currentPeriod - 1]);
@@ -156,6 +156,12 @@ const Index = (props) => {
           ":" +
           seconds.toString().padStart(2, "0")
       );
+      // dispatch({
+      //   type: actions.SET_TIMER,
+      //   payload: minutes.toString().padStart(2, "0") +
+      //     ":" +
+      //     seconds.toString().padStart(2, "0"),
+      // });
       // intervalId = setInterval(() => dispatch({type:actions.SET_TIMER, payload:timer-100}), 1000);
       let tempTimeOfPeriod = [...timeOfPeriod];
       tempTimeOfPeriod[currentPeriod - 1] = timer;

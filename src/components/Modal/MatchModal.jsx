@@ -56,7 +56,7 @@ const MatchModal = () => {
     actions.createMatch(dispatch, {
       leagueId: leagueId,
       period: league?.period,
-      time: league?.time,
+      timer: league?.time,
       homeTeamId: homeValue.id,
       awayTeamId: awayValue.id,
       date,

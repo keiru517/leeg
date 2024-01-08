@@ -141,13 +141,13 @@ const Player = () => {
   return (
     <div className="flex flex-col flex-grow">
       <p className="font-dark-gray my-3">
-        <Link to="/" className="hover:underline">
+        <Link to="/" className="text-sky-500 hover:underline">
           <span className="">My Leagues</span>
         </Link>
 
         <span className=""> &gt; </span>
         <Link to={`/league/${league?.id}?tab=0`} className="hover:underline">
-          <span className="">{league?.name}</span>
+          <span className="text-sky-500">{league?.name}</span>
         </Link>
         <span className=""> &gt; </span>
         {team && (
