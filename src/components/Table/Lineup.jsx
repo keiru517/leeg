@@ -66,7 +66,7 @@ const LineupTable = (props) => {
   useEffect(() => {
     let temp = {};
     players.map((player) => {
-      console.log(player.attendance);
+      console.log(player.isSubstitute);
       temp[player.id] = player.attendance === 1 ? true : false;
     });
     setItemChecked(temp);
@@ -130,9 +130,15 @@ const LineupTable = (props) => {
                       alt=""
                       className="h-8 w-8 sm:mr-2 sm:ml-5 rounded-full border border-gray-500"
                     />
-                    <Link to={`player/${player.userId}`} className="underline">
-                      {player.firstName} {player.lastName}
-                    </Link>
+                    {
+                      !player.isSubstitute &&
+                      <Link to={`player/${player.userId}`} className="underline">
+                        {player.firstName} {player.lastName}
+                      </Link>
+                    }
+                    {
+                      player.isSubstitute && <>{player.firstName} {player.lastName}</>
+                    }
                   </div>
                   {player.isSubstitute && (
                     <span className="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
