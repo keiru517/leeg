@@ -213,7 +213,7 @@ const MatchupMobile = () => {
         </div>
       </p>
 
-      <div className="flex flex-grow space-x-3 h-[816px]">
+      <div className="flex flex-grow space-x-3 h-[780px]">
         <div className="flex flex-grow rounded-main justify-center">
           <div className="flex flex-col flex-grow space-y-3">
             <Scoreboard setTime={setTime} />
