@@ -202,7 +202,7 @@ const TeamModal = () => {
               <Dialog.Panel className="relative transform overflow-hidden rounded-main text-left shadow-xl transition-all sm:my-8 bg-white dark:bg-slate h-96 sm:h-[609px] w-[400px] sm:w-[500px] md:w-[735px] mx-3 flex flex-col">
                 <div className="divide-y divide-solid divide-[#3A3A3A] flex flex-col flex-grow">
                   <div className="flex items-center text-left h-16 sm:h-[88px] justify-between px-default">
-                    <p className="text-2xl text-black dark:text-white font-bold">
+                    <p className="text-xl sm:text-2xl text-black dark:text-white font-bold">
                       {type == "create"
                         ? "Create Team"
                         : type == "edit"
@@ -250,7 +250,7 @@ const TeamModal = () => {
                           <div
                             className={`${
                               logoWarning ? "border-2 border-red-500" : ""
-                            } flex w-full h-[86px] bg-light-charcoal dark:bg-charcoal rounded-default items-center justify-between`}
+                            } flex w-full h-16 sm:h-[86px] bg-light-charcoal dark:bg-charcoal rounded-default items-center justify-between`}
                           >
                             <div className="flex items-center">
                               <div
@@ -373,10 +373,10 @@ const TeamModal = () => {
                         </div>
                       ) : type === "addPlayer" ? (
                         <>
-                          <div className="flex bg-light-charcoal dark:bg-[#4A5462] h-[66px] rounded-default p-4 items-center">
+                          <div className="flex bg-light-charcoal dark:bg-[#4A5462] h-10 sm:h-[66px] rounded-default p-4 items-center">
                             <img
                               src={team.logo}
-                              className="w-10 h-10 rounded-full border border-gray-500"
+                              className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border border-gray-500"
                               alt=""
                             />
                             <p className="text-black dark:text-white underline mx-2 text-sm truncate w-40">
@@ -384,13 +384,13 @@ const TeamModal = () => {
                             </p>
                           </div>
                           <Input
-                            className="rounded-lg my-[10px] text-xs"
+                            className="rounded-lg my-2 sm:my-[10px] text-xs"
                             icon={search}
                             placeholder="Search Players"
                             value={keyword}
                             onChange={(e) => setKeyword(e.target.value)}
                           />
-                          <div className="overflow-y-auto h-[260px]">
+                          <div className="overflow-y-auto h-[150px] sm:h-[260px]">
                             {players
                               .filter((player) =>
                                 (player.firstName + player.lastName)
@@ -400,7 +400,7 @@ const TeamModal = () => {
                               .map((player, idx) => (
                                 <PlayerList
                                   key={idx}
-                                  className="mb-5"
+                                  className="mb-2 sm:mb-5"
                                   player={player}
                                   teamId={team.id}
                                   checked={playersList[player.id]}

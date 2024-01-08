@@ -14,7 +14,12 @@ const SelectPlayerModal = (props) => {
   let { leagueId, matchId } = useParams();
   const dispatch = useDispatch();
 
-  const {period, event, playerId, teamId, handleAction } = props;
+  // const {period, event, playerId, teamId, handleAction } = props;
+  let { handleAction } = props;
+
+  const event = useSelector(state=>state.matchup.event);
+  const {teamId, time} = useSelector(state=>state.matchup.action_buttons_dialog);
+
   const title = {
     points3: "+3 Pointer",
     points2: "+2 Pointer",
@@ -54,9 +59,9 @@ const SelectPlayerModal = (props) => {
     setFilteredMatchups([...result, ...substitutues]);
   }, [teamId]);
 
-  const player = useSelector((state) => state.home.matchups).find(
-    (player) => player.id == playerId
-  );
+  // const player = useSelector((state) => state.home.matchups).find(
+  //   (player) => player.id == playerId
+  // );
 
   const [jerseyNumber, setJerseyNumber] = useState(0);
 
@@ -68,13 +73,13 @@ const SelectPlayerModal = (props) => {
     { id: 4, name: "Shooting Guard" },
   ];
 
-  const [position, setPosition] = useState(
-    player?.position ? player?.position : "Select Position"
-  );
+  // const [position, setPosition] = useState(
+  //   player?.position ? player?.position : "Select Position"
+  // );
 
-  useEffect(() => {
-    setJerseyNumber(player?.jerseyNumber);
-  }, [player]);
+  // useEffect(() => {
+  //   setJerseyNumber(player?.jerseyNumber);
+  // }, [player]);
 
   const cancelButtonRef = useRef(null);
 
@@ -82,19 +87,19 @@ const SelectPlayerModal = (props) => {
     dispatch({ type: actions.OPEN_SELECT_PLAYER_DIALOG, payload: false });
   };
 
-  const handleEdit = () => {
-    axios
-      .post(apis.updatePlayer, { playerId, jerseyNumber, position })
-      .then((res) => {
-        actions.getPlayers(dispatch);
-        alert(res.data.message);
-      })
-      .catch((error) => {
-        alert(error.response.data.message);
-      });
-  };
+  // const handleEdit = () => {
+  //   axios
+  //     .post(apis.updatePlayer, { playerId, jerseyNumber, position })
+  //     .then((res) => {
+  //       actions.getPlayers(dispatch);
+  //       alert(res.data.message);
+  //     })
+  //     .catch((error) => {
+  //       alert(error.response.data.message);
+  //     });
+  // };
 
-  const [playersList, setPlayersList] = useState({});
+  // const [playersList, setPlayersList] = useState({});
 
   const addAction = (playerId) => {
     handleAction(teamId, playerId, title[event], 0, 0);

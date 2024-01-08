@@ -668,11 +668,10 @@ const League = () => {
     <div className="flex flex-col flex-grow">
       <p className="flex font-dark-gray my-3 items-center">
         <Link to="/">
-          <span className="">My Leagues</span>
+          <span className="text-sky-500 hover:underline">My Leagues</span>
         </Link>
-        <span className="text-sky-500">&nbsp; &gt; </span>
-        <div className="flex items-center space-x-3 ml-3">
-          {/* <img src={league?.logo} className="w-10 h-10 rounded-lg"></img> */}
+        <span className="">&nbsp; &gt; &nbsp;</span>
+        <div className="flex items-center space-x-3">
           <p className="">{league?.name}</p>
         </div>
       </p>
