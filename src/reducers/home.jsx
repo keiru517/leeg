@@ -402,6 +402,7 @@ const home = (state = initialState, action) => {
       return {
         ...state,
         substitute_dialog: {
+          ...state.substitute_dialog,
           open: false,
         },
       };

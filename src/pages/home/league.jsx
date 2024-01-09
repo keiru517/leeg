@@ -186,13 +186,11 @@ const League = () => {
   const [standingsKeyword, setStandingsKeyword] = useState("");
 
   const [playerKeyword, setPlayerKeyword] = useState("");
-  const [filteredPlayers, setFilteredPlayers] = useState([]);
 
   // Rosters
   useEffect(() => {
     setFilteredWaitListPlayers(waitListPlayers);
     setFilteredAcceptListPlayers(acceptedPlayers);
-    setFilteredPlayers(allPlayers);
     if (rosterValue === "Waitlisted") {
       setRosters(players?.filter((roster) => roster.isWaitList === 1));
     } else {
@@ -244,15 +242,6 @@ const League = () => {
   //   setFilteredStandings(searchResult);
   // }, [standingsKeyword]);
 
-  // Players
-  useEffect(() => {
-    const searchResult = allPlayers.filter((player) =>
-      (player.firstName + player.lastName)
-        .toLowerCase()
-        .includes(playerKeyword.toLowerCase())
-    );
-    setFilteredPlayers(searchResult);
-  }, [playerKeyword]);
 
   const setWaitListItemChecked = (index, checked) => {
     let temp = { ...waitItemChecked };
@@ -990,18 +979,10 @@ const League = () => {
                     }}
                   />
                 </div>
-                {allPlayers.filter((player) =>
-                  (player.firstName + player.lastName)
-                    .toLowerCase()
-                    .includes(playerKeyword.toLowerCase())
-                ).length > 0 ? (
+                {allPlayers.length > 0 ? (
                   <PlayerTable
-                    players={allPlayers.filter((player) =>
-                      (player.firstName + player.lastName)
-                        .toLowerCase()
-                        .includes(playerKeyword.toLowerCase())
-                    )}
                     league={league}
+                    playerKeyword={playerKeyword}
                   ></PlayerTable>
                 ) : (
                   <div className="flex items-center flex-grow">

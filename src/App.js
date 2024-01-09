@@ -2,7 +2,7 @@ import "./App.css";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Home from "./pages/home";
 import League from "./pages/home/league";
-import Team from "./pages/team";
+import Team from "./pages/Team";
 import Matchup from "./pages/Matchup";
 import Signin from "./pages/signin";
 import Signup from "./pages/signup";
