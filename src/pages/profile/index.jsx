@@ -47,14 +47,6 @@ const Profile = () => {
   const [newPassword, setNewPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
 
-  const updateInformation = () => {
-    console.log("clicked update information");
-  };
-
-  const updatePassword = () => {
-    console.log("clicked update Password");
-  };
-
   const inviteAdmin = () => {
     console.log("invite Admin clicked! The admin email is:", value);
     setValue("");
@@ -133,7 +125,7 @@ const Profile = () => {
       </PageTitle>
       <p className="text-sm text-font-dark-gray my-[20px]">
         <span className="">Settings</span>
-        <span className="text-sky-500"> &gt; Personal Information</span>
+        <span className=""> &gt; Personal Information</span>
       </p>
       <div className="flex flex-grow rounded-main bg-white dark:bg-slate overflow-auto p-default">
 

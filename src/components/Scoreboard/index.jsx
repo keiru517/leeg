@@ -411,14 +411,14 @@ const Index = (props) => {
             src={playerStats}
             alt=""
             className="cursor-pointer hover:opacity-75"
-            onClick={() => handlePlayerStats(homeTeam?.id)}
+            onClick={(e) => handlePlayerStats(awayTeam?.id, e)}
           />
           {match?.isNew && (
             <img
               src={editLineup}
               alt=""
               className="cursor-pointer hover:opacity-75"
-              onClick={() => handleLineups(homeTeam?.id)}
+              onClick={(e) => handleLineups(awayTeam?.id, e)}
             />
           )}
         </div>
