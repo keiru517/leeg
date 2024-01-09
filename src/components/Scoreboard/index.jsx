@@ -206,13 +206,11 @@ const Index = (props) => {
     setTimer(timer - 100);
   };
 
-  const handlePlayerStats = (teamId, e) => {
-    e.stopPropagation();
+  const handlePlayerStats = (teamId) => {
     dispatch({ type: actions.OPEN_PLAYER_STATS_DIALOG, payload: teamId });
   };
 
-  const handleLineups = (teamId, e) => {
-    e.stopPropagation();
+  const handleLineups = (teamId) => {
     dispatch({ type: actions.OPEN_LINEUP_DIALOG, payload: teamId });
   };
 
@@ -243,14 +241,14 @@ const Index = (props) => {
             src={playerStats}
             alt=""
             className="cursor-pointer hover:opacity-75"
-            onClick={(e) => handlePlayerStats(homeTeam?.id, e)}
+            onClick={() => handlePlayerStats(homeTeam?.id)}
           />
           {match?.isNew && (
             <img
               src={editLineup}
               alt=""
               className="cursor-pointer hover:opacity-75"
-              onClick={(e) => handleLineups(homeTeam?.id, e)}
+              onClick={() => handleLineups(homeTeam?.id)}
             />
           )}
         </div>
@@ -411,14 +409,14 @@ const Index = (props) => {
             src={playerStats}
             alt=""
             className="cursor-pointer hover:opacity-75"
-            onClick={(e) => handlePlayerStats(awayTeam?.id, e)}
+            onClick={() => handlePlayerStats(awayTeam?.id)}
           />
           {match?.isNew && (
             <img
               src={editLineup}
               alt=""
               className="cursor-pointer hover:opacity-75"
-              onClick={(e) => handleLineups(awayTeam?.id, e)}
+              onClick={() => handleLineups(awayTeam?.id)}
             />
           )}
         </div>

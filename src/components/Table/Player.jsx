@@ -6,7 +6,7 @@ import { useMemo } from "react";
 import { useParams } from "react-router";
 import DefaultSubstituteAvatar from "../../assets/img/dark_mode/default-substitutue-avatar.png";
 
-const Player = ({ league, playerKeyword }) => {
+const Player = ({ players, substitutes, league, teamId, playerKeyword }) => {
   let { leagueId } = useParams();
   const matchups = useSelector((state) => state.home.matchups);
 
@@ -23,13 +23,13 @@ const Player = ({ league, playerKeyword }) => {
   const displaySteals = league?.displaySteals;
   const displayTurnovers = league?.displayTurnovers;
 
-  const players = useSelector((state) => state.home.players).filter(
-    (player) => player.leagueId == leagueId && player.isAcceptedList
-  );
+  // const players = useSelector((state) => state.home.players).filter(
+  //   (player) => player.leagueId == leagueId && player.isAcceptedList
+  // );
 
-  const substitutes = useSelector((state) => state.home.substitutes).filter(
-    (sub) => sub.leagueId == leagueId
-  );
+  // const substitutes = useSelector((state) => state.home.substitutes).filter(
+  //   (sub) => sub.leagueId == leagueId && sub.teamId == teamId
+  // );
   const updatedPlayers = Object.values(
     players.reduce((acc, player) => {
       const matchup = matchups.filter(
