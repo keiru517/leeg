@@ -172,8 +172,8 @@ const MatchupMobile = () => {
 
   return (
     <div className="flex flex-col flex-grow">
-      <p className="flex font-dark-gray my-3 sm:my-[20px] justify-between ">
-        <div className="flex items-center text-sm">
+      <p className="flex font-dark-gray my-3 sm:my-[20px] justify-between space-x-2">
+        <div className="flex items-center text-sm truncate">
           <Link to="/" className="hidden sm:flex">
             <span className="hover:underline text-sky-500">My Leagues</span>
           </Link>

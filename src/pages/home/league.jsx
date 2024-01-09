@@ -704,30 +704,6 @@ const League = () => {
                   />
                 ))}
               </Tabs>
-              {/* {tab == 0 && isAdmin ? (
-                <button
-                  onClick={handleInvitePlayer}
-                  className="w-36 h-[42px] bg-primary hover:bg-opacity-70 rounded-default text-white focus:ring-2 text-sm font-bold"
-                >
-                  Invite Player
-                </button>
-              ) : tab == 1 && isAdmin ? (
-                <button
-                  onClick={handleCreateTeam}
-                  className="w-36 h-[42px] bg-primary hover:bg-opacity-70 rounded-default text-white focus:ring-2 text-sm font-bold"
-                >
-                  Create Team
-                </button>
-              ) : tab == 2 && isAdmin ? (
-                <button
-                  onClick={handleCreateMatch}
-                  className="w-36 h-[42px] bg-primary hover:bg-opacity-70 rounded-default text-white focus:ring-2 text-sm font-bold"
-                >
-                  Create Match
-                </button>
-              ) : (
-                ""
-              )} */}
             </div>
             <div className="flex-grow flex items-center ">
               {/* Blog */}
