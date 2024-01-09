@@ -20,25 +20,8 @@ const SubstituteModal = (props) => {
   const team = useSelector((state) => state.home.teams).find(
     (team) => team.id == teamId
   );
-  const match = useSelector((state) => state.home.matches).find(
-    (match) => match.id == matchId
-  );
-
-  const [keyword, setKeyword] = useState("");
-
-  const players = useSelector((state) => state.home.players).filter(
-    (player) =>
-      player.leagueId == leagueId &&
-      player.teamId != match.homeTeamId &&
-      player.teamId != match.awayTeamId
-  );
 
   const [playersList, setPlayersList] = useState({});
-  const setCheckedList = (id, checked) => {
-    let temp = { ...playersList };
-    temp[id] = checked;
-    setPlayersList(temp);
-  };
   const dispatch = useDispatch();
 
   const status = useSelector((state) => state.home.substitute_dialog.open);
@@ -53,22 +36,12 @@ const SubstituteModal = (props) => {
   const [position, setPosition] = useState("Select Position");
 
   const [email, setEmail] = useState("");
-  const [canAdd, setCanAdd] = useState(false);
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [jerseyNumber, setJerseyNumber] = useState("");
 
   const createSubmit = () => {
-    console.log(
-      leagueId,
-      teamId,
-      matchId,
-      firstName,
-      lastName,
-      jerseyNumber,
-      position
-    );
     const formData = new FormData();
     formData.append("leagueId", leagueId);
     formData.append("teamId", teamId);
@@ -79,30 +52,9 @@ const SubstituteModal = (props) => {
     formData.append("position", position);
     actions.createSubstitute(dispatch, formData);
     dispatch({ type: actions.CLOSE_ADD_SUBSTITUTE_DIALOG });
-    // if (position === "Select Position") {
-    //   setPosition("");
-    // }
-    // axios
-    //   .post(apis.createOneMatchup, {
-    //     email,
-    //     leagueId,
-    //     matchId,
-    //     teamId,
-    //     jerseyNumber,
-    //     position,
-    //   })
-    //   .then((res) => {
-    //     actions.getPlayers(dispatch);
-    //     actions.getTeams(dispatch);
-    //     actions.getMatches(dispatch);
-    //     actions.getMatchups(dispatch);
-    //     alert("Added a substitute successfully!");
-    //   })
-    //   .catch((error) => console.log(error.response.data.message));
   };
 
   const closeDialog = () => {
-    // dispatch({ type: actions.OPEN_CREATE_TEAM_DIALOG, payload: false });
     dispatch({ type: actions.CLOSE_ADD_SUBSTITUTE_DIALOG });
     setPlayersList({});
     setEmail("");
@@ -122,16 +74,6 @@ const SubstituteModal = (props) => {
     const emailExistsInAwayTeamPlayers = awayTeamPlayers.some(
       (player) => player.email === email
     );
-
-    if (
-      emailExistsInUsers &&
-      !emailExistsInHomeTeamPlayers &&
-      !emailExistsInAwayTeamPlayers
-    ) {
-      setCanAdd(true);
-    } else {
-      setCanAdd(false);
-    }
   }, [email]);
 
   return (
