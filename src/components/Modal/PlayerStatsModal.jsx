@@ -17,7 +17,7 @@ const PlayerStatsModal = (props) => {
 
   const status = useSelector((state) => state.home.matchup_player_stats_dialog.open);
   const teamId = useSelector((state) => state.home.matchup_player_stats_dialog.id);
-  const league = useSelector(state=>state.home.leagues).find(league=>league.id == leagueId);
+  const league = useSelector(state => state.home.leagues).find(league => league.id == leagueId);
 
   const players = useSelector((state) => state.home.matchups)
     .filter((matchup) => matchup.matchId == matchId && matchup.teamId == teamId)
@@ -59,16 +59,9 @@ const PlayerStatsModal = (props) => {
       }
     );
 
-
-  const handleLineups = () => {
-    // console.log(lineups)
-    // axios.post(apis.editLineups, {lineups, matchId}).then((res)=>{
-    //   actions.getMatchups(dispatch);
-    //   alert(res.data.message);
-    // }).catch(()=>{
-    //   console.log("Error")
-    // })
-  }
+  const substitutes = useSelector((state) => state.home.substitutes).filter(
+    (sub) => sub.leagueId == leagueId && sub.teamId == teamId
+  );
 
   const closeDialog = () => {
     dispatch({ type: actions.CLOSE_PLAYER_STATS_DIALOG });
@@ -126,7 +119,7 @@ const PlayerStatsModal = (props) => {
                   </div>
                   <div className="flex flex-grow flex-col p-default justify-between">
                     <div>
-                      <PlayerTable players={players} league={league}></PlayerTable>
+                      <PlayerTable players={players} substitutes={substitutes} league={league} playerKeyword={""}></PlayerTable>
                     </div>
                   </div>
                 </div>
