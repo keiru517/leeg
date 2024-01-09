@@ -1,8 +1,6 @@
 import { Typography } from "@material-tailwind/react";
 import { useSelector } from "react-redux";
 import Table from "./index";
-import { Link } from "react-router-dom";
-import { useMemo } from "react";
 
 const PlayerStatistics = ({ userId, leagueId }) => {
   const league = useSelector((state) => state.home.leagues).find(
@@ -222,65 +220,6 @@ const PlayerStatistics = ({ userId, leagueId }) => {
             0
           ) / matchups.length,
   };
-  // const data = useMemo(
-  //   () =>
-  //     matchups
-  //       .sort((a, b) => b.points - a.points)
-  //       .map((player) => {
-  //         const matchup = matchups.filter(
-  //           (matchup) =>
-  //             matchup.userId == player.userId && matchup.leagueId == league.id
-  //         );
-  //         return {
-  //           totalPoints: matchup.reduce((sum, item) => sum + item.points, 0),
-  //           totalPoints1: matchup.reduce(
-  //             (sum, matchup) => sum + matchup.points1,
-  //             0
-  //           ),
-  //           totalPoints2: matchup.reduce(
-  //             (sum, matchup) => sum + matchup.points2,
-  //             0
-  //           ),
-  //           totalPoints3: matchup.reduce(
-  //             (sum, matchup) => sum + matchup.points3,
-  //             0
-  //           ),
-  //           attempts1: matchup.reduce(
-  //             (sum, matchup) => sum + matchup.attempts1,
-  //             0
-  //           ),
-  //           attempts2: matchup.reduce(
-  //             (sum, matchup) => sum + matchup.attempts2,
-  //             0
-  //           ),
-  //           attempts3: matchup.reduce(
-  //             (sum, matchup) => sum + matchup.attempts3,
-  //             0
-  //           ),
-  //           blocks: matchup.reduce((sum, matchup) => sum + matchup.blocks, 0),
-  //           rebounds: matchup.reduce(
-  //             (sum, matchup) => sum + matchup.rebounds,
-  //             0
-  //           ),
-  //           assists: matchup.reduce((sum, matchup) => sum + matchup.assists, 0),
-  //           fouls: matchup.reduce((sum, matchup) => sum + matchup.fouls, 0),
-  //           steals: matchup.reduce((sum, matchup) => sum + matchup.steals, 0),
-  //           turnovers: matchup.reduce(
-  //             (sum, matchup) => sum + matchup.turnovers,
-  //             0
-  //           ),
-  //           playerPosition: player.position,
-  //           userId: player.userId,
-  //           jerseyNumber: player.jerseyNumber,
-  //           firstName: player.firstName,
-  //           lastName: player.lastName,
-  //           avatar: player.avatar,
-  //           team: teams.find((team) => team.id == player.teamId),
-  //           teamId: player.teamId,
-  //         };
-  //       }),
-  //   [matchups]
-  // );
 
   return (
     <div className="text-black dark:text-white mt-5 w-full">

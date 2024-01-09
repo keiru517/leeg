@@ -121,18 +121,32 @@ const LineupTable = (props) => {
                   className="font-normal flex items-center px-3 justify-between"
                 >
                   <div className="flex items-center">
-                    <img
-                      src={
-                        player.isSubstitute
-                          ? DefaultSubstituteAvatar
-                          : player.avatar
-                      }
-                      alt=""
-                      className="h-8 w-8 sm:mr-2 sm:ml-5 rounded-full border border-gray-500"
-                    />
+                    {
+                      player.isSubstitute == false ?
+                        <Link to={`/league/${leagueId}/player/${player.userId}`} className="underline">
+                          <img
+                            src={
+                              player.isSubstitute
+                                ? DefaultSubstituteAvatar
+                                : player.avatar
+                            }
+                            alt=""
+                            className="h-8 w-8 mr-2 sm:ml-5 rounded-full border border-gray-500"
+                          />
+                        </Link> :
+                        <img
+                          src={
+                            player.isSubstitute
+                              ? DefaultSubstituteAvatar
+                              : player.avatar
+                          }
+                          alt=""
+                          className="h-8 w-8 mr-2 sm:ml-5 rounded-full border border-gray-500"
+                        />
+                    }
                     {
                       !player.isSubstitute &&
-                      <Link to={`player/${player.userId}`} className="underline">
+                      <Link to={`/league/${leagueId}/player/${player.userId}`} className="underline">
                         {player.firstName} {player.lastName}
                       </Link>
                     }

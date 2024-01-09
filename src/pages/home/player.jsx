@@ -160,7 +160,7 @@ const Player = () => {
             <span className=""> &gt; </span>
           </>
         )}
-        <span className="text-sky-500">
+        <span className="">
           {player?.firstName} {player?.lastName}
         </span>
       </p>

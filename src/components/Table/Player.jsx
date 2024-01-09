@@ -63,19 +63,33 @@ const Player = ({ players, league }) => {
       fixed: true,
       getValue: (row) => (
         <div className="flex items-center">
-          <Link to={`player/${row.userId}`}>
-            <img
-              src={row.avatar}
-              alt=""
-              className="h-8 w-8 mr-4 rounded-full border border-gray-500"
-            />
-          </Link>
-          <Link
-            to={`/league/${leagueId}/player/${row.userId}`}
-            className="hover:underline"
-          >
-            {row.firstName} {row.lastName}
-          </Link>
+          {
+            row.isSubstitute == false ?
+              <>
+                <Link to={`/league/${leagueId}/player/${row.userId}`}>
+                  <img
+                    src={row.avatar}
+                    alt=""
+                    className="h-8 w-8 mr-4 rounded-full border border-gray-500"
+                  />
+                </Link>
+                <Link
+                  to={`/league/${leagueId}/player/${row.userId}`}
+                  className="hover:underline"
+                >
+                  {row.firstName} {row.lastName}
+                </Link>
+              </>
+              :
+              <>
+                <img
+                  src={row.avatar}
+                  alt=""
+                  className="h-8 w-8 mr-4 rounded-full border border-gray-500"
+                />
+                {row.firstName} {row.lastName}
+              </>
+          }
         </div>
       ),
     },
@@ -85,14 +99,14 @@ const Player = ({ players, league }) => {
       getValue: (row) =>
         row.team && (
           <div className="flex items-center">
-            <Link to={`team/${row.teamId}`}>
+            <Link to={`/league/${leagueId}/team/${row.teamId}`}>
               <img
                 src={row.team?.logo}
                 alt=""
                 className="w-8 h-8 mr-2 rounded-full border border-gray-500"
               />
             </Link>
-            <Link to={`team/${row.teamId}`} className="hover:underline">
+            <Link to={`/league/${leagueId}/team/${row.teamId}`} className="hover:underline">
               {row.teamName}
             </Link>
           </div>
@@ -490,45 +504,45 @@ const Player = ({ players, league }) => {
           "3p%": isNaN(
             (matchup.reduce((sum, matchup) => sum + matchup.points3, 0) /
               matchup.reduce((sum, matchup) => sum + matchup.attempts3, 0)) *
-              100
+            100
           )
             ? 0
             : (
-                (matchup.reduce((sum, matchup) => sum + matchup.points3, 0) /
-                  matchup.reduce(
-                    (sum, matchup) => sum + matchup.attempts3,
-                    0
-                  )) *
-                100
-              ).toFixed(2),
+              (matchup.reduce((sum, matchup) => sum + matchup.points3, 0) /
+                matchup.reduce(
+                  (sum, matchup) => sum + matchup.attempts3,
+                  0
+                )) *
+              100
+            ).toFixed(2),
           "fg%": isNaN(
             (matchup.reduce((sum, matchup) => sum + matchup.points2, 0) /
               matchup.reduce((sum, matchup) => sum + matchup.attempts2, 0)) *
-              100
+            100
           )
             ? 0
             : (
-                (matchup.reduce((sum, matchup) => sum + matchup.points2, 0) /
-                  matchup.reduce(
-                    (sum, matchup) => sum + matchup.attempts2,
-                    0
-                  )) *
-                100
-              ).toFixed(2),
+              (matchup.reduce((sum, matchup) => sum + matchup.points2, 0) /
+                matchup.reduce(
+                  (sum, matchup) => sum + matchup.attempts2,
+                  0
+                )) *
+              100
+            ).toFixed(2),
           "ft%": isNaN(
             (matchup.reduce((sum, matchup) => sum + matchup.points1, 0) /
               matchup.reduce((sum, matchup) => sum + matchup.attempts1, 0)) *
-              100
+            100
           )
             ? 0
             : (
-                (matchup.reduce((sum, matchup) => sum + matchup.points1, 0) /
-                  matchup.reduce(
-                    (sum, matchup) => sum + matchup.attempts1,
-                    0
-                  )) *
-                100
-              ).toFixed(2),
+              (matchup.reduce((sum, matchup) => sum + matchup.points1, 0) /
+                matchup.reduce(
+                  (sum, matchup) => sum + matchup.attempts1,
+                  0
+                )) *
+              100
+            ).toFixed(2),
           blocks: matchup.reduce((sum, matchup) => sum + matchup.blocks, 0),
           rebounds: matchup.reduce((sum, matchup) => sum + matchup.rebounds, 0),
           assists: matchup.reduce((sum, matchup) => sum + matchup.assists, 0),
@@ -544,6 +558,7 @@ const Player = ({ players, league }) => {
           firstName: player.firstName,
           lastName: player.lastName,
           avatar: player.avatar,
+          isSubstitute: player.isSubstitute,
           team: teams.find((team) => team.id == player.teamId),
           teamName: teams.find((team) => team.id == player.teamId)?.name,
           teamId: player.teamId,
@@ -552,7 +567,7 @@ const Player = ({ players, league }) => {
             matchup.length === 0
               ? 0
               : matchup.reduce((sum, item) => sum + item.points, 0) /
-                matchup.length,
+              matchup.length,
         };
       });
 
@@ -575,17 +590,17 @@ const Player = ({ players, league }) => {
               attempts1: sub.match.isNew ? 0 : sub.attempts1,
               "3p%":
                 sub.match.isNew &&
-                isNaN((sub.totalPoints3 / sub.attempts3) * 100)
+                  isNaN((sub.totalPoints3 / sub.attempts3) * 100)
                   ? 0
                   : ((sub.totalPoints3 / sub.attempts3) * 100).toFixed(2),
               "fg%":
                 sub.match.isNew &&
-                isNaN((sub.totalPoints2 / sub.attempts2) * 100)
+                  isNaN((sub.totalPoints2 / sub.attempts2) * 100)
                   ? 0
                   : ((sub.totalPoints2 / sub.attempts2) * 100).toFixed(2),
               "ft%":
                 sub.match.isNew &&
-                isNaN((sub.totalPoints1 / sub.attempts1) * 100)
+                  isNaN((sub.totalPoints1 / sub.attempts1) * 100)
                   ? 0
                   : ((sub.totalPoints1 / sub.attempts1) * 100).toFixed(2),
               blocks: sub.match.isNew ? 0 : sub.blocks,

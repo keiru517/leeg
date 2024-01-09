@@ -83,17 +83,17 @@ const Team = () => {
     <div className="flex flex-col flex-grow">
       <p className="font-dark-gray my-3">
         <Link to="/">
-          <span className="hover:underline">My Leagues</span>
+          <span className="hover:underline text-sky-500">My Leagues</span>
         </Link>
         <span className=""> &gt; </span>
         <Link to={`/league/${league?.id}?tab=0`}>
-          <span className="hover:underline">{league?.name}</span>
+          <span className="hover:underline text-sky-500">{league?.name}</span>
         </Link>
         <span className=""> &gt; </span>
         <Link to={`/league/${league?.id}?tab=1`}>
-          <span className="hover:underline">Teams</span>
+          <span className="hover:underline text-sky-500">Teams</span>
         </Link>
-        <span className="text-sky-500"> &gt; {team?.name}</span>
+        <span className=""> &gt; {team?.name}</span>
       </p>
       <div className="flex flex-col rounded-main bg-white dark:bg-slate flex-grow p-default">
         <div className="page-title bg-white dark:bg-charcoal flex items-center justify-between p-3">
