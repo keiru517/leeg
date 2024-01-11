@@ -72,7 +72,6 @@ const LineupsModal = (props) => {
       .post(apis.editLineups, { lineups, matchId })
       .then((res) => {
         dispatch({ type: actions.GET_MATCHUPS, payload: res.data.matchups });
-        alert("Updated lineups!");
       })
       .catch(() => {
         console.log("Error");
