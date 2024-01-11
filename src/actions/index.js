@@ -212,6 +212,7 @@ export const removeSubstitute = async (dispatch, data) => {
       type: GET_MATCHUPS,
       payload: matchups,
     });
+    getLogs(dispatch)
   } catch (error) {
     dispatch({
       type: GET_MATCHUPS,
