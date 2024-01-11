@@ -412,7 +412,7 @@ console.log("updatedPlayers", updatedPlayers)
           jerseyNumber: player.jerseyNumber,
           firstName: player.firstName,
           lastName: player.lastName,
-          avatar: player.avatar,
+          avatar: player.isSubstitute?DefaultSubstituteAvatar:player.avatar,
           isSubstitute: player.isSubstitute,
           team: teams.find((team) => team.id == player.teamId),
           teamName: teams.find((team) => team.id == player.teamId)?.name,
