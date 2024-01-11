@@ -5,11 +5,11 @@ import Match from '../models/Match';
 // GET /api/substitutes/all
 export const all: RequestHandler = async (req, res) => {
   const substitutes = await Substitute.findAll({
-    include:[
-      {model:Match, as: 'match'}
+    include: [
+      { model: Match, as: 'match' }
     ]
   });
-  res.status(200).json({substitutes});
+  res.status(200).json({ substitutes });
 };
 
 export const create: RequestHandler = async (req, res) => {
@@ -25,13 +25,13 @@ export const create: RequestHandler = async (req, res) => {
 
   try {
     await Substitute.create({
-      leagueId:leagueId,
-      teamId:teamId,
-      matchId:matchId,
-      firstName:firstName,
-      lastName:lastName,
-      jerseyNumber:jerseyNumber,
-      position:position,
+      leagueId: leagueId,
+      teamId: teamId,
+      matchId: matchId,
+      firstName: firstName,
+      lastName: lastName,
+      jerseyNumber: jerseyNumber,
+      position: position,
       totalPoints: 0,
       totalPoints3: 0,
       totalPoints2: 0,
@@ -57,3 +57,13 @@ export const create: RequestHandler = async (req, res) => {
       .json({ message: 'Error occurred while adding as a substitute!' });
   }
 };
+
+export const remove: RequestHandler = async (req, res) => {
+  const { playerId } = req.body;
+  const substitute = await Substitute.findByPk(playerId);
+  if (substitute) {
+    await substitute.destroy();
+  }
+  const substitutes = await Substitute.findAll();
+  res.status(200).json({ substitutes });
+}

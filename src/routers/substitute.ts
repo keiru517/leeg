@@ -12,5 +12,6 @@ const substituteRouter = Router();
 
 substituteRouter.get("/all", SubstitutueController.all);
 substituteRouter.post("/create", upload.none(), SubstitutueController.create);
+substituteRouter.post("/remove", upload.none(), SubstitutueController.remove);
 
 export default substituteRouter;
