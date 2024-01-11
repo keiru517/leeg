@@ -59,9 +59,9 @@ const PlayerStatsModal = (props) => {
       }
     );
 
-  const substitutes = useSelector((state) => state.home.substitutes).filter(
-    (sub) => sub.leagueId == leagueId && sub.teamId == teamId
-  );
+  // const substitutes = useSelector((state) => state.home.substitutes).filter(
+  //   (sub) => sub.leagueId == leagueId && sub.teamId == teamId
+  // );
 
   const closeDialog = () => {
     dispatch({ type: actions.CLOSE_PLAYER_STATS_DIALOG });
@@ -119,7 +119,7 @@ const PlayerStatsModal = (props) => {
                   </div>
                   <div className="flex flex-grow flex-col p-default justify-between">
                     <div>
-                      <PlayerStatsTable players={players} substitutes={substitutes} league={league} playerKeyword={""}></PlayerStatsTable>
+                      <PlayerStatsTable players={players} league={league} playerKeyword={""}></PlayerStatsTable>
                     </div>
                   </div>
                 </div>

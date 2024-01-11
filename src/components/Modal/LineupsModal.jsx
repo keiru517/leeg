@@ -53,12 +53,6 @@ const LineupsModal = (props) => {
         };
       }
     );
-  const substitutes = useSelector((state) => state.home.substitutes).filter(
-    (substitute) =>
-      substitute.leagueId == leagueId &&
-      substitute.matchId == matchId &&
-      substitute.teamId == teamId
-  );
 
   const dispatch = useDispatch();
 
@@ -138,7 +132,7 @@ const LineupsModal = (props) => {
                   <div className="flex flex-grow flex-col p-default justify-between">
                     <div>
                       <LineupTable
-                        players={[...players, ...substitutes]}
+                        players={players}
                         setLineups={setLineups}
                       ></LineupTable>
                     </div>

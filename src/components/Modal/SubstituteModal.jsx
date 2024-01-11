@@ -42,15 +42,17 @@ const SubstituteModal = (props) => {
   const [jerseyNumber, setJerseyNumber] = useState("");
 
   const createSubmit = () => {
-    const formData = new FormData();
-    formData.append("leagueId", leagueId);
-    formData.append("teamId", teamId);
-    formData.append("matchId", matchId);
-    formData.append("firstName", firstName);
-    formData.append("lastName", lastName);
-    formData.append("jerseyNumber", jerseyNumber);
-    formData.append("position", position);
-    actions.createSubstitute(dispatch, formData);
+    // const formData = new FormData();
+    // formData.append("leagueId", leagueId);
+    // formData.append("teamId", teamId);
+    // formData.append("userId", null);
+    // formData.append("matchId", matchId);
+    // formData.append("firstName", firstName);
+    // formData.append("lastName", lastName);
+    // formData.append("jerseyNumber", jerseyNumber);
+    // formData.append("position", position);
+    const userId = null
+    actions.createSubstitute(dispatch, {leagueId, teamId, userId, matchId, firstName, lastName, jerseyNumber, position});
     dispatch({ type: actions.CLOSE_ADD_SUBSTITUTE_DIALOG });
   };
 
