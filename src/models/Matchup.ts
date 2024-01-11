@@ -38,7 +38,7 @@ export default class Matchup extends Model<
   declare fouls: number;
   declare steals: number;
   declare turnovers: number;
-  declare attendance:boolean;
+  declare attendance:number;
   declare isDeleted: number;
   static modelName = 'Matchup';
 }
@@ -54,7 +54,7 @@ Matchup.init(
     },
     userId: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
       references: {
         model: 'User',
         key: 'id'

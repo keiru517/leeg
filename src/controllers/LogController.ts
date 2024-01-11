@@ -33,7 +33,7 @@ export const createOne: RequestHandler = async (req, res) => {
     isSubstitute
   } = req.body;
 
-  console.log("isSu", isSubstitute)
+  console.log("isSu", isSubstitute, playerId)
   // if this is a substitute, playerId is the substitute id
   try {
     await Log.create({

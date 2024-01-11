@@ -32,23 +32,16 @@ export const createOne: RequestHandler = async (req, res) => {
       leagueId,
       teamId,
       userId: user.id,
-      matchId: 0,
       firstName: user.firstName,
       lastName: user.lastName,
       avatar: `${process.env.DOMAIN}/api/user/avatar/${user.id}`,
       email: user.email,
       jerseyNumber,
       position,
-      birthday: user.birthday,
       isWaitList: 0,
       isAcceptedList: 0,
       isDeleted: 0,
       isSubstitute: true,
-      state: '',
-      country: '',
-      city: '',
-      address: '',
-      zipCode: ''
     });
 
     await Matchup.create({
@@ -98,23 +91,16 @@ export const create: RequestHandler = async (req, res) => {
             leagueId,
             teamId,
             userId: player.userId,
-            matchId: 0,
             firstName: player.firstName,
             lastName: player.lastName,
             avatar: `${process.env.DOMAIN}/api/user/avatar/${player.userId}`,
             email: player.email,
             jerseyNumber:'',
             position:'',
-            birthday: player.birthday,
             isWaitList: 0,
             isAcceptedList: 0,
             isDeleted: 0,
             isSubstitute: true,
-            state: '',
-            country: '',
-            city: '',
-            address: '',
-            zipCode: ''
           });
 
           await Matchup.create({

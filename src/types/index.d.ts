@@ -144,7 +144,6 @@ export namespace Types {
   export interface T_Player extends T_DB {
     leagueId: number;
     teamId: number;
-    matchId: number;
     userId: number;
     firstName: string;
     lastName: string;
@@ -152,12 +151,6 @@ export namespace Types {
     email: string;
     jerseyNumber: string;
     position: string;
-    birthday: string;
-    country: string;
-    state: string;
-    city: string;
-    address: string;
-    zipCode: string;
     isWaitList: number;
     isAcceptedList: number;
     isDeleted: number;
