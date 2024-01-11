@@ -7,6 +7,7 @@ import { useParams } from "react-router";
 import DefaultSubstituteAvatar from "../../assets/img/dark_mode/default-substitutue-avatar.png";
 
 const Player = ({ players, league, teamId, playerKeyword }) => {
+  console.log("table", players)
   let { leagueId } = useParams();
   const matchups = useSelector((state) => state.home.matchups);
 
@@ -32,31 +33,38 @@ const Player = ({ players, league, teamId, playerKeyword }) => {
   // );
   const updatedPlayers = Object.values(
     players.reduce((acc, player) => {
-      const matchup = matchups.filter(
-        (matchup) =>
-          matchup.userId == player.userId && matchup.leagueId == league.id
-      );
-      const points = matchup.reduce((sum, item) => sum + item.points, 0);
-      if (player.userId in acc) {
-        // If player already exists, add points to existing player
-        acc[player.userId].points = points;
-        // overwrite the teamId if there is a player who is not deleted
-        console.log("substitute", player.id, player.isSubstitute);
-        if (player.teamId !== 0 && !player.isSubstitute) {
-          acc[player.userId].teamId = player.teamId;
+      if (player.userId !== null) {
+        const matchup = matchups.filter(
+          (matchup) =>
+            matchup.userId == player.userId && matchup.leagueId == league.id
+        );
+        const points = matchup.reduce((sum, item) => sum + item.points, 0);
+        if (player.userId in acc) {
+          // If player already exists, add points to existing player
+          // acc[player.userId].points = points;
+          // overwrite the teamId if there is a player who is not deleted
+          console.log("substitute", player.id, player.isSubstitute);
+          if (player.teamId !== 0 && !player.isSubstitute) {
+            acc[player.userId].teamId = player.teamId;
+          }
+          // acc[player.userId].teamId = player.teamId !== 0 && player.isSubstitute !== 1? player.teamId : 0;
+          // overwrite the isDeleted if there is a player who is not deleted
+          acc[player.userId].isDeleted = player.isDeleted ? 1 : player.isDeleted;
+        } else {
+          // If player doesn't exist, create a new entry
+          acc[player.userId] = { ...player};
+          // acc[player.userId] = { ...player, points: points };
         }
-        // acc[player.userId].teamId = player.teamId !== 0 && player.isSubstitute !== 1? player.teamId : 0;
-        // overwrite the isDeleted if there is a player who is not deleted
-        acc[player.userId].isDeleted = player.isDeleted ? 1 : player.isDeleted;
       } else {
-        // If player doesn't exist, create a new entry
-        acc[player.userId] = { ...player, points: points };
+        // acc[player.userId] = {...player}
+        const nullUserIdKey = `nullUser_${Math.random()}`; // create a unique key
+        acc[nullUserIdKey] = { ...player }; // use a
       }
       return acc;
     }, {})
   );
 
-
+console.log("updatedPlayers", updatedPlayers)
   const teams = useSelector((state) => state.home.teams);
 
   const columns = [

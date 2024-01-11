@@ -74,6 +74,7 @@ const League = () => {
   const allPlayers = useSelector((state) => state.home.players).filter(
     (player) => player.leagueId == leagueId && (player.isAcceptedList || (player.isSubstitute&& league?.displaySubstitutes))
   );
+  console.log(allPlayers)
 
   const matches = useSelector((state) => state.home.matches).filter(
     (match) => match.leagueId == leagueId && match.isDeleted == 0
