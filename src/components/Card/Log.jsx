@@ -10,6 +10,7 @@ import editIconDark from "../../assets/img/dark_mode/edit-icon-dark.png";
 import editIconLight from "../../assets/img/dark_mode/edit-icon-light.png";
 import deleteIconDark from "../../assets/img/dark_mode/delete-icon-dark.svg";
 import deleteIconLight from "../../assets/img/dark_mode/delete-icon-light.svg";
+import DefaultSubstituteAvatar from "../../assets/img/dark_mode/default-substitutue-avatar.png";
 
 const Log = (props) => {
   const { id, log } = props;
@@ -86,37 +87,37 @@ const Log = (props) => {
         )}
       </div>
       <hr className="border border-[#686868] w-full" />
-        <div className="flex space-x-3 h-[51px] items-center p-4 justify-between">
-          <div className="flex">
-            <p className="text-black dark:text-white font-medium text-lg">
-              {/* {log.event.split(" ")[0]} */}
-              {title[log.event]}
-            </p>
-          </div>
-          <div className="flex">
-            {log.event !== "TimeOut" && !log.isDirect && (
-              <>
-                <p className="text-black dark:text-white font-medium text-lg">
-                  #{player?.jerseyNumber}
-                </p>
-                <p className="text-black dark:text-white font-medium text-lg">
-                  {player?.firstName[0]} {player?.lastName}
-                </p>
-                <img
-                  src={player?.avatar}
-                  alt=""
-                  className="w-8 h-8 rounded-full border border-gray-500"
-                />
-              </>
-            )}
-            <img
-              src={team?.logo}
-              alt=""
-              className="w-8 h-8 rounded-full border-border-gray-500"
-            />
-          </div>
+      <div className="flex space-x-3 h-[51px] items-center p-4 justify-between">
+        <div className="flex">
+          <p className="text-black dark:text-white font-medium text-lg">
+            {/* {log.event.split(" ")[0]} */}
+            {title[log.event]}
+          </p>
         </div>
-        {/* <div className="flex space-x-3 h-[51px] items-center p-4">
+        <div className="flex">
+          {log.event !== "TimeOut" && !log.isDirect && (
+            <>
+              <p className="text-black dark:text-white font-medium text-lg">
+                #{player?.jerseyNumber}
+              </p>
+              <p className="text-black dark:text-white font-medium text-lg">
+                {player?.firstName[0]} {player?.lastName}
+              </p>
+              <img
+                src={player?.isSubstitute ? DefaultSubstituteAvatar : player?.avatar}
+                alt=""
+                className="w-8 h-8 rounded-full border border-gray-500"
+              />
+            </>
+          )}
+          <img
+            src={team?.logo}
+            alt=""
+            className="w-8 h-8 rounded-full border-border-gray-500"
+          />
+        </div>
+      </div>
+      {/* <div className="flex space-x-3 h-[51px] items-center p-4">
           <p className="text-black dark:text-gray-300 font-medium text-sm">
             Added by: {user?.firstName[0]}.{user?.lastName[0]}{" "}
           </p>
