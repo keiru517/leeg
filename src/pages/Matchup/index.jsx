@@ -27,7 +27,7 @@ const MatchupMobile = () => {
     actions.getMatchups(dispatch);
     actions.getLogs(dispatch);
     actions.getPlayers(dispatch);
-    actions.getSubstitutes(dispatch);
+    // actions.getSubstitutes(dispatch);
   }, []);
   const match = useSelector((state) => state.home.matches).find(
     (match) => match.id == matchId
