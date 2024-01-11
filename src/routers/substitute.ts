@@ -10,7 +10,7 @@ const upload = multer({
 
 const substituteRouter = Router();
 
-substituteRouter.get("/all", SubstitutueController.all);
+// substituteRouter.get("/all", SubstitutueController.all);
 substituteRouter.post("/create", upload.none(), SubstitutueController.create);
 substituteRouter.post("/remove", upload.none(), SubstitutueController.remove);
 

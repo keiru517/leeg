@@ -3,7 +3,7 @@ import Matchup from '../models/Matchup';
 import Match from '../models/Match';
 import Log from '../models/Log';
 import { calculateNumberOfEvents } from '../helpers';
-import Substitute from '../models/Substitute';
+// import Substitute from '../models/Substitute';
 
 // import { Types } from '../types';
 
@@ -50,54 +50,54 @@ export const createOne: RequestHandler = async (req, res) => {
 
     console.log("Substitute==============", isSubstitute)
 
-    if (isSubstitute === 1) {
-      console.log(playerId, event)
-      const substitute = await Substitute.findByPk(playerId);
-      if (substitute) {
-        switch (event) {
-          case '+3 Pointer':
-            substitute.totalPoints3 = substitute.totalPoints3 + 1;
-            substitute.attempts3 = substitute.attempts3 + 1;
-            substitute.totalPoints = substitute.totalPoints + 3;
-            break;
-          case '+2 Pointer':
-            substitute.totalPoints2 = substitute.totalPoints2 + 1;
-            substitute.attempts2 = substitute.attempts2 + 1;
-            substitute.totalPoints = substitute.totalPoints + 2;
-            break;
-          case '+1 Pointer':
-            substitute.totalPoints1 = substitute.totalPoints1 + 1;
-            substitute.attempts1 = substitute.attempts1 + 1;
-            substitute.totalPoints = substitute.totalPoints + 1;
-            break;
-          case '+3 Attempt':
-            substitute.attempts3 = substitute.attempts3 + 1;
-            break;
-          case '+2 Attempt':
-            substitute.attempts2 = substitute.attempts2 + 1;
-            break;
-          case '+1 Attempt':
-            substitute.attempts1 = substitute.attempts1 + 1;
-            break;
-          case 'Rebound':
-            substitute.rebounds = substitute.rebounds + 1;
-            break;
-          case 'Turnover':
-            substitute.turnovers = substitute.turnovers + 1;
-            break;
-          case 'Foul':
-            substitute.fouls = substitute.fouls + 1;
-            break;
-          case 'Block':
-            substitute.blocks = substitute.blocks + 1;
-            break;
-          case 'Assist':
-            substitute.assists = substitute.assists + 1;
-            break;
-        }
-        await substitute.save();
-      }
-    }
+    // if (isSubstitute === 1) {
+    //   console.log(playerId, event)
+    //   const substitute = await Substitute.findByPk(playerId);
+    //   if (substitute) {
+    //     switch (event) {
+    //       case '+3 Pointer':
+    //         substitute.totalPoints3 = substitute.totalPoints3 + 1;
+    //         substitute.attempts3 = substitute.attempts3 + 1;
+    //         substitute.totalPoints = substitute.totalPoints + 3;
+    //         break;
+    //       case '+2 Pointer':
+    //         substitute.totalPoints2 = substitute.totalPoints2 + 1;
+    //         substitute.attempts2 = substitute.attempts2 + 1;
+    //         substitute.totalPoints = substitute.totalPoints + 2;
+    //         break;
+    //       case '+1 Pointer':
+    //         substitute.totalPoints1 = substitute.totalPoints1 + 1;
+    //         substitute.attempts1 = substitute.attempts1 + 1;
+    //         substitute.totalPoints = substitute.totalPoints + 1;
+    //         break;
+    //       case '+3 Attempt':
+    //         substitute.attempts3 = substitute.attempts3 + 1;
+    //         break;
+    //       case '+2 Attempt':
+    //         substitute.attempts2 = substitute.attempts2 + 1;
+    //         break;
+    //       case '+1 Attempt':
+    //         substitute.attempts1 = substitute.attempts1 + 1;
+    //         break;
+    //       case 'Rebound':
+    //         substitute.rebounds = substitute.rebounds + 1;
+    //         break;
+    //       case 'Turnover':
+    //         substitute.turnovers = substitute.turnovers + 1;
+    //         break;
+    //       case 'Foul':
+    //         substitute.fouls = substitute.fouls + 1;
+    //         break;
+    //       case 'Block':
+    //         substitute.blocks = substitute.blocks + 1;
+    //         break;
+    //       case 'Assist':
+    //         substitute.assists = substitute.assists + 1;
+    //         break;
+    //     }
+    //     await substitute.save();
+    //   }
+    // }
 
     const logs = await Log.findAll();
 
@@ -460,53 +460,53 @@ export const remove: RequestHandler = async (req, res) => {
   const log = await Log.findByPk(id);
   if (log) {
     await log.destroy();
-    if (log.isSubstitute) {
-      const substitute = await Substitute.findByPk(log.playerId);
-      if (substitute) {
-        switch (log.event) {
-          case '+3 Pointer':
-            substitute.totalPoints3 = substitute.totalPoints3 - 1;
-            substitute.attempts3 = substitute.attempts3 - 1;
-            substitute.totalPoints = substitute.totalPoints - 3;
-            break;
-          case '+2 Pointer':
-            substitute.totalPoints2 = substitute.totalPoints2 - 1;
-            substitute.attempts2 = substitute.attempts2 - 1;
-            substitute.totalPoints = substitute.totalPoints - 2;
-            break;
-          case '+1 Pointer':
-            substitute.totalPoints1 = substitute.totalPoints1 - 1;
-            substitute.attempts1 = substitute.attempts1 - 1;
-            substitute.totalPoints = substitute.totalPoints - 1;
-            break;
-          case '+3 Attempt':
-            substitute.attempts3 = substitute.attempts3 - 1;
-            break;
-          case '+2 Attempt':
-            substitute.attempts2 = substitute.attempts2 - 1;
-            break;
-          case '+1 Attempt':
-            substitute.attempts1 = substitute.attempts1 - 1;
-            break;
-          case 'Rebound':
-            substitute.rebounds = substitute.rebounds - 1;
-            break;
-          case 'Turnover':
-            substitute.turnovers = substitute.turnovers - 1;
-            break;
-          case 'Foul':
-            substitute.fouls = substitute.fouls - 1;
-            break;
-          case 'Block':
-            substitute.blocks = substitute.blocks - 1;
-            break;
-          case 'Assist':
-            substitute.assists = substitute.assists - 1;
-            break;
-        }
-        await substitute.save();
-      }
-    }
+    // if (log.isSubstitute) {
+    //   const substitute = await Substitute.findByPk(log.playerId);
+    //   if (substitute) {
+    //     switch (log.event) {
+    //       case '+3 Pointer':
+    //         substitute.totalPoints3 = substitute.totalPoints3 - 1;
+    //         substitute.attempts3 = substitute.attempts3 - 1;
+    //         substitute.totalPoints = substitute.totalPoints - 3;
+    //         break;
+    //       case '+2 Pointer':
+    //         substitute.totalPoints2 = substitute.totalPoints2 - 1;
+    //         substitute.attempts2 = substitute.attempts2 - 1;
+    //         substitute.totalPoints = substitute.totalPoints - 2;
+    //         break;
+    //       case '+1 Pointer':
+    //         substitute.totalPoints1 = substitute.totalPoints1 - 1;
+    //         substitute.attempts1 = substitute.attempts1 - 1;
+    //         substitute.totalPoints = substitute.totalPoints - 1;
+    //         break;
+    //       case '+3 Attempt':
+    //         substitute.attempts3 = substitute.attempts3 - 1;
+    //         break;
+    //       case '+2 Attempt':
+    //         substitute.attempts2 = substitute.attempts2 - 1;
+    //         break;
+    //       case '+1 Attempt':
+    //         substitute.attempts1 = substitute.attempts1 - 1;
+    //         break;
+    //       case 'Rebound':
+    //         substitute.rebounds = substitute.rebounds - 1;
+    //         break;
+    //       case 'Turnover':
+    //         substitute.turnovers = substitute.turnovers - 1;
+    //         break;
+    //       case 'Foul':
+    //         substitute.fouls = substitute.fouls - 1;
+    //         break;
+    //       case 'Block':
+    //         substitute.blocks = substitute.blocks - 1;
+    //         break;
+    //       case 'Assist':
+    //         substitute.assists = substitute.assists - 1;
+    //         break;
+    //     }
+    //     await substitute.save();
+    //   }
+    // }
 
     // Update match result
     const match = await Match.findByPk(log.matchId);
