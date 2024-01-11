@@ -426,53 +426,6 @@ console.log("updatedPlayers", updatedPlayers)
         };
       });
 
-    // if (displaySubstitutes) {
-    //   mappedData = mappedData.concat(
-    //     substitutes
-    //       .sort((a, b) => b.points - a.points)
-    //       .map((sub) => {
-    //         return {
-    //           firstName: sub.firstName,
-    //           lastName: sub.lastName,
-    //           jerseyNumber: sub.jerseyNumber,
-    //           position: sub.position,
-    //           totalPoints: sub.match.isNew ? 0 : sub.totalPoints,
-    //           totalPoints3: sub.match.isNew ? 0 : sub.totalPoints3,
-    //           totalPoints2: sub.match.isNew ? 0 : sub.totalPoints2,
-    //           totalPoints1: sub.match.isNew ? 0 : sub.totalPoints1,
-    //           attempts3: sub.match.isNew ? 0 : sub.attempts3,
-    //           attempts2: sub.match.isNew ? 0 : sub.attempts2,
-    //           attempts1: sub.match.isNew ? 0 : sub.attempts1,
-    //           "3p%":
-    //             sub.match.isNew &&
-    //               isNaN((sub.totalPoints3 / sub.attempts3) * 100)
-    //               ? 0
-    //               : ((sub.totalPoints3 / sub.attempts3) * 100).toFixed(2),
-    //           "fg%":
-    //             sub.match.isNew &&
-    //               isNaN((sub.totalPoints2 / sub.attempts2) * 100)
-    //               ? 0
-    //               : ((sub.totalPoints2 / sub.attempts2) * 100).toFixed(2),
-    //           "ft%":
-    //             sub.match.isNew &&
-    //               isNaN((sub.totalPoints1 / sub.attempts1) * 100)
-    //               ? 0
-    //               : ((sub.totalPoints1 / sub.attempts1) * 100).toFixed(2),
-    //           blocks: sub.match.isNew ? 0 : sub.blocks,
-    //           rebounds: sub.match.isNew ? 0 : sub.rebounds,
-    //           assists: sub.match.isNew ? 0 : sub.assists,
-    //           fouls: sub.match.isNew ? 0 : sub.fouls,
-    //           steals: sub.match.isNew ? 0 : sub.steals,
-    //           turnovers: sub.match.isNew ? 0 : sub.turnovers,
-    //           avatar: DefaultSubstituteAvatar,
-    //           team: teams.find((team) => team.id == sub.teamId),
-    //           teamId: sub.teamId,
-    //           teamName: teams.find((team) => team.id == sub.teamId)?.name,
-    //         };
-    //       })
-    //   );
-    // }
-
     return mappedData.filter((data)=>(
       data.firstName + data.lastName
     ).toLowerCase().includes(playerKeyword.toLowerCase()));
