@@ -7,7 +7,7 @@ import { useParams } from "react-router";
 import DefaultSubstituteAvatar from "../../assets/img/dark_mode/default-substitutue-avatar.png";
 
 const PlayerStats = ({ players, league, teamId, playerKeyword }) => {
-  let { leagueId } = useParams();
+  let { leagueId, matchId } = useParams();
   const matchups = useSelector((state) => state.home.matchups);
 
   const displaySubstitutes = league?.displaySubstitutes;
@@ -23,42 +23,35 @@ const PlayerStats = ({ players, league, teamId, playerKeyword }) => {
   const displaySteals = league?.displaySteals;
   const displayTurnovers = league?.displayTurnovers;
 
-  // const players = useSelector((state) => state.home.players).filter(
-  //   (player) => player.leagueId == leagueId && player.isAcceptedList
+  // const players = Object.values(
+  //   players.reduce((acc, player) => {
+  //     const matchup = matchups.filter(
+  //       (matchup) =>
+  //         matchup.userId == player.userId && matchup.leagueId == league.id
+  //     );
+  //     const points = matchup.reduce((sum, item) => sum + item.points, 0);
+  //     if (player.userId in acc) {
+  //       // If player already exists, add points to existing player
+  //       acc[player.userId].points = points;
+  //       // overwrite the teamId if there is a player who is not deleted
+  //       console.log("substitute", player.id, player.isSubstitute);
+  //       if (player.teamId !== 0 && !player.isSubstitute) {
+  //         acc[player.userId].teamId = player.teamId;
+  //       }
+  //       // acc[player.userId].teamId = player.teamId !== 0 && player.isSubstitute !== 1? player.teamId : 0;
+  //       // overwrite the isDeleted if there is a player who is not deleted
+  //       acc[player.userId].isDeleted = player.isDeleted ? 1 : player.isDeleted;
+  //     } else {
+  //       // If player doesn't exist, create a new entry
+  //       acc[player.userId] = { ...player, points: points };
+  //     }
+  //     return acc;
+  //   }, {})
   // );
-
-  // const substitutes = useSelector((state) => state.home.substitutes).filter(
-  //   (sub) => sub.leagueId == leagueId && sub.teamId == teamId
-  // );
-  const updatedPlayers = Object.values(
-    players.reduce((acc, player) => {
-      const matchup = matchups.filter(
-        (matchup) =>
-          matchup.userId == player.userId && matchup.leagueId == league.id
-      );
-      const points = matchup.reduce((sum, item) => sum + item.points, 0);
-      if (player.userId in acc) {
-        // If player already exists, add points to existing player
-        acc[player.userId].points = points;
-        // overwrite the teamId if there is a player who is not deleted
-        console.log("substitute", player.id, player.isSubstitute);
-        if (player.teamId !== 0 && !player.isSubstitute) {
-          acc[player.userId].teamId = player.teamId;
-        }
-        // acc[player.userId].teamId = player.teamId !== 0 && player.isSubstitute !== 1? player.teamId : 0;
-        // overwrite the isDeleted if there is a player who is not deleted
-        acc[player.userId].isDeleted = player.isDeleted ? 1 : player.isDeleted;
-      } else {
-        // If player doesn't exist, create a new entry
-        acc[player.userId] = { ...player, points: points };
-      }
-      return acc;
-    }, {})
-  );
 
 
   const teams = useSelector((state) => state.home.teams);
-
+  const logs = useSelector(state => state.home.logs).filter(log=>log.matchId ==matchId)
   const columns = [
     {
       label: "Player",
@@ -313,91 +306,116 @@ const PlayerStats = ({ players, league, teamId, playerKeyword }) => {
   ].filter(Boolean);
 
   const data = useMemo(() => {
-    let mappedData = updatedPlayers
+    let mappedData = players
       .sort((a, b) => b.points - a.points)
       .map((player) => {
-        const matchup = matchups.filter(
-          (matchup) =>
-            matchup.userId == player.userId &&
-            matchup.leagueId == league.id
-        );
+        let totalPoints = 0
+        let totalPoints3 = 0
+        let attempts3 = 0;
+        let totalPoints2 = 0
+        let attempts2 = 0;
+        let totalPoints1 = 0
+        let attempts1 = 0;
+        let blocks = 0;
+        let rebounds = 0;
+        let assists = 0;
+        let fouls = 0;
+        let steals = 0;
+        let turnovers = 0;
+
+        for (const log of logs) {
+          if (log.playerId == player.id) {
+            switch (log.event) {
+              case '+3 Pointer':
+                totalPoints += 3;
+                totalPoints3 += 1
+                attempts3 += 1
+                break;
+              case '+2 Pointer':
+                totalPoints += 2;
+                totalPoints2 += 1
+                attempts2 += 1
+                break;
+              case '+1 Pointer':
+                totalPoints += 1;
+                totalPoints1 += 1
+                attempts1 += 1
+                break;
+              case '+3 Attempt':
+                attempts3 += 1
+                break;
+              case '+2 Attempt':
+                attempts2 += 1
+                break;
+              case '+1 Attempt':
+                attempts1 += 1
+                break;
+              case 'Rebound':
+                rebounds += 1
+                break;
+              case 'Turnover':
+                turnovers += 1
+                break;
+              case 'Foul':
+                fouls += 1
+                break;
+              case 'Block':
+                blocks += 1
+                break;
+              case 'Assist':
+                assists += 1
+                break;
+            }
+          }
+        }
+
         return {
-          totalPoints: matchup.reduce((sum, item) => sum + item.points, 0),
-          totalPoints1: matchup.reduce(
-            (sum, matchup) => sum + matchup.points1,
-            0
-          ),
-          totalPoints2: matchup.reduce(
-            (sum, matchup) => sum + matchup.points2,
-            0
-          ),
-          totalPoints3: matchup.reduce(
-            (sum, matchup) => sum + matchup.points3,
-            0
-          ),
-          attempts1: matchup.reduce(
-            (sum, matchup) => sum + matchup.attempts1,
-            0
-          ),
-          attempts2: matchup.reduce(
-            (sum, matchup) => sum + matchup.attempts2,
-            0
-          ),
-          attempts3: matchup.reduce(
-            (sum, matchup) => sum + matchup.attempts3,
-            0
-          ),
+          totalPoints: totalPoints,
+          totalPoints1: totalPoints1,
+          totalPoints2: totalPoints2,
+          totalPoints3: totalPoints3,
+          attempts1: attempts1,
+          attempts2: attempts2,
+          attempts3: attempts3,
           "3p%": isNaN(
-            (matchup.reduce((sum, matchup) => sum + matchup.points3, 0) /
-              matchup.reduce((sum, matchup) => sum + matchup.attempts3, 0)) *
+            (totalPoints3 /
+              attempts3) *
             100
           )
             ? 0
             : (
-              (matchup.reduce((sum, matchup) => sum + matchup.points3, 0) /
-                matchup.reduce(
-                  (sum, matchup) => sum + matchup.attempts3,
-                  0
-                )) *
+              (totalPoints3 /
+                attempts3) *
               100
             ).toFixed(2),
           "fg%": isNaN(
-            (matchup.reduce((sum, matchup) => sum + matchup.points2, 0) /
-              matchup.reduce((sum, matchup) => sum + matchup.attempts2, 0)) *
+            (totalPoints2 /
+              attempts2) *
             100
           )
             ? 0
             : (
-              (matchup.reduce((sum, matchup) => sum + matchup.points2, 0) /
-                matchup.reduce(
-                  (sum, matchup) => sum + matchup.attempts2,
-                  0
-                )) *
+              (totalPoints2 /
+                attempts2) *
               100
             ).toFixed(2),
           "ft%": isNaN(
-            (matchup.reduce((sum, matchup) => sum + matchup.points1, 0) /
-              matchup.reduce((sum, matchup) => sum + matchup.attempts1, 0)) *
+            (totalPoints1 /
+              attempts1) *
             100
           )
             ? 0
             : (
-              (matchup.reduce((sum, matchup) => sum + matchup.points1, 0) /
-                matchup.reduce(
-                  (sum, matchup) => sum + matchup.attempts1,
-                  0
-                )) *
+              (totalPoints1 /
+                attempts1) *
               100
             ).toFixed(2),
-          blocks: matchup.reduce((sum, matchup) => sum + matchup.blocks, 0),
-          rebounds: matchup.reduce((sum, matchup) => sum + matchup.rebounds, 0),
-          assists: matchup.reduce((sum, matchup) => sum + matchup.assists, 0),
-          fouls: matchup.reduce((sum, matchup) => sum + matchup.fouls, 0),
-          steals: matchup.reduce((sum, matchup) => sum + matchup.steals, 0),
-          turnovers: matchup.reduce(
-            (sum, matchup) => sum + matchup.turnovers,
-            0
-          ),
+          blocks: blocks,
+          rebounds: rebounds,
+          assists: assists,
+          fouls: fouls,
+          steals: steals,
+          turnovers: turnovers,
           position: player.position,
           userId: player.userId,
           jerseyNumber: player.jerseyNumber,
@@ -408,12 +426,8 @@ const PlayerStats = ({ players, league, teamId, playerKeyword }) => {
           team: teams.find((team) => team.id == player.teamId),
           teamName: teams.find((team) => team.id == player.teamId)?.name,
           teamId: player.teamId,
-          gp: matchup.length,
-          ppg:
-            matchup.length === 0
-              ? 0
-              : matchup.reduce((sum, item) => sum + item.points, 0) /
-              matchup.length,
+          gp: 0,
+          ppg: 0,
         };
       });
 
@@ -464,10 +478,10 @@ const PlayerStats = ({ players, league, teamId, playerKeyword }) => {
     //   );
     // }
 
-    return mappedData.filter((data)=>(
+    return mappedData.filter((data) => (
       data.firstName + data.lastName
     ).toLowerCase().includes(playerKeyword.toLowerCase()));
-  }, [updatedPlayers, displaySubstitutes]);
+  }, [players, displaySubstitutes]);
 
   return (
     <div className="text-black dark:text-white mt-5 w-full">
