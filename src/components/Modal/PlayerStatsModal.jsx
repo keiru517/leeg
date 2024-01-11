@@ -9,7 +9,7 @@ import * as actions from "../../actions";
 import axios from "axios";
 import apis from "../../utils/apis";
 import LineupTable from "../Table/Lineup";
-import PlayerTable from "../Table/Player";
+import PlayerStatsTable from "../Table/PlayerStats";
 
 const PlayerStatsModal = (props) => {
   let { leagueId, matchId } = useParams();
@@ -119,7 +119,7 @@ const PlayerStatsModal = (props) => {
                   </div>
                   <div className="flex flex-grow flex-col p-default justify-between">
                     <div>
-                      <PlayerTable players={players} substitutes={substitutes} league={league} playerKeyword={""}></PlayerTable>
+                      <PlayerStatsTable players={players} substitutes={substitutes} league={league} playerKeyword={""}></PlayerStatsTable>
                     </div>
                   </div>
                 </div>
