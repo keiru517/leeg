@@ -539,7 +539,6 @@ export const incomplete: RequestHandler = async (req, res) => {
     if (logs) {
       // const promise = logs.map(async log => {
       for (const log of logs) {
-        console.log(log.event, log.playerId, log.matchId);
         if (match && !match.isNew && !log.isDirect) {
           const matchup = await Matchup.findOne({
             where: {

@@ -1,18 +1,19 @@
 import { RequestHandler } from 'express';
-import Substitute from '../models/Substitute';
+// import Substitute from '../models/Substitute';
 import Match from '../models/Match';
 import Player from '../models/Player';
 import Matchup from '../models/Matchup';
+import Log from '../models/Log';
 
 // GET /api/substitutes/all
-export const all: RequestHandler = async (req, res) => {
-  const substitutes = await Substitute.findAll({
-    include: [
-      { model: Match, as: 'match' }
-    ]
-  });
-  res.status(200).json({ substitutes });
-};
+// export const all: RequestHandler = async (req, res) => {
+//   const substitutes = await Substitute.findAll({
+//     include: [
+//       { model: Match, as: 'match' }
+//     ]
+//   });
+//   res.status(200).json({ substitutes });
+// };
 
 // create a substitute in the Substitute table
 // export const create: RequestHandler = async (req, res) => {
@@ -132,6 +133,17 @@ export const remove: RequestHandler = async (req, res) => {
       }
     });
     if (player) {
+      const logs = await Log.findAll({
+        where:{
+          playerId:player.id
+        }
+      });
+      if (logs) {
+        for (const log of logs) {
+          await log.destroy();
+        }
+      }
+
       await player.destroy();
     }
     await matchup.destroy();
