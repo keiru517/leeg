@@ -15,11 +15,14 @@ module.exports = {
       teamId: {
         type: Sequelize.INTEGER
       },
-      matchId: {
-        type: Sequelize.INTEGER
-      },
       userId: {
-        type: Sequelize.INTEGER
+        allowNull:true,
+        type: Sequelize.INTEGER,
+        references:{
+          model:'Users',
+          key:'id'
+        },
+        onDelete: 'CASCADE',
       },
       firstName: {
         type: Sequelize.STRING
@@ -37,24 +40,6 @@ module.exports = {
         type: Sequelize.STRING
       },
       position: {
-        type: Sequelize.STRING
-      },
-      birthday: {
-        type: Sequelize.STRING
-      },
-      country: {
-        type: Sequelize.STRING
-      },
-      state: {
-        type: Sequelize.STRING
-      },
-      city: {
-        type: Sequelize.STRING
-      },
-      address: {
-        type: Sequelize.STRING
-      },
-      zipCode: {
         type: Sequelize.STRING
       },
       isWaitList: {
