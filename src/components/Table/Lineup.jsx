@@ -82,6 +82,11 @@ const LineupTable = (props) => {
     setLineups(itemChecked);
   }, [itemChecked]);
 
+  const handleRemoveSubstitute = (playerId) => {
+    console.log("playerId, playerId", playerId)
+    actions.removeSubstitute(dispatch, playerId)
+  }
+
   return (
     <div className="text-black dark:text-white h-full w-full mt-4 overflow-auto">
       <table className="w-full min-w-max table-auto text-left">
@@ -180,6 +185,7 @@ const LineupTable = (props) => {
                       src={darkMode ? deleteIconDark : deleteIconLight}
                       alt=""
                       className="w-4.5 h-4.5 cursor-pointer"
+                      onClick={()=>handleRemoveSubstitute(player.id)}
                     />
                   )}
                 </div>

@@ -6,7 +6,7 @@ import { useMemo } from "react";
 import { useParams } from "react-router";
 import DefaultSubstituteAvatar from "../../assets/img/dark_mode/default-substitutue-avatar.png";
 
-const Player = ({ players, substitutes, league, teamId, playerKeyword }) => {
+const PlayerStats = ({ players, substitutes, league, teamId, playerKeyword }) => {
   let { leagueId } = useParams();
   const matchups = useSelector((state) => state.home.matchups);
 
@@ -320,8 +320,7 @@ const Player = ({ players, substitutes, league, teamId, playerKeyword }) => {
         const matchup = matchups.filter(
           (matchup) =>
             matchup.userId == player.userId &&
-            matchup.leagueId == league.id &&
-            !matchup.match?.isNew
+            matchup.leagueId == league.id
         );
         return {
           totalPoints: matchup.reduce((sum, item) => sum + item.points, 0),
@@ -429,13 +428,13 @@ const Player = ({ players, substitutes, league, teamId, playerKeyword }) => {
               lastName: sub.lastName,
               jerseyNumber: sub.jerseyNumber,
               position: sub.position,
-              totalPoints: sub.match.isNew ? 0 : sub.totalPoints,
-              totalPoints3: sub.match.isNew ? 0 : sub.totalPoints3,
-              totalPoints2: sub.match.isNew ? 0 : sub.totalPoints2,
-              totalPoints1: sub.match.isNew ? 0 : sub.totalPoints1,
-              attempts3: sub.match.isNew ? 0 : sub.attempts3,
-              attempts2: sub.match.isNew ? 0 : sub.attempts2,
-              attempts1: sub.match.isNew ? 0 : sub.attempts1,
+              totalPoints: sub.totalPoints,
+              totalPoints3: sub.totalPoints3,
+              totalPoints2: sub.totalPoints2,
+              totalPoints1: sub.totalPoints1,
+              attempts3: sub.attempts3,
+              attempts2: sub.attempts2,
+              attempts1: sub.attempts1,
               "3p%":
                 sub.match.isNew &&
                   isNaN((sub.totalPoints3 / sub.attempts3) * 100)
@@ -451,12 +450,12 @@ const Player = ({ players, substitutes, league, teamId, playerKeyword }) => {
                   isNaN((sub.totalPoints1 / sub.attempts1) * 100)
                   ? 0
                   : ((sub.totalPoints1 / sub.attempts1) * 100).toFixed(2),
-              blocks: sub.match.isNew ? 0 : sub.blocks,
-              rebounds: sub.match.isNew ? 0 : sub.rebounds,
-              assists: sub.match.isNew ? 0 : sub.assists,
-              fouls: sub.match.isNew ? 0 : sub.fouls,
-              steals: sub.match.isNew ? 0 : sub.steals,
-              turnovers: sub.match.isNew ? 0 : sub.turnovers,
+              blocks: sub.blocks,
+              rebounds: sub.rebounds,
+              assists: sub.assists,
+              fouls: sub.fouls,
+              steals: sub.steals,
+              turnovers: sub.turnovers,
               avatar: DefaultSubstituteAvatar,
               team: teams.find((team) => team.id == sub.teamId),
               teamId: sub.teamId,
@@ -478,4 +477,4 @@ const Player = ({ players, substitutes, league, teamId, playerKeyword }) => {
   );
 };
 
-export default Player;
+export default PlayerStats;

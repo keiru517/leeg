@@ -203,6 +203,21 @@ export const createSubstitute = async (dispatch, data) => {
   }
 };
 
+export const removeSubstitute = async (dispatch, playerId) => {
+  console.log("playerId in action", playerId)
+  try {
+    const response = await axios.post(apis.removeSubstitute, {playerId});
+    const substitutes = response.data.substitutes;
+    console.log("action", substitutes)
+    dispatch({
+      type: GET_SUBSTITUES,
+      payload: substitutes,
+    });
+  } catch (error) {
+    getSubstitutes(dispatch)
+  }
+};
+
 export const openAddSubstitueDialog = () => ({
   type: OPEN_ADD_SUBSTITUTE_DIALOG,
 });
@@ -539,7 +554,7 @@ export const createOneLog = (dispatch, data) => {
       .catch((error) => {
         alert(error.response.data.message);
       });
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const updateOneLog = (dispatch, data) => {
@@ -555,7 +570,7 @@ export const updateOneLog = (dispatch, data) => {
       .catch((error) => {
         alert(error.response.data.message);
       });
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const removeLog = (dispatch, data) => {
@@ -571,7 +586,7 @@ export const removeLog = (dispatch, data) => {
       .catch((error) => {
         alert(error.response.data.message);
       });
-  } catch (error) {}
+  } catch (error) { }
 };
 
 // Admin
