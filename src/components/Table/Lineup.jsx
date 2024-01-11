@@ -53,20 +53,11 @@ const LineupTable = (props) => {
 
   const columns = ["#", "Players"];
 
-  const teams = useSelector((state) => state.home.teams);
-
-  const isDeletedTeam = (teamId) => {
-    const team = teams.find((team) => team.id == teamId);
-    if (team.isDeleted === 1) return true;
-    else return false;
-  };
-
   const [itemChecked, setItemChecked] = useState({});
 
   useEffect(() => {
     let temp = {};
     players.map((player) => {
-      console.log(player.isSubstitute);
       temp[player.id] = player.attendance === 1 ? true : false;
     });
     setItemChecked(temp);
@@ -82,9 +73,9 @@ const LineupTable = (props) => {
     setLineups(itemChecked);
   }, [itemChecked]);
 
-  const handleRemoveSubstitute = (playerId) => {
-    console.log("playerId, playerId", playerId)
-    actions.removeSubstitute(dispatch, playerId)
+  const handleRemoveSubstitute = (matchupId) => {
+    console.log("matchupId, matchupId", matchupId)
+    actions.removeSubstitute(dispatch, {matchupId})
   }
 
   return (

@@ -41,7 +41,7 @@ const SelectPlayerModal = (props) => {
     (team) => team.id == teamId
   );
 
-  const substitutues = useSelector(state=>state.home.substitutes).filter(substitute=>substitute.leagueId == leagueId && substitute.matchId == matchId && substitute.teamId == teamId);
+  // const substitutues = useSelector(state=>state.home.substitutes).filter(substitute=>substitute.leagueId == leagueId && substitute.matchId == matchId && substitute.teamId == teamId);
   const result = matchups.filter((player) => player.teamId == teamId).map(matchup=>{
     return {
       matchup,
@@ -49,7 +49,8 @@ const SelectPlayerModal = (props) => {
     }
   });
 
-  const filteredMatchups = [...result, ...substitutues]
+  const filteredMatchups = [...result]
+  // const filteredMatchups = [...result, ...substitutues]
 
   const cancelButtonRef = useRef(null);
 

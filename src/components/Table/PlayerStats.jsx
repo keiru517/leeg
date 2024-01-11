@@ -6,7 +6,7 @@ import { useMemo } from "react";
 import { useParams } from "react-router";
 import DefaultSubstituteAvatar from "../../assets/img/dark_mode/default-substitutue-avatar.png";
 
-const PlayerStats = ({ players, substitutes, league, teamId, playerKeyword }) => {
+const PlayerStats = ({ players, league, teamId, playerKeyword }) => {
   let { leagueId } = useParams();
   const matchups = useSelector((state) => state.home.matchups);
 
@@ -56,7 +56,6 @@ const PlayerStats = ({ players, substitutes, league, teamId, playerKeyword }) =>
     }, {})
   );
 
-  console.log("updated Players", updatedPlayers, substitutes);
 
   const teams = useSelector((state) => state.home.teams);
 
@@ -87,7 +86,7 @@ const PlayerStats = ({ players, substitutes, league, teamId, playerKeyword }) =>
               :
               <>
                 <img
-                  src={row.avatar}
+                  src={DefaultSubstituteAvatar}
                   alt=""
                   className="h-8 w-8 mr-4 rounded-full border border-gray-500"
                 />
@@ -418,57 +417,57 @@ const PlayerStats = ({ players, substitutes, league, teamId, playerKeyword }) =>
         };
       });
 
-    if (displaySubstitutes) {
-      mappedData = mappedData.concat(
-        substitutes
-          .sort((a, b) => b.points - a.points)
-          .map((sub) => {
-            return {
-              firstName: sub.firstName,
-              lastName: sub.lastName,
-              jerseyNumber: sub.jerseyNumber,
-              position: sub.position,
-              totalPoints: sub.totalPoints,
-              totalPoints3: sub.totalPoints3,
-              totalPoints2: sub.totalPoints2,
-              totalPoints1: sub.totalPoints1,
-              attempts3: sub.attempts3,
-              attempts2: sub.attempts2,
-              attempts1: sub.attempts1,
-              "3p%":
-                sub.match.isNew &&
-                  isNaN((sub.totalPoints3 / sub.attempts3) * 100)
-                  ? 0
-                  : ((sub.totalPoints3 / sub.attempts3) * 100).toFixed(2),
-              "fg%":
-                sub.match.isNew &&
-                  isNaN((sub.totalPoints2 / sub.attempts2) * 100)
-                  ? 0
-                  : ((sub.totalPoints2 / sub.attempts2) * 100).toFixed(2),
-              "ft%":
-                sub.match.isNew &&
-                  isNaN((sub.totalPoints1 / sub.attempts1) * 100)
-                  ? 0
-                  : ((sub.totalPoints1 / sub.attempts1) * 100).toFixed(2),
-              blocks: sub.blocks,
-              rebounds: sub.rebounds,
-              assists: sub.assists,
-              fouls: sub.fouls,
-              steals: sub.steals,
-              turnovers: sub.turnovers,
-              avatar: DefaultSubstituteAvatar,
-              team: teams.find((team) => team.id == sub.teamId),
-              teamId: sub.teamId,
-              teamName: teams.find((team) => team.id == sub.teamId)?.name,
-            };
-          })
-      );
-    }
+    // if (displaySubstitutes) {
+    //   mappedData = mappedData.concat(
+    //     substitutes
+    //       .sort((a, b) => b.points - a.points)
+    //       .map((sub) => {
+    //         return {
+    //           firstName: sub.firstName,
+    //           lastName: sub.lastName,
+    //           jerseyNumber: sub.jerseyNumber,
+    //           position: sub.position,
+    //           totalPoints: sub.totalPoints,
+    //           totalPoints3: sub.totalPoints3,
+    //           totalPoints2: sub.totalPoints2,
+    //           totalPoints1: sub.totalPoints1,
+    //           attempts3: sub.attempts3,
+    //           attempts2: sub.attempts2,
+    //           attempts1: sub.attempts1,
+    //           "3p%":
+    //             sub.match.isNew &&
+    //               isNaN((sub.totalPoints3 / sub.attempts3) * 100)
+    //               ? 0
+    //               : ((sub.totalPoints3 / sub.attempts3) * 100).toFixed(2),
+    //           "fg%":
+    //             sub.match.isNew &&
+    //               isNaN((sub.totalPoints2 / sub.attempts2) * 100)
+    //               ? 0
+    //               : ((sub.totalPoints2 / sub.attempts2) * 100).toFixed(2),
+    //           "ft%":
+    //             sub.match.isNew &&
+    //               isNaN((sub.totalPoints1 / sub.attempts1) * 100)
+    //               ? 0
+    //               : ((sub.totalPoints1 / sub.attempts1) * 100).toFixed(2),
+    //           blocks: sub.blocks,
+    //           rebounds: sub.rebounds,
+    //           assists: sub.assists,
+    //           fouls: sub.fouls,
+    //           steals: sub.steals,
+    //           turnovers: sub.turnovers,
+    //           avatar: DefaultSubstituteAvatar,
+    //           team: teams.find((team) => team.id == sub.teamId),
+    //           teamId: sub.teamId,
+    //           teamName: teams.find((team) => team.id == sub.teamId)?.name,
+    //         };
+    //       })
+    //   );
+    // }
 
     return mappedData.filter((data)=>(
       data.firstName + data.lastName
     ).toLowerCase().includes(playerKeyword.toLowerCase()));
-  }, [updatedPlayers, substitutes, displaySubstitutes]);
+  }, [updatedPlayers, displaySubstitutes]);
 
   return (
     <div className="text-black dark:text-white mt-5 w-full">

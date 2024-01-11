@@ -190,31 +190,33 @@ export const getSubstitutes = async (dispatch) => {
 export const createSubstitute = async (dispatch, data) => {
   try {
     const response = await axios.post(apis.createSubstitute, data);
-    const substitutes = response.data.substitutes;
+    const matchups = response.data.matchups;
     dispatch({
-      type: GET_SUBSTITUES,
-      payload: substitutes,
+      type: GET_MATCHUPS,
+      payload: matchups,
     });
   } catch (error) {
     dispatch({
-      type: GET_SUBSTITUES,
+      type: GET_MATCHUPS,
       payload: [],
     });
   }
 };
 
-export const removeSubstitute = async (dispatch, playerId) => {
-  console.log("playerId in action", playerId)
+export const removeSubstitute = async (dispatch, data) => {
+  console.log("matchupId in action", data)
   try {
-    const response = await axios.post(apis.removeSubstitute, {playerId});
-    const substitutes = response.data.substitutes;
-    console.log("action", substitutes)
+    const response = await axios.post(apis.removeSubstitute, data);
+    const matchups = response.data.matchups;
     dispatch({
-      type: GET_SUBSTITUES,
-      payload: substitutes,
+      type: GET_MATCHUPS,
+      payload: matchups,
     });
   } catch (error) {
-    getSubstitutes(dispatch)
+    dispatch({
+      type: GET_MATCHUPS,
+      payload: [],
+    });
   }
 };
 

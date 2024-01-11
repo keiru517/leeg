@@ -72,11 +72,7 @@ const League = () => {
 
   // this is used for Players tab
   const allPlayers = useSelector((state) => state.home.players).filter(
-    (player) => player.leagueId == leagueId && player.isAcceptedList
-  );
-
-  const substitutes = useSelector((state) => state.home.substitutes).filter(
-    (sub) => sub.leagueId == leagueId
+    (player) => player.leagueId == leagueId && (player.isAcceptedList || (player.isSubstitute&& league?.displaySubstitutes))
   );
 
   const matches = useSelector((state) => state.home.matches).filter(
@@ -963,7 +959,6 @@ const League = () => {
                   <PlayerTable
                     players={allPlayers}
                     league={league}
-                    substitutes={substitutes}
                     playerKeyword={playerKeyword}
                   ></PlayerTable>
                 ) : (
