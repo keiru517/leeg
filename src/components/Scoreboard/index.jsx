@@ -148,7 +148,7 @@ const Index = (props) => {
 
   useEffect(() => {
     let intervalId;
-    if (isRunning) {
+    if (isRunning && timer > 0) {
       // setting timer from 0 to 1 every 10 milisecond using javascript setInterval method
       intervalId = setInterval(() => setTimer(timer - 100), 1000);
       setTime(
@@ -156,16 +156,16 @@ const Index = (props) => {
           ":" +
           seconds.toString().padStart(2, "0")
       );
-      // dispatch({
-      //   type: actions.SET_TIMER,
-      //   payload: minutes.toString().padStart(2, "0") +
-      //     ":" +
-      //     seconds.toString().padStart(2, "0"),
-      // });
-      // intervalId = setInterval(() => dispatch({type:actions.SET_TIMER, payload:timer-100}), 1000);
       let tempTimeOfPeriod = [...timeOfPeriod];
       tempTimeOfPeriod[currentPeriod - 1] = timer;
       setTimeOfPeriod(tempTimeOfPeriod);
+    }
+    if (timer === 0) {
+      setTime("00:00")
+      let tempTimeOfPeriod = [...timeOfPeriod];
+      tempTimeOfPeriod[currentPeriod - 1] = 0;
+      setTimeOfPeriod(tempTimeOfPeriod);
+      setIsRunning(false)
     }
 
     return () => clearInterval(intervalId);

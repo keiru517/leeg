@@ -491,17 +491,15 @@ export const completeMatchup = async (dispatch, data) => {
   try {
     const response = await axios.post(apis.completeMatchup, data);
 
-    const matchups = response.data.matchups;
+    const match = response.data.match;
     dispatch({
-      type: GET_MATCHUPS,
-      payload: matchups,
+      type: GET_MATCH,
+      payload: match,
     });
     getMatches(dispatch);
-    getTeams(dispatch);
-    getSubstitutes(dispatch)
   } catch {
     dispatch({
-      type: GET_MATCHUPS,
+      type: GET_MATCH,
       payload: [],
     });
   }
@@ -511,17 +509,15 @@ export const incompleteMatchup = async (dispatch, data) => {
   try {
     const response = await axios.post(apis.incompleteMatchup, data);
 
-    const matchups = response.data.matchups;
+    const match = response.data.match;
     dispatch({
-      type: GET_MATCHUPS,
-      payload: matchups,
+      type: GET_MATCH,
+      payload: match,
     });
     getMatches(dispatch);
-    getTeams(dispatch);
-    getSubstitutes(dispatch)
   } catch {
     dispatch({
-      type: GET_MATCHUPS,
+      type: GET_MATCH,
       payload: [],
     });
   }

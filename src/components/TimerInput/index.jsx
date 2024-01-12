@@ -108,12 +108,7 @@ const TimePicker = (props) => {
             setTimer(minutes * 6000 + e.target.value * 100);
             setTime(minutes * 6000 + e.target.value * 100);
           }}
-          // onChange={handleSecond}
         />
-        {/* <p className="font-semibold text-[56px] text-black dark:text-white">
-          {minutes.toString().padStart(2, "0")}:
-          {seconds.toString().padStart(2, "0")}:
-        </p> */}
         <div className="mt-1">
           <img
             src={darkMode ? triupIconDark : triupIconLight}
