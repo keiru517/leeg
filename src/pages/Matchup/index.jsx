@@ -99,17 +99,7 @@ const MatchupMobile = () => {
       }
     );
 
-  // const homeTeamSubstitutes = useSelector(
-  //   (state) => state.home.substitutes
-  // ).filter(
-  //   (substitute) =>
-  //     substitute.leagueId == leagueId &&
-  //     substitute.matchId == matchId &&
-  //     substitute.teamId == match?.homeTeamId
-  // );
-
   const homeTeamPlayers = homeTeamMatchups;
-  // const homeTeamPlayers = [...homeTeamMatchups, ...homeTeamSubstitutes];
   const awayTeam = useSelector((state) => state.home.teams).find(
     (team) => team.id == match?.awayTeamId
   );
