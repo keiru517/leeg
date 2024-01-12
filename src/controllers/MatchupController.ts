@@ -511,15 +511,16 @@ export const complete: RequestHandler = async (req, res) => {
           await homeTeam.save();
           await awayTeam.save();
         }
+        res.status(200).json({match})
       }
     } else {
       console.log('Logs are not found!');
     }
 
-    const matchups = await Matchup.findAll({
-      include: [{ model: Player, as: 'player' }]
-    });
-    res.status(200).json({ matchups });
+    // const matchups = await Matchup.findAll({
+    //   include: [{ model: Player, as: 'player' }]
+    // });
+    // res.status(200).json({ matchups });
   } catch (error) {
     res.status(400).json({ message: 'Error occurred!' });
   }
@@ -528,7 +529,6 @@ export const complete: RequestHandler = async (req, res) => {
 export const incomplete: RequestHandler = async (req, res) => {
   const { matchId } = req.body;
   const match = await Match.findByPk(matchId);
-  console.log(matchId);
   const logs = await Log.findAll({
     where: {
       matchId
@@ -605,7 +605,6 @@ export const incomplete: RequestHandler = async (req, res) => {
         const homeTeam = await Team.findByPk(match.homeTeamId);
         const awayTeam = await Team.findByPk(match.awayTeamId);
         if (homeTeam && awayTeam) {
-          console.log('================unlock', homeTeam.win, awayTeam.lose);
           if (match.homeTeamPoints > match.awayTeamPoints) {
             homeTeam.win = homeTeam.win - 1;
             awayTeam.lose = awayTeam.lose - 1;
@@ -624,14 +623,12 @@ export const incomplete: RequestHandler = async (req, res) => {
           await homeTeam.save();
           await awayTeam.save();
         }
+        res.status(200).json({match})
       }
     } else {
       console.log('Logs are not found!');
     }
-    const matchups = await Matchup.findAll({
-      include: [{ model: Player, as: 'player' }]
-    });
-    res.status(200).json({ matchups });
+
   } catch (error) {
     res.status(400).json({ message: 'Error occurred!' });
   }
