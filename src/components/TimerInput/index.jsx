@@ -6,10 +6,10 @@ import tridownIconDark from "../../assets/img/dark_mode/tridown-icon-dark.png";
 import triupIconLight from "../../assets/img/dark_mode/triup-icon-light.png";
 import tridownIconLight from "../../assets/img/dark_mode/tridown-icon-light.png";
 
-const TimePicker = (props) => {
+const TimerInput = (props) => {
   const { setTime, initialTime } = props;
   let { leagueId, matchId } = useParams();
-  // state to store time
+  // state to store timer
   const darkMode = useSelector((state) => state.home.dark_mode);
   const league = useSelector((state) => state.home.leagues).find(
     (league) => league.id == leagueId
@@ -18,7 +18,7 @@ const TimePicker = (props) => {
     (match) => match.id == matchId
   );
   // state to check stopwatch running or not
-  const [time, setTimer] = useState(initialTime);
+  const [timer, setTimer] = useState(initialTime);
 
   // useEffect(()=>{
   //   setTimer(Math.floor(match?.timer/100) * 6000 + Math.floor(match?.timer%100) * 100)
@@ -27,21 +27,21 @@ const TimePicker = (props) => {
 
   useEffect(() => {
 
-      setTime(time);
+      setTime(timer);
 
-  }, [time]);
+  }, [timer]);
 
   // Hours calculation
-  const hours = Math.floor(time / 360000);
+  const hours = Math.floor(timer / 360000);
 
   // Minutes calculation
-  const minutes = Math.floor((time % 360000) / 6000);
+  const minutes = Math.floor((timer % 360000) / 6000);
 
   // Seconds calculation
-  const seconds = Math.floor((time % 6000) / 100);
+  const seconds = Math.floor((timer % 6000) / 100);
 
   // Milliseconds calculation
-  const milliseconds = time % 100;
+  const milliseconds = timer % 100;
 
   // Method to start and stop timer
   const startAndStop = () => {
@@ -54,21 +54,21 @@ const TimePicker = (props) => {
   };
 
   const increaseMinute = () => {
-    setTimer(time + 6000);
-    // setTime(time + 6000);
+    setTimer(timer + 6000);
+    // setTime(timer + 6000);
   };
   const decreaseMinute = () => {
-    setTimer(time - 6000);
-    // setTime(time - 6000);
+    setTimer(timer - 6000);
+    // setTime(timer - 6000);
   };
 
   const increaseSecond = () => {
-    setTimer(time + 100);
-    // setTime(time + 100);
+    setTimer(timer + 100);
+    // setTime(timer + 100);
   };
   const decreaseSecond = () => {
-    setTimer(time - 100);
-    // setTime(time - 100);
+    setTimer(timer - 100);
+    // setTime(timer - 100);
   };
 
   return (
@@ -128,4 +128,4 @@ const TimePicker = (props) => {
   );
 };
 
-export default TimePicker;
+export default TimerInput;

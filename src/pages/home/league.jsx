@@ -32,7 +32,7 @@ import * as actions from "../../actions";
 import toggleOn from "../../assets/img/dark_mode/toggle-on.png";
 import toggleOff from "../../assets/img/dark_mode/toggle-off.png";
 import DatePicker from "../../components/DatePicker";
-import TimeInput from "../../components/TimerInput";
+import TimerInput from "../../components/TimerInput";
 
 const League = () => {
   let { leagueId } = useParams();
@@ -74,23 +74,16 @@ const League = () => {
   const allPlayers = useSelector((state) => state.home.players).filter(
     (player) => player.leagueId == leagueId && (player.isAcceptedList || (player.isSubstitute&& league?.displaySubstitutes))
   );
-  console.log(allPlayers)
 
   const matches = useSelector((state) => state.home.matches).filter(
     (match) => match.leagueId == leagueId && match.isDeleted == 0
   );
-
-  const options = [
-    { id: 0, name: "Recent" },
-    { id: 1, name: "Alphabetical" },
-  ];
 
   const rosterOptions = [
     { id: 0, name: "Waitlisted" },
     { id: 1, name: "Accepted" },
   ];
 
-  const [value, setValue] = useState("Sort by");
   const [rosterValue, setRosterValue] = useState(rosterOptions[0].name);
   const [rosters, setRosters] = useState([]);
   useEffect(() => {
@@ -170,7 +163,9 @@ const League = () => {
     setLeagueDescription(league?.description);
     setLeagueStartDate(league?.startDate);
     setLeagueEndDate(league?.endDate);
+    setTime(league?.time)
   }, [league]);
+
 
   // Search section
   const [waitListKeyword, setWaitListKeyword] = useState("");
@@ -222,26 +217,6 @@ const League = () => {
     setFilteredAcceptListPlayers(searchResult);
   }, [acceptListKeyword]);
 
-  // Teams
-  // useEffect(() => {
-  //   setFilteredTeams(teams);
-  //   setFilteredStandings(teams);
-  // }, [teams.length]);
-
-  // useEffect(() => {
-  //   const searchResult = teams.filter((team) =>
-  //     team.name.toLowerCase().includes(teamKeyword.toLowerCase())
-  //   );
-  //   setFilteredTeams(searchResult);
-  // }, [teamKeyword]);
-
-  // Standings
-  // useEffect(() => {
-  //   const searchResult = teams.filter((team) =>
-  //     team.name.toLowerCase().includes(standingsKeyword.toLowerCase())
-  //   );
-  //   setFilteredStandings(searchResult);
-  // }, [standingsKeyword]);
 
 
   const setWaitListItemChecked = (index, checked) => {
@@ -654,6 +629,8 @@ const League = () => {
     dispatch({ type: actions.OPEN_ADMIN_DIALOG, payload: true });
   };
 
+  if (time === undefined) return <></>;
+  
   return (
     <div className="flex flex-col flex-grow">
       <p className="flex font-dark-gray my-3 items-center">
@@ -1144,11 +1121,11 @@ const League = () => {
                         </span>
                         <span >
                           <p className="dark:text-white text-black">Time</p>
-                          <TimeInput
+                          <TimerInput
                             initialTime={time}
                             setTime={setTime}
                             className="w-full bg-[#303335] rounded-default"
-                          ></TimeInput>
+                          ></TimerInput>
                         </span>
                       </div>
                     </div>
