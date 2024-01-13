@@ -100,14 +100,14 @@ const Log = (props) => {
               <p className="text-black dark:text-white font-medium text-lg">
                 #{player?.jerseyNumber}
               </p>
-              <p className="text-black dark:text-white font-medium text-lg">
-                {player?.firstName[0]} {player?.lastName}
-              </p>
               <img
                 src={player?.isSubstitute ? DefaultSubstituteAvatar : player?.avatar}
                 alt=""
                 className="w-8 h-8 rounded-full border border-gray-500"
               />
+              <p className="text-black dark:text-white font-medium text-lg">
+                {player?.firstName[0]} {player?.lastName}
+              </p>
             </>
           )}
           <img

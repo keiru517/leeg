@@ -32,7 +32,7 @@ import * as actions from "../../actions";
 import toggleOn from "../../assets/img/dark_mode/toggle-on.png";
 import toggleOff from "../../assets/img/dark_mode/toggle-off.png";
 import DatePicker from "../../components/DatePicker";
-import TimeInput from "../../components/TimerInput";
+import TimerInput from "../../components/TimerInput";
 
 const League = () => {
   let { leagueId } = useParams();
@@ -74,23 +74,16 @@ const League = () => {
   const allPlayers = useSelector((state) => state.home.players).filter(
     (player) => player.leagueId == leagueId && (player.isAcceptedList || (player.isSubstitute&& league?.displaySubstitutes))
   );
-  console.log(allPlayers)
 
   const matches = useSelector((state) => state.home.matches).filter(
     (match) => match.leagueId == leagueId && match.isDeleted == 0
   );
-
-  const options = [
-    { id: 0, name: "Recent" },
-    { id: 1, name: "Alphabetical" },
-  ];
 
   const rosterOptions = [
     { id: 0, name: "Waitlisted" },
     { id: 1, name: "Accepted" },
   ];
 
-  const [value, setValue] = useState("Sort by");
   const [rosterValue, setRosterValue] = useState(rosterOptions[0].name);
   const [rosters, setRosters] = useState([]);
   useEffect(() => {
@@ -170,7 +163,9 @@ const League = () => {
     setLeagueDescription(league?.description);
     setLeagueStartDate(league?.startDate);
     setLeagueEndDate(league?.endDate);
+    setTime(league?.time)
   }, [league]);
+
 
   // Search section
   const [waitListKeyword, setWaitListKeyword] = useState("");
@@ -222,26 +217,6 @@ const League = () => {
     setFilteredAcceptListPlayers(searchResult);
   }, [acceptListKeyword]);
 
-  // Teams
-  // useEffect(() => {
-  //   setFilteredTeams(teams);
-  //   setFilteredStandings(teams);
-  // }, [teams.length]);
-
-  // useEffect(() => {
-  //   const searchResult = teams.filter((team) =>
-  //     team.name.toLowerCase().includes(teamKeyword.toLowerCase())
-  //   );
-  //   setFilteredTeams(searchResult);
-  // }, [teamKeyword]);
-
-  // Standings
-  // useEffect(() => {
-  //   const searchResult = teams.filter((team) =>
-  //     team.name.toLowerCase().includes(standingsKeyword.toLowerCase())
-  //   );
-  //   setFilteredStandings(searchResult);
-  // }, [standingsKeyword]);
 
 
   const setWaitListItemChecked = (index, checked) => {
@@ -654,6 +629,8 @@ const League = () => {
     dispatch({ type: actions.OPEN_ADMIN_DIALOG, payload: true });
   };
 
+  if (time === undefined) return <></>;
+
   return (
     <div className="flex flex-col flex-grow">
       <p className="flex font-dark-gray my-3 items-center">
@@ -1062,7 +1039,7 @@ const League = () => {
                       <h1 className="dark:text-white text-black font-medium mb-4">
                         Edit League
                       </h1>
-                      <div className="grid grid-cols-6 gap-4 mb-6 items-end">
+                      <div className="grid grid-cols-6 gap-2 sm:gap-4 mb-6 items-end">
                         <div>
                           <input
                             type="file"
@@ -1082,16 +1059,16 @@ const League = () => {
                               fileUploadRef.current?.click();
                             }}
                             src={previewURL ? previewURL : league?.logo}
-                            className="rounded-md cursor-pointer"
+                            className="rounded-md cursor-pointer w-8 h-8 sm:w-12 sm:h-12"
                             alt=""
                           />
                         </div>
                         <div className="col-span-5">
-                          <p className="dark:text-white text-black">
+                          <p className="dark:text-white text-black text-sm sm:text-base">
                             League Name
                           </p>
                           <Input
-                            className="rounded-default flex-grow text-xs "
+                            className="rounded-default flex-grow text-sm sm:text-base"
                             placeholder="League Name"
                             value={leagueName}
                             onChange={(e) => setLeagueName(e.target.value)}
@@ -1099,13 +1076,13 @@ const League = () => {
                         </div>
                       </div>
                       <div className="mb-4">
-                        <p className="dark:text-white text-black">
+                        <p className="dark:text-white text-black text-sm sm:text-base">
                           League Description
                         </p>
                         <textarea
                           id="message"
                           rows="6"
-                          className="block p-2.5 w-full text-xs text-gray-900 rounded-lg border border-charcoal focus:ring-blue-500 focus:border-blue-500 dark:bg-transparent dark:border-charcoal dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 resize-none outline-none"
+                          className="block p-2.5 w-full text-sm sm:text-base text-gray-900 rounded-lg border border-charcoal focus:ring-blue-500 focus:border-blue-500 dark:bg-transparent dark:border-charcoal dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 resize-none outline-none"
                           placeholder="Describe your League*"
                           value={leagueDescription}
                           onChange={(e) => setLeagueDescription(e.target.value)}
@@ -1113,7 +1090,7 @@ const League = () => {
                       </div>
                       <div className="mb-6 grid grid-cols-2 gap-2">
                         <span>
-                          <p className="dark:text-white text-black">
+                          <p className="dark:text-white text-black text-sm sm:text-base">
                             Start Date
                           </p>
                           <DatePicker
@@ -1123,7 +1100,7 @@ const League = () => {
                           ></DatePicker>
                         </span>
                         <span>
-                          <p className="dark:text-white text-black">End Date</p>
+                          <p className="dark:text-white text-black text-sm sm:text-base">End Date</p>
                           <DatePicker
                             className="text-xs h-12 rounded px-3 py-2 w-full"
                             date={leagueEndDate}
@@ -1133,9 +1110,9 @@ const League = () => {
                       </div>
                       <div className="mb-6 grid grid-cols-2 gap-2">
                         <span>
-                          <p className="dark:text-white text-black">Period</p>
+                          <p className="dark:text-white text-black text-sm sm:text-base">Period</p>
                           <Input
-                            className="rounded-default flex-grow text-xs "
+                            className="rounded-default flex-grow text-sm sm:text-base"
                             placeholder="League Name"
                             value={period}
                             onChange={(e) => setPeriod(e.target.value)}
@@ -1143,12 +1120,12 @@ const League = () => {
                           ></Input>
                         </span>
                         <span >
-                          <p className="dark:text-white text-black">Time</p>
-                          <TimeInput
+                          <p className="dark:text-white text-black text-sm sm:text-base">Time</p>
+                          <TimerInput
                             initialTime={time}
                             setTime={setTime}
                             className="w-full bg-[#303335] rounded-default"
-                          ></TimeInput>
+                          ></TimerInput>
                         </span>
                       </div>
                     </div>
