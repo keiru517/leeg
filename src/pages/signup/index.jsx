@@ -213,7 +213,7 @@ const Signup = () => {
           </div>
         </div>
       </div>
-      <ImageCropperModal modalOpen={modalOpen} setModalOpen={setModalOpen} setPreviewURL={setPreviewURL}/>
+      <ImageCropperModal modalOpen={modalOpen} setModalOpen={setModalOpen} setPreviewURL={setPreviewURL} setChosenFile={setChosenFile}/>
     </div>
   );
 };

@@ -5,9 +5,21 @@ import setCanvasPreview from "./setCanvasPreview";
 const ASPECT_RATIO = 1;
 const MIN_DIMENSION = 150;
 
+function base64toBlob(base64Data) {
+  const byteString = atob(base64Data);
+  const arrayBuffer = new ArrayBuffer(byteString.length);
+  const int8Array = new Uint8Array(arrayBuffer);
+
+  for (let i = 0; i < byteString.length; i++) {
+    int8Array[i] = byteString.charCodeAt(i);
+  }
+
+  return new Blob([arrayBuffer], { type: 'image/jpeg' });
+}
+
 const ImageCropper = (props) => {
   const imgRef = useRef(null);
-  let {setPreviewURL, setModalOpen} = props;
+  let { setPreviewURL, setModalOpen, setChosenFile } = props;
   const previewCanvasRef = useRef(null)
   const [imgSrc, setImgSrc] = useState('');
   const [crop, setCrop] = useState();
@@ -96,6 +108,17 @@ const ImageCropper = (props) => {
               );
               const dataUrl = previewCanvasRef.current.toDataURL()
               setPreviewURL(dataUrl);
+              // Extract base64 data from data URL
+              const base64Data = dataUrl.split(',')[1];
+
+              // Convert base64 data to a Blob
+              const blob = base64toBlob(base64Data);
+
+              // Create a File object from the Blob
+              const file = new File([blob], 'image.jpg', { type: 'image/jpeg' });
+
+              // Now you can set the chosen file
+              setChosenFile(file);
               setModalOpen(false);
             }}
           >
@@ -109,7 +132,7 @@ const ImageCropper = (props) => {
           ref={previewCanvasRef}
           className="mt-4"
           style={{
-            display:"none",
+            display: "none",
             border: "1px solid black",
             objectFit: "contain",
             width: 150,

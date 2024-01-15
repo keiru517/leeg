@@ -10,7 +10,7 @@ import ImageCropper from "../ImageCropper";
 const ImageCropperModal = (props) => {
   const dispatch = useDispatch();
   let { leagueId} = useParams();
-  const {modalOpen, setModalOpen, setPreviewURL} = props
+  const {modalOpen, setModalOpen, setPreviewURL, setChosenFile} = props
   const user = useSelector(state=>state.home.user);
 
   const [email, setEmail] = useState("");
@@ -71,7 +71,7 @@ const ImageCropperModal = (props) => {
                     ></img>
                   </div>
                   <div className="flex-col p-default flex flex-grow justify-between">
-                    <ImageCropper setPreviewURL={setPreviewURL} setModalOpen={setModalOpen}/>
+                  <ImageCropper setPreviewURL={setPreviewURL} setModalOpen={setModalOpen} setChosenFile={setChosenFile}/>
                   </div>
                 </div>
               </Dialog.Panel>
