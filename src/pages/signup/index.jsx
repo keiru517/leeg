@@ -140,14 +140,14 @@ const Signup = () => {
                       setLastName(e.target.value);
                     }}
                   ></input>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
                   <input type="text"
                     placeholder="Email Address*"
                     className="hidden"
                     name="email"
                     value={email}
                   />
-                </div>
-                <div className="grid grid-cols-2 gap-4">
                   <PasswordInput
                     className="bg-transparent rounded-default text-font-dark-gray text-[10px] sm:text-xs"
                     type="password"
