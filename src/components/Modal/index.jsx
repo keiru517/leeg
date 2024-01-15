@@ -1,6 +1,5 @@
 import { Fragment, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import Datepicker from "tailwind-datepicker-react";
 import close from "../../assets/img/dark_mode/close.png";
 import btn1 from "../../assets/img/dark_mode/btn1.png";
 import btn1Selected from "../../assets/img/dark_mode/btn1-selected.png";
@@ -9,18 +8,16 @@ import btn2Selected from "../../assets/img/dark_mode/btn2-selected.png";
 import btn3 from "../../assets/img/dark_mode/btn3.png";
 import uploadCircle from "../../assets/img/dark_mode/upload-circle.png";
 import Select from "../Select";
-import Input from "../Input";
 import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../actions";
 import axios from "axios";
 import apis from "../../utils/apis";
-import moment from "moment";
 import DatePicker from "../DatePicker";
-import TimePicker from "../TimePicker";
+import ImageCropperModal from "../../components/Modal/ImageCropperModal";
 
 const Modal = (props) => {
   const dispatch = useDispatch();
-
+  const [modalOpen, setModalOpen] = useState(false)
   const status = useSelector((state) => state.home.league_dialog.open);
   const user = useSelector((state) => state.home.user);
 
@@ -182,8 +179,8 @@ const Modal = (props) => {
                           step == 2
                             ? "flex sm:w-[238px] w-[49px] h-12 bg-primary rounded-full items-center text-white text-sm font-medium"
                             : step == 3
-                            ? "flex sm:w-[238px] w-[49px] h-12 rounded-full items-center text-black dark:text-white text-sm font-bold"
-                            : "flex sm:w-[238px] w-[49px]  h-12 rounded-full items-center text-font-dark-gray text-sm font-bold"
+                              ? "flex sm:w-[238px] w-[49px] h-12 rounded-full items-center text-black dark:text-white text-sm font-bold"
+                              : "flex sm:w-[238px] w-[49px]  h-12 rounded-full items-center text-font-dark-gray text-sm font-bold"
                         }
                       >
                         {step == 3 ? (
@@ -226,11 +223,12 @@ const Modal = (props) => {
                         <>
                           <div className="space-y-3">
                             <div
-                              className={`${
-                                logoWarning ? "border-2 border-red-500" : ""
-                              } flex w-full h-[86px] bg-light-charcoal dark:bg-charcoal rounded-default items-center cursor-pointer`}
+                              className={`${logoWarning ? "border-2 border-red-500" : ""
+                                } flex w-full h-[86px] bg-light-charcoal dark:bg-charcoal rounded-default items-center cursor-pointer`}
                               onClick={() => {
-                                fileUploadRef.current?.click();
+                                // fileUploadRef.current?.click();
+                                setModalOpen(true)
+
                               }}
                             >
                               {previewURL ? (
@@ -262,7 +260,7 @@ const Modal = (props) => {
                                   }
                                 }}
                               />
-                              <p className="text-black dark:text-white font-bold text-sm">
+                              <p className="text-black dark:text-white font-bold text-[12px] sm:text-sm">
                                 Upload League Logo
                               </p>
                             </div>
@@ -318,13 +316,13 @@ const Modal = (props) => {
                           <div className="flex mt-auto w-full justify-between">
                             <button
                               onClick={goToStep2}
-                              className="bg-[#e5e5e5] dark:bg-[#3A3A3A] w-28 sm:w-[169px] h-button rounded-default mt-auto text-black dark:text-white font-semibold text-sm hover:bg-gray-700 focus:ring-2"
+                              className="bg-[#e5e5e5] dark:bg-[#3A3A3A] w-24 sm:w-[169px] h-button rounded-default mt-auto text-black dark:text-white font-semibold text-xs sm:text-sm hover:bg-gray-700 focus:ring-2"
                             >
                               Back to Step 2
                             </button>
                             <button
                               onClick={createLeague}
-                              className="bg-primary w-28 sm:w-[169px] h-button rounded-default mt-auto text-white font-semibold text-sm hover:bg-sky-600 focus:ring-2"
+                              className="bg-primary w-24 sm:w-[169px] h-button rounded-default mt-auto text-white font-semibold text-xs sm:text-sm hover:bg-sky-600 focus:ring-2"
                             >
                               Create League
                             </button>
@@ -337,6 +335,7 @@ const Modal = (props) => {
               </Dialog.Panel>
             </Transition.Child>
           </div>
+          <ImageCropperModal modalOpen={modalOpen} setModalOpen={setModalOpen} setPreviewURL={setPreviewURL} setChosenFile={setChosenFile} />
         </div>
       </Dialog>
     </Transition.Root>

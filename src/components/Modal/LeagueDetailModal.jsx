@@ -93,7 +93,7 @@ const LeagueDetailModal = () => {
                 <div className="divide-y divide-solid divide-[#3A3A3A] flex flex-col flex-grow">
                   <div className="flex items-center text-left h-16 sm:h-[88px] justify-between px-default">
                     <div className="flex items-center">
-                      <p className="text-2xl text-black dark:text-white font-bold">
+                      <p className="text-xl sm:text-2xl text-black dark:text-white font-bold">
                         League Information
                       </p>
                     </div>
@@ -106,85 +106,44 @@ const LeagueDetailModal = () => {
                       ></img>
                     </div>
                   </div>
-                  {/* <div className="flex-col p-default flex flex-grow justify-between ">
+                  <div className="flex flex-col rounded p-7">
                     <div>
-                      <div className="">
-                        <label htmlFor="" className="dark:text-white text-black text-xs">League Description</label>
-                        <textarea
-                          id="message"
-                          rows="6"
-                          className="block p-2.5 w-full text-xs text-gray-900 rounded-default border border-charcoal focus:ring-blue-500 focus:border-blue-500 dark:bg-transparent dark:border-charcoal dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 resize-none outline-none"
-                          placeholder="Describe your League"
-                          value={league.description}
-                          maxLength={500}
-                        ></textarea>
-                      </div>
-                    </div>
-                  </div> */}
-                  <div className="flex flex-col border border-dark-gray rounded p-7">
-                    <div>
-                      <div className="grid grid-cols-6 gap-4 mb-6 items-end">
-                        <div>
+                      <div className="grid grid-cols-6 gap-4 mb-6 items-center">
+                        <div className="col-span-2">
                           <img
                             src={league.logo}
-                            className="rounded-md cursor-pointer"
+                            className="rounded-md cursor-pointer w-12 h-12"
                             alt=""
                           />
                         </div>
-                        <div className="col-span-5">
-                          <p className="dark:text-white text-black">Admin</p>
-                          <Input
-                            className="rounded-lg flex-grow text-xs "
-                            placeholder="League Name"
-                            value={owner?.email}
-                            readOnly
-                          ></Input>
+                        <div className="col-span-4">
+                          <p className="text-sky-500">Admin: </p>
+                          <p className="text-black dark:text-white text-sm">{owner?.email}</p>
                         </div>
                       </div>
                       <div className="mb-4">
-                        <p className="dark:text-white text-black">
-                          League Name
+                        <p className="text-sky-500">
+                          League Name:
                         </p>
-                        <Input
-                          className="rounded-lg flex-grow text-xs "
-                          placeholder="League Name"
-                          value={league.name}
-                          readOnly
-                        ></Input>
+                        <p className="text-black dark:text-white text-sm">{league.name}</p>
+
                       </div>
                       <div className="mb-4">
-                        <p className="dark:text-white text-black">
-                          League Description
+                        <p className="text-sky-500">
+                          League Description:
                         </p>
-                        <textarea
-                          id="message"
-                          rows="6"
-                          className="block p-2.5 w-full text-xs text-gray-900 rounded-lg border border-charcoal dark:bg-transparent dark:border-charcoal dark:placeholder-gray-400 dark:text-white resize-none outline-none"
-                          placeholder="Describe your League*"
-                          value={league.description}
-                          readOnly
-                        ></textarea>
+                        <p className="text-black dark:text-white text-sm">{league.description}</p>
                       </div>
                       <div className="mb-6 grid grid-cols-2 gap-2">
                         <span>
-                          <p className="dark:text-white text-black">
-                            Start Date
+                          <p className="text-sky-500">
+                            Start Date:
                           </p>
-                          <Input
-                            className="text-xs rounded-default"
-                            placeholder="Enter Start Date*"
-                            value={league.startDate}
-                            readOnly
-                          />
+                          <p className="text-black dark:text-white text-sm">{league.startDate}</p>
                         </span>
                         <span>
-                          <p className="dark:text-white text-black">End Date</p>
-                          <Input
-                            className="text-xs rounded-default"
-                            placeholder="Enter End Date*"
-                            value={league.endDate}
-                            readOnly
-                          />
+                          <p className="text-sky-500">End Date:</p>
+                          <p className="text-black dark:text-white text-sm">{league.endDate || "N/A"}</p>
                         </span>
                       </div>
                     </div>
@@ -192,13 +151,13 @@ const LeagueDetailModal = () => {
                       {(isAdmin ||
                         player?.isAcceptedList === 1 ||
                         league?.isAllowedFan) && (
-                        <Button
-                          onClick={handleView}
-                          className="text-xs border-solid border-2 border-blue-700 w-full rounded hover:cursor-pointer hover:bg-gray-700"
-                        >
-                          View League
-                        </Button>
-                      )}
+                          <Button
+                            onClick={handleView}
+                            className="text-xs border-solid border-2 border-blue-700 w-full rounded hover:cursor-pointer hover:bg-gray-700"
+                          >
+                            View League
+                          </Button>
+                        )}
 
                       {player?.isWaitList !== 1 &&
                         player?.isAcceptedList !== 1 && (
