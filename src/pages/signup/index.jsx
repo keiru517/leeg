@@ -7,11 +7,13 @@ import axios from "axios";
 import * as actions from "../../actions";
 import { useDispatch } from "react-redux";
 import { setAuthToken } from "../../utils/authService";
+import ImageCropperModal from "../../components/Modal/ImageCropperModal";
 
 const Signup = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   let { email } = useParams();
+  const [modalOpen, setModalOpen] = useState(false)
 
   const [panelHeight, setPanelHeight] = useState("617px");
 
@@ -88,7 +90,8 @@ const Signup = () => {
               <div
                 className="flex bg-[#F4F4F4] dark:bg-charcoal items-center h-[86px] p-4 rounded-default cursor-pointer"
                 onClick={() => {
-                  fileUploadRef.current?.click();
+                  // fileUploadRef.current?.click();
+                  setModalOpen(true)
                 }}
               >
                 {previewURL ? (
@@ -125,7 +128,7 @@ const Signup = () => {
                   value={email}
                   />
                   <input
-                    className="w-full flex space-x-2 border border-dark-gray items-center px-3 bg-transparent outline-none  dark:text-white flex-grow h-[42px] rounded-default text-font-dark-gray text-xs"
+                    className="w-full flex space-x-2 border border-dark-gray items-center px-3 bg-transparent outline-none  dark:text-white flex-grow h-[42px] rounded-default text-font-dark-gray text-[10px] sm:text-xs"
                     placeholder="Type Your First Name*"
                     value={firstName}
                     name="firstName"
@@ -134,7 +137,7 @@ const Signup = () => {
                     }}
                     ></input>
                   <input
-                    className="w-full flex space-x-2 border border-dark-gray items-center px-3 bg-transparent outline-none  dark:text-white flex-grow h-[42px] rounded-default text-font-dark-gray text-xs"
+                    className="w-full flex space-x-2 border border-dark-gray items-center px-3 bg-transparent outline-none  dark:text-white flex-grow h-[42px] rounded-default text-font-dark-gray text-[10px] sm:text-xs"
                     placeholder="Type Your Last Name*"
                     value={lastName}
                     name="lastName"
@@ -145,7 +148,7 @@ const Signup = () => {
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <PasswordInput
-                    className="bg-transparent rounded-default text-font-dark-gray text-xs"
+                    className="bg-transparent rounded-default text-font-dark-gray text-[10px] sm:text-xs"
                     type="password"
                     placeholder="Type Your Password*"
                     value={password}
@@ -155,7 +158,7 @@ const Signup = () => {
                     }}
                   ></PasswordInput>
                   <PasswordInput
-                    className="bg-transparent rounded-default text-font-dark-gray text-xs"
+                    className="bg-transparent rounded-default text-font-dark-gray text-[10px] sm:text-xs"
                     type="password"
                     placeholder="Retype Your Password*"
                     value={passwordConfirm}
@@ -187,13 +190,13 @@ const Signup = () => {
               <div className="flex justify-between mt-6 space-x-3">
                 <button
                   onClick={handleBack}
-                  className="w-[377px] h-[48px] bg-[#e5e5e5] dark:bg-[#313435] rounded-lg text-black dark:text-white font-bold hover:bg-opacity-70"
+                  className="w-[377px] h-[48px] bg-[#e5e5e5] dark:bg-[#313435] rounded-lg text-black dark:text-white font-bold hover:bg-opacity-70 text-sm"
                 >
                   Back
                 </button>
                 <button
                   onClick={handleSignup}
-                  className="w-[377px] h-[48px] bg-primary rounded-lg text-white font-bold hover:bg-opacity-70 disabled:opacity-10"
+                  className="w-[377px] h-[48px] bg-primary rounded-lg text-white font-bold hover:bg-opacity-70 disabled:opacity-10 text-sm"
                 >
                   Create Account
                 </button>
@@ -210,6 +213,7 @@ const Signup = () => {
           </div>
         </div>
       </div>
+      <ImageCropperModal modalOpen={modalOpen} setModalOpen={setModalOpen} setPreviewURL={setPreviewURL} setChosenFile={setChosenFile}/>
     </div>
   );
 };

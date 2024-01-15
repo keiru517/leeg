@@ -1,4 +1,5 @@
 import "./App.css";
+import "react-image-crop/dist/ReactCrop.css";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Home from "./pages/home";
 import League from "./pages/home/league";
@@ -17,6 +18,7 @@ import React from "react";
 import ResetPassword from "./pages/password/resetPassword";
 import SignupWithEmail from "./pages/signup/signupWithEmail";
 import PageNotFound from "./pages/404";
+import ImageCropper from "./components/ImageCropper";
 
 function App() {
   return (
@@ -57,7 +59,9 @@ function App() {
             element={<Matchup />}
           ></Route>
           <Route exact path="/profile" element={<Profile />}></Route>
+          <Route exact path="/imageCropper" element={<ImageCropper />}></Route>
           <Route path="*" element={<PageNotFound />}></Route>
+
         </Routes>
       </AuthLayout>
     </Router>

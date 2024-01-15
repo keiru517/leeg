@@ -13,10 +13,13 @@ import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../actions";
 import apis from "../../utils/apis";
 import PlayerList from "../ListItem/PlayerList";
+import ImageCropperModal from "../../components/Modal/ImageCropperModal";
 
 const TeamModal = () => {
   let { leagueId } = useParams();
   const dispatch = useDispatch();
+  const [modalOpen, setModalOpen] = useState(false)
+
   const darkMode = useSelector((state) => state.home.dark_mode);
   const user = useSelector((state) => state.home.user);
 
@@ -106,7 +109,6 @@ const TeamModal = () => {
   };
 
   const editSubmit = () => {
-    // dispatch({ type: actions.CLOSE_TEAM_DIALOG });
     const formData = new FormData();
     formData.append("id", team?.id);
     formData.append("userId", user?.id);
@@ -114,16 +116,6 @@ const TeamModal = () => {
     formData.append("color", color);
     formData.append("name", teamName);
     actions.updateTeam(dispatch, formData);
-    // axios
-    //   .post(apis.updateTeam, formData)
-    //   .then((res) => {
-    //     actions.getTeams(dispatch);
-    //     alert(res.data.message);
-    //   })
-    //   .catch((error) => {
-    //     alert(error.response.data.message);
-    //   });
-    // console.log("Clicked edit");
   };
 
   const deleteSubmit = () => {
@@ -159,7 +151,6 @@ const TeamModal = () => {
         setPlayersList({});
       })
       .catch((error) => console.log(error.response.data.message));
-    console.log("playersList", playersList);
   };
 
   const setCheckedList = (id, checked) => {
@@ -206,12 +197,12 @@ const TeamModal = () => {
                       {type == "create"
                         ? "Create Team"
                         : type == "edit"
-                        ? "Edit Team"
-                        : type === "delete"
-                        ? "Delete Team"
-                        : type === "addPlayer"
-                        ? "Add Players To Team"
-                        : ""}
+                          ? "Edit Team"
+                          : type === "delete"
+                            ? "Delete Team"
+                            : type === "addPlayer"
+                              ? "Add Players To Team"
+                              : ""}
                     </p>
                     <div className="flex items-center">
                       {
@@ -225,16 +216,6 @@ const TeamModal = () => {
                         ) : (
                           ""
                         )
-                        // : type === "delete" ? (
-                        //   <img
-                        //     src={editIcon}
-                        //     alt="sdf"
-                        //     className="w-[18px] h-[18px] mr-5 hover:opacity-70 cursor-pointer"
-                        //     onClick={handleEdit}
-                        //   />
-                        // ) : (
-                        //   ""
-                        // )
                       }
                       <img
                         src={close}
@@ -248,16 +229,16 @@ const TeamModal = () => {
                       {type === "create" || type === "edit" ? (
                         <div className="space-y-3">
                           <div
-                            className={`${
-                              logoWarning ? "border-2 border-red-500" : ""
-                            } flex w-full h-16 sm:h-[86px] bg-light-charcoal dark:bg-charcoal rounded-default items-center justify-between`}
+                            className={`${logoWarning ? "border-2 border-red-500" : ""
+                              } flex w-full h-16 sm:h-[86px] bg-light-charcoal dark:bg-charcoal rounded-default items-center justify-between`}
                           >
                             <div className="flex items-center">
                               <div
                                 className={`w-full h-[58px] rounded-full mx-2`}
                                 style={{ backgroundColor: color }}
                                 onClick={() => {
-                                  fileUploadRef.current?.click();
+                                  // fileUploadRef.current?.click();
+                                  setModalOpen(true)
                                 }}
                               >
                                 {previewURL ? (
@@ -280,9 +261,9 @@ const TeamModal = () => {
                                         src={uploadCircle}
                                         alt=""
                                         className=""
-                                        // onClick={() => {
-                                        //   fileUploadRef.current?.click();
-                                        // }}
+                                      // onClick={() => {
+                                      //   fileUploadRef.current?.click();
+                                      // }}
                                       />
                                       <p className="text-black dark:text-white font-bold text-sm ml-3">
                                         Upload Logo or
@@ -451,6 +432,7 @@ const TeamModal = () => {
               </Dialog.Panel>
             </Transition.Child>
           </div>
+          <ImageCropperModal modalOpen={modalOpen} setModalOpen={setModalOpen} setPreviewURL={setPreviewURL} setChosenFile={setChosenFile} />
         </div>
       </Dialog>
     </Transition.Root>

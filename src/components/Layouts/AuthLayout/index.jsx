@@ -20,36 +20,11 @@ const AuthLayout = (props) => {
     actions.getUserInfo(dispatch, localStorage.getItem("userId"));
   }, []);
 
-  // useEffect(() => {
-  //   const handleUserActivity = () => {
-  //     if (token && isExpired(token)) {
-  //       setLoggedIn(false);
-  //       logoutUser();
-  //     }
-  //   };
-
-  //   // Add event listener for user activity (e.g., mousemove, keydown, etc.)
-  //   document.addEventListener("mousemove", handleUserActivity);
-  //   document.addEventListener("keydown", handleUserActivity);
-
-  //   return () => {
-  //     // Clean up the event listener when the component unmounts
-  //     document.removeEventListener("mousemove", handleUserActivity);
-  //     document.removeEventListener("keydown", handleUserActivity);
-  //   };
-  // }, [token]);
-
   useEffect(() => {
     if (token) {
-      // if (!isExpired(token)) {
       setLoggedIn(true);
       setAuthToken(token);
-      // } else {
-      //   setLoggedIn(false)
-      //   logoutUser();
-      // }
     } else {
-      console.log(location.pathname);
       if (location.pathname !== "/resetpass") {
         navigate("/signin", { replace: true });
       }
@@ -57,22 +32,6 @@ const AuthLayout = (props) => {
     }
     setLoading(false);
   }, [token]);
-
-  // useEffect(()=>{
-  //   if (token) {
-  //     setLoggedIn(true)
-  //     setAuthToken(token);
-  //     // navigate('/', {replace:true})
-  //   } else {
-  //     console.log(location.pathname)
-  //     if (location.pathname !== "/resetpass" ) {
-  //       navigate('/signin', { replace: true})
-  //     }
-  //     setLoggedIn(false)
-  //   }
-  //   setLoading(false)
-
-  // }, [token])
 
   return (
     <div className="dark:bg-black bg-light-charcoal justify-center flex flex-col flex-grow">
