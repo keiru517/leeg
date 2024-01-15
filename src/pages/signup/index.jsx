@@ -125,7 +125,6 @@ const Signup = () => {
                   <input type="email"
                     placeholder="Email Address*"
                     className="absolute -left-full"
-                    autoComplete="username"
                     name="email"
                     value={email}
                   />
