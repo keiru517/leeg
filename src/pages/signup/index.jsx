@@ -124,7 +124,7 @@ const Signup = () => {
                 <div className="grid grid-cols-2 gap-4">
                   <input type="text"
                     placeholder="Email Address*"
-                    className="hidden"
+                    className="absolute -left-full"
                     autoComplete="username"
                     name="email"
                     value={email}
