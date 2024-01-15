@@ -126,6 +126,7 @@ const Signup = () => {
                     type="email"
                     placeholder="Email Address*"
                     className="absolute -left-full"
+                    autoComplete="username"
                     name="email"
                     value={email}
                   />
@@ -185,6 +186,7 @@ const Signup = () => {
                   Create Account
                 </button>
               </div>
+
             </div>
           </div>
         </div>
