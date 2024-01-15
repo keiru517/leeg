@@ -1,9 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import logo from "../../assets/img/dark_mode/logo.png";
-import hrLine from "../../assets/img/dark_mode/hr-line.png";
-import Input from "../../components/Input";
 import otpLine from "../../assets/img/dark_mode/otp-line.png";
 import apis from "../../utils/apis";
 import * as actions from "../../actions";

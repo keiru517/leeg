@@ -1,124 +1,124 @@
-import React, { useState, useCallback, useRef, useEffect } from 'react';
-import ReactCrop from 'react-image-crop';
-import 'react-image-crop/dist/ReactCrop.css';
+import { useRef, useState } from "react";
+import ReactCrop, { centerCrop, convertToPixelCrop, makeAspectCrop } from "react-image-crop";
+import setCanvasPreview from "./setCanvasPreview";
 
-function generateDownload(canvas, crop) {
-  if (!crop || !canvas) {
-    return;
-  }
+const ASPECT_RATIO = 1;
+const MIN_DIMENSION = 150;
 
-  canvas.toBlob(
-    (blob) => {
-      const previewUrl = window.URL.createObjectURL(blob);
-
-      const anchor = document.createElement('a');
-      anchor.download = 'cropPreview.png';
-      anchor.href = URL.createObjectURL(blob);
-      anchor.click();
-
-      window.URL.revokeObjectURL(previewUrl);
-    },
-    'image/png',
-    1
-  );
-}
-
-function setCanvasImage(image, canvas, crop) {
-  if (!crop || !canvas || !image) {
-    return;
-  }
-
-  const scaleX = image.naturalWidth / image.width;
-  const scaleY = image.naturalHeight / image.height;
-  const ctx = canvas.getContext('2d');
-  // refer https://developer.mozilla.org/en-US/docs/Web/API/Window/devicePixelRatio
-  const pixelRatio = window.devicePixelRatio;
-
-  canvas.width = crop.width * pixelRatio * scaleX;
-  canvas.height = crop.height * pixelRatio * scaleY;
-
-  // refer https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/setTransform
-  ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
-  ctx.imageSmoothingQuality = 'high';
-
-  // refer https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/drawImage
-  ctx.drawImage(
-    image,
-    crop.x * scaleX,
-    crop.y * scaleY,
-    crop.width * scaleX,
-    crop.height * scaleY,
-    0,
-    0,
-    crop.width * scaleX,
-    crop.height * scaleY
-  );
-}
-
-export default function App() {
-  const [upImg, setUpImg] = useState();
-
+const ImageCropper = (props) => {
   const imgRef = useRef(null);
-  const previewCanvasRef = useRef(null);
-
-  const [crop, setCrop] = useState({ unit: 'px', width: 30, aspect: 1 });
-  const [completedCrop, setCompletedCrop] = useState(null);
-
-  console.log(crop);
-
-  // on selecting file we set load the image on to cropper
+  let {setPreviewURL, setModalOpen} = props;
+  const previewCanvasRef = useRef(null)
+  const [imgSrc, setImgSrc] = useState('');
+  const [crop, setCrop] = useState();
+  const [error, setError] = useState('')
   const onSelectFile = (e) => {
-    if (e.target.files && e.target.files.length > 0) {
-      const reader = new FileReader();
-      reader.addEventListener('load', () => setUpImg(reader.result));
-      reader.readAsDataURL(e.target.files[0]);
-    }
-  };
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.addEventListener("load", () => {
+      const imageElement = new Image();
+      const imageUrl = reader.result?.toString() || "";
+      imageElement.src = imageUrl;
+      imageElement.addEventListener("load", (e) => {
+        if (error) setError("");
+        const { naturalWidth, naturalHeight } = e.currentTarget;
+        if (naturalWidth < MIN_DIMENSION || naturalHeight < MIN_DIMENSION) {
+          setError("Image must be at least 150 x 150 pixels.")
+          setImgSrc("");
+          return;
+        }
+      })
+      setImgSrc(imageUrl);
+    })
+    reader.readAsDataURL(file);
+  }
 
-  const onLoad = useCallback((img) => {
-    imgRef.current = img;
-  }, []);
+  const onImageLoad = (e) => {
+    const { width, height } = e.currentTarget;
+    const cropWidthInPercent = (MIN_DIMENSION / width) * 100;
 
-  useEffect(() => {
-    setCanvasImage(imgRef.current, previewCanvasRef.current, completedCrop);
-  }, [completedCrop]);
+    const crop = makeAspectCrop(
+      {
+        unit: '%',
+        width: cropWidthInPercent,
+      },
+      ASPECT_RATIO,
+      width,
+      height
+    );
+    const centeredCrop = centerCrop(crop, width, height);
+    setCrop(centeredCrop)
+  }
 
   return (
-    <div className='App'>
-      <div>
-        <input type='file' accept='image/*' onChange={onSelectFile} />
-      </div>
-      <ReactCrop
-        src={upImg}
-        onImageLoaded={onLoad}
-        crop={crop}
-        onChange={(c) => setCrop(c)}
-        onComplete={(c) => setCompletedCrop(c)}
-      />
-      <div>
-        {/* Canvas to display cropped image */}
+    <>
+      <label className="block mb-3 w-fit" htmlFor="">
+        <span className="sr-only">Choose profile photo</span>
+        <input type="file" accept="image/*"
+          onChange={onSelectFile}
+          className="block w-full text-sm dark:text-white text-slate-500 file:mr-4 file:py-1 file:px-2 file:rounded-full file:border-0 file:text-xs file:bg-gray-700 file:text-sky-300 hover:file:bg-gray-600"
+        />
+      </label>
+      {
+        error && <p className="text-red-400 text-xs">{error}</p>
+      }
+      {
+        imgSrc &&
+        <div className="flex flex-col items-center">
+          <ReactCrop
+            crop={crop}
+            onChange={
+              (pixelCrop, percentCrop) => setCrop(percentCrop)
+            }
+            circularCrop
+            keepSelection
+            aspect={ASPECT_RATIO}
+            minWidth={MIN_DIMENSION}
+          >
+            <img
+              ref={imgRef}
+              src={imgSrc}
+              alt="Upload"
+              style={{ maxHeight: "50vh" }}
+              onLoad={onImageLoad} />
+          </ReactCrop>
+          <button className="text-white font-mono text-xs py-2 px-4 rounded-2xl mt-4 bg-sky-500 hover:bg-sky-600"
+            onClick={() => {
+              setCanvasPreview(
+                imgRef.current,
+                previewCanvasRef.current,
+                convertToPixelCrop(
+                  crop,
+                  imgRef.current.width,
+                  imgRef.current.height
+                )
+              );
+              const dataUrl = previewCanvasRef.current.toDataURL()
+              setPreviewURL(dataUrl);
+              setModalOpen(false);
+            }}
+          >
+            Crop Image
+          </button>
+        </div>
+      }
+      {
+        crop &&
         <canvas
           ref={previewCanvasRef}
-          // Rounding is important so the canvas width and height matches/is a multiple for sharpness.
+          className="mt-4"
           style={{
-            width: Math.round(completedCrop?.width ?? 0),
-            height: Math.round(completedCrop?.height ?? 0),
+            display:"none",
+            border: "1px solid black",
+            objectFit: "contain",
+            width: 150,
+            height: 150
           }}
-        />
-      </div>
-      <p>
-        Note that the download below won't work in this sandbox due to the
-        iframe missing 'allow-downloads'. It's just for your reference.
-      </p>
-      <button
-        type='button'
-        disabled={!completedCrop?.width || !completedCrop?.height}
-        onClick={() =>
-          generateDownload(previewCanvasRef.current, completedCrop)
-        }
-      >
-        Download cropped image
-      </button>
-    </div>
-  );
+        ></canvas>
+      }
+    </>
+  )
 }
+
+export default ImageCropper;
