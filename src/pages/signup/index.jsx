@@ -57,14 +57,14 @@ const Signup = () => {
           .then((res) => {
             localStorage.setItem("token", res.data.token);
             localStorage.setItem("userId", res.data.user.id);
-            
+
             setAuthToken(res.data.token);
             actions.getUserInfo(dispatch, res.data.user.id);
             navigate("/", { replace: true });
           })
           .catch((error) => {
             // navigate('/signupSuccess');
-            
+
             alert("Error while signup!");
           });
       }
@@ -122,11 +122,6 @@ const Signup = () => {
               </div>
               <div className="my-6 space-y-4 ">
                 <div className="grid grid-cols-2 gap-4">
-                  <input type="text" 
-                  className="hidden"
-                  name="email"
-                  value={email}
-                  />
                   <input
                     className="w-full flex space-x-2 border border-dark-gray items-center px-3 bg-transparent outline-none  dark:text-white flex-grow h-[42px] rounded-default text-font-dark-gray text-[10px] sm:text-xs"
                     placeholder="Type Your First Name*"
@@ -135,7 +130,7 @@ const Signup = () => {
                     onChange={(e) => {
                       setFirstName(e.target.value);
                     }}
-                    ></input>
+                  ></input>
                   <input
                     className="w-full flex space-x-2 border border-dark-gray items-center px-3 bg-transparent outline-none  dark:text-white flex-grow h-[42px] rounded-default text-font-dark-gray text-[10px] sm:text-xs"
                     placeholder="Type Your Last Name*"
@@ -145,6 +140,12 @@ const Signup = () => {
                       setLastName(e.target.value);
                     }}
                   ></input>
+                  <input type="text"
+                    placeholder="Email Address*"
+                    className="hidden"
+                    name="email"
+                    value={email}
+                  />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <PasswordInput
@@ -213,7 +214,7 @@ const Signup = () => {
           </div>
         </div>
       </div>
-      <ImageCropperModal modalOpen={modalOpen} setModalOpen={setModalOpen} setPreviewURL={setPreviewURL} setChosenFile={setChosenFile}/>
+      <ImageCropperModal modalOpen={modalOpen} setModalOpen={setModalOpen} setPreviewURL={setPreviewURL} setChosenFile={setChosenFile} />
     </div>
   );
 };
