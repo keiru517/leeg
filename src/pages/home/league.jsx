@@ -33,6 +33,7 @@ import toggleOn from "../../assets/img/dark_mode/toggle-on.png";
 import toggleOff from "../../assets/img/dark_mode/toggle-off.png";
 import DatePicker from "../../components/DatePicker";
 import TimerInput from "../../components/TimerInput";
+import ImageCropperModal from "../../components/Modal/ImageCropperModal";
 
 const League = () => {
   let { leagueId } = useParams();
@@ -41,6 +42,7 @@ const League = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const tab = queryParams.get("tab");
+  const [modalOpen, setModalOpen] = useState(false)
 
   const user = useSelector((state) => state.home.user);
   const darkMode = useSelector((state) => state.home.dark_mode);
@@ -72,7 +74,7 @@ const League = () => {
 
   // this is used for Players tab
   const allPlayers = useSelector((state) => state.home.players).filter(
-    (player) => player.leagueId == leagueId && (player.isAcceptedList || (player.isSubstitute&& league?.displaySubstitutes))
+    (player) => player.leagueId == leagueId && (player.isAcceptedList || (player.isSubstitute && league?.displaySubstitutes))
   );
 
   const matches = useSelector((state) => state.home.matches).filter(
@@ -1036,7 +1038,7 @@ const League = () => {
 
                   <div className="flex flex-col border border-dark-gray rounded p-7">
                     <div>
-                      <h1 className="dark:text-white text-black font-medium mb-4">
+                      <h1 className="dark:text-white text-black mb-4">
                         Edit League
                       </h1>
                       <div className="grid grid-cols-6 gap-2 sm:gap-4 mb-6 items-end">
@@ -1056,7 +1058,8 @@ const League = () => {
                           />
                           <img
                             onClick={() => {
-                              fileUploadRef.current?.click();
+                              // fileUploadRef.current?.click();
+                              setModalOpen(true)
                             }}
                             src={previewURL ? previewURL : league?.logo}
                             className="rounded-md cursor-pointer w-8 h-8 sm:w-12 sm:h-12"
@@ -1406,6 +1409,8 @@ const League = () => {
                             </tr>*/}
                         </tbody>
                       </table>
+                      <ImageCropperModal modalOpen={modalOpen} setModalOpen={setModalOpen} setPreviewURL={setPreviewURL} setChosenFile={setChosenFile} />
+
                     </div>
                   )}
                 </div>

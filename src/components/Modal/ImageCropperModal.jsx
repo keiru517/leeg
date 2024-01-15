@@ -58,7 +58,7 @@ const ImageCropperModal = (props) => {
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative transform overflow-hidden rounded-main text-left shadow-xl transition-all sm:my-8 bg-white dark:bg-slate  sm:h-[609px] w-[400px] sm:w-[500px] md:w-[735px] mx-3 flex flex-col">
+              <Dialog.Panel className="relative transform overflow-hidden rounded-main text-left shadow-xl transition-all sm:my-8 bg-white dark:bg-slate  w-[300px] sm:w-[400px] md:w-[500px] mx-3 flex flex-col">
                 <div className="divide-y divide-solid divide-[#3A3A3A] flex flex-col flex-grow">
                   <div className="flex items-center text-left h-16 sm:h-[88px] justify-between px-default">
                     <p className="text-2xl text-black dark:text-white font-bold">

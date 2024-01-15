@@ -15,6 +15,7 @@ import TeamPlayerStatisticsTable from "../../components/Table/TeamPlayerStatisti
 import * as actions from "../../actions";
 import editIconDark from "../../assets/img/dark_mode/edit-icon-dark.png";
 import editIconLight from "../../assets/img/dark_mode/edit-icon-light.png";
+import TeamModal from "../../components/Modal/TeamModal";
 
 const Team = () => {
   let { leagueId, teamId } = useParams();
@@ -250,6 +251,7 @@ const Team = () => {
               </Tab.Panel>
             </Tab.Panels>
           </Tab.Group>
+          <TeamModal />
         </div>
       </div>
       <MatchModal />

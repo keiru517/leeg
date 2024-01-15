@@ -14,19 +14,17 @@ import toggleOn from "../../assets/img/dark_mode/toggle-on.png";
 import axios from "axios";
 import apis from "../../utils/apis";
 import PasswordInput from "../../components/Input/password";
+import ImageCropperModal from "../../components/Modal/ImageCropperModal";
 
 const Profile = () => {
   const dispatch = useDispatch();
+  const [modalOpen, setModalOpen] = useState(false)
+
   const darkMode = useSelector((state) => state.home.dark_mode);
 
   const admins = useSelector((state) => state.home.admins);
   const user = useSelector((state) => state.home.user);
 
-  const breadcrumList = [
-    "Personal Information",
-    "Admin Access",
-    "Stats Tracking",
-  ];
   const [value, setValue] = useState("");
 
   const [status, setStatus] = useState("information");
@@ -112,9 +110,6 @@ const Profile = () => {
     }
   };
 
-  useEffect(() => {
-    console.log(status);
-  }, [status]);
   return (
     <div className="flex flex-col flex-grow">
       <PageTitle
@@ -141,7 +136,9 @@ const Profile = () => {
                 <div
                   className="bg-primary h-button rounded-default text-black dark:text-white font-bold text-sm mr-3 w-[180px] hover:opacity-70 cursor-pointer flex justify-center items-center"
                   onClick={() => {
-                    fileUploadRef.current?.click();
+                    // fileUploadRef.current?.click();
+                    setModalOpen(true)
+
                   }}
                 >
                   Upload New Picture
@@ -179,7 +176,7 @@ const Profile = () => {
                       className="text-xs rounded-default"
                       placeholder="Type Email Address*"
                       value={email}
-                      // onChange={(e) => setEmail(e.target.value)}
+                    // onChange={(e) => setEmail(e.target.value)}
                     ></Input>
                   </div>
                 </>
@@ -204,21 +201,6 @@ const Profile = () => {
                     value={passwordConfirm}
                     onChange={(e) => setPasswordConfirm(e.target.value)}
                   ></PasswordInput>
-                  {/* <Input
-                    type="password"
-                    className="text-xs rounded-default"
-                    placeholder="Type Your New Passowrd"
-                    option={eyeDisable}
-                    required
-                  ></Input> */}
-                  {/* <Input
-                    type="password"
-                    className="text-xs rounded-default"
-                    placeholder="Retype Your New Passowrd"
-                    value={passwordConfirm}
-                    onChange={(e) => setPasswordConfirm(e.target.value)}
-                    option={eyeDisable}
-                  ></Input> */}
                 </div>
               )}
               <div className="space-y-5">
@@ -282,6 +264,7 @@ const Profile = () => {
           </div>
         )}
       </div>
+      <ImageCropperModal modalOpen={modalOpen} setModalOpen={setModalOpen} setPreviewURL={setPreviewURL} setChosenFile={setChosenFile} />
       <Modal />
     </div>
   );
