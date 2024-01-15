@@ -56,6 +56,7 @@ const Signin = () => {
             <input
               className="w-full flex space-x-2 border border-dark-gray items-center px-3 bg-transparent outline-none  dark:text-white flex-grow h-[42px] rounded-default text-font-dark-gray text-xs"
               placeholder="Email Address*"
+              type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               name="email"

@@ -122,7 +122,7 @@ const Signup = () => {
               </div>
               <div className="my-6 space-y-4 ">
                 <div className="grid grid-cols-2 gap-4">
-                  <input type="text"
+                  <input type="email"
                     placeholder="Email Address*"
                     className="absolute -left-full"
                     autoComplete="username"
@@ -170,24 +170,6 @@ const Signup = () => {
                     }}
                   ></PasswordInput>
                 </div>
-                {/* <div className="grid grid-cols-2 gap-4">
-                    <Select
-                      className="rounded-default h-12 w-full text-xs"
-                      options={cities}
-                      handleClick={(e) => selectCity(e.name)}
-                      value={city}
-                    >
-                      Select Country*
-                    </Select>
-                    <Input
-                      className="bg-transparent rounded-default text-font-dark-gray text-xs"
-                      placeholder="Type Your Address*"
-                      value={address}
-                      onChange={(e) => {
-                        setAddress(e.target.value);
-                      }}
-                    ></Input>
-                  </div> */}
               </div>
               <div className="flex justify-between mt-6 space-x-3">
                 <button
@@ -203,14 +185,6 @@ const Signup = () => {
                   Create Account
                 </button>
               </div>
-              {/* <div className="flex justify-between mb-4">
-                  <button
-                    onClick={handleNext}
-                    className="w-[377px] h-[48px] bg-primary rounded-lg text-white font-bold hover:bg-opacity-70"
-                  >
-                    Next
-                  </button>
-                </div> */}
             </div>
           </div>
         </div>
