@@ -122,7 +122,8 @@ const Signup = () => {
               </div>
               <div className="my-6 space-y-4 ">
                 <div className="grid grid-cols-2 gap-4">
-                  <input type="email"
+                  <input
+                    type="email"
                     placeholder="Email Address*"
                     className="absolute -left-full"
                     name="email"
