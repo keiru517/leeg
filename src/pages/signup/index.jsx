@@ -122,6 +122,13 @@ const Signup = () => {
               </div>
               <div className="my-6 space-y-4 ">
                 <div className="grid grid-cols-2 gap-4">
+                  <input type="text"
+                    placeholder="Email Address*"
+                    className="hidden"
+                    autoComplete="username"
+                    name="email"
+                    value={email}
+                  />
                   <input
                     className="w-full flex space-x-2 border border-dark-gray items-center px-3 bg-transparent outline-none  dark:text-white flex-grow h-[42px] rounded-default text-font-dark-gray text-[10px] sm:text-xs"
                     placeholder="Type Your First Name*"
@@ -142,12 +149,6 @@ const Signup = () => {
                   ></input>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
-                  <input type="text"
-                    placeholder="Email Address*"
-                    className="hidden"
-                    name="email"
-                    value={email}
-                  />
                   <PasswordInput
                     className="bg-transparent rounded-default text-font-dark-gray text-[10px] sm:text-xs"
                     type="password"
