@@ -74,10 +74,7 @@ const Profile = () => {
       formData.append("firstName", firstName);
       formData.append("lastName", lastName);
       axios.post(apis.updateInfo, formData).then((res) => {
-        actions.getUserInfo(dispatch, localStorage.getItem("userId"));
-        actions.getUsers(dispatch);
-        actions.getPlayers(dispatch);
-
+        dispatch({type:actions.UPDATE_AVATAR_URL, payload:URL.createObjectURL(chosenFile)})
         alert("updated");
       });
     } else {
