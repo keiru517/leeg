@@ -116,12 +116,7 @@ const TeamModal = () => {
     formData.append("color", color);
     formData.append("name", teamName);
 
-    // dispatch({type:actions.UPDATE_TEAM_LOGO, payload:URL.createObjectURL(chosenFile)})
     actions.updateTeam(dispatch, formData, user?.id, chosenFile);
-    // setTimeout(() => {
-    //   dispatch({type:actions.SET_TEAM_LOGO_URL, payload:{id:team?.id, logoUrl:URL.createObjectURL(chosenFile)}})
-      
-    // }, 1000);
   };
 
   const deleteSubmit = () => {
@@ -236,48 +231,66 @@ const TeamModal = () => {
                         <div className="space-y-3">
                           <div
                             className={`${logoWarning ? "border-2 border-red-500" : ""
-                              } flex w-full h-16 sm:h-[86px] bg-light-charcoal dark:bg-charcoal rounded-default items-center justify-between`}
+                              } flex w-full h-16 sm:h-[86px] bg-light-charcoal dark:bg-charcoal rounded-default items-center justify-left p-default`}
                           >
-                            <div className="flex items-center">
-                              <div
-                                className={`w-full h-[58px] rounded-full mx-2`}
-                                style={{ backgroundColor: color }}
-                                onClick={() => {
-                                  // fileUploadRef.current?.click();
-                                  setModalOpen(true)
-                                }}
-                              >
-                                {previewURL ? (
-                                  <div className="flex">
-                                    <img
-                                      src={previewURL}
-                                      className="rounded-full w-[58px] h-[58px]"
+                            <div
+                              className={`w-64 h-[58px] rounded-full mr-2`}
+                              // style={{ backgroundColor: color }}
+                              onClick={() => {
+                                // fileUploadRef.current?.click();
+                                setModalOpen(true)
+                              }}
+                            >
+                              {previewURL ? (
+                                <div className="flex items-center space-x-3">
+                                  <img
+                                    src={previewURL}
+                                    className="rounded-full w-[58px] h-[58px]"
+                                    alt=""
+                                  />
+                                  <p className="text-black dark:text-white font-bold text-sm">
+                                    Upload Logo or
+                                  </p>
+                                </div>
+                              ) : type === "create" ? (
+                                color ? (
+                                  <div className="flex items-center">
+                                    <div
                                       alt=""
-                                    />
-                                    <p className="text-black dark:text-white font-bold text-sm">
+                                      style={{ backgroundColor: color }}
+                                      className="rounded-full w-[58px] h-[58px]"
+                                    > </div>
+                                    <p className="text-black dark:text-white font-bold text-sm ml-3">
                                       Upload Logo or
                                     </p>
                                   </div>
-                                ) : type === "create" ? (
+                                ) : (
+                                  <div className="flex items-center">
+                                    <img
+                                      src={uploadCircle}
+                                      alt=""
+                                      className="rounded-full w-[58px] h-[58px]"
+                                    />
+                                    <p className="text-black dark:text-white font-bold text-sm ml-3">
+                                      Upload Logo or
+                                    </p>
+                                  </div>
+                                )
+                              ) : (
+                                type === "edit" && (
                                   color ? (
-                                    ""
-                                  ) : (
                                     <div className="flex items-center">
-                                      <img
-                                        src={uploadCircle}
+                                      <div
+                                        src={team?.logo}
                                         alt=""
-                                        className=""
-                                      // onClick={() => {
-                                      //   fileUploadRef.current?.click();
-                                      // }}
-                                      />
+                                        style={{ backgroundColor: color }}
+                                        className="rounded-full w-[58px] h-[58px]"
+                                      ></div>
                                       <p className="text-black dark:text-white font-bold text-sm ml-3">
                                         Upload Logo or
                                       </p>
                                     </div>
-                                  )
-                                ) : (
-                                  type === "edit" && (
+                                  ) : (
                                     <div className="flex items-center">
                                       <img
                                         src={team?.logo}
@@ -289,12 +302,14 @@ const TeamModal = () => {
                                       </p>
                                     </div>
                                   )
-                                )}
-                              </div>
+                                )
+                              )}
+                            </div>
+                            <div className="flex items-center">
                               <input
                                 id="nativeColorPicker1"
                                 type="color"
-                                className="mr-3 w-[45px]"
+                                className="mr-3 w-[30px]"
                                 value={color}
                                 onChange={(e) => {
                                   setPreviewURL(null);
@@ -321,7 +336,6 @@ const TeamModal = () => {
                                 Pick Color
                               </p>
                             </div>
-                            <div className="flex items-center"></div>
                           </div>
                           <input
                             className={`border border-charcoal items-center px-3 bg-transparent outline-none text-black dark:text-white flex-grow h-button text-xs w-full`}
