@@ -2,7 +2,6 @@ import { Fragment, useEffect, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { useParams } from "react-router";
 import axios from "axios";
-import ImageCropper from "../ImageCropper";
 import close from "../../assets/img/dark_mode/close.png";
 import deleteIconDark from "../../assets/img/dark_mode/delete-icon-dark.svg";
 import deleteIconLight from "../../assets/img/dark_mode/delete-icon-light.svg";
@@ -115,7 +114,6 @@ const TeamModal = () => {
     formData.append("logo", chosenFile);
     formData.append("color", color);
     formData.append("name", teamName);
-
     actions.updateTeam(dispatch, formData, user?.id, chosenFile);
   };
 
