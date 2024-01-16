@@ -69,7 +69,7 @@ const SettingsSelect = (props) => {
     };
   }, []);
 
-  if (user == {}) return null;
+  if (user == {}) return <></>;
 
   return (
     <div
@@ -82,8 +82,8 @@ const SettingsSelect = (props) => {
       >
         <p className="dark:text-white mr-1">{value ? value : ""}</p>
         <img
+          id="nav-avatar"
           src={user?.avatar}
-          // src={apis.userAvatarURL(localStorage.getItem("userId"))}
           className="w-8 h-8 rounded-full border border-gray-500"
           alt=""
         />

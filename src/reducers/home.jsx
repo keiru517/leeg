@@ -78,6 +78,14 @@ const home = (state = initialState, action) => {
       return { ...state, user: action.payload };
     case actions.GET_USERS:
       return { ...state, users: action.payload };
+    case actions.UPDATE_AVATAR_URL:
+      return {
+        ...state,
+        user:{
+          ...state.user,
+          avatar: action.payload
+        }
+      }
     case actions.GET_COUNTRIES:
       return { ...state, countries: action.payload };
     case actions.GET_LEAGUES:
@@ -232,9 +240,8 @@ const home = (state = initialState, action) => {
       return {
         ...state,
         team_dialog: {
+          ...state.team_dialog,
           open: false,
-          type: "",
-          team: [],
         },
       };
 

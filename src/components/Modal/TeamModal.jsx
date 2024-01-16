@@ -115,7 +115,13 @@ const TeamModal = () => {
     formData.append("logo", chosenFile);
     formData.append("color", color);
     formData.append("name", teamName);
-    actions.updateTeam(dispatch, formData);
+
+    // dispatch({type:actions.UPDATE_TEAM_LOGO, payload:URL.createObjectURL(chosenFile)})
+    actions.updateTeam(dispatch, formData, user?.id, chosenFile);
+    // setTimeout(() => {
+    //   dispatch({type:actions.SET_TEAM_LOGO_URL, payload:{id:team?.id, logoUrl:URL.createObjectURL(chosenFile)}})
+      
+    // }, 1000);
   };
 
   const deleteSubmit = () => {

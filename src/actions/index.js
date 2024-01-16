@@ -6,6 +6,7 @@ export const SET_DARK_MODE = "SET_DARK_MODE";
 // user
 export const GET_USER = "GET_USER";
 export const GET_USERS = "GET_USERS";
+export const UPDATE_AVATAR_URL = "UPDATE_AVATAR_URL";
 // country
 export const GET_COUNTRIES = "GET_COUNTRIES";
 // league
@@ -322,7 +323,7 @@ export const getTeams = async (dispatch) => {
   }
 };
 
-export const updateTeam = async (dispatch, data) => {
+export const updateTeam = async (dispatch, data, id, chosenFile) => {
   try {
     const response = await axios.post(apis.updateTeam, data);
     const teams = response.data.teams;
@@ -335,6 +336,8 @@ export const updateTeam = async (dispatch, data) => {
       type: GET_TEAMS,
       payload: teams,
     });
+    dispatch({type:SET_TEAM_LOGO_URL, payload:{id:id, logoUrl:URL.createObjectURL(chosenFile)}})
+
   } catch (error) {
     dispatch({
       type: GET_TEAMS,
