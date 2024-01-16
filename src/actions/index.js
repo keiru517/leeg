@@ -337,7 +337,6 @@ export const updateTeam = async (dispatch, data, id, chosenFile) => {
       payload: teams,
     });
     dispatch({type:SET_TEAM_LOGO_URL, payload:{id:id, logoUrl:URL.createObjectURL(chosenFile)}})
-
   } catch (error) {
     dispatch({
       type: GET_TEAMS,
