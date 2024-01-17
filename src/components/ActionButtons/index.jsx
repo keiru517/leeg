@@ -9,7 +9,7 @@ import SelectPlayerModal from "../../components/Modal/SelectPlayerModal";
 
 const Index = (props) => {
   let { leagueId, matchId } = useParams();
-  let { className,  handleAction, time, setIsRunning } = props;
+  let { className, handleAction, time, setIsRunning } = props;
   const dispatch = useDispatch();
   const match = useSelector((state) => state.home.matches).find(
     (match) => match.id == matchId
@@ -66,7 +66,7 @@ const Index = (props) => {
   };
 
   return (
-    <div className={` ${className} flex-col bg-white dark:bg-slate rounded-main p-[26px]`}>
+    <div className={` ${className} flex-col bg-white dark:bg-slate rounded-main p-default`}>
       <div className="flex space-x-3">
         <div className="flex flex-col w-1/2 space-y-[10px]">
           <div className="flex bg-light-charcoal dark:bg-charcoal w-full h-12 rounded-t-lg p-4 items-center justify-between">
@@ -119,75 +119,63 @@ const Index = (props) => {
             >
               <p className="text-black dark:text-white">+1</p>
             </div>
-          </div>
-          {(league?.displayAttempts3 ||
-            league?.displayAttempts2 ||
-            league?.displayAttempts1) && (
-              <div className="grid grid-cols-3 gap-[10px]">
-                {league?.displayAttempts3 && (
-                  <div
-                    className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
-                    onClick={() => handleClickButtons("attempts3", homeTeam?.id)}
-                  >
-                    <p className="text-black dark:text-white">MISSED 3</p>
-                  </div>
-                )}
-                {league?.displayAttempts2 && (
-                  <div
-                    className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
-                    onClick={() => handleClickButtons("attempts2", homeTeam?.id)}
-                  >
-                    <p className="text-black dark:text-white">MISSED 2</p>
-                  </div>
-                )}
-                {league?.displayAttempts1 && (
-                  <div
-                    className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
-                    onClick={() => handleClickButtons("attempts1", homeTeam?.id)}
-                  >
-                    <p className="text-black dark:text-white">MISSED 1</p>
-                  </div>
-                )}
+            {league?.displayAttempts3 && (
+              <div
+                className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                onClick={() => handleClickButtons("attempts3", homeTeam?.id)}
+              >
+                <p className="text-black dark:text-white">MISSED 3</p>
               </div>
             )}
-          {(league?.displayRebounds ||
-            league?.displayTurnovers ||
-            league?.displayFouls) && (
-              <div className="grid grid-cols-3 gap-[10px]">
-                {league?.displayRebounds && (
-                  <div
-                    className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
-                    onClick={() => handleClickButtons("rebounds", homeTeam?.id)}
-                  >
-                    <p className="text-black dark:text-white">REBOUND</p>
-                  </div>
-                )}
-                {league?.displayTurnovers && (
-                  <div
-                    className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
-                    onClick={() => handleClickButtons("turnovers", homeTeam?.id)}
-                  >
-                    <p className="text-black dark:text-white">TURNOVER</p>
-                  </div>
-                )}
+            {league?.displayAttempts2 && (
+              <div
+                className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                onClick={() => handleClickButtons("attempts2", homeTeam?.id)}
+              >
+                <p className="text-black dark:text-white">MISSED 2</p>
+              </div>
+            )}
+            {league?.displayAttempts1 && (
+              <div
+                className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                onClick={() => handleClickButtons("attempts1", homeTeam?.id)}
+              >
+                <p className="text-black dark:text-white">MISSED 1</p>
+              </div>
+            )}
+            {league?.displayRebounds && (
+              <div
+                className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                onClick={() => handleClickButtons("rebounds", homeTeam?.id)}
+              >
+                <p className="text-black dark:text-white">REBOUND</p>
+              </div>
+            )}
+            {league?.displayTurnovers && (
+              <div
+                className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                onClick={() => handleClickButtons("turnovers", homeTeam?.id)}
+              >
+                <p className="text-black dark:text-white">TURNOVER</p>
+              </div>
+            )}
 
-                {league?.displayFouls && (
-                  <div
-                    className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
-                    onClick={() => handleClickButtons("fouls", homeTeam?.id)}
-                  >
-                    <p className="text-black dark:text-white">FOUL</p>
-                  </div>
-                )}
+            {league?.displayFouls && (
+              <div
+                className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                onClick={() => handleClickButtons("fouls", homeTeam?.id)}
+              >
+                <p className="text-black dark:text-white">FOUL</p>
               </div>
             )}
-          <div className="grid grid-cols-3 gap-[10px]">
-            <div
-              className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
-              onClick={() => handleClickTimeout(homeTeam?.id)}
-            >
-              <p className="text-black dark:text-white">TIMEOUT</p>
-            </div>
+            {league?.displaySteals && (
+              <div
+                className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                onClick={() => handleClickButtons("steals", homeTeam?.id)}
+              >
+                <p className="text-black dark:text-white">STEAL</p>
+              </div>
+            )}
             {league?.displayBlocks && (
               <div
                 className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
@@ -202,6 +190,28 @@ const Index = (props) => {
                 onClick={() => handleClickButtons("assists", homeTeam?.id)}
               >
                 <p className="text-black dark:text-white">ASSIST</p>
+              </div>
+            )}
+            {league?.displayAssists && (
+              <div
+                className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+              // onClick={() => handleClickButtons("assists", homeTeam?.id)}
+              >
+                <p className="text-black dark:text-white"></p>
+              </div>
+            )}
+            <div
+              className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+              onClick={() => handleClickTimeout(homeTeam?.id)}
+            >
+              <p className="text-black dark:text-white">TIMEOUT</p>
+            </div>
+            {league?.displayAssists && (
+              <div
+                className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+              // onClick={() => handleClickButtons("assists", homeTeam?.id)}
+              >
+                <p className="text-black dark:text-white"></p>
               </div>
             )}
           </div>
@@ -258,74 +268,63 @@ const Index = (props) => {
             >
               <p className="text-black dark:text-white">+1</p>
             </div>
-          </div>
-          {(league?.displayAttempts3 ||
-            league?.displayAttempts2 ||
-            league?.displayAttempts1) && (
-              <div className="grid grid-cols-3 gap-[10px]">
-                {league?.displayAttempts3 && (
-                  <div
-                    className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
-                    onClick={() => handleClickButtons("attempts3", awayTeam?.id)}
-                  >
-                    <p className="text-black dark:text-white">MISSED 3</p>
-                  </div>
-                )}
-                {league?.displayAttempts2 && (
-                  <div
-                    className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
-                    onClick={() => handleClickButtons("attempts2", awayTeam?.id)}
-                  >
-                    <p className="text-black dark:text-white">MISSED 2</p>
-                  </div>
-                )}
-                {league?.displayAttempts1 && (
-                  <div
-                    className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
-                    onClick={() => handleClickButtons("attempts1", awayTeam?.id)}
-                  >
-                    <p className="text-black dark:text-white">MISSED 1</p>
-                  </div>
-                )}
+            {league?.displayAttempts3 && (
+              <div
+                className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                onClick={() => handleClickButtons("attempts3", awayTeam?.id)}
+              >
+                <p className="text-black dark:text-white">MISSED 3</p>
               </div>
             )}
-          {(league?.displayRebounds ||
-            league?.displayTurnovers ||
-            league?.displayFouls) && (
-              <div className="grid grid-cols-3 gap-[10px]">
-                {league?.displayRebounds && (
-                  <div
-                    className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
-                    onClick={() => handleClickButtons("rebounds", awayTeam?.id)}
-                  >
-                    <p className="text-black dark:text-white">REBOUND</p>
-                  </div>
-                )}
-                {league?.displayTurnovers && (
-                  <div
-                    className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
-                    onClick={() => handleClickButtons("turnovers", awayTeam?.id)}
-                  >
-                    <p className="text-black dark:text-white">TURNOVER</p>
-                  </div>
-                )}
-                {league?.displayFouls && (
-                  <div
-                    className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
-                    onClick={() => handleClickButtons("fouls", awayTeam?.id)}
-                  >
-                    <p className="text-black dark:text-white">FOUL</p>
-                  </div>
-                )}
+            {league?.displayAttempts2 && (
+              <div
+                className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                onClick={() => handleClickButtons("attempts2", awayTeam?.id)}
+              >
+                <p className="text-black dark:text-white">MISSED 2</p>
               </div>
             )}
-          <div className="grid grid-cols-3 gap-[10px]">
-            <div
-              className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
-              onClick={() => handleClickTimeout(awayTeam?.id)}
-            >
-              <p className="text-black dark:text-white">TIMEOUT</p>
-            </div>
+            {league?.displayAttempts1 && (
+              <div
+                className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                onClick={() => handleClickButtons("attempts1", awayTeam?.id)}
+              >
+                <p className="text-black dark:text-white">MISSED 1</p>
+              </div>
+            )}
+            {league?.displayRebounds && (
+              <div
+                className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                onClick={() => handleClickButtons("rebounds", awayTeam?.id)}
+              >
+                <p className="text-black dark:text-white">REBOUND</p>
+              </div>
+            )}
+            {league?.displayTurnovers && (
+              <div
+                className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                onClick={() => handleClickButtons("turnovers", awayTeam?.id)}
+              >
+                <p className="text-black dark:text-white">TURNOVER</p>
+              </div>
+            )}
+            {league?.displayFouls && (
+              <div
+                className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                onClick={() => handleClickButtons("fouls", awayTeam?.id)}
+              >
+                <p className="text-black dark:text-white">FOUL</p>
+              </div>
+            )}
+            {league?.displaySteals && (
+              <div
+                className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+                onClick={() => handleClickButtons("steals", awayTeam?.id)}
+              >
+                <p className="text-black dark:text-white">STEAL</p>
+              </div>
+            )}
+
             {league?.displayBlocks && (
               <div
                 className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
@@ -340,6 +339,28 @@ const Index = (props) => {
                 onClick={() => handleClickButtons("assists", awayTeam?.id)}
               >
                 <p className="text-black dark:text-white">ASSIST</p>
+              </div>
+            )}
+            {league?.displayAssists && (
+              <div
+                className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+              // onClick={() => handleClickButtons("assists", awayTeam?.id)}
+              >
+                <p className="text-black dark:text-white"></p>
+              </div>
+            )}
+            <div
+              className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+              onClick={() => handleClickTimeout(awayTeam?.id)}
+            >
+              <p className="text-black dark:text-white">TIMEOUT</p>
+            </div>
+            {league?.displayAssists && (
+              <div
+                className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
+              // onClick={() => handleClickButtons("assists", awayTeam?.id)}
+              >
+                <p className="text-black dark:text-white"></p>
               </div>
             )}
           </div>

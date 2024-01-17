@@ -8,7 +8,7 @@ import SelectPlayerModal from "./SelectPlayerModal";
 
 const ActionButtonsModal = (props) => {
   let { leagueId, matchId } = useParams();
-  let { handleAction } = props;
+  let { handleAction, setIsRunning } = props;
   const dispatch = useDispatch();
 
   const status = useSelector(
@@ -75,6 +75,8 @@ const ActionButtonsModal = (props) => {
       dispatch({
         type: actions.CLOSE_ACTION_BUTTONS_DIALOG,
       });
+      setIsRunning(false)
+
     } else {
       alert("The matchup is completed!");
     }
@@ -135,26 +137,26 @@ const ActionButtonsModal = (props) => {
                     <div className="flex flex-col flex-grow overflow-auto sm:mt-3">
                       <div className="grid grid-cols-3 gap-2 text-sm">
                         <div
-                          className="flex dark:bg-[#282A2C] bg-light-charcoal h-20 text-black dark:text-white items-center justify-center rounded-xl hover:cursor-pointer border border-gray-500"
+                          className="flex dark:bg-[#282A2C] bg-light-charcoal h-16 text-black dark:text-white items-center justify-center rounded-xl hover:cursor-pointer border border-gray-500"
                           onClick={() => handleClickButtons("points3", teamId)}
                         >
                           +3
                         </div>
                         <div
-                          className="flex dark:bg-[#282A2C] bg-light-charcoal h-20 text-black dark:text-white items-center justify-center rounded-xl hover:cursor-pointer border border-gray-500"
+                          className="flex dark:bg-[#282A2C] bg-light-charcoal h-16 text-black dark:text-white items-center justify-center rounded-xl hover:cursor-pointer border border-gray-500"
                           onClick={() => handleClickButtons("points2", teamId)}
                         >
                           +2
                         </div>
                         <div
-                          className="flex dark:bg-[#282A2C] bg-light-charcoal h-20 text-black dark:text-white items-center justify-center rounded-xl hover:cursor-pointer border border-gray-500"
+                          className="flex dark:bg-[#282A2C] bg-light-charcoal h-16 text-black dark:text-white items-center justify-center rounded-xl hover:cursor-pointer border border-gray-500"
                           onClick={() => handleClickButtons("points1", teamId)}
                         >
                           +1
                         </div>
                         {league?.displayAttempts3 && (
                           <div
-                            className="flex dark:bg-[#282A2C] bg-light-charcoal h-20 text-black dark:text-white items-center justify-center rounded-xl hover:cursor-pointer border border-gray-500"
+                            className="flex dark:bg-[#282A2C] bg-light-charcoal h-16 text-black dark:text-white items-center justify-center rounded-xl hover:cursor-pointer border border-gray-500"
                             onClick={() =>
                               handleClickButtons("attempts3", teamId)
                             }
@@ -166,7 +168,7 @@ const ActionButtonsModal = (props) => {
                         )}
                         {league?.displayAttempts2 && (
                           <div
-                            className="flex dark:bg-[#282A2C] bg-light-charcoal h-20 text-black dark:text-white items-center justify-center rounded-xl hover:cursor-pointer border border-gray-500"
+                            className="flex dark:bg-[#282A2C] bg-light-charcoal h-16 text-black dark:text-white items-center justify-center rounded-xl hover:cursor-pointer border border-gray-500"
                             onClick={() =>
                               handleClickButtons("attempts2", teamId)
                             }
@@ -178,7 +180,7 @@ const ActionButtonsModal = (props) => {
                         )}
                         {league?.displayAttempts1 && (
                           <div
-                            className="flex dark:bg-[#282A2C] bg-light-charcoal h-20 text-black dark:text-white items-center justify-center rounded-xl hover:cursor-pointer border border-gray-500"
+                            className="flex dark:bg-[#282A2C] bg-light-charcoal h-16 text-black dark:text-white items-center justify-center rounded-xl hover:cursor-pointer border border-gray-500"
                             onClick={() =>
                               handleClickButtons("attempts1", teamId)
                             }
@@ -190,7 +192,7 @@ const ActionButtonsModal = (props) => {
                         )}
                         {league?.displayRebounds && (
                           <div
-                            className="flex dark:bg-[#282A2C] bg-light-charcoal h-20 text-black dark:text-white items-center justify-center rounded-xl hover:cursor-pointer border border-gray-500"
+                            className="flex dark:bg-[#282A2C] bg-light-charcoal h-16 text-black dark:text-white items-center justify-center rounded-xl hover:cursor-pointer border border-gray-500"
                             onClick={() =>
                               handleClickButtons("rebounds", teamId)
                             }
@@ -202,7 +204,7 @@ const ActionButtonsModal = (props) => {
                         )}
                         {league?.displayTurnovers && (
                           <div
-                            className="flex dark:bg-[#282A2C] bg-light-charcoal h-20 text-black dark:text-white items-center justify-center rounded-xl hover:cursor-pointer border border-gray-500"
+                            className="flex dark:bg-[#282A2C] bg-light-charcoal h-16 text-black dark:text-white items-center justify-center rounded-xl hover:cursor-pointer border border-gray-500"
                             onClick={() =>
                               handleClickButtons("turnovers", teamId)
                             }
@@ -214,22 +216,23 @@ const ActionButtonsModal = (props) => {
                         )}
                         {league?.displayFouls && (
                           <div
-                            className="flex dark:bg-[#282A2C] bg-light-charcoal h-20 text-black dark:text-white items-center justify-center rounded-xl hover:cursor-pointer border border-gray-500"
+                            className="flex dark:bg-[#282A2C] bg-light-charcoal h-16 text-black dark:text-white items-center justify-center rounded-xl hover:cursor-pointer border border-gray-500"
                             onClick={() => handleClickButtons("fouls", teamId)}
                           >
                             <p className="text-black dark:text-white">FOUL</p>
                           </div>
                         )}
-
-                        <div
-                          className="flex dark:bg-[#282A2C] bg-light-charcoal h-20 text-black dark:text-white items-center justify-center rounded-xl hover:cursor-pointer border border-gray-500"
-                          onClick={() => handleClickTimeout(teamId)}
-                        >
-                          <p className="text-black dark:text-white">TIMEOUT</p>
-                        </div>
+                        {league?.displaySteals && (
+                          <div
+                            className="flex dark:bg-[#282A2C] bg-light-charcoal h-16 text-black dark:text-white items-center justify-center rounded-xl hover:cursor-pointer border border-gray-500"
+                            onClick={() => handleClickButtons("steals", teamId)}
+                          >
+                            <p className="text-black dark:text-white">STEAL</p>
+                          </div>
+                        )}
                         {league?.displayBlocks && (
                           <div
-                            className="flex dark:bg-[#282A2C] bg-light-charcoal h-20 text-black dark:text-white items-center justify-center rounded-xl hover:cursor-pointer border border-gray-500"
+                            className="flex dark:bg-[#282A2C] bg-light-charcoal h-16 text-black dark:text-white items-center justify-center rounded-xl hover:cursor-pointer border border-gray-500"
                             onClick={() => handleClickButtons("blocks", teamId)}
                           >
                             <p className="text-black dark:text-white">BLOCK</p>
@@ -237,7 +240,7 @@ const ActionButtonsModal = (props) => {
                         )}
                         {league?.displayAssists && (
                           <div
-                            className="flex dark:bg-[#282A2C] bg-light-charcoal h-20 text-black dark:text-white items-center justify-center rounded-xl hover:cursor-pointer border border-gray-500"
+                            className="flex dark:bg-[#282A2C] bg-light-charcoal h-16 text-black dark:text-white items-center justify-center rounded-xl hover:cursor-pointer border border-gray-500"
                             onClick={() =>
                               handleClickButtons("assists", teamId)
                             }
@@ -245,6 +248,24 @@ const ActionButtonsModal = (props) => {
                             <p className="text-black dark:text-white">ASSIST</p>
                           </div>
                         )}
+                        <div
+                          className="flex dark:bg-[#282A2C] bg-light-charcoal h-16 text-black dark:text-white items-center justify-center rounded-xl hover:cursor-pointer border border-gray-500"
+                        // onClick={() => handleClickTimeout(teamId)}
+                        >
+                          <p className="text-black dark:text-white"></p>
+                        </div>
+                        <div
+                          className="flex dark:bg-[#282A2C] bg-light-charcoal h-16 text-black dark:text-white items-center justify-center rounded-xl hover:cursor-pointer border border-gray-500"
+                          onClick={() => handleClickTimeout(teamId)}
+                        >
+                          <p className="text-black dark:text-white">TIMEOUT</p>
+                        </div>
+                        <div
+                          className="flex dark:bg-[#282A2C] bg-light-charcoal h-16 text-black dark:text-white items-center justify-center rounded-xl hover:cursor-pointer border border-gray-500"
+                        // onClick={() => handleClickTimeout(teamId)}
+                        >
+                          <p className="text-black dark:text-white"></p>
+                        </div>
                       </div>
                     </div>
                   </div>

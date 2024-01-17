@@ -24,20 +24,21 @@ const Index = (props) => {
     (match) => match.id == matchId
   );
 
-  const allLogs = useSelector((state) => state.home.logs)
+  const allLogs = useSelector((state) => state.home.logs);
+  const filteredLogs = allLogs
     .filter((log) => log.leagueId == leagueId && log.matchId == matchId)
     .sort((a, b) => {
       const timeA = a.time;
       const timeB = b.time;
-
+  
       // Convert time strings into numbers for comparison
       const [minutesA, secondsA] = timeA.split(":").map(Number);
       const [minutesB, secondsB] = timeB.split(":").map(Number);
-
+  
       if (a.period !== b.period) {
         return a.period - b.period; // Sort in ascending order by period
       }
-
+  
       // Compare minutes and seconds
       if (minutesA !== minutesB) {
         return minutesB - minutesA;
@@ -45,19 +46,17 @@ const Index = (props) => {
         return secondsB - secondsA;
       }
     });
-
-
-  const [data, setData] = useState([])
-  const [order, setOrder] = useState("old")
-
+  
+  const [data, setData] = useState([]);
+  const [order, setOrder] = useState("old");
+  
   useEffect(() => {
-    setData(allLogs)
-  }, [allLogs.length])
+    // Update the state with the filtered and sorted logs
+    setData(filteredLogs);
+  }, [...filteredLogs]);
 
   const handleFilter = () => {
-    console.log(order)
     if (order === "old") {
-      console.log("old")
       let temp = [...data].filter((log) => log.leagueId == leagueId && log.matchId == matchId)
         .sort((a, b) => {
           const timeA = a.time;
@@ -81,7 +80,6 @@ const Index = (props) => {
       setData(temp);
       setOrder("recent")
     } else {
-      console.log("recent");
       let temp = [...data].filter((log) => log.leagueId == leagueId && log.matchId == matchId)
         .sort((a, b) => {
           const timeA = a.time;

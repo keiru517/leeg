@@ -77,7 +77,7 @@ const EditEventModal = (props) => {
     if (type === "edit") {
       setTime(
         log?.time.split(":").map(Number)[0] * 6000 +
-          log?.time.split(":").map(Number)[1] * 100
+        log?.time.split(":").map(Number)[1] * 100
       );
     } else {
       setTime(0);
@@ -197,7 +197,7 @@ const EditEventModal = (props) => {
                     </div>
                   </div>
                   <div className="flex flex-grow flex-col p-default justify-between">
-                    <div className="space-y-3 sm:space-y-6">
+                    <div className="space-y-3 sm:space-y-4">
                       <div>
                         <p className="text-black dark:text-white font-bold text-sm sm:text-base">
                           Event Time
@@ -205,11 +205,10 @@ const EditEventModal = (props) => {
                         <div className="flex space-x-3 mt-[10px] text-sm">
                           {numberOfPeriods.map((period) => (
                             <div
-                              className={`flex items-center justify-center rounded-[10px] ${
-                                currentPeriod === period
+                              className={`flex items-center justify-center rounded-[10px] ${currentPeriod === period
                                   ? "bg-success"
                                   : "bg-[#303335]"
-                              } w-16 h-10 cursor-pointer hover:opacity-75`}
+                                } w-16 h-10 cursor-pointer hover:opacity-75`}
                               onClick={() => setCurrentPeriod(period)}
                             >
                               <p className="text-white">P{period}</p>
@@ -236,42 +235,38 @@ const EditEventModal = (props) => {
                       <div>
                         <div className="grid grid-cols-3 gap-2 text-sm text-black dark:text-white">
                           <div
-                            className={`flex items-center justify-center rounded-[10px] ${
-                              event === "+3 Pointer"
+                            className={`flex items-center justify-center rounded-[10px] ${event === "+3 Pointer"
                                 ? "bg-primary"
                                 : "bg-[#303335]"
-                            } w-full h-10 sm:h-10 sm:h-14 cursor-pointer hover:opacity-75`}
+                              } w-full h-10 h-10 cursor-pointer hover:opacity-75`}
                             onClick={() => setEvent("+3 Pointer")}
                           >
                             +3
                           </div>
                           <div
-                            className={`flex items-center justify-center rounded-[10px] ${
-                              event === "+2 Pointer"
+                            className={`flex items-center justify-center rounded-[10px] ${event === "+2 Pointer"
                                 ? "bg-primary"
                                 : "bg-[#303335]"
-                            } w-full h-10 sm:h-10 sm:h-14 cursor-pointer hover:opacity-75`}
+                              } w-full h-10 h-10 cursor-pointer hover:opacity-75`}
                             onClick={() => setEvent("+2 Pointer")}
                           >
                             +2
                           </div>
                           <div
-                            className={`flex items-center justify-center rounded-[10px] ${
-                              event === "+1 Pointer"
+                            className={`flex items-center justify-center rounded-[10px] ${event === "+1 Pointer"
                                 ? "bg-primary"
                                 : "bg-[#303335]"
-                            } w-full h-10 sm:h-10 sm:h-14 cursor-pointer hover:opacity-75`}
+                              } w-full h-10 h-10 cursor-pointer hover:opacity-75`}
                             onClick={() => setEvent("+1 Pointer")}
                           >
                             +1
                           </div>
                           {league?.displayAttempts3 && (
                             <div
-                              className={`flex items-center justify-center rounded-[10px] ${
-                                event === "3 Missed"
+                              className={`flex items-center justify-center rounded-[10px] ${event === "3 Missed"
                                   ? "bg-primary"
                                   : "bg-[#303335]"
-                              } w-full h-10 sm:h-14 cursor-pointer hover:opacity-75`}
+                                } w-full h-10 cursor-pointer hover:opacity-75`}
                               onClick={() => setEvent("3 Missed")}
                             >
                               <p className="text-black dark:text-white">
@@ -281,11 +276,10 @@ const EditEventModal = (props) => {
                           )}
                           {league?.displayAttempts2 && (
                             <div
-                              className={`flex items-center justify-center rounded-[10px] ${
-                                event === "2 Missed"
+                              className={`flex items-center justify-center rounded-[10px] ${event === "2 Missed"
                                   ? "bg-primary"
                                   : "bg-[#303335]"
-                              } w-full h-10 sm:h-14 cursor-pointer hover:opacity-75`}
+                                } w-full h-10 cursor-pointer hover:opacity-75`}
                               onClick={() => setEvent("2 Missed")}
                             >
                               <p className="text-black dark:text-white">
@@ -295,11 +289,10 @@ const EditEventModal = (props) => {
                           )}
                           {league?.displayAttempts1 && (
                             <div
-                              className={`flex items-center justify-center rounded-[10px] ${
-                                event === "1 Missed"
+                              className={`flex items-center justify-center rounded-[10px] ${event === "1 Missed"
                                   ? "bg-primary"
                                   : "bg-[#303335]"
-                              } w-full h-10 sm:h-14 cursor-pointer hover:opacity-75`}
+                                } w-full h-10 cursor-pointer hover:opacity-75`}
                               onClick={() => setEvent("1 Missed")}
                             >
                               <p className="text-black dark:text-white">
@@ -309,11 +302,10 @@ const EditEventModal = (props) => {
                           )}
                           {league?.displayRebounds && (
                             <div
-                              className={`flex items-center justify-center rounded-[10px] ${
-                                event === "Rebound"
+                              className={`flex items-center justify-center rounded-[10px] ${event === "Rebound"
                                   ? "bg-primary"
                                   : "bg-[#303335]"
-                              } w-full h-10 sm:h-14 cursor-pointer hover:opacity-75`}
+                                } w-full h-10 cursor-pointer hover:opacity-75`}
                               onClick={() => setEvent("Rebound")}
                             >
                               <p className="text-black dark:text-white">
@@ -323,11 +315,10 @@ const EditEventModal = (props) => {
                           )}
                           {league?.displayTurnovers && (
                             <div
-                              className={`flex items-center justify-center rounded-[10px] ${
-                                event === "Turnover"
+                              className={`flex items-center justify-center rounded-[10px] ${event === "Turnover"
                                   ? "bg-primary"
                                   : "bg-[#303335]"
-                              } w-full h-10 sm:h-14 cursor-pointer hover:opacity-75`}
+                                } w-full h-10 cursor-pointer hover:opacity-75`}
                               onClick={() => setEvent("Turnover")}
                             >
                               <p className="text-black dark:text-white">
@@ -337,34 +328,30 @@ const EditEventModal = (props) => {
                           )}
                           {league?.displayFouls && (
                             <div
-                              className={`flex items-center justify-center rounded-[10px] ${
-                                event === "Foul" ? "bg-primary" : "bg-[#303335]"
-                              } w-full h-10 sm:h-14 cursor-pointer hover:opacity-75`}
+                              className={`flex items-center justify-center rounded-[10px] ${event === "Foul" ? "bg-primary" : "bg-[#303335]"
+                                } w-full h-10 cursor-pointer hover:opacity-75`}
                               onClick={() => setEvent("Foul")}
                             >
                               <p className="text-black dark:text-white">FOUL</p>
                             </div>
                           )}
+                          {league?.displaySteals && (
+                            <div
+                              className={`flex items-center justify-center rounded-[10px] ${event === "Steal" ? "bg-primary" : "bg-[#303335]"
+                                } w-full h-10 cursor-pointer hover:opacity-75`}
+                              onClick={() => setEvent("Steal")}
+                            >
+                              <p className="text-black dark:text-white">STEAL</p>
+                            </div>
+                          )}
 
-                          <div
-                            className={`flex items-center justify-center rounded-[10px] ${
-                              event === "TimeOut"
-                                ? "bg-primary"
-                                : "bg-[#303335]"
-                            } w-full h-10 sm:h-14 cursor-pointer hover:opacity-75`}
-                            onClick={() => setEvent("TimeOut")}
-                          >
-                            <p className="text-black dark:text-white">
-                              TIMEOUT
-                            </p>
-                          </div>
+
                           {league?.displayBlocks && (
                             <div
-                              className={`flex items-center justify-center rounded-[10px] ${
-                                event === "Block"
+                              className={`flex items-center justify-center rounded-[10px] ${event === "Block"
                                   ? "bg-primary"
                                   : "bg-[#303335]"
-                              } w-full h-10 sm:h-14 cursor-pointer hover:opacity-75`}
+                                } w-full h-10 cursor-pointer hover:opacity-75`}
                               onClick={() => setEvent("Block")}
                             >
                               <p className="text-black dark:text-white">
@@ -374,11 +361,10 @@ const EditEventModal = (props) => {
                           )}
                           {league?.displayAssists && (
                             <div
-                              className={`flex items-center justify-center rounded-[10px] ${
-                                event === "Assist"
+                              className={`flex items-center justify-center rounded-[10px] ${event === "Assist"
                                   ? "bg-primary"
                                   : "bg-[#303335]"
-                              } w-full h-10 sm:h-14 cursor-pointer hover:opacity-75`}
+                                } w-full h-10 cursor-pointer hover:opacity-75`}
                               onClick={() => setEvent("Assist")}
                             >
                               <p className="text-black dark:text-white">
@@ -386,10 +372,43 @@ const EditEventModal = (props) => {
                               </p>
                             </div>
                           )}
+                          <div
+                            className={`flex items-center justify-center rounded-[10px] ${event === "TimeOut"
+                                ? "bg-primary"
+                                : "bg-[#303335]"
+                              } w-full h-10 cursor-pointer hover:opacity-75`}
+                            // onClick={() => setEvent("TimeOut")}
+                          >
+                            <p className="text-black dark:text-white">
+                              
+                            </p>
+                          </div>
+                          <div
+                            className={`flex items-center justify-center rounded-[10px] ${event === "TimeOut"
+                                ? "bg-primary"
+                                : "bg-[#303335]"
+                              } w-full h-10 cursor-pointer hover:opacity-75`}
+                            onClick={() => setEvent("TimeOut")}
+                          >
+                            <p className="text-black dark:text-white">
+                              TIMEOUT
+                            </p>
+                          </div>
+                          <div
+                            className={`flex items-center justify-center rounded-[10px] ${event === "TimeOut"
+                                ? "bg-primary"
+                                : "bg-[#303335]"
+                              } w-full h-10 cursor-pointer hover:opacity-75`}
+                            // onClick={() => setEvent("TimeOut")}
+                          >
+                            <p className="text-black dark:text-white">
+                              
+                            </p>
+                          </div>
                         </div>
                       </div>
 
-                      <div className="overflow-y-auto h-60">
+                      <div className="overflow-y-auto h-56 sm:h-64">
                         <Tab.Group
                           defaultIndex={teamId == homeTeam?.id ? 0 : 1}
                         >
@@ -399,7 +418,7 @@ const EditEventModal = (props) => {
                                 key={0}
                                 className={({ selected }) =>
                                   classNames(
-                                    "py-2.5 text-sm font-medium leading-5 text-gray-500 dark:text-gray-300 px-3",
+                                    "sm:py-2.5 text-sm font-medium leading-5 text-gray-500 dark:text-gray-300 px-3",
                                     " focus:outline-none ",
                                     selected
                                       ? "divide-[bg-sky-500] text-black dark:text-white border-b-2 border-sky-500"
@@ -482,8 +501,8 @@ const EditEventModal = (props) => {
                                       setPlayerId={setPlayerId}
                                       setTeamId={setTeamId}
                                       setIsDirect={setIsDirect}
-                                      // teamId={awayTeam.id}
-                                      // addAction={addAction}
+                                    // teamId={awayTeam.id}
+                                    // addAction={addAction}
                                     ></EventPlayerList>
                                   )
                                 )}

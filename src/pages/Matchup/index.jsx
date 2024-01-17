@@ -205,7 +205,7 @@ const MatchupMobile = () => {
         </div>
       </p>
 
-      <div className="flex flex-grow space-x-3 sm:h-[780px]">
+      <div className="flex flex-grow space-x-3 sm:h-[788px]">
         <div className="flex flex-grow rounded-main justify-center">
           <div className="flex flex-col flex-grow space-y-3">
             <Scoreboard setTime={setTime} isRunning={isRunning} setIsRunning={setIsRunning} />
@@ -215,7 +215,7 @@ const MatchupMobile = () => {
         <EventLogs className="hidden lg:flex w-1/4" />
       </div>
       <ActionLogModal />
-      <ActionButtonsModal handleAction={handleAction} />
+      <ActionButtonsModal handleAction={handleAction} setIsRunning={setIsRunning} />
       <MatchupSettingModal />
       <EditEventModal homeTeam={homeTeam} awayTeam={awayTeam} />
       <SubstituteModal

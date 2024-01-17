@@ -9,8 +9,6 @@ import triupIconDark from "../../assets/img/dark_mode/triup-icon-dark.png";
 import tridownIconDark from "../../assets/img/dark_mode/tridown-icon-dark.png";
 import triupIconLight from "../../assets/img/dark_mode/triup-icon-light.png";
 import tridownIconLight from "../../assets/img/dark_mode/tridown-icon-light.png";
-import menuIconDark from "../../assets/img/dark_mode/menu-icon-dark.svg";
-import menuIconLight from "../../assets/img/dark_mode/menu-icon-light.svg";
 import playerStats from "../../assets/img/dark_mode/player-stats.svg";
 import editLineup from "../../assets/img/dark_mode/edit-lineup.svg";
 
@@ -233,7 +231,7 @@ const Index = (props) => {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row justify-between lg:bg-white lg:dark:bg-slate rounded-main p-2 sm:p-default">
+    <div className="flex flex-col lg:flex-row justify-between lg:bg-white lg:dark:bg-slate rounded-main">
       {/* HomeTeam */}
       <div className="order-2 lg:order-1 flex flex-col items-center bg-white dark:bg-slate lg:bg-transparent my-3 lg:my-0 rounded-lg p-default">
         <div className="lg:hidden flex space-x-5 mb-3">

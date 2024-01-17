@@ -27,6 +27,7 @@ const SelectPlayerModal = (props) => {
     attempts1: "+1 Attempt",
     rebounds: "Rebound",
     turnovers: "Turnover",
+    steals: "Steal",
     fouls: "Foul",
     timeout: "TimeOut",
     blocks: "Block",

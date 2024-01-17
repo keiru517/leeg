@@ -26,12 +26,13 @@ const Log = (props) => {
     "+3 Attempt": "Miss (3)",
     "+2 Attempt": "Miss (2)",
     "+1 Attempt": "Miss (1)",
-    Rebound: "REB",
-    Turnover: "TOV",
-    Foul: "PF",
-    TimeOut: "T/O",
-    Block: "BLK",
-    Assist: "AST",
+    "Rebound": "REB",
+    "Turnover": "TOV",
+    "Steal": "STL",
+    "Foul": "PF",
+    "TimeOut": "T/O",
+    "Block": "BLK",
+    "Assist": "AST",
   };
   const match = useSelector((state) => state.home.matches).find(
     (match) => match.id == matchId
