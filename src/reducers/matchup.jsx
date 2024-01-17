@@ -48,11 +48,7 @@ const matchup = (state = initialState, action) => {
     case actions.OPEN_ACTION_BUTTONS_DIALOG:
       return {
         ...state,
-        action_buttons_dialog: {
-          open: action.payload.open,
-          teamId: action.payload.teamId,
-          time: action.payload.time,
-        },
+        action_buttons_dialog: action.payload,
       };
     case actions.CLOSE_ACTION_BUTTONS_DIALOG:
       return {

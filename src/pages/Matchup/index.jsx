@@ -160,6 +160,7 @@ const MatchupMobile = () => {
   };
 
   const [time, setTime] = useState("");
+  const [isRunning, setIsRunning] = useState(false);
 
   return (
     <div className="flex flex-col flex-grow">
@@ -207,8 +208,8 @@ const MatchupMobile = () => {
       <div className="flex flex-grow space-x-3 sm:h-[780px]">
         <div className="flex flex-grow rounded-main justify-center">
           <div className="flex flex-col flex-grow space-y-3">
-            <Scoreboard setTime={setTime} />
-            <ActionButtons className="hidden lg:flex" time={time} handleAction={handleAction} />
+            <Scoreboard setTime={setTime} isRunning={isRunning} setIsRunning={setIsRunning} />
+            <ActionButtons className="hidden lg:flex" time={time} setIsRunning={setIsRunning} handleAction={handleAction} />
           </div>
         </div>
         <EventLogs className="hidden lg:flex w-1/4" />
