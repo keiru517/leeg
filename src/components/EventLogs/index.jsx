@@ -130,10 +130,10 @@ const Index = (props) => {
   return (
     <div className={`${className} flex-col rounded-main bg-white dark:bg-slate p-default`}>
       <div className="flex justify-between mb-5">
-        <div className="flex items-center">
-          <p className="text-black dark:text-white cursor-pointer"
-            onClick={handleFilter}
-          >Action Log</p>
+        <div className="flex items-center"
+          onClick={handleFilter}
+        >
+          <p className="text-black dark:text-white cursor-pointer">Action Log</p>
           <div className="mt-1 ml-2">
             <img
               src={darkMode ? triupIconDark : triupIconLight}
