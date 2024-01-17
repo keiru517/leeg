@@ -16,7 +16,7 @@ import editLineup from "../../assets/img/dark_mode/edit-lineup.svg";
 
 const Index = (props) => {
   let { leagueId, matchId } = useParams();
-  let { setTime } = props;
+  let { setTime, isRunning, setIsRunning } = props;
 
   const dispatch = useDispatch();
 
@@ -144,7 +144,7 @@ const Index = (props) => {
     setTimer(timeOfPeriod[currentPeriod - 1]);
   }, [currentPeriod]);
 
-  const [isRunning, setIsRunning] = useState(false);
+  // const [isRunning, setIsRunning] = useState(false);
 
   useEffect(() => {
     let intervalId;

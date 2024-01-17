@@ -9,12 +9,12 @@ import SelectPlayerModal from "../../components/Modal/SelectPlayerModal";
 
 const Index = (props) => {
   let { leagueId, matchId } = useParams();
-  let { className,  handleAction } = props;
+  let { className,  handleAction, time, setIsRunning } = props;
   const dispatch = useDispatch();
   const match = useSelector((state) => state.home.matches).find(
     (match) => match.id == matchId
   );
-  const time = useSelector(state=>state.matchup.action_buttons_dialog);
+  // const time = useSelector(state=>state.matchup.action_buttons_dialog.time);
 
   const league = useSelector((state) => state.home.leagues).find(
     (league) => league.id == leagueId
@@ -38,15 +38,13 @@ const Index = (props) => {
     if (match?.isNew) {
       dispatch({ type: actions.SET_EVENT, payload: event });
 
+      console.log("TIME", time)
       dispatch({
         type: actions.OPEN_ACTION_BUTTONS_DIALOG,
         payload: {
           open: false,
           teamId: teamId,
           time: time,
-          // "20".toString().padStart(2, "0") +
-          // ":" +
-          // "24".toString().padStart(2, "0"),
         },
       });
 
@@ -61,6 +59,7 @@ const Index = (props) => {
     if (match?.isNew) {
       setEvent("TimeOut");
       handleAction(teamId, null, "TimeOut", 1);
+      setIsRunning(false)
     } else {
       alert("The matchup is completed!");
     }
