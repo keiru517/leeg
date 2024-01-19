@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router";
 import * as actions from "../../actions";
@@ -25,35 +25,59 @@ const Index = (props) => {
   );
 
   const allLogs = useSelector((state) => state.home.logs);
-  const filteredLogs = allLogs
-    .filter((log) => log.leagueId == leagueId && log.matchId == matchId)
-    .sort((a, b) => {
-      const timeA = a.time;
-      const timeB = b.time;
-  
-      // Convert time strings into numbers for comparison
-      const [minutesA, secondsA] = timeA.split(":").map(Number);
-      const [minutesB, secondsB] = timeB.split(":").map(Number);
-  
-      if (a.period !== b.period) {
-        return a.period - b.period; // Sort in ascending order by period
-      }
-  
-      // Compare minutes and seconds
-      if (minutesA !== minutesB) {
-        return minutesB - minutesA;
-      } else {
-        return secondsB - secondsA;
-      }
-    });
-  
+
+  // Why we dont' use useEffect? it falls into the infinite loop. 
+  // const filteredLogs = useMemo(() => {
+  //   return allLogs
+  //     .filter((log) => log.leagueId == leagueId && log.matchId == matchId)
+  //     .sort((a, b) => {
+  //       const timeA = a.time;
+  //       const timeB = b.time;
+
+  //       // Convert time strings into numbers for comparison
+  //       const [minutesA, secondsA] = timeA.split(":").map(Number);
+  //       const [minutesB, secondsB] = timeB.split(":").map(Number);
+
+  //       if (a.period !== b.period) {
+  //         return a.period - b.period; // Sort in ascending order by period
+  //       }
+
+  //       // Compare minutes and seconds
+  //       if (minutesA !== minutesB) {
+  //         return minutesB - minutesA;
+  //       } else {
+  //         return secondsB - secondsA;
+  //       }
+  //     });
+  // }, [allLogs, leagueId, matchId]);
+
   const [data, setData] = useState([]);
   const [order, setOrder] = useState("old");
-  
+
   useEffect(() => {
-    // Update the state with the filtered and sorted logs
-    setData(filteredLogs);
-  }, [...filteredLogs]);
+    const temp = allLogs
+      .filter((log) => log.leagueId == leagueId && log.matchId == matchId)
+      .sort((a, b) => {
+        const timeA = a.time;
+        const timeB = b.time;
+
+        // Convert time strings into numbers for comparison
+        const [minutesA, secondsA] = timeA.split(":").map(Number);
+        const [minutesB, secondsB] = timeB.split(":").map(Number);
+
+        if (a.period !== b.period) {
+          return a.period - b.period; // Sort in ascending order by period
+        }
+
+        // Compare minutes and seconds
+        if (minutesA !== minutesB) {
+          return minutesB - minutesA;
+        } else {
+          return secondsB - secondsA;
+        }
+      });
+    setData(temp)
+  }, [allLogs, matchId, leagueId])
 
   const handleFilter = () => {
     if (order === "old") {
@@ -124,6 +148,8 @@ const Index = (props) => {
       alert("The matchup is completed!");
     }
   };
+
+  console.log("data", data)
 
   return (
     <div className={`${className} flex-col rounded-main bg-white dark:bg-slate p-default`}>
