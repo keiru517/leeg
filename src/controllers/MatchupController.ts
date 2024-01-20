@@ -304,8 +304,8 @@ export const update: RequestHandler = async (req, res) => {
           blocks: player.blocks,
           rebounds: player.rebounds,
           assists: player.assists,
-          fouls: player.fouls,
           steals: player.steals,
+          fouls: player.fouls,
           turnovers: player.turnovers
         },
         {
@@ -345,8 +345,8 @@ export const update: RequestHandler = async (req, res) => {
           blocks: player.blocks,
           rebounds: player.rebounds,
           assists: player.assists,
-          fouls: player.fouls,
           steals: player.steals,
+          fouls: player.fouls,
           turnovers: player.turnovers
         },
         { where: { id: matchup.id } }
@@ -370,8 +370,8 @@ export const update: RequestHandler = async (req, res) => {
         blocks: player.blocks ? player.blocks : 0,
         rebounds: player.rebounds ? player.rebounds : 0,
         assists: player.assists ? player.assists : 0,
-        fouls: player.fouls ? player.fouls : 0,
         steals: player.steals ? player.steals : 0,
+        fouls: player.fouls ? player.fouls : 0,
         turnovers: player.turnovers ? player.turnovers : 0,
         attendance: 1,
         isDeleted: 0
@@ -458,6 +458,9 @@ export const complete: RequestHandler = async (req, res) => {
                 break;
               case 'Turnover':
                 matchup.turnovers = matchup.turnovers + 1;
+                break;
+              case 'Steal':
+                matchup.steals = matchup.steals + 1;
                 break;
               case 'Foul':
                 matchup.fouls = matchup.fouls + 1;
@@ -580,6 +583,9 @@ export const incomplete: RequestHandler = async (req, res) => {
                 break;
               case 'Turnover':
                 matchup.turnovers = matchup.turnovers - 1;
+                break;
+              case 'Steal':
+                matchup.steals = matchup.steals - 1;
                 break;
               case 'Foul':
                 matchup.fouls = matchup.fouls - 1;
