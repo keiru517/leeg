@@ -232,6 +232,7 @@ export const create: RequestHandler = async (req, res) => {
 
           const rebounds = calculateNumberOfEvents(logs, 'Rebound', playerId);
           const turnovers = calculateNumberOfEvents(logs, 'Turnover', playerId);
+          const steals = calculateNumberOfEvents(logs, 'Steal', playerId);
           const fouls = calculateNumberOfEvents(logs, 'Foul', playerId);
           const blocks = calculateNumberOfEvents(logs, 'Block', playerId);
           const assists = calculateNumberOfEvents(logs, 'Assist', playerId);
@@ -247,6 +248,7 @@ export const create: RequestHandler = async (req, res) => {
               attempts1,
               rebounds,
               turnovers,
+              steals,
               fouls,
               blocks,
               assists
