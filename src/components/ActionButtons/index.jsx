@@ -192,28 +192,12 @@ const Index = (props) => {
                 <p className="text-black dark:text-white">ASSIST</p>
               </div>
             )}
-            {league?.displayAssists && (
-              <div
-                className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
-              // onClick={() => handleClickButtons("assists", homeTeam?.id)}
-              >
-                <p className="text-black dark:text-white"></p>
-              </div>
-            )}
             <div
               className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
               onClick={() => handleClickTimeout(homeTeam?.id)}
             >
               <p className="text-black dark:text-white">TIMEOUT</p>
             </div>
-            {league?.displayAssists && (
-              <div
-                className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
-              // onClick={() => handleClickButtons("assists", homeTeam?.id)}
-              >
-                <p className="text-black dark:text-white"></p>
-              </div>
-            )}
           </div>
         </div>
 
@@ -341,28 +325,12 @@ const Index = (props) => {
                 <p className="text-black dark:text-white">ASSIST</p>
               </div>
             )}
-            {league?.displayAssists && (
-              <div
-                className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
-              // onClick={() => handleClickButtons("assists", awayTeam?.id)}
-              >
-                <p className="text-black dark:text-white"></p>
-              </div>
-            )}
             <div
               className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
               onClick={() => handleClickTimeout(awayTeam?.id)}
             >
               <p className="text-black dark:text-white">TIMEOUT</p>
             </div>
-            {league?.displayAssists && (
-              <div
-                className="flex bg-light-charcoal dark:bg-[#303335] w-full items-center justify-center h-12 rounded-xl cursor-pointer hover:opacity-75"
-              // onClick={() => handleClickButtons("assists", awayTeam?.id)}
-              >
-                <p className="text-black dark:text-white"></p>
-              </div>
-            )}
           </div>
         </div>
       </div>
