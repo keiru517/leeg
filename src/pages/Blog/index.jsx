@@ -17,6 +17,7 @@ const Blog = (props) => {
     const league = useSelector((state) => state.home.leagues).find(
         (league) => league.id == leagueId
     );
+    
     const blog = [
         {
             id: 1,
@@ -43,7 +44,7 @@ const Blog = (props) => {
             createdAt: "2024-01-18T15:30:47.000Z"
         },
         {
-            id: 1,
+            id: 4,
             leagueId: 1,
             userId: 3,
             title: "Net Navigators",
@@ -51,7 +52,7 @@ const Blog = (props) => {
             createdAt: "2024-01-04T15:30:47.000Z"
         },
         {
-            id: 2,
+            id: 5,
             leagueId: 1,
             userId: 1,
             title: "Triple Threat Tribune",
@@ -62,6 +63,7 @@ const Blog = (props) => {
     const user = useSelector(state => state.home.users).find(user => user.id == blog.userId);
     const options = { year: 'numeric', month: 'short', day: 'numeric' };
 
+
     return (
         <div className="flex flex-col flex-grow">
             <p className="flex font-dark-gray my-3">
@@ -70,7 +72,7 @@ const Blog = (props) => {
                 </Link>
 
                 <span className="">&nbsp; &gt; &nbsp;</span>
-                <Link to={`/league/${leagueId}?tab=0`} className="hover:underline">
+                <Link to={`/league/${leagueId}?tab=1`} className="hover:underline">
                     <span className="text-sky-500">{league?.name}</span>
                 </Link>
                 <span className="">&nbsp; &gt; &nbsp;</span>

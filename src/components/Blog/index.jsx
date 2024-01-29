@@ -33,7 +33,7 @@ const Blog = () => {
             createdAt: "2024-01-18T15:30:47.000Z"
         },
         {
-            id: 1,
+            id: 4,
             leagueId: 1,
             userId: 3,
             title: "Net Navigators",
@@ -41,7 +41,7 @@ const Blog = () => {
             createdAt: "2024-01-04T15:30:47.000Z"
         },
         {
-            id: 2,
+            id: 5,
             leagueId: 1,
             userId: 1,
             title: "Triple Threat Tribune",
