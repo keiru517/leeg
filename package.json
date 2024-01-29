@@ -19,6 +19,7 @@
     "canvas": "^2.11.2",
     "cropperjs": "^1.6.1",
     "crypto-js": "^4.2.0",
+    "date-fns": "^2.30.0",
     "headlessui": "^0.0.0",
     "heroicons": "^2.0.18",
     "heroicons-react": "^1.4.1",

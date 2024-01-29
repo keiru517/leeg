@@ -5,6 +5,7 @@ import Home from "./pages/home";
 import League from "./pages/home/league";
 import Matchup from "./pages/Matchup";
 import Team from "./pages/Team";
+import Blog from "./pages/Blog";
 import Signin from "./pages/signin";
 import Signup from "./pages/signup";
 import SignupSuccess from "./pages/signup/signupSuccess";
@@ -58,6 +59,7 @@ function App() {
             path="/league/:leagueId/matchup/:matchId"
             element={<Matchup />}
           ></Route>
+          <Route exact path="/league/:leagueId/blog/:blogId" element={<Blog />}></Route>
           <Route exact path="/profile" element={<Profile />}></Route>
           <Route exact path="/imageCropper" element={<ImageCropper />}></Route>
           <Route path="*" element={<PageNotFound />}></Route>
