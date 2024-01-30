@@ -94,6 +94,13 @@ const Blog = (props) => {
         },
     ]
 
+    const [comment, setComment] = useState("")
+
+    const handleSubmit = () => {
+        console.log(comment)
+        setComment("")
+    }
+
 
     return (
         <div className="flex flex-col flex-grow">
@@ -130,18 +137,22 @@ const Blog = (props) => {
                         <div className="flex justify-between items-center mb-6">
                             <h2 className="text-lg lg:text-2xl font-bold text-gray-900 dark:text-white">Discussion (20)</h2>
                         </div>
-                        <form className="mb-6">
+                        <div className="mb-6">
                             <div className="py-2 px-4 mb-4 bg-white rounded-lg rounded-t-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
                                 <label for="comment" className="sr-only">Your comment</label>
                                 <textarea id="comment" rows="6"
                                     className="p-3 w-full text-sm text-gray-900 dark:text-white dark:placeholder-gray-400 dark:bg-gray-800"
-                                    placeholder="Write a comment..." required></textarea>
+                                    onChange={(e)=>setComment(e.target.value)}
+                                    placeholder="Write a comment..." required
+                                    value={comment}
+                                    />
                             </div>
-                            <button type="submit"
+                            <button type="button"
+                            onClick={handleSubmit}
                                 className="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-primary rounded-lg hover:bg-opacity-70 focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900">
                                 Post comment
                             </button>
-                        </form>
+                        </div>
                         {
                             comments.filter(comment=>comment.blogId == blogId).map(comment=>(
                                 <CommentCard comment={comment}/>
