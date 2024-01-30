@@ -3,6 +3,7 @@ import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import * as actions from "../../actions";
+import CommentCard from "../../components/Card/Comment";
 
 const Blog = (props) => {
     let { leagueId, blogId } = useParams();
@@ -17,7 +18,7 @@ const Blog = (props) => {
     const league = useSelector((state) => state.home.leagues).find(
         (league) => league.id == leagueId
     );
-    
+
     const blog = [
         {
             id: 1,
@@ -63,6 +64,36 @@ const Blog = (props) => {
     const user = useSelector(state => state.home.users).find(user => user.id == blog.userId);
     const options = { year: 'numeric', month: 'short', day: 'numeric' };
 
+    const comments = [
+        {
+            id:1,
+            blogId:1,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+            userId: 2,
+            description: "Very straight-to-point article. Really worth time reading. Thank you! But tools are just the instruments for the UX designers. The knowledge of the design tools are as important as the creation of the design strategy.",
+            likes: 0,
+            dislikes:1,
+            createdAt: "2024-01-04T15:30:47.000Z"
+        },
+        {
+            id:2,    
+            blogId:2,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+            userId: 1,
+            description: "The article covers the essentials, challenges, myths and stages the UX designer should consider while creating the design strategy.",
+            likes: 0,
+            dislikes:1,
+            createdAt: "2024-01-14T15:30:47.000Z"
+        },
+        {
+            id:3,     
+            blogId:1,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+            userId: 3,
+            description: "Thanks for sharing this. I do came from the Backend development and explored some of the tools to design my Side Projects.",
+            likes: 0,
+            dislikes:1,
+            createdAt: "2024-01-24T15:30:47.000Z"
+        },
+    ]
+
 
     return (
         <div className="flex flex-col flex-grow">
@@ -79,21 +110,45 @@ const Blog = (props) => {
                 <p className="">{blog.title}</p>
             </p>
             <div className="flex flex-col flex-grow rounded-main dark:bg-slate bg-white overflow-auto p-default sm:mt-3">
-                <article class="mx-auto w-full w-5/6 format format-sm sm:format-base lg:format-lg format-blue dark:format-invert">
-                    <header class="mb-4 lg:mb-6 not-format">
-                        <address class="flex items-center mb-6 not-italic">
-                            <div class="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white">
-                                <img class="mr-4 w-16 h-16 rounded-full" src={user?.avatar} alt="Jese Leos" />
+                <article className="mx-auto w-full w-3/4 format format-sm sm:format-base lg:format-lg format-blue dark:format-invert">
+                    <header className="mb-4 lg:mb-6 not-format">
+                        <address className="flex items-center mb-6 not-italic">
+                            <div className="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white">
+                                <img className="mr-4 w-16 h-16 rounded-full" src={user?.avatar} alt="Jese Leos" />
                                 <div>
-                                    <a href="#" rel="author" class="text-xl font-bold text-gray-900 dark:text-white">{user?.firstName} {user?.lastName}</a>
-                                    <p class="text-base text-gray-500 dark:text-gray-400">{user?.email}</p>
-                                    <p class="text-base text-gray-500 dark:text-gray-400"><time pubdate datetime="2022-02-08" title="February 8th, 2022">{new Date(blog.createdAt).toLocaleDateString('en-US', options)}</time></p>
+                                    <a href="#" rel="author" className="text-xl font-bold text-gray-900 dark:text-white">{user?.firstName} {user?.lastName}</a>
+                                    <p className="text-base text-gray-500 dark:text-gray-400">{user?.email}</p>
+                                    <p className="text-base text-gray-500 dark:text-gray-400"><time pubdate datetime="2022-02-08" title="February 8th, 2022">{new Date(blog.createdAt).toLocaleDateString('en-US', options)}</time></p>
                                 </div>
                             </div>
                         </address>
-                        <h1 class="mb-4 text-3xl font-extrabold leading-tight text-gray-900 lg:mb-6 lg:text-4xl dark:text-white">{blog?.title}</h1>
+                        <h1 className="mb-4 text-3xl font-extrabold leading-tight text-gray-900 lg:mb-6 lg:text-4xl dark:text-white">{blog?.title}</h1>
                     </header>
                     <p className="text-black dark:text-white font-medium">{blog.description}</p>
+                    <hr className="border border-gray-500 my-3"/>
+                    <section className="not-format">
+                        <div className="flex justify-between items-center mb-6">
+                            <h2 className="text-lg lg:text-2xl font-bold text-gray-900 dark:text-white">Discussion (20)</h2>
+                        </div>
+                        <form className="mb-6">
+                            <div className="py-2 px-4 mb-4 bg-white rounded-lg rounded-t-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+                                <label for="comment" className="sr-only">Your comment</label>
+                                <textarea id="comment" rows="6"
+                                    className="p-3 w-full text-sm text-gray-900 dark:text-white dark:placeholder-gray-400 dark:bg-gray-800"
+                                    placeholder="Write a comment..." required></textarea>
+                            </div>
+                            <button type="submit"
+                                className="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-primary rounded-lg hover:bg-opacity-70 focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900">
+                                Post comment
+                            </button>
+                        </form>
+                        {
+                            comments.filter(comment=>comment.blogId == blogId).map(comment=>(
+                                <CommentCard comment={comment}/>
+                            ))
+                        }
+
+                    </section>
                 </article>
             </div>
         </div>
