@@ -5,7 +5,7 @@ import { absolutePath } from '../helpers';
 const options: { [key: string]: Options } = {
   development: {
     username: process.env.DB_USER || 'root',
-    password: process.env.DB_PASS || "",
+    password: process.env.DB_PASS || undefined,
     database: process.env.DB_NAME || 'leegDev',
     host: process.env.DB_HOST || '127.0.0.1',
     dialect: 'mysql'
