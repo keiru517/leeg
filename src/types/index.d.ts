@@ -54,6 +54,24 @@ export namespace Types {
     role: number;
     isDeleted: number;
   }
+
+  
+  export interface T_Blog extends T_DB {
+    leagueId: number;
+    userId: number;
+    title: string;
+    description: string;
+  }
+
+  export interface T_Comment extends T_DB {
+    parentId: number;
+    userId: number;
+    isBlogComment: boolean;
+    description: string;
+    likes: number;
+    dislikes: number;
+  }
+  
   export interface T_Team extends T_DB {
     userId: number;
     leagueId: number;
