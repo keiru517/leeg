@@ -40,7 +40,7 @@ const Option = (props) => {
   return (
     <div
       ref={ref}
-      className={`${className}  rounded-full w-8 h-8 items-center flex mx-auto relative cursor-pointer`}
+      className={`${className}  rounded-full w-8 h-8 items-center flex relative cursor-pointer`}
       onClick={toggle}
     >
       <img

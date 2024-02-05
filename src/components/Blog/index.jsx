@@ -5,53 +5,15 @@ import BlogCard from "../Card/Blog";
 import Input from "../../components/Input";
 import searchIconDark from "../../assets/img/dark_mode/search-icon-dark.svg";
 import searchIconLight from "../../assets/img/dark_mode/search-icon-light.svg";
+import BlogModal from "../Modal/BlogModal";
+import * as actions from "../../actions";
 
 const Blog = () => {
-    const blogs = [
-        {
-            id: 1,
-            leagueId: 1,
-            userId: 1,
-            title: 'Slam Dunk Chronicles',
-            description: "Delve into the latest basketball league updates, player spotlights, and game analyses. Whether you're a die-hard fan or a casual observer, Slam Dunk Chronicles has your hoops fix covered.",
-            createdAt: "2024-01-29T15:30:47.000Z"
-        },
-        {
-            id: 2,
-            leagueId: 1,
-            userId: 2,
-            title: "Hoops Hustle Hub",
-            description: "From buzzer-beaters to trade rumors, Hoops Hustle Hub delivers a dynamic blend of basketball league insights. Join the discussion on game strategies, standout performances, and the race to the championship.",
-            createdAt: "2024-01-16T15:30:47.000Z"
-        },
-        {
-            id: 3,
-            leagueId: 1,
-            userId: 1,
-            title: "Courtside Confidential",
-            description: "Uncover the behind-the-scenes stories, locker room chatter, and exclusive interviews with players and coaches. Courtside Confidential takes you beyond the court for an intimate look at the basketball league's human side.",
-            createdAt: "2024-01-18T15:30:47.000Z"
-        },
-        {
-            id: 4,
-            leagueId: 1,
-            userId: 3,
-            title: "Net Navigators",
-            description: "Navigate the intricate plays, tactical maneuvers, and statistical breakdowns with Net Navigators. This blog dives deep into the analytics, offering a strategic perspective on how teams are conquering the basketball league.",
-            createdAt: "2024-01-04T15:30:47.000Z"
-        },
-        {
-            id: 5,
-            leagueId: 1,
-            userId: 1,
-            title: "Triple Threat Tribune",
-            description: "Stay ahead of the game with Triple Threat Tribune, your go-to source for triple-doubles, MVP races, and rising stars. This blog covers the entire basketball league landscape, from rookies making waves to veterans rewriting records.",
-            createdAt: "2024-01-27T15:30:47.000Z"
-        },
-
-    ]
-
     let { leagueId } = useParams();
+    const dispatch = useDispatch();
+    useEffect(() => {
+        actions.getBlogs(dispatch, {leagueId})
+    }, [])
 
     const user = useSelector((state) => state.home.user);
     const darkMode = useSelector((state) => state.home.dark_mode);
@@ -70,10 +32,14 @@ const Blog = () => {
         admins.some((admin) => admin.userId == user?.id) ||
         league?.userId == user?.id;
 
+    const blogs = useSelector(state=>state.home.blogs);
     const [blogKeyword, setBlogKeyword] = useState("");
 
     const handleCreateBlog = () => {
         console.log("Create blog")
+        dispatch({
+            type: actions.OPEN_CREATE_BLOG_DIALOG
+        })
     }
     return (
         <>
@@ -125,6 +91,7 @@ const Blog = () => {
                     </p>
                 </div>
             )}
+            <BlogModal userId={user?.id} leagueId={leagueId}/>
         </>
     )
 }

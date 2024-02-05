@@ -1,51 +1,68 @@
+import { useState } from "react";
 import { formatDistanceToNow } from "date-fns";
 import { enUS } from "date-fns/locale";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import Option from "../Option";
+import * as actions from "../../actions";
+import CommentModal from "../Modal/CommentModal";
 
 const CommentCard = (props) => {
-    const { comment } = props;
-    const user = useSelector(state => state.home.users).find(user => user.id === comment.userId)
-    const options = { year: 'numeric', month: 'short', day: 'numeric' };
+    const { comment, leagueId } = props;
+    const dispatch = useDispatch();
+
+    const user = useSelector(state => state.home.user);
+    const commentUser = useSelector(state => state.home.users).find(user => user.id === comment.userId)
+    const admins = useSelector((state) => state.home.admins).filter(
+        (admin) => admin.leagueId == leagueId && admin.isDeleted !== 1
+    );
+
+    const isAdmin =
+        admins.some((admin) => admin.userId == user?.id) || comment.userId == user?.id;
+
+    const dateOptions = { year: 'numeric', month: 'short', day: 'numeric' };
+    const options = [
+        { id: 0, name: "Edit" },
+        { id: 1, name: "Remove" },
+        // { id: 2, name: "Report" },
+    ];
+
+    const handleOption = (idx) => {
+        // edit comment
+        if (idx === 0) {
+            setIsOpenCommentModal(true);
+        }
+        // remove comment
+        else {
+            actions.deleteComment(dispatch, { comment, leagueId })
+        }
+    }
+
+    const [isOpenCommentModal, setIsOpenCommentModal] = useState(false)
 
     return (
-        <article className="p-6 mb-6 text-base bg-transparent border-t border-gray-200 dark:border-gray-700 text-black dark:text-white">
+        <article className={`${comment.isBlogComment ? "" : "ml-6 lg:ml-12"} p-6 mb-6 text-base bg-transparent border-t border-gray-200 dark:border-gray-700 text-black dark:text-white`}>
             <footer className="flex justify-between items-center mb-2">
                 <div className="flex items-center">
                     <p className="inline-flex items-center mr-3 font-semibold text-sm text-gray-900 dark:text-white">
                         <img
                             className="mr-2 w-6 h-6 rounded-full"
-                            src={user?.avatar}
-                            alt="Michael Gough" />{user?.firstName}{user?.lastName}</p>
+                            src={commentUser?.avatar}
+                            alt="Michael Gough" />{commentUser?.firstName}{commentUser?.lastName}</p>
                     <p className="text-sm text-gray-600 dark:text-gray-400"><time pubdate datetime="2022-02-08"
-                        title="February 8th, 2022">{new Date(comment.createdAt).toLocaleDateString('en-US', options)}</time></p>
+                        title="February 8th, 2022">{new Date(comment.createdAt).toLocaleDateString('en-US', dateOptions)}</time></p>
                 </div>
-                {/* <button id="dropdownComment1Button" data-dropdown-toggle="dropdownComment1"
-                    className="inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-50 dark:text-gray-400 dark:bg-gray-900 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-                    type="button">
-                    <svg className="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 3">
-                        <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" />
-                    </svg>
-                    <span className="sr-only">Comment settings</span>
-                </button> */}
-                <div id="dropdownComment1"
-                    className="hidden z-10 w-36 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
-                    <ul className="py-1 text-sm text-gray-700 dark:text-gray-200"
-                        aria-labelledby="dropdownMenuIconHorizontalButton">
-                        <li>
-                            <a href="#"
-                                className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Edit</a>
-                        </li>
-                        <li>
-                            <a href="#"
-                                className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Remove</a>
-                        </li>
-                        <li>
-                            <a href="#"
-                                className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Report</a>
-                        </li>
-                    </ul>
-                </div>
+                {
+                    isAdmin ?
+                        <Option
+                            className="z-10 w-36 rounded divide-y bg-light-charcoal divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600 "
+                            options={options}
+                            handleClick={(idx, event) =>
+                                handleOption(idx, event)
+                            }
+                        ></Option> :
+                        ""
+                }
             </footer>
             <p>{comment.description}</p>
             {/* <div className="flex items-center mt-4 space-x-4">
@@ -57,6 +74,7 @@ const CommentCard = (props) => {
                     Reply
                 </button>
             </div> */}
+            <CommentModal comment={comment} isOpenCommentModal={isOpenCommentModal} setIsOpenCommentModal={setIsOpenCommentModal} leagueId={leagueId}/>
         </article>
     )
 }

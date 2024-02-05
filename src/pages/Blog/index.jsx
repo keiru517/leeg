@@ -4,10 +4,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import * as actions from "../../actions";
 import CommentCard from "../../components/Card/Comment";
+import backIconDark from "../../assets/img/dark_mode/back-icon-dark.png";
+import backIconLight from "../../assets/img/dark_mode/back-icon-light.png";
+import editIconDark from "../../assets/img/dark_mode/edit-icon-dark.png";
+import editIconLight from "../../assets/img/dark_mode/edit-icon-light.png";
+import BlogModal from "../../components/Modal/BlogModal";
+import draftToHtml from 'draftjs-to-html';
 
 const Blog = (props) => {
     let { leagueId, blogId } = useParams();
+    const navigate = useNavigate();
     const dispatch = useDispatch();
+    const darkMode = useSelector((state) => state.home.dark_mode);
 
     useEffect(() => {
         actions.getUserInfo(dispatch, localStorage.getItem("userId"));
@@ -19,87 +27,31 @@ const Blog = (props) => {
         (league) => league.id == leagueId
     );
 
-    const blog = [
-        {
-            id: 1,
-            leagueId: 1,
-            userId: 1,
-            title: 'Slam Dunk Chronicles',
-            description: "Flowbite is an open-source library of UI components built with the utility-first classes from Tailwind CSS. It also includes interactive elements such as dropdowns, modals, datepickers. Before going digital, you might benefit from scribbling down some ideas in a sketchbook. This way, you can think things through before committing to an actual design project. But then I found a component library based on Tailwind CSS called Flowbite. It comes with the most commonly used UI components, such as buttons, navigation bars, cards, form elements, and more which are conveniently built with the utility classes from Tailwind CSS.",
-            createdAt: "2024-01-29T15:30:47.000Z"
-        },
-        {
-            id: 2,
-            leagueId: 1,
-            userId: 2,
-            title: "Hoops Hustle Hub",
-            description: "From buzzer-beaters to trade rumors, Hoops Hustle Hub delivers a dynamic blend of basketball league insights. Join the discussion on game strategies, standout performances, and the race to the championship.",
-            createdAt: "2024-01-16T15:30:47.000Z"
-        },
-        {
-            id: 3,
-            leagueId: 1,
-            userId: 1,
-            title: "Courtside Confidential",
-            description: "Uncover the behind-the-scenes stories, locker room chatter, and exclusive interviews with players and coaches. Courtside Confidential takes you beyond the court for an intimate look at the basketball league's human side.",
-            createdAt: "2024-01-18T15:30:47.000Z"
-        },
-        {
-            id: 4,
-            leagueId: 1,
-            userId: 3,
-            title: "Net Navigators",
-            description: "Navigate the intricate plays, tactical maneuvers, and statistical breakdowns with Net Navigators. This blog dives deep into the analytics, offering a strategic perspective on how teams are conquering the basketball league.",
-            createdAt: "2024-01-04T15:30:47.000Z"
-        },
-        {
-            id: 5,
-            leagueId: 1,
-            userId: 1,
-            title: "Triple Threat Tribune",
-            description: "Stay ahead of the game with Triple Threat Tribune, your go-to source for triple-doubles, MVP races, and rising stars. This blog covers the entire basketball league landscape, from rookies making waves to veterans rewriting records.",
-            createdAt: "2024-01-27T15:30:47.000Z"
-        },
-    ].find(blog => blog.id == blogId);
-    const user = useSelector(state => state.home.users).find(user => user.id == blog.userId);
-    const options = { year: 'numeric', month: 'short', day: 'numeric' };
+    const blog = useSelector(state => state.home.blogs).find(blog => blog.id == blogId);
+    const user = useSelector(state => state.home.user);
+    const blogUser = useSelector(state => state.home.users).find(user => user.id == blog?.userId);
 
-    const comments = [
-        {
-            id:1,
-            blogId:1,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
-            userId: 2,
-            description: "Very straight-to-point article. Really worth time reading. Thank you! But tools are just the instruments for the UX designers. The knowledge of the design tools are as important as the creation of the design strategy.",
-            likes: 0,
-            dislikes:1,
-            createdAt: "2024-01-04T15:30:47.000Z"
-        },
-        {
-            id:2,    
-            blogId:2,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
-            userId: 1,
-            description: "The article covers the essentials, challenges, myths and stages the UX designer should consider while creating the design strategy.",
-            likes: 0,
-            dislikes:1,
-            createdAt: "2024-01-14T15:30:47.000Z"
-        },
-        {
-            id:3,     
-            blogId:1,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
-            userId: 3,
-            description: "Thanks for sharing this. I do came from the Backend development and explored some of the tools to design my Side Projects.",
-            likes: 0,
-            dislikes:1,
-            createdAt: "2024-01-24T15:30:47.000Z"
-        },
-    ]
+    const admins = useSelector((state) => state.home.admins).filter(
+        (admin) => admin.leagueId == blog.leagueId && admin.isDeleted !== 1
+    );
+    const isAdmin =
+        admins.some((admin) => admin.userId == user?.id) ||
+        blog?.userId == user?.id;
+    const options = { year: 'numeric', month: 'short', day: 'numeric' };
 
     const [comment, setComment] = useState("")
 
     const handleSubmit = () => {
-        console.log(comment)
-        setComment("")
+        if (comment == "") {
+            alert("Please write a comment");
+        } else {
+            setComment("")
+            actions.createComment(dispatch, { leagueId: leagueId, blogId: blogId, userId: user?.id, description: comment })
+        }
     }
+    const handleEdit = () => {
+        dispatch({ type: actions.OPEN_EDIT_BLOG_DIALOG, payload: blog });
+    };
 
 
     return (
@@ -113,26 +65,49 @@ const Blog = (props) => {
                 <Link to={`/league/${leagueId}?tab=1`} className="hover:underline">
                     <span className="text-sky-500">{league?.name}</span>
                 </Link>
-                <span className="">&nbsp; &gt; &nbsp;</span>
-                <p className="">{blog.title}</p>
+                {/* <span className="">&nbsp; &gt; &nbsp;</span>
+                <p className="">{blog.title}</p> */}
             </p>
             <div className="flex flex-col flex-grow rounded-main dark:bg-slate bg-white overflow-auto p-default sm:mt-3">
-                <article className="mx-auto w-full w-3/4 format format-sm sm:format-base lg:format-lg format-blue dark:format-invert">
+                <article className="mx-auto w-full sm:w-3/4 format format-sm sm:format-base lg:format-lg format-blue dark:format-invert">
                     <header className="mb-4 lg:mb-6 not-format">
-                        <address className="flex items-center mb-6 not-italic">
-                            <div className="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white">
-                                <img className="mr-4 w-16 h-16 rounded-full" src={user?.avatar} alt="Jese Leos" />
-                                <div>
-                                    <a href="#" rel="author" className="text-xl font-bold text-gray-900 dark:text-white">{user?.firstName} {user?.lastName}</a>
-                                    <p className="text-base text-gray-500 dark:text-gray-400">{user?.email}</p>
-                                    <p className="text-base text-gray-500 dark:text-gray-400"><time pubdate datetime="2022-02-08" title="February 8th, 2022">{new Date(blog.createdAt).toLocaleDateString('en-US', options)}</time></p>
+                        <address className="flex justify-between items-center mb-6 not-italic">
+                            <div className="flex  items-center mr-3 text-sm text-gray-900 dark:text-white">
+                                <div className="flex items-center">
+                                    <div
+                                        className="w-6 h-6 sm:w-[34px] sm:h-[34px] bg-gray-300 dark:bg-primary items-center flex justify-center rounded-default cursor-pointer hover:opacity-70 mr-3"
+                                        onClick={() => navigate(-1)}
+                                    >
+                                        <img
+                                            src={darkMode ? backIconDark : backIconLight}
+                                            alt=""
+                                            className="w-[4px] h-[10px] dark:hover:bg-middle-gray rounded-default cursor-pointer"
+                                        />
+                                    </div>
+                                    <img className="mr-4 w-16 h-16 rounded-full" src={blogUser?.avatar} alt="Jese Leos" />
+                                    <div>
+                                        <a href="#" rel="author" className="text-xl font-bold text-gray-900 dark:text-white">{blogUser?.firstName} {blogUser?.lastName}</a>
+                                        <p className="text-base text-gray-500 dark:text-gray-400">{blogUser?.email}</p>
+                                        <p className="text-base text-gray-500 dark:text-gray-400"><time pubdate datetime="2022-02-08" title="February 8th, 2022">{new Date(blog?.createdAt).toLocaleDateString('en-US', options)}</time></p>
+                                    </div>
+
                                 </div>
                             </div>
+                            {
+                                isAdmin ?
+                                    <img
+                                        src={darkMode ? editIconDark : editIconLight}
+                                        className="w-6 h-6 cursor-pointer ml-3"
+                                        onClick={handleEdit}
+                                    ></img> : ""
+                            }
                         </address>
                         <h1 className="mb-4 text-3xl font-extrabold leading-tight text-gray-900 lg:mb-6 lg:text-4xl dark:text-white">{blog?.title}</h1>
                     </header>
-                    <p className="text-black dark:text-white font-medium">{blog.description}</p>
-                    <hr className="border border-gray-500 my-3"/>
+                    {/* <p className="text-black dark:text-white font-medium">{blog?.description}</p> */}
+                    <div className="text-black dark:text-white" dangerouslySetInnerHTML={{ __html: draftToHtml((JSON.parse(blog.description))) }} >
+                    </div>
+                    <hr className="border border-gray-500 my-3" />
                     <section className="not-format">
                         <div className="flex justify-between items-center mb-6">
                             <h2 className="text-lg lg:text-2xl font-bold text-gray-900 dark:text-white">Discussion (20)</h2>
@@ -142,25 +117,28 @@ const Blog = (props) => {
                                 <label for="comment" className="sr-only">Your comment</label>
                                 <textarea id="comment" rows="6"
                                     className="p-3 w-full text-sm text-gray-900 dark:text-white dark:placeholder-gray-400 dark:bg-gray-800"
-                                    onChange={(e)=>setComment(e.target.value)}
+                                    onChange={(e) => setComment(e.target.value)}
                                     placeholder="Write a comment..." required
                                     value={comment}
-                                    />
+                                />
                             </div>
                             <button type="button"
-                            onClick={handleSubmit}
+                                onClick={handleSubmit}
                                 className="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-primary rounded-lg hover:bg-opacity-70 focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900">
                                 Post comment
                             </button>
                         </div>
                         {
-                            comments.filter(comment=>comment.blogId == blogId).map(comment=>(
-                                <CommentCard comment={comment}/>
+                            blog?.comments.map(comment => (
+                                <CommentCard comment={comment} leagueId={leagueId} />
                             ))
+
                         }
 
                     </section>
                 </article>
+                <BlogModal userId={user?.id} leagueId={leagueId} />
+
             </div>
         </div>
     )
