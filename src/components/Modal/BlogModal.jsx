@@ -126,7 +126,7 @@ const BlogModal = (props) => {
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative transform overflow-hidden rounded-main text-left shadow-xl transition-all sm:my-8 bg-white dark:bg-slate h-96 sm:h-[609px] w-[400px] sm:w-[500px] md:w-[735px] mx-3 flex flex-col">
+              <Dialog.Panel className="relative transform overflow-hidden rounded-main text-left shadow-xl transition-all sm:my-8 bg-white dark:bg-slate h-[620px] sm:h-[800px] sm:h-[609px] w-[400px] sm:w-[500px] md:w-[735px] mx-3 flex flex-col">
                 <div className="divide-y divide-solid divide-[#3A3A3A] flex flex-col flex-grow">
                   <div className="flex items-center text-left h-16 sm:h-[88px] justify-between px-default">
                     <p className="text-2xl text-black dark:text-white font-bold">
@@ -168,16 +168,9 @@ const BlogModal = (props) => {
                         Description:
                       </p>
                         <EditorComponent
-                          className="sm:h-64"
+                          className="h-52 sm:h-64"
                           setDescription={setDescription}
                           description={blog.description}
-                          // toolbar={{
-                          //   inline: { inDropdown: true },
-                          //   list: { inDropdown: true },
-                          //   textAlign: { inDropdown: true },
-                          //   link: { inDropdown: true },
-                          //   history: { inDropdown: true },
-                          // }}
                         />
                     </div>
                     {

@@ -718,11 +718,6 @@ const League = () => {
                           }}
                         />
                       </div>
-                      <div>
-                        <Button className="text-sm bg-primary w-[100px] h-[38px] rounded hover:opacity-70">
-                          Add blog
-                        </Button>
-                      </div>
                     </div>
                     <div
                       className={`overflow-y-scroll h-4/6 flex flex-col items-center flex-grow ${

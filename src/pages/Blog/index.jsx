@@ -110,7 +110,7 @@ const Blog = (props) => {
                     <hr className="border border-gray-500 my-3" />
                     <section className="not-format">
                         <div className="flex justify-between items-center mb-6">
-                            <h2 className="text-lg lg:text-2xl font-bold text-gray-900 dark:text-white">Discussion (20)</h2>
+                            <h2 className="text-lg lg:text-2xl font-bold text-gray-900 dark:text-white">Discussion ({blog?.comments.length})</h2>
                         </div>
                         <div className="mb-6">
                             <div className="py-2 px-4 mb-4 bg-white rounded-lg rounded-t-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
