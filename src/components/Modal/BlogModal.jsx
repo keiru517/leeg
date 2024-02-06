@@ -71,7 +71,8 @@ const BlogModal = (props) => {
   const [rows, setRows] = useState(18); // Default value for medium or larger screens
 
   const createBlog = () => {
-    if (title === "" || !description) {
+    console.log("description", description)
+    if (title === "") {
       alert("Please type title and description!");
     } else {
       actions.createBlog(dispatch, { leagueId, userId, title, description })
@@ -167,7 +168,7 @@ const BlogModal = (props) => {
                         Description:
                       </p>
                         <EditorComponent
-                          className="h-64"
+                          className="sm:h-64"
                           setDescription={setDescription}
                           description={blog.description}
                           // toolbar={{

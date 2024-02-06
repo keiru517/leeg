@@ -69,21 +69,21 @@ const Blog = (props) => {
                 <p className="">{blog.title}</p> */}
             </p>
             <div className="flex flex-col flex-grow rounded-main dark:bg-slate bg-white overflow-auto p-default sm:mt-3">
+                <div
+                    className="w-6 h-6 sm:w-[34px] sm:h-[34px] bg-gray-300 dark:bg-primary items-center flex justify-center rounded-default cursor-pointer hover:opacity-70 mr-3"
+                    onClick={() => navigate(-1)}
+                >
+                    <img
+                        src={darkMode ? backIconDark : backIconLight}
+                        alt=""
+                        className="w-[4px] h-[10px] dark:hover:bg-middle-gray rounded-default cursor-pointer"
+                    />
+                </div>
                 <article className="mx-auto w-full sm:w-3/4 format format-sm sm:format-base lg:format-lg format-blue dark:format-invert">
                     <header className="mb-4 lg:mb-6 not-format">
                         <address className="flex justify-between items-center mb-6 not-italic">
                             <div className="flex  items-center mr-3 text-sm text-gray-900 dark:text-white">
                                 <div className="flex items-center">
-                                    <div
-                                        className="w-6 h-6 sm:w-[34px] sm:h-[34px] bg-gray-300 dark:bg-primary items-center flex justify-center rounded-default cursor-pointer hover:opacity-70 mr-3"
-                                        onClick={() => navigate(-1)}
-                                    >
-                                        <img
-                                            src={darkMode ? backIconDark : backIconLight}
-                                            alt=""
-                                            className="w-[4px] h-[10px] dark:hover:bg-middle-gray rounded-default cursor-pointer"
-                                        />
-                                    </div>
                                     <img className="mr-4 w-16 h-16 rounded-full" src={blogUser?.avatar} alt="Jese Leos" />
                                     <div>
                                         <a href="#" rel="author" className="text-xl font-bold text-gray-900 dark:text-white">{blogUser?.firstName} {blogUser?.lastName}</a>

@@ -11,9 +11,9 @@ const EditorComponent = ({ className, setDescription, description, ...rest }) =>
         '{"blocks":[{"key":"a1buj","text":"Hello, this is markdown data","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"a6avt","text":"This is title","type":"unstyled","depth":0,"inlineStyleRanges":[{"offset":0,"length":13,"style":"BOLD"}],"entityRanges":[],"data":{}}],"entityMap":{}}';
 
     const realData = '{"blocks": [], "entityMap":{}}';
-    
+
     const [editorState, setEditorState] = useState(
-        EditorState.createWithContent(convertFromRaw(JSON.parse(description?description:realData)))
+        EditorState.createWithContent(convertFromRaw(JSON.parse(description ? description : realData)))
     );
 
     const onEditorStateChange = (editorState) => {
@@ -23,7 +23,7 @@ const EditorComponent = ({ className, setDescription, description, ...rest }) =>
     const handleOnChange = (rawDraftContent) => {
         console.log("html", draftToHtml(rawDraftContent))
         setDescription(JSON.stringify(rawDraftContent))
-    } 
+    }
 
     return (
         <Editor
@@ -33,6 +33,9 @@ const EditorComponent = ({ className, setDescription, description, ...rest }) =>
             onEditorStateChange={onEditorStateChange}
             onChange={handleOnChange}
             {...rest}
+            toolbar={{
+                image: { uploadEnabled: true }
+            }}
         />
     )
 }
