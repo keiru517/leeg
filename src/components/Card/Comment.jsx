@@ -60,7 +60,7 @@ const CommentCard = (props) => {
                     (isAdmin || isCommentUser) ?
                         <Option
                             className="z-10 w-36 rounded divide-y bg-light-charcoal divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600 "
-                            options={isAdmin ? adminOptions : commentUserOptions}
+                            options={isCommentUser ? commentUserOptions : adminOptions}
                             handleClick={(idx, event) =>
                                 handleOption(idx, event)
                             }
