@@ -1,6 +1,6 @@
 import express from 'express';
 import { config } from 'dotenv';
-import { userRouter, leagueRouter, teamRouter, playerRouter, matchRouter, adminRouter, matchupRouter, logRouter, substituteRouter} from './routers';
+import { userRouter, leagueRouter, teamRouter, playerRouter, matchRouter, adminRouter, matchupRouter, logRouter, substituteRouter, blogRouter, commentRouter} from './routers';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 
@@ -12,6 +12,8 @@ app.use(bodyParser.json());
 
 app.use('/api/user', userRouter);
 app.use('/api/league', leagueRouter);
+app.use('/api/blog', blogRouter);
+app.use('/api/comment', commentRouter);
 app.use('/api/team', teamRouter);
 app.use('/api/player', playerRouter);
 app.use('/api/match', matchRouter);
