@@ -18,10 +18,14 @@ const CommentCard = (props) => {
     );
 
     const isAdmin =
-        admins.some((admin) => admin.userId == user?.id) || comment.userId == user?.id;
+        admins.some((admin) => admin.userId == user?.id);
+    const isCommentUser = user.id == comment.userId ? true : false
 
     const dateOptions = { year: 'numeric', month: 'short', day: 'numeric' };
-    const options = [
+    const adminOptions = [
+        { id: 1, name: "Remove" },
+    ];
+    const commentUserOptions = [
         { id: 0, name: "Edit" },
         { id: 1, name: "Remove" },
         // { id: 2, name: "Report" },
@@ -53,10 +57,10 @@ const CommentCard = (props) => {
                         title="February 8th, 2022">{new Date(comment.createdAt).toLocaleDateString('en-US', dateOptions)}</time></p>
                 </div>
                 {
-                    isAdmin ?
+                    (isAdmin || isCommentUser) ?
                         <Option
                             className="z-10 w-36 rounded divide-y bg-light-charcoal divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600 "
-                            options={options}
+                            options={isAdmin ? adminOptions : commentUserOptions}
                             handleClick={(idx, event) =>
                                 handleOption(idx, event)
                             }
@@ -74,7 +78,7 @@ const CommentCard = (props) => {
                     Reply
                 </button>
             </div> */}
-            <CommentModal comment={comment} isOpenCommentModal={isOpenCommentModal} setIsOpenCommentModal={setIsOpenCommentModal} leagueId={leagueId}/>
+            <CommentModal comment={comment} isOpenCommentModal={isOpenCommentModal} setIsOpenCommentModal={setIsOpenCommentModal} leagueId={leagueId} />
         </article>
     )
 }

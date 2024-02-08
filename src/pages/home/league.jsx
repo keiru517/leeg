@@ -720,9 +720,8 @@ const League = () => {
                       </div>
                     </div>
                     <div
-                      className={`overflow-y-scroll h-4/6 flex flex-col items-center flex-grow ${
-                        filteredWaitListPlayers.length ? "" : "justify-center"
-                      } rounded-default`}
+                      className={`overflow-y-scroll h-4/6 flex flex-col items-center flex-grow ${filteredWaitListPlayers.length ? "" : "justify-center"
+                        } rounded-default`}
                     >
                       <p className="text-black dark:text-white font-medium text-sm">
                         No Blogs to show!
@@ -731,7 +730,7 @@ const League = () => {
                   </div>
                 </div>
               </TabPanel>
-              
+
               {/* Blogs */}
               <TabPanel
                 value="1"
@@ -1101,26 +1100,30 @@ const League = () => {
                           ></DatePicker>
                         </span>
                       </div>
-                      <div className="mb-6 grid grid-cols-2 gap-2">
-                        <span>
-                          <p className="dark:text-white text-black text-sm sm:text-base">Period</p>
-                          <Input
-                            className="rounded-default flex-grow text-sm sm:text-base"
-                            placeholder="League Name"
-                            value={period}
-                            onChange={(e) => setPeriod(e.target.value)}
-                            type="number"
-                          ></Input>
-                        </span>
-                        <span >
-                          <p className="dark:text-white text-black text-sm sm:text-base">Time</p>
-                          <TimerInput
-                            initialTime={time}
-                            setTime={setTime}
-                            className="w-full bg-[#303335] rounded-default"
-                          ></TimerInput>
-                        </span>
-                      </div>
+                      {
+                        isAdmin && (
+                          <div className="mb-6 grid grid-cols-2 gap-2">
+                            <span>
+                              <p className="dark:text-white text-black text-sm sm:text-base">Period</p>
+                              <Input
+                                className="rounded-default flex-grow text-sm sm:text-base"
+                                placeholder="Period of match"
+                                value={period}
+                                onChange={(e) => setPeriod(e.target.value)}
+                                type="number"
+                              ></Input>
+                            </span>
+                            <span >
+                              <p className="dark:text-white text-black text-sm sm:text-base">Time</p>
+                              <TimerInput
+                                initialTime={time}
+                                setTime={setTime}
+                                className="w-full bg-[#303335] rounded-default"
+                              ></TimerInput>
+                            </span>
+                          </div>
+                        )
+                      }
                     </div>
                     {isAdmin && (
                       <>

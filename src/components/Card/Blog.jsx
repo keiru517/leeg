@@ -11,7 +11,7 @@ const BlogCard = (props) => {
     const { blog } = props;
     const dispatch = useDispatch();
 
-    const user = useSelector(state => state.home.user)
+    const user = useSelector(state => state.home.user);
     const blogUser = useSelector(state => state.home.users).find(user => user.id == blog.userId);
     const darkMode = useSelector((state) => state.home.dark_mode);
     const admins = useSelector((state) => state.home.admins).filter(
@@ -19,15 +19,12 @@ const BlogCard = (props) => {
     );
 
     const isAdmin =
-        admins.some((admin) => admin.userId == user?.id) ||
-        blog.userId == user?.id;
-
+        admins.some((admin) => admin.userId == user?.id)
 
     const handleEdit = () => {
         dispatch({ type: actions.OPEN_EDIT_BLOG_DIALOG, payload: blog });
     };
 
-    console.log(draftToHtml((JSON.parse(blog.description))))
     return (
         <article className="flex flex-col justify-between p-6 bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
             <div>
