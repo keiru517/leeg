@@ -17,11 +17,7 @@ const Blog = (props) => {
     const dispatch = useDispatch();
     const darkMode = useSelector((state) => state.home.dark_mode);
 
-    useEffect(() => {
-        actions.getUserInfo(dispatch, localStorage.getItem("userId"));
-        actions.getUsers(dispatch);
 
-    }, [])
 
     const league = useSelector((state) => state.home.leagues).find(
         (league) => league.id == leagueId
@@ -52,6 +48,13 @@ const Blog = (props) => {
     const handleEdit = () => {
         dispatch({ type: actions.OPEN_EDIT_BLOG_DIALOG, payload: blog });
     };
+
+    // const [content, setContent] = useState('{"blocks": [], "entityMap":{}}')
+    useEffect(() => {
+        console.log("component did mount")
+        actions.getUserInfo(dispatch, localStorage.getItem("userId"));
+        actions.getUsers(dispatch);
+    }, [])
 
 
     return (
