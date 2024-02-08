@@ -162,6 +162,7 @@ const TeamTable = (props) => {
               {isAdmin && (
                 <td>
                   <Option
+                    className="mx-auto"
                     options={options}
                     handleClick={(idx, event) =>
                       handleOption(idx, player.id, event)

@@ -42,6 +42,21 @@ export const apis = {
   toggleSteals: apiUrl + "/league/toggleSteals",
   toggleTurnovers: apiUrl + "/league/toggleTurnovers",
   togglePassword: apiUrl + "/league/togglePassword",
+  // blogs
+  getBlogs: apiUrl + "/blog/all",
+  createBlog: apiUrl + "/blog/create",
+  updateBlog: apiUrl + "/blog/update",
+  deleteBlog: apiUrl + "/blog/remove",
+  // comments
+  createComment: apiUrl + "/comment/create",
+  updateComment: apiUrl + "/comment/update",
+  deleteComment: apiUrl + "/comment/remove",
+  // replies
+  createReply: apiUrl + "/reply/create",
+  updateReply: apiUrl + "/reply/update",
+  deleteReply: (id) => {
+    return `${apiUrl}/reply/remove/${id}`;
+  },
   // teams
   getTeams: apiUrl + "/team/all",
   createTeam: apiUrl + "/team/create",

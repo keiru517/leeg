@@ -26,6 +26,11 @@ export const OPEN_LEAGUE_DETAIL_DIALOG = "OPEN_LEAGUE_DETAIL_DIALOG";
 export const CLOSE_LEAGUE_DETAIL_DIALOG = "CLOSE_LEAGUE_DETAIL_DIALOG";
 export const SET_SELECTED_LEAGUE = "SET_SELECTED_LEAGUE";
 export const LEAVE_LEAGUE = "LEAVE_LEAGUE";
+// Blogs
+export const GET_BLOGS = "GET_BLOGS";
+export const OPEN_CREATE_BLOG_DIALOG = "OPEN_CREATE_BLOG_DIALOG";
+export const OPEN_EDIT_BLOG_DIALOG = "OPEN_EDIT_BLOG_DIALOG";
+export const CLOSE_BLOG_DIALOG = "CLOSE_BLOG_DIALOG";
 // Teams
 export const GET_TEAMS = "GET_TEAMS";
 export const OPEN_CREATE_TEAM_DIALOG = "OPEN_CREATE_TEAM_DIALOG";
@@ -300,6 +305,174 @@ export const removePassword = async (dispatch, data) => {
     alert("Failed!");
   }
 };
+// Blogs
+export const getBlogs = async (dispatch, data) => {
+  try {
+    const response = await axios.post(apis.getBlogs, data);
+    const blogs = response.data.blogs;
+    dispatch({
+      type: GET_BLOGS,
+      payload: blogs
+    })
+  } catch (error) {
+    dispatch({
+      type: GET_BLOGS,
+      payload: []
+    })
+  }
+}
+export const createBlog = async (dispatch, data) => {
+  try {
+    const response = await axios.post(apis.createBlog, data);
+    const blogs = response.data.blogs;
+    dispatch({
+      type: GET_BLOGS,
+      payload: blogs
+    })
+    
+  } catch (error) {
+    dispatch({
+      type: GET_BLOGS,
+      payload: []
+    })
+  }
+}
+
+export const updateBlog = async (dispatch, data) => {
+  try {
+    const response = await axios.post(apis.updateBlog, data);
+    const blogs = response.data.blogs;
+    dispatch({
+      type: GET_BLOGS,
+      payload: blogs
+    })
+    
+  } catch (error) {
+    dispatch({
+      type: GET_BLOGS,
+      payload: []
+    })
+  }
+}
+
+export const deleteBlog = async (dispatch, data) => {
+  try {
+    const response = await axios.post(apis.deleteBlog, data);
+    const blogs = response.data.blogs;
+    dispatch({
+      type: GET_BLOGS,
+      payload: blogs
+    })
+    
+  } catch (error) {
+    dispatch({
+      type: GET_BLOGS,
+      payload: []
+    })
+  }
+}
+// Comments
+export const createComment = async (dispatch, data) => {
+  try {
+    const response = await axios.post(apis.createComment, data);
+    const blogs = response.data.blogs;
+    dispatch({
+      type: GET_BLOGS,
+      payload: blogs
+    })
+    
+  } catch (error) {
+    dispatch({
+      type: GET_BLOGS,
+      payload: []
+    })
+  }
+}
+
+export const updateComment = async (dispatch, data) => {
+  try {
+    const response = await axios.post(apis.updateComment, data);
+    const blogs = response.data.blogs;
+    dispatch({
+      type: GET_BLOGS,
+      payload: blogs
+    })
+    
+  } catch (error) {
+    dispatch({
+      type: GET_BLOGS,
+      payload: []
+    })
+  }
+}
+
+export const deleteComment = async (dispatch, data) => {
+  try {
+    const response = await axios.post(apis.deleteComment, data);
+    const blogs = response.data.blogs;
+    dispatch({
+      type: GET_BLOGS,
+      payload: blogs
+    })
+    
+  } catch (error) {
+    dispatch({
+      type: GET_BLOGS,
+      payload: []
+    })
+  }
+}
+// Replies
+export const createReply = async (dispatch, data) => {
+  try {
+    const response = await axios.post(apis.createReply, data);
+    const blogs = response.data.blogs;
+    dispatch({
+      type: GET_BLOGS,
+      payload: blogs
+    })
+    
+  } catch (error) {
+    dispatch({
+      type: GET_BLOGS,
+      payload: []
+    })
+  }
+}
+
+export const updateReply = async (dispatch, data) => {
+  try {
+    const response = await axios.post(apis.updateReply, data);
+    const blogs = response.data.blogs;
+    dispatch({
+      type: GET_BLOGS,
+      payload: blogs
+    })
+    
+  } catch (error) {
+    dispatch({
+      type: GET_BLOGS,
+      payload: []
+    })
+  }
+}
+
+export const removeReply = async (dispatch, id) => {
+  try {
+    const response = await axios.get(apis.removeReply(id));
+    const blogs = response.data.blogs;
+    dispatch({
+      type: GET_BLOGS,
+      payload: blogs
+    })
+    
+  } catch (error) {
+    dispatch({
+      type: GET_BLOGS,
+      payload: []
+    })
+  }
+}
 
 // Teams
 export const getTeams = async (dispatch) => {

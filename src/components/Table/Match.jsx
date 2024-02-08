@@ -154,9 +154,8 @@ const MatchTable = (props) => {
             {columns.map((head, idx) => (
               <th
                 key={idx}
-                className={`h-button text-center font-font-dark-gray font-normal text-sm hover:cursor-pointer ${
-                  head === "Action" ? "" : ""
-                }`}
+                className={`h-button text-center font-font-dark-gray font-normal text-sm hover:cursor-pointer ${head === "Action" ? "" : ""
+                  }`}
                 onClick={() => handleSortingChange(head)}
               >
                 <div className="flex justify-center">
@@ -199,7 +198,7 @@ const MatchTable = (props) => {
               // <tr onClick={()=>goToMatchup(id)} key={index} className="odd:bg-dark-gray even:bg-charcoal  hover:">
               <tr
                 key={index}
-                // className="odd:bg-light-dark-gray dark:odd:bg-dark-gray even:bg-light-charcoal dark:even:bg-charcoal"
+              // className="odd:bg-light-dark-gray dark:odd:bg-dark-gray even:bg-light-charcoal dark:even:bg-charcoal"
               >
                 <td className="1/6">{date}</td>
                 <td className="1/6">{location}</td>
@@ -208,9 +207,8 @@ const MatchTable = (props) => {
                   <Typography
                     variant="small"
                     color="blue-gray"
-                    className={`font-normal flex items-center justify-left sm:pl-8 ${
-                      isDeletedTeam(homeTeamId) ? "" : "hover:underline"
-                    }`}
+                    className={`font-normal flex items-center justify-left sm:pl-8 ${isDeletedTeam(homeTeamId) ? "" : "hover:underline"
+                      }`}
                   >
                     {isDeletedTeam(homeTeamId) ? (
                       <>
@@ -237,11 +235,10 @@ const MatchTable = (props) => {
                           className="h-8 w-8 mr-2 rounded-full border border-gray-500"
                         />
                         <p
-                          className={`text-black dark:text-white ${
-                            homeTeamPoints > awayTeamPoints && !isNew
+                          className={`text-black dark:text-white ${homeTeamPoints > awayTeamPoints && !isNew
                               ? "font-bold"
                               : ""
-                          }`}
+                            }`}
                         >
                           {teams.find((team) => team.id == homeTeamId)?.name}
                         </p>
@@ -253,9 +250,8 @@ const MatchTable = (props) => {
                   <Typography
                     variant="small"
                     color="blue-gray"
-                    className={`font-normal flex items-center justify-left sm:pl-8 ${
-                      isDeletedTeam(awayTeamId) ? "" : "hover:underline"
-                    }`}
+                    className={`font-normal flex items-center justify-left sm:pl-8 ${isDeletedTeam(awayTeamId) ? "" : "hover:underline"
+                      }`}
                   >
                     {isDeletedTeam(awayTeamId) ? (
                       <>
@@ -284,11 +280,10 @@ const MatchTable = (props) => {
                           className="h-8 w-8 mr-2 rounded-full border border-gray-500"
                         />
                         <p
-                          className={`text-black dark:text-white ${
-                            homeTeamPoints < awayTeamPoints && !isNew
+                          className={`text-black dark:text-white ${homeTeamPoints < awayTeamPoints && !isNew
                               ? "font-bold"
                               : ""
-                          }`}
+                            }`}
                         >
                           {teams.find((team) => team.id == awayTeamId)?.name}
                         </p>
@@ -303,6 +298,7 @@ const MatchTable = (props) => {
                 {isAdmin && (
                   <td className="">
                     <Option
+                      className="mx-auto"
                       options={options}
                       handleClick={(idx) => handleOption(idx, id)}
                     ></Option>

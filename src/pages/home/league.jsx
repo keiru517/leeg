@@ -34,6 +34,7 @@ import toggleOff from "../../assets/img/dark_mode/toggle-off.png";
 import DatePicker from "../../components/DatePicker";
 import TimerInput from "../../components/TimerInput";
 import ImageCropperModal from "../../components/Modal/ImageCropperModal";
+import Blog from "../../components/Blog";
 
 const League = () => {
   let { leagueId } = useParams();
@@ -102,7 +103,8 @@ const League = () => {
   if (isAdmin) {
     // if (league?.userId == user?.id) {
     categories = [
-      // "Blog",
+      "Dashboard",
+      "Blogs",
       // "Teams",=>manage rosters
       "Teams",
       "Matches",
@@ -113,7 +115,7 @@ const League = () => {
       "Settings",
     ];
   } else {
-    categories = ["Teams", "Matches", "Standings", "Players", "Settings"];
+    categories = ["Dashboard", "Blogs", "Teams", "Matches", "Standings", "Players", "Settings"];
   }
 
   function classNames(...classes) {
@@ -682,8 +684,8 @@ const League = () => {
               </Tabs>
             </div>
             <div className="flex-grow flex items-center ">
-              {/* Blog */}
-              {/* <TabPanel
+              {/* Dashboard */}
+              <TabPanel
                 value="0"
                 sx={{
                   padding: "10px !important",
@@ -697,7 +699,7 @@ const League = () => {
                   <div className="w-full border border-dark-gray flex flex-col h-full min-h-[420px] p-default rounded-main">
                     <div className="flex justify-between w-full">
                       <p className="text-black dark:text-white text-xl font-semibold">
-                        Blogs for this league
+                        Dashboard
                       </p>
                       <p className="text-black dark:text-white text-xl font-semibold">
                         {filteredWaitListPlayers.length}
@@ -716,16 +718,10 @@ const League = () => {
                           }}
                         />
                       </div>
-                      <div>
-                        <Button className="text-sm bg-primary w-[100px] h-[38px] rounded hover:opacity-70">
-                          Add blog
-                        </Button>
-                      </div>
                     </div>
                     <div
-                      className={`overflow-y-scroll h-4/6 flex flex-col items-center flex-grow ${
-                        filteredWaitListPlayers.length ? "" : "justify-center"
-                      } rounded-default`}
+                      className={`overflow-y-scroll h-4/6 flex flex-col items-center flex-grow ${filteredWaitListPlayers.length ? "" : "justify-center"
+                        } rounded-default`}
                     >
                       <p className="text-black dark:text-white font-medium text-sm">
                         No Blogs to show!
@@ -733,11 +729,24 @@ const League = () => {
                     </div>
                   </div>
                 </div>
-              </TabPanel> */}
+              </TabPanel>
+
+              {/* Blogs */}
+              <TabPanel
+                value="1"
+                sx={{
+                  padding: "10px !important",
+                }}
+                className={classNames(
+                  "rounded-xl justify-between w-full h-full"
+                )}
+              >
+                <Blog />
+              </TabPanel>
 
               {/* Teams */}
               <TabPanel
-                value={"0"}
+                value={"2"}
                 sx={{
                   padding: "10px !important",
                 }}
@@ -765,27 +774,7 @@ const League = () => {
                     )}
                   </div>
                 </div>
-                {/* <div className="grid sm:grid-cols-1 md:grid-cols-6 lg:grid-cols-10 sm:space-x-0 md:space-x-3">
-                  <div className="md:col-span-5 lg:col-span-9 mb-3 md:mb-0 lg:mb-0">
-                    <Input
-                      className="rounded-lg h-[42px] text-xs"
-                      icon={darkMode ? searchIconDark : searchIconLight}
-                      placeholder="Search Teams"
-                      value={teamKeyword}
-                      onChange={(e) => setTeamKeyword(e.target.value)}
-                    />
-                  </div>
-                  <div className="grid grid-cols-1 md:col-end-7 lg:col-end-11">
-                    {isAdmin && (
-                      <button
-                        onClick={handleCreateTeam}
-                        className="float-right sm:w-full lg:w-32 h-10 bg-primary hover:bg-opacity-70 rounded-default text-white focus:ring-2 text-sm font-bold"
-                      >
-                        Create Team
-                      </button>
-                    )}
-                  </div>
-                </div> */}
+
 
                 {teams.filter((team) =>
                   team.name.toLowerCase().includes(teamKeyword.toLowerCase())
@@ -815,7 +804,7 @@ const League = () => {
 
               {/* Matches */}
               <TabPanel
-                value={"1"}
+                value={"3"}
                 sx={{
                   padding: "10px !important",
                 }}
@@ -861,7 +850,7 @@ const League = () => {
 
               {/* Standings */}
               <TabPanel
-                value={"2"}
+                value={"4"}
                 sx={{
                   padding: "10px !important",
                 }}
@@ -917,7 +906,7 @@ const League = () => {
 
               {/* Players */}
               <TabPanel
-                value={"3"}
+                value={"5"}
                 sx={{
                   padding: "10px !important",
                 }}
@@ -953,7 +942,7 @@ const League = () => {
               {/* Admissions */}
               {isAdmin && (
                 <TabPanel
-                  value={"4"}
+                  value={"6"}
                   sx={{
                     padding: "10px !important",
                   }}
@@ -1026,7 +1015,7 @@ const League = () => {
               )}
               {/* Settings */}
               <TabPanel
-                value={isAdmin ? "5" : "4"}
+                value={isAdmin ? "7" : "6"}
                 sx={{
                   padding: "10px !important",
                 }}
@@ -1111,26 +1100,30 @@ const League = () => {
                           ></DatePicker>
                         </span>
                       </div>
-                      <div className="mb-6 grid grid-cols-2 gap-2">
-                        <span>
-                          <p className="dark:text-white text-black text-sm sm:text-base">Period</p>
-                          <Input
-                            className="rounded-default flex-grow text-sm sm:text-base"
-                            placeholder="League Name"
-                            value={period}
-                            onChange={(e) => setPeriod(e.target.value)}
-                            type="number"
-                          ></Input>
-                        </span>
-                        <span >
-                          <p className="dark:text-white text-black text-sm sm:text-base">Time</p>
-                          <TimerInput
-                            initialTime={time}
-                            setTime={setTime}
-                            className="w-full bg-[#303335] rounded-default"
-                          ></TimerInput>
-                        </span>
-                      </div>
+                      {
+                        isAdmin && (
+                          <div className="mb-6 grid grid-cols-2 gap-2">
+                            <span>
+                              <p className="dark:text-white text-black text-sm sm:text-base">Period</p>
+                              <Input
+                                className="rounded-default flex-grow text-sm sm:text-base"
+                                placeholder="Period of match"
+                                value={period}
+                                onChange={(e) => setPeriod(e.target.value)}
+                                type="number"
+                              ></Input>
+                            </span>
+                            <span >
+                              <p className="dark:text-white text-black text-sm sm:text-base">Time</p>
+                              <TimerInput
+                                initialTime={time}
+                                setTime={setTime}
+                                className="w-full bg-[#303335] rounded-default"
+                              ></TimerInput>
+                            </span>
+                          </div>
+                        )
+                      }
                     </div>
                     {isAdmin && (
                       <>

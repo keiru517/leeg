@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 const TeamCard = (props) => {
   const { team } = props;
   let { leagueId } = useParams();
+  const dispatch = useDispatch();
   const darkMode = useSelector((state) => state.home.dark_mode);
   const user = useSelector((state) => state.home.user);
   const league = useSelector((state) => state.home.leagues).find(
@@ -31,7 +32,6 @@ const TeamCard = (props) => {
     admins.some((admin) => admin.userId == user?.id) ||
     league?.userId == user?.id;
 
-  const dispatch = useDispatch();
 
   const handleAddPlayer = () => {
     dispatch({ type: actions.OPEN_ADD_PLAYER_DIALOG, payload: team });
