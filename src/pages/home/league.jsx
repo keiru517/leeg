@@ -1022,7 +1022,7 @@ const League = () => {
                 className={classNames("rounded-xl w-full h-full")}
               >
                 <hr className="h-px mb-4 bg-charcoal border-0" />
-                <div className="mt-4 grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-4">
+                <div className="mt-4 grid grid-cols-1 md:grid-cols-1 lg:grid-cols-4 gap-6 lg:gap-4">
                   {/* League Settings */}
 
                   <div className="flex flex-col border border-dark-gray rounded p-7">
@@ -1064,6 +1064,7 @@ const League = () => {
                             placeholder="League Name"
                             value={leagueName}
                             onChange={(e) => setLeagueName(e.target.value)}
+                            readOnly={isAdmin ? false : true}
                           ></Input>
                         </div>
                       </div>
@@ -1078,6 +1079,7 @@ const League = () => {
                           placeholder="Describe your League*"
                           value={leagueDescription}
                           onChange={(e) => setLeagueDescription(e.target.value)}
+                          readOnly={isAdmin ? false : true}
                         ></textarea>
                       </div>
                       <div className="mb-6 grid grid-cols-2 gap-2">
@@ -1089,6 +1091,7 @@ const League = () => {
                             className="text-xs h-12 rounded px-3 py-2 w-full"
                             date={leagueStartDate}
                             setDate={setLeagueStartDate}
+                            readOnly={isAdmin ? false : true}
                           ></DatePicker>
                         </span>
                         <span>
@@ -1097,33 +1100,11 @@ const League = () => {
                             className="text-xs h-12 rounded px-3 py-2 w-full"
                             date={leagueEndDate}
                             setDate={setLeagueEndDate}
+                            readOnly={isAdmin ? false : true}
                           ></DatePicker>
                         </span>
                       </div>
-                      {
-                        isAdmin && (
-                          <div className="mb-6 grid grid-cols-2 gap-2">
-                            <span>
-                              <p className="dark:text-white text-black text-sm sm:text-base">Period</p>
-                              <Input
-                                className="rounded-default flex-grow text-sm sm:text-base"
-                                placeholder="Period of match"
-                                value={period}
-                                onChange={(e) => setPeriod(e.target.value)}
-                                type="number"
-                              ></Input>
-                            </span>
-                            <span >
-                              <p className="dark:text-white text-black text-sm sm:text-base">Time</p>
-                              <TimerInput
-                                initialTime={time}
-                                setTime={setTime}
-                                className="w-full bg-[#303335] rounded-default"
-                              ></TimerInput>
-                            </span>
-                          </div>
-                        )
-                      }
+
                     </div>
                     {isAdmin && (
                       <>
@@ -1180,6 +1161,8 @@ const League = () => {
                         </button>
                       </div>
                       <AdminTable user={user} leagueId={leagueId} />
+
+
                     </div>
                   )}
                   <AdminModal user={user} leagueId={leagueId} />
@@ -1406,6 +1389,46 @@ const League = () => {
 
                     </div>
                   )}
+
+                  {/* Match settings */}
+                  {
+                    isAdmin && (
+                      <div className="flex flex-col space-y-3 border border-dark-gray rounded p-5">
+                        <h1 className="dark:text-white text-black font-medium">
+                          Match Settings
+                        </h1>
+                        <div className="mb-6 grid grid-cols-2 gap-2">
+                          <span>
+                            <p className="dark:text-white text-black text-sm sm:text-base">Period</p>
+                            <Input
+                              className="rounded-default flex-grow text-sm sm:text-base"
+                              placeholder="Period of match"
+                              value={period}
+                              onChange={(e) => setPeriod(e.target.value)}
+                              type="number"
+                            ></Input>
+                          </span>
+                          <span >
+                            <p className="dark:text-white text-black text-sm sm:text-base">Time</p>
+                            <TimerInput
+                              initialTime={time}
+                              setTime={setTime}
+                              className="w-full bg-[#303335] rounded-default"
+                            ></TimerInput>
+                          </span>
+                        </div>
+                        <div className="grid grid-cols-2 gap-2 ">
+                          <button
+                            onClick={editLeague}
+                            className="bg-blue-700 h-10 text-white font-bold text-sm rounded-default hover:bg-blue-600 col-span-2"
+                          >
+                            Save
+                          </button>
+                        </div>
+
+                      </div>
+                    )
+                  }
                 </div>
               </TabPanel>
             </div>

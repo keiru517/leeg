@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 
-const CDatePicker = ({ date, setDate, className }) => {
+const CDatePicker = ({ date, setDate, className, ...rest }) => {
   const darkMode = useSelector((state) => state.home.dark_mode);
 
   const handleDateChange = (e) => {
@@ -31,6 +31,7 @@ const CDatePicker = ({ date, setDate, className }) => {
         value={date}
         onChange={handleDateChange}
         className={`bg-transparent border border-dark-gray text-black dark:text-white ${className}`}
+        {...rest}
       />
     </div>
   );
