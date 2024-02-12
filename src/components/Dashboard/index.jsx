@@ -51,23 +51,24 @@ const Dashboard = () => {
         { id: 1, name: "Team" },
     ];
     const pointsFilters = [
-        { id: 0, name: "3PM" },
-        { id: 1, name: "3PA" },
-        { id: 2, name: "3P%" },
-        { id: 3, name: "FGM" },
-        { id: 4, name: "FGA" },
-        { id: 5, name: "FG%" },
-        { id: 6, name: "FTM" },
-        { id: 7, name: "FTA" },
-        { id: 8, name: "FT%" },
-        { id: 9, name: "BLK" },
-        { id: 10, name: "Blocks" },
-        { id: 11, name: "Rebounds" },
-        { id: 12, name: "Assists" },
-        { id: 13, name: "Fouls" },
-        { id: 14, name: "Steals" },
-
+        { id: 0, name: "Points" },
+        { id: 1, name: "3PM" },
+        { id: 2, name: "3PA" },
+        { id: 3, name: "3P%" },
+        { id: 4, name: "FGM" },
+        { id: 5, name: "FGA" },
+        { id: 6, name: "FG%" },
+        { id: 7, name: "FTM" },
+        { id: 8, name: "FTA" },
+        { id: 9, name: "FT%" },
+        { id: 10, name: "BLK" },
+        { id: 11, name: "Blocks" },
+        { id: 12, name: "Rebounds" },
+        { id: 13, name: "Assists" },
+        { id: 14, name: "Fouls" },
+        { id: 15, name: "Steals" },
     ]
+
     const [playerFilter, setPlayerFilter] = useState(playerFilters[0].name);
     const [pointsFilter, setPointsFilter] = useState(pointsFilters[0].name);
     const [filteredData, setFilteredData] = useState([])
@@ -79,6 +80,7 @@ const Dashboard = () => {
     const displaySubstitutes = league?.displaySubstitutes;
 
     const filterObject = {
+        "Points": "totalPoints",
         "3PM": "totalPoints3",
         "3PA": "attempts3",
         "3P%": "3p%",
@@ -310,8 +312,8 @@ const Dashboard = () => {
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                             {/* Matches */}
                             <div className="flex flex-col justify-between bg-light-charcoal dark:bg-charcoal min-h-[420px] rounded-lg text-black dark:text-white shadow-md">
-                                <div className="flex flex-col h-[610px] divide-gray-300 overflow-y-auto shadow-sm h-full">
-                                {/* <div className="flex flex-col divide-y dark:divide-[#1A1D1F] h-[610px] divide-gray-300 overflow-y-auto shadow-sm h-full"> */}
+                                <div className="flex flex-col h-[480px] divide-gray-300 overflow-y-auto shadow-sm h-full">
+                                {/* <div className="flex flex-col divide-y dark:divide-[#1A1D1F] h-[480px] divide-gray-300 overflow-y-auto shadow-sm h-full"> */}
                                     <div className="flex justify-between h-14 p-default sticky top-0 z-10 bg-light-charcoal dark:bg-charcoal shadow-md items-center">
                                         <p className="font-inter text-sm sm:text-lg">Matches</p>
                                         <Select
@@ -324,7 +326,7 @@ const Dashboard = () => {
                                     {
                                         matchFilteredData.length > 0 ? (
                                             matchFilteredData.map(match => (
-                                                <div className="flex flex-col p-default text-xs sm:text-sm border-b">
+                                                <div className="flex flex-col h-[120px] p-default text-xs sm:text-sm border-b">
                                                     <div className="flex items-center justify-between">
                                                         <div className="flex items-center">
                                                             <img src={match.homeTeam.logo} alt="" className="h-10 w-10 mr-3 rounded-full border border-gray-500" />
@@ -357,7 +359,7 @@ const Dashboard = () => {
 
                             {/* League Leaders */}
                             <div className="flex flex-col justify-between bg-light-charcoal dark:bg-charcoal min-h-[420px] rounded-lg text-black dark:text-white shadow-md">
-                                <div className="flex flex-col h-[610px] divide-gray-300 overflow-y-auto shadow-sm h-full">
+                                <div className="flex flex-col h-[480px] divide-gray-300 overflow-y-auto shadow-sm h-full">
                                     <div className="flex justify-between h-14 p-default sticky top-0 z-10 bg-light-charcoal dark:bg-charcoal shadow-md items-center">
                                         <p className="font-inter text-sm sm:text-lg">League Leaders</p>
                                         <div className="flex space-x-3">
@@ -379,7 +381,7 @@ const Dashboard = () => {
                                         playerFilter === "Player" && (
                                             data.length > 0 ? (
                                                 data.map((player, idx) => (
-                                                    <div className="flex flex-col p-default text-xs sm:text-sm border-b" key={idx}>
+                                                    <div className="flex flex-col p-default text-xs sm:text-sm" key={idx}>
                                                         <div className="flex items-center justify-between">
                                                             <div className="flex items-center">
                                                                 <p className="mr-3">{idx + 1}.</p>
@@ -389,7 +391,7 @@ const Dashboard = () => {
                                                                     <p className="text-xs">{player.teamName}</p>
                                                                 </div>
                                                             </div>
-                                                            <p className="text-green-500 text-lg">{player.totalPoints}</p>
+                                                            <p className="text-green-500 text-lg">{player[filterObject[pointsFilter]]}</p>
                                                         </div>
                                                     </div>
                                                 ))
@@ -432,7 +434,7 @@ const Dashboard = () => {
 
                             {/* News */}
                             <div className="flex flex-col justify-between bg-light-charcoal dark:bg-charcoal min-h-[420px] rounded-lg text-black dark:text-white shadow-md">
-                                <div className="flex flex-col h-[610px] divide-gray-300 overflow-y-auto shadow-sm h-full">
+                                <div className="flex flex-col h-[480px] divide-gray-300 overflow-y-auto shadow-sm h-full">
                                     <div className="flex justify-between h-14 p-default sticky top-0 z-10 bg-light-charcoal dark:bg-charcoal shadow-md items-center">
                                         <p className="font-inter text-sm sm:text-lg">News</p>
                                     </div>
