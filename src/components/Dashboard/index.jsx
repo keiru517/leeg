@@ -310,7 +310,8 @@ const Dashboard = () => {
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                             {/* Matches */}
                             <div className="flex flex-col justify-between bg-light-charcoal dark:bg-charcoal min-h-[420px] rounded-lg text-black dark:text-white shadow-md">
-                                <div className="flex flex-col divide-y dark:divide-[#1A1D1F] h-[610px] divide-gray-300 overflow-y-auto shadow-sm h-full">
+                                <div className="flex flex-col h-[610px] divide-gray-300 overflow-y-auto shadow-sm h-full">
+                                {/* <div className="flex flex-col divide-y dark:divide-[#1A1D1F] h-[610px] divide-gray-300 overflow-y-auto shadow-sm h-full"> */}
                                     <div className="flex justify-between h-14 p-default sticky top-0 z-10 bg-light-charcoal dark:bg-charcoal shadow-md items-center">
                                         <p className="font-inter text-sm sm:text-lg">Matches</p>
                                         <Select
@@ -323,7 +324,7 @@ const Dashboard = () => {
                                     {
                                         matchFilteredData.length > 0 ? (
                                             matchFilteredData.map(match => (
-                                                <div className="flex flex-col p-default text-xs sm:text-sm">
+                                                <div className="flex flex-col p-default text-xs sm:text-sm border-b">
                                                     <div className="flex items-center justify-between">
                                                         <div className="flex items-center">
                                                             <img src={match.homeTeam.logo} alt="" className="h-10 w-10 mr-3 rounded-full border border-gray-500" />
@@ -356,7 +357,7 @@ const Dashboard = () => {
 
                             {/* League Leaders */}
                             <div className="flex flex-col justify-between bg-light-charcoal dark:bg-charcoal min-h-[420px] rounded-lg text-black dark:text-white shadow-md">
-                                <div className="flex flex-col divide-y dark:divide-[#1A1D1F] h-[610px] divide-gray-300 overflow-y-auto shadow-sm h-full">
+                                <div className="flex flex-col h-[610px] divide-gray-300 overflow-y-auto shadow-sm h-full">
                                     <div className="flex justify-between h-14 p-default sticky top-0 z-10 bg-light-charcoal dark:bg-charcoal shadow-md items-center">
                                         <p className="font-inter text-sm sm:text-lg">League Leaders</p>
                                         <div className="flex space-x-3">
@@ -378,14 +379,14 @@ const Dashboard = () => {
                                         playerFilter === "Player" && (
                                             data.length > 0 ? (
                                                 data.map((player, idx) => (
-                                                    <div className="flex flex-col p-default text-xs sm:text-sm" key={idx}>
+                                                    <div className="flex flex-col p-default text-xs sm:text-sm border-b" key={idx}>
                                                         <div className="flex items-center justify-between">
                                                             <div className="flex items-center">
                                                                 <p className="mr-3">{idx + 1}.</p>
                                                                 <img src={player.avatar} alt="" className="h-10 w-10 mr-3 rounded-full border border-gray-500" />
                                                                 <div>
-                                                                    <p>{player.firstName} {player.lastName}</p>
-                                                                    <p>{player.teamName}</p>
+                                                                    <p className="">{player.firstName} {player.lastName}</p>
+                                                                    <p className="text-xs">{player.teamName}</p>
                                                                 </div>
                                                             </div>
                                                             <p className="text-green-500 text-lg">{player.totalPoints}</p>
