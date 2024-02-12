@@ -15,7 +15,7 @@ const Dashboard = () => {
     const dispatch = useDispatch();
 
     const teams = useSelector(state => state.home.teams);
-    const matches = useSelector(state => state.home.matches);
+    const matches = useSelector(state => state.home.matches).filter(match=>match.leagueId == leagueId);
     const matchFilters = [
         { id: 0, name: "Upcoming" },
         { id: 1, name: "Past" },
@@ -343,7 +343,7 @@ const Dashboard = () => {
                                                 </div>
                                             ))
                                         ) : (
-                                            <p className="mx-auto text-sm mt-3 text-xs sm:text-sm">
+                                            <p className="text-sm mt-3 text-xs sm:text-sm">
                                                 No {matchFilter} Matches To Show!
                                             </p>
                                         )
