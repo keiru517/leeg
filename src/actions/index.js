@@ -566,6 +566,13 @@ export const getMatches = async (dispatch) => {
   try {
     const response = await axios.get(apis.getMatches);
     const matches = response.data.matches;
+    matches.map(match=>{
+      const homeTeamlogoUrl = apis.teamLogoURL(match.homeTeam.userId, match.homeTeam.id);
+      const awayTeamlogoUrl = apis.teamLogoURL(match.awayTeam.userId, match.awayTeam.id);
+      match.homeTeam.logo = homeTeamlogoUrl;
+      match.awayTeam.logo = awayTeamlogoUrl;
+    });
+    
     dispatch({
       type: GET_MATCHES,
       payload: matches,
@@ -582,6 +589,12 @@ export const createMatch = async (dispatch, data) => {
   try {
     const response = await axios.post(apis.createMatch, data);
     const matches = response.data.matches;
+    matches.map(match=>{
+      const homeTeamlogoUrl = apis.teamLogoURL(match.homeTeam.userId, match.homeTeam.id);
+      const awayTeamlogoUrl = apis.teamLogoURL(match.awayTeam.userId, match.awayTeam.id);
+      match.homeTeam.logo = homeTeamlogoUrl;
+      match.awayTeam.logo = awayTeamlogoUrl;
+    });
     dispatch({
       type: GET_MATCHES,
       payload: matches,
@@ -598,6 +611,12 @@ export const updateMatch = async (dispatch, data) => {
   try {
     const response = await axios.post(apis.updateMatch, data);
     const matches = response.data.matches;
+    matches.map(match=>{
+      const homeTeamlogoUrl = apis.teamLogoURL(match.homeTeam.userId, match.homeTeam.id);
+      const awayTeamlogoUrl = apis.teamLogoURL(match.awayTeam.userId, match.awayTeam.id);
+      match.homeTeam.logo = homeTeamlogoUrl;
+      match.awayTeam.logo = awayTeamlogoUrl;
+    });
     dispatch({
       type: GET_MATCHES,
       payload: matches,
@@ -614,6 +633,12 @@ export const deleteMatch = async (dispatch, matchId) => {
   try {
     const response = await axios.get(apis.deleteMatch(matchId));
     const matches = response.data.matches;
+    matches.map(match=>{
+      const homeTeamlogoUrl = apis.teamLogoURL(match.homeTeam.userId, match.homeTeam.id);
+      const awayTeamlogoUrl = apis.teamLogoURL(match.awayTeam.userId, match.awayTeam.id);
+      match.homeTeam.logo = homeTeamlogoUrl;
+      match.awayTeam.logo = awayTeamlogoUrl;
+    });
     dispatch({
       type: GET_MATCHES,
       payload: matches,
@@ -634,6 +659,12 @@ export const updateMatchResult = async (dispatch, data) => {
   try {
     const response = await axios.post(apis.updateMatchResult, data);
     const matches = response.data.matches;
+    matches.map(match=>{
+      const homeTeamlogoUrl = apis.teamLogoURL(match.homeTeam.userId, match.homeTeam.id);
+      const awayTeamlogoUrl = apis.teamLogoURL(match.awayTeam.userId, match.awayTeam.id);
+      match.homeTeam.logo = homeTeamlogoUrl;
+      match.awayTeam.logo = awayTeamlogoUrl;
+    });
     dispatch({
       type: GET_MATCHES,
       payload: matches,
