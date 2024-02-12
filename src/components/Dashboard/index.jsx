@@ -354,8 +354,8 @@ const Dashboard = () => {
                     >
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                             {/* Matches */}
-                            <div className="flex flex-col justify-between bg-light-charcoal dark:bg-charcoal min-h-[420px] rounded-lg text-black dark:text-white shadow-md">
-                                <div className="flex flex-col h-[610px] divide-gray-300 overflow-y-auto shadow-sm h-full">
+                            <div className="flex flex-col justify-between bg-light-charcoal dark:bg-charcoal h-[610px] rounded-lg text-black dark:text-white shadow-md">
+                                <div className="flex flex-col divide-gray-300 overflow-y-auto shadow-sm h-full">
                                     {/* <div className="flex flex-col divide-y dark:divide-[#1A1D1F] h-[610px] divide-gray-300 overflow-y-auto shadow-sm h-full"> */}
                                     <div className="flex justify-between h-14 p-default sticky top-0 z-10 bg-light-charcoal dark:bg-charcoal shadow-md items-center">
                                         <p className="font-inter text-sm sm:text-lg">Matches</p>
@@ -401,8 +401,8 @@ const Dashboard = () => {
                             </div>
 
                             {/* League Leaders */}
-                            <div className="flex flex-col justify-between bg-light-charcoal dark:bg-charcoal min-h-[420px] rounded-lg text-black dark:text-white shadow-md">
-                                <div className="flex flex-col h-[610px] divide-gray-300 overflow-y-auto shadow-sm">
+                            <div className="flex flex-col justify-between bg-light-charcoal dark:bg-charcoal h-[610px] rounded-lg text-black dark:text-white shadow-md">
+                                <div className="flex flex-col  divide-gray-300 overflow-y-auto shadow-sm">
                                     <div className="flex justify-between h-14 p-default sticky top-0 z-10 bg-light-charcoal dark:bg-charcoal shadow-md items-center">
                                         <p className="font-inter text-sm sm:text-lg">League Leaders</p>
                                         <div className="flex space-x-3">
@@ -476,8 +476,8 @@ const Dashboard = () => {
                             </div>
 
                             {/* News */}
-                            <div className="flex flex-col justify-between bg-light-charcoal dark:bg-charcoal min-h-[420px] rounded-lg text-black dark:text-white shadow-md">
-                                <div className="flex flex-col h-[610px] divide-gray-300 overflow-y-auto shadow-sm h-full">
+                            <div className="flex flex-col justify-between bg-light-charcoal dark:bg-charcoal h-[610px] rounded-lg text-black dark:text-white shadow-md">
+                                <div className="flex flex-col divide-gray-300 overflow-y-auto shadow-sm h-full">
                                     <div className="flex justify-between h-14 p-default sticky top-0 z-10 bg-light-charcoal dark:bg-charcoal shadow-md items-center">
                                         <p className="font-inter text-sm sm:text-lg">News</p>
                                     </div>
