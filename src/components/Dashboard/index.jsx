@@ -317,6 +317,7 @@ const Dashboard = () => {
 
     const handlePlayerFilter = (e) => {
         setPlayerFilter(e.name);
+        setPointsFilter("Points")
         // Upcoming
         if (e.id === 0) {
             setFilteredData(data)
