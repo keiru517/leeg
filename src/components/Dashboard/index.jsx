@@ -29,7 +29,7 @@ const Dashboard = () => {
     const [matchFilteredData, setMatchFilteredData] = useState([])
 
     useEffect(() => {
-        setMatchFilteredData(matches);
+        setMatchFilteredData(matches.filter(match=>match.isNew));
     }, [matches.length])
 
     const handleMatchFilter = (e) => {
