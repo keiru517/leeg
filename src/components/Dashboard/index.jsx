@@ -377,7 +377,7 @@ const Dashboard = () => {
                                                             <p>{match.homeTeam.name}</p>
                                                         </div>
                                                         <p className="text-green-500 text-lg mx-2">VS</p>
-                                                        <div className="flex items-center">
+                                                        <div className="flex items-center text-right">
                                                             <p>{match.awayTeam.name}</p>
                                                             <img src={match.awayTeam.logo} alt="" className="h-10 w-10 ml-3 rounded-full border border-gray-500" />
                                                         </div>
