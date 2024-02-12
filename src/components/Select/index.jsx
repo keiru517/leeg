@@ -58,7 +58,7 @@ const Select = (props) => {
         <img src={downArrowFilled} alt="" className="mr-4" />
       </div>
       <ul
-        className={`p-2 text-sm text-gray-700 dark:text-white absolute top-12 bg-[#ebebeb] dark:bg-light-gray w-full rounded-default${
+        className={`p-2 text-sm text-gray-700 dark:text-white absolute top-8 bg-[#ebebeb] dark:bg-light-gray w-full rounded-default${
           expand ? `` : " hidden"
         }`}
         aria-labelledby="states-button"
