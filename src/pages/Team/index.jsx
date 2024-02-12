@@ -91,7 +91,7 @@ const Team = () => {
           <span className="hover:underline text-sky-500">{league?.name}</span>
         </Link>
         <span className=""> &gt; </span>
-        <Link to={`/league/${league?.id}?tab=1`}>
+        <Link to={`/league/${league?.id}?tab=2`}>
           <span className="hover:underline text-sky-500">Teams</span>
         </Link>
         <span className=""> &gt; {team?.name}</span>

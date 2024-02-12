@@ -64,7 +64,6 @@ const Player = ({ players, league, teamId, playerKeyword }) => {
     }, {})
   );
 
-console.log("updatedPlayers", updatedPlayers)
   const teams = useSelector((state) => state.home.teams);
 
   const columns = [

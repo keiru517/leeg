@@ -78,7 +78,7 @@ const Blog = (props) => {
                 >
                     <img
                         src={darkMode ? backIconDark : backIconLight}
-                        alt=""
+                        alt="Back"
                         className="w-[4px] h-[10px] dark:hover:bg-middle-gray rounded-default cursor-pointer"
                     />
                 </div>
@@ -87,7 +87,7 @@ const Blog = (props) => {
                         <address className="flex justify-between items-center mb-6 not-italic">
                             <div className="flex  items-center mr-3 text-sm text-gray-900 dark:text-white">
                                 <div className="flex items-center">
-                                    <img className="mr-4 w-16 h-16 rounded-full" src={blogUser?.avatar} alt="Jese Leos" />
+                                    <img className="mr-4 w-16 h-16 rounded-full" src={blogUser?.avatar} alt={blogUser.firstName} />
                                     <div>
                                         <a href="#" rel="author" className="text-xl font-bold text-gray-900 dark:text-white">{blogUser?.firstName} {blogUser?.lastName}</a>
                                         <p className="text-base text-gray-500 dark:text-gray-400">{blogUser?.email}</p>

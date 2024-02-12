@@ -34,6 +34,7 @@ import toggleOff from "../../assets/img/dark_mode/toggle-off.png";
 import DatePicker from "../../components/DatePicker";
 import TimerInput from "../../components/TimerInput";
 import ImageCropperModal from "../../components/Modal/ImageCropperModal";
+import Dashboard from "../../components/Dashboard";
 import Blog from "../../components/Blog";
 
 const League = () => {
@@ -104,7 +105,7 @@ const League = () => {
     // if (league?.userId == user?.id) {
     categories = [
       "Dashboard",
-      "Blogs",
+      "News",
       // "Teams",=>manage rosters
       "Teams",
       "Matches",
@@ -115,7 +116,7 @@ const League = () => {
       "Settings",
     ];
   } else {
-    categories = ["Dashboard", "Blogs", "Teams", "Matches", "Standings", "Players", "Settings"];
+    categories = ["Dashboard", "News", "Teams", "Matches", "Standings", "Players", "Settings"];
   }
 
   function classNames(...classes) {
@@ -694,41 +695,7 @@ const League = () => {
                   "rounded-xl justify-between w-full h-full"
                 )}
               >
-                <hr className="h-px mb-4 bg-charcoal border-0" />
-                <div className="flex h-full space-x-4">
-                  <div className="w-full border border-dark-gray flex flex-col h-full min-h-[420px] p-default rounded-main">
-                    <div className="flex justify-between w-full">
-                      <p className="text-black dark:text-white text-xl font-semibold">
-                        Dashboard
-                      </p>
-                      <p className="text-black dark:text-white text-xl font-semibold">
-                        {filteredWaitListPlayers.length}
-                      </p>
-                    </div>
-                    <hr className="h-px my-3 bg-gray-300 border-0 dark:bg-dark-gray" />
-                    <div className="flex w-full justify-between space-x-10 my-3">
-                      <div className="flex flex-grow space-x-3 ">
-                        <Input
-                          className="flex-grow rounded-lg h-[38px] dark:bg-charcoal text-xs"
-                          icon={darkMode ? searchIconDark : searchIconLight}
-                          placeholder="Search"
-                          value={waitListKeyword}
-                          onChange={(e) => {
-                            setWaitListKeyword(e.target.value);
-                          }}
-                        />
-                      </div>
-                    </div>
-                    <div
-                      className={`overflow-y-scroll h-4/6 flex flex-col items-center flex-grow ${filteredWaitListPlayers.length ? "" : "justify-center"
-                        } rounded-default`}
-                    >
-                      <p className="text-black dark:text-white font-medium text-sm">
-                        No Blogs to show!
-                      </p>
-                    </div>
-                  </div>
-                </div>
+                <Dashboard />
               </TabPanel>
 
               {/* Blogs */}
@@ -1168,7 +1135,7 @@ const League = () => {
                   <AdminModal user={user} leagueId={leagueId} />
                   <LeaguePassowrdModal />
                   {/* Stats */}
-                  {isAdmin && (
+                  {isAdmin && (  
                     <div className="flex flex-col space-y-3 border border-dark-gray rounded p-5">
                       <table className="table-fixed">
                         <thead>
