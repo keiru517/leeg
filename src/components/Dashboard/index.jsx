@@ -389,7 +389,7 @@ const Dashboard = () => {
                                                 </div>
                                             ))
                                         ) : (
-                                            <p className="text-sm mt-3 text-xs sm:text-sm">
+                                            <p className="mx-auto text-sm mt-3 text-xs sm:text-sm">
                                                 No {matchFilter} Matches To Show!
                                             </p>
                                         )
@@ -481,7 +481,7 @@ const Dashboard = () => {
                                     <div className="flex justify-between h-14 p-default sticky top-0 z-10 bg-light-charcoal dark:bg-charcoal shadow-md items-center">
                                         <p className="font-inter text-sm sm:text-lg">News</p>
                                     </div>
-                                    <div className="p-default space-y-3">
+                                    <div className="flex flex-col px-default space-y-3">
                                         {
                                             blogs.length > 0 ? (
                                                 blogs.map((blog, idx) => (
