@@ -15,7 +15,7 @@ const Dashboard = () => {
     const dispatch = useDispatch();
 
     const teams = useSelector(state => state.home.teams);
-    const matches = useSelector(state => state.home.matches).filter(match=>match.leagueId == leagueId);
+    const matches = useSelector(state => state.home.matches).filter(match => match.leagueId == leagueId);
     const matchFilters = [
         { id: 0, name: "Upcoming" },
         { id: 1, name: "Past" },
@@ -257,6 +257,48 @@ const Dashboard = () => {
                 totalPoints1: matchupsOfTeam.reduce((sum, matchup) => sum + matchup.points1, 0),
                 totalPoints2: matchupsOfTeam.reduce((sum, matchup) => sum + matchup.points2, 0),
                 totalPoints3: matchupsOfTeam.reduce((sum, matchup) => sum + matchup.points3, 0),
+                "3p%": isNaN(
+                    (matchupsOfTeam.reduce((sum, matchup) => sum + matchup.points3, 0) /
+                        matchupsOfTeam.reduce((sum, matchup) => sum + matchup.attempts3, 0)) *
+                    100
+                )
+                    ? 0
+                    : (
+                        (matchupsOfTeam.reduce((sum, matchup) => sum + matchup.points3, 0) /
+                            matchupsOfTeam.reduce(
+                                (sum, matchup) => sum + matchup.attempts3,
+                                0
+                            )) *
+                        100
+                    ).toFixed(2),
+                "fg%": isNaN(
+                    (matchupsOfTeam.reduce((sum, matchup) => sum + matchup.points2, 0) /
+                        matchupsOfTeam.reduce((sum, matchup) => sum + matchup.attempts2, 0)) *
+                    100
+                )
+                    ? 0
+                    : (
+                        (matchupsOfTeam.reduce((sum, matchup) => sum + matchup.points2, 0) /
+                            matchupsOfTeam.reduce(
+                                (sum, matchup) => sum + matchup.attempts2,
+                                0
+                            )) *
+                        100
+                    ).toFixed(2),
+                "ft%": isNaN(
+                    (matchupsOfTeam.reduce((sum, matchup) => sum + matchup.points1, 0) /
+                        matchupsOfTeam.reduce((sum, matchup) => sum + matchup.attempts1, 0)) *
+                    100
+                )
+                    ? 0
+                    : (
+                        (matchupsOfTeam.reduce((sum, matchup) => sum + matchup.points1, 0) /
+                            matchupsOfTeam.reduce(
+                                (sum, matchup) => sum + matchup.attempts1,
+                                0
+                            )) *
+                        100
+                    ).toFixed(2),
                 attempts1: matchupsOfTeam.reduce((sum, matchup) => sum + matchup.attempts1, 0),
                 attempts2: matchupsOfTeam.reduce((sum, matchup) => sum + matchup.attempts2, 0),
                 attempts3: matchupsOfTeam.reduce((sum, matchup) => sum + matchup.attempts3, 0),
@@ -313,7 +355,7 @@ const Dashboard = () => {
                             {/* Matches */}
                             <div className="flex flex-col justify-between bg-light-charcoal dark:bg-charcoal min-h-[420px] rounded-lg text-black dark:text-white shadow-md">
                                 <div className="flex flex-col h-[610px] divide-gray-300 overflow-y-auto shadow-sm h-full">
-                                {/* <div className="flex flex-col divide-y dark:divide-[#1A1D1F] h-[610px] divide-gray-300 overflow-y-auto shadow-sm h-full"> */}
+                                    {/* <div className="flex flex-col divide-y dark:divide-[#1A1D1F] h-[610px] divide-gray-300 overflow-y-auto shadow-sm h-full"> */}
                                     <div className="flex justify-between h-14 p-default sticky top-0 z-10 bg-light-charcoal dark:bg-charcoal shadow-md items-center">
                                         <p className="font-inter text-sm sm:text-lg">Matches</p>
                                         <Select
@@ -333,7 +375,7 @@ const Dashboard = () => {
                                                             {/* <Link to={`/league/${leagueId}/team/${match.homeTeamId}`} className="">{match.homeTeam.name}</Link> */}
                                                             <p>{match.homeTeam.name}</p>
                                                         </div>
-                                                        <p className="text-green-500 text-lg">VS</p>
+                                                        <p className="text-green-500 text-lg mx-2">VS</p>
                                                         <div className="flex items-center">
                                                             <p>{match.awayTeam.name}</p>
                                                             <img src={match.awayTeam.logo} alt="" className="h-10 w-10 ml-3 rounded-full border border-gray-500" />
@@ -406,7 +448,7 @@ const Dashboard = () => {
                                         playerFilter === "Team" && (
                                             teamData.length > 0 ? (
                                                 teamData.map((team, idx) => (
-                                                    <div className="flex flex-col h-[122px] p-default text-xs sm:text-sm" key={idx}>
+                                                    <div className="flex flex-col p-default text-xs sm:text-sm" key={idx}>
                                                         <div className="flex items-center justify-between">
                                                             <div className="flex items-center">
                                                                 <p className="mr-3">{idx + 1}.</p>
@@ -415,7 +457,7 @@ const Dashboard = () => {
                                                                     <p>{team.name}</p>
                                                                 </div>
                                                             </div>
-                                                            <p className="text-green-500 text-lg">{team.totalPoints}</p>
+                                                            <p className="text-green-500 text-lg">{team[filterObject[pointsFilter]]}</p>
                                                         </div>
                                                     </div>
                                                 ))
