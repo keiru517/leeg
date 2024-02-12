@@ -2,6 +2,7 @@
 import { Model, DataTypes, Optional, CreationOptional, ForeignKey} from 'sequelize';
 import sequelize from '.';
 import { Types } from '../types';
+import Team from './Team';
 
 type MatchCreationAttribute = Optional<
   Types.T_Match,
@@ -82,3 +83,14 @@ Match.init(
     modelName: 'Match'
   }
 );
+
+Match.belongsTo(Team, {
+  foreignKey: 'homeTeamId',
+  as: 'homeTeam'
+});
+
+Match.belongsTo(Team, {
+  foreignKey: 'awayTeamId',
+  as: 'awayTeam'
+});
+

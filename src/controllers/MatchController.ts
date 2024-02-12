@@ -8,7 +8,12 @@ import { Types } from '../types';
 
 // GET SERVER_URL/api/match/all
 export const all: RequestHandler = async (req, res) => {
-  const matches = await Match.findAll();
+  const matches = await Match.findAll({
+    include: [
+      {model: Team, as: 'homeTeam'},
+      {model: Team, as: 'awayTeam'},
+    ]
+  });
   res.json({ matches });
 };
 
@@ -87,7 +92,12 @@ export const create: RequestHandler = async (req, res) => {
       }
     });
     //  ========================================
-    const matches = await Match.findAll()
+    const matches = await Match.findAll({
+      include: [
+        {model: Team, as: 'homeTeam'},
+        {model: Team, as: 'awayTeam'},
+      ]
+    });
     res.status(200).json({ matches });
   } catch (error) {
     res.status(400).json({message:"Error occurred while creating!"});
@@ -105,7 +115,12 @@ export const update: RequestHandler = async (req, res) => {
         id
       }
     });
-    const matches = await Match.findAll();
+    const matches = await Match.findAll({
+      include: [
+        {model: Team, as: 'homeTeam'},
+        {model: Team, as: 'awayTeam'},
+      ]
+    });
     res.status(200).json({ matches });
   } catch (error) {
     res.status(400).json({message:"Error occurred while updating!"})
@@ -127,7 +142,12 @@ export const updateResult: RequestHandler = async (req, res) => {
     if (!match.isNew) {
       await updateTeamStatistics(match, data.result[0], data.result[1]);
     }
-    const matches = await Match.findAll();
+    const matches = await Match.findAll({
+      include: [
+        {model: Team, as: 'homeTeam'},
+        {model: Team, as: 'awayTeam'},
+      ]
+    });
     // await updateMatchup(match, data.home)
     res.status(200).json({ matches });
   } else {
@@ -249,14 +269,17 @@ export const remove: RequestHandler = async (req, res) => {
   const match = await Match.findByPk(id);
   if (match) {
     await match.destroy()
-    const matches = await Match.findAll();
+    const matches = await Match.findAll({
+      include: [
+        {model: Team, as: 'homeTeam'},
+        {model: Team, as: 'awayTeam'},
+      ]
+    });
     await Log.destroy({
       where: {
         matchId: id,
       },
     });
-
-
     res.json({ matches});
   } else {
     res.status(404).json({ message: 'Match not found' });
