@@ -305,7 +305,7 @@ const Dashboard = () => {
                     </div>
                     <hr className="h-px my-3 bg-gray-300 border-0 dark:bg-dark-gray" /> */}
                     <div
-                        className={`flex flex-col items-center flex-grow rounded-default`}
+                        className={`items-center rounded-default`}
                     >
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                             {/* Matches */}
@@ -453,6 +453,10 @@ const Dashboard = () => {
                                     <Link to={`/league/${leagueId}?tab=5`} className="hover:underline text-sky-500 text-xs sm:text-sm">View More</Link>
                                 </div>
                             </div>
+
+                            {/* <div>
+                                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Deleniti consectetur nobis dolor, autem esse sequi, vel perspiciatis omnis exercitationem quod qui temporibus recusandae facere eligendi saepe repellat commodi iure aspernatur?</p>
+                            </div> */}
                         </div>
                     </div>
                 </div>
