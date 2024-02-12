@@ -30,7 +30,7 @@ const Dashboard = () => {
 
     useEffect(() => {
         setMatchFilteredData(matches);
-    }, [matches])
+    }, [matches.length])
 
     const handleMatchFilter = (e) => {
         setMatchFilter(e.name);
