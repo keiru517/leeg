@@ -61,12 +61,11 @@ const Dashboard = () => {
         { id: 7, name: "FTM" },
         { id: 8, name: "FTA" },
         { id: 9, name: "FT%" },
-        { id: 10, name: "BLK" },
-        { id: 11, name: "Blocks" },
-        { id: 12, name: "Rebounds" },
-        { id: 13, name: "Assists" },
-        { id: 14, name: "Fouls" },
-        { id: 15, name: "Steals" },
+        { id: 10, name: "Blocks" },
+        { id: 11, name: "Rebounds" },
+        { id: 12, name: "Assists" },
+        { id: 13, name: "Fouls" },
+        { id: 14, name: "Steals" },
     ]
 
     const [playerFilter, setPlayerFilter] = useState(playerFilters[0].name);
@@ -354,10 +353,9 @@ const Dashboard = () => {
                     >
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                             {/* Matches */}
-                            <div className="flex flex-col justify-between bg-light-charcoal dark:bg-charcoal h-[610px] rounded-lg text-black dark:text-white shadow-md">
+                            <div className="flex flex-col justify-between bg-light-charcoal dark:bg-charcoal h-[400px] rounded-lg text-black dark:text-white shadow-md">
                                 <div className="flex flex-col divide-gray-300 overflow-y-auto shadow-sm h-full">
-                                    {/* <div className="flex flex-col divide-y dark:divide-[#1A1D1F] h-[610px] divide-gray-300 overflow-y-auto shadow-sm h-full"> */}
-                                    <div className="flex justify-between h-14 p-default sticky top-0 z-10 bg-light-charcoal dark:bg-charcoal shadow-md items-center">
+                                    <div className="flex justify-between h-10 p-default sticky top-0 z-10 bg-light-charcoal dark:bg-charcoal shadow-md items-center">
                                         <p className="font-inter text-sm sm:text-lg">Matches</p>
                                         <Select
                                             className="w-[120px] rounded-lg text-xs h-[30px]"
@@ -395,29 +393,36 @@ const Dashboard = () => {
                                         )
                                     }
                                 </div>
-                                <div className="mx-auto my-3">
+                                <div className="mx-auto my-2">
                                     <Link to={`/league/${leagueId}?tab=3`} className="hover:underline text-sky-500 text-xs sm:text-sm">View More</Link>
                                 </div>
                             </div>
 
                             {/* League Leaders */}
-                            <div className="flex flex-col justify-between bg-light-charcoal dark:bg-charcoal h-[610px] rounded-lg text-black dark:text-white shadow-md">
+                            <div className="flex flex-col justify-between bg-light-charcoal dark:bg-charcoal h-[400px] rounded-lg text-black dark:text-white shadow-md">
                                 <div className="flex flex-col  divide-gray-300 overflow-y-auto shadow-sm">
-                                    <div className="flex justify-between h-14 p-default sticky top-0 z-10 bg-light-charcoal dark:bg-charcoal shadow-md items-center">
+                                    <div className="flex justify-between h-10 p-default sticky top-0 z-10 bg-light-charcoal dark:bg-charcoal shadow-md items-center">
                                         <p className="font-inter text-sm sm:text-lg">League Leaders</p>
-                                        <div className="flex space-x-3">
+                                        <div className="flex space-x-1 sm:space-x-3">
                                             <Select
-                                                className="w-[90px] rounded-lg text-xs h-[30px]"
+                                                className="w-[85px] rounded-lg text-xs h-[30px]"
                                                 options={playerFilters}
                                                 value={playerFilter}
                                                 handleClick={handlePlayerFilter}
                                             ></Select>
                                             <Select
-                                                className="w-[110px] rounded-lg text-xs h-[30px]"
+                                                className="w-[87px] rounded-lg text-xs h-[30px]"
                                                 options={pointsFilters}
                                                 value={pointsFilter}
                                                 handleClick={handlePointsFilter}
                                             ></Select>
+                                            {/* <select name="" id="" className="appearance-none bg-transparent border border-gray-500 rounded-default text-xs">
+                                                {
+                                                    pointsFilters.map(point=>(
+                                                        <option className="text-black dark:text-white bg-transparent">{point.name}</option>
+                                                    ))
+                                                }
+                                            </select> */}
                                         </div>
                                     </div>
                                     {
@@ -470,15 +475,15 @@ const Dashboard = () => {
                                         )
                                     }
                                 </div>
-                                <div className="mx-auto my-3">
+                                <div className="mx-auto my-2">
                                     <Link to={`/league/${leagueId}?tab=5`} className="hover:underline text-sky-500 text-xs sm:text-sm">View More</Link>
                                 </div>
                             </div>
 
                             {/* News */}
-                            <div className="flex flex-col justify-between bg-light-charcoal dark:bg-charcoal h-[610px] rounded-lg text-black dark:text-white shadow-md">
+                            <div className="flex flex-col justify-between bg-light-charcoal dark:bg-charcoal h-[400px] rounded-lg text-black dark:text-white shadow-md">
                                 <div className="flex flex-col divide-gray-300 overflow-y-auto shadow-sm h-full">
-                                    <div className="flex justify-between h-14 p-default sticky top-0 z-10 bg-light-charcoal dark:bg-charcoal shadow-md items-center">
+                                    <div className="flex justify-between h-10 p-default sticky top-0 z-10 bg-light-charcoal dark:bg-charcoal shadow-md items-center">
                                         <p className="font-inter text-sm sm:text-lg">News</p>
                                     </div>
                                     <div className="flex flex-col px-default space-y-3">
@@ -495,7 +500,7 @@ const Dashboard = () => {
                                         }
                                     </div>
                                 </div>
-                                <div className="mx-auto my-3">
+                                <div className="mx-auto my-2">
                                     <Link to={`/league/${leagueId}?tab=5`} className="hover:underline text-sky-500 text-xs sm:text-sm">View More</Link>
                                 </div>
                             </div>

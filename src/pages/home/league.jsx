@@ -648,7 +648,7 @@ const League = () => {
         </div>
       </p>
       <div className="rounded-default bg-white dark:bg-slate flex-grow sm:p-default">
-        <div className="w-full px-2 sm:px-0 h-full flex flex-col pt-3">
+        <div className="w-full px-2 sm:px-0 h-full flex flex-col pt-1 sm:pt-0">
           <TabContext value={tab}>
             <div className="flex justify-between">
               <Tabs
