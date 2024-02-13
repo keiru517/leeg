@@ -16,9 +16,6 @@ const Blog = (props) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const darkMode = useSelector((state) => state.home.dark_mode);
-
-
-
     const league = useSelector((state) => state.home.leagues).find(
         (league) => league.id == leagueId
     );
@@ -65,7 +62,7 @@ const Blog = (props) => {
                 </Link>
 
                 <span className="">&nbsp; &gt; &nbsp;</span>
-                <Link to={`/league/${leagueId}?tab=1`} className="hover:underline">
+                <Link to={`/league/${leagueId}?tab=0`} className="hover:underline">
                     <span className="text-sky-500">{league?.name}</span>
                 </Link>
                 {/* <span className="">&nbsp; &gt; &nbsp;</span>
