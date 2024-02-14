@@ -368,7 +368,7 @@ const Dashboard = () => {
                                     {
                                         matchFilteredData.length > 0 ? (
                                             matchFilteredData.map(match => (
-                                                <div className="flex flex-col h-[120px] p-default text-xs sm:text-sm border-b">
+                                                <div className="flex flex-col p-default text-xs sm:text-sm border-b">
                                                     <div className="flex items-center justify-between">
                                                         <div className="flex items-center">
                                                             <img src={match.homeTeam.logo} alt="" className="h-10 w-10 mr-3 rounded-full border border-gray-500" />
