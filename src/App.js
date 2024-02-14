@@ -1,3 +1,5 @@
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import "./App.css";
 import "react-image-crop/dist/ReactCrop.css";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
@@ -15,13 +17,22 @@ import ForgotPwd from "./pages/password";
 import Profile from "./pages/profile";
 import AuthLayout from "./components/Layouts/AuthLayout";
 import Player from "./pages/home/player";
-import React from "react";
 import ResetPassword from "./pages/password/resetPassword";
 import SignupWithEmail from "./pages/signup/signupWithEmail";
 import PageNotFound from "./pages/404";
 import ImageCropper from "./components/ImageCropper";
+import * as actions from "./actions";
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    actions.getUserInfo(dispatch, localStorage.getItem("userId"));
+    actions.getUsers(dispatch);
+    actions.getLeagues(dispatch);
+    actions.getTeams(dispatch);
+
+  }, [])
   return (
     <Router>
       <AuthLayout>

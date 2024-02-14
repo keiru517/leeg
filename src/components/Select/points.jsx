@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from "react";
 import downArrowFilled from "../../../src/assets/img/dark_mode/down-arrow-filled.png";
 
-const Select = (props) => {
+const SelectPoints = (props) => {
   const {
     icon,
     className,
@@ -58,7 +58,7 @@ const Select = (props) => {
         <img src={downArrowFilled} alt="" className="mr-4" />
       </div>
       <ul
-        className={`p-2 text-sm text-gray-700 dark:text-white absolute top-12 bg-[#ebebeb] dark:bg-light-gray w-full rounded-default ${
+        className={`p-2 text-sm text-gray-700 dark:text-white absolute top-8 bg-[#ebebeb] dark:bg-light-gray w-full rounded-default ${
           expand ? `` : " hidden"
         }`}
         aria-labelledby="states-button"
@@ -68,7 +68,7 @@ const Select = (props) => {
             <li key={idx}>
               <button
                 type="button"
-                className="inline-flex w-full px-2 sm:px-4 py-2 text-xs sm:text-sm text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-middle-gray dark:hover:text-white rounded-sm"
+                className="inline-flex w-full px-2 sm:px-4 py-0 text-xs sm:text-sm text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-middle-gray dark:hover:text-white rounded-sm"
                 onClick={() => handleButtonClick(option)}
               >
                 <div className="inline-flex items-center truncate w-full text-xs">{option.name}</div>
@@ -81,4 +81,4 @@ const Select = (props) => {
   );
 };
 
-export default Select;
+export default SelectPoints;

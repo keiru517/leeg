@@ -10,6 +10,7 @@ import editIconDark from "../../assets/img/dark_mode/edit-icon-dark.png";
 import editIconLight from "../../assets/img/dark_mode/edit-icon-light.png";
 import BlogModal from "../../components/Modal/BlogModal";
 import draftToHtml from 'draftjs-to-html';
+import EditorComponent from "../../components/Editor";
 
 const Blog = (props) => {
     let { leagueId, blogId } = useParams();
@@ -48,10 +49,10 @@ const Blog = (props) => {
 
     // const [content, setContent] = useState('{"blocks": [], "entityMap":{}}')
     useEffect(() => {
-        console.log("component did mount")
-        actions.getUserInfo(dispatch, localStorage.getItem("userId"));
-        actions.getUsers(dispatch);
+        actions.getBlogs(dispatch, {leagueId})
     }, [])
+
+    if (!blog) return <></>
 
 
     return (
@@ -65,8 +66,6 @@ const Blog = (props) => {
                 <Link to={`/league/${leagueId}?tab=0`} className="hover:underline">
                     <span className="text-sky-500">{league?.name}</span>
                 </Link>
-                {/* <span className="">&nbsp; &gt; &nbsp;</span>
-                <p className="">{blog.title}</p> */}
             </p>
             <div className="flex flex-col flex-grow rounded-main dark:bg-slate bg-white overflow-auto p-default sm:mt-3">
                 <div
@@ -84,7 +83,7 @@ const Blog = (props) => {
                         <address className="flex justify-between items-center mb-6 not-italic">
                             <div className="flex  items-center mr-3 text-sm text-gray-900 dark:text-white">
                                 <div className="flex items-center">
-                                    <img className="mr-4 w-16 h-16 rounded-full" src={blogUser?.avatar} alt={blogUser.firstName} />
+                                    <img className="mr-4 w-16 h-16 rounded-full" src={blogUser?.avatar} alt={blogUser?.firstName} />
                                     <div>
                                         <a href="#" rel="author" className="text-xl font-bold text-gray-900 dark:text-white">{blogUser?.firstName} {blogUser?.lastName}</a>
                                         <p className="text-base text-gray-500 dark:text-gray-400">{blogUser?.email}</p>
@@ -105,8 +104,22 @@ const Blog = (props) => {
                         <h1 className="mb-4 text-3xl font-extrabold leading-tight text-gray-900 lg:mb-6 lg:text-4xl dark:text-white">{blog?.title}</h1>
                     </header>
                     {/* <p className="text-black dark:text-white font-medium">{blog?.description}</p> */}
-                    <div className="text-black dark:text-white" dangerouslySetInnerHTML={{ __html: draftToHtml((JSON.parse(blog?.description))) }} >
-                    </div>
+                    {/* <div className="text-black dark:text-white" dangerouslySetInnerHTML={{ __html: draftToHtml((JSON.parse(blog?.description))) }} >
+                    </div> */}
+                    <EditorComponent
+                          className=""
+                          description={blog?.description}
+                          editorClassName=''
+                          readOnly
+                          toolbarHidden
+                        />
+                    {/* {blog?.description && <EditorComponent
+                          className=""
+                          description={blog.description}
+                          editorClassName=''
+                          readOnly
+                          toolbarHidden
+                        />} */}
                     <hr className="border border-gray-500 my-3" />
                     <section className="not-format">
                         <div className="flex justify-between items-center mb-6">

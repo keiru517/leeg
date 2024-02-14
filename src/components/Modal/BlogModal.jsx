@@ -171,6 +171,7 @@ const BlogModal = (props) => {
                           className="h-52 sm:h-64"
                           setDescription={setDescription}
                           description={blog.description}
+                          editorClassName='border border-gray-500 rounded-lg bg-transparent'
                         />
                     </div>
                     {

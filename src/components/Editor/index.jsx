@@ -29,7 +29,7 @@ const EditorComponent = ({ className, setDescription, description, ...rest }) =>
         <Editor
             editorState={editorState}
             wrapperClassName={`text-black dark:text-white ${className}`}
-            editorClassName='border border-gray-500 rounded-lg bg-transparent'
+            // editorClassName='border border-gray-500 rounded-lg bg-transparent'
             onEditorStateChange={onEditorStateChange}
             onChange={handleOnChange}
             {...rest}

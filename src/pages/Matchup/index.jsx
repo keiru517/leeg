@@ -175,7 +175,7 @@ const MatchupMobile = () => {
           </Link>
 
           <span className="hidden sm:flex">&nbsp; &gt; &nbsp;</span>
-          <Link to={`/league/${leagueId}?tab=1`} className="">
+          <Link to={`/league/${leagueId}?tab=3`} className="">
             <span className="hover:underline text-sky-500">Matches &nbsp;</span>
           </Link>
           <span className="">&gt; &nbsp;</span>

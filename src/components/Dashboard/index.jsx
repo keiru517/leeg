@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import Select from "../Select";
+import SelectPoints from "../Select/points";
 import { Link } from "react-router-dom";
 import { Typography } from "@material-tailwind/react";
 import { useMemo } from "react";
@@ -338,7 +339,7 @@ const Dashboard = () => {
         <>
             <hr className="h-px mb-4 bg-charcoal border-0" />
             <div className="flex space-x-4">
-                <div className="w-full border border-dark-gray flex flex-col p-default rounded-main">
+                <div className="w-full flex flex-col p-default rounded-main">
                     {/* <div className="flex justify-between w-full">
                         <p className="text-black dark:text-white text-xl font-semibold">
                             Dashboard
@@ -410,12 +411,12 @@ const Dashboard = () => {
                                                 value={playerFilter}
                                                 handleClick={handlePlayerFilter}
                                             ></Select>
-                                            <Select
+                                            <SelectPoints
                                                 className="w-[87px] rounded-lg text-xs h-[30px]"
                                                 options={pointsFilters}
                                                 value={pointsFilter}
                                                 handleClick={handlePointsFilter}
-                                            ></Select>
+                                            ></SelectPoints>
                                             {/* <select name="" id="" className="appearance-none bg-transparent border border-gray-500 rounded-default text-xs">
                                                 {
                                                     pointsFilters.map(point=>(

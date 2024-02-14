@@ -87,7 +87,7 @@ const Blog = () => {
             ) : (
                 <div className="flex items-center flex-grow">
                     <p className="text-xl sm:text-2xl text-black dark:text-white w-full text-center mt-5">
-                        No Blogs to show!
+                        No News to show!
                     </p>
                 </div>
             )}

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Card from "../../components/Card";
-import searchIconDark from "../../assets/img/dark_mode/search-icon-dark.svg"
-import searchIconLight from "../../assets/img/dark_mode/search-icon-light.svg"
+import searchIconDark from "../../assets/img/dark_mode/search-icon-dark.svg";
+import searchIconLight from "../../assets/img/dark_mode/search-icon-light.svg";
 import Input from "../../components/Input";
 import Select from "../../components/Select";
 import Modal from "../../components/Modal";
@@ -26,19 +26,7 @@ const Home = () => {
   const [filter, setFilter] = useState(filters[0].name);
 
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    actions.getUserInfo(dispatch, localStorage.getItem("userId"), navigate);
-    actions.getUsers(dispatch);
-    actions.getLeagues(dispatch);
-    actions.getTeams(dispatch);
-    actions.getMatches(dispatch);
-    actions.getPlayers(dispatch);
-    actions.getAdmins(dispatch);
-  }, []);
-
-  // // set initial values
+  // set initial values
   useEffect(() => {
     setFilteredData(leagues);
   }, [leagues]);

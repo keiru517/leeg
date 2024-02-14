@@ -153,9 +153,6 @@ const League = () => {
 
   useEffect(() => {
     // actions.getUserInfo(dispatch, localStorage.getItem("userId"));
-    actions.getUsers(dispatch);
-    actions.getLeagues(dispatch);
-    actions.getTeams(dispatch);
     actions.getMatches(dispatch);
     actions.getMatchups(dispatch);
     actions.getPlayers(dispatch);
