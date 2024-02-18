@@ -1,5 +1,7 @@
 import { PlayerController } from '../controllers';
 import { Router } from 'express';
+import multer from 'multer';
+const upload = multer();
 const playerRouter = Router();
 
 // get all players
@@ -13,6 +15,9 @@ playerRouter.post('/create', PlayerController.create);
 // update a player
 // SERVER_URL/api/player/update
 playerRouter.post('/update', PlayerController.update);
+
+// Update the player avatar
+playerRouter.post('/uploadPlayerAvatar', upload.single('avatar'), PlayerController.uploadPlayerAvatar);
 
 // update a points
 // SERVER_URL/api/player/updatePoints
@@ -45,4 +50,6 @@ playerRouter.post('/removeFromLeague', PlayerController.removeFromLeague);
 // SERVER_URL/api/player/info/1
 playerRouter.get('/info/:id', PlayerController.info);
 
+// get player's avatar
+playerRouter.get('/avatar/:id', PlayerController.avatar);
 export default playerRouter;
