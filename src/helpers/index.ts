@@ -15,6 +15,10 @@ export const teamLogoPath = (userId: number, fileName: string) => {
   return path.join(UPLOAD_PATH, userId?.toString(), 'teams', fileName);
 };
 
+export const playerAvatarPath = (playerId: number, fileName: string) => {
+  return path.join(UPLOAD_PATH, 'players', playerId?.toString(), fileName)
+}
+
 export const rs = (
   data = {},
   message = '',

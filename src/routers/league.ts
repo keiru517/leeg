@@ -1,7 +1,7 @@
 import { LeagueController } from '../controllers';
 import { Router } from 'express';
 import multer from 'multer';
-import { auth } from '../auth';
+// import { auth } from '../auth';
 
 const leagueRouter = Router();
 
@@ -12,7 +12,7 @@ const upload = multer({
   });
 // get all leagues
 // SERVER_URL/api/league/all
-leagueRouter.get('/all', auth, LeagueController.all);
+leagueRouter.get('/all', LeagueController.all);
 
 // create a league
 // SERVER_RUL/api/league/create

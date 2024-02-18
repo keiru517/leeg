@@ -7,6 +7,9 @@ import Match from '../models/Match';
 import { Op } from 'sequelize';
 import League from '../models/League';
 import nodemailer from 'nodemailer';
+import path from 'path';
+import { absolutePath, playerAvatarPath} from '../helpers';
+import { existsSync, mkdirSync, writeFileSync } from 'fs';
 
 // GET SERVER_URL/api/player/all
 export const all: RequestHandler = async (req, res) => {
@@ -20,10 +23,16 @@ export const all: RequestHandler = async (req, res) => {
 
 // POST SERVER_URL/api/player/create
 export const create: RequestHandler = async (req, res) => {
+  // const { leagueId, userId, firstName, lastName, jerseyNumber, position} = req.body;
   const data: Types.T_Player = req.body;
 
   await Player.create(data);
-  res.status(200).json({ message: 'A Player Created Successfully!' });
+  const players = await Player.findAll({
+    where: {
+      isDeleted: 0
+    }
+  });
+  res.json({ players });
 };
 
 // POST SERVER_URL/api/player/update
@@ -39,6 +48,44 @@ export const update: RequestHandler = async (req, res) => {
     res.status(404).json({ message: 'player not found' });
   }
 };
+
+
+export const uploadPlayerAvatar: RequestHandler = async(req, res) => {
+  try {
+    if (req.file) {
+      const extension = path.extname(req.file.originalname);
+      const fileName = `avatar${extension}`;
+      const player = await Player.findOne({
+        where:{
+          id:req.body.playerId
+        }
+      });
+      if (player) {
+        const directoryPath = absolutePath(`public/upload/players/${req.body.playerId}`)
+        if (!existsSync(directoryPath)) {
+          mkdirSync(directoryPath, { recursive: true });
+        }
+        const filePath = path.join(directoryPath, fileName);
+
+        const buffer = req.file.buffer;
+        writeFileSync(filePath, buffer);
+        player.avatar = fileName
+        // player.avatar = absolutePath(`public/upload/players/${req.body.playerId}/`) + fileName
+        await player.save()
+      } else {
+
+      }
+      const players = await Player.findAll({
+        where: {
+          isDeleted: 0
+        }
+      });
+      res.json({ players });
+    }
+  } catch (error) {
+    
+  }
+}
 
 // POST SERVER_URL/api/player/updatePoints
 export const updatePoints: RequestHandler = async (req, res) => {
@@ -353,7 +400,7 @@ export const invite: RequestHandler = async (req, res) => {
 };
 
 // Remove a player from the league
-export const removeFromLeague: RequestHandler =async (req, res) => {
+export const removeFromLeague: RequestHandler = async (req, res) => {
   const data = req.body;
   var playerFound = false;
   console.log(data)
@@ -375,7 +422,7 @@ export const removeFromLeague: RequestHandler =async (req, res) => {
 
   if (playerFound) {
     const players = await Player.findAll();
-    res.status(200).json({players});
+    res.status(200).json({ players });
   } else {
     res.status(404).json({ message: 'Player not found' });
   }
@@ -395,3 +442,18 @@ export const info: RequestHandler = async (req, res) => {
     });
   }
 };
+
+export const avatar: RequestHandler = async (req, res) => {
+  const id = Number(req.params.id);
+  const player = await Player.findOne({
+    where: {
+      id
+    }
+  });
+  if (player) {
+    res.sendFile(playerAvatarPath(id, player.avatar))
+    console.log(playerAvatarPath(id, player.avatar))
+    // res.sendFile(absolutePath(player.avatar))
+    // res.sendFile(player.avatar+"avatar.jpg")
+  }
+}

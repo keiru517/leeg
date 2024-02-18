@@ -26,13 +26,17 @@ export const signin: RequestHandler = async (req, res) => {
           { id: user.id?.toString(), email: user.email },
           'leeg517',
         );
+        console.log(jwt.sign(
+          { id: "0" },
+          'leeg517',
+        ))
 
-        res.cookie('token', token);
+        // res.cookie('token', token);
 
         res.status(200).json({
           message: 'Signed in successfully!',
           token: token,
-          user: user
+          // user: user
         });
       } else {
         res.status(400).json({ message: 'Incorrect password' });
