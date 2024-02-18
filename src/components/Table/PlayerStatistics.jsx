@@ -2,19 +2,19 @@ import { Typography } from "@material-tailwind/react";
 import { useSelector } from "react-redux";
 import Table from "./index";
 
-const PlayerStatistics = ({ userId, leagueId }) => {
+const PlayerStatistics = ({ playerId, leagueId }) => {
   const league = useSelector((state) => state.home.leagues).find(
     (league) => league.id == leagueId
   );
 
   const player = useSelector((state) => state.home.players).find(
-    (player) => player.userId == userId && player.leagueId == leagueId
+    (player) => player.id == playerId && player.leagueId == leagueId
   );
 
   const matchups = useSelector((state) => state.home.matchups).filter(
     (matchup) =>
       matchup.leagueId == leagueId &&
-      matchup.userId == player?.userId &&
+      matchup.playerId == player?.id &&
       matchup.attendance === 1 &&
       !matchup.match.isNew
   );
@@ -222,7 +222,7 @@ const PlayerStatistics = ({ userId, leagueId }) => {
   };
 
   return (
-    <div className="text-black dark:text-white mt-5 w-full">
+    <div className="text-black dark:text-white w-full">
       <Table data={[data]} columns={columns} />
     </div>
   );

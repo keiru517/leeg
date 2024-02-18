@@ -26,6 +26,9 @@ const Home = () => {
   const [filter, setFilter] = useState(filters[0].name);
 
   const dispatch = useDispatch();
+  useEffect(() => {
+    actions.getLeagues(dispatch)
+  }, [])
   // set initial values
   useEffect(() => {
     setFilteredData(leagues);

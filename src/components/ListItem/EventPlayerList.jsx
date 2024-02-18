@@ -5,6 +5,7 @@ import addIcon from "../../assets/img/dark_mode/circle-add.png";
 import addedIcon from "../../assets/img/dark_mode/circle-added.png";
 import * as actions from "../../actions";
 import { useDispatch, useSelector } from "react-redux";
+import DefaultSubstituteAvatar from "../../assets/img/dark_mode/default-substitutue-avatar.svg";
 
 const EventPlayerList = ({
   className,
@@ -33,23 +34,22 @@ const EventPlayerList = ({
     dispatch({ type: actions.CLOSE_SELECT_PLAYER_DIALOG });
     setPlayerId(playerId);
     setTeamId(teamId);
-    setIsDirectEvent(!isDirectEvent? true : false);
-    setIsDirect(!isDirectEvent? true : false);
+    setIsDirectEvent(!isDirectEvent ? true : false);
+    setIsDirect(!isDirectEvent ? true : false);
   };
 
   return (
     <div className={`${className} w-full`}>
       <div
-        className={`flex items-center justify-between ${
-          playerId == player.id && !isDirectEvent
+        className={`flex items-center justify-between ${playerId == player.id && !isDirectEvent
             ? "bg-success"
             : "bg-[#e6e6e6] dark:bg-dark-gray"
-        }  w-full h-10 sm:h-14 rounded-default py-1.5 px-4 cursor-pointer hover:opacity-75`}
+          }  w-full h-10 sm:h-14 rounded-default py-1.5 px-4 cursor-pointer hover:opacity-75`}
         onClick={() => handleClick(player?.id, player?.teamId)}
       >
         <div className="flex">
           <img
-            src={player?.avatar}
+            src={player?.avatar ? player?.avatar : DefaultSubstituteAvatar}
             className="w-8 h-8 sm:w-10 sm:h-10 mr-3 rounded-full border border-gray-500"
             alt=""
           />

@@ -71,7 +71,7 @@ export const UNACCEPT_PLAYER = "UNACCEPT_PLAYER";
 export const ADD_PLAYER = "ADD_PLAYER";
 export const REMOVE_PLAYER = "REMOVE_PLAYER";
 export const CLOSE_JERSEY_NUMBER_MODAL = "CLOSE_JERSEY_NUMBER_MODAL";
-
+export const UPDATE_PLAYER_AVATAR_URL = "UPDATE_PLAYER_AVATAR_URL";
 // Substitute
 export const GET_SUBSTITUES = "GET_SUBSTITUES";
 export const CREATE_SUBSTITUTE = "CREATE_SUBSTITUTE";
@@ -151,10 +151,12 @@ export const getPlayers = async (dispatch) => {
     const response = await axios.get(apis.getPlayers);
 
     const players = response.data.players;
-    // players.map(player=>{
-    //   const avatarUrl = apis.userAvatarURL(player.userId);
-    //   player.avatar = avatarUrl;
-    // })
+    players.map(player=>{
+      if (!player.userId) {
+        const avatarUrl = apis.playerAvatarURL(player.id);
+        player.avatar = avatarUrl;
+      }
+    })
     dispatch({
       type: GET_PLAYERS,
       payload: players,
@@ -167,11 +169,47 @@ export const getPlayers = async (dispatch) => {
   }
 };
 
-export const AddPlayer = (payload) => ({
-  type: ADD_PLAYER,
-  payload: payload,
-});
+export const createPlayer = async (dispatch, data) => {
+  try {
+    const response = await axios.post(apis.createPlayer, data)
+    const players = response.data.players;
+    dispatch({
+      type: GET_PLAYERS,
+      payload: players,
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_PLAYERS,
+      payload: [],
+    });
+  }
+};
 
+export const uploadPlayerAvatar = async (dispatch, playerId, chosenFile) => {
+  try {
+    const formData = new FormData();
+    formData.append("playerId", playerId)
+    formData.append("avatar", chosenFile)
+    const response = await axios.post(apis.uploadPlayerAvatar, formData)
+    const players = response.data.players;
+    players.map(player=>{
+      if (!player.userId) {
+        const avatarUrl = apis.playerAvatarURL(player.id);
+        player.avatar = avatarUrl;
+      }
+    })
+    dispatch({
+     type: GET_PLAYERS,
+     payload: players,
+   });
+    if (chosenFile) dispatch({type: UPDATE_PLAYER_AVATAR_URL, payload: {id:playerId, avatar: URL.createObjectURL(chosenFile)}})
+  } catch (error) {
+    dispatch({
+      type: GET_PLAYERS,
+      payload: [],
+    });
+  }
+}
 export const RemovePlayer = (payload) => ({
   type: REMOVE_PLAYER,
   payload: payload,
@@ -329,7 +367,7 @@ export const createBlog = async (dispatch, data) => {
       type: GET_BLOGS,
       payload: blogs
     })
-    
+
   } catch (error) {
     dispatch({
       type: GET_BLOGS,
@@ -346,7 +384,7 @@ export const updateBlog = async (dispatch, data) => {
       type: GET_BLOGS,
       payload: blogs
     })
-    
+
   } catch (error) {
     dispatch({
       type: GET_BLOGS,
@@ -363,7 +401,7 @@ export const deleteBlog = async (dispatch, data) => {
       type: GET_BLOGS,
       payload: blogs
     })
-    
+
   } catch (error) {
     dispatch({
       type: GET_BLOGS,
@@ -380,7 +418,7 @@ export const createComment = async (dispatch, data) => {
       type: GET_BLOGS,
       payload: blogs
     })
-    
+
   } catch (error) {
     dispatch({
       type: GET_BLOGS,
@@ -397,7 +435,7 @@ export const updateComment = async (dispatch, data) => {
       type: GET_BLOGS,
       payload: blogs
     })
-    
+
   } catch (error) {
     dispatch({
       type: GET_BLOGS,
@@ -414,7 +452,7 @@ export const deleteComment = async (dispatch, data) => {
       type: GET_BLOGS,
       payload: blogs
     })
-    
+
   } catch (error) {
     dispatch({
       type: GET_BLOGS,
@@ -431,7 +469,7 @@ export const createReply = async (dispatch, data) => {
       type: GET_BLOGS,
       payload: blogs
     })
-    
+
   } catch (error) {
     dispatch({
       type: GET_BLOGS,
@@ -448,7 +486,7 @@ export const updateReply = async (dispatch, data) => {
       type: GET_BLOGS,
       payload: blogs
     })
-    
+
   } catch (error) {
     dispatch({
       type: GET_BLOGS,
@@ -465,7 +503,7 @@ export const removeReply = async (dispatch, id) => {
       type: GET_BLOGS,
       payload: blogs
     })
-    
+
   } catch (error) {
     dispatch({
       type: GET_BLOGS,
@@ -509,7 +547,7 @@ export const updateTeam = async (dispatch, data, id, chosenFile) => {
       type: GET_TEAMS,
       payload: teams,
     });
-    if (chosenFile) dispatch({type:SET_TEAM_LOGO_URL, payload:{id:id, logoUrl:URL.createObjectURL(chosenFile)}})
+    if (chosenFile) dispatch({ type: SET_TEAM_LOGO_URL, payload: { id: id, logoUrl: URL.createObjectURL(chosenFile) } })
   } catch (error) {
     dispatch({
       type: GET_TEAMS,
@@ -566,13 +604,13 @@ export const getMatches = async (dispatch) => {
   try {
     const response = await axios.get(apis.getMatches);
     const matches = response.data.matches;
-    matches.map(match=>{
+    matches.map(match => {
       const homeTeamlogoUrl = apis.teamLogoURL(match.homeTeam.userId, match.homeTeam.id);
       const awayTeamlogoUrl = apis.teamLogoURL(match.awayTeam.userId, match.awayTeam.id);
       match.homeTeam.logo = homeTeamlogoUrl;
       match.awayTeam.logo = awayTeamlogoUrl;
     });
-    
+
     dispatch({
       type: GET_MATCHES,
       payload: matches,
@@ -589,7 +627,7 @@ export const createMatch = async (dispatch, data) => {
   try {
     const response = await axios.post(apis.createMatch, data);
     const matches = response.data.matches;
-    matches.map(match=>{
+    matches.map(match => {
       const homeTeamlogoUrl = apis.teamLogoURL(match.homeTeam.userId, match.homeTeam.id);
       const awayTeamlogoUrl = apis.teamLogoURL(match.awayTeam.userId, match.awayTeam.id);
       match.homeTeam.logo = homeTeamlogoUrl;
@@ -611,7 +649,7 @@ export const updateMatch = async (dispatch, data) => {
   try {
     const response = await axios.post(apis.updateMatch, data);
     const matches = response.data.matches;
-    matches.map(match=>{
+    matches.map(match => {
       const homeTeamlogoUrl = apis.teamLogoURL(match.homeTeam.userId, match.homeTeam.id);
       const awayTeamlogoUrl = apis.teamLogoURL(match.awayTeam.userId, match.awayTeam.id);
       match.homeTeam.logo = homeTeamlogoUrl;
@@ -633,7 +671,7 @@ export const deleteMatch = async (dispatch, matchId) => {
   try {
     const response = await axios.get(apis.deleteMatch(matchId));
     const matches = response.data.matches;
-    matches.map(match=>{
+    matches.map(match => {
       const homeTeamlogoUrl = apis.teamLogoURL(match.homeTeam.userId, match.homeTeam.id);
       const awayTeamlogoUrl = apis.teamLogoURL(match.awayTeam.userId, match.awayTeam.id);
       match.homeTeam.logo = homeTeamlogoUrl;
@@ -659,7 +697,7 @@ export const updateMatchResult = async (dispatch, data) => {
   try {
     const response = await axios.post(apis.updateMatchResult, data);
     const matches = response.data.matches;
-    matches.map(match=>{
+    matches.map(match => {
       const homeTeamlogoUrl = apis.teamLogoURL(match.homeTeam.userId, match.homeTeam.id);
       const awayTeamlogoUrl = apis.teamLogoURL(match.awayTeam.userId, match.awayTeam.id);
       match.homeTeam.logo = homeTeamlogoUrl;

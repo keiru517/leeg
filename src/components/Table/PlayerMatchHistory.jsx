@@ -5,12 +5,13 @@ import { useMemo } from "react";
 import Table from "./index";
 
 const PlayerMatchHistory = (props) => {
-  const { leagueId, userId } = props;
+  const { leagueId, playerId } = props;
+  const isPublic = localStorage.getItem('token') ? false : true;
 
   const teams = useSelector((state) => state.home.teams);
   const player = useSelector((state) => state.home.players).find(
     (player) =>
-      player.userId == userId &&
+      player.id == playerId &&
       player.leagueId == leagueId &&
       player?.teamId !== 0
   );
@@ -33,19 +34,7 @@ const PlayerMatchHistory = (props) => {
   const displayTurnovers = league?.displayTurnovers;
 
   const matchups = useSelector((state) => state.home.matchups);
-  //   .filter((matchup) => {
-  //     const match = matches.find((m) => m.id == matchup.matchId);
-  //     return (
-  //       matchup.userId == userId &&
-  //       matchup.leagueId == leagueId &&
-  //       match &&
-  //       !match.isNew
-  //     );
-  //   })
-  //   .map((matchup) => {
-  //     const match = matches.find((m) => m.id == matchup.matchId);
-  //     return { ...matchup, match };
-  //   });
+
 
   const columns = [
     {
@@ -66,11 +55,10 @@ const PlayerMatchHistory = (props) => {
             className="w-8 h-8 rounded-full"
           />
           <p
-            className={`underline ${
-              row.homeTeamPoints > row.awayTeamPoints ? "font-bold" : ""
-            }`}
+            className={`underline ${row.homeTeamPoints > row.awayTeamPoints ? "font-bold" : ""
+              }`}
           >
-            <Link to={`/league/${leagueId}/team/${row.homeTeamId}`}>
+            <Link to={`/${isPublic ? "public_league" : "league"}/${leagueId}/team/${row.homeTeamId}`}>
               {row.homeTeam.name}
             </Link>
           </p>
@@ -81,15 +69,14 @@ const PlayerMatchHistory = (props) => {
             className="w-8 h-8 mr-2 rounded-full"
           />
           <p
-            className={`underline ${
-              row.awayTeamPoints > row.homeTeamPoints ? "font-bold" : ""
-            }`}
+            className={`underline ${row.awayTeamPoints > row.homeTeamPoints ? "font-bold" : ""
+              }`}
           >
-            <Link to={`/league/${leagueId}/team/${row.awayTeamId}`}>
+            <Link to={`/${isPublic ? "public_league" : "league"}/${leagueId}/team/${row.awayTeamId}`}>
               {row.awayTeam.name}
             </Link>
           </p>
-        </div>
+        </div >
       ),
     },
     {
@@ -260,7 +247,7 @@ const PlayerMatchHistory = (props) => {
         .filter((matchup) => {
           const match = matches.find((m) => m.id == matchup.matchId);
           return (
-            matchup.userId == userId &&
+            matchup.playerId == playerId &&
             matchup.leagueId == leagueId &&
             match &&
             !match.isNew
@@ -295,7 +282,7 @@ const PlayerMatchHistory = (props) => {
   );
 
   return (
-    <div className="text-black dark:text-white mt-5 w-ful text-xs overflow-auto">
+    <div className="text-black dark:text-white w-ful text-xs overflow-auto">
       <Table data={data} columns={columns} />
     </div>
   );

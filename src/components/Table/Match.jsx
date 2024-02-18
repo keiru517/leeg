@@ -13,6 +13,7 @@ const MatchTable = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   let { leagueId } = useParams();
+  const isPublic = localStorage.getItem('token') ? false : true;
   const { keyword } = props;
 
   const darkMode = useSelector((state) => state.home.dark_mode);
@@ -93,7 +94,7 @@ const MatchTable = (props) => {
     }
     // Clicked scorebard
     else if (idx === 1) {
-      navigate(`/league/${leagueId}/matchup/${matchId}`);
+      navigate(`/${isPublic ? "public_league" : "league"}/${leagueId}/matchup/${matchId}`);
     }
     // Clicked delete
     else if (idx === 2) {
@@ -225,7 +226,7 @@ const MatchTable = (props) => {
                     ) : (
                       <Link
                         className="flex items-center space-x-3"
-                        to={`/league/${leagueId}/team/${homeTeamId}`}
+                        to={`/${isPublic ? "public_league" : "league"}/${leagueId}/team/${homeTeamId}`}
                       >
                         <img
                           src={
@@ -236,8 +237,8 @@ const MatchTable = (props) => {
                         />
                         <p
                           className={`text-black dark:text-white ${homeTeamPoints > awayTeamPoints && !isNew
-                              ? "font-bold"
-                              : ""
+                            ? "font-bold"
+                            : ""
                             }`}
                         >
                           {teams.find((team) => team.id == homeTeamId)?.name}
@@ -270,7 +271,7 @@ const MatchTable = (props) => {
                     ) : (
                       <Link
                         className="flex items-center space-x-3"
-                        to={`/league/${leagueId}/team/${awayTeamId}`}
+                        to={`/${isPublic ? "public_league" : "league"}/${leagueId}/team/${awayTeamId}`}
                       >
                         <img
                           src={
@@ -281,8 +282,8 @@ const MatchTable = (props) => {
                         />
                         <p
                           className={`text-black dark:text-white ${homeTeamPoints < awayTeamPoints && !isNew
-                              ? "font-bold"
-                              : ""
+                            ? "font-bold"
+                            : ""
                             }`}
                         >
                           {teams.find((team) => team.id == awayTeamId)?.name}

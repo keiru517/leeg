@@ -9,6 +9,7 @@ import draftToHtml from 'draftjs-to-html';
 
 const BlogCard = (props) => {
     const { blog } = props;
+    const isPublic = localStorage.getItem('token') ? false : true;
     const dispatch = useDispatch();
 
     const user = useSelector(state => state.home.user);
@@ -58,7 +59,7 @@ const BlogCard = (props) => {
                         {blogUser?.firstName} {blogUser?.lastName}
                     </span>
                 </div>
-                <Link to={`/league/${blog?.leagueId}/blog/${blog?.id}`} className="inline-flex items-center font-medium text-primary-600 dark:text-sky-500 hover:underline">
+                <Link to={`/${isPublic ? "public_league" : "league"}/${blog?.leagueId}/blog/${blog?.id}`} className="inline-flex items-center font-medium text-primary-600 dark:text-sky-500 hover:underline">
                     Read more
                     <svg className="ml-2 w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                 </Link>

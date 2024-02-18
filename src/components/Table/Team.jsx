@@ -8,10 +8,12 @@ import axios from "axios";
 import apis from "../../utils/apis";
 import EditPlayerModal from "../Modal/EditPlayerModal";
 import { useState } from "react";
+import DefaultSubstituteAvatar from "../../assets/img/dark_mode/default-substitutue-avatar.svg";
 
 const TeamTable = (props) => {
   const { data } = props;
   const { leagueId, teamId } = useParams();
+  const isPublic = localStorage.getItem('token') ? false : true;
   const dispatch = useDispatch();
 
   const league = useSelector((state) => state.home.leagues).find(
@@ -122,14 +124,14 @@ const TeamTable = (props) => {
             >
               <td className="">
                 <div className="flex items-center px-3">
-                  <Link to={`/league/${leagueId}/player/${player.userId}`}>
+                  <Link to={`/${isPublic ? "public_league" : "league"}/${leagueId}/player/${player.userId}`}>
                     <img
-                      src={player.avatar}
+                      src={player.avatar ? player.avatar : DefaultSubstituteAvatar}
                       alt=""
                       className="w-8 h-8 mr-2 rounded-full border border-gray-500 dark:border-gray-100"
                     />
                   </Link>
-                  <Link to={`/league/${leagueId}/player/${player.userId}`}>
+                  <Link to={`/${isPublic ? "public_league" : "league"}/${leagueId}/player/${player.id}`}>
                     <span className="font-normal hover:underline">
                       {player.firstName} {player.lastName}
                     </span>

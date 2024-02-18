@@ -6,7 +6,7 @@ import SelectPoints from "../Select/points";
 import { Link } from "react-router-dom";
 import { Typography } from "@material-tailwind/react";
 import { useMemo } from "react";
-import DefaultSubstituteAvatar from "../../assets/img/dark_mode/default-substitutue-avatar.png";
+import DefaultSubstituteAvatar from "../../assets/img/dark_mode/default-substitutue-avatar.svg";
 import * as actions from "../../actions";
 import BlogCard from "../Card/Blog";
 
@@ -73,7 +73,7 @@ const Dashboard = () => {
     const [pointsFilter, setPointsFilter] = useState(pointsFilters[0].name);
     const [filteredData, setFilteredData] = useState([])
 
-    const players = useSelector(state => state.home.players);
+    const players = useSelector(state => state.home.players).filter(player=>player.leagueId == leagueId);
     const matchups = useSelector((state) => state.home.matchups);
 
     const league = useSelector(state => state.home.leagues).find(league => league.id == leagueId);
@@ -223,7 +223,7 @@ const Dashboard = () => {
                     jerseyNumber: player.jerseyNumber,
                     firstName: player.firstName,
                     lastName: player.lastName,
-                    avatar: player.isSubstitute ? DefaultSubstituteAvatar : player.avatar,
+                    avatar: player.avatar ? player.avatar : DefaultSubstituteAvatar,
                     isSubstitute: player.isSubstitute,
                     team: teams.find((team) => team.id == player.teamId),
                     teamName: teams.find((team) => team.id == player.teamId)?.name,

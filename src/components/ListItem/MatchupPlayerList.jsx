@@ -3,7 +3,7 @@ import { useState } from "react";
 import { AiOutlineCheck } from "react-icons/ai";
 import addIcon from "../../assets/img/dark_mode/circle-add.png";
 import addedIcon from "../../assets/img/dark_mode/circle-added.png";
-import DefaultSubstituteAvatar from "../../assets/img/dark_mode/default-substitutue-avatar.png";
+import DefaultSubstituteAvatar from "../../assets/img/dark_mode/default-substitutue-avatar.svg";
 import * as actions from "../../actions";
 import { useDispatch } from "react-redux";
 
@@ -22,7 +22,7 @@ const MatchupPlayerList = ({ className, player, addAction, handleAddSubstituteSc
     // if a player is a substitutue
     if (player.isSubstitute) {
       handleAddSubstituteScore(player)
-    } 
+    }
     // if a player is not a substitute
     else {
       addAction(player.id);
@@ -38,7 +38,7 @@ const MatchupPlayerList = ({ className, player, addAction, handleAddSubstituteSc
         <div className="flex items-center">
           <img
             src={
-              player?.isSubstitute ? DefaultSubstituteAvatar : player?.avatar
+              player?.avatar ? player?.avatar : DefaultSubstituteAvatar
             }
             className="w-10 h-10 mr-3 rounded-full border border-gray-500"
             alt=""

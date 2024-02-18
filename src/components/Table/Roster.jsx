@@ -9,6 +9,8 @@ import axios from "axios";
 import apis from "../../utils/apis";
 import * as actions from "../../actions";
 import moment from "moment";
+import DefaultSubstituteAvatar from "../../assets/img/dark_mode/default-substitutue-avatar.svg";
+
 
 function Checkbox({ label, name, checked, onChange, disabled }) {
   return (
@@ -59,7 +61,7 @@ const RosterTable = (props) => {
     admins.some((admin) => admin.userId == user?.id) ||
     league?.userId == user?.id;
 
-  const { rosters, rosterValue, setRosterValue } = props;
+  const { rosters, rosterValue } = props;
 
   var columns = [];
   if (isAdmin) {
@@ -84,7 +86,6 @@ const RosterTable = (props) => {
   }
 
   const handleOption = (idx) => {
-    console.log(idx, itemChecked)
     // Return true if nothing is selected
     const allItemsFalse = Object.values(itemChecked).every(
       (value) => value === false
@@ -202,14 +203,14 @@ const RosterTable = (props) => {
                   color="blue-gray"
                   className="font-normal flex items-center px-3"
                 >
-                  <Link to={`player/${player.userId}`}>
+                  <Link to={`player/${player.id}`}>
                   <img
-                    src={player.avatar}
+                    src={player.avatar?player.avatar:DefaultSubstituteAvatar}
                     alt=""
                     className="h-8 w-8 mr-2 sm:ml-5 rounded-full border border-gray-500"
                   />
                   </Link>
-                  <Link to={`player/${player.userId}`} className="hover:underline">
+                  <Link to={`player/${player.id}`} className="hover:underline">
                     {player.firstName} {player.lastName}
                   </Link>
                 </Typography>

@@ -16,12 +16,15 @@ import * as actions from "../../actions";
 import editIconDark from "../../assets/img/dark_mode/edit-icon-dark.png";
 import editIconLight from "../../assets/img/dark_mode/edit-icon-light.png";
 import TeamModal from "../../components/Modal/TeamModal";
+import logo from "../../assets/img/dark_mode/logo.png";
+import PublicNav from "../../components/publicNav";
 
-const Team = () => {
+const PublicTeam = () => {
   let { leagueId, teamId } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const darkMode = useSelector((state) => state.home.dark_mode);
+  const isPublic = localStorage.getItem('token') ? false : true;
 
   const league = useSelector((state) => state.home.leagues).find(
     (league) => league.id == leagueId
@@ -82,22 +85,41 @@ const Team = () => {
 
   return (
     <div className="flex flex-col flex-grow">
-      <p className="flex font-dark-gray my-3">
-        <Link to="/">
-          <span className="hover:underline text-sky-500">My Leagues</span>
-        </Link>
-        <span className="">&nbsp; &gt; &nbsp;</span>
+      {
+        isPublic ?
+          <>
+            <PublicNav />
+            <p className="flex font-dark-gray my-3">
+              <Link to={`/public_league/${league?.id}?tab=0`}>
+                <span className="hover:underline text-sky-500">{league?.name}</span>
+              </Link>
+              <span className="">&nbsp; &gt; &nbsp;</span>
 
-        <Link to={`/league/${league?.id}?tab=0`}>
-          <span className="hover:underline text-sky-500">{league?.name}</span>
-        </Link>
-        <span className="">&nbsp; &gt; &nbsp;</span>
+              <Link to={`/public_league/${league?.id}?tab=2`}>
+                <span className="hover:underline text-sky-500">Teams</span>
+              </Link>
+              <span className="">&nbsp; &gt; {team?.name}</span>
+            </p>
+          </>
+          :
+            <p className="flex font-dark-gray my-3">
+              <Link to="/">
+                <span className="hover:underline text-sky-500">My Leagues</span>
+              </Link>
+              <span className="">&nbsp; &gt; &nbsp;</span>
 
-        <Link to={`/league/${league?.id}?tab=2`}>
-          <span className="hover:underline text-sky-500">Teams</span>
-        </Link>
-        <span className="">&nbsp; &gt; {team?.name}</span>
-      </p>
+              <Link to={`/league/${league?.id}?tab=0`}>
+                <span className="hover:underline text-sky-500">{league?.name}</span>
+              </Link>
+              <span className="">&nbsp; &gt; &nbsp;</span>
+
+              <Link to={`/league/${league?.id}?tab=2`}>
+                <span className="hover:underline text-sky-500">Teams</span>
+              </Link>
+              <span className="">&nbsp; &gt; {team?.name}</span>
+            </p>
+          
+      }
       <div className="flex flex-col rounded-main bg-white dark:bg-slate flex-grow p-default">
         <div className="page-title bg-white dark:bg-charcoal flex items-center justify-between p-3">
           <div className="flex items-center">
@@ -261,4 +283,4 @@ const Team = () => {
   );
 };
 
-export default Team;
+export default PublicTeam;

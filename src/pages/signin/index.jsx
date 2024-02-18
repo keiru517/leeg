@@ -6,6 +6,7 @@ import { setAuthToken } from "../../utils/authService";
 import { useDispatch } from "react-redux";
 import * as actions from "../../actions";
 import PasswordInput from "../../components/Input/password";
+import { isExpired, decodeToken } from "react-jwt";
 
 const Signin = () => {
   const navigate = useNavigate();
@@ -13,11 +14,11 @@ const Signin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-    document.documentElement.classList.add('dark')
-  } else {
-    document.documentElement.classList.remove('dark')
-  }
+  // if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+  //   document.documentElement.classList.add('dark')
+  // } else {
+  //   document.documentElement.classList.remove('dark')
+  // }
   
   const handleLogin = () => {
     axios
@@ -27,10 +28,10 @@ const Signin = () => {
       })
       .then((res) => {
         localStorage.setItem("token", res.data.token);
-        localStorage.setItem("userId", res.data.user.id);
+        localStorage.setItem("userId", decodeToken(res.data.token).id);
 
         setAuthToken(res.data.token);
-        actions.getUserInfo(dispatch, res.data.user.id);
+        actions.getUserInfo(dispatch, decodeToken(res.data.token).id);
         navigate("/", { replace: true });
       })
       .catch((error) => {
@@ -41,7 +42,7 @@ const Signin = () => {
   };
 
   return (
-    <div className="sm:w-auth sm:mx-auto">
+    <div className="sm:w-auth sm:mx-auto mt-32">
       <div className="bg-white dark:bg-slate w-full rounded-main p-default flex flex-col">
         <div>
           <div>

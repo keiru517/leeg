@@ -14,20 +14,25 @@ const AuthLayout = (props) => {
   const [isLoading, setLoading] = useState(true);
   const [isLoggedIn, setLoggedIn] = useState(false);
 
-  const token = localStorage.getItem("token");
+  if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    document.documentElement.classList.add('dark')
+  } else {
+    document.documentElement.classList.remove('dark')
+  }
 
+  const token = localStorage.getItem("token");
   useEffect(() => {
     actions.getUserInfo(dispatch, localStorage.getItem("userId"));
   }, []);
 
   useEffect(() => {
     if (token) {
-      setLoggedIn(true);
-      setAuthToken(token);
+        setLoggedIn(true);
+        setAuthToken(token);
     } else {
-      if (location.pathname !== "/resetpass") {
+      if (!(location.pathname === "/resetpass" || location.pathname.split("/")[1] === "public_league")) {
         navigate("/signin", { replace: true });
-      }
+      } 
       setLoggedIn(false);
     }
     setLoading(false);
@@ -46,7 +51,7 @@ const AuthLayout = (props) => {
         </>
       ) : (
         <>
-          <div className="p-[10px_10px_10px_10px] sm:p-[0px_26px_26px_26px] flex flex-col">
+          <div className="p-[10px_10px_10px_10px] sm:p-[0px_26px_26px_26px] flex flex-col flex-grow">
             {props.children}
           </div>
         </>

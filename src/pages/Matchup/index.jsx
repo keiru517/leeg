@@ -46,8 +46,11 @@ const MatchupMobile = () => {
     { id: 1, name: "Completed" },
   ];
   const [status, setStatus] = useState(
-    match?.isNew ? "Incomplete" : "Completed"
+    ""
   );
+  useEffect(() => {
+    setStatus( match?.isNew ? "Incomplete" : "Completed")
+  }, [match])
   const handleStatus = (e) => {
     setStatus(e.name);
     if (e.id === 1) {
@@ -164,7 +167,7 @@ const MatchupMobile = () => {
 
   return (
     <div className="flex flex-col flex-grow">
-      <p className="flex font-dark-gray my-3 sm:my-[20px] justify-between space-x-2">
+      <p className="flex font-dark-gray my-3 justify-between space-x-2">
         <div className="flex items-center text-sm truncate">
           <Link to="/" className="hidden sm:flex">
             <span className="hover:underline text-sky-500">My Leagues</span>
