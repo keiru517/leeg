@@ -37,8 +37,10 @@ import ImageCropperModal from "../../components/Modal/ImageCropperModal";
 import Dashboard from "../../components/Dashboard";
 import Blog from "../../components/Blog";
 import Admissions from "../../components/Admissions";
+import logo from "../../assets/img/dark_mode/logo.png";
+import PublicNav from "../../components/publicNav";
 
-const League = () => {
+const PublicLeague = () => {
   let { leagueId } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -49,6 +51,8 @@ const League = () => {
 
   const user = useSelector((state) => state.home.user);
   const darkMode = useSelector((state) => state.home.dark_mode);
+  const isPublic = localStorage.getItem('token') ? false : true;
+
   const league = useSelector((state) => state.home.leagues).find(
     (league) => league.id == leagueId
   );
@@ -114,10 +118,9 @@ const League = () => {
       "Players",
       // "Manage Rosters", => Admissions
       "Admissions",
-      "Settings",
     ];
   } else {
-    categories = ["Dashboard", "News", "Teams", "Matches", "Standings", "Players", "Settings"];
+    categories = ["Dashboard", "News", "Teams", "Matches", "Standings", "Players"];
   }
 
   function classNames(...classes) {
@@ -129,7 +132,7 @@ const League = () => {
 
   // const [tab, setTab] = useState(0);
   const handleCategory = (data) => {
-    navigate(`/league/${leagueId}?tab=${data}`);
+    navigate(`/public_league/${leagueId}?tab=${data}`);
     // setTab(idx);
     setWaitListKeyword("");
     setAcceptListKeyword("");
@@ -636,23 +639,28 @@ const League = () => {
 
   return (
     <div className="flex flex-col flex-grow">
-      <p className="flex font-dark-gray my-3 items-center">
-        {
-          localStorage.getItem("token") ?
+      {
+        isPublic ?
+          <>
+            <PublicNav />
+            <p className="flex font-dark-gray my-3 items-center">
+              <div className="flex items-center space-x-3">
+                <p className="">{league?.name}</p>
+              </div>
+            </p>
+          </>
+
+          :
+          <p className="flex font-dark-gray my-3 items-center">
             <Link to="/">
               <span className="text-sky-500 hover:underline">My Leagues</span>
             </Link>
-            :
-            <Link to="/signin">
-              <span className="text-sky-500 hover:underline">My Leagues</span>
-            </Link>
-
-        }
-        <span className="">&nbsp; &gt; &nbsp;</span>
-        <div className="flex items-center space-x-3">
-          <p className="">{league?.name}</p>
-        </div>
-      </p>
+            <span className="">&nbsp; &gt; &nbsp;</span>
+            <div className="flex items-center space-x-3">
+              <p className="">{league?.name}</p>
+            </div>
+          </p>
+      }
       <div className="rounded-default bg-white dark:bg-slate flex-grow sm:p-default">
         <div className="w-full px-2 sm:px-0 h-full flex flex-col pt-1 sm:pt-0">
           <TabContext value={tab}>
@@ -1001,7 +1009,7 @@ const League = () => {
 
                   <div className="flex flex-col border border-dark-gray rounded p-7">
                     <div>
-                      <h1 className="dark:text-white text-black mb-4 font-medium">
+                      <h1 className="dark:text-white text-black mb-4">
                         Edit League
                       </h1>
                       <div className="flex items-center">
@@ -1134,21 +1142,11 @@ const League = () => {
                             Delete
                           </button>
                         </div>
-                        <div className="grid grid-cols-2 gap-2 mt-3">
-                          <button
-                            onClick={()=>{
-                              navigator.clipboard.writeText(`${window.location}`.replace('league', 'public_league'))
-                            }}
-                            className="bg-green-700 h-10 text-white font-bold text-sm rounded-default hover:bg-green-600 col-span-2"
-                          >
-                            Public League Link
-                          </button>
-                        </div>
                         {(player?.isWaitList || player?.isAcceptedList) && (
                           <div className="grid grid-cols-2 gap-2 mt-3">
                             <button
                               onClick={leaveLeague}
-                              className="bg-yellow-700 h-10 text-white font-bold text-sm rounded-default hover:bg-yellow-600 col-span-2"
+                              className="bg-yellow-700 h-10 text-white font-bold text-sm rounded-default hover:bg-red-600 col-span-2"
                             >
                               Leave
                             </button>
@@ -1463,4 +1461,4 @@ const League = () => {
   );
 };
 
-export default League;
+export default PublicLeague;

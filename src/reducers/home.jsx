@@ -527,6 +527,20 @@ const home = (state = initialState, action) => {
         players: action.payload,
       };
 
+      case actions.UPDATE_PLAYER_AVATAR_URL:
+        console.log("avatar", action.payload.avatar)
+        return {
+          ...state,
+          players: state.players.map((player) =>
+            player.id == action.payload.id
+              ? {
+                ...player,
+                avatar: action.payload.avatar,
+              }
+              : player
+          ),
+        };
+
     case actions.GET_ADMINS:
       return {
         ...state,

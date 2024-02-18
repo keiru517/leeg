@@ -66,7 +66,7 @@ const Index = (props) => {
   };
 
   return (
-    <div className={` ${className} flex-col bg-white dark:bg-slate rounded-main p-default`}>
+    <div className={` ${className} flex-col flex-grow bg-white dark:bg-slate rounded-main p-default`}>
       <div className="flex space-x-3">
         <div className="flex flex-col w-1/2 space-y-[10px]">
           <div className="flex bg-light-charcoal dark:bg-charcoal w-full h-12 rounded-t-lg p-4 items-center justify-between">

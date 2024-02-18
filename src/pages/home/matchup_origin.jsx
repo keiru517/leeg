@@ -412,7 +412,7 @@ const Matchup = () => {
 
   return (
     <div className="flex flex-col flex-grow">
-      <p className="flex font-dark-gray my-[20px] justify-between ">
+      <p className="flex font-dark-gray my-3 justify-between ">
         <div className="">
           <Link to="/">
             <span className="hover:underline">My Leagues</span>

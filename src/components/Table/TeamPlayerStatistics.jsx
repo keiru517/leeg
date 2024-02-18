@@ -1,13 +1,13 @@
 import { Card, Typography } from "@material-tailwind/react";
-import Matchup from "../../pages/home/matchup";
 import { Link, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useMemo } from "react";
 import Table from "./index";
-import DefaultSubstituteAvatar from "../../assets/img/dark_mode/default-substitutue-avatar.png";
+import DefaultSubstituteAvatar from "../../assets/img/dark_mode/default-substitutue-avatar.svg";
 
 const TeamPlayerStatistics = (props) => {
   const { players, matchups } = props;
+  const isPublic = localStorage.getItem('token') ? false : true;
   let { leagueId, teamId } = useParams();
 
   const league = useSelector((state) => state.home.leagues).find(
@@ -45,11 +45,11 @@ const TeamPlayerStatistics = (props) => {
           className="font-normal flex items-center sm:pl-8 space-x-3"
         >
           <Link
-            to={`/league/${leagueId}/player/${row.userId}`}
+            to={`/${isPublic ? "public_league" : "league"}/${leagueId}/player/${row.playerId}`}
             className="flex items-center hover:underline"
           >
             <img
-              src={row.avatar}
+              src={row.avatar ? row.avatar : DefaultSubstituteAvatar}
               alt=""
               className="h-8 w-8 mr-4 rounded-full"
             />
@@ -284,6 +284,7 @@ const TeamPlayerStatistics = (props) => {
             });
             return {
               userId: userId,
+              playerId: id,
               avatar: avatar,
               firstName: firstName,
               lastName: lastName,
@@ -348,9 +349,9 @@ const TeamPlayerStatistics = (props) => {
                 playerMatchups.length === 0
                   ? 0
                   : playerMatchups.reduce(
-                      (sum, matchup) => sum + matchup.points,
-                      0
-                    ) / playerMatchups.length,
+                    (sum, matchup) => sum + matchup.points,
+                    0
+                  ) / playerMatchups.length,
             };
           }
         )
@@ -372,17 +373,17 @@ const TeamPlayerStatistics = (props) => {
                 attempts1: sub.match.isNew ? 0 : sub.attempts1,
                 "3p%":
                   sub.match.isNew &&
-                  isNaN((sub.totalPoints3 / sub.attempts3) * 100)
+                    isNaN((sub.totalPoints3 / sub.attempts3) * 100)
                     ? 0
                     : ((sub.totalPoints3 / sub.attempts3) * 100).toFixed(2),
                 "fg%":
                   sub.match.isNew &&
-                  isNaN((sub.totalPoints2 / sub.attempts2) * 100)
+                    isNaN((sub.totalPoints2 / sub.attempts2) * 100)
                     ? 0
                     : ((sub.totalPoints2 / sub.attempts2) * 100).toFixed(2),
                 "ft%":
                   sub.match.isNew &&
-                  isNaN((sub.totalPoints1 / sub.attempts1) * 100)
+                    isNaN((sub.totalPoints1 / sub.attempts1) * 100)
                     ? 0
                     : ((sub.totalPoints1 / sub.attempts1) * 100).toFixed(2),
                 blocks: sub.match.isNew ? 0 : sub.blocks,

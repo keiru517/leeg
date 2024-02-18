@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 import { AiOutlineCheck } from "react-icons/ai";
 import { Switch } from "@headlessui/react";
-import DefaultSubstituteAvatar from "../../assets/img/dark_mode/default-substitutue-avatar.png";
+import DefaultSubstituteAvatar from "../../assets/img/dark_mode/default-substitutue-avatar.svg";
 import deleteIconDark from "../../assets/img/dark_mode/delete-icon-dark.svg";
 import deleteIconLight from "../../assets/img/dark_mode/delete-icon-light.svg";
 import Option from "../Option";

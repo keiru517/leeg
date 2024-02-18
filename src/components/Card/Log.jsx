@@ -10,7 +10,7 @@ import editIconDark from "../../assets/img/dark_mode/edit-icon-dark.png";
 import editIconLight from "../../assets/img/dark_mode/edit-icon-light.png";
 import deleteIconDark from "../../assets/img/dark_mode/delete-icon-dark.svg";
 import deleteIconLight from "../../assets/img/dark_mode/delete-icon-light.svg";
-import DefaultSubstituteAvatar from "../../assets/img/dark_mode/default-substitutue-avatar.png";
+import DefaultSubstituteAvatar from "../../assets/img/dark_mode/default-substitutue-avatar.svg";
 
 const Log = (props) => {
   const { id, log } = props;
@@ -99,10 +99,10 @@ const Log = (props) => {
           {log.event !== "TimeOut" && !log.isDirect && (
             <>
               <p className="text-black dark:text-white font-medium text-lg">
-                #{player?.jerseyNumber}
+                {player?.jerseyNumber?`#${player?.jerseyNumber}`:""}
               </p>
               <img
-                src={player?.isSubstitute ? DefaultSubstituteAvatar : player?.avatar}
+                src={player?.avatar ? player?.avatar : DefaultSubstituteAvatar}
                 alt=""
                 className="w-8 h-8 rounded-full border border-gray-500"
               />

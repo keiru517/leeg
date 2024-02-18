@@ -12,6 +12,9 @@ export const apis = {
   userAvatarURL: (id) => {
     return `${apiUrl}/user/avatar/${id}`;
   },
+  playerAvatarURL: (id) => {
+    return `${apiUrl}/player/avatar/${id}`;
+  },
   forgotPassword: apiUrl + "/user/forgotPassword",
   resetPassword: apiUrl + "/user/resetPassword",
   updateInfo: apiUrl + "/user/updateInfo",
@@ -95,6 +98,7 @@ export const apis = {
   invitePlayer: apiUrl + "/player/invite",
   createPlayer: apiUrl + "/player/create",
   updatePlayer: apiUrl + "/player/update",
+  uploadPlayerAvatar: apiUrl + "/player/uploadPlayerAvatar",
   removePlayerFromTeam: apiUrl + "/player/removeFromTeam",
   // substitute
   getSubstitutes: apiUrl + "/substitutes/all",

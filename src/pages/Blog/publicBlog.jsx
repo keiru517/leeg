@@ -11,10 +11,12 @@ import editIconLight from "../../assets/img/dark_mode/edit-icon-light.png";
 import BlogModal from "../../components/Modal/BlogModal";
 import draftToHtml from 'draftjs-to-html';
 import EditorComponent from "../../components/Editor";
+import PublicNav from "../../components/publicNav";
 
-const Blog = (props) => {
-    let { leagueId, blogId } = useParams();
+const PublicBlog = (props) => {
+    const isPublic = localStorage.getItem('token') ? false : true;
     const navigate = useNavigate();
+    let { leagueId, blogId } = useParams();
     const dispatch = useDispatch();
     const darkMode = useSelector((state) => state.home.dark_mode);
     const league = useSelector((state) => state.home.leagues).find(
@@ -49,7 +51,7 @@ const Blog = (props) => {
 
     // const [content, setContent] = useState('{"blocks": [], "entityMap":{}}')
     useEffect(() => {
-        actions.getBlogs(dispatch, {leagueId})
+        actions.getBlogs(dispatch, { leagueId })
     }, [])
 
     if (!blog) return <></>
@@ -57,16 +59,31 @@ const Blog = (props) => {
 
     return (
         <div className="flex flex-col flex-grow">
-            <p className="flex font-dark-gray my-3">
-                <Link to="/" className="text-sky-500 hover:underline">
-                    <span className="">My Leagues</span>
-                </Link>
+            {
+                isPublic ?
+                    <>
+                        <PublicNav />
+                        <p className="flex font-dark-gray my-3">
+                            <Link to={`/public_league/${leagueId}?tab=0`} className="hover:underline">
+                                <span className="text-sky-500">{league?.name}</span>
+                            </Link>
+                        </p>
+                    </>
+                    :
+                    <>
+                        <p className="flex font-dark-gray ">
+                            <Link to="/" className="text-sky-500 hover:underline">
+                                <span className="">My Leagues</span>
+                            </Link>
 
-                <span className="">&nbsp; &gt; &nbsp;</span>
-                <Link to={`/league/${leagueId}?tab=0`} className="hover:underline">
-                    <span className="text-sky-500">{league?.name}</span>
-                </Link>
-            </p>
+                            <span className="">&nbsp; &gt; &nbsp;</span>
+                            <Link to={`/league/${leagueId}?tab=0`} className="hover:underline">
+                                <span className="text-sky-500">{league?.name}</span>
+                            </Link>
+                        </p>
+
+                    </>
+            }
             <div className="flex flex-col flex-grow rounded-main dark:bg-slate bg-white overflow-auto p-default">
                 <div
                     className="w-6 h-6 sm:w-[34px] sm:h-[34px] bg-gray-300 dark:bg-primary items-center flex justify-center rounded-default cursor-pointer hover:opacity-70 mr-3"
@@ -107,12 +124,12 @@ const Blog = (props) => {
                     {/* <div className="text-black dark:text-white" dangerouslySetInnerHTML={{ __html: draftToHtml((JSON.parse(blog?.description))) }} >
                     </div> */}
                     <EditorComponent
-                          className=""
-                          description={blog?.description}
-                          editorClassName=''
-                          readOnly
-                          toolbarHidden
-                        />
+                        className=""
+                        description={blog?.description}
+                        editorClassName=''
+                        readOnly
+                        toolbarHidden
+                    />
                     {/* {blog?.description && <EditorComponent
                           className=""
                           description={blog.description}
@@ -157,4 +174,4 @@ const Blog = (props) => {
     )
 }
 
-export default Blog;
+export default PublicBlog;

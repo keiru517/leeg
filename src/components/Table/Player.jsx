@@ -4,11 +4,11 @@ import Table from "./index";
 import { Link } from "react-router-dom";
 import { useMemo } from "react";
 import { useParams } from "react-router";
-import DefaultSubstituteAvatar from "../../assets/img/dark_mode/default-substitutue-avatar.png";
+import DefaultSubstituteAvatar from "../../assets/img/dark_mode/default-substitutue-avatar.svg";
 
 const Player = ({ players, league, teamId, playerKeyword }) => {
-  console.log("table", players)
   let { leagueId } = useParams();
+  const isPublic = localStorage.getItem('token') ? false : true;
   const matchups = useSelector((state) => state.home.matchups);
 
   const displaySubstitutes = league?.displaySubstitutes;
@@ -52,7 +52,7 @@ const Player = ({ players, league, teamId, playerKeyword }) => {
           acc[player.userId].isDeleted = player.isDeleted ? 1 : player.isDeleted;
         } else {
           // If player doesn't exist, create a new entry
-          acc[player.userId] = { ...player};
+          acc[player.userId] = { ...player };
           // acc[player.userId] = { ...player, points: points };
         }
       } else {
@@ -76,7 +76,7 @@ const Player = ({ players, league, teamId, playerKeyword }) => {
           {
             row.isSubstitute == false ?
               <>
-                <Link to={`/league/${leagueId}/player/${row.userId}`}>
+                <Link to={`/${isPublic ? "public_league" : "league"}/${leagueId}/player/${row.id}`}>
                   <img
                     src={row.avatar}
                     alt=""
@@ -84,7 +84,7 @@ const Player = ({ players, league, teamId, playerKeyword }) => {
                   />
                 </Link>
                 <Link
-                  to={`/league/${leagueId}/player/${row.userId}`}
+                  to={`/${isPublic ? "public_league" : "league"}/${leagueId}/player/${row.id}`}
                   className="hover:underline"
                 >
                   {row.firstName} {row.lastName}
@@ -109,14 +109,14 @@ const Player = ({ players, league, teamId, playerKeyword }) => {
       getValue: (row) =>
         row.team && (
           <div className="flex items-center">
-            <Link to={`/league/${leagueId}/team/${row.teamId}`}>
+            <Link to={`/${isPublic ? "public_league" : "league"}/${leagueId}/team/${row.teamId}`}>
               <img
                 src={row.team?.logo}
                 alt=""
                 className="w-8 h-8 mr-2 rounded-full border border-gray-500"
               />
             </Link>
-            <Link to={`/league/${leagueId}/team/${row.teamId}`} className="hover:underline">
+            <Link to={`/${isPublic ? "public_league" : "league"}/${leagueId}/team/${row.teamId}`} className="hover:underline">
               {row.teamName}
             </Link>
           </div>
@@ -407,11 +407,12 @@ const Player = ({ players, league, teamId, playerKeyword }) => {
             0
           ),
           position: player.position,
+          id: player.id,
           userId: player.userId,
           jerseyNumber: player.jerseyNumber,
           firstName: player.firstName,
           lastName: player.lastName,
-          avatar: player.isSubstitute?DefaultSubstituteAvatar:player.avatar,
+          avatar: player.avatar ? player.avatar : DefaultSubstituteAvatar,
           isSubstitute: player.isSubstitute,
           team: teams.find((team) => team.id == player.teamId),
           teamName: teams.find((team) => team.id == player.teamId)?.name,
@@ -425,7 +426,7 @@ const Player = ({ players, league, teamId, playerKeyword }) => {
         };
       });
 
-    return mappedData.filter((data)=>(
+    return mappedData.filter((data) => (
       data.firstName + data.lastName
     ).toLowerCase().includes(playerKeyword.toLowerCase()));
   }, [updatedPlayers, displaySubstitutes]);

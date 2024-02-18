@@ -4,7 +4,7 @@ import Table from "./index";
 import { Link } from "react-router-dom";
 import { useMemo } from "react";
 import { useParams } from "react-router";
-import DefaultSubstituteAvatar from "../../assets/img/dark_mode/default-substitutue-avatar.png";
+import DefaultSubstituteAvatar from "../../assets/img/dark_mode/default-substitutue-avatar.svg";
 
 const PlayerStats = ({ players, league, teamId, playerKeyword }) => {
   let { leagueId, matchId } = useParams();
@@ -51,7 +51,7 @@ const PlayerStats = ({ players, league, teamId, playerKeyword }) => {
 
 
   const teams = useSelector((state) => state.home.teams);
-  const logs = useSelector(state => state.home.logs).filter(log=>log.matchId ==matchId)
+  const logs = useSelector(state => state.home.logs).filter(log => log.matchId == matchId)
   const columns = [
     {
       label: "Player",
@@ -421,7 +421,7 @@ const PlayerStats = ({ players, league, teamId, playerKeyword }) => {
           jerseyNumber: player.jerseyNumber,
           firstName: player.firstName,
           lastName: player.lastName,
-          avatar: player.avatar,
+          avatar: player.avatar ? player.avatar : DefaultSubstituteAvatar,
           isSubstitute: player.isSubstitute,
           team: teams.find((team) => team.id == player.teamId),
           teamName: teams.find((team) => team.id == player.teamId)?.name,

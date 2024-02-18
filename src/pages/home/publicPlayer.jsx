@@ -16,9 +16,11 @@ import Input from "../../components/Input";
 import search from "../../assets/img/dark_mode/search.png";
 import DefaultSubstituteAvatar from "../../assets/img/dark_mode/default-substitutue-avatar.svg";
 import ImageCropperModal from "../../components/Modal/ImageCropperModal";
+import PublicNav from "../../components/publicNav";
 
-const Player = () => {
+const PublicPlayer = () => {
   let { leagueId, playerId } = useParams();
+  const isPublic = localStorage.getItem('token') ? false : true;
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
@@ -71,43 +73,73 @@ const Player = () => {
       !match.isNew
   );
 
- 
-const handleFileUpload = () => {
-  // setPreviewURL("")
-  actions.uploadPlayerAvatar(dispatch, playerId, chosenFile);
-}
 
-const cancelFileUpload = () => {
-  setPreviewURL("")
-}
+  const handleFileUpload = () => {
+    // setPreviewURL("")
+    actions.uploadPlayerAvatar(dispatch, playerId, chosenFile);
+  }
+
+  const cancelFileUpload = () => {
+    setPreviewURL("")
+  }
   return (
     <div className="flex flex-col flex-grow">
-      <p className="flex font-dark-gray my-3">
-        <Link to="/" className="text-sky-500 hover:underline">
-          <span className="">My Leagues</span>
-        </Link>
-
-        <span className="">&nbsp; &gt; &nbsp;</span>
-        <Link to={`/league/${league?.id}?tab=0`} className="hover:underline">
-          <span className="text-sky-500">{league?.name}</span>
-        </Link>
-        <span className="">&nbsp; &gt; &nbsp;</span>
-
-        {team && (
+      {
+        isPublic ?
           <>
-            <span className="">
-              <Link to={`/league/${leagueId}/team/${team?.id}`} className="hover:underline text-sky-500">
-                {team?.name}
-              </Link>
-            </span>
-            <span className="">&nbsp; &gt; &nbsp;</span>
+            <PublicNav />
+            <p className="flex font-dark-gray my-3">
 
+              <Link to={`/public_league/${league?.id}?tab=0`} className="hover:underline">
+                <span className="text-sky-500">{league?.name}</span>
+              </Link>
+              <span className="">&nbsp; &gt; &nbsp;</span>
+
+              {team && (
+                <>
+                  <span className="">
+                    <Link to={`/public_league/${leagueId}/team/${team?.id}`} className="hover:underline text-sky-500">
+                      {team?.name}
+                    </Link>
+                  </span>
+                  <span className="">&nbsp; &gt; &nbsp;</span>
+
+                </>
+              )}
+              <span className="">
+                {player?.firstName} {player?.lastName}
+              </span>
+            </p>
+          </> :
+          <>
+            <p className="flex font-dark-gray my-3">
+              <Link to="/" className="text-sky-500 hover:underline">
+                <span className="">My Leagues</span>
+              </Link>
+
+              <span className="">&nbsp; &gt; &nbsp;</span>
+              <Link to={`/league/${league?.id}?tab=0`} className="hover:underline">
+                <span className="text-sky-500">{league?.name}</span>
+              </Link>
+              <span className="">&nbsp; &gt; &nbsp;</span>
+
+              {team && (
+                <>
+                  <span className="">
+                    <Link to={`/league/${leagueId}/team/${team?.id}`} className="hover:underline text-sky-500">
+                      {team?.name}
+                    </Link>
+                  </span>
+                  <span className="">&nbsp; &gt; &nbsp;</span>
+
+                </>
+              )}
+              <span className="">
+                {player?.firstName} {player?.lastName}
+              </span>
+            </p>
           </>
-        )}
-        <span className="">
-          {player?.firstName} {player?.lastName}
-        </span>
-      </p>
+      }
 
       <div className="flex flex-col flex-grow rounded-main bg-white dark:bg-slate overflow-auto p-default">
         <div className="page-title bg-white dark:bg-charcoal flex items-center justify-between p-3">
@@ -118,50 +150,37 @@ const cancelFileUpload = () => {
             >
               <img
                 src={darkMode ? backIconDark : backIconLight}
-                alt=""
+                alt="back"
                 className="w-[4px] h-[10px] dark:hover:bg-middle-gray rounded-default cursor-pointer"
               />
             </div>
             <img
               src={previewURL ? previewURL : (player?.avatar ? player?.avatar : DefaultSubstituteAvatar)}
-              alt=""
+              alt={`${player?.firstName[0] + " " + player?.lastName[0]}`}
               className="w-10 h-10 sm:w-20 sm:h-20 mx-6 rounded-full border border-gray-500"
               onClick={() => {
-                if (!player?.userId) {
+                if (!player?.userId && !isPublic) {
                   setModalOpen(true)
                 }
               }}
             />
-            {/* <input
-              type="file"
-              hidden
-              ref={fileUploadRef}
-              onChange={(e) => {
-                const files = e.target.files;
-                if (files.length > 0) {
-                  const file = files[0];
-                  setChosenFile(file);
-                  setPreviewURL(URL.createObjectURL(file));
-                }
-              }}
-            /> */}
             {
-            previewURL && 
-            <>
-               <div 
-                className="bg-primary h-button rounded-default text-black dark:text-white font-bold text-sm mr-3 w-32 hover:opacity-70 cursor-pointer flex justify-center items-center"
-                onClick={handleFileUpload}
-               >
-                Save
-               </div>
-               <div 
-                className="bg-danger h-button rounded-default text-black dark:text-white font-bold text-sm mr-3 w-32 hover:opacity-70 cursor-pointer flex justify-center items-center"
-                onClick={cancelFileUpload}
-               >
-                Cancel
-               </div>
-            
-            </>
+              (previewURL) &&
+              <>
+                <div
+                  className="bg-primary h-button rounded-default text-black dark:text-white font-bold text-sm mr-3 w-32 hover:opacity-70 cursor-pointer flex justify-center items-center"
+                  onClick={handleFileUpload}
+                >
+                  Save
+                </div>
+                <div
+                  className="bg-danger h-button rounded-default text-black dark:text-white font-bold text-sm mr-3 w-32 hover:opacity-70 cursor-pointer flex justify-center items-center"
+                  onClick={cancelFileUpload}
+                >
+                  Cancel
+                </div>
+
+              </>
             }
             <div className="text-sm sm:text-3xl text-white text-left font-black">
               <div className="flex items-center">
@@ -263,4 +282,4 @@ const cancelFileUpload = () => {
   );
 };
 
-export default Player;
+export default PublicPlayer;
