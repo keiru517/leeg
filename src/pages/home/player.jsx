@@ -16,6 +16,9 @@ import Input from "../../components/Input";
 import search from "../../assets/img/dark_mode/search.png";
 import DefaultSubstituteAvatar from "../../assets/img/dark_mode/default-substitutue-avatar.svg";
 import ImageCropperModal from "../../components/Modal/ImageCropperModal";
+import editIconDark from "../../assets/img/dark_mode/edit-icon-dark.png";
+import editIconLight from "../../assets/img/dark_mode/edit-icon-light.png";
+import EditPlayerModal from "../../components/Modal/EditPlayerModal";
 
 const Player = () => {
   let { leagueId, playerId } = useParams();
@@ -25,6 +28,8 @@ const Player = () => {
   const fileUploadRef = useRef();
   const [chosenFile, setChosenFile] = useState(null);
   const [previewURL, setPreviewURL] = useState("");
+  const [showButtons, setShowButtons] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
 
   const darkMode = useSelector((state) => state.home.dark_mode);
 
@@ -54,7 +59,6 @@ const Player = () => {
   const player = useSelector((state) => state.home.players).find(
     (player) => player.id == playerId
   );
-  console.log(player)
   // const player = useSelector((state) => state.home.players).find(
   //   (player) => player.userId == userId && player.leagueId == leagueId
   // );
@@ -71,15 +75,24 @@ const Player = () => {
       !match.isNew
   );
 
- 
-const handleFileUpload = () => {
-  // setPreviewURL("")
-  actions.uploadPlayerAvatar(dispatch, playerId, chosenFile);
-}
 
-const cancelFileUpload = () => {
-  setPreviewURL("")
-}
+  const handleFileUpload = () => {
+    actions.uploadPlayerAvatar(dispatch, playerId, chosenFile);
+    // setPreviewURL("")
+    setChosenFile(null)
+    setShowButtons(false);
+  }
+
+  const cancelFileUpload = () => {
+    setPreviewURL("")
+    setChosenFile(null)
+    setShowButtons(false);
+  }
+
+  const handleEdit = () => {
+    console.log("edit")
+    setIsOpen(true);
+  }
   return (
     <div className="flex flex-col flex-grow">
       <p className="flex font-dark-gray my-3">
@@ -110,7 +123,7 @@ const cancelFileUpload = () => {
       </p>
 
       <div className="flex flex-col flex-grow rounded-main bg-white dark:bg-slate overflow-auto p-default">
-        <div className="page-title bg-white dark:bg-charcoal flex items-center justify-between p-3">
+        <div className="page-title bg-light-charcoal dark:bg-charcoal flex items-center justify-between p-3">
           <div className="flex items-center">
             <div
               className="w-6 h-6 sm:w-[34px] sm:h-[34px] bg-gray-300 dark:bg-primary items-center flex justify-center rounded-default cursor-pointer hover:opacity-70"
@@ -146,22 +159,22 @@ const cancelFileUpload = () => {
               }}
             /> */}
             {
-            previewURL && 
-            <>
-               <div 
-                className="bg-primary h-button rounded-default text-black dark:text-white font-bold text-sm mr-3 w-32 hover:opacity-70 cursor-pointer flex justify-center items-center"
-                onClick={handleFileUpload}
-               >
-                Save
-               </div>
-               <div 
-                className="bg-danger h-button rounded-default text-black dark:text-white font-bold text-sm mr-3 w-32 hover:opacity-70 cursor-pointer flex justify-center items-center"
-                onClick={cancelFileUpload}
-               >
-                Cancel
-               </div>
-            
-            </>
+              (chosenFile) &&
+              <>
+                <div
+                  className="bg-primary h-button rounded-default text-black dark:text-white font-bold text-sm mr-3 w-32 hover:opacity-70 cursor-pointer flex justify-center items-center"
+                  onClick={handleFileUpload}
+                >
+                  Save
+                </div>
+                <div
+                  className="bg-danger h-button rounded-default text-black dark:text-white font-bold text-sm mr-3 w-32 hover:opacity-70 cursor-pointer flex justify-center items-center"
+                  onClick={cancelFileUpload}
+                >
+                  Cancel
+                </div>
+
+              </>
             }
             <div className="text-sm sm:text-3xl text-white text-left font-black">
               <div className="flex items-center">
@@ -170,7 +183,7 @@ const cancelFileUpload = () => {
                 </p>
                 {isAdmin && (
                   <span className="text-[10px] sm:text-xs sm:mt-2 font-normal text-gray-400 sm:inline hidden">
-                    / {player?.email}
+                    {player?.email?`/${player?.email}`:""}
                   </span>
                 )}
               </div>
@@ -178,13 +191,18 @@ const cancelFileUpload = () => {
                 <img
                   src={team?.logo ? team.logo : DefaultTeamLogo}
                   alt=""
-                  className="w-6 h-6 rounded-full"
+                  className="w-6 h-6 rounded-full border border-gray-500"
                 />
                 <p className="text-black dark:text-white text-xs font-medium">
                   {team?.name} | # {player?.jerseyNumber}
                 </p>
               </div>
             </div>
+              <img
+                src={darkMode ? editIconDark : editIconLight}
+                className="w-4 h-4 sm:w-6 sm:h-6 cursor-pointer ml-3 mt-2"
+                onClick={handleEdit}
+              />
           </div>
         </div>
         <div className="w-full px-2 sm:px-0 h-full flex flex-col flex-grow mt-3">
@@ -259,6 +277,11 @@ const cancelFileUpload = () => {
         </div>
       </div>
       <ImageCropperModal modalOpen={modalOpen} setModalOpen={setModalOpen} setPreviewURL={setPreviewURL} setChosenFile={setChosenFile} />
+      <EditPlayerModal
+        playerId={playerId}
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+      />
     </div>
   );
 };

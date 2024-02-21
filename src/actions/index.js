@@ -152,7 +152,7 @@ export const getPlayers = async (dispatch) => {
 
     const players = response.data.players;
     players.map(player=>{
-      if (!player.userId) {
+      if (!player.userId && player.avatar) {
         const avatarUrl = apis.playerAvatarURL(player.id);
         player.avatar = avatarUrl;
       }
@@ -185,6 +185,38 @@ export const createPlayer = async (dispatch, data) => {
   }
 };
 
+export const updatePlayer = async (dispatch, playerId, chosenFile, firstName, lastName, jerseyNumber, position) => {
+  try {
+    const formData = new FormData();
+    formData.append("playerId", playerId);
+    formData.append("avatar", chosenFile);
+    formData.append("firstName", firstName);
+    formData.append("lastName", lastName);
+    formData.append("jerseyNumber", jerseyNumber);
+    formData.append("position", position);
+    // const response = await axios.post(apis.updatePlayer, formData)
+    const response =  await axios.post(apis.updatePlayer, formData)
+    console.log("players", response)
+    const players = response.data.players;
+    players.map(player=>{
+      if (!player.userId) {
+        const avatarUrl = apis.playerAvatarURL(player.id);
+        player.avatar = avatarUrl;
+      }
+    })
+    dispatch({
+     type: GET_PLAYERS,
+     payload: players,
+   });
+    if (chosenFile) dispatch({type: UPDATE_PLAYER_AVATAR_URL, payload: {id:playerId, avatar: URL.createObjectURL(chosenFile)}})
+    else dispatch({type: UPDATE_PLAYER_AVATAR_URL, payload: {id:playerId, avatar: null}})
+  } catch (error) {
+    dispatch({
+      type: GET_PLAYERS,
+      payload: [],
+    });
+  }
+}
 export const uploadPlayerAvatar = async (dispatch, playerId, chosenFile) => {
   try {
     const formData = new FormData();
@@ -881,8 +913,6 @@ export const getUsers = async (dispatch) => {
 };
 
 export const getUserInfo = async (dispatch, id) => {
-  // const navigate = useNavigate();
-
   try {
     const response = await axios.get(apis.getUserInfo(id));
     const user = response.data.user;
@@ -892,6 +922,9 @@ export const getUserInfo = async (dispatch, id) => {
       payload: user,
     });
   } catch (error) {
+    // window.location.href="/signin";
+    localStorage.removeItem("token")
+    localStorage.removeItem("userId")
     dispatch({
       type: GET_USER,
       payload: [],
