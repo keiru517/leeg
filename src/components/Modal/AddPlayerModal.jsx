@@ -75,6 +75,8 @@ const AddPlayerModal = (props) => {
     // dispatch({ type: actions.CLOSE_ADD_SUBSTITUTE_DIALOG });
     setIsOpenAddPlayerModal(false)
     setPlayersList({});
+    setFirstName("");
+    setLastName("");
     setEmail("");
     setJerseyNumber("");
     setPosition("Select Position");

@@ -8,16 +8,21 @@ import { useDispatch, useSelector } from "react-redux";
 import * as actions from "../../actions";
 import apis from "../../utils/apis";
 import Select from "../Select";
+import ImageCropperModal from "../../components/Modal/ImageCropperModal";
+import deleteIconDark from "../../assets/img/dark_mode/delete-icon-dark.svg";
+import deleteIconLight from "../../assets/img/dark_mode/delete-icon-light.svg";
+// import DefaultSubstituteAvatar from "../../assets/img/dark_mode/cropper.jpg";
+import DefaultSubstituteAvatar from "../../assets/img/dark_mode/default-substitutue-avatar.svg";
 
 const EditPlayerModal = (props) => {
   const dispatch = useDispatch();
+  const darkMode = useSelector((state) => state.home.dark_mode);
 
   const { playerId, isOpen, setIsOpen } = props;
   const player = useSelector((state) => state.home.players).find(
     (player) => player.id == playerId
   );
 
-  const [jerseyNumber, setJerseyNumber] = useState(0);
 
   const positions = [
     { id: 0, name: "Center" },
@@ -27,31 +32,64 @@ const EditPlayerModal = (props) => {
     { id: 4, name: "Shooting Guard" },
   ];
 
-  const [position, setPosition] = useState(player?.position? player?.position:"Select Position");
+  const [modalOpen, setModalOpen] = useState(false);
+  const [chosenFile, setChosenFile] = useState(null);
+  const [previewURL, setPreviewURL] = useState("");
+  const [firstName, setFirstName] = useState(player?.firstName);
+  const [lastName, setLastName] = useState(player?.lastName);
+  const [jerseyNumber, setJerseyNumber] = useState(0);
+  const [position, setPosition] = useState(player?.position ? player?.position : "Select Position");
 
   useEffect(() => {
+    setFirstName(player?.firstName);
+    setLastName(player?.lastName)
     setJerseyNumber(player?.jerseyNumber);
+    setPosition(player?.position ? player?.position : "Select Position")
   }, [player]);
 
   const cancelButtonRef = useRef(null);
 
   const closeDialog = () => {
-    setPosition("Select Position")
     setIsOpen(false);
+    setChosenFile(null);
+    // setPosition("Select Position")
+    setPreviewURL("")
   };
 
   const handleEdit = () => {
     setIsOpen(false);
-    axios
-      .post(apis.updatePlayer, { playerId, jerseyNumber, position })
-      .then((res) => {
-        actions.getPlayers(dispatch);
-        alert(res.data.message);
-      })
-      .catch((error) => {
-        alert(error.response.data.message);
-      });
+    const formData = new FormData();
+    formData.append("playerId", playerId);
+    formData.append("avatar", chosenFile);
+    formData.append("firstName", firstName);
+    formData.append("lastName", lastName);
+    formData.append("jerseyNumber", jerseyNumber);
+    formData.append("position", position);
+    actions.updatePlayer(dispatch, playerId, chosenFile, firstName, lastName, jerseyNumber, position)
   };
+
+  const base64toBlob = (base64Data) => {
+    const byteString = atob(base64Data);
+    const arrayBuffer = new ArrayBuffer(byteString.length);
+    const int8Array = new Uint8Array(arrayBuffer);
+  
+    for (let i = 0; i < byteString.length; i++) {
+      int8Array[i] = byteString.charCodeAt(i);
+    }
+  
+    return new Blob([arrayBuffer], { type: 'image/jpeg' });
+  }
+
+  const handleDeleteAvatar = () => {
+    // setChosenFile(null)
+    // const base64Data = DefaultSubstituteAvatar.split(',')[1]
+    // const blob = base64toBlob(base64Data);
+    // const file = new File([blob], 'image.jpg', { type: 'image/jpeg' });
+
+    setChosenFile(null)
+    setPreviewURL(DefaultSubstituteAvatar)
+
+  }
 
   return (
     <Transition.Root show={isOpen} as={Fragment}>
@@ -104,9 +142,14 @@ const EditPlayerModal = (props) => {
                         <div className="flex items-center justify-between bg-light-charcoal dark:bg-dark-gray w-full h-14 rounded-default py-1.5 px-4">
                           <div className="flex">
                             <img
-                              src={player?.avatar}
-                              className="w-10 h-10 mr-3 rounded-default"
-                              alt=""
+                              src={previewURL ? previewURL : (player?.avatar ? player?.avatar : DefaultSubstituteAvatar)}
+                              className="w-10 h-10 mr-3 rounded-full border border-gray-500 cursor-pointer"
+                              alt="avatar"
+                              onClick={() => {
+                                if (!player?.userId) {
+                                  setModalOpen(true)
+                                }
+                              }}
                             />
                             <div>
                               <p className="text-black dark:text-white text-base underline">
@@ -119,8 +162,49 @@ const EditPlayerModal = (props) => {
                               </div>
                             </div>
                           </div>
+                          <img
+                            src={darkMode ? deleteIconDark : deleteIconLight}
+                            alt=""
+                            className="w-[18px] h-[18px] hover:opacity-70 cursor-pointer"
+                            onClick={handleDeleteAvatar}
+                          />
                         </div>
                         <div className="grid grid-cols-2 gap-4 mt-5">
+                          {
+                            !player?.userId &&
+                            <>
+                              <div>
+                                <label
+                                  htmlFor=""
+                                  className="text-black dark:text-white text-xs"
+                                >
+                                  First Name
+                                </label>
+                                <Input
+                                  className="rounded-default text-xs h-12 col-span-2"
+                                  placeholder="Type First Name*"
+                                  value={firstName}
+                                  onChange={(e) => setFirstName(e.target.value)}
+                                  required
+                                ></Input>
+                              </div>
+                              <div>
+                                <label
+                                  htmlFor=""
+                                  className="text-black dark:text-white text-xs"
+                                >
+                                  Last Name
+                                </label>
+                                <Input
+                                  className="rounded-default text-xs h-12"
+                                  placeholder="Type Last Name*"
+                                  value={lastName}
+                                  onChange={(e) => setLastName(e.target.value)}
+                                  required
+                                ></Input>
+                              </div>
+                            </>
+                          }
                           <div>
                             <label
                               htmlFor="jerseyNumber"
@@ -165,6 +249,7 @@ const EditPlayerModal = (props) => {
                     </button>
                   </div>
                 </div>
+                <ImageCropperModal modalOpen={modalOpen} setModalOpen={setModalOpen} setPreviewURL={setPreviewURL} setChosenFile={setChosenFile} />
               </Dialog.Panel>
             </Transition.Child>
           </div>

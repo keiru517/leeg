@@ -31,7 +31,10 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    actions.getUserInfo(dispatch, localStorage.getItem("userId"));
+    // actions.getUserInfo(dispatch, localStorage.getItem("userId"));
+    // if (!localStorage.getItem("token")) {
+    //   window.location.href="/signin"
+    // }
     actions.getUsers(dispatch);
     actions.getTeams(dispatch);
     actions.getLeagues(dispatch)

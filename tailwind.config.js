@@ -8,15 +8,15 @@ const config = {
   theme: {
     extend: {
       colors: {
-        black: "#111315",
-        slate: "#1A1D1F",
-        charcoal: "#272b30",
+        "black": "#111315",
+        "slate": "#1A1D1F",
+        "charcoal": "#272b30",
         "light-charcoal": "#F4F4F4",
-        primary: "#00AFFF",
+        "primary": "#00AFFF",
         "dark-gray": "#353A41",
         "light-dark-gray": "#d3d3d3",
-        success: "#34A853",
-        danger: "#F70628",
+        "success": "#34A853",
+        "danger": "#F70628",
         "light-gray": "#585E65",
         "middle-gray": "#494e54",
         "font-dark-gray": "#6F767E",

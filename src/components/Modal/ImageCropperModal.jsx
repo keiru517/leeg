@@ -9,9 +9,9 @@ import ImageCropper from "../ImageCropper";
 
 const ImageCropperModal = (props) => {
   const dispatch = useDispatch();
-  let { leagueId} = useParams();
-  const {modalOpen, setModalOpen, setPreviewURL, setChosenFile} = props
-  const user = useSelector(state=>state.home.user);
+  let { leagueId } = useParams();
+  const { modalOpen, setModalOpen, setPreviewURL, setChosenFile } = props
+  const user = useSelector(state => state.home.user);
 
   const [email, setEmail] = useState("");
 
@@ -20,10 +20,10 @@ const ImageCropperModal = (props) => {
   const closeDialog = () => {
     setModalOpen(false)
   };
-  
-  
+
+
   const invitePlayer = () => {
-    actions.invitePlayer(dispatch, {email:email, leagueId:leagueId, inviter:user})
+    actions.invitePlayer(dispatch, { email: email, leagueId: leagueId, inviter: user })
     dispatch({ type: actions.OPEN_INVITE_PLAYER_DIALOG, payload: false });
   }
 
@@ -71,7 +71,7 @@ const ImageCropperModal = (props) => {
                     ></img>
                   </div>
                   <div className="flex-col p-default flex flex-grow justify-between">
-                  <ImageCropper setPreviewURL={setPreviewURL} setModalOpen={setModalOpen} setChosenFile={setChosenFile}/>
+                    <ImageCropper setPreviewURL={setPreviewURL} setModalOpen={setModalOpen} setChosenFile={setChosenFile} />
                   </div>
                 </div>
               </Dialog.Panel>

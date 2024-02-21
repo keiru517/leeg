@@ -9,6 +9,11 @@ import { Link } from "react-router-dom";
 const Nav = () => {
   const dispatch = useDispatch();
   const user = useSelector(state=>state.home.user);
+  useEffect(() => {
+    if (!localStorage.getItem("token")) {
+      window.location.href="/signin"
+    }
+  }, [localStorage.getItem("token")])
 
   return (
     <div className="dark:bg-slate bg-white py-1  flex items-center justify-between">
