@@ -68,27 +68,9 @@ const EditPlayerModal = (props) => {
     actions.updatePlayer(dispatch, playerId, chosenFile, firstName, lastName, jerseyNumber, position)
   };
 
-  const base64toBlob = (base64Data) => {
-    const byteString = atob(base64Data);
-    const arrayBuffer = new ArrayBuffer(byteString.length);
-    const int8Array = new Uint8Array(arrayBuffer);
-  
-    for (let i = 0; i < byteString.length; i++) {
-      int8Array[i] = byteString.charCodeAt(i);
-    }
-  
-    return new Blob([arrayBuffer], { type: 'image/jpeg' });
-  }
-
   const handleDeleteAvatar = () => {
-    // setChosenFile(null)
-    // const base64Data = DefaultSubstituteAvatar.split(',')[1]
-    // const blob = base64toBlob(base64Data);
-    // const file = new File([blob], 'image.jpg', { type: 'image/jpeg' });
-
     setChosenFile(null)
     setPreviewURL(DefaultSubstituteAvatar)
-
   }
 
   return (
@@ -162,12 +144,15 @@ const EditPlayerModal = (props) => {
                               </div>
                             </div>
                           </div>
-                          <img
-                            src={darkMode ? deleteIconDark : deleteIconLight}
-                            alt=""
-                            className="w-[18px] h-[18px] hover:opacity-70 cursor-pointer"
-                            onClick={handleDeleteAvatar}
-                          />
+                          {
+                            !player?.userId &&
+                            <img
+                              src={darkMode ? deleteIconDark : deleteIconLight}
+                              alt=""
+                              className="w-[18px] h-[18px] hover:opacity-70 cursor-pointer"
+                              onClick={handleDeleteAvatar}
+                            />
+                          }
                         </div>
                         <div className="grid grid-cols-2 gap-4 mt-5">
                           {
