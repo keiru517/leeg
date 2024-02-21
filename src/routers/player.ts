@@ -14,7 +14,7 @@ playerRouter.post('/create', PlayerController.create);
 
 // update a player
 // SERVER_URL/api/player/update
-playerRouter.post('/update', PlayerController.update);
+playerRouter.post('/update', upload.single('avatar'), PlayerController.update);
 
 // Update the player avatar
 playerRouter.post('/uploadPlayerAvatar', upload.single('avatar'), PlayerController.uploadPlayerAvatar);

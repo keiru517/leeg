@@ -37,13 +37,36 @@ export const create: RequestHandler = async (req, res) => {
 
 // POST SERVER_URL/api/player/update
 export const update: RequestHandler = async (req, res) => {
-  const { playerId, jerseyNumber, position } = req.body;
-  console.log(playerId, jerseyNumber);
-
+  const { playerId, firstName, lastName, jerseyNumber, position } = req.body;
+  console.log("==============", req.body.playerId)
   const player = await Player.findByPk(playerId);
+  
   if (player) {
-    await player.update({ jerseyNumber: jerseyNumber, position: position });
-    res.json({ message: 'Updated successfully!' });
+    if (req.file) {
+      console.log("file exists")
+      const extension = path.extname(req.file.originalname);
+      const fileName = `avatar${extension}`;
+      const directoryPath = absolutePath(`public/upload/players/${req.body.playerId}`)
+      if (!existsSync(directoryPath)) {
+        mkdirSync(directoryPath, { recursive: true });
+      }
+      const filePath = path.join(directoryPath, fileName);
+
+      const buffer = req.file.buffer;
+      writeFileSync(filePath, buffer);
+      player.avatar = fileName
+      await player.save()
+    } else {
+      player.avatar = "";
+      await player.save()
+    }
+    await player.update({ firstName:firstName, lastName:lastName, jerseyNumber: jerseyNumber, position: position });
+    const players = await Player.findAll({
+      where: {
+        isDeleted: 0
+      }
+    });
+    res.json({ players });
   } else {
     res.status(404).json({ message: 'player not found' });
   }
@@ -70,7 +93,6 @@ export const uploadPlayerAvatar: RequestHandler = async(req, res) => {
         const buffer = req.file.buffer;
         writeFileSync(filePath, buffer);
         player.avatar = fileName
-        // player.avatar = absolutePath(`public/upload/players/${req.body.playerId}/`) + fileName
         await player.save()
       } else {
 
