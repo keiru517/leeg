@@ -130,46 +130,75 @@ const Signup = () => {
                     name="email"
                     value={email}
                   />
-                  <input
-                    className="w-full flex space-x-2 border border-dark-gray items-center px-3 bg-transparent outline-none  dark:text-white flex-grow h-[42px] rounded-default text-font-dark-gray text-[10px] sm:text-xs"
-                    placeholder="Type Your First Name*"
-                    value={firstName}
-                    name="firstName"
-                    onChange={(e) => {
-                      setFirstName(e.target.value);
-                    }}
-                  ></input>
-                  <input
-                    className="w-full flex space-x-2 border border-dark-gray items-center px-3 bg-transparent outline-none  dark:text-white flex-grow h-[42px] rounded-default text-font-dark-gray text-[10px] sm:text-xs"
-                    placeholder="Type Your Last Name*"
-                    value={lastName}
-                    name="lastName"
-                    onChange={(e) => {
-                      setLastName(e.target.value);
-                    }}
-                  ></input>
+                  <div>
+                    <label htmlFor=""
+                      className="text-black dark:text-white text-xs"
+                    >
+                      FirstName
+                    </label>
+                    <input
+                      className="w-full flex space-x-2 border border-dark-gray items-center px-3 bg-transparent outline-none  dark:text-white flex-grow h-[42px] rounded-default text-font-dark-gray text-[10px] sm:text-xs"
+                      placeholder="Type Your First Name*"
+                      value={firstName}
+                      name="firstName"
+                      onChange={(e) => {
+                        setFirstName(e.target.value);
+                      }}
+                    ></input>
+                  </div>
+                  <div>
+                    <label htmlFor=""
+                      className="text-black dark:text-white text-xs"
+                    >
+                      LastName
+                    </label>
+                    <input
+                      className="w-full flex space-x-2 border border-dark-gray items-center px-3 bg-transparent outline-none  dark:text-white flex-grow h-[42px] rounded-default text-font-dark-gray text-[10px] sm:text-xs"
+                      placeholder="Type Your Last Name*"
+                      value={lastName}
+                      name="lastName"
+                      onChange={(e) => {
+                        setLastName(e.target.value);
+                      }}
+                    ></input>
+
+                  </div>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
-                  <PasswordInput
-                    className="bg-transparent rounded-default text-font-dark-gray text-[10px] sm:text-xs"
-                    type="password"
-                    placeholder="Type Your Password*"
-                    value={password}
-                    name="password"
-                    onChange={(e) => {
-                      setPassword(e.target.value);
-                    }}
-                  ></PasswordInput>
-                  <PasswordInput
-                    className="bg-transparent rounded-default text-font-dark-gray text-[10px] sm:text-xs"
-                    type="password"
-                    placeholder="Retype Your Password*"
-                    value={passwordConfirm}
-                    name="passwordConfirm"
-                    onChange={(e) => {
-                      setPasswordConfirm(e.target.value);
-                    }}
-                  ></PasswordInput>
+                  <div>
+                    <label htmlFor=""
+                      className="text-black dark:text-white text-xs"
+                    >
+                      Password
+                    </label>
+                    <PasswordInput
+                      className="bg-transparent rounded-default text-font-dark-gray text-[10px] sm:text-xs"
+                      type="password"
+                      placeholder="Type Your Password*"
+                      value={password}
+                      name="password"
+                      onChange={(e) => {
+                        setPassword(e.target.value);
+                      }}
+                    ></PasswordInput>
+                  </div>
+                  <div>
+                    <label htmlFor=""
+                      className="text-black dark:text-white text-xs"
+                    >
+                      Password Confirm
+                    </label>
+                    <PasswordInput
+                      className="bg-transparent rounded-default text-font-dark-gray text-[10px] sm:text-xs"
+                      type="password"
+                      placeholder="Retype Your Password*"
+                      value={passwordConfirm}
+                      name="passwordConfirm"
+                      onChange={(e) => {
+                        setPasswordConfirm(e.target.value);
+                      }}
+                    ></PasswordInput>
+                  </div>
                 </div>
               </div>
               <div className="flex justify-between mt-6 space-x-3">
