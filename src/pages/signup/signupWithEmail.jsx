@@ -27,14 +27,14 @@ const SignupWithEmail = () => {
   const [code, setCode] = useState();
   const [inputValue, setInputValue] = useState("");
 
-  const users = useSelector(state=>state.home.users);
+  const users = useSelector(state => state.home.users);
   const [email, setEmail] = useState("");
   // const [isClicked, setIsClicked] = useState(false);
   const handleClick = () => {
     if (!email) {
       alert("Please type your email address!");
     } else {
-      const isRegistered = users.some((user)=>user.email == email);
+      const isRegistered = users.some((user) => user.email == email);
       if (isRegistered) {
         alert("Email has already been registered!");
       } else {
@@ -94,11 +94,15 @@ const SignupWithEmail = () => {
     }
   };
 
+  const goToSignIn = () => {
+    navigate('/signin')
+  }
+
   return (
     <div className="">
       <div className="sm:w-auth sm:mx-auto">
         {step == 1 ? (
-          <div className="bg-white dark:bg-slate w-full h-[275px] mt-16 rounded-main p-default flex flex-col">
+          <div className="bg-white dark:bg-slate w-full mt-32 rounded-main p-default flex flex-col">
             <div className="h-[55px]">
               <p className="text-black dark:text-white text-2xl font-bold">
                 Sign up!
@@ -118,7 +122,7 @@ const SignupWithEmail = () => {
               <button
                 onClick={handleClick}
                 className="w-full h-12 bg-primary font-bold text-white rounded-default hover:bg-opacity-70 my-4 disabled:bg-opacity-50"
-                // disabled={isClicked}
+              // disabled={isClicked}
               >
                 Create Account
               </button>
@@ -135,7 +139,7 @@ const SignupWithEmail = () => {
             </div>
           </div>
         ) : step == 2 ? (
-          <div className="bg-white dark:bg-slate w-full h-[335px] mt-16 rounded-main p-default flex flex-col">
+          <div className="bg-white dark:bg-slate w-full mt-32 rounded-main p-default flex flex-col">
             <div>
               <p className="text-black dark:text-white text-2xl font-bold">
                 Verify Email Address
@@ -281,6 +285,16 @@ const SignupWithEmail = () => {
                 {" "}
                 Resend Code
               </span>
+            </p>
+            <p className="font-dark-gray text-center">
+              Do you already have an account?
+              {/* <Link to={"/signup"}> */}
+              <Link to={"/signin"}>
+                <span className="text-sky-500 font-bold text-sm">
+                  {" "}
+                  Sign In
+                </span>
+              </Link>
             </p>
           </div>
         ) : (
