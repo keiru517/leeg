@@ -117,16 +117,15 @@ const LeagueDetailModal = () => {
                           />
                         </div>
                         <div className="col-span-4">
-                          <p className="text-sky-500">Admin: </p>
-                          <p className="text-black dark:text-white text-sm">{owner?.email}</p>
+                          <p className="text-sky-500">
+                            League Name:
+                          </p>
+                          <p className="text-black dark:text-white text-sm">{league.name}</p>
                         </div>
                       </div>
                       <div className="mb-4">
-                        <p className="text-sky-500">
-                          League Name:
-                        </p>
-                        <p className="text-black dark:text-white text-sm">{league.name}</p>
-
+                        <p className="text-sky-500">Admin: </p>
+                        <p className="text-black dark:text-white text-sm">{owner?.email}</p>
                       </div>
                       <div className="mb-4">
                         <p className="text-sky-500">

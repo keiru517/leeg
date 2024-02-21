@@ -139,11 +139,6 @@ const Player = () => {
               src={previewURL ? previewURL : (player?.avatar ? player?.avatar : DefaultSubstituteAvatar)}
               alt=""
               className="w-10 h-10 sm:w-20 sm:h-20 mx-6 rounded-full border border-gray-500"
-              onClick={() => {
-                if (!player?.userId) {
-                  setModalOpen(true)
-                }
-              }}
             />
             {/* <input
               type="file"
