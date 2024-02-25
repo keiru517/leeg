@@ -194,12 +194,33 @@ const home = (state = initialState, action) => {
     case actions.GET_USERS:
       return { ...state, users: action.payload };
     case actions.UPDATE_AVATAR_URL:
+      const updatedPlayers = state.players.map(player => {
+        if (player.userId === action.payload.id) {
+          return {
+            ...player,
+            avatar: action.payload.url
+          }
+        }
+        return player;
+      });
+      const updatedUsers = state.users.map(user => {
+        if (user.id === action.payload.id) {
+          return {
+            ...user,
+            avatar: action.payload.url
+          }
+        }
+        return user;
+      });
+
       return {
         ...state,
         user: {
           ...state.user,
-          avatar: action.payload
-        }
+          avatar: action.payload.url
+        },
+        players: updatedPlayers,
+        users: updatedUsers
       }
     case actions.GET_COUNTRIES:
       return { ...state, countries: action.payload };
@@ -527,19 +548,18 @@ const home = (state = initialState, action) => {
         players: action.payload,
       };
 
-      case actions.UPDATE_PLAYER_AVATAR_URL:
-        console.log("avatar", action.payload.avatar)
-        return {
-          ...state,
-          players: state.players.map((player) =>
-            player.id == action.payload.id
-              ? {
-                ...player,
-                avatar: action.payload.avatar,
-              }
-              : player
-          ),
-        };
+    case actions.UPDATE_PLAYER_AVATAR_URL:
+      return {
+        ...state,
+        players: state.players.map((player) =>
+          player.id == action.payload.id
+            ? {
+              ...player,
+              avatar: action.payload.avatar,
+            }
+            : player
+        ),
+      };
 
     case actions.GET_ADMINS:
       return {

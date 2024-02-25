@@ -6,13 +6,9 @@ import addedIcon from "../../assets/img/dark_mode/circle-added.png";
 import DefaultSubstituteAvatar from "../../assets/img/dark_mode/default-substitutue-avatar.svg";
 import * as actions from "../../actions";
 import { useDispatch } from "react-redux";
+import apis from "../../utils/apis";
 
 const MatchupPlayerList = ({ className, player, addAction, handleAddSubstituteScore, checked }) => {
-  const [itemOnechecked, setItemOneChecked] = useState(false);
-  const [itemTwochecked, setItemTwoChecked] = useState(false);
-  const [itemThreechecked, setItemThreeChecked] = useState(false);
-  const [itemFourchecked, setItemFourChecked] = useState(true);
-
   const dispatch = useDispatch();
 
   const [status, setStatus] = useState(checked ? addedIcon : addIcon);
@@ -37,11 +33,15 @@ const MatchupPlayerList = ({ className, player, addAction, handleAddSubstituteSc
       >
         <div className="flex items-center">
           <img
+            // src={
+            //   apis.playerAvatarURL(player?.avatar)
+            // }
             src={
-              player?.avatar ? player?.avatar : DefaultSubstituteAvatar
+              // "http://localhost:3003/api/player/avatar/28"
+              player?.avatar.startsWith("avatar") ? apis.playerAvatarURL(player?.id) : player?.avatar ? player?.avatar : DefaultSubstituteAvatar
             }
             className="w-10 h-10 mr-3 rounded-full border border-gray-500"
-            alt=""
+            alt={player?.avatar}
           />
           <div className="">
             <p className="text-black dark:text-white text-base underline">

@@ -15,9 +15,10 @@ const AdminTable = (props) => {
     (admin) => admin.leagueId == leagueId && admin.isDeleted !== 1
   );
   const users = useSelector((state) => state.home.users);
+  const players = useSelector(state=>state.home.players);
 
   useEffect(() => {
-    actions.getPlayers(dispatch);
+    // actions.getPlayers(dispatch);
   }, []);
 
   const handleDelete = (adminId) => {
@@ -76,8 +77,10 @@ const AdminTable = (props) => {
                       <div className="flex items-center text-black dark:text-white">
                         <img
                           src={
-                            users.find((user) => user?.id == admin.userId)
+                            players.find((player) => player?.userId == admin.userId)
                               ?.avatar
+                            // users.find((user) => user?.id == admin.userId)
+                            //   ?.avatar
                           }
                           alt=""
                           className="w-8 h-8 mr-2 rounded-full border border-gray-500"

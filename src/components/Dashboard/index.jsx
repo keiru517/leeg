@@ -14,6 +14,7 @@ import BlogCard from "../Card/Blog";
 const Dashboard = () => {
     let { leagueId } = useParams();
     const dispatch = useDispatch();
+    const isPublic = localStorage.getItem('token') ? false : true;
 
     const teams = useSelector(state => state.home.teams);
     const matches = useSelector(state => state.home.matches).filter(match => match.leagueId == leagueId);
@@ -30,7 +31,7 @@ const Dashboard = () => {
     const [matchFilteredData, setMatchFilteredData] = useState([])
 
     useEffect(() => {
-        setMatchFilteredData(matches.filter(match=>match.isNew));
+        setMatchFilteredData(matches.filter(match => match.isNew));
     }, [matches.length])
 
     const handleMatchFilter = (e) => {
@@ -73,7 +74,7 @@ const Dashboard = () => {
     const [pointsFilter, setPointsFilter] = useState(pointsFilters[0].name);
     const [filteredData, setFilteredData] = useState([])
 
-    const players = useSelector(state => state.home.players).filter(player=>player.leagueId == leagueId);
+    const players = useSelector(state => state.home.players).filter(player => player.leagueId == leagueId);
     const matchups = useSelector((state) => state.home.matchups);
 
     const league = useSelector(state => state.home.leagues).find(league => league.id == leagueId);
@@ -142,6 +143,7 @@ const Dashboard = () => {
                         !matchup.match?.isNew
                 );
                 return {
+                    id: player.id,
                     totalPoints: matchup.reduce((sum, item) => sum + item.points, 0),
                     totalPoints1: matchup.reduce(
                         (sum, matchup) => sum + matchup.points1,
@@ -246,6 +248,7 @@ const Dashboard = () => {
                 (matchup) => matchup.teamId == team.id
             );
             return {
+                id: team.id,
                 name: team.name,
                 logo: team.logo,
                 win: team.win,
@@ -340,15 +343,6 @@ const Dashboard = () => {
             <hr className="h-px mb-4 bg-charcoal border-0" />
             <div className="flex space-x-4">
                 <div className="w-full flex flex-col">
-                    {/* <div className="flex justify-between w-full">
-                        <p className="text-black dark:text-white text-xl font-semibold">
-                            Dashboard
-                        </p>
-                        <p className="text-black dark:text-white text-xl font-semibold">
-
-                        </p>
-                    </div>
-                    <hr className="h-px my-3 bg-gray-300 border-0 dark:bg-dark-gray" /> */}
                     <div
                         className={`items-center rounded-default`}
                     >
@@ -373,16 +367,16 @@ const Dashboard = () => {
                                                         <div className="flex items-center">
                                                             <img src={match.homeTeam.logo} alt="" className="h-10 w-10 mr-3 rounded-full border border-gray-500" />
                                                             {/* <Link to={`/league/${leagueId}/team/${match.homeTeamId}`} className="">{match.homeTeam.name}</Link> */}
-                                                            <p className={`${match.homeTeamPoints > match.awayTeamPoints? "font-bold": ""}`}>{match.homeTeam.name}</p>
+                                                            <p className={`${match.homeTeamPoints > match.awayTeamPoints ? "font-bold" : ""}`}>{match.homeTeam.name}</p>
                                                         </div>
                                                         <p className="text-green-500 text-lg mx-2">VS</p>
                                                         <div className="flex items-center text-right">
-                                                            <p className={`${match.homeTeamPoints < match.awayTeamPoints? "font-bold": ""}`}>{match.awayTeam.name}</p>
+                                                            <p className={`${match.homeTeamPoints < match.awayTeamPoints ? "font-bold" : ""}`}>{match.awayTeam.name}</p>
                                                             <img src={match.awayTeam.logo} alt="" className="h-10 w-10 ml-3 rounded-full border border-gray-500" />
                                                         </div>
                                                     </div>
                                                     <div className="mx-auto mt-3 text-xs sm:text-sm">
-                                                        <p>{match.date} • {match.time} • {match.location}</p>
+                                                        <p>{match.date ? match.date + " • " : ""}{match.time}{match.location ? " • " + match.location : ""}</p>
                                                     </div>
 
                                                 </div>
@@ -405,25 +399,18 @@ const Dashboard = () => {
                                     <div className="flex justify-between h-10 p-default sticky top-0 z-10 bg-light-charcoal dark:bg-charcoal shadow-md items-center">
                                         <p className="font-inter text-sm sm:text-lg">League Leaders</p>
                                         <div className="flex space-x-1 sm:space-x-3">
-                                            <Select
-                                                className="w-[85px] rounded-lg text-xs h-[30px]"
+                                            <SelectPoints
+                                                className="w-[87px] rounded-lg text-xs h-[30px]"
                                                 options={playerFilters}
                                                 value={playerFilter}
                                                 handleClick={handlePlayerFilter}
-                                            ></Select>
+                                            ></SelectPoints>
                                             <SelectPoints
                                                 className="w-[87px] rounded-lg text-xs h-[30px]"
                                                 options={pointsFilters}
                                                 value={pointsFilter}
                                                 handleClick={handlePointsFilter}
                                             ></SelectPoints>
-                                            {/* <select name="" id="" className="appearance-none bg-transparent border border-gray-500 rounded-default text-xs">
-                                                {
-                                                    pointsFilters.map(point=>(
-                                                        <option className="text-black dark:text-white bg-transparent">{point.name}</option>
-                                                    ))
-                                                }
-                                            </select> */}
                                         </div>
                                     </div>
                                     {
@@ -434,10 +421,19 @@ const Dashboard = () => {
                                                         <div className="flex items-center justify-between">
                                                             <div className="flex items-center">
                                                                 <p className="mr-3">{idx + 1}.</p>
-                                                                <img src={player.avatar} alt="" className="h-10 w-10 mr-3 rounded-full border border-gray-500" />
+                                                                <Link to={`/${isPublic ? "public_league" : "league"}/${leagueId}/player/${player.id}`}>
+                                                                    <img src={player.avatar} alt="" className="h-10 w-10 mr-3 rounded-full border border-gray-500" />
+                                                                </Link>
                                                                 <div>
-                                                                    <p className="">{player.firstName} {player.lastName}</p>
-                                                                    <p className="text-xs">{player.teamName}</p>
+                                                                    <Link
+                                                                        to={`/${isPublic ? "public_league" : "league"}/${leagueId}/player/${player.id}`}
+                                                                        className="hover:underline"
+                                                                    >
+                                                                        <p className="">{player.firstName} {player.lastName}</p>
+                                                                    </Link>
+                                                                    <Link to={`/${isPublic ? "public_league" : "league"}/${leagueId}/team/${player.teamId}`} className="hover:underline">
+                                                                        <p className="text-xs">{player.teamName}</p>
+                                                                    </Link>
                                                                 </div>
                                                             </div>
                                                             <p className="text-green-500 text-lg">{player[filterObject[pointsFilter]]}</p>
@@ -459,9 +455,13 @@ const Dashboard = () => {
                                                         <div className="flex items-center justify-between">
                                                             <div className="flex items-center">
                                                                 <p className="mr-3">{idx + 1}.</p>
-                                                                <img src={team.logo} alt="" className="h-10 w-10 mr-3 rounded-full border border-gray-500" />
+                                                                <Link to={`/${isPublic ? "public_league" : "league"}/${leagueId}/team/${team.id}`} className="hover:underline">
+                                                                    <img src={team.logo} alt="" className="h-10 w-10 mr-3 rounded-full border border-gray-500" />
+                                                                </Link>
                                                                 <div>
-                                                                    <p>{team.name}</p>
+                                                                    <Link to={`/${isPublic ? "public_league" : "league"}/${leagueId}/team/${team.id}`} className="hover:underline">
+                                                                        <p>{team.name}</p>
+                                                                    </Link>
                                                                 </div>
                                                             </div>
                                                             <p className="text-green-500 text-lg">{team[filterObject[pointsFilter]]}</p>

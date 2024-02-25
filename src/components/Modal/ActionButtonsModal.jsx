@@ -250,21 +250,9 @@ const ActionButtonsModal = (props) => {
                         )}
                         <div
                           className="flex dark:bg-[#282A2C] bg-light-charcoal h-16 text-black dark:text-white items-center justify-center rounded-xl hover:cursor-pointer border border-gray-500"
-                        // onClick={() => handleClickTimeout(teamId)}
-                        >
-                          <p className="text-black dark:text-white"></p>
-                        </div>
-                        <div
-                          className="flex dark:bg-[#282A2C] bg-light-charcoal h-16 text-black dark:text-white items-center justify-center rounded-xl hover:cursor-pointer border border-gray-500"
                           onClick={() => handleClickTimeout(teamId)}
                         >
                           <p className="text-black dark:text-white">TIMEOUT</p>
-                        </div>
-                        <div
-                          className="flex dark:bg-[#282A2C] bg-light-charcoal h-16 text-black dark:text-white items-center justify-center rounded-xl hover:cursor-pointer border border-gray-500"
-                        // onClick={() => handleClickTimeout(teamId)}
-                        >
-                          <p className="text-black dark:text-white"></p>
                         </div>
                       </div>
                     </div>

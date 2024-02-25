@@ -7,9 +7,7 @@ import axios from "axios";
 import searchIconDark from "../../assets/img/dark_mode/search-icon-dark.svg";
 import searchIconLight from "../../assets/img/dark_mode/search-icon-light.svg";
 import Input from "../../components/Input";
-import ListItem from "../../components/ListItem";
-import Select from "../../components/Select";
-import Button from "../../components/Button";
+import Tooltip from '@mui/material/Tooltip';
 import TeamCard from "../../components/Card/Team";
 import Tab from "@mui/material/Tab";
 import { TabPanel, TabContext } from "@mui/lab";
@@ -24,9 +22,6 @@ import MatchTable from "../../components/Table/Match";
 import StandingTable from "../../components/Table/Standing";
 import AdminTable from "../../components/Table/Admin";
 import PlayerTable from "../../components/Table/Player";
-import RosterTable from "../../components/Table/Roster";
-// import TimePicker from "../../components/Timer/TimePicker";
-import calendar from "../../assets/img/dark_mode/calendar.png";
 import apis from "../../utils/apis";
 import * as actions from "../../actions";
 import toggleOn from "../../assets/img/dark_mode/toggle-on.png";
@@ -220,49 +215,6 @@ const League = () => {
     setFilteredAcceptListPlayers(searchResult);
   }, [acceptListKeyword]);
 
-
-
-  const setWaitListItemChecked = (index, checked) => {
-    let temp = { ...waitItemChecked };
-    temp[index] = checked;
-    setWaitItemChecked(temp);
-  };
-  const setAcceptedListItemChecked = (index, checked) => {
-    acceptedItemChecked[index] = checked;
-    setAcceptedItemChecked({ ...acceptedItemChecked });
-  };
-
-  const handleAccept = () => {
-    if (Object.keys(waitItemChecked).length < 1) {
-      alert("Please select at least one player!");
-    } else {
-      axios
-        .post(apis.acceptPlayer, { waitItemChecked, leagueId: leagueId })
-        .then((res) => {
-          actions.getPlayers(dispatch);
-          setWaitItemChecked({});
-        })
-        .catch((error) => alert(error.response.data.message));
-    }
-  };
-
-  const handleRemove = () => {
-    if (Object.keys(acceptedItemChecked).length < 1) {
-      alert("Please select at least one player!");
-    } else {
-      axios
-        .post(apis.unacceptPlayer, acceptedItemChecked)
-        .then((res) => {
-          actions.getPlayers(dispatch);
-          setAcceptedItemChecked({});
-        })
-        .catch((error) => alert(error.response.data.message));
-    }
-  };
-
-  const handleInvitePlayer = () => {
-    dispatch({ type: actions.OPEN_INVITE_PLAYER_DIALOG, payload: true });
-  };
   const handleCreateTeam = () => {
     dispatch({ type: actions.OPEN_CREATE_TEAM_DIALOG, payload: true });
   };
@@ -278,7 +230,6 @@ const League = () => {
   const [minute, setMinute] = useState("");
   const [second, setSecond] = useState("");
   const [isAllowedFan, setIsAllowedFan] = useState("");
-  const [displayLeagueId, setDisplayLeagueId] = useState("");
   const [displaySubstitutes, setDisplaySubstitutes] = useState("");
   const [displayPosition, setDisplayPosition] = useState("");
   const [displayJerseyNumber, setDisplayJerseyNumber] = useState("");
@@ -1135,14 +1086,17 @@ const League = () => {
                           </button>
                         </div>
                         <div className="grid grid-cols-2 gap-2 mt-3">
-                          <button
-                            onClick={()=>{
-                              navigator.clipboard.writeText(`${window.location}`.replace('league', 'public_league'))
-                            }}
-                            className="bg-green-700 h-10 text-white font-bold text-sm rounded-default hover:bg-green-600 col-span-2"
-                          >
-                            Public League Link
-                          </button>
+                          <Tooltip title="Copy public link of this league">
+                            <button
+                              onClick={() => {
+                                navigator.clipboard.writeText(`${window.location}`.replace('league', 'public_league').replace('7', '0'))
+                              }}
+                              className="bg-green-700 h-10 text-white font-bold text-sm rounded-default hover:bg-green-600 col-span-2"
+                            >
+                              Copy
+                            </button>
+
+                          </Tooltip>
                         </div>
                         {(player?.isWaitList || player?.isAcceptedList) && (
                           <div className="grid grid-cols-2 gap-2 mt-3">

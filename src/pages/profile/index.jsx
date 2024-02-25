@@ -24,6 +24,7 @@ const Profile = () => {
 
   const admins = useSelector((state) => state.home.admins);
   const user = useSelector((state) => state.home.user);
+  const player = useSelector((state) => state.home.players).find(player=>player.userId == user?.id)
 
   const [value, setValue] = useState("");
 
@@ -46,7 +47,6 @@ const Profile = () => {
   const [passwordConfirm, setPasswordConfirm] = useState("");
 
   const inviteAdmin = () => {
-    console.log("invite Admin clicked! The admin email is:", value);
     setValue("");
   };
 
@@ -70,12 +70,15 @@ const Profile = () => {
       const formData = new FormData();
       formData.append("avatar", chosenFile);
       formData.append("userId", user?.id);
-      // formData.append("email", email);
       formData.append("firstName", firstName);
       formData.append("lastName", lastName);
       axios.post(apis.updateInfo, formData).then((res) => {
-        dispatch({type:actions.UPDATE_AVATAR_URL, payload:URL.createObjectURL(chosenFile)})
-        alert("updated");
+        // dispatch({type:actions.UPDATE_AVATAR_URL, payload:URL.createObjectURL(chosenFile)})
+        dispatch({ type: actions.UPDATE_AVATAR_URL, payload: { id: user?.id, url: URL.createObjectURL(chosenFile) } })
+        // setPreviewURL("")
+        // actions.getPlayers(dispatch)
+        // dispatch({type: updateProfileAvatar, payload:{playerId:}})
+        // alert("updated");
       });
     } else {
       const hashedPassword = MD5(oldPassword).toString();
@@ -126,7 +129,7 @@ const Profile = () => {
             <div className="flex flex-col flex-grow space-y-5">
               <div className="flex items-center space-x-3">
                 <img
-                  src={previewURL ? previewURL : user?.avatar}
+                  src={previewURL ? previewURL : player?.avatar}
                   className="w-24 h-24 rounded-full border border-gray-500"
                   alt=""
                 />
