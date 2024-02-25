@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useParams } from "react-router";
 import * as actions from "../../actions";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Select from "../Select";
 
 const PageTitle = (props) => {
@@ -83,16 +83,29 @@ const PageTitle = (props) => {
     <div className="page-title flex items-center justify-between my-3">
       <div className="flex items-center">
         {backIcon ? (
-          <div
-            className="w-6 h-6 sm:w-[34px] sm:h-[34px] bg-gray-300 dark:bg-primary items-center flex justify-center rounded-default cursor-pointer hover:opacity-70"
-            onClick={() => navigate(-1)}
-          >
-            <img
-              src={backIcon}
-              alt=""
-              className="w-[4px] h-[10px] dark:hover:bg-middle-gray rounded-default cursor-pointer"
-            />
-          </div>
+          // <Link to={`/league/${leagueId}?tab=0`}>
+            <div
+              className="w-6 h-6 sm:w-[34px] sm:h-[34px] bg-gray-300 dark:bg-primary items-center flex justify-center rounded-default cursor-pointer hover:opacity-70"
+              onClick={() => {
+                navigate(-1)
+                // window.location.href = document.referrer;
+                // window.history.back();
+                // // window.location.reload();
+
+                // setTimeout(() => {
+                //   window.location.reload();
+                // }, 50); // Adjust the delay as needed
+              }
+              }
+            >
+              <img
+                src={backIcon}
+                alt=""
+                className="w-[4px] h-[10px] dark:hover:bg-middle-gray rounded-default cursor-pointer"
+              />
+            </div>
+          
+          // </Link>
         ) : (
           ""
         )}

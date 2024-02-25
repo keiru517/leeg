@@ -299,7 +299,7 @@ const Index = (props) => {
 
       {/* Period and Timer */}
       <div className="flex flex-col order-1 lg:order-2 text-center lg:mt-5">
-        <div className="order-2 lg:order-1 flex flex-col bg-white dark:bg-slate lg:bg-transparent rounded-lg p-2">
+        <div className=" flex flex-col order-1 lg:order-1 bg-white dark:bg-slate lg:bg-transparent rounded-lg p-2">
           <div
             className="lg:hidden self-end hover:cursor-pointer text-black dark:text-white text-xs p-2 bg-light-charcoal dark:bg-charcoal rounded-lg"
             onClick={openActionLogs}
@@ -315,7 +315,7 @@ const Index = (props) => {
           <p className="text-font-dark-gray text-sm mt-1">{match?.location}</p>
         </div>
 
-        <div className="flex flex-col order-1 lg:order-2 space-y-3 lg:space-y-9 mb-3">
+        <div className="flex flex-col order-2 lg:order-2 space-y-3 lg:space-y-9 mt-3 sm:mt-0 sm:mb-3">
           <div className="flex space-x-2 sm:space-x-3 justify-center">
             {numberOfPeriods?.map((period) => (
               <div
