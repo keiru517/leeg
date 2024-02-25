@@ -474,7 +474,6 @@ export const avatar: RequestHandler = async (req, res) => {
   });
   if (player) {
     res.sendFile(playerAvatarPath(id, player.avatar))
-    console.log(playerAvatarPath(id, player.avatar))
     // res.sendFile(absolutePath(player.avatar))
     // res.sendFile(player.avatar+"avatar.jpg")
   }
