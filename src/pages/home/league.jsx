@@ -14,9 +14,9 @@ import { TabPanel, TabContext } from "@mui/lab";
 import { Tabs } from "@mui/material";
 import LeagueModal from "../../components/Modal/LeagueModal";
 import LeaguePassowrdModal from "../../components/Modal/LeaguePasswordModal";
-import InvitePlayerModal from "../../components/Modal/InvitePlayerModal";
 import TeamModal from "../../components/Modal/TeamModal";
 import MatchModal from "../../components/Modal/MatchModal";
+import MatchStatsModal from "../../components/Modal/MatchStatsModal";
 import AdminModal from "../../components/Modal/AdminModal";
 import MatchTable from "../../components/Table/Match";
 import StandingTable from "../../components/Table/Standing";
@@ -770,6 +770,7 @@ const League = () => {
                   </div>
                 )}
                 <MatchModal />
+                <MatchStatsModal />
               </TabPanel>
 
               {/* Standings */}

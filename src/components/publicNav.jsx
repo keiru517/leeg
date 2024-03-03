@@ -9,7 +9,7 @@ const PublicNav = () => {
       <div className="title flex items-center space-x-8 px-3">
         <div className="logo flex">
           <div className="flex">
-            <Link to={'/'} className="flex">
+            <Link to={'/signupWithEmail'} className="flex">
               <img src={logo}></img>
             <p className="dark:text-white text-[#33383F] text-base text-left italic font-semibold mx-3">
               Leeg.io
