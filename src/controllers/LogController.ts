@@ -458,7 +458,6 @@ export const updateOne: RequestHandler = async (req, res) => {
 // POST SERVER_URL/api/log/remove
 export const remove: RequestHandler = async (req, res) => {
   const { id } = req.body;
-  console.log(id);
   const log = await Log.findByPk(id);
   if (log) {
     await log.destroy();
@@ -499,6 +498,59 @@ export const remove: RequestHandler = async (req, res) => {
     res.json({ logs });
   } else {
     res.status(404).json({ message: 'Log not found' });
+  }
+};
+
+// POST SERVER_URL/api/log/minus
+export const minus: RequestHandler = async (req, res) => {
+  const { leagueId, teamId, playerId, event, isDirect } = req.body;
+  const log = await Log.findAll({
+    limit: 1,
+    where: {
+      leagueId: leagueId,
+      teamId: teamId,
+      playerId: playerId,
+      event: event,
+      isDirect: isDirect
+    },
+    order: [['createdAt', 'DESC']]
+  })
+  if (log[0]) {
+    await log[0].destroy()
+    // Update match result
+    const match = await Match.findByPk(log[0].matchId);
+    if (match) {
+      if (log[0].teamId == match.homeTeamId) {
+        switch (log[0].event) {
+          case '+3 Pointer':
+            match.homeTeamPoints -= 3;
+            break;
+          case '+2 Pointer':
+            match.homeTeamPoints -= 2;
+            break;
+          case '+1 Pointer':
+            match.homeTeamPoints -= 1;
+            break;
+        }
+      } else if (log[0].teamId == match.awayTeamId) {
+        switch (log[0].event) {
+          case '+3 Pointer':
+            match.awayTeamPoints -= 3;
+            break;
+          case '+2 Pointer':
+            match.awayTeamPoints -= 2;
+            break;
+          case '+1 Pointer':
+            match.awayTeamPoints -= 1;
+            break;
+        }
+      }
+      await match.save();
+    }
+    const logs = await Log.findAll();
+    res.json({ logs });
+  } else {
+    res.status(404).json({ message: "Log not found!" });
   }
 };
 
