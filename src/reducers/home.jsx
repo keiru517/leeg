@@ -12,115 +12,6 @@ const initialState = {
   players: [],
   substitutes: [],
   admins: [],
-  // blogs: [
-  //   {
-  //     id: 1,
-  //     leagueId: 1,
-  //     userId: 1,
-  //     title: 'Slam Dunk Chronicles',
-  //     description: "Flowbite is an open-source library of UI components built with the utility-first classes from Tailwind CSS. It also includes interactive elements such as dropdowns, modals, datepickers. Before going digital, you might benefit from scribbling down some ideas in a sketchbook. This way, you can think things through before committing to an actual design project. But then I found a component library based on Tailwind CSS called Flowbite. It comes with the most commonly used UI components, such as buttons, navigation bars, cards, form elements, and more which are conveniently built with the utility classes from Tailwind CSS.",
-  //     comments: [
-  //       {
-  //         id: 1,
-  //         parentId: 2,
-  //         isBlogComment: true,
-  //         userId: 2,
-  //         description: "Very straight-to-point article. Really worth time reading. Thank you! But tools are just the instruments for the UX designers. The knowledge of the design tools are as important as the creation of the design strategy.",
-  //         likes: 0,
-  //         dislikes: 1,
-  //         createdAt: "2024-01-05T15:30:47.000Z"
-  //       },
-  //       {
-  //         id: 2,
-  //         parentId: 1,
-  //         isBlogComment: false,
-  //         userId: 1,
-  //         description: "comment comment Very straight-to-point article. Really worth time reading. Thank you! But tools are just the instruments for the UX designers. The knowledge of the design tools are as important as the creation of the design strategy.",
-  //         likes: 0,
-  //         dislikes: 1,
-  //         createdAt: "2024-01-08T15:30:47.000Z"
-  //       },
-  //       {
-  //         id: 3,
-  //         parentId: 1,
-  //         isBlogComment: false,
-  //         userId: 3,
-  //         description: "This is comment coment Very straight-to-point article. Really worth time reading. Thank you! But tools are just the instruments for the UX designers. The knowledge of the design tools are as important as the creation of the design strategy.",
-  //         likes: 0,
-  //         dislikes: 1,
-  //         createdAt: "2024-01-09T15:30:47.000Z"
-  //       },
-  //     ],
-  //     createdAt: "2024-01-29T15:30:47.000Z"
-  //   },
-  //   {
-  //     id: 2,
-  //     leagueId: 1,
-  //     userId: 2,
-  //     title: "Hoops Hustle Hub",
-  //     description: "From buzzer-beaters to trade rumors, Hoops Hustle Hub delivers a dynamic blend of basketball league insights. Join the discussion on game strategies, standout performances, and the race to the championship.",
-  //     comments: [
-  //       {
-  //         id: 4,
-  //         parentId: 2,
-  //         isBlogComment: true,
-  //         userId: 2,
-  //         description: "Very straight-to-point article. Really worth time reading. Thank you! But tools are just the instruments for the UX designers. The knowledge of the design tools are as important as the creation of the design strategy.",
-  //         likes: 0,
-  //         dislikes: 1,
-  //         createdAt: "2024-01-01T15:30:47.000Z"
-  //       },
-  //       {
-  //         id: 5,
-  //         parentId: 4,
-  //         isBlogComment: false,
-  //         userId: 1,
-  //         description: "Very straight-to-point article. Really worth time reading. Thank you! But tools are just the instruments for the UX designers. The knowledge of the design tools are as important as the creation of the design strategy.",
-  //         likes: 0,
-  //         dislikes: 1,
-  //         createdAt: "2024-01-24T15:30:47.000Z"
-  //       },
-  //       {
-  //         id: 6,
-  //         parentId: 2,
-  //         isBlogComment: true,
-  //         userId: 3,
-  //         description: "Very straight-to-point article. Really worth time reading. Thank you! But tools are just the instruments for the UX designers. The knowledge of the design tools are as important as the creation of the design strategy.",
-  //         likes: 0,
-  //         dislikes: 1,
-  //         createdAt: "2024-01-25T15:30:47.000Z"
-  //       },
-  //     ],
-  //     createdAt: "2024-01-16T15:30:47.000Z"
-  //   },
-  //   {
-  //     id: 3,
-  //     leagueId: 1,
-  //     userId: 1,
-  //     title: "Courtside Confidential",
-  //     description: "Uncover the behind-the-scenes stories, locker room chatter, and exclusive interviews with players and coaches. Courtside Confidential takes you beyond the court for an intimate look at the basketball league's human side.",
-  //     comments: [],
-  //     createdAt: "2024-01-18T15:30:47.000Z"
-  //   },
-  //   {
-  //     id: 4,
-  //     leagueId: 1,
-  //     userId: 3,
-  //     title: "Net Navigators",
-  //     description: "Navigate the intricate plays, tactical maneuvers, and statistical breakdowns with Net Navigators. This blog dives deep into the analytics, offering a strategic perspective on how teams are conquering the basketball league.",
-  //     comments: [],
-  //     createdAt: "2024-01-04T15:30:47.000Z"
-  //   },
-  //   {
-  //     id: 5,
-  //     leagueId: 1,
-  //     userId: 1,
-  //     title: "Triple Threat Tribune",
-  //     description: "Stay ahead of the game with Triple Threat Tribune, your go-to source for triple-doubles, MVP races, and rising stars. This blog covers the entire basketball league landscape, from rookies making waves to veterans rewriting records.",
-  //     comments: [],
-  //     createdAt: "2024-01-27T15:30:47.000Z"
-  //   },
-  // ],
   blogs: [],
   league_password_dialog: {
     open: false,
@@ -174,6 +65,11 @@ const initialState = {
     open: false,
     type: "",
     match: [],
+  },
+  match_stats_dialog: {
+    open: false,
+    homeTeamId: "",
+    awayTeamId: ""
   },
   substitute_dialog: {
     open: false,
@@ -457,7 +353,26 @@ const home = (state = initialState, action) => {
           match: [],
         },
       };
-
+    
+    case actions.OPEN_MATCH_STATS_DIALOG:
+      return {
+        ...state,
+        match_stats_dialog: {
+          open: true,
+          matchId: action.payload.matchId,
+          homeTeamId: action.payload.homeTeamId,
+          awayTeamId: action.payload.awayTeamId,
+        }
+      }
+    case actions.CLOSE_MATCH_STATS_DIALOG:
+      return {
+        ...state,
+        match_stats_dialog: {
+          open: false,
+          homeTeamId: "",
+          awayTeamId: "",
+        }
+      }
     // matchups
     case actions.GET_MATCHUPS:
       return {

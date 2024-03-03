@@ -29,6 +29,7 @@ const SelectPlayerModal = (props) => {
     timeout: "TimeOut",
     blocks: "Block",
     assists: "Assist",
+    steal: "Steal",
   };
   const isOpen = useSelector((state) => state.home.select_player_dialog.open);
   const matchups = useSelector((state) => state.home.matchups).filter(

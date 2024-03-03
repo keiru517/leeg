@@ -45,6 +45,8 @@ export const GET_MATCHES = "GET_MATCHES";
 export const OPEN_CREATE_MATCH_DIALOG = "OPEN_CREATE_MATCH_DIALOG";
 export const OPEN_EDIT_MATCH_DIALOG = "OPEN_EDIT_MATCH_DIALOG";
 export const CLOSE_MATCH_DIALOG = "CLOSE_MATCH_DIALOG";
+export const OPEN_MATCH_STATS_DIALOG = "OPEN_MATCH_STATS_DIALOG";
+export const CLOSE_MATCH_STATS_DIALOG = "CLOSE_MATCH_STATS_DIALOG";
 // Matchups
 export const GET_MATCHUPS = "GET_MATCHUPS";
 export const GET_LOGS = "GET_LOGS";
@@ -752,6 +754,12 @@ export const getMatchups = async (dispatch) => {
   try {
     const response = await axios.get(apis.getMatchups);
     const matchups = response.data.matchups;
+    matchups.map(matchup=>{
+      if (!matchup.player.userId && matchup.player.avatar) {
+        const avatarUrl = apis.playerAvatarURL(matchup.player.id);
+        matchup.player.avatar = avatarUrl;
+      }
+    })
     dispatch({
       type: GET_MATCHUPS,
       payload: matchups,
@@ -826,6 +834,7 @@ export const createOneLog = (dispatch, data) => {
           type: GET_LOGS,
           payload: res.data.logs,
         });
+        getMatches(dispatch)
       })
       .catch((error) => {
         alert(error.response.data.message);
@@ -858,6 +867,24 @@ export const removeLog = (dispatch, data) => {
           type: GET_LOGS,
           payload: res.data.logs,
         });
+      })
+      .catch((error) => {
+        alert(error.response.data.message);
+      });
+  } catch (error) { }
+};
+
+export const minusLog = (dispatch, data) => {
+  try {
+    axios
+      .post(apis.minusLog, data)
+      .then((res) => {
+        dispatch({
+          type: GET_LOGS,
+          payload: res.data.logs,
+        });
+        getMatches(dispatch)
+
       })
       .catch((error) => {
         alert(error.response.data.message);

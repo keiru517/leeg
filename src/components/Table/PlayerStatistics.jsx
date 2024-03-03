@@ -19,7 +19,6 @@ const PlayerStatistics = ({ playerId, leagueId }) => {
       !matchup.match.isNew
   );
 
-  console.log("matchups", matchups, player);
   const displayPosition = league?.displayPosition;
   const displayJerseyNumber = league?.displayJerseyNumber;
   const displayAttempts3 = league?.displayAttempts3;

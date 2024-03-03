@@ -91,6 +91,7 @@ export const apis = {
   createOneLog: apiUrl + "/log/createOne",
   updateOneLog: apiUrl + "/log/updateOne",
   removeLog: apiUrl + "/log/remove",
+  minusLog: apiUrl + "/log/minus",
   createLogs: apiUrl + "/log/create",
   editLineups: apiUrl + "/matchup/editLineups",
   // player

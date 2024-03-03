@@ -83,7 +83,8 @@ const MatchTable = (props) => {
   const options = [
     { id: 0, name: "Edit" },
     { id: 1, name: "Scoreboard" },
-    { id: 2, name: "Delete" },
+    { id: 2, name: "Statistics" },
+    { id: 3, name: "Delete" },
   ];
 
   const handleOption = (idx, matchId) => {
@@ -96,8 +97,12 @@ const MatchTable = (props) => {
     else if (idx === 1) {
       navigate(`/${isPublic ? "public_league" : "league"}/${leagueId}/matchup/${matchId}`);
     }
-    // Clicked delete
+    // Clicked statistics
     else if (idx === 2) {
+      dispatch({ type: actions.OPEN_MATCH_STATS_DIALOG, payload: { matchId: match.id, homeTeamId: match.homeTeamId, awayTeamId: match.awayTeamId } })
+    }
+    // Clicked delete
+    else if (idx === 3) {
       if (!match.isNew) {
         actions.incompleteMatchup(dispatch, { matchId });
       }
