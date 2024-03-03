@@ -41,8 +41,12 @@ const PublicBlog = (props) => {
         if (comment == "") {
             alert("Please write a comment");
         } else {
-            setComment("")
-            actions.createComment(dispatch, { leagueId: leagueId, blogId: blogId, userId: user?.id, description: comment })
+            if (localStorage.getItem("token")) {
+                setComment("")
+                actions.createComment(dispatch, { leagueId: leagueId, blogId: blogId, userId: user?.id, description: comment })
+            } else {
+                alert("Please create your acount to post.")
+            }
         }
     }
     const handleEdit = () => {
