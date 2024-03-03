@@ -352,12 +352,12 @@ const Dashboard = () => {
                                 <div className="flex flex-col divide-gray-300 overflow-y-auto shadow-sm h-full">
                                     <div className="flex justify-between h-10 p-default sticky top-0 z-10 bg-light-charcoal dark:bg-charcoal shadow-md items-center">
                                         <p className="font-inter text-sm sm:text-lg">Matches</p>
-                                        <Select
+                                        <SelectPoints
                                             className="w-[120px] rounded-lg text-xs h-[30px]"
                                             options={matchFilters}
                                             value={matchFilter}
                                             handleClick={handleMatchFilter}
-                                        ></Select>
+                                        ></SelectPoints>
                                     </div>
                                     {
                                         matchFilteredData.length > 0 ? (
@@ -395,7 +395,7 @@ const Dashboard = () => {
 
                             {/* League Leaders */}
                             <div className="flex flex-col justify-between bg-light-charcoal dark:bg-charcoal h-[400px] rounded-lg text-black dark:text-white shadow-md">
-                                <div className="flex flex-col  divide-gray-300 overflow-y-auto shadow-sm">
+                                <div className="flex flex-col  divide-gray-300 overflow-y-auto shadow-sm h-full">
                                     <div className="flex justify-between h-10 p-default sticky top-0 z-10 bg-light-charcoal dark:bg-charcoal shadow-md items-center">
                                         <p className="font-inter text-sm sm:text-lg">League Leaders</p>
                                         <div className="flex space-x-1 sm:space-x-3">
