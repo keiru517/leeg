@@ -26,8 +26,12 @@ logRouter.post('/update', LogController.update);
 logRouter.post('/updateOne', LogController.updateOne);
 
 // delete a log
-// SERVER_URL/api/log/remove/1
+// SERVER_URL/api/log/remove
 logRouter.post('/remove', LogController.remove);
+
+// minus a log
+// SERVER_URL/api/log/minus
+logRouter.post('/minus', LogController.minus);
 
 // get a log
 // SERVER_URL/api/log/info/1
