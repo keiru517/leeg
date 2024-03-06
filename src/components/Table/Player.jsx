@@ -64,6 +64,8 @@ const Player = ({ players, league, teamId, playerKeyword }) => {
     }, {})
   );
 
+  console.log("updated players", updatedPlayers)
+
   const teams = useSelector((state) => state.home.teams);
 
   const columns = [
@@ -325,10 +327,12 @@ const Player = ({ players, league, teamId, playerKeyword }) => {
       .map((player) => {
         const matchup = matchups.filter(
           (matchup) =>
+            matchup.playerId == player.id &&
             matchup.userId == player.userId &&
             matchup.leagueId == league.id &&
             !matchup.match?.isNew
         );
+        console.log(matchup)
         return {
           totalPoints: matchup.reduce((sum, item) => sum + item.points, 0),
           totalPoints1: matchup.reduce(
@@ -431,6 +435,7 @@ const Player = ({ players, league, teamId, playerKeyword }) => {
     ).toLowerCase().includes(playerKeyword.toLowerCase()));
   }, [updatedPlayers, displaySubstitutes]);
 
+  console.log("data", data)
   return (
     <div className="text-black dark:text-white mt-5 w-full">
       <Table data={data} columns={columns} />

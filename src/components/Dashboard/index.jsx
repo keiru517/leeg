@@ -138,6 +138,7 @@ const Dashboard = () => {
             .map((player) => {
                 const matchup = matchups.filter(
                     (matchup) =>
+                        matchup.playerId == player.id &&
                         matchup.userId == player.userId &&
                         matchup.leagueId == league.id &&
                         !matchup.match?.isNew
