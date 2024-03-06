@@ -149,7 +149,6 @@ const Index = (props) => {
     }
   };
 
-  console.log("data", data)
 
   return (
     <div className={`${className} flex-col rounded-main bg-white dark:bg-slate p-default`}>
