@@ -794,28 +794,10 @@ const League = () => {
                       setStandingsKeyword(e.target.value);
                     }}
                   />
-                  {/* <Select
-                    className="text-xs"
-                    options={options}
-                    handleClick={(e) => setValue(e.name)}
-                    value={value}
-                  >
-                    {value}
-                  </Select> */}
                 </div>
                 {
-                  // .filter((team) =>
-                  //   team.name
-                  //     .toLowerCase()
-                  //     .includes(standingsKeyword.toLowerCase())
-                  // )
                   teams.length > 0 ? (
                     <StandingTable
-                      // teams={teams.filter((team) =>
-                      //   team.name
-                      //     .toLowerCase()
-                      //     .includes(standingsKeyword.toLowerCase())
-                      // )}
                       teams={teams}
                       keyword={standingsKeyword}
                     ></StandingTable>

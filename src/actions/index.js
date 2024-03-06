@@ -782,6 +782,8 @@ export const completeMatchup = async (dispatch, data) => {
       payload: match,
     });
     getMatches(dispatch);
+    getTeams(dispatch);
+    getMatchups(dispatch);
   } catch {
     dispatch({
       type: GET_MATCH,
@@ -800,6 +802,8 @@ export const incompleteMatchup = async (dispatch, data) => {
       payload: match,
     });
     getMatches(dispatch);
+    getTeams(dispatch);
+    getMatchups(dispatch);
   } catch {
     dispatch({
       type: GET_MATCH,
