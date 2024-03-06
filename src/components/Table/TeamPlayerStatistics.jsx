@@ -348,10 +348,10 @@ const TeamPlayerStatistics = (props) => {
               ppg:
                 playerMatchups.length === 0
                   ? 0
-                  : playerMatchups.reduce(
+                  : (playerMatchups.reduce(
                     (sum, matchup) => sum + matchup.points,
                     0
-                  ) / playerMatchups.length,
+                  ) / playerMatchups.length).toFixed(2),
             };
           }
         )

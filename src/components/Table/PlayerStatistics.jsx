@@ -214,10 +214,10 @@ const PlayerStatistics = ({ playerId, leagueId }) => {
     ppg:
       matchups.length === 0
         ? 0
-        : matchups.reduce(
+        : (matchups.reduce(
             (sum, matchup) => sum + matchup.points,
             0
-          ) / matchups.length,
+          ) / matchups.length).toFixed(2),
   };
 
   return (

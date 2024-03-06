@@ -332,7 +332,6 @@ const Player = ({ players, league, teamId, playerKeyword }) => {
             matchup.leagueId == league.id &&
             !matchup.match?.isNew
         );
-        console.log(matchup)
         return {
           totalPoints: matchup.reduce((sum, item) => sum + item.points, 0),
           totalPoints1: matchup.reduce(
@@ -425,8 +424,8 @@ const Player = ({ players, league, teamId, playerKeyword }) => {
           ppg:
             matchup.length === 0
               ? 0
-              : matchup.reduce((sum, item) => sum + item.points, 0) /
-              matchup.length,
+              : (matchup.reduce((sum, item) => sum + item.points, 0) /
+                matchup.length).toFixed(2),
         };
       });
 

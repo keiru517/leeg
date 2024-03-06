@@ -868,7 +868,7 @@ const MatchStats = ({ players, league, matchId, teamId, playerKeyword, status })
     fouls: playerData.reduce((sum, item) => sum + item.fouls, 0) + teamData.fouls,
     steals: playerData.reduce((sum, item) => sum + item.steals, 0) + teamData.steals,
     turnovers: playerData.reduce((sum, item) => sum + item.turnovers, 0) + teamData.turnovers,
-    ppg: team?.win + team?.lose === 0 ? 0 : team?.pointScored / (team?.win + team?.lose)
+    ppg: team?.win + team?.lose === 0 ? 0 : (team?.pointScored / (team?.win + team?.lose)).toFixed(2)
   }
 
   const teamColumns = [
@@ -1197,7 +1197,7 @@ const MatchStats = ({ players, league, matchId, teamId, playerKeyword, status })
     fouls: teamData.fouls,
     steals: teamData.steals,
     turnovers: teamData.turnovers,
-    ppg: team?.win + team?.lose === 0 ? 0 : team?.pointScored / (team?.win + team?.lose)
+    ppg: team?.win + team?.lose === 0 ? 0 : (team?.pointScored / (team?.win + team?.lose)).toFixed(2)
   }
 
   return (
