@@ -48,7 +48,7 @@ const TeamStatistics = (props) => {
     fouls: matchups.reduce((sum, matchup) => sum + matchup.fouls, 0),
     steals: matchups.reduce((sum, matchup) => sum + matchup.steals, 0),
     turnovers: matchups.reduce((sum, matchup) => sum + matchup.turnovers, 0),
-    ppg: team.win + team.lose === 0? 0 :team.pointScored/(team.win+team.lose)
+    ppg: team.win + team.lose === 0 ? 0 : (team.pointScored / (team.win + team.lose)).toFixed(2)
   };
 
   const columns = [

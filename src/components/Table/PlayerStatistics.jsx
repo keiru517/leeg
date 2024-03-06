@@ -181,7 +181,7 @@ const PlayerStatistics = ({ playerId, leagueId }) => {
       accessor: "ppg",
       getValue: (row) => (
         <Typography variant="small" className="font-normal">
-          {row.ppg.toFixed(2)}
+          {row.ppg}
         </Typography>
       ),
     },
@@ -214,10 +214,10 @@ const PlayerStatistics = ({ playerId, leagueId }) => {
     ppg:
       matchups.length === 0
         ? 0
-        : matchups.reduce(
+        : (matchups.reduce(
             (sum, matchup) => sum + matchup.points,
             0
-          ) / matchups.length,
+          ) / matchups.length).toFixed(2),
   };
 
   return (
