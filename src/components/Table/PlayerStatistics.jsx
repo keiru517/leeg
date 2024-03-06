@@ -181,7 +181,7 @@ const PlayerStatistics = ({ playerId, leagueId }) => {
       accessor: "ppg",
       getValue: (row) => (
         <Typography variant="small" className="font-normal">
-          {row.ppg}
+          {row.ppg.toFixed(2)}
         </Typography>
       ),
     },
