@@ -19,6 +19,7 @@ const Index = (props) => {
   const dispatch = useDispatch();
 
   const match = useSelector((state) => state.matchup.match);
+  const currentPeriod = useSelector((state) => state.matchup.currentPeriod);
 
   useEffect(() => {
     actions.getMatch(dispatch, matchId);
@@ -79,7 +80,9 @@ const Index = (props) => {
           homeTeamPoints += 1;
           break;
         case "Foul":
-          homeTeamFouls += 1;
+          if (log.period == currentPeriod) {
+            homeTeamFouls += 1;
+          }
           break;
         case "TimeOut":
           homeTeamTimeOuts += 1;
@@ -97,7 +100,9 @@ const Index = (props) => {
           awayTeamPoints += 1;
           break;
         case "Foul":
-          awayTeamFouls += 1;
+          if (log.period == currentPeriod) {
+            awayTeamFouls += 1;
+          }
           break;
         case "TimeOut":
           awayTeamTimeOuts += 1;
@@ -110,7 +115,6 @@ const Index = (props) => {
 
   const [arrow, setArrow] = useState("home");
 
-  const currentPeriod = useSelector((state) => state.matchup.currentPeriod);
   const handlePeriod = (period) => {
     dispatch({ type: actions.SET_CURRENT_PERIOD, payload: period });
     setIsRunning(false);

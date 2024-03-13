@@ -1,8 +1,4 @@
-import { Switch } from "@headlessui/react";
 import { useState } from "react";
-import { AiOutlineCheck } from "react-icons/ai";
-import addIcon from "../../assets/img/dark_mode/circle-add.png";
-import addedIcon from "../../assets/img/dark_mode/circle-added.png";
 import * as actions from "../../actions";
 import { useDispatch, useSelector } from "react-redux";
 import DefaultSubstituteAvatar from "../../assets/img/dark_mode/default-substitutue-avatar.svg";
@@ -15,10 +11,6 @@ const EventPlayerList = ({
   setTeamId,
   setIsDirect,
 }) => {
-  const [itemOnechecked, setItemOneChecked] = useState(false);
-  const [itemTwochecked, setItemTwoChecked] = useState(false);
-  const [itemThreechecked, setItemThreeChecked] = useState(false);
-  const [itemFourchecked, setItemFourChecked] = useState(true);
 
   const dispatch = useDispatch();
 
@@ -58,11 +50,8 @@ const EventPlayerList = ({
               {player?.firstName} {player?.lastName}
             </p>
             <div className="flex">
-              <p className="text-black dark:text-white text-xs font-dark-gray">
+              <p className="text-black dark:text-white text-xs">
                 {player?.email}
-              </p>
-              <p className="text-black dark:text-white text-xs font-dark-gray">
-                {player?.date}
               </p>
             </div>
           </div>

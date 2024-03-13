@@ -158,18 +158,6 @@ const EditEventModal = (props) => {
         initialFocus={cancelButtonRef}
         onClose={closeDialog}
       >
-        <Transition.Child
-          as={Fragment}
-          enter="ease-out duration-300"
-          enterFrom="opacity-0"
-          enterTo="opacity-100"
-          leave="ease-in duration-200"
-          leaveFrom="opacity-100"
-          leaveTo="opacity-0"
-        >
-          <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
-        </Transition.Child>
-
         <div className="fixed inset-0 z-10 overflow-y-auto">
           <div className="flex min-h-full justify-center text-center items-center sm:p-0">
             <Transition.Child
@@ -181,10 +169,10 @@ const EditEventModal = (props) => {
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative transform overflow-hidden rounded-main text-left shadow-xl transition-all sm:my-8 bg-slate h-[700px] sm:h-[800px] w-[400px] sm:w-[500px] md:w-[735px] mx-3 flex flex-col">
+              <Dialog.Panel className="relative transform overflow-hidden rounded-main text-left shadow-xl transition-all sm:my-8 dark:bg-slate bg-white h-[700px] sm:h-[800px] w-[400px] sm:w-[500px] md:w-[735px] mx-3 flex flex-col">
                 <div className="divide-y divide-solid divide-[#3A3A3A] flex flex-col flex-grow">
                   <div className="flex items-center text-left h-16 sm:h-[88px] justify-between px-default">
-                    <p className="text-xl sm:text-2xl text-white font-bold">
+                    <p className="text-xl sm:text-2xl text-black dark:text-white font-bold">
                       {type === "edit" ? "Edit " : "Add "}
                       Event
                     </p>
@@ -206,8 +194,8 @@ const EditEventModal = (props) => {
                           {numberOfPeriods.map((period) => (
                             <div
                               className={`flex items-center justify-center rounded-[10px] ${currentPeriod === period
-                                  ? "bg-success"
-                                  : "bg-[#303335]"
+                                ? "bg-success"
+                                : "bg-font-dark-gray dark:bg-[#303335]"
                                 } w-16 h-10 cursor-pointer hover:opacity-75`}
                               onClick={() => setCurrentPeriod(period)}
                             >
@@ -222,10 +210,10 @@ const EditEventModal = (props) => {
                             />
                           </div>
                           <div
-                            className={`flex items-center justify-center rounded-default bg-[#303335] w-[141px] h-button cursor-pointer`}
+                            className={`flex items-center justify-center rounded-default bg-light-charcoal dark:bg-[#303335] w-[141px] h-button cursor-pointer`}
                           >
                             <TimerInput
-                              className="bg-[#303335]"
+                              className="bg-light-charcoal dark:bg-[#303335]"
                               initialTime={time}
                               setTime={setTime}
                             ></TimerInput>
@@ -236,8 +224,8 @@ const EditEventModal = (props) => {
                         <div className="grid grid-cols-3 gap-2 text-sm text-black dark:text-white">
                           <div
                             className={`flex items-center justify-center rounded-[10px] ${event === "+3 Pointer"
-                                ? "bg-primary"
-                                : "bg-[#303335]"
+                              ? "bg-primary"
+                              : "bg-light-charcoal dark:bg-[#303335]"
                               } w-full h-10 h-10 cursor-pointer hover:opacity-75`}
                             onClick={() => setEvent("+3 Pointer")}
                           >
@@ -245,8 +233,8 @@ const EditEventModal = (props) => {
                           </div>
                           <div
                             className={`flex items-center justify-center rounded-[10px] ${event === "+2 Pointer"
-                                ? "bg-primary"
-                                : "bg-[#303335]"
+                              ? "bg-primary"
+                              : "bg-light-charcoal dark:bg-[#303335]"
                               } w-full h-10 h-10 cursor-pointer hover:opacity-75`}
                             onClick={() => setEvent("+2 Pointer")}
                           >
@@ -254,8 +242,8 @@ const EditEventModal = (props) => {
                           </div>
                           <div
                             className={`flex items-center justify-center rounded-[10px] ${event === "+1 Pointer"
-                                ? "bg-primary"
-                                : "bg-[#303335]"
+                              ? "bg-primary"
+                              : "bg-light-charcoal dark:bg-[#303335]"
                               } w-full h-10 h-10 cursor-pointer hover:opacity-75`}
                             onClick={() => setEvent("+1 Pointer")}
                           >
@@ -264,8 +252,8 @@ const EditEventModal = (props) => {
                           {league?.displayAttempts3 && (
                             <div
                               className={`flex items-center justify-center rounded-[10px] ${event === "3 Missed"
-                                  ? "bg-primary"
-                                  : "bg-[#303335]"
+                                ? "bg-primary"
+                                : "bg-light-charcoal dark:bg-[#303335]"
                                 } w-full h-10 cursor-pointer hover:opacity-75`}
                               onClick={() => setEvent("3 Missed")}
                             >
@@ -277,8 +265,8 @@ const EditEventModal = (props) => {
                           {league?.displayAttempts2 && (
                             <div
                               className={`flex items-center justify-center rounded-[10px] ${event === "2 Missed"
-                                  ? "bg-primary"
-                                  : "bg-[#303335]"
+                                ? "bg-primary"
+                                : "bg-light-charcoal dark:bg-[#303335]"
                                 } w-full h-10 cursor-pointer hover:opacity-75`}
                               onClick={() => setEvent("2 Missed")}
                             >
@@ -290,8 +278,8 @@ const EditEventModal = (props) => {
                           {league?.displayAttempts1 && (
                             <div
                               className={`flex items-center justify-center rounded-[10px] ${event === "1 Missed"
-                                  ? "bg-primary"
-                                  : "bg-[#303335]"
+                                ? "bg-primary"
+                                : "bg-light-charcoal dark:bg-[#303335]"
                                 } w-full h-10 cursor-pointer hover:opacity-75`}
                               onClick={() => setEvent("1 Missed")}
                             >
@@ -303,8 +291,8 @@ const EditEventModal = (props) => {
                           {league?.displayRebounds && (
                             <div
                               className={`flex items-center justify-center rounded-[10px] ${event === "Rebound"
-                                  ? "bg-primary"
-                                  : "bg-[#303335]"
+                                ? "bg-primary"
+                                : "bg-light-charcoal dark:bg-[#303335]"
                                 } w-full h-10 cursor-pointer hover:opacity-75`}
                               onClick={() => setEvent("Rebound")}
                             >
@@ -316,8 +304,8 @@ const EditEventModal = (props) => {
                           {league?.displayTurnovers && (
                             <div
                               className={`flex items-center justify-center rounded-[10px] ${event === "Turnover"
-                                  ? "bg-primary"
-                                  : "bg-[#303335]"
+                                ? "bg-primary"
+                                : "bg-light-charcoal dark:bg-[#303335]"
                                 } w-full h-10 cursor-pointer hover:opacity-75`}
                               onClick={() => setEvent("Turnover")}
                             >
@@ -328,7 +316,7 @@ const EditEventModal = (props) => {
                           )}
                           {league?.displayFouls && (
                             <div
-                              className={`flex items-center justify-center rounded-[10px] ${event === "Foul" ? "bg-primary" : "bg-[#303335]"
+                              className={`flex items-center justify-center rounded-[10px] ${event === "Foul" ? "bg-primary" : "bg-light-charcoal dark:bg-[#303335]"
                                 } w-full h-10 cursor-pointer hover:opacity-75`}
                               onClick={() => setEvent("Foul")}
                             >
@@ -337,7 +325,7 @@ const EditEventModal = (props) => {
                           )}
                           {league?.displaySteals && (
                             <div
-                              className={`flex items-center justify-center rounded-[10px] ${event === "Steal" ? "bg-primary" : "bg-[#303335]"
+                              className={`flex items-center justify-center rounded-[10px] ${event === "Steal" ? "bg-primary" : "bg-light-charcoal dark:bg-[#303335]"
                                 } w-full h-10 cursor-pointer hover:opacity-75`}
                               onClick={() => setEvent("Steal")}
                             >
@@ -349,8 +337,8 @@ const EditEventModal = (props) => {
                           {league?.displayBlocks && (
                             <div
                               className={`flex items-center justify-center rounded-[10px] ${event === "Block"
-                                  ? "bg-primary"
-                                  : "bg-[#303335]"
+                                ? "bg-primary"
+                                : "bg-light-charcoal dark:bg-[#303335]"
                                 } w-full h-10 cursor-pointer hover:opacity-75`}
                               onClick={() => setEvent("Block")}
                             >
@@ -362,8 +350,8 @@ const EditEventModal = (props) => {
                           {league?.displayAssists && (
                             <div
                               className={`flex items-center justify-center rounded-[10px] ${event === "Assist"
-                                  ? "bg-primary"
-                                  : "bg-[#303335]"
+                                ? "bg-primary"
+                                : "bg-light-charcoal dark:bg-[#303335]"
                                 } w-full h-10 cursor-pointer hover:opacity-75`}
                               onClick={() => setEvent("Assist")}
                             >
@@ -374,35 +362,13 @@ const EditEventModal = (props) => {
                           )}
                           <div
                             className={`flex items-center justify-center rounded-[10px] ${event === "TimeOut"
-                                ? "bg-primary"
-                                : "bg-[#303335]"
-                              } w-full h-10 cursor-pointer hover:opacity-75`}
-                            // onClick={() => setEvent("TimeOut")}
-                          >
-                            <p className="text-black dark:text-white">
-                              
-                            </p>
-                          </div>
-                          <div
-                            className={`flex items-center justify-center rounded-[10px] ${event === "TimeOut"
-                                ? "bg-primary"
-                                : "bg-[#303335]"
+                              ? "bg-primary"
+                              : "bg-light-charcoal dark:bg-[#303335]"
                               } w-full h-10 cursor-pointer hover:opacity-75`}
                             onClick={() => setEvent("TimeOut")}
                           >
                             <p className="text-black dark:text-white">
                               TIMEOUT
-                            </p>
-                          </div>
-                          <div
-                            className={`flex items-center justify-center rounded-[10px] ${event === "TimeOut"
-                                ? "bg-primary"
-                                : "bg-[#303335]"
-                              } w-full h-10 cursor-pointer hover:opacity-75`}
-                            // onClick={() => setEvent("TimeOut")}
-                          >
-                            <p className="text-black dark:text-white">
-                              
                             </p>
                           </div>
                         </div>

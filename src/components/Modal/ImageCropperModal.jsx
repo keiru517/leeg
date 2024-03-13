@@ -1,31 +1,15 @@
-import { Fragment, useRef, useState } from "react";
-import { useParams } from "react-router";
+import { Fragment, useRef } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import close from "../../assets/img/dark_mode/close.png";
-import Input from "../Input";
-import { useDispatch, useSelector } from "react-redux";
-import * as actions from "../../actions";
 import ImageCropper from "../ImageCropper";
 
 const ImageCropperModal = (props) => {
-  const dispatch = useDispatch();
-  let { leagueId } = useParams();
   const { modalOpen, setModalOpen, setPreviewURL, setChosenFile } = props
-  const user = useSelector(state => state.home.user);
-
-  const [email, setEmail] = useState("");
-
   const cancelButtonRef = useRef(null);
 
   const closeDialog = () => {
     setModalOpen(false)
   };
-
-
-  const invitePlayer = () => {
-    actions.invitePlayer(dispatch, { email: email, leagueId: leagueId, inviter: user })
-    dispatch({ type: actions.OPEN_INVITE_PLAYER_DIALOG, payload: false });
-  }
 
   return (
     <Transition.Root show={modalOpen} as={Fragment}>
@@ -35,18 +19,6 @@ const ImageCropperModal = (props) => {
         initialFocus={cancelButtonRef}
         onClose={closeDialog}
       >
-        <Transition.Child
-          as={Fragment}
-          enter="ease-out duration-300"
-          enterFrom="opacity-0"
-          enterTo="opacity-100"
-          leave="ease-in duration-200"
-          leaveFrom="opacity-100"
-          leaveTo="opacity-0"
-        >
-          <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
-        </Transition.Child>
-
         <div className="fixed inset-0 z-10 overflow-y-auto">
           <div className="flex min-h-full justify-center text-center items-center sm:p-0">
             <Transition.Child
