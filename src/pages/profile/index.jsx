@@ -129,7 +129,7 @@ const Profile = () => {
             <div className="flex flex-col flex-grow space-y-5">
               <div className="flex items-center space-x-3">
                 <img
-                  src={previewURL !== "" ? previewURL : player?.avatar}
+                  src={previewURL !== "" ? previewURL : user?.avatar}
                   className="w-24 h-24 rounded-full border border-gray-500"
                   alt=""
                 />
