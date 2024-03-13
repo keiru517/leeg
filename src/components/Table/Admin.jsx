@@ -77,7 +77,7 @@ const AdminTable = (props) => {
                       <div className="flex items-center text-black dark:text-white">
                         <img
                           src={
-                            players.find((player) => player?.userId == admin.userId)
+                            users.find((user) => user?.id == admin.userId)
                               ?.avatar
                             // users.find((user) => user?.id == admin.userId)
                             //   ?.avatar
