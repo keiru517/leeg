@@ -28,40 +28,31 @@ const MatchupPlayerList = ({ className, player, addAction, handleAddSubstituteSc
   return (
     <div className={`${className} w-full`}>
       <div
-        className="flex items-center justify-between bg-[#e6e6e6] dark:bg-dark-gray w-full h-14 rounded-default py-1.5 px-4 cursor-pointer hover:opacity-75"
+        className="flex items-center justify-between bg-[#e6e6e6] dark:bg-dark-gray w-full h-14 rounded-default py-1.5 px-4 cursor-pointer hover:opacity-80"
         onClick={() => handleClick(player)}
       >
-        <div className="flex items-center">
+        <div className="flex items-center text-black dark:text-white">
           <img
-            // src={
-            //   apis.playerAvatarURL(player?.avatar)
-            // }
             src={
-              // "http://localhost:3003/api/player/avatar/28"
               player?.avatar.startsWith("avatar") ? apis.playerAvatarURL(player?.id) : player?.avatar ? player?.avatar : DefaultSubstituteAvatar
             }
             className="w-10 h-10 mr-3 rounded-full border border-gray-500"
             alt={player?.avatar}
           />
           <div className="">
-            <p className="text-black dark:text-white text-base underline">
+            <p className="text-base underline">
               {player?.firstName} {player?.lastName}
             </p>
             {!player?.isSubstitute && (
               <div className="flex">
-                <p className="text-black dark:text-white text-xs font-dark-gray">
+                <p className="text-xs">
                   {player?.email}
                 </p>
               </div>
             )}
           </div>
+          <p className="ml-3">{player?.jerseyNumber ? "#" + player?.jerseyNumber : ""}</p>
         </div>
-        {/* <img
-          src={status}
-          alt=""
-          className="cursor-pointer"
-          onClick={() => handleClick(player?.id)}
-        /> */}
       </div>
     </div>
   );
