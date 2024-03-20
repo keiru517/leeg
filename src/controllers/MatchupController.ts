@@ -642,21 +642,37 @@ export const incomplete: RequestHandler = async (req, res) => {
 export const editLineups: RequestHandler = async (req, res) => {
   const lineups = req.body.lineups;
   const matchId = req.body.matchId;
-
+  console.log(lineups, matchId)
   try {
     const promise = Object.keys(lineups).map(async id => {
       // if (!lineups[id]) {
-      await Matchup.update(
-        {
-          attendance: lineups[id]
-        },
-        {
-          where: {
-            matchId,
-            playerId: id
-          }
+        try {
+          await Matchup.update(
+            {
+              attendance: lineups[id]
+            },
+            {
+              where: {
+                matchId,
+                playerId: id
+              }
+            }
+          );
         }
-      );
+        catch {
+          await Matchup.update(
+            {
+              attendance: lineups[id]
+            },
+            {
+              where: {
+                matchId,
+                playerId: id
+              }
+            }
+          );
+
+        }
       // }
     });
     await Promise.all(promise);
