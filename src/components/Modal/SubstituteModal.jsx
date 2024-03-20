@@ -33,24 +33,12 @@ const SubstituteModal = (props) => {
     { id: 3, name: "Point Guard" },
     { id: 4, name: "Shooting Guard" },
   ];
-  const [position, setPosition] = useState("Select Position");
-
-  const [email, setEmail] = useState("");
-
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [jerseyNumber, setJerseyNumber] = useState("");
+  const [position, setPosition] = useState("Select Position");
 
   const createSubmit = () => {
-    // const formData = new FormData();
-    // formData.append("leagueId", leagueId);
-    // formData.append("teamId", teamId);
-    // formData.append("userId", null);
-    // formData.append("matchId", matchId);
-    // formData.append("firstName", firstName);
-    // formData.append("lastName", lastName);
-    // formData.append("jerseyNumber", jerseyNumber);
-    // formData.append("position", position);
     const userId = null
     actions.createSubstitute(dispatch, {leagueId, teamId, userId, matchId, firstName, lastName, jerseyNumber, position});
     dispatch({ type: actions.CLOSE_ADD_SUBSTITUTE_DIALOG });
@@ -59,24 +47,12 @@ const SubstituteModal = (props) => {
   const closeDialog = () => {
     dispatch({ type: actions.CLOSE_ADD_SUBSTITUTE_DIALOG });
     setPlayersList({});
-    setEmail("");
+    setFirstName("");
+    setLastName("");
     setJerseyNumber("");
     setPosition("Select Position");
   };
   const cancelButtonRef = useRef(null);
-
-  useEffect(() => {
-    // Check if the email exists in the users array
-    const emailExistsInUsers = users.some((user) => user.email === email);
-    // Check if the email does not exist in the homeTeamPlayers array
-    const emailExistsInHomeTeamPlayers = homeTeamPlayers.some(
-      (player) => player.email === email
-    );
-    // Check if the email does not exist in the awayTeamPlayers array
-    const emailExistsInAwayTeamPlayers = awayTeamPlayers.some(
-      (player) => player.email === email
-    );
-  }, [email]);
 
   return (
     <Transition.Root show={status} as={Fragment}>

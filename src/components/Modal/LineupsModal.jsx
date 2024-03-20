@@ -71,7 +71,7 @@ const LineupsModal = (props) => {
     axios
       .post(apis.editLineups, { lineups, matchId })
       .then((res) => {
-        dispatch({ type: actions.GET_MATCHUPS, payload: res.data.matchups });
+        actions.getMatchups(dispatch)
       })
       .catch(() => {
         console.log("Error");

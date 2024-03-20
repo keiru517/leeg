@@ -270,11 +270,17 @@ export const createSubstitute = async (dispatch, data) => {
   try {
     const response = await axios.post(apis.createSubstitute, data);
     const matchups = response.data.matchups;
+    matchups.map(matchup=>{
+      if (!matchup.player.userId && matchup.player.avatar) {
+        const avatarUrl = apis.playerAvatarURL(matchup.player.id);
+        matchup.player.avatar = avatarUrl;
+      }
+    })
     dispatch({
       type: GET_MATCHUPS,
       payload: matchups,
     });
-  } catch (error) {
+  } catch {
     dispatch({
       type: GET_MATCHUPS,
       payload: [],
@@ -283,16 +289,21 @@ export const createSubstitute = async (dispatch, data) => {
 };
 
 export const removeSubstitute = async (dispatch, data) => {
-  console.log("matchupId in action", data)
   try {
     const response = await axios.post(apis.removeSubstitute, data);
     const matchups = response.data.matchups;
+    matchups.map(matchup=>{
+      if (!matchup.player.userId && matchup.player.avatar) {
+        const avatarUrl = apis.playerAvatarURL(matchup.player.id);
+        matchup.player.avatar = avatarUrl;
+      }
+    })
     dispatch({
       type: GET_MATCHUPS,
       payload: matchups,
     });
     getLogs(dispatch)
-  } catch (error) {
+  } catch {
     dispatch({
       type: GET_MATCHUPS,
       payload: [],

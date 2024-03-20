@@ -33,7 +33,7 @@ const PlayerStats = ({ players, league, teamId, playerKeyword }) => {
           {
             row.isSubstitute == false ?
               <>
-                <Link to={`/league/${leagueId}/player/${row.userId}`}>
+                <Link to={`/league/${leagueId}/player/${row.id}`}>
                   <img
                     src={row.avatar}
                     alt=""
@@ -41,7 +41,7 @@ const PlayerStats = ({ players, league, teamId, playerKeyword }) => {
                   />
                 </Link>
                 <Link
-                  to={`/league/${leagueId}/player/${row.userId}`}
+                  to={`/league/${leagueId}/player/${row.id}`}
                   className="hover:underline"
                 >
                   {row.firstName} {row.lastName}
@@ -389,6 +389,7 @@ const PlayerStats = ({ players, league, teamId, playerKeyword }) => {
           turnovers: turnovers,
           position: player.position,
           userId: player.userId,
+          id: player.id,
           jerseyNumber: player.jerseyNumber,
           firstName: player.firstName,
           lastName: player.lastName,
