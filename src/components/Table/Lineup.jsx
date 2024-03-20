@@ -46,7 +46,7 @@ function Checkbox({ label, name, checked, onChange, disabled }) {
 const LineupTable = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  let { leagueId } = useParams();
+  let { leagueId, matchId } = useParams();
 
   const { players, setLineups } = props;
   const darkMode = useSelector((state) => state.home.dark_mode);
@@ -73,9 +73,8 @@ const LineupTable = (props) => {
     setLineups(itemChecked);
   }, [itemChecked]);
 
-  const handleRemoveSubstitute = (matchupId) => {
-    console.log("matchupId, matchupId", matchupId)
-    actions.removeSubstitute(dispatch, {matchupId})
+  const handleRemoveSubstitute = (playerId) => {
+    actions.removeSubstitute(dispatch, { leagueId: leagueId, matchId: matchId, playerId: playerId })
   }
 
   return (
@@ -119,12 +118,12 @@ const LineupTable = (props) => {
                   <div className="flex items-center">
                     {
                       player.isSubstitute == false ?
-                        <Link to={`/league/${leagueId}/player/${player.userId}`} className="underline">
+                        <Link to={`/league/${leagueId}/player/${player.id}`} className="underline">
                           <img
                             src={
-                              player.isSubstitute
-                                ? DefaultSubstituteAvatar
-                                : player.avatar
+                              player.avatar
+                                ? player.avatar :
+                                DefaultSubstituteAvatar
                             }
                             alt=""
                             className="h-8 w-8 mr-2 sm:ml-5 rounded-full border border-gray-500"
@@ -132,9 +131,9 @@ const LineupTable = (props) => {
                         </Link> :
                         <img
                           src={
-                            player.isSubstitute
-                              ? DefaultSubstituteAvatar
-                              : player.avatar
+                            player.avatar
+                              ? player.avatar :
+                              DefaultSubstituteAvatar
                           }
                           alt=""
                           className="h-8 w-8 mr-2 sm:ml-5 rounded-full border border-gray-500"
@@ -158,11 +157,6 @@ const LineupTable = (props) => {
                 </Typography>
               </td>
               <td className="w-24">
-                {/* <Typography
-                  variant="small"
-                  color="blue-gray"
-                  className="font-normal flex"
-                > */}
                 <div className="flex space-x-3">
                   <Checkbox
                     name="name"
@@ -176,7 +170,7 @@ const LineupTable = (props) => {
                       src={darkMode ? deleteIconDark : deleteIconLight}
                       alt=""
                       className="w-4.5 h-4.5 cursor-pointer"
-                      onClick={()=>handleRemoveSubstitute(player.id)}
+                      onClick={() => handleRemoveSubstitute(player.id)}
                     />
                   )}
                 </div>
