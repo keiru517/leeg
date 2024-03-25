@@ -52,34 +52,49 @@ const Dashboard = () => {
         { id: 0, name: "Player" },
         { id: 1, name: "Team" },
     ];
-    const pointsFilters = [
-        { id: 0, name: "Points" },
-        { id: 1, name: "3PM" },
-        { id: 2, name: "3PA" },
-        { id: 3, name: "3P%" },
-        { id: 4, name: "FGM" },
-        { id: 5, name: "FGA" },
-        { id: 6, name: "FG%" },
-        { id: 7, name: "FTM" },
-        { id: 8, name: "FTA" },
-        { id: 9, name: "FT%" },
-        { id: 10, name: "Blocks" },
-        { id: 11, name: "Rebounds" },
-        { id: 12, name: "Assists" },
-        { id: 13, name: "Fouls" },
-        { id: 14, name: "Steals" },
-    ]
 
-    const [playerFilter, setPlayerFilter] = useState(playerFilters[0].name);
-    const [pointsFilter, setPointsFilter] = useState(pointsFilters[0].name);
-    const [filteredData, setFilteredData] = useState([])
+
+
 
     const players = useSelector(state => state.home.players).filter(player => player.leagueId == leagueId);
     const matchups = useSelector((state) => state.home.matchups);
 
     const league = useSelector(state => state.home.leagues).find(league => league.id == leagueId);
+    const displayPosition = league?.displayPosition;
+    const displayJerseyNumber = league?.displayJerseyNumber;
+    const displayAttempts3 = league?.displayAttempts3;
+    const displayAttempts2 = league?.displayAttempts2;
+    const displayAttempts1 = league?.displayAttempts1;
+    const displayBlocks = league?.displayBlocks;
+    const displayRebounds = league?.displayRebounds;
+    const displayAssists = league?.displayAssists;
+    const displayFouls = league?.displayFouls;
+    const displaySteals = league?.displaySteals;
+    const displayTurnovers = league?.displayTurnovers;
     const displaySubstitutes = league?.displaySubstitutes;
 
+    const pointsFilters = [
+        { id: 0, name: "Points" },
+        { id: 1, name: "3PM" },
+        displayAttempts3 && { id: 2, name: "3PA" },
+        { id: 3, name: "3P%" },
+        { id: 4, name: "FGM" },
+        displayAttempts2 && { id: 5, name: "FGA" },
+        { id: 6, name: "FG%" },
+        { id: 7, name: "FTM" },
+        displayAttempts1 && { id: 8, name: "FTA" },
+        { id: 9, name: "FT%" },
+        displayBlocks && { id: 10, name: "Blocks" },
+        displayRebounds && { id: 11, name: "Rebounds" },
+        displayAssists && { id: 12, name: "Assists" },
+        displayFouls && { id: 13, name: "Fouls" },
+        displaySteals && { id: 14, name: "Steals" },
+    ].filter(Boolean)
+
+    const [playerFilter, setPlayerFilter] = useState(playerFilters[0].name);
+    const [pointsFilter, setPointsFilter] = useState(pointsFilters[0].name);
+    const [filteredData, setFilteredData] = useState([])
+    
     const filterObject = {
         "Points": "totalPoints",
         "3PM": "totalPoints3",

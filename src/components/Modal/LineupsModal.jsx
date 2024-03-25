@@ -129,7 +129,7 @@ const LineupsModal = (props) => {
                     </div>
                   </div>
                   <div className="flex flex-grow flex-col p-default justify-between">
-                    <div>
+                    <div className="h-[420px]">
                       <LineupTable
                         players={players}
                         setLineups={setLineups}

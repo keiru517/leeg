@@ -41,7 +41,7 @@ const SubstituteModal = (props) => {
   const createSubmit = () => {
     const userId = null
     actions.createSubstitute(dispatch, {leagueId, teamId, userId, matchId, firstName, lastName, jerseyNumber, position});
-    dispatch({ type: actions.CLOSE_ADD_SUBSTITUTE_DIALOG });
+    closeDialog()
   };
 
   const closeDialog = () => {
@@ -100,7 +100,7 @@ const SubstituteModal = (props) => {
                     </div>
                   </div>
                   <div className="flex flex-grow flex-col p-default justify-between">
-                    <div>
+                    <div className="">
                       <div
                         className={`flex w-full h-[86px] bg-light-charcoal dark:bg-charcoal rounded-default items-center mb-4`}
                       >
