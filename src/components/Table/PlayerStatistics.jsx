@@ -199,10 +199,10 @@ const PlayerStatistics = ({ playerId, leagueId }) => {
   const data = {
     totalPoints: matchups.reduce((sum, item) => sum + item.points, 0),
     totalPoints1: matchups.reduce((sum, matchup) => sum + matchup.points1, 0),
-    totalPoints2: matchups.reduce((sum, matchup) => sum + matchup.points2, 0),
+    totalPoints2: matchups.reduce((sum, matchup) => sum + matchup.points2 + matchup.points3, 0),
     totalPoints3: matchups.reduce((sum, matchup) => sum + matchup.points3, 0),
     attempts1: matchups.reduce((sum, matchup) => sum + matchup.attempts1, 0),
-    attempts2: matchups.reduce((sum, matchup) => sum + matchup.attempts2, 0),
+    attempts2: matchups.reduce((sum, matchup) => sum + matchup.attempts2 + matchup.attempts3, 0),
     attempts3: matchups.reduce((sum, matchup) => sum + matchup.attempts3, 0),
     blocks: matchups.reduce((sum, matchup) => sum + matchup.blocks, 0),
     rebounds: matchups.reduce((sum, matchup) => sum + matchup.rebounds, 0),
