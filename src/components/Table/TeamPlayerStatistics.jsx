@@ -300,7 +300,7 @@ const TeamPlayerStatistics = (props) => {
                 0
               ),
               totalPoints2: playerMatchups.reduce(
-                (sum, matchup) => sum + matchup.points2,
+                (sum, matchup) => sum + matchup.points2 + matchup.points3,
                 0
               ),
               totalPoints1: playerMatchups.reduce(
@@ -312,7 +312,7 @@ const TeamPlayerStatistics = (props) => {
                 0
               ),
               attempts2: playerMatchups.reduce(
-                (sum, matchup) => sum + matchup.attempts2,
+                (sum, matchup) => sum + matchup.attempts2 + matchup.attempts3,
                 0
               ),
               attempts1: playerMatchups.reduce(
@@ -367,10 +367,10 @@ const TeamPlayerStatistics = (props) => {
                 position: sub.position,
                 totalPoints: sub.match.isNew ? 0 : sub.totalPoints,
                 totalPoints3: sub.match.isNew ? 0 : sub.totalPoints3,
-                totalPoints2: sub.match.isNew ? 0 : sub.totalPoints2,
+                totalPoints2: sub.match.isNew ? 0 : sub.totalPoints2 + sub.totalPoints3,
                 totalPoints1: sub.match.isNew ? 0 : sub.totalPoints1,
                 attempts3: sub.match.isNew ? 0 : sub.attempts3,
-                attempts2: sub.match.isNew ? 0 : sub.attempts2,
+                attempts2: sub.match.isNew ? 0 : sub.attempts2 + sub.attempts3,
                 attempts1: sub.match.isNew ? 0 : sub.attempts1,
                 "3p%":
                   sub.match.isNew &&
@@ -379,9 +379,9 @@ const TeamPlayerStatistics = (props) => {
                     : ((sub.totalPoints3 / sub.attempts3) * 100).toFixed(2),
                 "fg%":
                   sub.match.isNew &&
-                    isNaN((sub.totalPoints2 / sub.attempts2) * 100)
+                    isNaN(((sub.totalPoints2 + sub.totalPoints3) / (sub.attempts2 + sub.attempts3)) * 100)
                     ? 0
-                    : ((sub.totalPoints2 / sub.attempts2) * 100).toFixed(2),
+                    : ((sub.totalPoints2 + sub.totalPoints3) / (sub.attempts2 + sub.attempts3) * 100).toFixed(2),
                 "ft%":
                   sub.match.isNew &&
                     isNaN((sub.totalPoints1 / sub.attempts1) * 100)
