@@ -1,15 +1,9 @@
-import axios from "axios";
-import { useState, useEffect, useRef } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import * as actions from "../../actions";
 import { useDispatch, useSelector } from "react-redux";
-import { apis } from "../../utils/apis";
-import Button from "../Button";
 
 const Card = (props) => {
-  const { route, league } = props;
+  const { league } = props;
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const user = useSelector((state) => state.home.user);
   const admins = useSelector((state) => state.home.admins).filter(
     (admin) => admin.leagueId == league.id && admin.isDeleted !== 1
@@ -30,18 +24,6 @@ const Card = (props) => {
     dispatch({ type: actions.OPEN_LEAGUE_DETAIL_DIALOG, payload: league });
   };
 
-  const handleApply = (e) => {
-    e.stopPropagation();
-    if (league?.requirePassword) {
-      dispatch({
-        type: actions.OPEN_APPLY_LEAGUE_PASSWORD_DIALOG,
-        payload: league,
-      });
-    } else {
-      actions.applyLeague(dispatch, { userId: user?.id, leagueId: league?.id });
-    }
-  };
-
   return (
     <div
       className={`rounded-default h-[170px] bg-light-charcoal dark:bg-charcoal p-default shadow dark:shadow-gray-600 hover:cursor-pointer hover:opacity-80`}
@@ -52,15 +34,12 @@ const Card = (props) => {
           <div className="flex items-center">
             <img src={league.logo} className="w-10 h-10 rounded-lg"></img>
             <p className="dark:text-white text-sm ml-5 truncate max-w-full">
-              {league.name} / {league.id.toString().padStart(6, "0")}
+              {league.name}
               <br></br>
               <span className="text-xs text-gray-400"> {owner?.email}</span>
             </p>
           </div>
         </div>
-        {/* <div className='flex items-center'>
-                    <img src={rightarrow}></img>
-                </div> */}
       </div>
       <div className="flex justify-between mt-3">
         <div>
@@ -99,7 +78,6 @@ const Card = (props) => {
             ) : (
               player?.isAcceptedList === 1 && (
                 <p
-                  // className="dark:text-green-500 text-xs cursor-pointer"
                   className="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-gray-700 dark:text-green-400 border border-green-400"
                 >
                   Accepted
@@ -117,77 +95,6 @@ const Card = (props) => {
           {league.description}
         </p>
       </div>
-      {/* <div className="flex items-center justify-between space-x-3">
-        {(isAdmin || player?.isAcceptedList === 1 || league?.isAllowedFan) && (
-          <Button
-            onClick={(e) => {
-              e.stopPropagation()
-              navigate(`/${route}/${league.id}?tab=0`);
-            }}
-            className="text-xs border-solid border-2 border-blue-700 w-full rounded hover:cursor-pointer hover:bg-gray-700"
-          >
-            View League
-          </Button>
-        )}
-
-        {player?.isWaitList !== 1 && player?.isAcceptedList !== 1 && (
-          <Button
-            onClick={handleApply}
-            className="text-xs border-solid border-2 border-blue-700 w-full rounded hover:cursor-pointer hover:bg-gray-700"
-          >
-            APPLY
-          </Button>
-        )} */}
-      {/* <div>
-          {player?.isAcceptedList === 1 &&
-          player?.isDeleted !== 1 &&
-          player?.teamId !== 0 ? (
-            <span className="bg-purple-100 text-purple-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-purple-900 dark:text-purple-300">
-              Player
-            </span>
-          ) : (
-            ""
-          )}
-          {isAdmin ? (
-            <span className="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
-              Admin
-            </span>
-          ) : (
-            ""
-          )}
-          {league?.isAllowedFan ? (
-            <span className="bg-yellow-100 text-yellow-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300">
-              Public
-            </span>
-          ) : (
-            <span className="bg-yellow-100 text-yellow-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300">
-              Private
-            </span>
-          )}
-        </div>
-        <div className="flex justify-end">
-          {player?.isWaitList === 1 ? (
-            <p 
-            className="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-gray-700 dark:text-yellow-300 border border-yellow-300"
-            >
-              PENDING
-            </p>
-          ) : player?.isAcceptedList === 1 ? (
-            <p 
-              className="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-gray-700 dark:text-green-400 border border-green-400"
-            >
-              ACCEPTED
-            </p>
-          ) : (
-            <p
-            onClick={handleApply}
-            className="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-gray-700 dark:text-blue-400 border border-blue-400"
-            >
-              APPLY
-            </p>
-          )}
-        </div> */}
-      {/* </div> */}
     </div>
   );
 };
