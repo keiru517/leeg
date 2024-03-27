@@ -13,6 +13,7 @@ const TeamPlayerStatistics = (props) => {
   const league = useSelector((state) => state.home.leagues).find(
     (league) => league.id == leagueId
   );
+  let leagueName = "pub-" + league?.name.replace(" ", "-")
   const matches = useSelector((state) => state.home.matches).filter(
     (match) => match.leagueId == leagueId
   );
@@ -45,7 +46,7 @@ const TeamPlayerStatistics = (props) => {
           className="font-normal flex items-center sm:pl-8 space-x-3"
         >
           <Link
-            to={`/${isPublic ? "public_league" : "league"}/${leagueId}/player/${row.playerId}`}
+            to={`/${isPublic ? leagueName : "league"}/${leagueId}/player/${row.playerId}`}
             className="flex items-center hover:underline"
           >
             <img

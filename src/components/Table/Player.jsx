@@ -8,6 +8,7 @@ import DefaultSubstituteAvatar from "../../assets/img/dark_mode/default-substitu
 
 const Player = ({ players, league, teamId, playerKeyword }) => {
   let { leagueId } = useParams();
+  let leagueName = "pub-" + league?.name.replace(" ", "-")
   const isPublic = localStorage.getItem('token') ? false : true;
   const matchups = useSelector((state) => state.home.matchups);
 
@@ -78,7 +79,7 @@ const Player = ({ players, league, teamId, playerKeyword }) => {
           {
             row.isSubstitute == false ?
               <>
-                <Link to={`/${isPublic ? "public_league" : "league"}/${leagueId}/player/${row.id}`}>
+                <Link to={`/${isPublic ? leagueName : "league"}/${leagueId}/player/${row.id}`}>
                   <img
                     src={row.avatar}
                     alt=""
@@ -86,7 +87,7 @@ const Player = ({ players, league, teamId, playerKeyword }) => {
                   />
                 </Link>
                 <Link
-                  to={`/${isPublic ? "public_league" : "league"}/${leagueId}/player/${row.id}`}
+                  to={`/${isPublic ? leagueName : "league"}/${leagueId}/player/${row.id}`}
                   className="hover:underline"
                 >
                   {row.firstName} {row.lastName}
@@ -111,14 +112,14 @@ const Player = ({ players, league, teamId, playerKeyword }) => {
       getValue: (row) =>
         row.team && (
           <div className="flex items-center">
-            <Link to={`/${isPublic ? "public_league" : "league"}/${leagueId}/team/${row.teamId}`}>
+            <Link to={`/${isPublic ? leagueName : "league"}/${leagueId}/team/${row.teamId}`}>
               <img
                 src={row.team?.logo}
                 alt=""
                 className="w-8 h-8 mr-2 rounded-full border border-gray-500"
               />
             </Link>
-            <Link to={`/${isPublic ? "public_league" : "league"}/${leagueId}/team/${row.teamId}`} className="hover:underline">
+            <Link to={`/${isPublic ? leagueName : "league"}/${leagueId}/team/${row.teamId}`} className="hover:underline">
               {row.teamName}
             </Link>
           </div>

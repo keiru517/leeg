@@ -33,7 +33,7 @@ const PublicPlayer = () => {
   const league = useSelector((state) => state.home.leagues).find(
     (league) => league.id == leagueId
   );
-
+  const leagueName = "pub-" + league?.name.replace(" ", "-");
   function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
   }
@@ -90,7 +90,7 @@ const PublicPlayer = () => {
             <PublicNav />
             <p className="flex font-dark-gray my-3">
 
-              <Link to={`/public_league/${league?.id}?tab=0`} className="hover:underline">
+              <Link to={`/${leagueName}/${league?.id}?tab=0`} className="hover:underline">
                 <span className="text-sky-500">{league?.name}</span>
               </Link>
               <span className="">&nbsp; &gt; &nbsp;</span>
@@ -98,7 +98,7 @@ const PublicPlayer = () => {
               {team && (
                 <>
                   <span className="">
-                    <Link to={`/public_league/${leagueId}/team/${team?.id}`} className="hover:underline text-sky-500">
+                    <Link to={`/${leagueName}/${leagueId}/team/${team?.id}`} className="hover:underline text-sky-500">
                       {team?.name}
                     </Link>
                   </span>

@@ -45,6 +45,7 @@ const MatchTable = (props) => {
   const league = useSelector((state) => state.home.leagues).find(
     (league) => league.id == leagueId && league.isDeleted !== 1
   );
+  let leagueName = "pub-" + league?.name.replace(" ", "-")
 
   const admins = useSelector((state) => state.home.admins).filter(
     (admin) => admin.leagueId == league?.id && admin.isDeleted !== 1
@@ -95,7 +96,7 @@ const MatchTable = (props) => {
     }
     // Clicked scorebard
     else if (idx === 1) {
-      navigate(`/${isPublic ? "public_league" : "league"}/${leagueId}/matchup/${matchId}`);
+      navigate(`/${isPublic ? leagueName : "league"}/${leagueId}/matchup/${matchId}`);
     }
     // Clicked statistics
     else if (idx === 2) {
@@ -231,7 +232,7 @@ const MatchTable = (props) => {
                     ) : (
                       <Link
                         className="flex items-center space-x-3"
-                        to={`/${isPublic ? "public_league" : "league"}/${leagueId}/team/${homeTeamId}`}
+                        to={`/${isPublic ? leagueName : "league"}/${leagueId}/team/${homeTeamId}`}
                       >
                         <img
                           src={
@@ -276,7 +277,7 @@ const MatchTable = (props) => {
                     ) : (
                       <Link
                         className="flex items-center space-x-3"
-                        to={`/${isPublic ? "public_league" : "league"}/${leagueId}/team/${awayTeamId}`}
+                        to={`/${isPublic ? leagueName : "league"}/${leagueId}/team/${awayTeamId}`}
                       >
                         <img
                           src={

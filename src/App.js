@@ -83,18 +83,19 @@ function App() {
           <Route exact path="/imageCropper" element={<ImageCropper />}></Route>
           <Route path="*" element={<PageNotFound />}></Route>
           {/* Public link */}
-          <Route exact path="/public_league/:leagueId" element={<PublicLeague />}></Route>
+          <Route exact path="/:leagueName/:leagueId" element={<PublicLeague />}></Route>
+          {/* <Route exact path="/public_league/:leagueId" element={<PublicLeague />}></Route> */}
           <Route
             exact
-            path="/public_league/:leagueId/team/:teamId"
+            path="/:leagueName/:leagueId/team/:teamId"
             element={<PublicTeam />}
           ></Route>
           <Route
             exact
-            path="/public_league/:leagueId/player/:playerId"
+            path="/:leagueName/:leagueId/player/:playerId"
             element={<PublicPlayer />}
           ></Route>
-          <Route exact path="/public_league/:leagueId/blog/:blogId" element={<PublicBlog />}></Route>
+          <Route exact path="/:leagueName/:leagueId/blog/:blogId" element={<PublicBlog />}></Route>
         </Routes>
       </AuthLayout>
     </Router>

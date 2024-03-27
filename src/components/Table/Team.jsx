@@ -19,6 +19,8 @@ const TeamTable = (props) => {
   const league = useSelector((state) => state.home.leagues).find(
     (league) => league.id == leagueId
   );
+  let leagueName = "pub-" + league?.name.replace(" ", "-")
+
 
   const user = useSelector((state) => state.home.user);
 
@@ -124,14 +126,14 @@ const TeamTable = (props) => {
             >
               <td className="">
                 <div className="flex items-center px-3">
-                  <Link to={`/${isPublic ? "public_league" : "league"}/${leagueId}/player/${player.userId}`}>
+                  <Link to={`/${isPublic ? leagueName : "league"}/${leagueId}/player/${player.userId}`}>
                     <img
                       src={player.avatar ? player.avatar : DefaultSubstituteAvatar}
                       alt=""
                       className="w-8 h-8 mr-2 rounded-full border border-gray-500 dark:border-gray-100"
                     />
                   </Link>
-                  <Link to={`/${isPublic ? "public_league" : "league"}/${leagueId}/player/${player.id}`}>
+                  <Link to={`/${isPublic ? leagueName : "league"}/${leagueId}/player/${player.id}`}>
                     <span className="font-normal hover:underline">
                       {player.firstName} {player.lastName}
                     </span>

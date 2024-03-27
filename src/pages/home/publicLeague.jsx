@@ -132,7 +132,8 @@ const PublicLeague = () => {
 
   // const [tab, setTab] = useState(0);
   const handleCategory = (data) => {
-    navigate(`/public_league/${leagueId}?tab=${data}`);
+    let leagueName = "pub-" + league.name.replace(" ", "-")
+    navigate(`/${leagueName}/${leagueId}?tab=${data}`);
     // setTab(idx);
     setWaitListKeyword("");
     setAcceptListKeyword("");
