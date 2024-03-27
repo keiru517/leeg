@@ -434,6 +434,8 @@ const MatchStats = ({ players, league, matchId, teamId, playerKeyword, status })
                 totalPoints += 3;
                 totalPoints3 += 1
                 attempts3 += 1
+                totalPoints2 += 1;
+                attempts2 += 1;
                 break;
               case '+2 Pointer':
                 totalPoints += 2;
@@ -447,6 +449,7 @@ const MatchStats = ({ players, league, matchId, teamId, playerKeyword, status })
                 break;
               case '+3 Attempt':
                 attempts3 += 1
+                attempts2 += 1;
                 break;
               case '+2 Attempt':
                 attempts2 += 1
@@ -562,6 +565,8 @@ const MatchStats = ({ players, league, matchId, teamId, playerKeyword, status })
             totalPoints += 3;
             totalPoints3 += 1
             attempts3 += 1
+            totalPoints2 += 1;
+            attempts2 += 1;
             break;
           case '+2 Pointer':
             totalPoints += 2;
@@ -575,6 +580,7 @@ const MatchStats = ({ players, league, matchId, teamId, playerKeyword, status })
             break;
           case '+3 Attempt':
             attempts3 += 1
+            attempts2 += 1
             break;
           case '+2 Attempt':
             attempts2 += 1

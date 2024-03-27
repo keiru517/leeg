@@ -7,7 +7,8 @@ import axios from "axios";
 import searchIconDark from "../../assets/img/dark_mode/search-icon-dark.svg";
 import searchIconLight from "../../assets/img/dark_mode/search-icon-light.svg";
 import Input from "../../components/Input";
-import Tooltip from '@mui/material/Tooltip';
+// import Tooltip from '@mui/material/Tooltip';
+import { Tooltip } from 'react-tooltip'
 import TeamCard from "../../components/Card/Team";
 import Tab from "@mui/material/Tab";
 import { TabPanel, TabContext } from "@mui/lab";
@@ -1069,18 +1070,21 @@ const League = () => {
                           </button>
                         </div>
                         <div className="grid grid-cols-2 gap-2 mt-3">
-                          <Tooltip title="Copy public link of this league">
-                            <button
-                              onClick={() => {
-                                // let leagueName = league.name.replace(" ", "-")
-                                navigator.clipboard.writeText(`${window.location}`.replace('league', "public_league").replace('7', '0'))
-                              }}
-                              className="bg-green-700 h-10 text-white font-bold text-sm rounded-default hover:bg-green-600 col-span-2"
-                            >
-                              Copy
-                            </button>
-
-                          </Tooltip>
+                          <Tooltip
+                            id="my-tooltip-click"
+                            content="Link copied!"
+                            openOnClick
+                          />
+                          <button
+                            data-tooltip-id="my-tooltip-click"
+                            onClick={() => {
+                              // let leagueName = league.name.replace(" ", "-")
+                              navigator.clipboard.writeText(`${window.location}`.replace('league', "public_league").replace('7', '0'))
+                            }}
+                            className="bg-green-700 h-10 text-white font-bold text-sm rounded-default hover:bg-green-600 col-span-2"
+                          >
+                            Copy
+                          </button>
                         </div>
                         {(player?.isWaitList || player?.isAcceptedList) && (
                           <div className="grid grid-cols-2 gap-2 mt-3">

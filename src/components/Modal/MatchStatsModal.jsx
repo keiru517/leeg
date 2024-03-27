@@ -159,7 +159,7 @@ const MatchStatsModal = (props) => {
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative transform overflow-hidden rounded-main text-left shadow-xl transition-all sm:my-8 bg-white dark:bg-slate h-[909px] w-[400px] sm:w-[500px] md:w-[1480px] mx-3 flex flex-col">
+              <Dialog.Panel className="relative transform overflow-hidden rounded-main text-left shadow-xl transition-all sm:my-8 bg-white dark:bg-slate h-[709px] w-[400px] sm:w-[500px] md:w-[1480px] mx-3 flex flex-col">
                 <div className="divide-y divide-solid divide-[#3A3A3A] flex flex-col flex-grow">
                   <div className="flex items-center text-left h-16 sm:h-[88px] justify-between px-default">
                     <p className="text-black dark:text-white font-bold sm:text-xl md:text-2xl">
@@ -181,7 +181,7 @@ const MatchStatsModal = (props) => {
                       ></img>
                     </div>
                   </div>
-                  <div className="flex flex-grow flex-col p-default justify-between">
+                  <div className="flex flex-grow flex-col p-default justify-between overflow-y-auto h-96">
                     <div>
                       <MatchStatsTable players={homeTeamPlayers} league={league} matchId={matchId} teamId={homeTeamId} playerKeyword={""} status={status}></MatchStatsTable>
                       <MatchStatsTable players={awayTeamPlayers} league={league} matchId={matchId} teamId={awayTeamId} playerKeyword={""} status={status}></MatchStatsTable>

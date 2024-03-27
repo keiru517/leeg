@@ -27,6 +27,7 @@ const Home = () => {
 
   const dispatch = useDispatch();
   useEffect(() => {
+    actions.getAdmins(dispatch);
     actions.getLeagues(dispatch)
   }, [])
   // set initial values

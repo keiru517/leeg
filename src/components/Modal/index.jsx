@@ -1,5 +1,12 @@
-import { Fragment, useRef, useState } from "react";
+import { Fragment, useRef, useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Dialog, Transition } from "@headlessui/react";
+import * as actions from "../../actions";
+import Select from "../Select";
+import axios from "axios";
+import apis from "../../utils/apis";
+import DatePicker from "../DatePicker";
+import ImageCropperModal from "../../components/Modal/ImageCropperModal";
 import close from "../../assets/img/dark_mode/close.png";
 import btn1 from "../../assets/img/dark_mode/btn1.png";
 import btn1Selected from "../../assets/img/dark_mode/btn1-selected.png";
@@ -7,21 +14,13 @@ import btn2 from "../../assets/img/dark_mode/btn2.png";
 import btn2Selected from "../../assets/img/dark_mode/btn2-selected.png";
 import btn3 from "../../assets/img/dark_mode/btn3.png";
 import uploadCircle from "../../assets/img/dark_mode/upload-circle.png";
-import Select from "../Select";
-import { useDispatch, useSelector } from "react-redux";
-import * as actions from "../../actions";
-import axios from "axios";
-import apis from "../../utils/apis";
-import DatePicker from "../DatePicker";
-import ImageCropperModal from "../../components/Modal/ImageCropperModal";
 
 const Modal = (props) => {
   const dispatch = useDispatch();
   const [modalOpen, setModalOpen] = useState(false)
   const status = useSelector((state) => state.home.league_dialog.open);
   const user = useSelector((state) => state.home.user);
-
-  // const [open, setOpen] = useState(false);
+  const leagues = useSelector(state => state.home.leagues);
   const [step, setStep] = useState(1);
 
   const cancelButtonRef = useRef(null);
@@ -76,6 +75,21 @@ const Modal = (props) => {
 
   const [sport, setSport] = useState("Select Sport*");
   const [leagueName, setLeagueName] = useState("");
+  const [leagueNameWarning, setLeagueNameWarning] = useState(false);
+  useEffect(() => {
+    let isUnique = true;
+    for (let league of leagues) {
+      if (league.name === leagueName) {
+        isUnique = false
+        break;
+      }
+    }
+    if (isUnique) {
+      setLeagueNameWarning(false);
+    } else {
+      setLeagueNameWarning(true)
+    }
+  }, [leagueName])
   const [leagueDescription, setLeagueDescription] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
@@ -265,12 +279,16 @@ const Modal = (props) => {
                               </p>
                             </div>
                             <input
-                              className="border border-charcoal items-center px-3 bg-transparent outline-none text-black dark:text-white flex-grow h-button text-xs w-full rounded-default"
+                              className={`${leagueNameWarning ? "border-2 border-red-500" : ""} border border-charcoal items-center px-3 bg-transparent outline-none text-black dark:text-white flex-grow h-button text-xs w-full rounded-default`}
                               placeholder="Type League Name*"
                               value={leagueName}
                               onChange={(e) => setLeagueName(e.target.value)}
                               maxLength={100}
                             ></input>
+                            {
+                              leagueNameWarning &&
+                              <p className="text-red-500 text-xs">League name should be unique!</p>
+                            }
 
                             <textarea
                               id="message"
@@ -291,12 +309,15 @@ const Modal = (props) => {
                             >
                               Back to Step 1
                             </button>
-                            <button
-                              onClick={goToStep3}
-                              className="bg-primary w-24 sm:w-28 sm:w-[169px] h-button rounded-default mt-auto text-white font-semibold text-xs sm:text-sm hover:bg-sky-600 focus:ring-2"
-                            >
-                              Next: Schedule
-                            </button>
+                            {
+                              !leagueNameWarning &&
+                              <button
+                                onClick={goToStep3}
+                                className="bg-primary w-24 sm:w-28 sm:w-[169px] h-button rounded-default mt-auto text-white font-semibold text-xs sm:text-sm hover:bg-sky-600 focus:ring-2 disabled:bg-slate-50"
+                              >
+                                Next: Schedule
+                              </button>
+                            }
                           </div>
                         </>
                       ) : (
