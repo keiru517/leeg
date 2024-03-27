@@ -60,6 +60,7 @@ const Dashboard = () => {
     const matchups = useSelector((state) => state.home.matchups);
 
     const league = useSelector(state => state.home.leagues).find(league => league.id == leagueId);
+    const leagueName = "pub-" + league.name.replace(" ", "-")
     const displayPosition = league?.displayPosition;
     const displayJerseyNumber = league?.displayJerseyNumber;
     const displayAttempts3 = league?.displayAttempts3;
@@ -437,17 +438,17 @@ const Dashboard = () => {
                                                         <div className="flex items-center justify-between">
                                                             <div className="flex items-center">
                                                                 <p className="mr-3">{idx + 1}.</p>
-                                                                <Link to={`/${isPublic ? "public_league" : "league"}/${leagueId}/player/${player.id}`}>
+                                                                <Link to={`/${isPublic ? leagueName : "league"}/${leagueId}/player/${player.id}`}>
                                                                     <img src={player.avatar} alt="" className="h-10 w-10 mr-3 rounded-full border border-gray-500" />
                                                                 </Link>
                                                                 <div>
                                                                     <Link
-                                                                        to={`/${isPublic ? "public_league" : "league"}/${leagueId}/player/${player.id}`}
+                                                                        to={`/${isPublic ? leagueName : "league"}/${leagueId}/player/${player.id}`}
                                                                         className="hover:underline"
                                                                     >
                                                                         <p className="">{player.firstName} {player.lastName}</p>
                                                                     </Link>
-                                                                    <Link to={`/${isPublic ? "public_league" : "league"}/${leagueId}/team/${player.teamId}`} className="hover:underline">
+                                                                    <Link to={`/${isPublic ? leagueName : "league"}/${leagueId}/team/${player.teamId}`} className="hover:underline">
                                                                         <p className="text-xs">{player.teamName}</p>
                                                                     </Link>
                                                                 </div>
@@ -471,11 +472,11 @@ const Dashboard = () => {
                                                         <div className="flex items-center justify-between">
                                                             <div className="flex items-center">
                                                                 <p className="mr-3">{idx + 1}.</p>
-                                                                <Link to={`/${isPublic ? "public_league" : "league"}/${leagueId}/team/${team.id}`} className="hover:underline">
+                                                                <Link to={`/${isPublic ? leagueName : "league"}/${leagueId}/team/${team.id}`} className="hover:underline">
                                                                     <img src={team.logo} alt="" className="h-10 w-10 mr-3 rounded-full border border-gray-500" />
                                                                 </Link>
                                                                 <div>
-                                                                    <Link to={`/${isPublic ? "public_league" : "league"}/${leagueId}/team/${team.id}`} className="hover:underline">
+                                                                    <Link to={`/${isPublic ? leagueName : "league"}/${leagueId}/team/${team.id}`} className="hover:underline">
                                                                         <p>{team.name}</p>
                                                                     </Link>
                                                                 </div>

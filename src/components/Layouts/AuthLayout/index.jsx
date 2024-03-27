@@ -30,7 +30,7 @@ const AuthLayout = (props) => {
         setLoggedIn(true);
         setAuthToken(token);
     } else {
-      if (!(location.pathname === "/resetpass" || location.pathname.split("/")[1] === "public_league")) {
+      if (!(location.pathname === "/resetpass" || location.pathname.split("/")[1].startsWith("pub"))) {
         navigate("/signin", { replace: true });
       } 
       setLoggedIn(false);

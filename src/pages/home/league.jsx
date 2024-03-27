@@ -1078,8 +1078,8 @@ const League = () => {
                           <button
                             data-tooltip-id="my-tooltip-click"
                             onClick={() => {
-                              // let leagueName = league.name.replace(" ", "-")
-                              navigator.clipboard.writeText(`${window.location}`.replace('league', "public_league").replace('7', '0'))
+                              let leagueName = "pub-" + league.name.replace(" ", "-")
+                              navigator.clipboard.writeText(`${window.location}`.replace('league', leagueName).replace('tab=7', 'tab=0'))
                             }}
                             className="bg-green-700 h-10 text-white font-bold text-sm rounded-default hover:bg-green-600 col-span-2"
                           >
