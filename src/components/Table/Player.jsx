@@ -375,7 +375,7 @@ const Player = ({ players, league, teamId, playerKeyword }) => {
             ).toFixed(2),
           "fg%": isNaN(
             (matchup.reduce((sum, matchup) => sum + matchup.points2 + matchup.points3, 0) /
-              matchup.reduce((sum, matchup) => sum + matchup.attempts2 + matchup.attempts2, 0)) *
+              matchup.reduce((sum, matchup) => sum + matchup.attempts2 + matchup.attempts3, 0)) *
             100
           )
             ? 0

@@ -167,7 +167,7 @@ const Dashboard = () => {
                         0
                     ),
                     totalPoints2: matchup.reduce(
-                        (sum, matchup) => sum + matchup.points2,
+                        (sum, matchup) => sum + matchup.points2 + matchup.points3,
                         0
                     ),
                     totalPoints3: matchup.reduce(
@@ -179,7 +179,7 @@ const Dashboard = () => {
                         0
                     ),
                     attempts2: matchup.reduce(
-                        (sum, matchup) => sum + matchup.attempts2,
+                        (sum, matchup) => sum + matchup.attempts2 + matchup.attempts3,
                         0
                     ),
                     attempts3: matchup.reduce(
@@ -201,8 +201,8 @@ const Dashboard = () => {
                             100
                         ).toFixed(2),
                     "fg%": isNaN(
-                        (matchup.reduce((sum, matchup) => sum + matchup.points2, 0) /
-                            matchup.reduce((sum, matchup) => sum + matchup.attempts2, 0)) *
+                        (matchup.reduce((sum, matchup) => sum + matchup.points2 + matchup.points3, 0) /
+                            matchup.reduce((sum, matchup) => sum + matchup.attempts2 + matchup.attempts3, 0)) *
                         100
                     )
                         ? 0
@@ -275,7 +275,7 @@ const Dashboard = () => {
                 diff: team.diff,
                 totalPoints: matchupsOfTeam.reduce((sum, item) => sum + item.points, 0),
                 totalPoints1: matchupsOfTeam.reduce((sum, matchup) => sum + matchup.points1, 0),
-                totalPoints2: matchupsOfTeam.reduce((sum, matchup) => sum + matchup.points2, 0),
+                totalPoints2: matchupsOfTeam.reduce((sum, matchup) => sum + matchup.points2 + matchup.points3, 0),
                 totalPoints3: matchupsOfTeam.reduce((sum, matchup) => sum + matchup.points3, 0),
                 "3p%": isNaN(
                     (matchupsOfTeam.reduce((sum, matchup) => sum + matchup.points3, 0) /
@@ -292,8 +292,8 @@ const Dashboard = () => {
                         100
                     ).toFixed(2),
                 "fg%": isNaN(
-                    (matchupsOfTeam.reduce((sum, matchup) => sum + matchup.points2, 0) /
-                        matchupsOfTeam.reduce((sum, matchup) => sum + matchup.attempts2, 0)) *
+                    (matchupsOfTeam.reduce((sum, matchup) => sum + matchup.points2 + matchup.points3, 0) /
+                        matchupsOfTeam.reduce((sum, matchup) => sum + matchup.attempts2 + matchup.attempts3, 0)) *
                     100
                 )
                     ? 0
@@ -320,7 +320,7 @@ const Dashboard = () => {
                         100
                     ).toFixed(2),
                 attempts1: matchupsOfTeam.reduce((sum, matchup) => sum + matchup.attempts1, 0),
-                attempts2: matchupsOfTeam.reduce((sum, matchup) => sum + matchup.attempts2, 0),
+                attempts2: matchupsOfTeam.reduce((sum, matchup) => sum + matchup.attempts2 + matchup.attempts3, 0),
                 attempts3: matchupsOfTeam.reduce((sum, matchup) => sum + matchup.attempts3, 0),
                 blocks: matchupsOfTeam.reduce((sum, matchup) => sum + matchup.blocks, 0),
                 rebounds: matchupsOfTeam.reduce((sum, matchup) => sum + matchup.rebounds, 0),

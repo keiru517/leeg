@@ -300,7 +300,9 @@ const PlayerStats = ({ players, league, teamId, playerKeyword }) => {
               case '+3 Pointer':
                 totalPoints += 3;
                 totalPoints3 += 1
+                totalPoints2 += 1;
                 attempts3 += 1
+                attempts2 += 1
                 break;
               case '+2 Pointer':
                 totalPoints += 2;
@@ -313,7 +315,8 @@ const PlayerStats = ({ players, league, teamId, playerKeyword }) => {
                 attempts1 += 1
                 break;
               case '+3 Attempt':
-                attempts3 += 1
+                attempts3 += 1;
+                attempts2 += 1;
                 break;
               case '+2 Attempt':
                 attempts2 += 1
