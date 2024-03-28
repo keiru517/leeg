@@ -380,9 +380,9 @@ const Player = ({ players, league, teamId, playerKeyword }) => {
           )
             ? 0
             : (
-              (matchup.reduce((sum, matchup) => sum + matchup.points2, 0) /
+              (matchup.reduce((sum, matchup) => sum + matchup.points2 + matchup.points3, 0) /
                 matchup.reduce(
-                  (sum, matchup) => sum + matchup.attempts2,
+                  (sum, matchup) => sum + matchup.attempts2 + matchup.attempts3,
                   0
                 )) *
               100
