@@ -16,7 +16,7 @@ const Dashboard = () => {
     const dispatch = useDispatch();
     const isPublic = localStorage.getItem('token') ? false : true;
 
-    const teams = useSelector(state => state.home.teams).filter(team=> team.leagueId == leagueId);
+    const teams = useSelector(state => state.home.teams).filter(team => team.leagueId == leagueId);
     const matches = useSelector(state => state.home.matches).filter(match => match.leagueId == leagueId);
     const matchFilters = [
         { id: 0, name: "Upcoming" },
@@ -95,7 +95,7 @@ const Dashboard = () => {
     const [playerFilter, setPlayerFilter] = useState(playerFilters[0].name);
     const [pointsFilter, setPointsFilter] = useState(pointsFilters[0].name);
     const [filteredData, setFilteredData] = useState([])
-    
+
     const filterObject = {
         "Points": "totalPoints",
         "3PM": "totalPoints3",
@@ -382,14 +382,18 @@ const Dashboard = () => {
                                                 <div className="flex flex-col p-default text-xs sm:text-sm border-b">
                                                     <div className="flex items-center justify-between">
                                                         <div className="flex items-center">
-                                                            <img src={match.homeTeam.logo} alt="" className="h-10 w-10 mr-3 rounded-full border border-gray-500" />
-                                                            {/* <Link to={`/league/${leagueId}/team/${match.homeTeamId}`} className="">{match.homeTeam.name}</Link> */}
-                                                            <p className={`${match.homeTeamPoints > match.awayTeamPoints ? "font-bold" : ""}`}>{match.homeTeam.name}</p>
+
+                                                            <Link to={`/league/${leagueId}/team/${match.homeTeamId}`} className="hover:underline">
+                                                                <img src={match.homeTeam.logo} alt="" className="h-10 w-10 mr-3 rounded-full border border-gray-500" />
+                                                            </Link>
+                                                            <Link to={`/league/${leagueId}/team/${match.homeTeamId}`} className={`hover:underline ${match.homeTeamPoints > match.awayTeamPoints ? "font-bold" : ""}`}>{match.homeTeam.name}</Link>
                                                         </div>
                                                         <p className="text-green-500 text-lg mx-2">VS</p>
                                                         <div className="flex items-center text-right">
-                                                            <p className={`${match.homeTeamPoints < match.awayTeamPoints ? "font-bold" : ""}`}>{match.awayTeam.name}</p>
-                                                            <img src={match.awayTeam.logo} alt="" className="h-10 w-10 ml-3 rounded-full border border-gray-500" />
+                                                            <Link to={`/league/${leagueId}/team/${match.awayTeamId}`} className={`hover:underline ${match.homeTeamPoints < match.awayTeamPoints ? "font-bold" : ""}`}>{match.awayTeam.name}</Link>
+                                                            <Link to={`/league/${leagueId}/team/${match.awayTeamId}`} className="hover:underline">
+                                                                <img src={match.awayTeam.logo} alt="" className="h-10 w-10 ml-3 rounded-full border border-gray-500" />
+                                                            </Link>
                                                         </div>
                                                     </div>
                                                     <div className="mx-auto mt-3 text-xs sm:text-sm">
