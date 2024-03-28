@@ -191,7 +191,7 @@ const Dashboard = () => {
                             matchup.reduce((sum, matchup) => sum + matchup.attempts3, 0)) *
                         100
                     )
-                        ? 0
+                        ? "0.00"
                         : (
                             (matchup.reduce((sum, matchup) => sum + matchup.points3, 0) /
                                 matchup.reduce(
@@ -205,7 +205,7 @@ const Dashboard = () => {
                             matchup.reduce((sum, matchup) => sum + matchup.attempts2 + matchup.attempts3, 0)) *
                         100
                     )
-                        ? 0
+                        ? "0.00"
                         : (
                             (matchup.reduce((sum, matchup) => sum + matchup.points2 + matchup.points3, 0) /
                                 matchup.reduce(
@@ -219,7 +219,7 @@ const Dashboard = () => {
                             matchup.reduce((sum, matchup) => sum + matchup.attempts1, 0)) *
                         100
                     )
-                        ? 0
+                        ? "0.00"
                         : (
                             (matchup.reduce((sum, matchup) => sum + matchup.points1, 0) /
                                 matchup.reduce(
@@ -250,7 +250,7 @@ const Dashboard = () => {
                     gp: matchup.length,
                     ppg:
                         matchup.length === 0
-                            ? 0
+                            ? "0.00"
                             : matchup.reduce((sum, item) => sum + item.points, 0) /
                             matchup.length,
                 };
@@ -282,7 +282,7 @@ const Dashboard = () => {
                         matchupsOfTeam.reduce((sum, matchup) => sum + matchup.attempts3, 0)) *
                     100
                 )
-                    ? 0
+                    ? "0.00"
                     : (
                         (matchupsOfTeam.reduce((sum, matchup) => sum + matchup.points3, 0) /
                             matchupsOfTeam.reduce(
@@ -296,7 +296,7 @@ const Dashboard = () => {
                         matchupsOfTeam.reduce((sum, matchup) => sum + matchup.attempts2 + matchup.attempts3, 0)) *
                     100
                 )
-                    ? 0
+                    ? "0.00"
                     : (
                         (matchupsOfTeam.reduce((sum, matchup) => sum + matchup.points2, 0) /
                             matchupsOfTeam.reduce(
@@ -310,7 +310,7 @@ const Dashboard = () => {
                         matchupsOfTeam.reduce((sum, matchup) => sum + matchup.attempts1, 0)) *
                     100
                 )
-                    ? 0
+                    ? "0.00"
                     : (
                         (matchupsOfTeam.reduce((sum, matchup) => sum + matchup.points1, 0) /
                             matchupsOfTeam.reduce(
