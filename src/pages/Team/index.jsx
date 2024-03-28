@@ -175,6 +175,7 @@ const Team = () => {
                 {matches.length > 0 ? (
                   <>
                     <MatchTable
+                      teamId={teamId}
                       keyword={""}
                     ></MatchTable>
                   </>

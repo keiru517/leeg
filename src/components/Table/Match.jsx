@@ -31,6 +31,7 @@ const MatchTable = (props) => {
     return (
       match.leagueId == leagueId &&
       match.isDeleted == 0 &&
+      (match.homeTeamId == props.teamId || match.awayTeamId == props.teamId) &&
       (homeTeam?.name.toLowerCase().includes(keyword.toLowerCase()) ||
         awayTeam?.name.toLowerCase().includes(keyword.toLowerCase()) ||
         match.location?.toLowerCase().includes(keyword.toLowerCase()) ||
