@@ -16,7 +16,7 @@ const Dashboard = () => {
     const dispatch = useDispatch();
     const isPublic = localStorage.getItem('token') ? false : true;
 
-    const teams = useSelector(state => state.home.teams);
+    const teams = useSelector(state => state.home.teams).filter(team=> team.leagueId == leagueId);
     const matches = useSelector(state => state.home.matches).filter(match => match.leagueId == leagueId);
     const matchFilters = [
         { id: 0, name: "Upcoming" },
@@ -119,7 +119,7 @@ const Dashboard = () => {
             if (player.userId !== null) {
                 const matchup = matchups.filter(
                     (matchup) =>
-                        matchup.userId == player.userId && matchup.leagueId == league.id
+                        matchup.userId == player.userId && matchup.leagueId == leagueId
                 );
                 const points = matchup.reduce((sum, item) => sum + item.points, 0);
                 if (player.userId in acc) {
